@@ -9,7 +9,7 @@ namespace AILib
 {
     public static class AIMgr
     {
-        public static IEnumerable<AIInfoDTO> AllAIs
+        public static List<AIInfoDTO> AllAIs
         {
             get
             {

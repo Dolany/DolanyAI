@@ -36,15 +36,37 @@ namespace Flexlive.CQP.CSharpPlugins.Demo
         public override void Startup()
         {
             //完成插件线程、全局变量等自身运行所必须的初始化工作。
-            var AIs = AIMgr.AllAIs;
-            foreach(var ai in AIs)
+            try
             {
-                AIMgr.StartAIs(new string[] { ai.Name }, new AIConfigDTO()
+                SendMsgToDevelper("test msg");
+                var AIs = AIMgr.AllAIs;
+                if (AIs.Count == 0)
                 {
-                    AimGroups = GroupList,
-                    SendGroupMsg = new Action<long, string>((fromGroup, msg) => CQ.SendGroupMessage(fromGroup, msg))
-                });
+                    SendMsgToDevelper("加载ai列表失败");
+                }
+                else
+                {
+                    SendMsgToDevelper($@"成功加载{AIs.Count}个ai");
+                }
+                foreach (var ai in AIs)
+                {
+                    AIMgr.StartAIs(new string[] { ai.Name }, new AIConfigDTO()
+                    {
+                        AimGroups = GroupList,
+                        SendGroupMsg = new Action<long, string>((fromGroup, msg) => CQ.SendGroupMessage(fromGroup, msg))
+                    });
+                }
             }
+            catch(Exception ex)
+            {
+                SendMsgToDevelper(ex.Message);
+                SendMsgToDevelper(ex.StackTrace);
+            }
+        }
+
+        private void SendMsgToDevelper(string msg)
+        {
+            CQ.SendPrivateMessage(1458978159, msg);
         }
 
         /// <summary>

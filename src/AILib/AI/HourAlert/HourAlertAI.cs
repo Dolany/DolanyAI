@@ -24,11 +24,6 @@ namespace AILib
 
         private void HourAlertFunc()
         {
-            foreach (var groupNum in ConfigDTO.AimGroups)
-            {
-                ConfigDTO.SendGroupMsg(groupNum, "报时功能已开启！");
-            }
-
             TimeSpan ts = GetNextHourSpan();
             timer = new System.Timers.Timer(ts.TotalMilliseconds);
 
