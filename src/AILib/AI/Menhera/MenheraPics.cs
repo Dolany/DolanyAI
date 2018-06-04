@@ -30,8 +30,17 @@ namespace AILib
             {
                 return;
             }
-
             SendRandPicToGroup(MsgDTO.fromGroup);
+        }
+
+        public override void OnPrivateMsgReceived(PrivateMsgDTO MsgDTO)
+        {
+            Common.SendMsgToDevelper($@"received msg: {MsgDTO.msg}");
+            if (!MsgDTO.msg.ToLower().Contains("menhera"))
+            {
+                return;
+            }
+            SendRandPicToGroup(MsgDTO.fromQQ);
         }
 
         private void SendRandPicToGroup(long GroupNumber)

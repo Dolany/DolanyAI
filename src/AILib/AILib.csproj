@@ -44,15 +44,15 @@
     <Compile Include="AI\Menhera\MenheraPics.cs" />
     <Compile Include="Base\AIAttribute.cs" />
     <Compile Include="Base\AIBase.cs" />
+    <Compile Include="Common\Common.cs" />
     <Compile Include="DTO\AIConfigDTO.cs" />
     <Compile Include="DTO\AIInfoDTO.cs" />
     <Compile Include="AI\HourAlert\HourAlertAI.cs" />
     <Compile Include="DTO\GroupMsgDTO.cs" />
+    <Compile Include="DTO\PrivateMsgDTO.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
-  <ItemGroup>
-    <Folder Include="Common\" />
-  </ItemGroup>
+  <ItemGroup />
   <ItemGroup>
     <ProjectReference Include="..\Flexlive.CQP.Framework\Flexlive.CQP.Framework.csproj">
       <Project>{96163298-410c-4f00-aacf-ff3ce616d65f}</Project>

@@ -21,5 +21,10 @@ namespace AILib
         {
 
         }
+
+        public virtual void OnPrivateMsgReceived(PrivateMsgDTO MsgDTO)
+        {
+
+        }
     }
 }

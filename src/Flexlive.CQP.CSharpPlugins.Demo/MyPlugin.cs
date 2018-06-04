@@ -41,11 +41,11 @@ namespace Flexlive.CQP.CSharpPlugins.Demo
                 var AIs = AIMgr.AllAIs;
                 if (AIs.Count == 0)
                 {
-                    SendMsgToDevelper("加载ai列表失败");
+                    Common.SendMsgToDevelper("加载ai列表失败");
                 }
                 else
                 {
-                    SendMsgToDevelper($@"成功加载{AIs.Count}个ai");
+                    Common.SendMsgToDevelper($@"成功加载{AIs.Count}个ai");
                 }
                 foreach (var ai in AIs)
                 {
@@ -57,14 +57,9 @@ namespace Flexlive.CQP.CSharpPlugins.Demo
             }
             catch(Exception ex)
             {
-                SendMsgToDevelper(ex.Message);
-                SendMsgToDevelper(ex.StackTrace);
+                Common.SendMsgToDevelper(ex.Message);
+                Common.SendMsgToDevelper(ex.StackTrace);
             }
-        }
-
-        private void SendMsgToDevelper(string msg)
-        {
-            CQ.SendPrivateMessage(1458978159, msg);
         }
 
         /// <summary>
