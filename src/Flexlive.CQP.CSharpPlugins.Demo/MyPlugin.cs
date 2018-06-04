@@ -38,7 +38,6 @@ namespace Flexlive.CQP.CSharpPlugins.Demo
             //完成插件线程、全局变量等自身运行所必须的初始化工作。
             try
             {
-                SendMsgToDevelper("test msg");
                 var AIs = AIMgr.AllAIs;
                 if (AIs.Count == 0)
                 {
@@ -52,8 +51,7 @@ namespace Flexlive.CQP.CSharpPlugins.Demo
                 {
                     AIMgr.StartAIs(new string[] { ai.Name }, new AIConfigDTO()
                     {
-                        AimGroups = GroupList,
-                        SendGroupMsg = new Action<long, string>((fromGroup, msg) => CQ.SendGroupMessage(fromGroup, msg))
+                        AimGroups = GroupList
                     });
                 }
             }
@@ -96,22 +94,27 @@ namespace Flexlive.CQP.CSharpPlugins.Demo
         /// <summary>
         /// Type=2 群消息。
         /// </summary>
-        /// <param name="subType">子类型，目前固定为1。</param>
-        /// <param name="sendTime">发送时间(时间戳)。</param>
-        /// <param name="fromGroup">来源群号。</param>
-        /// <param name="fromQQ">来源QQ。</param>
-        /// <param name="fromAnonymous">来源匿名者。</param>
-        /// <param name="msg">消息内容。</param>
-        /// <param name="font">字体。</param>
-        //public override void GroupMessage(int subType, int sendTime, long fromGroup, long fromQQ, string fromAnonymous, string msg, int font)
-        //{
-        //    // 处理群消息。
-        //    var groupMember = CQ.GetGroupMemberInfo(fromGroup, fromQQ);
-
-        //    CQ.SendGroupMessage(fromGroup, String.Format("[{4}]{0} 你的群名片：{1}， 入群时间：{2}， 最后发言：{3}。", CQ.CQ码_At(fromQQ),
-        //        groupMember.GroupCard, groupMember.JoinTime, groupMember.LastSpeakingTime, CQ.ProxyType));
-        //    CQ.SendGroupMessage(fromGroup, String.Format("[{0}]{1}你发的群消息是：{2}", CQ.ProxyType, CQ.CQCode_At(fromQQ), msg));
-        //}
+        /// <param name = "subType" > 子类型，目前固定为1。</param>
+        /// <param name = "sendTime" > 发送时间(时间戳)。</param>
+        /// <param name = "fromGroup" > 来源群号。</param>
+        /// <param name = "fromQQ" > 来源QQ。</param>
+        /// <param name = "fromAnonymous" > 来源匿名者。</param>
+        /// <param name = "msg" > 消息内容。</param>
+        /// <param name = "font" > 字体。</param>
+        public override void GroupMessage(int subType, int sendTime, long fromGroup, long fromQQ, string fromAnonymous, string msg, int font)
+        {
+            // 处理群消息。
+            AIMgr.OnGroupMsgReceived(new GroupMsgDTO()
+            {
+                subType = subType,
+                sendTime = sendTime,
+                fromGroup = fromGroup,
+                fromQQ = fromQQ,
+                fromAnonymous = fromAnonymous,
+                msg = msg,
+                font = font
+            });
+        }
 
         /// <summary>
         /// Type=4 讨论组消息。

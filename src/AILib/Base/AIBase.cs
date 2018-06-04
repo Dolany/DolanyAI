@@ -16,5 +16,10 @@ namespace AILib
         {
             this.ConfigDTO = ConfigDTO;
         }
+
+        public virtual void OnGroupMsgReceived(GroupMsgDTO MsgDTO)
+        {
+
+        }
     }
 }

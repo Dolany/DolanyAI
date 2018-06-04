@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Flexlive.CQP.Framework;
 
 namespace AILib
 {
@@ -50,7 +51,7 @@ namespace AILib
         {
             foreach (var groupNum in ConfigDTO.AimGroups)
             {
-                ConfigDTO.SendGroupMsg(groupNum, "到" + curHour + "点啦！");
+                CQ.SendGroupMessage(groupNum, $@"到{curHour}点啦！");
             }
         }
     }

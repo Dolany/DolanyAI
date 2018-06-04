@@ -9,6 +9,8 @@ namespace AILib
 {
     public static class AIMgr
     {
+        public static List<AIBase> AIList;
+
         public static List<AIInfoDTO> AllAIs
         {
             get
@@ -44,6 +46,8 @@ namespace AILib
             IEnumerable<string> AINames,
             AIConfigDTO ConfigDTO)
         {
+            AIList = new List<AIBase>();
+
             Assembly assembly = Assembly.GetExecutingAssembly();
             Type[] typeArr = assembly.GetTypes();
 
@@ -70,7 +74,24 @@ namespace AILib
                     null, 
                     null
                     ) as AIBase;
-                ai.Work();
+                if(ai != null)
+                {
+                    AIList.Add(ai);
+                    ai.Work();
+                }
+            }
+        }
+
+        public static void OnGroupMsgReceived(GroupMsgDTO MsgDTO)
+        {
+            if(AIList == null || AIList.Count == 0)
+            {
+                return;
+            }
+
+            foreach(var ai in AIList)
+            {
+                ai.OnGroupMsgReceived(MsgDTO);
             }
         }
     }

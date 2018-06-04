@@ -9,7 +9,5 @@ namespace AILib
     public class AIConfigDTO
     {
         public long[] AimGroups { get; set; }
-
-        public Action<long, string> SendGroupMsg { get; set; }
     }
 }
