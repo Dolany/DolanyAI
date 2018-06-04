@@ -10,7 +10,6 @@ namespace Flexlive.CQP.CSharpPlugins.Demo
     /// </summary>
     public class MyPlugin : CQAppAbstract
     {
-        System.Timers.Timer timer;
         public long[] GroupList = new long[] {
             469652754, //蠢萌营地
             298078934, //啪猫群
@@ -37,38 +36,14 @@ namespace Flexlive.CQP.CSharpPlugins.Demo
         public override void Startup()
         {
             //完成插件线程、全局变量等自身运行所必须的初始化工作。
-            HourAlertFunc();
-        }
-
-        private void HourAlertFunc()
-        {
-            TimeSpan ts = GetNextHourSpan();
-            timer = new System.Timers.Timer(ts.TotalMilliseconds);
-
-            timer.AutoReset = false;
-            timer.Enabled = true;
-            timer.Elapsed += new System.Timers.ElapsedEventHandler(TimerUp);
-        }
-
-        private void TimerUp(object sender, System.Timers.ElapsedEventArgs e)
-        {
-            timer.Stop();
-            HourAlert(DateTime.Now.Hour.ToString());
-            timer.Interval = GetNextHourSpan().TotalMilliseconds;
-            timer.Start();
-        }
-
-        private TimeSpan GetNextHourSpan()
-        {
-            DateTime nextHour = DateTime.Parse(DateTime.Now.ToString("yyyy-MM-dd HH:00:00")).AddHours(1);
-            return nextHour - DateTime.Now;
-        }
-
-        private void HourAlert(string curHour)
-        {
-            foreach(var groupNum in GroupList)
+            var AIs = AIMgr.AllAIs;
+            foreach(var ai in AIs)
             {
-                CQ.SendGroupMessage(groupNum, "到" + curHour + "点啦！");
+                AIMgr.StartAIs(new string[] { ai.Name }, new AIConfigDTO()
+                {
+                    AimGroups = GroupList,
+                    SendGroupMsg = new Action<long, string>((fromGroup, msg) => CQ.SendGroupMessage(fromGroup, msg))
+                });
             }
         }
 
