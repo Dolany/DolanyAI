@@ -58,11 +58,6 @@
   <ItemGroup>
     <Compile Include="AIMgr.cs" />
     <Compile Include="AI\CartoonSaying\CartoonSayingAI.cs" />
-    <Compile Include="AI\CartoonSaying\CartoonSayings.designer.cs">
-      <AutoGen>True</AutoGen>
-      <DesignTime>True</DesignTime>
-      <DependentUpon>CartoonSayings.dbml</DependentUpon>
-    </Compile>
     <Compile Include="AI\CartoonSaying\SayingInfo.cs" />
     <Compile Include="AI\Menhera\MenheraPics.cs" />
     <Compile Include="Base\AIAttribute.cs" />
@@ -79,15 +74,6 @@
       <DesignTimeSharedInput>True</DesignTimeSharedInput>
       <DependentUpon>Settings.settings</DependentUpon>
     </Compile>
-  </ItemGroup>
-  <ItemGroup>
-    <Content Include="AI\CartoonSaying\Db.mdf">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
-    <Content Include="AI\CartoonSaying\Db_log.ldf">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-      <DependentUpon>Db.mdf</DependentUpon>
-    </Content>
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Flexlive.CQP.Framework\Flexlive.CQP.Framework.csproj">
@@ -108,14 +94,6 @@
     </BootstrapperPackage>
   </ItemGroup>
   <ItemGroup>
-    <None Include="AI\CartoonSaying\CartoonSayings.dbml">
-      <Generator>MSLinqToSQLGenerator</Generator>
-      <LastGenOutput>CartoonSayings.designer.cs</LastGenOutput>
-      <SubType>Designer</SubType>
-    </None>
-    <None Include="AI\CartoonSaying\CartoonSayings.dbml.layout">
-      <DependentUpon>CartoonSayings.dbml</DependentUpon>
-    </None>
     <None Include="app.config" />
     <None Include="Properties\Settings.settings">
       <Generator>SettingsSingleFileGenerator</Generator>
@@ -124,6 +102,11 @@
   </ItemGroup>
   <ItemGroup>
     <Service Include="{3259AA49-8AA1-44D3-9025-A0B520596A8C}" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="AI\CartoonSaying\Saying.xml">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>
