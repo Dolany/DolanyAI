@@ -94,5 +94,18 @@ namespace AILib
                 ai.OnGroupMsgReceived(MsgDTO);
             }
         }
+
+        public static void OnPrivateMsgReceived(PrivateMsgDTO MsgDTO)
+        {
+            if (AIList == null || AIList.Count == 0)
+            {
+                return;
+            }
+
+            foreach (var ai in AIList)
+            {
+                ai.OnPrivateMsgReceived(MsgDTO);
+            }
+        }
     }
 }

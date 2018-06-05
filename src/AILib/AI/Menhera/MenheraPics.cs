@@ -8,10 +8,10 @@ using System.IO;
 
 namespace AILib
 {
-    [AI(Name = "MenheraPicsAI", Description = "AI for Showing Menhera Pics.", IsAvailable = true)]
+    [AI(Name = "MenheraPicsAI", Description = "AI for Showing Menhera Pics.", IsAvailable = false)]
     public class MenheraPics : AIBase
     {
-        private string picFoldPath = "./Menhera/";
+        private string picFoldPath = "./data/image/Menhera/";
 
         public MenheraPics(AIConfigDTO ConfigDTO)
             : base(ConfigDTO)
@@ -35,12 +35,11 @@ namespace AILib
 
         public override void OnPrivateMsgReceived(PrivateMsgDTO MsgDTO)
         {
-            Common.SendMsgToDevelper($@"received msg: {MsgDTO.msg}");
             if (!MsgDTO.msg.ToLower().Contains("menhera"))
             {
                 return;
             }
-            SendRandPicToGroup(MsgDTO.fromQQ);
+            SendRandPicToPrivate(MsgDTO.fromQQ);
         }
 
         private void SendRandPicToGroup(long GroupNumber)
@@ -53,6 +52,16 @@ namespace AILib
             CQ.SendGroupMessage(GroupNumber, picCode);
         }
 
+        private void SendRandPicToPrivate(long QQNumber)
+        {
+            string[] picNames = PicNames();
+            Random ran = new Random();
+            string ranPic = picNames[ran.Next(picNames.Length)];
+
+            string picCode = CQ.CQCode_Image(ranPic);
+            CQ.SendPrivateMessage(QQNumber, picCode);
+        }
+
         private string[] PicNames()
         {
             List<string> nameList = new List<string>();
@@ -60,7 +69,7 @@ namespace AILib
 
             foreach (FileInfo file in folder.GetFiles("*.jpg"))
             {
-                nameList.Add(file.FullName);
+                nameList.Add(file.Name);
             }
 
             return nameList.ToArray();

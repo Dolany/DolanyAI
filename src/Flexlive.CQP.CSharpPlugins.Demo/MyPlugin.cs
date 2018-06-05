@@ -2,6 +2,7 @@
 using System;
 using System.Threading;
 using AILib;
+using System.Collections.Generic;
 
 namespace Flexlive.CQP.CSharpPlugins.Demo
 {
@@ -47,13 +48,15 @@ namespace Flexlive.CQP.CSharpPlugins.Demo
                 {
                     Common.SendMsgToDevelper($@"成功加载{AIs.Count}个ai");
                 }
+                List<string> l = new List<string>();
                 foreach (var ai in AIs)
                 {
-                    AIMgr.StartAIs(new string[] { ai.Name }, new AIConfigDTO()
-                    {
-                        AimGroups = GroupList
-                    });
+                    l.Add(ai.Name);
                 }
+                AIMgr.StartAIs(l.ToArray(), new AIConfigDTO()
+                {
+                    AimGroups = GroupList
+                });
             }
             catch(Exception ex)
             {
@@ -80,11 +83,18 @@ namespace Flexlive.CQP.CSharpPlugins.Demo
         /// <param name="fromQQ">来源QQ。</param>
         /// <param name="msg">消息内容。</param>
         /// <param name="font">字体。</param>
-        //public override void PrivateMessage(int subType, int sendTime, long fromQQ, string msg, int font)
-        //{
-        //    // 处理私聊消息。
-        //    CQ.SendPrivateMessage(fromQQ, String.Format("[{0}]你发的私聊消息是：{1}", CQ.ProxyType, msg));
-        //}
+        public override void PrivateMessage(int subType, int sendTime, long fromQQ, string msg, int font)
+        {
+            // 处理私聊消息。
+            AIMgr.OnPrivateMsgReceived(new PrivateMsgDTO()
+            {
+                subType = subType,
+                sendTime = sendTime,
+                fromQQ = fromQQ,
+                msg = msg,
+                font = font
+            });
+        }
 
         /// <summary>
         /// Type=2 群消息。
