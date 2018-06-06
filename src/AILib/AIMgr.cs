@@ -108,7 +108,7 @@ namespace AILib
             }
         }
 
-        [AIDebug(EntrancePoint = "WorkingAIList")]
+        [AIDebug(EntrancePoint = "AIMgr_WorkingAIList")]
         public static string Debug_WorkingAIList
         {
             get
@@ -125,7 +125,31 @@ namespace AILib
 
         public static bool DebugAIs(string EntrancePoint)
         {
-            // TODO
+            foreach(var ai in AIList)
+            {
+                foreach (var property in ai.GetType().GetProperties())
+                {
+                    foreach (var attr in property.GetCustomAttributes(false))
+                    {
+                        if (!(attr is AIDebugAttribute))
+                        {
+                            continue;
+                        }
+
+                        AIDebugAttribute debugAttr = attr as AIDebugAttribute;
+                        if (debugAttr.EntrancePoint != EntrancePoint)
+                        {
+                            continue;
+                        }
+
+                        object obj = ai.GetType().GetProperty(property.Name).GetValue(ai);
+
+                        Common.SendMsgToDeveloper(obj as string);
+                        return true;
+                    }
+                }
+            }
+
             return false;
         }
     }

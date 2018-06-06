@@ -66,11 +66,11 @@ namespace Flexlive.CQP.CSharpPlugins.Demo
                 var AIs = AIMgr.AllAIs;
                 if (AIs.Count == 0)
                 {
-                    Common.SendMsgToDevelper("加载ai列表失败");
+                    Common.SendMsgToDeveloper("加载ai列表失败");
                 }
                 else
                 {
-                    Common.SendMsgToDevelper($@"成功加载{AIs.Count}个ai");
+                    Common.SendMsgToDeveloper($@"成功加载{AIs.Count}个ai");
                 }
                 List<string> l = new List<string>();
                 foreach (var ai in AIs)
@@ -84,8 +84,7 @@ namespace Flexlive.CQP.CSharpPlugins.Demo
             }
             catch(Exception ex)
             {
-                Common.SendMsgToDevelper(ex.Message);
-                Common.SendMsgToDevelper(ex.StackTrace);
+                Common.SendMsgToDeveloper(ex);
             }
         }
 
@@ -110,14 +109,21 @@ namespace Flexlive.CQP.CSharpPlugins.Demo
         public override void PrivateMessage(int subType, int sendTime, long fromQQ, string msg, int font)
         {
             // 处理私聊消息。
-            AIMgr.OnPrivateMsgReceived(new PrivateMsgDTO()
+            try
             {
-                subType = subType,
-                sendTime = sendTime,
-                fromQQ = fromQQ,
-                msg = msg,
-                font = font
-            });
+                AIMgr.OnPrivateMsgReceived(new PrivateMsgDTO()
+                {
+                    subType = subType,
+                    sendTime = sendTime,
+                    fromQQ = fromQQ,
+                    msg = msg,
+                    font = font
+                });
+            }
+            catch (Exception ex)
+            {
+                Common.SendMsgToDeveloper(ex);
+            }
         }
 
         /// <summary>
@@ -133,16 +139,23 @@ namespace Flexlive.CQP.CSharpPlugins.Demo
         public override void GroupMessage(int subType, int sendTime, long fromGroup, long fromQQ, string fromAnonymous, string msg, int font)
         {
             // 处理群消息。
-            AIMgr.OnGroupMsgReceived(new GroupMsgDTO()
+            try
             {
-                subType = subType,
-                sendTime = sendTime,
-                fromGroup = fromGroup,
-                fromQQ = fromQQ,
-                fromAnonymous = fromAnonymous,
-                msg = msg,
-                font = font
-            });
+                AIMgr.OnGroupMsgReceived(new GroupMsgDTO()
+                {
+                    subType = subType,
+                    sendTime = sendTime,
+                    fromGroup = fromGroup,
+                    fromQQ = fromQQ,
+                    fromAnonymous = fromAnonymous,
+                    msg = msg,
+                    font = font
+                });
+            }
+            catch (Exception ex)
+            {
+                Common.SendMsgToDeveloper(ex);
+            }
         }
 
         /// <summary>

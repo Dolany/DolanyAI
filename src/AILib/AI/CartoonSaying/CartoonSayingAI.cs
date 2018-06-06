@@ -15,6 +15,29 @@ namespace AILib
     {
         private string xmlFilePath = @"./AI/CartoonSaying/Saying.xml";
 
+        private List<SayingInfo> SayingList
+        {
+            get
+            {
+                XElement root = XElement.Load(xmlFilePath);
+
+                List<SayingInfo> list = new List<SayingInfo>();
+                foreach (XElement node in root.Nodes())
+                {
+                    SayingInfo s = new SayingInfo()
+                    {
+                        Cartoon = node.Attribute("Cartoon").Value,
+                        Charactor = node.Attribute("Charactor").Value,
+                        Sayings = node.Value
+                    };
+
+                    list.Add(s);
+                }
+
+                return list;
+            }
+        }
+
         public CartoonSayingAI(AIConfigDTO ConfigDTO)
             : base(ConfigDTO)
         {
@@ -78,8 +101,7 @@ namespace AILib
             }
             catch(Exception ex)
             {
-                Common.SendMsgToDevelper(ex.Message);
-                Common.SendMsgToDevelper(ex.StackTrace);
+                Common.SendMsgToDeveloper(ex);
                 return false;
             }
         }
@@ -88,20 +110,7 @@ namespace AILib
         {
             try
             {
-                XElement root = XElement.Load(xmlFilePath);
-
-                List<SayingInfo> list = new List<SayingInfo>();
-                foreach(XElement node in root.Nodes())
-                {
-                    SayingInfo s = new SayingInfo()
-                    {
-                        Cartoon = node.Attribute("Cartoon").Value,
-                        Charactor = node.Attribute("Charactor").Value,
-                        Sayings = node.Value
-                    };
-
-                    list.Add(s);
-                }
+                var list = SayingList;
 
                 Random random = new Random();
                 int randIdx = random.Next(list.Count);
@@ -110,8 +119,7 @@ namespace AILib
             }
             catch (Exception ex)
             {
-                Common.SendMsgToDevelper(ex.Message);
-                Common.SendMsgToDevelper(ex.StackTrace);
+                Common.SendMsgToDeveloper(ex);
                 return string.Empty;
             }
         }
@@ -124,6 +132,15 @@ namespace AILib
 ";
 
             return shownSaying;
+        }
+
+        [AIDebug(EntrancePoint = "CartoonSayingAI_SayingTotalCount")]
+        public string Debug_SayingTotalCount
+        {
+            get
+            {
+                return $@"当前记录语录 {SayingList.Count}条";
+            }
         }
     }
 }

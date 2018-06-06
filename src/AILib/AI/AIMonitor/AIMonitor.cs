@@ -24,7 +24,7 @@ namespace AILib
         {
             base.OnPrivateMsgReceived(MsgDTO);
 
-            if(MsgDTO.fromQQ != Common.DevelperNumber)
+            if(MsgDTO.fromQQ != Common.DeveloperNumber)
             {
                 return;
             }
@@ -55,7 +55,7 @@ namespace AILib
                 return;
             }
 
-            Common.SendMsgToDevelper("未找到指定的debug入口！");
+            Common.SendMsgToDeveloper("未找到指定的debug入口！");
         }
 
         private bool DebugMgr(string EntrancePoint)
@@ -84,7 +84,7 @@ namespace AILib
                         null
                         );
 
-                    Common.SendMsgToDevelper(obj as string);
+                    Common.SendMsgToDeveloper(obj as string);
                     return true;
                 }
             }

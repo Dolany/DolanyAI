@@ -9,7 +9,7 @@ namespace AILib
 {
     public static class Common
     {
-        public static long DevelperNumber
+        public static long DeveloperNumber
         {
             get
             {
@@ -17,9 +17,15 @@ namespace AILib
             }
         }
 
-        public static void SendMsgToDevelper(string msg)
+        public static void SendMsgToDeveloper(string msg)
         {
-            CQ.SendPrivateMessage(DevelperNumber, msg);
+            CQ.SendPrivateMessage(DeveloperNumber, msg);
+        }
+
+        public static void SendMsgToDeveloper(Exception ex)
+        {
+            SendMsgToDeveloper(ex.Message);
+            SendMsgToDeveloper(ex.StackTrace);
         }
     }
 }
