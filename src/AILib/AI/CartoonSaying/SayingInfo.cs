@@ -23,22 +23,36 @@ namespace AILib
 
             try
             {
-                string[] parts = Msg.Split(new char[] { ':', '：', ' ' });
+                string[] parts = Msg.Split(new char[] { ' ' }, StringSplitOptions.RemoveEmptyEntries);
                 if (parts.Length < 4 || !parts[0].Contains("语录"))
                 {
                     return null;
                 }
 
-                return new SayingInfo()
+                SayingInfo si = new SayingInfo()
                 {
                     Cartoon = parts[1],
                     Charactor = parts[2],
                     Sayings = parts[3]
                 };
+                if(si.IsValid)
+                {
+                    return si;
+                }
+
+                return null;
             }
             catch
             {
                 return null;
+            }
+        }
+
+        public bool IsValid
+        {
+            get
+            {
+                return !string.IsNullOrEmpty(Cartoon) && !string.IsNullOrEmpty(Charactor) && !string.IsNullOrEmpty(Sayings);
             }
         }
     }

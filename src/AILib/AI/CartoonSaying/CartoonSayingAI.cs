@@ -129,7 +129,7 @@ namespace AILib
                     var query = from saying in list
                                 where saying.Cartoon.Contains(keyword) || saying.Charactor.Contains(keyword)
                                 select saying;
-                    if(query == null)
+                    if(query == null || query.Count() == 0)
                     {
                         return string.Empty;
                     }
