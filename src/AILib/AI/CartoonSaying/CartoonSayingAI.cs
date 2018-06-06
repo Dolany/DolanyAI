@@ -84,6 +84,19 @@ namespace AILib
                 sendAction(fromQQ, ranSaying);
                 return;
             }
+
+            if(msg.StartsWith("语录 "))
+            {
+                string keyword = msg.Replace("语录 ", "").Trim();
+                string ranSaying = GetRanSaying(keyword);
+                if (string.IsNullOrEmpty(ranSaying))
+                {
+                    return;
+                }
+
+                sendAction(fromQQ, ranSaying);
+                return;
+            }
         }
 
         private bool SaveSaying(SayingInfo info)
@@ -106,11 +119,22 @@ namespace AILib
             }
         }
 
-        private string GetRanSaying()
+        private string GetRanSaying(string keyword = null)
         {
             try
             {
                 var list = SayingList;
+                if (!string.IsNullOrEmpty(keyword))
+                {
+                    var query = from saying in list
+                                where saying.Cartoon.Contains(keyword) || saying.Charactor.Contains(keyword)
+                                select saying;
+                    if(query == null)
+                    {
+                        return string.Empty;
+                    }
+                    list = query.ToList();
+                }
 
                 Random random = new Random();
                 int randIdx = random.Next(list.Count);
