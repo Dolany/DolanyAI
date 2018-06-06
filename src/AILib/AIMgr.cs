@@ -69,8 +69,7 @@ namespace AILib
                     continue;
                 }
 
-                AIBase ai = 
-                assembly.CreateInstance(
+                AIBase ai = assembly.CreateInstance(
                     t.FullName, 
                     true,
                     BindingFlags.Default, 
