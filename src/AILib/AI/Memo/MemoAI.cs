@@ -20,17 +20,49 @@ namespace AILib
 
         public override void Work()
         {
+            LoadAllMemos();
+        }
+
+        private void LoadAllMemos()
+        {
 
         }
 
         public override void OnPrivateMsgReceived(PrivateMsgDTO MsgDTO)
         {
             base.OnPrivateMsgReceived(MsgDTO);
+
+            ProccesMsg(MsgDTO.msg, MsgDTO.fromQQ);
         }
 
         public override void OnGroupMsgReceived(GroupMsgDTO MsgDTO)
         {
             base.OnGroupMsgReceived(MsgDTO);
+
+            ProccesMsg(MsgDTO.msg, MsgDTO.fromQQ, MsgDTO.fromGroup);
+        }
+
+        private void ProccesMsg(string msg, long fromQQ, long fromGroup = 0)
+        {
+            MemoInfo mInfo = MemoInfo.Parse(msg);
+            if(mInfo == null || !mInfo.IsValid)
+            {
+                return;
+            }
+
+            // TODO
+        }
+
+        private void SendMemo(MemoInfo mInfo)
+        {
+            if(mInfo.FromGroup == 0)
+            {
+                CQ.SendPrivateMessage(mInfo.Creator, mInfo.Memo);
+            }
+            else
+            {
+                CQ.SendGroupMessage(mInfo.FromGroup, $@"@{mInfo.Creator} {mInfo.Memo}");
+            }
         }
     }
 }

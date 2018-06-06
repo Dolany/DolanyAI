@@ -61,6 +61,7 @@
     <Compile Include="AI\CartoonSaying\CartoonSayingAI.cs" />
     <Compile Include="AI\CartoonSaying\SayingInfo.cs" />
     <Compile Include="AI\Memo\MemoAI.cs" />
+    <Compile Include="AI\Memo\MemoInfo.cs" />
     <Compile Include="AI\Menhera\MenheraPics.cs" />
     <Compile Include="Base\AIAttribute.cs" />
     <Compile Include="Base\AIBase.cs" />
