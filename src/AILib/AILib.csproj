@@ -57,11 +57,13 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="AIMgr.cs" />
+    <Compile Include="AI\AIMonitor\AIMonitor.cs" />
     <Compile Include="AI\CartoonSaying\CartoonSayingAI.cs" />
     <Compile Include="AI\CartoonSaying\SayingInfo.cs" />
     <Compile Include="AI\Menhera\MenheraPics.cs" />
     <Compile Include="Base\AIAttribute.cs" />
     <Compile Include="Base\AIBase.cs" />
+    <Compile Include="Base\AIDebugAttribute.cs" />
     <Compile Include="Common\Common.cs" />
     <Compile Include="DTO\AIConfigDTO.cs" />
     <Compile Include="DTO\AIInfoDTO.cs" />

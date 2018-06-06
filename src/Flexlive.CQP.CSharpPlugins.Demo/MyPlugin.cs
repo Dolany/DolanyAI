@@ -3,6 +3,7 @@ using System;
 using System.Threading;
 using AILib;
 using System.Collections.Generic;
+using System.Xml.Linq;
 
 namespace Flexlive.CQP.CSharpPlugins.Demo
 {
@@ -11,11 +12,34 @@ namespace Flexlive.CQP.CSharpPlugins.Demo
     /// </summary>
     public class MyPlugin : CQAppAbstract
     {
-        public long[] GroupList = new long[] {
-            469652754, //蠢萌营地
-            298078934, //啪猫群
-            709460597 //蠢韵月的群
-        };
+        private string xmlFilePath = "GroupConfig.xml";
+
+        //public long[] GroupList = new long[] {
+        //    469652754, //蠢萌营地
+        //    298078934, //啪猫群
+        //    709460597, //蠢韵月的群
+        //    239896071 //蠢RMB的群
+        //};
+        public long[] GroupList
+        {
+            get
+            {
+                List<long> list = new List<long>();
+
+                XElement root = XElement.Load(xmlFilePath);
+                foreach (XElement node in root.Nodes())
+                {
+                    if(!bool.Parse(node.Attribute("Available").Value))
+                    {
+                        continue;
+                    }
+
+                    list.Add(long.Parse(node.Value));
+                }
+
+                return list.ToArray();
+            }
+        }
 
         /// <summary>
         /// 应用初始化，用来初始化应用的基本信息。

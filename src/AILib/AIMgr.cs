@@ -107,5 +107,26 @@ namespace AILib
                 ai.OnPrivateMsgReceived(MsgDTO);
             }
         }
+
+        [AIDebug(EntrancePoint = "WorkingAIList")]
+        public static string Debug_WorkingAIList
+        {
+            get
+            {
+                string result = $@"当前加载ai {AIList.Count}个";
+                foreach(var ai in AIList)
+                {
+                    result += '\n' + $@"{ai.GetType().FullName}";
+                }
+
+                return result;
+            }
+        }
+
+        public static bool DebugAIs(string EntrancePoint)
+        {
+            // TODO
+            return false;
+        }
     }
 }

@@ -9,9 +9,17 @@ namespace AILib
 {
     public static class Common
     {
+        public static long DevelperNumber
+        {
+            get
+            {
+                return 1458978159;
+            }
+        }
+
         public static void SendMsgToDevelper(string msg)
         {
-            CQ.SendPrivateMessage(1458978159, msg);
+            CQ.SendPrivateMessage(DevelperNumber, msg);
         }
     }
 }
