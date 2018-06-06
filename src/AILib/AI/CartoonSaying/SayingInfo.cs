@@ -8,10 +8,19 @@ namespace AILib
 {
     public class SayingInfo
     {
+        /// <summary>
+        /// 出处
+        /// </summary>
         public string Cartoon { get; set; }
 
+        /// <summary>
+        /// 人物
+        /// </summary>
         public string Charactor { get; set; }
 
+        /// <summary>
+        /// 语录
+        /// </summary>
         public string Sayings { get; set; }
 
         public static SayingInfo Parse(string Msg)

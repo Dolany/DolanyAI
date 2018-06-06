@@ -9,8 +9,10 @@ namespace AILib
 {
     public static class AIMgr
     {
+        // 当前加载的AI列表
         public static List<AIBase> AIList;
 
+        // 所有可用的AI列表
         public static List<AIInfoDTO> AllAIs
         {
             get
@@ -42,9 +44,12 @@ namespace AILib
             }
         }
 
-        public static void StartAIs(
-            IEnumerable<string> AINames,
-            AIConfigDTO ConfigDTO)
+        /// <summary>
+        /// 加载指定列表中的AI
+        /// </summary>
+        /// <param name="AINames">AI名称列表</param>
+        /// <param name="ConfigDTO">AI配置DTO</param>
+        public static void StartAIs( IEnumerable<string> AINames, AIConfigDTO ConfigDTO)
         {
             AIList = new List<AIBase>();
 
@@ -82,6 +87,10 @@ namespace AILib
             }
         }
 
+        /// <summary>
+        /// 处理群组消息收到事件
+        /// </summary>
+        /// <param name="MsgDTO"></param>
         public static void OnGroupMsgReceived(GroupMsgDTO MsgDTO)
         {
             if(AIList == null || AIList.Count == 0)
@@ -95,6 +104,10 @@ namespace AILib
             }
         }
 
+        /// <summary>
+        /// 处理私聊消息收到事件
+        /// </summary>
+        /// <param name="MsgDTO"></param>
         public static void OnPrivateMsgReceived(PrivateMsgDTO MsgDTO)
         {
             if (AIList == null || AIList.Count == 0)

@@ -12,6 +12,7 @@ namespace Flexlive.CQP.CSharpPlugins.Demo
     /// </summary>
     public class MyPlugin : CQAppAbstract
     {
+        // 群组配置信息文件路径
         private string xmlFilePath = "GroupConfig.xml";
 
         //public long[] GroupList = new long[] {
@@ -20,6 +21,10 @@ namespace Flexlive.CQP.CSharpPlugins.Demo
         //    709460597, //蠢韵月的群
         //    239896071 //蠢RMB的群
         //};
+
+        /// <summary>
+        /// 群号列表
+        /// </summary>
         public long[] GroupList
         {
             get
@@ -63,6 +68,7 @@ namespace Flexlive.CQP.CSharpPlugins.Demo
             //完成插件线程、全局变量等自身运行所必须的初始化工作。
             try
             {
+                // 获取可用AI列表
                 var AIs = AIMgr.AllAIs;
                 if (AIs.Count == 0)
                 {
@@ -72,6 +78,8 @@ namespace Flexlive.CQP.CSharpPlugins.Demo
                 {
                     Common.SendMsgToDeveloper($@"成功加载{AIs.Count}个ai");
                 }
+
+                // 加载所有可用AI
                 List<string> l = new List<string>();
                 foreach (var ai in AIs)
                 {
