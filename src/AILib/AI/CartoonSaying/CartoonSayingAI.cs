@@ -126,18 +126,15 @@ namespace AILib
             try
             {
                 var list = SayingList;
-                if (!string.IsNullOrEmpty(keyword))
+                var query = from saying in list
+                            where (string.IsNullOrEmpty(keyword) ? true : (saying.Cartoon.Contains(keyword) || saying.Charactor.Contains(keyword)))
+                                && (fromGroup == 0 ? true : saying.FromGroup == fromGroup)
+                            select saying;
+                if (query == null || query.Count() == 0)
                 {
-                    var query = from saying in list
-                                where (saying.Cartoon.Contains(keyword) || saying.Charactor.Contains(keyword)) 
-                                    && (fromGroup == 0 ? true : saying.FromGroup == fromGroup)
-                                select saying;
-                    if(query == null || query.Count() == 0)
-                    {
-                        return string.Empty;
-                    }
-                    list = query.ToList();
+                    return string.Empty;
                 }
+                list = query.ToList();
 
                 Random random = new Random();
                 int randIdx = random.Next(list.Count);
