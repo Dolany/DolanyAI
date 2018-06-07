@@ -62,7 +62,6 @@
     <Compile Include="AI\CartoonSaying\SayingInfo.cs" />
     <Compile Include="AI\HourAlert\AlertInfo.cs" />
     <Compile Include="AI\Interaction\Publisher\Publisher.cs" />
-    <Compile Include="AI\Interaction\Publisher\PublishRecordInfo.cs" />
     <Compile Include="AI\Memo\MemoAI.cs" />
     <Compile Include="AI\Memo\MemoInfo.cs" />
     <Compile Include="AI\Menhera\MenheraPics.cs" />
