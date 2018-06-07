@@ -167,5 +167,27 @@ namespace AILib
                 return string.Empty;
             }
         }
+
+        public override void OnPrivateMsgReceived(PrivateMsgDTO MsgDTO)
+        {
+            base.OnPrivateMsgReceived(MsgDTO);
+
+            if(MsgDTO.fromQQ != Common.DeveloperNumber)
+            {
+                return;
+            }
+
+            if(!MsgDTO.msg.StartsWith("报时 "))
+            {
+                return;
+            }
+
+            string msg = MsgDTO.msg.Replace("报时 ", "");
+            int aimHour = int.Parse(msg);
+            var infoList = AllAlertInfos;
+
+            string RanContent = GetRanAlertContent(infoList, 469652754, aimHour);
+            Common.SendMsgToDeveloper($@"到{aimHour}点啦！ {RanContent}");
+        }
     }
 }
