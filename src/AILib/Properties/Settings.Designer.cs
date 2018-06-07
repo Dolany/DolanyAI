@@ -33,5 +33,27 @@ namespace AILib.Properties {
                 return ((string)(this["DbConnectionString"]));
             }
         }
+        
+        [global::System.Configuration.ApplicationScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.SpecialSettingAttribute(global::System.Configuration.SpecialSetting.ConnectionString)]
+        [global::System.Configuration.DefaultSettingValueAttribute("Data Source=(LocalDB)\\MSSQLLocalDB;AttachDbFilename=|DataDirectory|\\Db\\AIDb.mdf;I" +
+            "ntegrated Security=True;Connect Timeout=30")]
+        public string AIDbConnectionString {
+            get {
+                return ((string)(this["AIDbConnectionString"]));
+            }
+        }
+        
+        [global::System.Configuration.ApplicationScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.SpecialSettingAttribute(global::System.Configuration.SpecialSetting.ConnectionString)]
+        [global::System.Configuration.DefaultSettingValueAttribute("Data Source=(LocalDB)\\MSSQLLocalDB;AttachDbFilename=|DataDirectory|\\Db\\AIDb.mdf;I" +
+            "ntegrated Security=True")]
+        public string AIDbConnectionString1 {
+            get {
+                return ((string)(this["AIDbConnectionString1"]));
+            }
+        }
     }
 }
