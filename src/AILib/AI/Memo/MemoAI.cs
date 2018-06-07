@@ -7,7 +7,7 @@ using Flexlive.CQP.Framework;
 
 namespace AILib
 {
-    [AI(Name = "MemoAI", Description = "AI for Memo and Alert.", IsAvailable = true)]
+    [AI(Name = "MemoAI", Description = "AI for Memo and Alert.", IsAvailable = false)]
     public class MemoAI : AIBase
     {
         private string xmlFilePath = @"./AI/Memo/Memos.xml";
