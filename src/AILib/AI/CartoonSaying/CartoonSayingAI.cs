@@ -28,6 +28,7 @@ namespace AILib
                     {
                         Cartoon = node.Attribute("Cartoon").Value,
                         Charactor = node.Attribute("Charactor").Value,
+                        FromGroup = long.Parse(node.Attribute("FromGroup").Value),
                         Sayings = node.Value
                     };
 
@@ -60,22 +61,22 @@ namespace AILib
         {
             base.OnGroupMsgReceived(MsgDTO);
 
-            ProcceedMsg(MsgDTO.fromGroup, MsgDTO.msg, CQ.SendGroupMessage);
+            ProcceedMsg(MsgDTO.fromGroup, MsgDTO.msg, CQ.SendGroupMessage, MsgDTO.fromGroup);
         }
 
-        private void ProcceedMsg(long fromQQ, string msg, Action<long, string> sendAction)
+        private void ProcceedMsg(long fromQQ, string msg, Action<long, string> sendAction, long fromGroup = 0)
         {
             SayingInfo info = SayingInfo.Parse(msg);
             if (info != null)
             {
-                string smsg = SaveSaying(info) ? "语录录入成功！" : "语录录入失败！";
+                string smsg = SaveSaying(info, fromGroup) ? "语录录入成功！" : "语录录入失败！";
                 sendAction(fromQQ, smsg);
                 return;
             }
 
             if (msg.Trim().Equals("语录"))
             {
-                string ranSaying = GetRanSaying();
+                string ranSaying = GetRanSaying(fromGroup);
                 if (string.IsNullOrEmpty(ranSaying))
                 {
                     return;
@@ -88,7 +89,7 @@ namespace AILib
             if(msg.StartsWith("语录 "))
             {
                 string keyword = msg.Replace("语录 ", "").Trim();
-                string ranSaying = GetRanSaying(keyword);
+                string ranSaying = GetRanSaying(fromGroup, keyword);
                 if (string.IsNullOrEmpty(ranSaying))
                 {
                     return;
@@ -99,7 +100,7 @@ namespace AILib
             }
         }
 
-        private bool SaveSaying(SayingInfo info)
+        private bool SaveSaying(SayingInfo info, long fromGroup)
         {
             try
             {
@@ -107,6 +108,7 @@ namespace AILib
                 XElement node = new XElement("Saying", info.Sayings);
                 node.SetAttributeValue("Cartoon", info.Cartoon);
                 node.SetAttributeValue("Charactor", info.Charactor);
+                node.SetAttributeValue("FromGroup", fromGroup.ToString());
                 root.Add(node);
                 root.Save(xmlFilePath);
 
@@ -119,7 +121,7 @@ namespace AILib
             }
         }
 
-        private string GetRanSaying(string keyword = null)
+        private string GetRanSaying(long fromGroup, string keyword = null)
         {
             try
             {
@@ -127,7 +129,8 @@ namespace AILib
                 if (!string.IsNullOrEmpty(keyword))
                 {
                     var query = from saying in list
-                                where saying.Cartoon.Contains(keyword) || saying.Charactor.Contains(keyword)
+                                where (saying.Cartoon.Contains(keyword) || saying.Charactor.Contains(keyword)) 
+                                    && (fromGroup == 0 ? true : saying.FromGroup == fromGroup)
                                 select saying;
                     if(query == null || query.Count() == 0)
                     {

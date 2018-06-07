@@ -61,7 +61,7 @@ namespace AILib
             }
             else
             {
-                CQ.SendGroupMessage(mInfo.FromGroup, $@"@{mInfo.Creator} {mInfo.Memo}");
+                CQ.SendGroupMessage(mInfo.FromGroup, $@"{CQ.CQCode_At(mInfo.Creator)} {mInfo.Memo}");
             }
         }
     }

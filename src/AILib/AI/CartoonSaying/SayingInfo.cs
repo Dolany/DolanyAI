@@ -23,6 +23,8 @@ namespace AILib
         /// </summary>
         public string Sayings { get; set; }
 
+        public long FromGroup { get; set; }
+
         public static SayingInfo Parse(string Msg)
         {
             if(string.IsNullOrEmpty(Msg))
