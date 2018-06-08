@@ -12,7 +12,8 @@ namespace AILib
     [AI(Name = "HourAlertAI", Description = "AI for Hour Alert.", IsAvailable = true)]
     public class HourAlertAI : AIBase
     {
-        private string xmlFilePath = @"./AI/HourAlert/AlertContent.xml";
+        private string xmlFilePath_Content = @"./AI/HourAlert/AlertContent.xml";
+        private string xmlFilePath_Groups = @"./AI/HourAlert/AlertRegistedGroup.xml";
 
         System.Timers.Timer timer;
 
@@ -20,7 +21,7 @@ namespace AILib
         {
             get
             {
-                XElement root = XElement.Load(xmlFilePath);
+                XElement root = XElement.Load(xmlFilePath_Content);
 
                 List<AlertInfo> list = new List<AlertInfo>();
                 foreach (XElement node in root.Nodes())
@@ -35,6 +36,25 @@ namespace AILib
                     };
 
                     list.Add(s);
+                }
+
+                return list;
+            }
+        }
+
+        private List<long> AvailableGroups
+        {
+            get
+            {
+                XElement root = XElement.Load(xmlFilePath_Groups);
+
+                List<long> list = new List<long>();
+                foreach (XElement node in root.Nodes())
+                {
+                    if (bool.Parse(node.Attribute("Available").Value))
+                    {
+                        list.Add(long.Parse(node.Value));
+                    }
                 }
 
                 return list;
@@ -79,11 +99,16 @@ namespace AILib
         private void HourAlert(string curHour)
         {
             var infoList = AllAlertInfos;
+            var availableList = AvailableGroups;
 
             foreach (var groupNum in ConfigDTO.AimGroups)
             {
-                string RanContent = GetRanAlertContent(infoList, groupNum, int.Parse(curHour));
+                if(!availableList.Contains(groupNum))
+                {
+                    continue;
+                }
 
+                string RanContent = GetRanAlertContent(infoList, groupNum, int.Parse(curHour));
                 CQ.SendGroupMessage(groupNum, $@"到{curHour}点啦！ {RanContent}");
             }
         }
@@ -92,7 +117,66 @@ namespace AILib
         {
             base.OnGroupMsgReceived(MsgDTO);
 
+            if(AlertManagement(MsgDTO.msg, MsgDTO.fromQQ, MsgDTO.fromGroup))
+            {
+                return;
+            }
+
             RecordAlertContent(MsgDTO.msg, MsgDTO.fromQQ, MsgDTO.fromGroup);
+        }
+
+        private bool AlertManagement(string msg, long fromQQ, long fromGroup)
+        {
+            if(string.IsNullOrEmpty(msg))
+            {
+                return false;
+            }
+
+            string authority = CQ.GetGroupMemberInfo(fromGroup, fromQQ).Authority;
+            if(authority != "群主" && authority != "管理员")
+            {
+                return false;
+            }
+
+            if (msg == "报时 开启")
+            {
+                AvailableStateChange(fromGroup, true);
+                CQ.SendGroupMessage(fromGroup, "报时功能已开启！");
+                return true;
+            }
+            if(msg == "报时 关闭")
+            {
+                AvailableStateChange(fromGroup, false);
+                CQ.SendGroupMessage(fromGroup, "报时功能已关闭！");
+                return true;
+            }
+
+
+            return false;
+        }
+
+        private void AvailableStateChange(long groupNumber, bool state)
+        {
+            XElement root = XElement.Load(xmlFilePath_Groups);
+
+            bool isExist = false;
+            foreach (XElement node in root.Nodes())
+            {
+                if (long.Parse(node.Value) == groupNumber)
+                {
+                    isExist = true;
+                    node.SetAttributeValue("Available", state.ToString());
+                    break;
+                }
+            }
+            if(!isExist)
+            {
+                XElement newNode = new XElement("Group", groupNumber.ToString());
+                newNode.SetAttributeValue("Available", state.ToString());
+                root.Add(newNode);
+            }
+            
+            root.Save(xmlFilePath_Groups);
         }
 
         public void RecordAlertContent(string msg, long fromQQ, long fromGroup)
@@ -121,14 +205,14 @@ namespace AILib
         {
             try
             {
-                XElement root = XElement.Load(xmlFilePath);
+                XElement root = XElement.Load(xmlFilePath_Content);
                 XElement node = new XElement("Content", info.AlertContent);
                 node.SetAttributeValue("FromGroup", info.FromGroup.ToString());
                 node.SetAttributeValue("Creator", info.Creator.ToString());
                 node.SetAttributeValue("CreateTime", info.CreateTime.Value.ToString("yyyy-MM-dd HH:mm:ss"));
                 node.SetAttributeValue("AimHour", info.AimHour.ToString());
                 root.Add(node);
-                root.Save(xmlFilePath);
+                root.Save(xmlFilePath_Content);
 
                 return true;
             }
