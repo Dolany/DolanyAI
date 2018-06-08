@@ -65,11 +65,6 @@
   <ItemGroup>
     <Compile Include="AI\Config\ConfigAI.cs" />
     <Compile Include="AI\Config\ConfigCommandAttribute.cs" />
-    <Compile Include="Db\AIDbDataSet.Designer.cs">
-      <AutoGen>True</AutoGen>
-      <DesignTime>True</DesignTime>
-      <DependentUpon>AIDbDataSet.xsd</DependentUpon>
-    </Compile>
     <Compile Include="AIMgr.cs" />
     <Compile Include="AI\AIMonitor\AIMonitor.cs" />
     <Compile Include="AI\CartoonSaying\CartoonSayingAI.cs" />
@@ -83,11 +78,6 @@
     <Compile Include="Base\AIBase.cs" />
     <Compile Include="Base\AIDebugAttribute.cs" />
     <Compile Include="Common\Common.cs" />
-    <Compile Include="Db\DataClasses.designer.cs">
-      <AutoGen>True</AutoGen>
-      <DesignTime>True</DesignTime>
-      <DependentUpon>DataClasses.dbml</DependentUpon>
-    </Compile>
     <Compile Include="DTO\AIConfigDTO.cs" />
     <Compile Include="DTO\AIInfoDTO.cs" />
     <Compile Include="AI\HourAlert\HourAlertAI.cs" />
@@ -119,26 +109,7 @@
     </BootstrapperPackage>
   </ItemGroup>
   <ItemGroup>
-    <None Include="Db\AIDbDataSet.xsc">
-      <DependentUpon>AIDbDataSet.xsd</DependentUpon>
-    </None>
-    <None Include="Db\AIDbDataSet.xsd">
-      <Generator>MSDataSetGenerator</Generator>
-      <LastGenOutput>AIDbDataSet.Designer.cs</LastGenOutput>
-      <SubType>Designer</SubType>
-    </None>
-    <None Include="Db\AIDbDataSet.xss">
-      <DependentUpon>AIDbDataSet.xsd</DependentUpon>
-    </None>
     <None Include="app.config" />
-    <None Include="Db\DataClasses.dbml">
-      <Generator>MSLinqToSQLGenerator</Generator>
-      <LastGenOutput>DataClasses.designer.cs</LastGenOutput>
-      <SubType>Designer</SubType>
-    </None>
-    <None Include="Db\DataClasses.dbml.layout">
-      <DependentUpon>DataClasses.dbml</DependentUpon>
-    </None>
     <None Include="packages.config" />
     <None Include="Properties\Settings.settings">
       <Generator>SettingsSingleFileGenerator</Generator>
@@ -150,13 +121,6 @@
     <Service Include="{508349B6-6B84-4DF5-91F0-309BEEBAD82D}" />
   </ItemGroup>
   <ItemGroup>
-    <Content Include="Db\AIDb.mdf">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
-    <Content Include="Db\AIDb_log.ldf">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-      <DependentUpon>AIDb.mdf</DependentUpon>
-    </Content>
     <Content Include="AI\CartoonSaying\Saying.xml">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>

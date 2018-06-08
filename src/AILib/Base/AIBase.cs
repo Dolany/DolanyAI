@@ -26,5 +26,10 @@ namespace AILib
         {
 
         }
+
+        public virtual bool IsPrivateDeveloperOnly()
+        {
+            return false;
+        }
     }
 }

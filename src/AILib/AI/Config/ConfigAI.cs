@@ -7,7 +7,7 @@ using AILib.AI.Config;
 
 namespace AILib
 {
-    [AI(Name = "ConfigAI", Description = "AI for Config Other AIs.", IsAvailable = true)]
+    [AI(Name = "ConfigAI", Description = "AI for Config Other AIs.", IsAvailable = false)]
     public class ConfigAI : AIBase
     {
         public ConfigAI(AIConfigDTO ConfigDTO)
@@ -19,6 +19,11 @@ namespace AILib
         public override void Work()
         {
             
+        }
+
+        public override bool IsPrivateDeveloperOnly()
+        {
+            return true;
         }
 
         public override void OnPrivateMsgReceived(PrivateMsgDTO MsgDTO)

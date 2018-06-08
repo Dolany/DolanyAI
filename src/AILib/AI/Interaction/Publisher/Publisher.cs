@@ -28,11 +28,6 @@ namespace AILib
         {
             base.OnPrivateMsgReceived(MsgDTO);
 
-            if(MsgDTO.fromQQ != Common.DeveloperNumber)
-            {
-                return;
-            }
-
             if(MsgDTO.msg.StartsWith("PublishRec "))
             {
                 PublishRec(MsgDTO.msg.Replace("PublishRec ", ""));
@@ -115,6 +110,11 @@ namespace AILib
             {
                 return string.Empty;
             }
+        }
+
+        public override bool IsPrivateDeveloperOnly()
+        {
+            return true;
         }
     }
 }

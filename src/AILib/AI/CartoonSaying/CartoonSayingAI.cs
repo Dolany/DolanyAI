@@ -50,6 +50,11 @@ namespace AILib
             
         }
 
+        public override bool IsPrivateDeveloperOnly()
+        {
+            return true;
+        }
+
         public override void OnPrivateMsgReceived(PrivateMsgDTO MsgDTO)
         {
             base.OnPrivateMsgReceived(MsgDTO);
@@ -127,7 +132,7 @@ namespace AILib
             {
                 var list = SayingList;
                 var query = from saying in list
-                            where (string.IsNullOrEmpty(keyword) ? true : (saying.Cartoon.Contains(keyword) || saying.Charactor.Contains(keyword)))
+                            where (string.IsNullOrEmpty(keyword) ? true : saying.Contains(keyword))
                                 && (fromGroup == 0 ? true : saying.FromGroup == fromGroup)
                             select saying;
                 if (query == null || query.Count() == 0)

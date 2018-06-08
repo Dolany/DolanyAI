@@ -66,5 +66,15 @@ namespace AILib
                 return !string.IsNullOrEmpty(Cartoon) && !string.IsNullOrEmpty(Charactor) && !string.IsNullOrEmpty(Sayings);
             }
         }
+
+        public bool Contains(string keyword)
+        {
+            if(string.IsNullOrEmpty(keyword))
+            {
+                return true;
+            }
+
+            return Cartoon.Contains(keyword) || Charactor.Contains(keyword) || Sayings.Contains(keyword);
+        }
     }
 }

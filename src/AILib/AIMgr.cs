@@ -116,6 +116,10 @@ namespace AILib
 
             foreach (var ai in AIList)
             {
+                if(ai.IsPrivateDeveloperOnly() && MsgDTO.fromQQ != Common.DeveloperNumber)
+                {
+                    continue;
+                }
                 ai.OnPrivateMsgReceived(MsgDTO);
             }
         }

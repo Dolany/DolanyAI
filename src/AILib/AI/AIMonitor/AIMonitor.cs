@@ -20,14 +20,14 @@ namespace AILib
             
         }
 
+        public override bool IsPrivateDeveloperOnly()
+        {
+            return true;
+        }
+
         public override void OnPrivateMsgReceived(PrivateMsgDTO MsgDTO)
         {
             base.OnPrivateMsgReceived(MsgDTO);
-
-            if(MsgDTO.fromQQ != Common.DeveloperNumber)
-            {
-                return;
-            }
 
             if(!MsgDTO.msg.StartsWith("(debug)"))
             {

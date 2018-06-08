@@ -172,11 +172,6 @@ namespace AILib
         {
             base.OnPrivateMsgReceived(MsgDTO);
 
-            if(MsgDTO.fromQQ != Common.DeveloperNumber)
-            {
-                return;
-            }
-
             if(!MsgDTO.msg.StartsWith("报时 "))
             {
                 return;
@@ -188,6 +183,11 @@ namespace AILib
 
             string RanContent = GetRanAlertContent(infoList, 469652754, aimHour);
             Common.SendMsgToDeveloper($@"到{aimHour}点啦！ {RanContent}");
+        }
+
+        public override bool IsPrivateDeveloperOnly()
+        {
+            return true;
         }
     }
 }
