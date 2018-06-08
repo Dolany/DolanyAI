@@ -113,11 +113,17 @@ namespace AILib
             }
         }
 
-        public override void OnGroupMsgReceived(GroupMsgDTO MsgDTO)
-        {
-            base.OnGroupMsgReceived(MsgDTO);
+        //public override void OnGroupMsgReceived(GroupMsgDTO MsgDTO)
+        //{
+        //    base.OnGroupMsgReceived(MsgDTO);
 
-            if(AlertManagement(MsgDTO.msg, MsgDTO.fromQQ, MsgDTO.fromGroup))
+            
+        //}
+
+        [EnterCommand(Command = "报时", SourceType = MsgSourceType.Group)]
+        public void AlertSet(GroupMsgDTO MsgDTO)
+        {
+            if (AlertManagement(MsgDTO.msg, MsgDTO.fromQQ, MsgDTO.fromGroup))
             {
                 return;
             }
@@ -140,13 +146,13 @@ namespace AILib
                     return false;
                 }
 
-                if (msg == "报时 开启")
+                if (msg == "开启")
                 {
                     AvailableStateChange(fromGroup, true);
                     CQ.SendGroupMessage(fromGroup, "报时功能已开启！");
                     return true;
                 }
-                if (msg == "报时 关闭")
+                if (msg == "关闭")
                 {
                     AvailableStateChange(fromGroup, false);
                     CQ.SendGroupMessage(fromGroup, "报时功能已关闭！");
@@ -259,17 +265,27 @@ namespace AILib
             }
         }
 
-        public override void OnPrivateMsgReceived(PrivateMsgDTO MsgDTO)
-        {
-            base.OnPrivateMsgReceived(MsgDTO);
+        //public override void OnPrivateMsgReceived(PrivateMsgDTO MsgDTO)
+        //{
+        //    base.OnPrivateMsgReceived(MsgDTO);
 
-            if(!MsgDTO.msg.StartsWith("报时 "))
+        //    if(!MsgDTO.msg.StartsWith("报时 "))
+        //    {
+        //        return;
+        //    }
+
+        //    string msg = MsgDTO.msg.Replace("报时 ", "");
+            
+        //}
+
+        [EnterCommand(Command = "报时", SourceType = MsgSourceType.Private)]
+        public void AlertPrivate(PrivateMsgDTO MsgDTO)
+        {
+            int aimHour;
+            if(!int.TryParse(MsgDTO.msg, out aimHour))
             {
                 return;
             }
-
-            string msg = MsgDTO.msg.Replace("报时 ", "");
-            int aimHour = int.Parse(msg);
             var infoList = AllAlertInfos;
 
             string RanContent = GetRanAlertContent(infoList, 469652754, aimHour);

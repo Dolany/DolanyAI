@@ -31,7 +31,7 @@ namespace AILib
                         break;
                     }
                     t.InvokeMember(method.Name,
-                            BindingFlags.Public,
+                            BindingFlags.Default,
                             null,
                             this,
                             new object[] { MsgDTO }
@@ -42,7 +42,24 @@ namespace AILib
 
         public virtual void OnPrivateMsgReceived(PrivateMsgDTO MsgDTO)
         {
-
+            Type t = this.GetType();
+            foreach (var method in t.GetMethods())
+            {
+                foreach (var attr in method.GetCustomAttributes(typeof(EnterCommandAttribute)))
+                {
+                    var enterAttr = attr as EnterCommandAttribute;
+                    if (enterAttr.Command != MsgDTO.command || enterAttr.SourceType != MsgSourceType.Private)
+                    {
+                        break;
+                    }
+                    t.InvokeMember(method.Name,
+                            BindingFlags.Default,
+                            null,
+                            this,
+                            new object[] { MsgDTO }
+                            );
+                }
+            }
         }
 
         public virtual bool IsPrivateDeveloperOnly()

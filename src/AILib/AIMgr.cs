@@ -125,6 +125,10 @@ namespace AILib
                 return;
             }
 
+            string msg = MsgDTO.msg;
+            string command = GenCommand(ref msg);
+            MsgDTO.msg = msg;
+
             foreach (var ai in AIList)
             {
                 if(ai.IsPrivateDeveloperOnly() && MsgDTO.fromQQ != Common.DeveloperNumber)

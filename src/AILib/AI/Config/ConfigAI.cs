@@ -25,12 +25,5 @@ namespace AILib
         {
             return true;
         }
-
-        public override void OnPrivateMsgReceived(PrivateMsgDTO MsgDTO)
-        {
-            base.OnPrivateMsgReceived(MsgDTO);
-
-            // TODO
-        }
     }
 }

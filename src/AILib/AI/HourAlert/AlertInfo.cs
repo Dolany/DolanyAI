@@ -16,12 +16,11 @@ namespace AILib.AI.HourAlert
 
         public static AlertInfo Parse(string msg)
         {
-            if(string.IsNullOrEmpty(msg) || !msg.StartsWith("报时 "))
+            if(string.IsNullOrEmpty(msg))
             {
                 return null;
             }
 
-            msg = msg.Replace("报时 ", "");
             string[] strs = msg.Split(new char[] { ' ' }, StringSplitOptions.RemoveEmptyEntries);
             if(strs == null || strs.Length != 2)
             {

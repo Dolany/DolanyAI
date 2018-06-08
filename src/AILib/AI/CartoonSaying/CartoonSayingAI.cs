@@ -55,19 +55,19 @@ namespace AILib
             return true;
         }
 
-        public override void OnPrivateMsgReceived(PrivateMsgDTO MsgDTO)
-        {
-            base.OnPrivateMsgReceived(MsgDTO);
+        //public override void OnPrivateMsgReceived(PrivateMsgDTO MsgDTO)
+        //{
+        //    base.OnPrivateMsgReceived(MsgDTO);
 
-            //ProcceedMsg(MsgDTO.fromQQ, MsgDTO.msg, CQ.SendPrivateMessage);
-        }
+        //    ProcceedMsg(MsgDTO.fromQQ, MsgDTO.msg, CQ.SendPrivateMessage);
+        //}
 
-        public override void OnGroupMsgReceived(GroupMsgDTO MsgDTO)
-        {
-            base.OnGroupMsgReceived(MsgDTO);
+        //public override void OnGroupMsgReceived(GroupMsgDTO MsgDTO)
+        //{
+        //    base.OnGroupMsgReceived(MsgDTO);
 
-            //ProcceedMsg(MsgDTO.fromGroup, MsgDTO.msg, CQ.SendGroupMessage, MsgDTO.fromGroup);
-        }
+        //    ProcceedMsg(MsgDTO.fromGroup, MsgDTO.msg, CQ.SendGroupMessage, MsgDTO.fromGroup);
+        //}
 
         [EnterCommand(Command = "语录", SourceType = MsgSourceType.Group)]
         private void ProcceedMsg(GroupMsgDTO MsgDTO)
@@ -102,10 +102,10 @@ namespace AILib
             }
         }
 
-        private void ProcceedMsg(long fromQQ, string msg, Action<long, string> sendAction, long fromGroup = 0)
-        {
+        //private void ProcceedMsg(long fromQQ, string msg, Action<long, string> sendAction, long fromGroup = 0)
+        //{
             
-        }
+        //}
 
         private bool SaveSaying(SayingInfo info, long fromGroup)
         {

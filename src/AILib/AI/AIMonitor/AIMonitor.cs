@@ -25,22 +25,33 @@ namespace AILib
             return true;
         }
 
-        public override void OnPrivateMsgReceived(PrivateMsgDTO MsgDTO)
+        //public override void OnPrivateMsgReceived(PrivateMsgDTO MsgDTO)
+        //{
+        //    base.OnPrivateMsgReceived(MsgDTO);
+
+        //    if(!MsgDTO.msg.StartsWith("(debug)"))
+        //    {
+        //        return;
+        //    }
+
+        //    string EntrancePoint = MsgDTO.msg.Replace("(debug)", "").Trim();
+        //    if(string.IsNullOrEmpty(EntrancePoint))
+        //    {
+        //        return;
+        //    }
+
+        //    InvodeDebug(EntrancePoint);
+        //}
+
+        [EnterCommand(Command = "debug", SourceType = MsgSourceType.Private)]
+        public void Debug(PrivateMsgDTO MsgDTO)
         {
-            base.OnPrivateMsgReceived(MsgDTO);
-
-            if(!MsgDTO.msg.StartsWith("(debug)"))
+            if (string.IsNullOrEmpty(MsgDTO.msg))
             {
                 return;
             }
 
-            string EntrancePoint = MsgDTO.msg.Replace("(debug)", "").Trim();
-            if(string.IsNullOrEmpty(EntrancePoint))
-            {
-                return;
-            }
-
-            InvodeDebug(EntrancePoint);
+            InvodeDebug(MsgDTO.msg);
         }
 
         private void InvodeDebug(string EntrancePoint)
