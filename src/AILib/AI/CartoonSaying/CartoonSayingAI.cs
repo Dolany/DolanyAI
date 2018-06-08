@@ -59,50 +59,52 @@ namespace AILib
         {
             base.OnPrivateMsgReceived(MsgDTO);
 
-            ProcceedMsg(MsgDTO.fromQQ, MsgDTO.msg, CQ.SendPrivateMessage);
+            //ProcceedMsg(MsgDTO.fromQQ, MsgDTO.msg, CQ.SendPrivateMessage);
         }
 
         public override void OnGroupMsgReceived(GroupMsgDTO MsgDTO)
         {
             base.OnGroupMsgReceived(MsgDTO);
 
-            ProcceedMsg(MsgDTO.fromGroup, MsgDTO.msg, CQ.SendGroupMessage, MsgDTO.fromGroup);
+            //ProcceedMsg(MsgDTO.fromGroup, MsgDTO.msg, CQ.SendGroupMessage, MsgDTO.fromGroup);
+        }
+
+        [EnterCommand(Command = "语录", SourceType = MsgSourceType.Group)]
+        private void ProcceedMsg(GroupMsgDTO MsgDTO)
+        {
+            SayingInfo info = SayingInfo.Parse(MsgDTO.msg);
+            if (info != null)
+            {
+                string smsg = SaveSaying(info, MsgDTO.fromGroup) ? "语录录入成功！" : "语录录入失败！";
+                CQ.SendGroupMessage(MsgDTO.fromQQ, smsg);
+                return;
+            }
+
+            if (string.IsNullOrEmpty(MsgDTO.msg.Trim()))
+            {
+                string ranSaying = GetRanSaying(MsgDTO.fromGroup);
+                if (string.IsNullOrEmpty(ranSaying))
+                {
+                    return;
+                }
+
+                CQ.SendGroupMessage(MsgDTO.fromQQ, ranSaying);
+            }
+            else
+            {
+                string ranSaying = GetRanSaying(MsgDTO.fromGroup, MsgDTO.msg);
+                if (string.IsNullOrEmpty(ranSaying))
+                {
+                    return;
+                }
+
+                CQ.SendGroupMessage(MsgDTO.fromQQ, ranSaying);
+            }
         }
 
         private void ProcceedMsg(long fromQQ, string msg, Action<long, string> sendAction, long fromGroup = 0)
         {
-            SayingInfo info = SayingInfo.Parse(msg);
-            if (info != null)
-            {
-                string smsg = SaveSaying(info, fromGroup) ? "语录录入成功！" : "语录录入失败！";
-                sendAction(fromQQ, smsg);
-                return;
-            }
-
-            if (msg.Trim().Equals("语录"))
-            {
-                string ranSaying = GetRanSaying(fromGroup);
-                if (string.IsNullOrEmpty(ranSaying))
-                {
-                    return;
-                }
-
-                sendAction(fromQQ, ranSaying);
-                return;
-            }
-
-            if(msg.StartsWith("语录 "))
-            {
-                string keyword = msg.Replace("语录 ", "").Trim();
-                string ranSaying = GetRanSaying(fromGroup, keyword);
-                if (string.IsNullOrEmpty(ranSaying))
-                {
-                    return;
-                }
-
-                sendAction(fromQQ, ranSaying);
-                return;
-            }
+            
         }
 
         private bool SaveSaying(SayingInfo info, long fromGroup)

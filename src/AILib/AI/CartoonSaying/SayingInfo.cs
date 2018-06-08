@@ -35,16 +35,16 @@ namespace AILib
             try
             {
                 string[] parts = Msg.Split(new char[] { ' ' }, StringSplitOptions.RemoveEmptyEntries);
-                if (parts.Length < 4 || !parts[0].Contains("语录"))
+                if (parts.Length < 3)
                 {
                     return null;
                 }
 
                 SayingInfo si = new SayingInfo()
                 {
-                    Cartoon = parts[1],
-                    Charactor = parts[2],
-                    Sayings = parts[3]
+                    Cartoon = parts[0],
+                    Charactor = parts[1],
+                    Sayings = parts[2]
                 };
                 if(si.IsValid)
                 {

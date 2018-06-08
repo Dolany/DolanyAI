@@ -92,14 +92,25 @@ namespace AILib
         /// <param name="MsgDTO"></param>
         public static void OnGroupMsgReceived(GroupMsgDTO MsgDTO)
         {
-            if(AIList == null || AIList.Count == 0)
+            try
             {
-                return;
-            }
+                if (AIList == null || AIList.Count == 0)
+                {
+                    return;
+                }
 
-            foreach(var ai in AIList)
+                string msg = MsgDTO.msg;
+                string command = GenCommand(ref msg);
+                MsgDTO.msg = msg;
+
+                foreach (var ai in AIList)
+                {
+                    ai.OnGroupMsgReceived(MsgDTO);
+                }
+            }
+            catch(Exception ex)
             {
-                ai.OnGroupMsgReceived(MsgDTO);
+                Common.SendMsgToDeveloper(ex);
             }
         }
 
@@ -122,6 +133,24 @@ namespace AILib
                 }
                 ai.OnPrivateMsgReceived(MsgDTO);
             }
+        }
+
+        private static string GenCommand(ref string msg)
+        {
+            if(string.IsNullOrEmpty(msg))
+            {
+                return string.Empty;
+            }
+
+            string[] strs = msg.Split(new char[] { ' ' });
+            if(strs == null || strs.Length == 0)
+            {
+                return string.Empty;
+            }
+
+            string command = strs[0];
+            msg = msg.Substring(command.Length, msg.Length - command.Length);
+            return command;
         }
 
         [AIDebug(EntrancePoint = "AIMgr_WorkingAIList")]

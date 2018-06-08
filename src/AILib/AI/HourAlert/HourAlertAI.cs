@@ -132,27 +132,34 @@ namespace AILib
                 return false;
             }
 
-            string authority = CQ.GetGroupMemberInfo(fromGroup, fromQQ).Authority;
-            if(authority != "群主" && authority != "管理员")
+            try
             {
+                string authority = CQ.GetGroupMemberInfo(fromGroup, fromQQ).Authority;
+                if (authority != "群主" && authority != "管理员")
+                {
+                    return false;
+                }
+
+                if (msg == "报时 开启")
+                {
+                    AvailableStateChange(fromGroup, true);
+                    CQ.SendGroupMessage(fromGroup, "报时功能已开启！");
+                    return true;
+                }
+                if (msg == "报时 关闭")
+                {
+                    AvailableStateChange(fromGroup, false);
+                    CQ.SendGroupMessage(fromGroup, "报时功能已关闭！");
+                    return true;
+                }
+
                 return false;
             }
-
-            if (msg == "报时 开启")
+            catch(Exception ex)
             {
-                AvailableStateChange(fromGroup, true);
-                CQ.SendGroupMessage(fromGroup, "报时功能已开启！");
-                return true;
+                Common.SendMsgToDeveloper(ex);
+                return false;
             }
-            if(msg == "报时 关闭")
-            {
-                AvailableStateChange(fromGroup, false);
-                CQ.SendGroupMessage(fromGroup, "报时功能已关闭！");
-                return true;
-            }
-
-
-            return false;
         }
 
         private void AvailableStateChange(long groupNumber, bool state)

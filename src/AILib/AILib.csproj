@@ -77,6 +77,7 @@
     <Compile Include="Base\AIAttribute.cs" />
     <Compile Include="Base\AIBase.cs" />
     <Compile Include="Base\AIDebugAttribute.cs" />
+    <Compile Include="Base\EnterCommandAttribute.cs" />
     <Compile Include="Common\Common.cs" />
     <Compile Include="DTO\AIConfigDTO.cs" />
     <Compile Include="DTO\AIInfoDTO.cs" />

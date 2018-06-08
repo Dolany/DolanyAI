@@ -21,5 +21,7 @@ namespace AILib
         public string msg { get; set; }
 
         public int font { get; set; }
+
+        public string command { get; set; }
     }
 }
