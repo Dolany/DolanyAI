@@ -28,7 +28,7 @@ namespace AILib
                     var enterAttr = attr as EnterCommandAttribute;
                     if (enterAttr.Command != MsgDTO.command || enterAttr.SourceType != MsgType.Group)
                     {
-                        break;
+                        continue;
                     }
                     t.InvokeMember(method.Name,
                             BindingFlags.InvokeMethod,
@@ -36,7 +36,7 @@ namespace AILib
                             this,
                             new object[] { MsgDTO }
                             );
-                    break;
+                    return;
                 }
             }
         }
@@ -51,7 +51,7 @@ namespace AILib
                     var enterAttr = attr as EnterCommandAttribute;
                     if (enterAttr.Command != MsgDTO.command || enterAttr.SourceType != MsgType.Private)
                     {
-                        break;
+                        continue;
                     }
                     t.InvokeMember(method.Name,
                             BindingFlags.InvokeMethod,
@@ -59,7 +59,7 @@ namespace AILib
                             this,
                             new object[] { MsgDTO }
                             );
-                    break;
+                    return;
                 }
             }
         }

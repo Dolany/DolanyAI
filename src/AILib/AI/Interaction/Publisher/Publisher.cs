@@ -24,21 +24,16 @@ namespace AILib
 
         }
 
-        public override void OnPrivateMsgReceived(PrivateMsgDTO MsgDTO)
+        [EnterCommand(Command = "PublishRec", SourceType = MsgType.Private)]
+        public void PublishRec(PrivateMsgDTO MsgDTO)
         {
-            base.OnPrivateMsgReceived(MsgDTO);
+            PublishRec(MsgDTO.msg);
+        }
 
-            if(MsgDTO.msg.StartsWith("PublishRec "))
-            {
-                PublishRec(MsgDTO.msg.Replace("PublishRec ", ""));
-                return;
-            }
-
-            if(MsgDTO.msg.StartsWith("PublishTo "))
-            {
-                PublishTo(MsgDTO.msg.Replace("PublishTo ", ""));
-                return;
-            }
+        [EnterCommand(Command = "PublishTo", SourceType = MsgType.Private)]
+        public void PublishTo(PrivateMsgDTO MsgDTO)
+        {
+            PublishTo(MsgDTO.msg);
         }
 
         private void PublishRec(string msg)

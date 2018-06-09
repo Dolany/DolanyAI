@@ -153,7 +153,7 @@ namespace AILib
             }
 
             string command = strs[0];
-            msg = msg.Substring(command.Length, msg.Length - command.Length);
+            msg = msg.Substring(command.Length, msg.Length - command.Length).Trim();
             return command;
         }
 

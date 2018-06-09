@@ -64,43 +64,26 @@ namespace AILib
                 string smsg = SaveSaying(info, MsgDTO.fromGroup) ? "语录录入成功！" : "语录录入失败！";
                 MsgSender.Instance.PushMsg(new SendMsgDTO()
                 {
-                    Aim = MsgDTO.fromQQ,
+                    Aim = MsgDTO.fromGroup,
                     Type = MsgType.Group,
                     Msg = smsg
                 });
                 return;
             }
 
-            if (string.IsNullOrEmpty(MsgDTO.msg.Trim()))
+            string keyword = string.IsNullOrEmpty(MsgDTO.msg.Trim()) ? null : MsgDTO.msg;
+            string ranSaying = GetRanSaying(MsgDTO.fromGroup, keyword);
+            if (string.IsNullOrEmpty(ranSaying))
             {
-                string ranSaying = GetRanSaying(MsgDTO.fromGroup);
-                if (string.IsNullOrEmpty(ranSaying))
-                {
-                    return;
-                }
-
-                MsgSender.Instance.PushMsg(new SendMsgDTO()
-                {
-                    Aim = MsgDTO.fromQQ,
-                    Type = MsgType.Group,
-                    Msg = ranSaying
-                });
+                return;
             }
-            else
+
+            MsgSender.Instance.PushMsg(new SendMsgDTO()
             {
-                string ranSaying = GetRanSaying(MsgDTO.fromGroup, MsgDTO.msg);
-                if (string.IsNullOrEmpty(ranSaying))
-                {
-                    return;
-                }
-
-                MsgSender.Instance.PushMsg(new SendMsgDTO()
-                {
-                    Aim = MsgDTO.fromQQ,
-                    Type = MsgType.Group,
-                    Msg = ranSaying
-                });
-            }
+                Aim = MsgDTO.fromGroup,
+                Type = MsgType.Group,
+                Msg = ranSaying
+            });
         }
 
         private bool SaveSaying(SayingInfo info, long fromGroup)
