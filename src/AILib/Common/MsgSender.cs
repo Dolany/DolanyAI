@@ -22,6 +22,8 @@ namespace AILib
             timer.AutoReset = true;
             timer.Enabled = true;
             timer.Elapsed += new System.Timers.ElapsedEventHandler(TimerUp);
+
+            timer.Start();
         }
 
         private void TimerUp(object sender, System.Timers.ElapsedEventArgs e)
@@ -63,12 +65,12 @@ namespace AILib
 
         private void SendAllMsgs()
         {
-            lock (MsgQueue)
+            lock(MsgQueue)
             {
-                while(MsgQueue.Count() > 0)
+                while (MsgQueue.Count() > 0)
                 {
                     var msg = MsgQueue.Dequeue();
-                    switch(msg.Type)
+                    switch (msg.Type)
                     {
                         case MsgType.Group:
                             CQ.SendGroupMessage(msg.Aim, msg.Msg);
