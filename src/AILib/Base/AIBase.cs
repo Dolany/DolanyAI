@@ -23,7 +23,7 @@ namespace AILib
             Type t = this.GetType();
             foreach(var method in t.GetMethods())
             {
-                foreach(var attr in method.GetCustomAttributes(typeof(EnterCommandAttribute)))
+                foreach(var attr in method.GetCustomAttributes(typeof(EnterCommandAttribute), false))
                 {
                     var enterAttr = attr as EnterCommandAttribute;
                     if (enterAttr.Command != MsgDTO.command || enterAttr.SourceType != MsgSourceType.Group)
@@ -31,11 +31,12 @@ namespace AILib
                         break;
                     }
                     t.InvokeMember(method.Name,
-                            BindingFlags.Default,
+                            BindingFlags.InvokeMethod,
                             null,
                             this,
                             new object[] { MsgDTO }
                             );
+                    break;
                 }
             }
         }
@@ -45,7 +46,7 @@ namespace AILib
             Type t = this.GetType();
             foreach (var method in t.GetMethods())
             {
-                foreach (var attr in method.GetCustomAttributes(typeof(EnterCommandAttribute)))
+                foreach (var attr in method.GetCustomAttributes(typeof(EnterCommandAttribute), false))
                 {
                     var enterAttr = attr as EnterCommandAttribute;
                     if (enterAttr.Command != MsgDTO.command || enterAttr.SourceType != MsgSourceType.Private)
@@ -53,11 +54,12 @@ namespace AILib
                         break;
                     }
                     t.InvokeMember(method.Name,
-                            BindingFlags.Default,
+                            BindingFlags.InvokeMethod,
                             null,
                             this,
                             new object[] { MsgDTO }
                             );
+                    break;
                 }
             }
         }

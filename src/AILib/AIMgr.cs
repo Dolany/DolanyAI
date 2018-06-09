@@ -100,7 +100,7 @@ namespace AILib
                 }
 
                 string msg = MsgDTO.msg;
-                string command = GenCommand(ref msg);
+                MsgDTO.command = GenCommand(ref msg);
                 MsgDTO.msg = msg;
 
                 foreach (var ai in AIList)
@@ -126,7 +126,7 @@ namespace AILib
             }
 
             string msg = MsgDTO.msg;
-            string command = GenCommand(ref msg);
+            MsgDTO.command = GenCommand(ref msg);
             MsgDTO.msg = msg;
 
             foreach (var ai in AIList)
