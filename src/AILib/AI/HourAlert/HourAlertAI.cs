@@ -109,18 +109,16 @@ namespace AILib
                 }
 
                 string RanContent = GetRanAlertContent(infoList, groupNum, int.Parse(curHour));
-                CQ.SendGroupMessage(groupNum, $@"到{curHour}点啦！ {RanContent}");
+                MsgSender.Instance.PushMsg(new SendMsgDTO()
+                {
+                    Aim = groupNum,
+                    Type = MsgType.Group,
+                    Msg = $@"到{curHour}点啦！ {RanContent}"
+                });
             }
         }
 
-        //public override void OnGroupMsgReceived(GroupMsgDTO MsgDTO)
-        //{
-        //    base.OnGroupMsgReceived(MsgDTO);
-
-            
-        //}
-
-        [EnterCommand(Command = "报时", SourceType = MsgSourceType.Group)]
+        [EnterCommand(Command = "报时", SourceType = MsgType.Group)]
         public void AlertSet(GroupMsgDTO MsgDTO)
         {
             if (AlertManagement(MsgDTO.msg, MsgDTO.fromQQ, MsgDTO.fromGroup))
@@ -149,13 +147,23 @@ namespace AILib
                 if (msg == "开启")
                 {
                     AvailableStateChange(fromGroup, true);
-                    CQ.SendGroupMessage(fromGroup, "报时功能已开启！");
+                    MsgSender.Instance.PushMsg(new SendMsgDTO()
+                    {
+                        Aim = fromGroup,
+                        Type = MsgType.Group,
+                        Msg = "报时功能已开启！"
+                    });
                     return true;
                 }
                 if (msg == "关闭")
                 {
                     AvailableStateChange(fromGroup, false);
-                    CQ.SendGroupMessage(fromGroup, "报时功能已关闭！");
+                    MsgSender.Instance.PushMsg(new SendMsgDTO()
+                    {
+                        Aim = fromGroup,
+                        Type = MsgType.Group,
+                        Msg = "报时功能已关闭！"
+                    });
                     return true;
                 }
 
@@ -206,11 +214,21 @@ namespace AILib
 
             if(SaveAlertContent(info))
             {
-                CQ.SendGroupMessage(fromGroup, "报时内容保存成功！");
+                MsgSender.Instance.PushMsg(new SendMsgDTO()
+                {
+                    Aim = fromGroup,
+                    Type = MsgType.Group,
+                    Msg = "报时内容保存成功！"
+                });
             }
             else
             {
-                CQ.SendGroupMessage(fromGroup, "报时内容保存失败！");
+                MsgSender.Instance.PushMsg(new SendMsgDTO()
+                {
+                    Aim = fromGroup,
+                    Type = MsgType.Group,
+                    Msg = "报时内容保存失败！"
+                });
             }
         }
 
@@ -265,20 +283,7 @@ namespace AILib
             }
         }
 
-        //public override void OnPrivateMsgReceived(PrivateMsgDTO MsgDTO)
-        //{
-        //    base.OnPrivateMsgReceived(MsgDTO);
-
-        //    if(!MsgDTO.msg.StartsWith("报时 "))
-        //    {
-        //        return;
-        //    }
-
-        //    string msg = MsgDTO.msg.Replace("报时 ", "");
-            
-        //}
-
-        [EnterCommand(Command = "报时", SourceType = MsgSourceType.Private)]
+        [EnterCommand(Command = "报时", SourceType = MsgType.Private)]
         public void AlertPrivate(PrivateMsgDTO MsgDTO)
         {
             int aimHour;

@@ -26,7 +26,7 @@ namespace AILib
                 foreach(var attr in method.GetCustomAttributes(typeof(EnterCommandAttribute), false))
                 {
                     var enterAttr = attr as EnterCommandAttribute;
-                    if (enterAttr.Command != MsgDTO.command || enterAttr.SourceType != MsgSourceType.Group)
+                    if (enterAttr.Command != MsgDTO.command || enterAttr.SourceType != MsgType.Group)
                     {
                         break;
                     }
@@ -49,7 +49,7 @@ namespace AILib
                 foreach (var attr in method.GetCustomAttributes(typeof(EnterCommandAttribute), false))
                 {
                     var enterAttr = attr as EnterCommandAttribute;
-                    if (enterAttr.Command != MsgDTO.command || enterAttr.SourceType != MsgSourceType.Private)
+                    if (enterAttr.Command != MsgDTO.command || enterAttr.SourceType != MsgType.Private)
                     {
                         break;
                     }

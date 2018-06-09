@@ -79,12 +79,14 @@
     <Compile Include="Base\AIDebugAttribute.cs" />
     <Compile Include="Base\EnterCommandAttribute.cs" />
     <Compile Include="Common\Common.cs" />
+    <Compile Include="Common\MsgSender.cs" />
     <Compile Include="DTO\AIConfigDTO.cs" />
     <Compile Include="DTO\AIInfoDTO.cs" />
     <Compile Include="AI\HourAlert\HourAlertAI.cs" />
     <Compile Include="DTO\GroupMsgDTO.cs" />
     <Compile Include="DTO\PrivateMsgDTO.cs" />
     <Compile Include="Base\EntityBase.cs" />
+    <Compile Include="DTO\SendMsgDTO.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Properties\Settings.Designer.cs">
       <AutoGen>True</AutoGen>

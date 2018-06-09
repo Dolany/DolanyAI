@@ -43,7 +43,7 @@ namespace AILib
         //    InvodeDebug(EntrancePoint);
         //}
 
-        [EnterCommand(Command = "debug", SourceType = MsgSourceType.Private)]
+        [EnterCommand(Command = "debug", SourceType = MsgType.Private)]
         public void Debug(PrivateMsgDTO MsgDTO)
         {
             if (string.IsNullOrEmpty(MsgDTO.msg))

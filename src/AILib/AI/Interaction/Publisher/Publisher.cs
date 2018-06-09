@@ -80,12 +80,22 @@ namespace AILib
             {
                 foreach(var group in ConfigDTO.AimGroups)
                 {
-                    CQ.SendGroupMessage(group, Rec);
+                    MsgSender.Instance.PushMsg(new SendMsgDTO()
+                    {
+                        Aim = group,
+                        Type = MsgType.Group,
+                        Msg = Rec
+                    });
                 }
             }
             else
             {
-                CQ.SendGroupMessage(groupNum, Rec);
+                MsgSender.Instance.PushMsg(new SendMsgDTO()
+                {
+                    Aim = groupNum,
+                    Type = MsgType.Group,
+                    Msg = Rec
+                });
             }
         }
 

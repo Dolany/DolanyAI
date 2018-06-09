@@ -55,14 +55,19 @@ namespace AILib
             return true;
         }
 
-        [EnterCommand(Command = "语录", SourceType = MsgSourceType.Group)]
+        [EnterCommand(Command = "语录", SourceType = MsgType.Group)]
         public void ProcceedMsg(GroupMsgDTO MsgDTO)
         {
             SayingInfo info = SayingInfo.Parse(MsgDTO.msg);
             if (info != null)
             {
                 string smsg = SaveSaying(info, MsgDTO.fromGroup) ? "语录录入成功！" : "语录录入失败！";
-                CQ.SendGroupMessage(MsgDTO.fromQQ, smsg);
+                MsgSender.Instance.PushMsg(new SendMsgDTO()
+                {
+                    Aim = MsgDTO.fromQQ,
+                    Type = MsgType.Group,
+                    Msg = smsg
+                });
                 return;
             }
 
@@ -74,7 +79,12 @@ namespace AILib
                     return;
                 }
 
-                CQ.SendGroupMessage(MsgDTO.fromQQ, ranSaying);
+                MsgSender.Instance.PushMsg(new SendMsgDTO()
+                {
+                    Aim = MsgDTO.fromQQ,
+                    Type = MsgType.Group,
+                    Msg = ranSaying
+                });
             }
             else
             {
@@ -84,7 +94,12 @@ namespace AILib
                     return;
                 }
 
-                CQ.SendGroupMessage(MsgDTO.fromQQ, ranSaying);
+                MsgSender.Instance.PushMsg(new SendMsgDTO()
+                {
+                    Aim = MsgDTO.fromQQ,
+                    Type = MsgType.Group,
+                    Msg = ranSaying
+                });
             }
         }
 
