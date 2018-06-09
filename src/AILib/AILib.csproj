@@ -64,12 +64,11 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="AIMgr.cs" />
+    <Compile Include="AI\AlermClock\AlermClockAI.cs" />
     <Compile Include="AI\CartoonSaying\CartoonSayingAI.cs" />
     <Compile Include="AI\CartoonSaying\SayingInfo.cs" />
     <Compile Include="AI\HourAlert\AlertInfo.cs" />
     <Compile Include="AI\Interaction\Publisher\Publisher.cs" />
-    <Compile Include="AI\Memo\MemoAI.cs" />
-    <Compile Include="AI\Memo\MemoInfo.cs" />
     <Compile Include="AI\Menhera\MenheraPics.cs" />
     <Compile Include="Base\AIAttribute.cs" />
     <Compile Include="Base\AIBase.cs" />
@@ -81,8 +80,10 @@
     <Compile Include="AI\HourAlert\HourAlertAI.cs" />
     <Compile Include="DTO\GroupMsgDTO.cs" />
     <Compile Include="DTO\PrivateMsgDTO.cs" />
-    <Compile Include="Base\EntityBase.cs" />
+    <Compile Include="Entities\DbMgr.cs" />
+    <Compile Include="Entities\EntityBase.cs" />
     <Compile Include="DTO\SendMsgDTO.cs" />
+    <Compile Include="Entities\AlermClockEntity.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Properties\Settings.Designer.cs">
       <AutoGen>True</AutoGen>
@@ -133,12 +134,7 @@
     <Content Include="AI\Interaction\Publisher\PublishRecord.xml">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
-    <Content Include="AI\Memo\Memos.xml">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
   </ItemGroup>
-  <ItemGroup>
-    <Folder Include="Entities\" />
-  </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

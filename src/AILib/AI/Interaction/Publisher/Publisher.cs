@@ -24,13 +24,13 @@ namespace AILib
 
         }
 
-        [EnterCommand(Command = "PublishRec", SourceType = MsgType.Private, IsDeveloperOnly = true)]
+        [EnterCommand(Command = "发布记录", SourceType = MsgType.Private, IsDeveloperOnly = true)]
         public void PublishRec(PrivateMsgDTO MsgDTO)
         {
             PublishRec(MsgDTO.msg);
         }
 
-        [EnterCommand(Command = "PublishTo", SourceType = MsgType.Private, IsDeveloperOnly = true)]
+        [EnterCommand(Command = "发布", SourceType = MsgType.Private, IsDeveloperOnly = true)]
         public void PublishTo(PrivateMsgDTO MsgDTO)
         {
             PublishTo(MsgDTO.msg);
