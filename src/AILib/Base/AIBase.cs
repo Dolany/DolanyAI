@@ -53,6 +53,10 @@ namespace AILib
                     {
                         continue;
                     }
+                    if(enterAttr.IsDeveloperOnly && MsgDTO.fromQQ != Common.DeveloperNumber)
+                    {
+                        continue;
+                    }
                     t.InvokeMember(method.Name,
                             BindingFlags.InvokeMethod,
                             null,
@@ -62,11 +66,6 @@ namespace AILib
                     return;
                 }
             }
-        }
-
-        public virtual bool IsPrivateDeveloperOnly()
-        {
-            return false;
         }
     }
 }

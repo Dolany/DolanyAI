@@ -50,11 +50,6 @@ namespace AILib
             
         }
 
-        public override bool IsPrivateDeveloperOnly()
-        {
-            return true;
-        }
-
         [EnterCommand(Command = "语录", SourceType = MsgType.Group)]
         public void ProcceedMsg(GroupMsgDTO MsgDTO)
         {
@@ -144,12 +139,12 @@ namespace AILib
             return shownSaying;
         }
 
-        [AIDebug(EntrancePoint = "CartoonSayingAI_SayingTotalCount")]
-        public string Debug_SayingTotalCount
+        [EnterCommand(Command = "语录", SourceType = MsgType.Private, IsDeveloperOnly = true)]
+        public void Debug_SayingTotalCount(PrivateMsgDTO MsgDTO)
         {
-            get
+            if(MsgDTO.msg == "总数")
             {
-                return $@"当前记录语录 {SayingList.Count}条";
+                Common.SendMsgToDeveloper($@"共有语录 {SayingList.Count}条");
             }
         }
     }

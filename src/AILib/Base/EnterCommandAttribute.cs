@@ -11,5 +11,6 @@ namespace AILib
     {
         public string Command { get; set; }
         public MsgType SourceType { get; set; }
+        public bool IsDeveloperOnly { get; set; }
     }
 }

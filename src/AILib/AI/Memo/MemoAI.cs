@@ -28,41 +28,16 @@ namespace AILib
 
         }
 
-        public override void OnPrivateMsgReceived(PrivateMsgDTO MsgDTO)
+        [EnterCommand(Command = "备忘", SourceType = MsgType.Group)]
+        private void ProccesMsg(GroupMsgDTO MsgDTO)
         {
-            base.OnPrivateMsgReceived(MsgDTO);
-
-            ProccesMsg(MsgDTO.msg, MsgDTO.fromQQ);
-        }
-
-        public override void OnGroupMsgReceived(GroupMsgDTO MsgDTO)
-        {
-            base.OnGroupMsgReceived(MsgDTO);
-
-            ProccesMsg(MsgDTO.msg, MsgDTO.fromQQ, MsgDTO.fromGroup);
-        }
-
-        private void ProccesMsg(string msg, long fromQQ, long fromGroup = 0)
-        {
-            MemoInfo mInfo = MemoInfo.Parse(msg);
+            MemoInfo mInfo = MemoInfo.Parse(MsgDTO.msg);
             if(mInfo == null || !mInfo.IsValid)
             {
                 return;
             }
 
             // TODO
-        }
-
-        private void SendMemo(MemoInfo mInfo)
-        {
-            if(mInfo.FromGroup == 0)
-            {
-                CQ.SendPrivateMessage(mInfo.Creator, mInfo.Memo);
-            }
-            else
-            {
-                CQ.SendGroupMessage(mInfo.FromGroup, $@"{CQ.CQCode_At(mInfo.Creator)} {mInfo.Memo}");
-            }
         }
     }
 }

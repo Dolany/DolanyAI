@@ -283,23 +283,30 @@ namespace AILib
             }
         }
 
-        [EnterCommand(Command = "报时", SourceType = MsgType.Private)]
+        [EnterCommand(Command = "报时", SourceType = MsgType.Private, IsDeveloperOnly = true)]
         public void AlertPrivate(PrivateMsgDTO MsgDTO)
         {
+            string[] strs = MsgDTO.msg.Split(new char[] { ' ' }, StringSplitOptions.RemoveEmptyEntries);
+            if(strs == null || strs.Length != 2)
+            {
+                return;
+            }
+
             int aimHour;
-            if(!int.TryParse(MsgDTO.msg, out aimHour))
+            if(!int.TryParse(strs[0], out aimHour))
+            {
+                return;
+            }
+
+            long aimGroup;
+            if(!long.TryParse(strs[1], out aimGroup))
             {
                 return;
             }
             var infoList = AllAlertInfos;
 
-            string RanContent = GetRanAlertContent(infoList, 469652754, aimHour);
+            string RanContent = GetRanAlertContent(infoList, aimGroup, aimHour);
             Common.SendMsgToDeveloper($@"到{aimHour}点啦！ {RanContent}");
-        }
-
-        public override bool IsPrivateDeveloperOnly()
-        {
-            return true;
         }
     }
 }

@@ -63,10 +63,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="AI\Config\ConfigAI.cs" />
-    <Compile Include="AI\Config\ConfigCommandAttribute.cs" />
     <Compile Include="AIMgr.cs" />
-    <Compile Include="AI\AIMonitor\AIMonitor.cs" />
     <Compile Include="AI\CartoonSaying\CartoonSayingAI.cs" />
     <Compile Include="AI\CartoonSaying\SayingInfo.cs" />
     <Compile Include="AI\HourAlert\AlertInfo.cs" />
@@ -76,7 +73,6 @@
     <Compile Include="AI\Menhera\MenheraPics.cs" />
     <Compile Include="Base\AIAttribute.cs" />
     <Compile Include="Base\AIBase.cs" />
-    <Compile Include="Base\AIDebugAttribute.cs" />
     <Compile Include="Base\EnterCommandAttribute.cs" />
     <Compile Include="Common\Common.cs" />
     <Compile Include="Common\MsgSender.cs" />

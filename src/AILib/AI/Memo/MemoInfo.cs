@@ -16,12 +16,6 @@ namespace AILib
 
         public static MemoInfo Parse(string msg)
         {
-            if(!msg.StartsWith("备忘 "))
-            {
-                return null;
-            }
-
-            msg = msg.Replace("备忘 ", "");
             string[] strs = msg.Split(new char[] { ' ' }, StringSplitOptions.RemoveEmptyEntries);
             if(strs == null || strs.Length != 2)
             {
