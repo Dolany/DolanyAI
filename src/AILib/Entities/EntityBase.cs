@@ -6,20 +6,9 @@ using System.Threading.Tasks;
 
 namespace AILib.Entities
 {
-    [AttributeUsage(AttributeTargets.Property)]
-    public class PrimaryKeyAttribute : Attribute
-    {
-
-    }
-
-    [AttributeUsage(AttributeTargets.Property)]
-    public class ContentAttribute : Attribute
-    {
-
-    }
-
     public class EntityBase
     {
-
+        public string Id { get; set; }
+        public string Content { get; set; }
     }
 }

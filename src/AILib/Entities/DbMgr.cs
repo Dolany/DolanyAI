@@ -52,21 +52,33 @@ namespace AILib.Entities
 
         public static void Add(EntityBase entity)
         {
+            string EntityName = entity.GetType().Name;
             // TODO
         }
 
         public static void Modify(EntityBase entity)
         {
+            string EntityName = entity.GetType().Name;
             // TODO
         }
 
         public static void Delete(EntityBase entity)
         {
+            string EntityName = entity.GetType().Name;
+            // TODO
+        }
+
+        public static void Delete<Entity>(Expression<Func<Entity, bool>> express) where Entity : EntityBase
+        {
+            Type t = typeof(Entity);
+            string EntityName = t.Name;
             // TODO
         }
 
         public static Entity Get<Entity>(string Id) where Entity : EntityBase
         {
+            Type t = typeof(Entity);
+            string EntityName = t.Name;
             // TODO
 
             return null;
@@ -74,6 +86,8 @@ namespace AILib.Entities
 
         public static IEnumerable<Entity> Query<Entity>(Expression<Func<Entity, bool>> express) where Entity : EntityBase
         {
+            Type t = typeof(Entity);
+            string EntityName = t.Name;
             // TODO
 
             return null;
