@@ -68,6 +68,9 @@ namespace Flexlive.CQP.CSharpPlugins.Demo
             //完成插件线程、全局变量等自身运行所必须的初始化工作。
             try
             {
+                // 初始化xml
+                DbMgr.InitXml();
+
                 // 获取可用AI列表
                 var AIs = AIMgr.AllAIs;
                 if (AIs.Count == 0)
