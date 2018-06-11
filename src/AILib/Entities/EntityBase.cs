@@ -28,7 +28,7 @@ namespace AILib.Entities
         public XmlElement ToElement(XmlDocument doc)
         {
             XmlElement ele = doc.CreateElement(EntityName);
-            ele.Value = Content;
+            ele.InnerText = Content;
 
             Type t = this.GetType();
             foreach(var prop in t.GetProperties())
@@ -43,7 +43,7 @@ namespace AILib.Entities
                     this,
                     null
                     );
-                ele.SetAttribute(prop.Name, propValue as string);
+                ele.SetAttribute(prop.Name, propValue.ToString());
             }
 
             return ele;
@@ -57,7 +57,7 @@ namespace AILib.Entities
                 return null;
             }
 
-            entity.Content = ele.Value;
+            entity.Content = ele.InnerText;
             Type t = typeof(Entity);
             foreach (var prop in t.GetProperties())
             {
@@ -65,12 +65,7 @@ namespace AILib.Entities
                 {
                     continue;
                 }
-                t.InvokeMember(prop.Name,
-                    BindingFlags.SetProperty,
-                    null,
-                    entity,
-                    new object[] {ele.GetAttribute(prop.Name) }
-                    );
+                prop.SetValue(entity, Convert.ChangeType(ele.GetAttribute(prop.Name), prop.PropertyType));
             }
 
             return entity;

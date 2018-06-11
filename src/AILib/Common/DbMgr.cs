@@ -14,7 +14,7 @@ namespace AILib
 {
     public static class DbMgr
     {
-        private static string DateFolderPath = "./Data/";
+        private static string DateFolderPath = "./DbData/";
 
         public static void InitXml()
         {
@@ -51,9 +51,9 @@ namespace AILib
             }
         }
 
-        public static void Add(EntityBase entity)
+        public static void Insert(EntityBase entity)
         {
-            string EntityName = entity.GetType().Name;
+            string EntityName = entity.GetType().Name.Replace("Entity", "");
             XmlDocument doc = GetDocument(EntityName);
             XmlElement ele = entity.ToElement(doc);
             XmlNode root = doc.FirstChild;
@@ -61,9 +61,9 @@ namespace AILib
             doc.Save(EntityFilePath(EntityName));
         }
 
-        public static bool Modify(EntityBase entity)
+        public static bool Update(EntityBase entity)
         {
-            string EntityName = entity.GetType().Name;
+            string EntityName = entity.GetType().Name.Replace("Entity", "");
             XmlDocument doc = GetDocument(EntityName);
             XmlNode root = doc.FirstChild;
             foreach (XmlElement ele in root.ChildNodes)
@@ -71,6 +71,7 @@ namespace AILib
                 if (entity.Id == ele.GetAttribute("Id"))
                 {
                     root.ReplaceChild(entity.ToElement(doc), ele);
+                    doc.Save(EntityFilePath(EntityName));
                     return true;
                 }
             }
@@ -81,7 +82,7 @@ namespace AILib
         public static bool Delete<Entity>(string Id) where Entity : EntityBase, new()
         {
             Type t = typeof(Entity);
-            string EntityName = t.Name;
+            string EntityName = t.Name.Replace("Entity", "");
             XmlDocument doc = GetDocument(EntityName);
             XmlNode root = doc.FirstChild;
             foreach (XmlElement ele in root.ChildNodes)
@@ -90,6 +91,7 @@ namespace AILib
                 if (entity.Id == Id)
                 {
                     root.RemoveChild(ele);
+                    doc.Save(EntityFilePath(EntityName));
                     return true;
                 }
             }
@@ -100,7 +102,7 @@ namespace AILib
         public static int Delete<Entity>(Expression<Func<Entity, bool>> express) where Entity : EntityBase, new()
         {
             Type t = typeof(Entity);
-            string EntityName = t.Name;
+            string EntityName = t.Name.Replace("Entity", "");
             XmlDocument doc = GetDocument(EntityName);
             XmlNode root = doc.FirstChild;
             List<XmlElement> list = new List<XmlElement>();
@@ -116,14 +118,14 @@ namespace AILib
             {
                 root.RemoveChild(ele);
             }
-
+            doc.Save(EntityFilePath(EntityName));
             return list.Count;
         }
 
         public static Entity Get<Entity>(string Id) where Entity : EntityBase, new()
         {
             Type t = typeof(Entity);
-            string EntityName = t.Name;
+            string EntityName = t.Name.Replace("Entity", "");
             XmlDocument doc = GetDocument(EntityName);
             XmlNode root = doc.FirstChild;
             foreach(XmlElement ele in root.ChildNodes)
@@ -138,17 +140,18 @@ namespace AILib
             return null;
         }
 
-        public static IEnumerable<Entity> Query<Entity>(Expression<Func<Entity, bool>> express) where Entity : EntityBase, new()
+        public static IEnumerable<Entity> Query<Entity>(Expression<Func<Entity, bool>> express = null) 
+            where Entity : EntityBase, new()
         {
             Type t = typeof(Entity);
-            string EntityName = t.Name;
+            string EntityName = t.Name.Replace("Entity", "");
             XmlDocument doc = GetDocument(EntityName);
             XmlNode root = doc.FirstChild;
             List<Entity> list = new List<Entity>();
             foreach (XmlElement ele in root.ChildNodes)
             {
                 Entity entity = EntityBase.FromElement<Entity>(ele);
-                if (express.Compile()(entity))
+                if (express == null || express.Compile()(entity))
                 {
                     list.Add(entity);
                 }

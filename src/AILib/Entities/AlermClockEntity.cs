@@ -9,18 +9,18 @@ namespace AILib.Entities
     public class AlermClockEntity : EntityBase
     {
         [DataColumn]
-        public long? GroupNumber { get; set; }
+        public long GroupNumber { get; set; }
 
         [DataColumn]
-        public long? Creator { get; set; }
+        public long Creator { get; set; }
 
         [DataColumn]
-        public DateTime? CreateTime { get; set; }
+        public DateTime CreateTime { get; set; }
 
         [DataColumn]
-        public int? AimHourt { get; set; }
+        public int AimHourt { get; set; }
 
         [DataColumn]
-        public int? AimMinute { get; set; }
+        public int AimMinute { get; set; }
     }
 }
