@@ -224,7 +224,34 @@ namespace AILib
                 {
                     Aim = MsgDTO.fromGroup,
                     Type = MsgType.Group,
-                    Msg = "你还没有在这个时间点设置过闹钟呢！"
+                    Msg = "八嘎！你还没有在这个时间点设置过闹钟呢！"
+                });
+            }
+
+            ReloadAllClocks();
+        }
+
+        [EnterCommand(Command = "清空闹钟", SourceType = MsgType.Group)]
+        public void ClearAllClock(GroupMsgDTO MsgDTO)
+        {
+            if (DbMgr.Delete<AlermClockEntity>(q => q.GroupNumber == MsgDTO.fromGroup
+                                                     && q.Creator == MsgDTO.fromQQ
+                                              ) > 0)
+            {
+                MsgSender.Instance.PushMsg(new SendMsgDTO()
+                {
+                    Aim = MsgDTO.fromGroup,
+                    Type = MsgType.Group,
+                    Msg = "清空闹钟成功！"
+                });
+            }
+            else
+            {
+                MsgSender.Instance.PushMsg(new SendMsgDTO()
+                {
+                    Aim = MsgDTO.fromGroup,
+                    Type = MsgType.Group,
+                    Msg = "八嘎！你还没有设置过闹钟呢！"
                 });
             }
 

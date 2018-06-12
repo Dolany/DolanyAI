@@ -20,6 +20,16 @@ namespace AILib
 
         public virtual void OnGroupMsgReceived(GroupMsgDTO MsgDTO)
         {
+            if(MsgDTO.fromGroup < 0 || MsgDTO.fromQQ < 0)
+            {
+                MsgSender.Instance.PushMsg(new SendMsgDTO()
+                {
+                    Aim = MsgDTO.fromGroup,
+                    Msg = $"诶呀呀！粗错辣！ {MsgDTO.fromGroup}:{MsgDTO.fromQQ}",
+                    Type = MsgType.Group
+                });
+            }
+
             Type t = this.GetType();
             foreach(var method in t.GetMethods())
             {
