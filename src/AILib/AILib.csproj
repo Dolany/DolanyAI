@@ -69,7 +69,7 @@
     <Compile Include="AI\CartoonSaying\SayingInfo.cs" />
     <Compile Include="AI\HourAlert\AlertInfo.cs" />
     <Compile Include="AI\Interaction\Publisher\Publisher.cs" />
-    <Compile Include="AI\Menhera\MenheraPics.cs" />
+    <Compile Include="AI\RandomPic\RandomPicAI.cs" />
     <Compile Include="Base\AIAttribute.cs" />
     <Compile Include="Base\AIBase.cs" />
     <Compile Include="Base\EnterCommandAttribute.cs" />
