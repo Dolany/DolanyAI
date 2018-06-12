@@ -5,13 +5,19 @@ using System.Text;
 using System.Threading.Tasks;
 using AILib.Entities;
 using Flexlive.CQP.Framework;
+using System.Timers;
 
 namespace AILib
 {
+    public class TimerEx : Timer
+    {
+        public AlermClockEntity ClockEntity { get; set; }
+    }
+
     [AI(Name = "AlermClockAI", Description = "AI for Alerm Clock.", IsAvailable = true)]
     public class AlermClockAI : AIBase
     {
-        private List<AlermClockEntity> ClockList = new List<AlermClockEntity>();
+        private List<TimerEx> ClockList = new List<TimerEx>();
 
         public AlermClockAI(AIConfigDTO ConfigDTO)
             : base(ConfigDTO)
@@ -21,20 +27,30 @@ namespace AILib
 
         public override void Work()
         {
-            LoadAllClocks();
+            ReloadAllClocks();
         }
 
-        private void LoadAllClocks()
+        private void ReloadAllClocks()
         {
-            var clocks = DbMgr.Query<AlermClockEntity>();
-            if(clocks == null || clocks.Count() == 0)
+            lock(ClockList)
             {
-                return;
-            }
+                foreach (var clock in ClockList)
+                {
+                    clock.Stop();
+                    clock.Enabled = false;
+                }
+                ClockList.Clear();
 
-            foreach(var clock in clocks)
-            {
-                StartClock(clock);
+                var clocks = DbMgr.Query<AlermClockEntity>();
+                if (clocks == null || clocks.Count() == 0)
+                {
+                    return;
+                }
+
+                foreach (var clock in clocks)
+                {
+                    StartClock(clock);
+                }
             }
         }
 
@@ -70,6 +86,11 @@ namespace AILib
             };
 
             InsertClock(entity, MsgDTO);
+        }
+        [EnterCommand(Command = "设定闹钟", SourceType = MsgType.Group)]
+        public void SetClock_Mirror(GroupMsgDTO MsgDTO)
+        {
+            SetClock(MsgDTO);
         }
 
         private void InsertClock(AlermClockEntity entity, GroupMsgDTO MsgDTO)
@@ -115,7 +136,34 @@ namespace AILib
 
         private void StartClock(AlermClockEntity entity)
         {
-            // TODO
+            TimerEx timer = new TimerEx();
+            timer.ClockEntity = entity;
+            timer.Enabled = true;
+            timer.Interval = GetNextInterval(entity.AimHourt, entity.AimMinute);
+            ClockList.Add(timer);
+            timer.Elapsed += TimeUp;
+            timer.AutoReset = false;
+
+            timer.Start();
+        }
+
+        private void TimeUp(object sender, ElapsedEventArgs e)
+        {
+            lock(ClockList)
+            {
+                TimerEx timer = sender as TimerEx;
+                timer.Stop();
+
+                MsgSender.Instance.PushMsg(new SendMsgDTO()
+                {
+                    Aim = timer.ClockEntity.GroupNumber,
+                    Type = MsgType.Group,
+                    Msg = $@"{CQ.CQCode_At(timer.ClockEntity.Creator)} {timer.ClockEntity.Content}"
+                });
+
+                timer.Interval = GetNextInterval(timer.ClockEntity.AimHourt, timer.ClockEntity.AimMinute);
+                timer.Start();
+            }
         }
 
         [EnterCommand(Command = "我的闹钟", SourceType = MsgType.Group)]
@@ -179,6 +227,8 @@ namespace AILib
                     Msg = "你还没有在这个时间点设置过闹钟呢！"
                 });
             }
+
+            ReloadAllClocks();
         }
 
         private (int hour, int minute)? GenTimeFromStr(string timeStr)
@@ -202,6 +252,18 @@ namespace AILib
             }
 
             return (hour, minute);
+        }
+
+        private int GetNextInterval(int hour, int minute)
+        {
+            DateTime now = DateTime.Now;
+            DateTime aimTime = new DateTime(now.Year, now.Month, now.Day, hour, minute, 0);
+            if(aimTime < now)
+            {
+                aimTime = aimTime.AddDays(1);
+            }
+
+            return (int)(aimTime - now).TotalMilliseconds;
         }
     }
 }

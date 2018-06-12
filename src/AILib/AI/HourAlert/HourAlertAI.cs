@@ -79,10 +79,10 @@ namespace AILib
 
             timer.AutoReset = false;
             timer.Enabled = true;
-            timer.Elapsed += new System.Timers.ElapsedEventHandler(TimerUp);
+            timer.Elapsed += new System.Timers.ElapsedEventHandler(TimeUp);
         }
 
-        private void TimerUp(object sender, System.Timers.ElapsedEventArgs e)
+        private void TimeUp(object sender, System.Timers.ElapsedEventArgs e)
         {
             timer.Stop();
             HourAlert(DateTime.Now.Hour.ToString());

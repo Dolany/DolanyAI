@@ -72,12 +72,12 @@ namespace AILib
                     var msg = MsgQueue.Dequeue();
                     if(msg.Aim < 0)
                     {
-                        Logger.Log($@"Send Negative Number:{msg.Aim}");
+                        Logger.Log($@"SendTo Negative Number:{msg.Aim}");
                         continue;
                     }
                     if(msg.Aim > 2147483647)
                     {
-                        Logger.Log($@"Send Extra Big Number:{msg.Aim}");
+                        Logger.Log($@"SendTo Extra Big Number:{msg.Aim}");
                     }
 
                     switch (msg.Type)
