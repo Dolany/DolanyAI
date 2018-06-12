@@ -54,6 +54,7 @@ namespace AILib
             }
         }
 
+        [EnterCommand(Command = "设定闹钟", SourceType = MsgType.Group)]
         [EnterCommand(Command = "设置闹钟", SourceType = MsgType.Group)]
         public void SetClock(GroupMsgDTO MsgDTO)
         {
@@ -86,11 +87,6 @@ namespace AILib
             };
 
             InsertClock(entity, MsgDTO);
-        }
-        [EnterCommand(Command = "设定闹钟", SourceType = MsgType.Group)]
-        public void SetClock_Mirror(GroupMsgDTO MsgDTO)
-        {
-            SetClock(MsgDTO);
         }
 
         private void InsertClock(AlermClockEntity entity, GroupMsgDTO MsgDTO)
@@ -177,7 +173,7 @@ namespace AILib
                 {
                     Aim = MsgDTO.fromGroup,
                     Type = MsgType.Group,
-                    Msg = $@"{CQ.CQCode_At(MsgDTO.fromQQ)} 你当前没有设定闹钟！"
+                    Msg = $@"{CQ.CQCode_At(MsgDTO.fromQQ)} 你还没有设定闹钟呢！"
                 });
                 return;
             }

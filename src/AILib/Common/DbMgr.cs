@@ -33,7 +33,7 @@ namespace AILib
                 FileInfo fileInfo = new FileInfo(FilePath);
                 if (fileInfo.Exists)
                 {
-                    return;
+                    continue;
                 }
 
                 try

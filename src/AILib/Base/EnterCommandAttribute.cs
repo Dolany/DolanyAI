@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace AILib
 {
-    [System.AttributeUsage(System.AttributeTargets.Method)]
+    [System.AttributeUsage(System.AttributeTargets.Method, AllowMultiple = true)]
     public class EnterCommandAttribute : Attribute
     {
         public string Command { get; set; }
