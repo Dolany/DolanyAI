@@ -23,19 +23,7 @@ namespace AILib
         {
             if (MsgDTO.fromQQ < 0)
             {
-                var entities = DbMgr.Query<QQNumReflectEntity>(q => q.FakeNum == MsgDTO.fromQQ);
-                if(entities == null || entities.Count() == 0)
-                {
-                    DbMgr.Insert(new LogEntity()
-                    {
-                        Id = Guid.NewGuid().ToString(),
-                        CreateTime = DateTime.Now,
-                        Content = $"诶呀呀！粗错辣！{MsgDTO.fromGroup}:{MsgDTO.fromQQ}"
-                    });
-                    return;
-                }
-
-                MsgDTO.fromQQ = long.Parse(entities.FirstOrDefault().Content);
+                MsgDTO.fromQQ = MsgDTO.fromQQ & 0xFFFFFFFF;
             }
 
             Type t = this.GetType();
