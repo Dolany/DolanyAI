@@ -4,15 +4,13 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Xml.Linq;
-using Flexlive.CQP.Framework;
+using AILib.Entities;
 
 namespace AILib
 {
     [AI(Name = "Publisher", Description = "AI for Publishing Developing Record.", IsAvailable = true)]
     public class Publisher : AIBase
     {
-        private string xmlFilePath = @"./AI/Interaction/Publisher/PublishRecord.xml";
-
         public Publisher(AIConfigDTO ConfigDTO)
             : base(ConfigDTO)
         {
@@ -42,12 +40,13 @@ namespace AILib
 
             try
             {
-                XElement root = XElement.Load(xmlFilePath);
-                XElement node = new XElement("Record", msg);
-                node.SetAttributeValue("Index", Index);
-                node.SetAttributeValue("CreateTime", DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss"));
-                root.AddFirst(node);
-                root.Save(xmlFilePath);
+                DbMgr.Insert(new PublishRecordEntity()
+                {
+                    Id = Guid.NewGuid().ToString(),
+                    Content = msg,
+                    CreateTime = DateTime.Now,
+                    Index = Index
+                });
 
                 Common.SendMsgToDeveloper($@"记录成功！序号为：{Index}");
             }
@@ -98,18 +97,13 @@ namespace AILib
         {
             try
             {
-                XElement root = XElement.Load(xmlFilePath);
-                foreach (XElement node in root.Nodes())
+                var query = DbMgr.Query<PublishRecordEntity>(p => p.Index == Index);
+                if(query == null || query.Count() == 0)
                 {
-                    if(node.Attribute("Index").Value != Index)
-                    {
-                        continue;
-                    }
-
-                    return node.Value;
+                    return string.Empty;
                 }
 
-                return string.Empty;
+                return query.FirstOrDefault().Content;
             }
             catch
             {
