@@ -59,7 +59,7 @@ namespace Flexlive.CQP.CSharpPlugins.Demo
             try
             {
                 // 初始化xml
-                DbMgr.InitXml();
+                DbMgr.InitXmls();
 
                 // 获取可用AI列表
                 var AIs = AIMgr.AllAIs;

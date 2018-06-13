@@ -87,6 +87,7 @@
     <Compile Include="Entities\AlermClockEntity.cs" />
     <Compile Include="Entities\GroupConfigEntity.cs" />
     <Compile Include="Entities\LogEntity.cs" />
+    <Compile Include="Entities\QQNumReflectEntity.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Properties\Settings.Designer.cs">
       <AutoGen>True</AutoGen>

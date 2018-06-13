@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Reflection;
+using AILib.Entities;
 
 namespace AILib
 {
@@ -20,14 +21,21 @@ namespace AILib
 
         public virtual void OnGroupMsgReceived(GroupMsgDTO MsgDTO)
         {
-            if(MsgDTO.fromGroup < 0 || MsgDTO.fromQQ < 0)
+            if (MsgDTO.fromQQ < 0)
             {
-                MsgSender.Instance.PushMsg(new SendMsgDTO()
+                var entities = DbMgr.Query<QQNumReflectEntity>(q => q.FakeNum == MsgDTO.fromQQ);
+                if(entities == null || entities.Count() == 0)
                 {
-                    Aim = MsgDTO.fromGroup,
-                    Msg = $"诶呀呀！粗错辣！ {MsgDTO.fromGroup}:{MsgDTO.fromQQ}",
-                    Type = MsgType.Group
-                });
+                    DbMgr.Insert(new LogEntity()
+                    {
+                        Id = Guid.NewGuid().ToString(),
+                        CreateTime = DateTime.Now,
+                        Content = $"诶呀呀！粗错辣！{MsgDTO.fromGroup}:{MsgDTO.fromQQ}"
+                    });
+                    return;
+                }
+
+                MsgDTO.fromQQ = long.Parse(entities.FirstOrDefault().Content);
             }
 
             Type t = this.GetType();

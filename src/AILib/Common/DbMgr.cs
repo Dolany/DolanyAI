@@ -16,7 +16,7 @@ namespace AILib
     {
         private static string DateFolderPath = "./DbData/";
 
-        public static void InitXml()
+        public static void InitXmls()
         {
             Assembly assembly = Assembly.GetExecutingAssembly();
             Type[] typeArr = assembly.GetTypes();
@@ -29,31 +29,37 @@ namespace AILib
                 }
 
                 string EntityName = t.Name.Replace("Entity", "");
-                string FilePath = DateFolderPath + EntityName + ".xml";
-                FileInfo fileInfo = new FileInfo(FilePath);
-                if (fileInfo.Exists)
-                {
-                    continue;
-                }
+                InitXml(EntityName);
+            }
+        }
 
-                try
-                {
-                    XmlDocument doc = new XmlDocument();
-                    XmlElement root = doc.CreateElement(EntityName);
-                    doc.AppendChild(root);
+        private static void InitXml(string EntityName)
+        {
+            string FilePath = EntityFilePath(EntityName);
+            FileInfo fileInfo = new FileInfo(FilePath);
+            if (fileInfo.Exists)
+            {
+                return;
+            }
 
-                    doc.Save(FilePath);
-                }
-                catch (Exception ex)
-                {
-                    Common.SendMsgToDeveloper(ex);
-                }
+            try
+            {
+                XmlDocument doc = new XmlDocument();
+                XmlElement root = doc.CreateElement(EntityName);
+                doc.AppendChild(root);
+
+                doc.Save(FilePath);
+            }
+            catch (Exception ex)
+            {
+                Common.SendMsgToDeveloper(ex);
             }
         }
 
         public static void Insert(EntityBase entity)
         {
             string EntityName = entity.GetType().Name.Replace("Entity", "");
+            InitXml(EntityName);
             XElement root = XElement.Load(EntityFilePath(EntityName));
             XElement ele = entity.ToElement();
             root.Add(ele);
