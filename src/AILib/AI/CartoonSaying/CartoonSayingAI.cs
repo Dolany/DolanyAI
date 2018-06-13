@@ -140,7 +140,7 @@ namespace AILib
         }
 
         [EnterCommand(Command = "语录", SourceType = MsgType.Private, IsDeveloperOnly = true)]
-        public void Debug_SayingTotalCount(PrivateMsgDTO MsgDTO)
+        public void SayingTotalCount(PrivateMsgDTO MsgDTO)
         {
             if(MsgDTO.msg == "总数")
             {
