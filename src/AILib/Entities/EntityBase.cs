@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Xml;
 using System.Reflection;
+using System.Xml.Linq;
 
 namespace AILib.Entities
 {
@@ -25,10 +26,10 @@ namespace AILib.Entities
             }
         }
 
-        public XmlElement ToElement(XmlDocument doc)
+        public XElement ToElement()
         {
-            XmlElement ele = doc.CreateElement(EntityName);
-            ele.InnerText = Content;
+            XElement ele = new XElement(EntityName);
+            ele.SetValue(Content);
 
             Type t = this.GetType();
             foreach(var prop in t.GetProperties())
@@ -43,13 +44,13 @@ namespace AILib.Entities
                     this,
                     null
                     );
-                ele.SetAttribute(prop.Name, propValue.ToString());
+                ele.SetAttributeValue(prop.Name, propValue.ToString());
             }
 
             return ele;
         }
 
-        public static Entity FromElement<Entity>(XmlElement ele) where Entity : EntityBase, new()
+        public static Entity FromElement<Entity>(XElement ele) where Entity : EntityBase, new()
         {
             Entity entity = new Entity();
             if(entity.EntityName != ele.Name)
@@ -57,7 +58,7 @@ namespace AILib.Entities
                 return null;
             }
 
-            entity.Content = ele.InnerText;
+            entity.Content = ele.Value;
             Type t = typeof(Entity);
             foreach (var prop in t.GetProperties())
             {
@@ -65,7 +66,8 @@ namespace AILib.Entities
                 {
                     continue;
                 }
-                prop.SetValue(entity, Convert.ChangeType(ele.GetAttribute(prop.Name), prop.PropertyType));
+                string attrValue = ele.Attribute(prop.Name).Value;
+                prop.SetValue(entity, Convert.ChangeType(attrValue, prop.PropertyType));
             }
 
             return entity;

@@ -54,24 +54,22 @@ namespace AILib
         public static void Insert(EntityBase entity)
         {
             string EntityName = entity.GetType().Name.Replace("Entity", "");
-            XmlDocument doc = GetDocument(EntityName);
-            XmlElement ele = entity.ToElement(doc);
-            XmlNode root = doc.FirstChild;
-            root.AppendChild(ele);
-            doc.Save(EntityFilePath(EntityName));
+            XElement root = XElement.Load(EntityFilePath(EntityName));
+            XElement ele = entity.ToElement();
+            root.Add(ele);
+            root.Save(EntityFilePath(EntityName));
         }
 
         public static bool Update(EntityBase entity)
         {
             string EntityName = entity.GetType().Name.Replace("Entity", "");
-            XmlDocument doc = GetDocument(EntityName);
-            XmlNode root = doc.FirstChild;
-            foreach (XmlElement ele in root.ChildNodes)
+            XElement root = XElement.Load(EntityFilePath(EntityName));
+            foreach (XElement ele in root.Elements())
             {
-                if (entity.Id == ele.GetAttribute("Id"))
+                if (entity.Id == ele.Attribute("Id").Value)
                 {
-                    root.ReplaceChild(entity.ToElement(doc), ele);
-                    doc.Save(EntityFilePath(EntityName));
+                    ele.ReplaceWith(entity.ToElement());
+                    root.Save(EntityFilePath(EntityName));
                     return true;
                 }
             }
@@ -83,15 +81,14 @@ namespace AILib
         {
             Type t = typeof(Entity);
             string EntityName = t.Name.Replace("Entity", "");
-            XmlDocument doc = GetDocument(EntityName);
-            XmlNode root = doc.FirstChild;
-            foreach (XmlElement ele in root.ChildNodes)
+            XElement root = XElement.Load(EntityFilePath(EntityName));
+            foreach (XElement ele in root.Elements())
             {
                 Entity entity = EntityBase.FromElement<Entity>(ele);
                 if (entity.Id == Id)
                 {
-                    root.RemoveChild(ele);
-                    doc.Save(EntityFilePath(EntityName));
+                    ele.Remove();
+                    root.Save(EntityFilePath(EntityName));
                     return true;
                 }
             }
@@ -103,10 +100,9 @@ namespace AILib
         {
             Type t = typeof(Entity);
             string EntityName = t.Name.Replace("Entity", "");
-            XmlDocument doc = GetDocument(EntityName);
-            XmlNode root = doc.FirstChild;
-            List<XmlElement> list = new List<XmlElement>();
-            foreach (XmlElement ele in root.ChildNodes)
+            XElement root = XElement.Load(EntityFilePath(EntityName));
+            List<XElement> list = new List<XElement>();
+            foreach (XElement ele in root.Elements())
             {
                 Entity entity = EntityBase.FromElement<Entity>(ele);
                 if (express.Compile()(entity))
@@ -116,9 +112,9 @@ namespace AILib
             }
             foreach(var ele in list)
             {
-                root.RemoveChild(ele);
+                ele.Remove();
             }
-            doc.Save(EntityFilePath(EntityName));
+            root.Save(EntityFilePath(EntityName));
             return list.Count;
         }
 
@@ -126,9 +122,8 @@ namespace AILib
         {
             Type t = typeof(Entity);
             string EntityName = t.Name.Replace("Entity", "");
-            XmlDocument doc = GetDocument(EntityName);
-            XmlNode root = doc.FirstChild;
-            foreach(XmlElement ele in root.ChildNodes)
+            XElement root = XElement.Load(EntityFilePath(EntityName));
+            foreach (XElement ele in root.Elements())
             {
                 Entity entity = EntityBase.FromElement<Entity>(ele);
                 if(entity.Id == Id)
@@ -145,10 +140,9 @@ namespace AILib
         {
             Type t = typeof(Entity);
             string EntityName = t.Name.Replace("Entity", "");
-            XmlDocument doc = GetDocument(EntityName);
-            XmlNode root = doc.FirstChild;
+            XElement root = XElement.Load(EntityFilePath(EntityName));
             List<Entity> list = new List<Entity>();
-            foreach (XmlElement ele in root.ChildNodes)
+            foreach (XElement ele in root.Elements())
             {
                 Entity entity = EntityBase.FromElement<Entity>(ele);
                 if (express == null || express.Compile()(entity))
@@ -158,13 +152,6 @@ namespace AILib
             }
 
             return list.Count == 0 ? null : list;
-        }
-
-        public static XmlDocument GetDocument(string EntityName)
-        {
-            XmlDocument doc = new XmlDocument();
-            doc.Load(EntityFilePath(EntityName));
-            return doc;
         }
 
         private static string EntityFilePath(string EntityName)
