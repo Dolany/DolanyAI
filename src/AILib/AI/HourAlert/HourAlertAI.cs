@@ -79,6 +79,7 @@ namespace AILib
         private void TimeUp(object sender, System.Timers.ElapsedEventArgs e)
         {
             timer.Stop();
+            System.Threading.Thread.Sleep(3 * 1000);
             HourAlert(DateTime.Now.Hour.ToString());
             timer.Interval = GetNextHourSpan().TotalMilliseconds;
             timer.Start();
@@ -309,6 +310,12 @@ namespace AILib
             }
 
             Common.SendMsgToDeveloper(msg);
+        }
+
+        [EnterCommand(Command = "清空报时", SourceType = MsgType.Group)]
+        public void ClearAlert(GroupMsgDTO MsgDTO)
+        {
+
         }
     }
 }

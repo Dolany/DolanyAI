@@ -147,5 +147,41 @@ namespace AILib
                 Common.SendMsgToDeveloper($@"共有语录 {SayingList.Count}条");
             }
         }
+
+        [EnterCommand(Command = "清空语录", SourceType = MsgType.Group)]
+        public void ClearSayings(GroupMsgDTO MsgDTO)
+        {
+            string authority = CQ.GetGroupMemberInfo(MsgDTO.fromGroup, MsgDTO.fromQQ, true).Authority;
+            if (authority != "群主")
+            {
+                return;
+            }
+
+
+        }
+
+        [EnterCommand(Command = "语录封禁", SourceType = MsgType.Group)]
+        public void SayingSeal(GroupMsgDTO MsgDTO)
+        {
+            string authority = CQ.GetGroupMemberInfo(MsgDTO.fromGroup, MsgDTO.fromQQ, true).Authority;
+            if (authority != "群主")
+            {
+                return;
+            }
+
+
+        }
+
+        [EnterCommand(Command = "语录解封", SourceType = MsgType.Group)]
+        public void SayingDeseal(GroupMsgDTO MsgDTO)
+        {
+            string authority = CQ.GetGroupMemberInfo(MsgDTO.fromGroup, MsgDTO.fromQQ, true).Authority;
+            if (authority != "群主")
+            {
+                return;
+            }
+
+
+        }
     }
 }
