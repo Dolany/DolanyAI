@@ -47,6 +47,12 @@ namespace AILib
             }
 
             var key = keys.FirstOrDefault();
+            var query = DbMgr.Query<SynonymDicEntity>(s => s.Content == key);
+            if(query != null && query.Count() > 0)
+            {
+                key = query.FirstOrDefault().Keyword;
+            }
+
             string RandPic = GetRandPic(key);
 
             SendPic(key + "/" + RandPic, MsgDTO.fromGroup);
@@ -82,6 +88,30 @@ namespace AILib
             ReloadAllKeywords();
 
             Common.SendMsgToDeveloper($"共加载了{Keywords.Count}个图片组");
+        }
+
+        [EnterCommand(Command = "添加同义词", SourceType = MsgType.Private, IsDeveloperOnly = true)]
+        public void AppendSynonym(PrivateMsgDTO MsgDTO)
+        {
+            if(string.IsNullOrEmpty(MsgDTO.msg))
+            {
+                return;
+            }
+
+            string[] strs = MsgDTO.msg.Split(new char[] { ' ' }, StringSplitOptions.RemoveEmptyEntries);
+            if(strs == null || strs.Length != 2)
+            {
+                return;
+            }
+
+            DbMgr.Insert(new SynonymDicEntity()
+            {
+                Id = Guid.NewGuid().ToString(),
+                Keyword = strs[0],
+                Content = strs[1]
+            });
+
+            Common.SendMsgToDeveloper("添加成功！");
         }
     }
 }

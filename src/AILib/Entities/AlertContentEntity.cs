@@ -4,42 +4,45 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace AILib.AI.HourAlert
+namespace AILib.Entities
 {
-    public class AlertInfo
+    public class AlertContentEntity : EntityBase
     {
-        public string AlertContent { get; set; }
+        [DataColumn]
         public long FromGroup { get; set; }
+        [DataColumn]
         public long Creator { get; set; }
-        public DateTime? CreateTime { get; set; }
+        [DataColumn]
+        public DateTime CreateTime { get; set; }
+        [DataColumn]
         public int AimHour { get; set; }
 
-        public static AlertInfo Parse(string msg)
+        public static AlertContentEntity Parse(string msg)
         {
-            if(string.IsNullOrEmpty(msg))
+            if (string.IsNullOrEmpty(msg))
             {
                 return null;
             }
 
             string[] strs = msg.Split(new char[] { ' ' }, StringSplitOptions.RemoveEmptyEntries);
-            if(strs == null || strs.Length != 2)
+            if (strs == null || strs.Length != 2)
             {
                 return null;
             }
 
             int aimHour;
-            if(!int.TryParse(strs[0], out aimHour))
+            if (!int.TryParse(strs[0], out aimHour))
             {
                 return null;
             }
 
-            AlertInfo info = new AlertInfo()
+            AlertContentEntity info = new AlertContentEntity()
             {
-                AlertContent = strs[1],
+                Content = strs[1],
                 AimHour = aimHour
             };
 
-            if(!info.IsValid)
+            if (!info.IsValid)
             {
                 return null;
             }
@@ -51,7 +54,7 @@ namespace AILib.AI.HourAlert
         {
             get
             {
-                return !string.IsNullOrEmpty(AlertContent) && AimHour >= 0 && AimHour <= 23;
+                return !string.IsNullOrEmpty(Content) && AimHour >= 0 && AimHour <= 23;
             }
         }
     }

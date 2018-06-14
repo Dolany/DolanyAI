@@ -1,44 +1,21 @@
-﻿using System;
+﻿using AILib.Entities;
+using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using Flexlive.CQP.Framework;
-using AILib.AI.HourAlert;
-using System.Xml.Linq;
-using AILib.Entities;
 
 namespace AILib
 {
     [AI(Name = "HourAlertAI", Description = "AI for Hour Alert.", IsAvailable = true)]
     public class HourAlertAI : AIBase
     {
-        private string xmlFilePath_Content = @"./AI/HourAlert/AlertContent.xml";
+        private System.Timers.Timer timer;
 
-        System.Timers.Timer timer;
-
-        public List<AlertInfo> AllAlertInfos
+        public List<AlertContentEntity> AllAlertInfos
         {
             get
             {
-                XElement root = XElement.Load(xmlFilePath_Content);
-
-                List<AlertInfo> list = new List<AlertInfo>();
-                foreach (XElement node in root.Nodes())
-                {
-                    AlertInfo s = new AlertInfo()
-                    {
-                        FromGroup = long.Parse(node.Attribute("FromGroup").Value),
-                        Creator = long.Parse(node.Attribute("Creator").Value),
-                        CreateTime = DateTime.Parse(node.Attribute("CreateTime").Value),
-                        AimHour = int.Parse(node.Attribute("AimHour").Value),
-                        AlertContent = node.Value
-                    };
-
-                    list.Add(s);
-                }
-
-                return list;
+                var query = DbMgr.Query<AlertContentEntity>();
+                return query == null ? null : query.ToList();
             }
         }
 
@@ -47,7 +24,7 @@ namespace AILib
             get
             {
                 var query = DbMgr.Query<AlertRegistedGroupEntity>(a => bool.Parse(a.Available));
-                if(query == null)
+                if (query == null)
                 {
                     return null;
                 }
@@ -56,9 +33,8 @@ namespace AILib
         }
 
         public HourAlertAI(AIConfigDTO ConfigDTO)
-            :base(ConfigDTO)
+            : base(ConfigDTO)
         {
-
         }
 
         public override void Work()
@@ -95,7 +71,7 @@ namespace AILib
         {
             var infoList = AllAlertInfos;
             var availableList = AvailableGroups;
-            if(availableList == null || availableList.Count() == 0)
+            if (availableList == null || availableList.Count() == 0)
             {
                 return;
             }
@@ -145,7 +121,7 @@ namespace AILib
         private void AvailableStateChange(long groupNumber, bool state)
         {
             var query = DbMgr.Query<AlertRegistedGroupEntity>(a => long.Parse(a.Content) == groupNumber);
-            if(query == null || query.Count() == 0)
+            if (query == null || query.Count() == 0)
             {
                 DbMgr.Insert(new AlertRegistedGroupEntity()
                 {
@@ -164,8 +140,8 @@ namespace AILib
 
         public void RecordAlertContent(string msg, long fromQQ, long fromGroup)
         {
-            AlertInfo info = AlertInfo.Parse(msg);
-            if(info == null)
+            AlertContentEntity info = AlertContentEntity.Parse(msg);
+            if (info == null)
             {
                 return;
             }
@@ -174,7 +150,7 @@ namespace AILib
             info.Creator = fromQQ;
             info.FromGroup = fromGroup;
 
-            if(SaveAlertContent(info))
+            if (SaveAlertContent(info))
             {
                 MsgSender.Instance.PushMsg(new SendMsgDTO()
                 {
@@ -194,18 +170,12 @@ namespace AILib
             }
         }
 
-        private bool SaveAlertContent(AlertInfo info)
+        private bool SaveAlertContent(AlertContentEntity info)
         {
             try
             {
-                XElement root = XElement.Load(xmlFilePath_Content);
-                XElement node = new XElement("Content", info.AlertContent);
-                node.SetAttributeValue("FromGroup", info.FromGroup.ToString());
-                node.SetAttributeValue("Creator", info.Creator.ToString());
-                node.SetAttributeValue("CreateTime", info.CreateTime.Value.ToString("yyyy-MM-dd HH:mm:ss"));
-                node.SetAttributeValue("AimHour", info.AimHour.ToString());
-                root.Add(node);
-                root.Save(xmlFilePath_Content);
+                info.Id = Guid.NewGuid().ToString();
+                DbMgr.Insert(info);
 
                 return true;
             }
@@ -216,52 +186,44 @@ namespace AILib
             }
         }
 
-        private string GetRanAlertContent(List<AlertInfo> infoList, long fromGroup, int aimHour)
+        private string GetRanAlertContent(List<AlertContentEntity> infoList, long fromGroup, int aimHour)
         {
-            try
+            if (infoList == null || infoList.Count == 0)
             {
-                if(infoList == null || infoList.Count == 0)
-                {
-                    return string.Empty;
-                }
-                var query = from info in infoList
-                            where info.FromGroup == fromGroup && info.AimHour == aimHour
-                            select info;
-                if (query == null || query.Count() == 0)
-                {
-                    return string.Empty;
-                }
-                List<AlertInfo> list = query.ToList();
-
-                Random random = new Random();
-                int randIdx = random.Next(list.Count);
-
-                return list[randIdx].AlertContent;
-            }
-            catch (Exception ex)
-            {
-                Common.SendMsgToDeveloper(ex);
                 return string.Empty;
             }
+            var query = from info in infoList
+                        where info.FromGroup == fromGroup && info.AimHour == aimHour
+                        select info;
+            if (query == null || query.Count() == 0)
+            {
+                return string.Empty;
+            }
+            var list = query.ToList();
+
+            Random random = new Random();
+            int randIdx = random.Next(list.Count);
+
+            return list[randIdx].Content;
         }
 
         [EnterCommand(Command = "报时", SourceType = MsgType.Private, IsDeveloperOnly = true)]
         public void AlertPrivate(PrivateMsgDTO MsgDTO)
         {
             string[] strs = MsgDTO.msg.Split(new char[] { ' ' }, StringSplitOptions.RemoveEmptyEntries);
-            if(strs == null || strs.Length != 2)
+            if (strs == null || strs.Length != 2)
             {
                 return;
             }
 
             int aimHour;
-            if(!int.TryParse(strs[0], out aimHour))
+            if (!int.TryParse(strs[0], out aimHour))
             {
                 return;
             }
 
             long aimGroup;
-            if(!long.TryParse(strs[1], out aimGroup))
+            if (!long.TryParse(strs[1], out aimGroup))
             {
                 return;
             }
@@ -276,7 +238,7 @@ namespace AILib
         {
             var list = AvailableGroups;
             string msg = $"共有群组{list.Count}个";
-            foreach(var l in list)
+            foreach (var l in list)
             {
                 msg += '\r' + l.ToString();
             }

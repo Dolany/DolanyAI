@@ -61,7 +61,6 @@
     <Compile Include="AI\AlermClock\AlermClockAI.cs" />
     <Compile Include="AI\CartoonSaying\CartoonSayingAI.cs" />
     <Compile Include="AI\CartoonSaying\SayingInfo.cs" />
-    <Compile Include="AI\HourAlert\AlertInfo.cs" />
     <Compile Include="AI\Interaction\Publisher\Publisher.cs" />
     <Compile Include="AI\RandomPic\RandomPicAI.cs" />
     <Compile Include="Base\AIAttribute.cs" />
@@ -76,6 +75,7 @@
     <Compile Include="DTO\GroupMsgDTO.cs" />
     <Compile Include="DTO\PrivateMsgDTO.cs" />
     <Compile Include="Common\DbMgr.cs" />
+    <Compile Include="Entities\AlertContentEntity.cs" />
     <Compile Include="Entities\AlertRegistedGroupEntity.cs" />
     <Compile Include="Entities\EntityBase.cs" />
     <Compile Include="DTO\SendMsgDTO.cs" />
@@ -84,6 +84,7 @@
     <Compile Include="Entities\LogEntity.cs" />
     <Compile Include="Entities\PublishRecordEntity.cs" />
     <Compile Include="Entities\QQNumReflectEntity.cs" />
+    <Compile Include="Entities\SynonymDicEntity.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Properties\Settings.Designer.cs">
       <AutoGen>True</AutoGen>
@@ -122,12 +123,6 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="AI\CartoonSaying\Saying.xml">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
-    <Content Include="AI\HourAlert\AlertContent.xml">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
-    <Content Include="AI\HourAlert\AlertRegistedGroup.xml">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
     <Content Include="AI\Interaction\Publisher\PublishRecord.xml">
