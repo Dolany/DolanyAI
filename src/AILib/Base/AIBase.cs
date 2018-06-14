@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Reflection;
-using AILib.Entities;
+using Flexlive.CQP.Framework;
 
 namespace AILib
 {
@@ -36,6 +36,17 @@ namespace AILib
                     {
                         continue;
                     }
+
+                    string authority = CQ.GetGroupMemberInfo(MsgDTO.fromGroup, MsgDTO.fromQQ, true).Authority;
+                    if(enterAttr.AuthorityLevel == AuthorityLevel.群主 && authority != "群主")
+                    {
+                        break;
+                    }
+                    if(enterAttr.AuthorityLevel == AuthorityLevel.管理员 && (authority != "群主" && authority != "管理员"))
+                    {
+                        break;
+                    }
+
                     t.InvokeMember(method.Name,
                             BindingFlags.InvokeMethod,
                             null,

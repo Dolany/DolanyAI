@@ -54,8 +54,8 @@ namespace AILib
             }
         }
 
-        [EnterCommand(Command = "设定闹钟", SourceType = MsgType.Group)]
-        [EnterCommand(Command = "设置闹钟", SourceType = MsgType.Group)]
+        [EnterCommand(Command = "设定闹钟", SourceType = MsgType.Group, AuthorityLevel = AuthorityLevel.成员)]
+        [EnterCommand(Command = "设置闹钟", SourceType = MsgType.Group, AuthorityLevel = AuthorityLevel.成员)]
         public void SetClock(GroupMsgDTO MsgDTO)
         {
             string[] strs = MsgDTO.msg.Split(new char[] { ' ' });
@@ -162,7 +162,7 @@ namespace AILib
             }
         }
 
-        [EnterCommand(Command = "我的闹钟", SourceType = MsgType.Group)]
+        [EnterCommand(Command = "我的闹钟", SourceType = MsgType.Group, AuthorityLevel = AuthorityLevel.成员)]
         public void QueryClock(GroupMsgDTO MsgDTO)
         {
             var allClocks = DbMgr.Query<AlermClockEntity>(q => q.GroupNumber == MsgDTO.fromGroup 
@@ -192,7 +192,7 @@ namespace AILib
             });
         }
 
-        [EnterCommand(Command = "删除闹钟", SourceType = MsgType.Group)]
+        [EnterCommand(Command = "删除闹钟", SourceType = MsgType.Group, AuthorityLevel = AuthorityLevel.成员)]
         public void DeleteClock(GroupMsgDTO MsgDTO)
         {
             (int hour, int minute)? time = GenTimeFromStr(MsgDTO.msg);
@@ -227,7 +227,7 @@ namespace AILib
             ReloadAllClocks();
         }
 
-        [EnterCommand(Command = "清空闹钟", SourceType = MsgType.Group)]
+        [EnterCommand(Command = "清空闹钟", SourceType = MsgType.Group, AuthorityLevel = AuthorityLevel.成员)]
         public void ClearAllClock(GroupMsgDTO MsgDTO)
         {
             if (DbMgr.Delete<AlermClockEntity>(q => q.GroupNumber == MsgDTO.fromGroup

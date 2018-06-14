@@ -112,62 +112,34 @@ namespace AILib
             }
         }
 
-        [EnterCommand(Command = "报时", SourceType = MsgType.Group)]
+        [EnterCommand(Command = "报时", SourceType = MsgType.Group, AuthorityLevel = AuthorityLevel.成员)]
         public void AlertSet(GroupMsgDTO MsgDTO)
         {
-            if (AlertManagement(MsgDTO.msg, MsgDTO.fromQQ, MsgDTO.fromGroup))
-            {
-                return;
-            }
-
             RecordAlertContent(MsgDTO.msg, MsgDTO.fromQQ, MsgDTO.fromGroup);
         }
 
-        private bool AlertManagement(string msg, long fromQQ, long fromGroup)
+        [EnterCommand(Command = "报时开启", SourceType = MsgType.Group, AuthorityLevel = AuthorityLevel.管理员)]
+        public void AlertEnable(GroupMsgDTO MsgDTO)
         {
-            if(string.IsNullOrEmpty(msg))
+            AvailableStateChange(MsgDTO.fromGroup, true);
+            MsgSender.Instance.PushMsg(new SendMsgDTO()
             {
-                return false;
-            }
+                Aim = MsgDTO.fromGroup,
+                Type = MsgType.Group,
+                Msg = "报时功能已开启！"
+            });
+        }
 
-            try
+        [EnterCommand(Command = "报时关闭", SourceType = MsgType.Group, AuthorityLevel = AuthorityLevel.管理员)]
+        public void AlertDisenable(GroupMsgDTO MsgDTO)
+        {
+            AvailableStateChange(MsgDTO.fromGroup, false);
+            MsgSender.Instance.PushMsg(new SendMsgDTO()
             {
-                string authority = CQ.GetGroupMemberInfo(fromGroup, fromQQ, true).Authority;
-                if (authority != "群主" && authority != "管理员")
-                {
-                    return false;
-                }
-
-                if (msg == "开启")
-                {
-                    AvailableStateChange(fromGroup, true);
-                    MsgSender.Instance.PushMsg(new SendMsgDTO()
-                    {
-                        Aim = fromGroup,
-                        Type = MsgType.Group,
-                        Msg = "报时功能已开启！"
-                    });
-                    return true;
-                }
-                if (msg == "关闭")
-                {
-                    AvailableStateChange(fromGroup, false);
-                    MsgSender.Instance.PushMsg(new SendMsgDTO()
-                    {
-                        Aim = fromGroup,
-                        Type = MsgType.Group,
-                        Msg = "报时功能已关闭！"
-                    });
-                    return true;
-                }
-
-                return false;
-            }
-            catch(Exception ex)
-            {
-                Common.SendMsgToDeveloper(ex);
-                return false;
-            }
+                Aim = MsgDTO.fromGroup,
+                Type = MsgType.Group,
+                Msg = "报时功能已关闭！"
+            });
         }
 
         private void AvailableStateChange(long groupNumber, bool state)
@@ -312,7 +284,7 @@ namespace AILib
             Common.SendMsgToDeveloper(msg);
         }
 
-        [EnterCommand(Command = "清空报时", SourceType = MsgType.Group)]
+        [EnterCommand(Command = "清空报时", SourceType = MsgType.Group, AuthorityLevel = AuthorityLevel.群主)]
         public void ClearAlert(GroupMsgDTO MsgDTO)
         {
 

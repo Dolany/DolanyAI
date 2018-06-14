@@ -148,39 +148,21 @@ namespace AILib
             }
         }
 
-        [EnterCommand(Command = "清空语录", SourceType = MsgType.Group)]
+        [EnterCommand(Command = "清空语录", SourceType = MsgType.Group, AuthorityLevel = AuthorityLevel.群主)]
         public void ClearSayings(GroupMsgDTO MsgDTO)
         {
-            string authority = CQ.GetGroupMemberInfo(MsgDTO.fromGroup, MsgDTO.fromQQ, true).Authority;
-            if (authority != "群主")
-            {
-                return;
-            }
-
 
         }
 
-        [EnterCommand(Command = "语录封禁", SourceType = MsgType.Group)]
+        [EnterCommand(Command = "语录封禁", SourceType = MsgType.Group, AuthorityLevel = AuthorityLevel.群主)]
         public void SayingSeal(GroupMsgDTO MsgDTO)
         {
-            string authority = CQ.GetGroupMemberInfo(MsgDTO.fromGroup, MsgDTO.fromQQ, true).Authority;
-            if (authority != "群主")
-            {
-                return;
-            }
-
 
         }
 
-        [EnterCommand(Command = "语录解封", SourceType = MsgType.Group)]
+        [EnterCommand(Command = "语录解封", SourceType = MsgType.Group, AuthorityLevel = AuthorityLevel.群主)]
         public void SayingDeseal(GroupMsgDTO MsgDTO)
         {
-            string authority = CQ.GetGroupMemberInfo(MsgDTO.fromGroup, MsgDTO.fromQQ, true).Authority;
-            if (authority != "群主")
-            {
-                return;
-            }
-
 
         }
     }
