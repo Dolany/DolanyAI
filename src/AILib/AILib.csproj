@@ -76,6 +76,7 @@
     <Compile Include="DTO\GroupMsgDTO.cs" />
     <Compile Include="DTO\PrivateMsgDTO.cs" />
     <Compile Include="Common\DbMgr.cs" />
+    <Compile Include="Entities\AlertRegistedGroupEntity.cs" />
     <Compile Include="Entities\EntityBase.cs" />
     <Compile Include="DTO\SendMsgDTO.cs" />
     <Compile Include="Entities\AlermClockEntity.cs" />

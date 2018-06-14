@@ -15,7 +15,8 @@ namespace AutoRestart
     public partial class Form1 : Form
     {
         private System.Timers.Timer timer = new System.Timers.Timer();
-        private string FileName = @"C:\software\CQA-tuling\酷Q Air\QuickStart.lnk";
+        private string FileName = @"F:\Software\CQA-tuling\酷Q Pro\QuickStart.lnk";
+        private string ProcessName = "CQP";
         private IList<RestartInfo> list = new BindingList<RestartInfo>();
 
         public Form1()
@@ -51,7 +52,7 @@ namespace AutoRestart
 
             foreach(var p in processes)
             {
-                if (p.ProcessName == "CQA")
+                if (p.ProcessName == ProcessName)
                 {
                     return true;
                 }

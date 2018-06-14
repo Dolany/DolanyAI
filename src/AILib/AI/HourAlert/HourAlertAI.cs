@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 using Flexlive.CQP.Framework;
 using AILib.AI.HourAlert;
 using System.Xml.Linq;
+using AILib.Entities;
 
 namespace AILib
 {
@@ -13,7 +14,6 @@ namespace AILib
     public class HourAlertAI : AIBase
     {
         private string xmlFilePath_Content = @"./AI/HourAlert/AlertContent.xml";
-        private string xmlFilePath_Groups = @"./AI/HourAlert/AlertRegistedGroup.xml";
 
         System.Timers.Timer timer;
 
@@ -46,18 +46,12 @@ namespace AILib
         {
             get
             {
-                XElement root = XElement.Load(xmlFilePath_Groups);
-
-                List<long> list = new List<long>();
-                foreach (XElement node in root.Nodes())
+                var query = DbMgr.Query<AlertRegistedGroupEntity>(a => bool.Parse(a.Available));
+                if(query == null)
                 {
-                    if (bool.Parse(node.Attribute("Available").Value))
-                    {
-                        list.Add(long.Parse(node.Value));
-                    }
+                    return null;
                 }
-
-                return list;
+                return query.Select(q => long.Parse(q.Content)).ToList();
             }
         }
 
@@ -100,14 +94,13 @@ namespace AILib
         {
             var infoList = AllAlertInfos;
             var availableList = AvailableGroups;
-
-            foreach (var groupNum in ConfigDTO.AimGroups)
+            if(availableList == null || availableList.Count() == 0)
             {
-                if(!availableList.Contains(groupNum))
-                {
-                    continue;
-                }
+                return;
+            }
 
+            foreach (var groupNum in availableList)
+            {
                 string RanContent = GetRanAlertContent(infoList, groupNum, int.Parse(curHour));
                 MsgSender.Instance.PushMsg(new SendMsgDTO()
                 {
@@ -138,7 +131,7 @@ namespace AILib
 
             try
             {
-                string authority = CQ.GetGroupMemberInfo(fromGroup, fromQQ).Authority;
+                string authority = CQ.GetGroupMemberInfo(fromGroup, fromQQ, true).Authority;
                 if (authority != "群主" && authority != "管理员")
                 {
                     return false;
@@ -178,26 +171,22 @@ namespace AILib
 
         private void AvailableStateChange(long groupNumber, bool state)
         {
-            XElement root = XElement.Load(xmlFilePath_Groups);
-
-            bool isExist = false;
-            foreach (XElement node in root.Nodes())
+            var query = DbMgr.Query<AlertRegistedGroupEntity>(a => long.Parse(a.Content) == groupNumber);
+            if(query == null || query.Count() == 0)
             {
-                if (long.Parse(node.Value) == groupNumber)
+                DbMgr.Insert(new AlertRegistedGroupEntity()
                 {
-                    isExist = true;
-                    node.SetAttributeValue("Available", state.ToString());
-                    break;
-                }
+                    Id = Guid.NewGuid().ToString(),
+                    Content = groupNumber.ToString(),
+                    Available = state.ToString()
+                });
             }
-            if(!isExist)
+            else
             {
-                XElement newNode = new XElement("Group", groupNumber.ToString());
-                newNode.SetAttributeValue("Available", state.ToString());
-                root.Add(newNode);
+                var arg = query.FirstOrDefault();
+                arg.Available = state.ToString();
+                DbMgr.Update(arg);
             }
-            
-            root.Save(xmlFilePath_Groups);
         }
 
         public void RecordAlertContent(string msg, long fromQQ, long fromGroup)
@@ -307,6 +296,19 @@ namespace AILib
 
             string RanContent = GetRanAlertContent(infoList, aimGroup, aimHour);
             Common.SendMsgToDeveloper($@"到{aimHour}点啦！ {RanContent}");
+        }
+
+        [EnterCommand(Command = "所有报时开启群组", SourceType = MsgType.Private, IsDeveloperOnly = true)]
+        public void AllAvailabeGroups(PrivateMsgDTO MsgDTO)
+        {
+            var list = AvailableGroups;
+            string msg = $"共有群组{list.Count}个";
+            foreach(var l in list)
+            {
+                msg += '\r' + l.ToString();
+            }
+
+            Common.SendMsgToDeveloper(msg);
         }
     }
 }
