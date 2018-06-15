@@ -8,7 +8,7 @@ namespace AILib
 {
     public enum MsgType
     {
-        Private,
+        Private = 1,
         Group = 0
     }
 

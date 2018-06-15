@@ -8,8 +8,8 @@ namespace AILib
 {
     public enum AuthorityLevel
     {
-        群主,
-        管理员,
+        群主 = 1,
+        管理员 = 2,
         成员 = 0
     }
 

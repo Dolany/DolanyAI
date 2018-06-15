@@ -30,6 +30,11 @@ namespace AILib
         [EnterCommand(Command = "语录", SourceType = MsgType.Group, AuthorityLevel = AuthorityLevel.成员)]
         public void ProcceedMsg(GroupMsgDTO MsgDTO)
         {
+            if(IsInSealing(MsgDTO.fromGroup, MsgDTO.fromQQ))
+            {
+                return;
+            }
+
             SayingEntity info = SayingEntity.Parse(MsgDTO.msg);
             if (info != null)
             {
@@ -43,6 +48,11 @@ namespace AILib
                 return;
             }
 
+            SayingRequest(MsgDTO);
+        }
+
+        private void SayingRequest(GroupMsgDTO MsgDTO)
+        {
             string keyword = string.IsNullOrEmpty(MsgDTO.msg.Trim()) ? null : MsgDTO.msg;
             string ranSaying = GetRanSaying(MsgDTO.fromGroup, keyword);
             if (string.IsNullOrEmpty(ranSaying))
@@ -56,6 +66,12 @@ namespace AILib
                 Type = MsgType.Group,
                 Msg = ranSaying
             });
+        }
+
+        private bool IsInSealing(long groupNum, long memberNum)
+        {
+            var query = DbMgr.Query<SayingSealEntity>(s => s.GroupNum == groupNum && s.SealMember == memberNum);
+            return query != null && query.Count() > 0;
         }
 
         private bool SaveSaying(SayingEntity info, long fromGroup)
@@ -112,28 +128,94 @@ namespace AILib
             return shownSaying;
         }
 
-        [EnterCommand(Command = "语录", SourceType = MsgType.Private, IsDeveloperOnly = true)]
+        [EnterCommand(Command = "语录总数", SourceType = MsgType.Private, IsDeveloperOnly = true)]
         public void SayingTotalCount(PrivateMsgDTO MsgDTO)
         {
-            if (MsgDTO.msg == "总数")
-            {
-                Common.SendMsgToDeveloper($@"共有语录 {SayingList.Count}条");
-            }
+            Common.SendMsgToDeveloper($@"共有语录 {SayingList.Count}条");
         }
 
-        [EnterCommand(Command = "清空语录", SourceType = MsgType.Group, AuthorityLevel = AuthorityLevel.群主)]
+        [EnterCommand(Command = "删除语录", SourceType = MsgType.Group, AuthorityLevel = AuthorityLevel.群主)]
         public void ClearSayings(GroupMsgDTO MsgDTO)
         {
+            int delCount = DbMgr.Delete<SayingEntity>(s => s.FromGroup == MsgDTO.fromGroup
+                                                        && (s.Content.Contains(MsgDTO.msg) 
+                                                        || s.Charactor.Contains(MsgDTO.msg) 
+                                                        || s.Cartoon.Contains(MsgDTO.msg)));
+
+            MsgSender.Instance.PushMsg(new SendMsgDTO()
+            {
+                Aim = MsgDTO.fromGroup,
+                Type = MsgType.Group,
+                Msg = $"共删除{delCount}条语录"
+            });
         }
 
         [EnterCommand(Command = "语录封禁", SourceType = MsgType.Group, AuthorityLevel = AuthorityLevel.群主)]
         public void SayingSeal(GroupMsgDTO MsgDTO)
         {
+            long memberNum;
+            if(!long.TryParse(MsgDTO.msg, out memberNum))
+            {
+                return;
+            }
+
+            var query = DbMgr.Query<SayingSealEntity>(s => s.GroupNum == MsgDTO.fromGroup && s.SealMember == memberNum);
+            if(query != null && query.Count() > 0)
+            {
+                MsgSender.Instance.PushMsg(new SendMsgDTO()
+                {
+                    Aim = MsgDTO.fromGroup,
+                    Type = MsgType.Group,
+                    Msg = "此成员正在封禁中！"
+                });
+
+                return;
+            }
+
+            DbMgr.Insert(new SayingSealEntity()
+            {
+                Id = Guid.NewGuid().ToString(),
+                CreateTime = DateTime.Now,
+                SealMember = memberNum,
+                GroupNum = MsgDTO.fromGroup,
+                Content = "封禁"
+            });
+            MsgSender.Instance.PushMsg(new SendMsgDTO()
+            {
+                Aim = MsgDTO.fromGroup,
+                Type = MsgType.Group,
+                Msg = "封禁成功！"
+            });
         }
 
         [EnterCommand(Command = "语录解封", SourceType = MsgType.Group, AuthorityLevel = AuthorityLevel.群主)]
         public void SayingDeseal(GroupMsgDTO MsgDTO)
         {
+            long memberNum;
+            if (!long.TryParse(MsgDTO.msg, out memberNum))
+            {
+                return;
+            }
+
+            int delCount = DbMgr.Delete<SayingSealEntity>(s => s.GroupNum == MsgDTO.fromGroup && s.SealMember == memberNum);
+            if(delCount == 0)
+            {
+                MsgSender.Instance.PushMsg(new SendMsgDTO()
+                {
+                    Aim = MsgDTO.fromGroup,
+                    Type = MsgType.Group,
+                    Msg = "此成员尚未被封禁！"
+                });
+
+                return;
+            }
+
+            MsgSender.Instance.PushMsg(new SendMsgDTO()
+            {
+                Aim = MsgDTO.fromGroup,
+                Type = MsgType.Group,
+                Msg = "解封成功！"
+            });
         }
     }
 }
