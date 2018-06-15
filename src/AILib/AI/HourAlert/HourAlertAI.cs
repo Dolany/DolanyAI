@@ -69,22 +69,28 @@ namespace AILib
 
         private void HourAlert(string curHour)
         {
-            var infoList = AllAlertInfos;
             var availableList = AvailableGroups;
             if (availableList == null || availableList.Count() == 0)
             {
                 return;
             }
 
-            foreach (var groupNum in availableList)
+            try
             {
-                string RanContent = GetRanAlertContent(infoList, groupNum, int.Parse(curHour));
-                MsgSender.Instance.PushMsg(new SendMsgDTO()
+                foreach (var groupNum in availableList)
                 {
-                    Aim = groupNum,
-                    Type = MsgType.Group,
-                    Msg = $@"到{curHour}点啦！ {RanContent}"
-                });
+                    string RanContent = GetRanAlertContent(groupNum, int.Parse(curHour));
+                    MsgSender.Instance.PushMsg(new SendMsgDTO()
+                    {
+                        Aim = groupNum,
+                        Type = MsgType.Group,
+                        Msg = $@"到{curHour}点啦！ {RanContent}"
+                    });
+                }
+            }
+            catch (Exception ex)
+            {
+                Common.SendMsgToDeveloper(ex);
             }
         }
 
@@ -186,15 +192,9 @@ namespace AILib
             }
         }
 
-        private string GetRanAlertContent(List<AlertContentEntity> infoList, long fromGroup, int aimHour)
+        private string GetRanAlertContent(long fromGroup, int aimHour)
         {
-            if (infoList == null || infoList.Count == 0)
-            {
-                return string.Empty;
-            }
-            var query = from info in infoList
-                        where info.FromGroup == fromGroup && info.AimHour == aimHour
-                        select info;
+            var query = DbMgr.Query<AlertContentEntity>(a => a.FromGroup == fromGroup && a.AimHour == aimHour);
             if (query == null || query.Count() == 0)
             {
                 return string.Empty;
@@ -227,9 +227,8 @@ namespace AILib
             {
                 return;
             }
-            var infoList = AllAlertInfos;
 
-            string RanContent = GetRanAlertContent(infoList, aimGroup, aimHour);
+            string RanContent = GetRanAlertContent(aimGroup, aimHour);
             Common.SendMsgToDeveloper($@"到{aimHour}点啦！ {RanContent}");
         }
 
@@ -249,7 +248,38 @@ namespace AILib
         [EnterCommand(Command = "清空报时", SourceType = MsgType.Group, AuthorityLevel = AuthorityLevel.群主)]
         public void ClearAlert(GroupMsgDTO MsgDTO)
         {
+            if (string.IsNullOrEmpty(MsgDTO.msg))
+            {
+                return;
+            }
 
+            long num;
+            if (!long.TryParse(MsgDTO.msg, out num))
+            {
+                return;
+            }
+
+            if (num <= 24)
+            {
+                DbMgr.Delete<AlertContentEntity>(a => a.AimHour == (int)num);
+            }
+            else
+            {
+                DbMgr.Delete<AlertContentEntity>(a => a.Creator == num);
+            }
+
+            MsgSender.Instance.PushMsg(new SendMsgDTO()
+            {
+                Aim = MsgDTO.fromGroup,
+                Type = MsgType.Group,
+                Msg = "删除成功！"
+            });
+        }
+
+        [EnterCommand(Command = "所有报时数目", SourceType = MsgType.Private, IsDeveloperOnly = true)]
+        public void TotalAlertCount(PrivateMsgDTO MsgDTO)
+        {
+            Common.SendMsgToDeveloper(AllAlertInfos.Count().ToString());
         }
     }
 }

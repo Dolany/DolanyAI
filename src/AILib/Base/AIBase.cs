@@ -27,9 +27,9 @@ namespace AILib
             }
 
             Type t = this.GetType();
-            foreach(var method in t.GetMethods())
+            foreach (var method in t.GetMethods())
             {
-                foreach(var attr in method.GetCustomAttributes(typeof(EnterCommandAttribute), false))
+                foreach (var attr in method.GetCustomAttributes(typeof(EnterCommandAttribute), false))
                 {
                     var enterAttr = attr as EnterCommandAttribute;
                     if (enterAttr.Command != MsgDTO.command || enterAttr.SourceType != MsgType.Group)
@@ -38,11 +38,11 @@ namespace AILib
                     }
 
                     string authority = CQ.GetGroupMemberInfo(MsgDTO.fromGroup, MsgDTO.fromQQ, true).Authority;
-                    if(enterAttr.AuthorityLevel == AuthorityLevel.群主 && authority != "群主")
+                    if (enterAttr.AuthorityLevel == AuthorityLevel.群主 && authority != "群主")
                     {
                         break;
                     }
-                    if(enterAttr.AuthorityLevel == AuthorityLevel.管理员 && (authority != "群主" && authority != "管理员"))
+                    if (enterAttr.AuthorityLevel == AuthorityLevel.管理员 && (authority != "群主" && authority != "管理员"))
                     {
                         break;
                     }
@@ -70,7 +70,7 @@ namespace AILib
                     {
                         continue;
                     }
-                    if(enterAttr.IsDeveloperOnly && MsgDTO.fromQQ != Common.DeveloperNumber)
+                    if (enterAttr.IsDeveloperOnly && MsgDTO.fromQQ != Common.DeveloperNumber)
                     {
                         continue;
                     }

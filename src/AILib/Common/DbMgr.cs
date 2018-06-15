@@ -116,7 +116,7 @@ namespace AILib
                     list.Add(ele);
                 }
             }
-            foreach(var ele in list)
+            foreach (var ele in list)
             {
                 ele.Remove();
             }
@@ -132,7 +132,7 @@ namespace AILib
             foreach (XElement ele in root.Elements())
             {
                 Entity entity = EntityBase.FromElement<Entity>(ele);
-                if(entity.Id == Id)
+                if (entity.Id == Id)
                 {
                     return entity;
                 }
@@ -141,7 +141,7 @@ namespace AILib
             return null;
         }
 
-        public static IEnumerable<Entity> Query<Entity>(Expression<Func<Entity, bool>> express = null) 
+        public static IEnumerable<Entity> Query<Entity>(Expression<Func<Entity, bool>> express = null)
             where Entity : EntityBase, new()
         {
             Type t = typeof(Entity);
@@ -151,6 +151,10 @@ namespace AILib
             foreach (XElement ele in root.Elements())
             {
                 Entity entity = EntityBase.FromElement<Entity>(ele);
+                if (entity == null)
+                {
+                    continue;
+                }
                 if (express == null || express.Compile()(entity))
                 {
                     list.Add(entity);

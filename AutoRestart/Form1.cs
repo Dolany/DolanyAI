@@ -38,7 +38,7 @@ namespace AutoRestart
 
         private void TimeUp(object sender, ElapsedEventArgs e)
         {
-            if(!IsCQRunning())
+            if (!IsCQRunning())
             {
                 Restart();
             }
@@ -47,12 +47,12 @@ namespace AutoRestart
         private bool IsCQRunning()
         {
             Process[] processes = Process.GetProcesses();
-            if(processes == null || processes.Length == 0)
+            if (processes == null || processes.Length == 0)
             {
                 return false;
             }
 
-            foreach(var p in processes)
+            foreach (var p in processes)
             {
                 if (p.ProcessName == ProcessName)
                 {
@@ -120,15 +120,15 @@ namespace AutoRestart
 
         private void ppMenuItem_Click(object sender, EventArgs e)
         {
-            if(IsRunning)
-            {
-                ppMenuItem.Text = "暂停";
-                timer.Start();
-            }
-            else
+            if (IsRunning)
             {
                 ppMenuItem.Text = "继续";
                 timer.Stop();
+            }
+            else
+            {
+                ppMenuItem.Text = "暂停";
+                timer.Start();
             }
         }
     }

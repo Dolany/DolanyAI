@@ -22,7 +22,6 @@ namespace AILib
         public AlermClockAI(AIConfigDTO ConfigDTO)
             : base(ConfigDTO)
         {
-
         }
 
         public override void Work()
@@ -32,7 +31,7 @@ namespace AILib
 
         private void ReloadAllClocks()
         {
-            lock(ClockList)
+            lock (ClockList)
             {
                 foreach (var clock in ClockList)
                 {
@@ -59,18 +58,18 @@ namespace AILib
         public void SetClock(GroupMsgDTO MsgDTO)
         {
             string[] strs = MsgDTO.msg.Split(new char[] { ' ' });
-            if(strs == null || strs.Length < 2)
+            if (strs == null || strs.Length < 2)
             {
                 return;
             }
 
             (int hour, int minute)? time = GenTimeFromStr(strs[0]);
-            if(time == null)
+            if (time == null)
             {
                 return;
             }
 
-            if(string.IsNullOrEmpty(strs[1]))
+            if (string.IsNullOrEmpty(strs[1]))
             {
                 return;
             }
@@ -97,7 +96,7 @@ namespace AILib
                                                     && q.Creator == MsgDTO.fromQQ
                                                     && q.AimHourt == entity.AimHourt
                                                     && q.AimMinute == entity.AimMinute);
-                if(query != null && query.Count() > 0)
+                if (query != null && query.Count() > 0)
                 {
                     MsgSender.Instance.PushMsg(new SendMsgDTO()
                     {
@@ -145,7 +144,7 @@ namespace AILib
 
         private void TimeUp(object sender, ElapsedEventArgs e)
         {
-            lock(ClockList)
+            lock (ClockList)
             {
                 TimerEx timer = sender as TimerEx;
                 timer.Stop();
@@ -165,9 +164,9 @@ namespace AILib
         [EnterCommand(Command = "我的闹钟", SourceType = MsgType.Group, AuthorityLevel = AuthorityLevel.成员)]
         public void QueryClock(GroupMsgDTO MsgDTO)
         {
-            var allClocks = DbMgr.Query<AlermClockEntity>(q => q.GroupNumber == MsgDTO.fromGroup 
+            var allClocks = DbMgr.Query<AlermClockEntity>(q => q.GroupNumber == MsgDTO.fromGroup
                                                                 && q.Creator == MsgDTO.fromQQ);
-            if(allClocks == null || allClocks.Count() == 0)
+            if (allClocks == null || allClocks.Count() == 0)
             {
                 MsgSender.Instance.PushMsg(new SendMsgDTO()
                 {
@@ -179,7 +178,7 @@ namespace AILib
             }
 
             string Msg = $@"{CQ.CQCode_At(MsgDTO.fromQQ)} 你当前共设定了{allClocks.Count()}个闹钟";
-            foreach(var clock in allClocks)
+            foreach (var clock in allClocks)
             {
                 Msg += '\r' + $@"{clock.AimHourt.ToString("00")}:{clock.AimMinute.ToString("00")} {clock.Content}";
             }
@@ -201,10 +200,10 @@ namespace AILib
                 return;
             }
 
-            if(DbMgr.Delete<AlermClockEntity>(q => q.GroupNumber == MsgDTO.fromGroup
-                                                    && q.Creator == MsgDTO.fromQQ
-                                                    && q.AimHourt == time.Value.hour
-                                                    && q.AimMinute == time.Value.minute
+            if (DbMgr.Delete<AlermClockEntity>(q => q.GroupNumber == MsgDTO.fromGroup
+                                                     && q.Creator == MsgDTO.fromQQ
+                                                     && q.AimHourt == time.Value.hour
+                                                     && q.AimMinute == time.Value.minute
                                               ) > 0)
             {
                 MsgSender.Instance.PushMsg(new SendMsgDTO()
@@ -257,13 +256,13 @@ namespace AILib
         private (int hour, int minute)? GenTimeFromStr(string timeStr)
         {
             string[] strs = timeStr.Split(new char[] { ':', '：' });
-            if(strs == null || strs.Length != 2)
+            if (strs == null || strs.Length != 2)
             {
                 return null;
             }
 
             int hour;
-            if(!int.TryParse(strs[0], out hour))
+            if (!int.TryParse(strs[0], out hour))
             {
                 return null;
             }
@@ -281,7 +280,7 @@ namespace AILib
         {
             DateTime now = DateTime.Now;
             DateTime aimTime = new DateTime(now.Year, now.Month, now.Day, hour, minute, 0);
-            if(aimTime < now)
+            if (aimTime < now)
             {
                 aimTime = aimTime.AddDays(1);
             }
