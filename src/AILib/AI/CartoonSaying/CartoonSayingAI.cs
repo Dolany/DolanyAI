@@ -27,7 +27,7 @@ namespace AILib
         {
         }
 
-        [EnterCommand(Command = "语录", SourceType = MsgType.Group)]
+        [EnterCommand(Command = "语录", SourceType = MsgType.Group, AuthorityLevel = AuthorityLevel.成员)]
         public void ProcceedMsg(GroupMsgDTO MsgDTO)
         {
             SayingEntity info = SayingEntity.Parse(MsgDTO.msg);

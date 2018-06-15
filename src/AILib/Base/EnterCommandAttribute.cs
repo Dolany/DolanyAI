@@ -10,7 +10,7 @@ namespace AILib
     {
         群主,
         管理员,
-        成员
+        成员 = 0
     }
 
     [System.AttributeUsage(System.AttributeTargets.Method, AllowMultiple = true)]
