@@ -35,6 +35,8 @@
             this.TuoPanContextMenuStrip = new System.Windows.Forms.ContextMenuStrip(this.components);
             this.MenuItemOpen = new System.Windows.Forms.ToolStripMenuItem();
             this.MenuItemClose = new System.Windows.Forms.ToolStripMenuItem();
+            this.toolStripSeparator1 = new System.Windows.Forms.ToolStripSeparator();
+            this.ppMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).BeginInit();
             this.TuoPanContextMenuStrip.SuspendLayout();
             this.SuspendLayout();
@@ -61,23 +63,37 @@
             // 
             this.TuoPanContextMenuStrip.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.MenuItemOpen,
+            this.ppMenuItem,
+            this.toolStripSeparator1,
             this.MenuItemClose});
             this.TuoPanContextMenuStrip.Name = "TuoPanContextMenuStrip";
-            this.TuoPanContextMenuStrip.Size = new System.Drawing.Size(101, 48);
+            this.TuoPanContextMenuStrip.Size = new System.Drawing.Size(181, 98);
             // 
             // MenuItemOpen
             // 
             this.MenuItemOpen.Name = "MenuItemOpen";
-            this.MenuItemOpen.Size = new System.Drawing.Size(100, 22);
+            this.MenuItemOpen.Size = new System.Drawing.Size(180, 22);
             this.MenuItemOpen.Text = "显示";
             this.MenuItemOpen.Click += new System.EventHandler(this.MenuItemOpen_Click);
             // 
             // MenuItemClose
             // 
             this.MenuItemClose.Name = "MenuItemClose";
-            this.MenuItemClose.Size = new System.Drawing.Size(100, 22);
-            this.MenuItemClose.Text = "隐藏";
+            this.MenuItemClose.Size = new System.Drawing.Size(180, 22);
+            this.MenuItemClose.Text = "退出";
             this.MenuItemClose.Click += new System.EventHandler(this.MenuItemClose_Click);
+            // 
+            // toolStripSeparator1
+            // 
+            this.toolStripSeparator1.Name = "toolStripSeparator1";
+            this.toolStripSeparator1.Size = new System.Drawing.Size(177, 6);
+            // 
+            // ppMenuItem
+            // 
+            this.ppMenuItem.Name = "ppMenuItem";
+            this.ppMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.ppMenuItem.Text = "暂停";
+            this.ppMenuItem.Click += new System.EventHandler(this.ppMenuItem_Click);
             // 
             // Form1
             // 
@@ -102,6 +118,8 @@
         private System.Windows.Forms.ContextMenuStrip TuoPanContextMenuStrip;
         private System.Windows.Forms.ToolStripMenuItem MenuItemOpen;
         private System.Windows.Forms.ToolStripMenuItem MenuItemClose;
+        private System.Windows.Forms.ToolStripSeparator toolStripSeparator1;
+        private System.Windows.Forms.ToolStripMenuItem ppMenuItem;
     }
 }
 

@@ -40,22 +40,32 @@ namespace AILib
 
         public override void OnGroupMsgReceived(GroupMsgDTO MsgDTO)
         {
-            var keys = Keywords.Where(k => MsgDTO.msg.Contains(k) || MsgDTO.command.Contains(k));
-            if(keys == null || keys.Count() == 0)
+            string key = GenKey(MsgDTO.command + MsgDTO.msg);
+            if(string.IsNullOrEmpty(key))
             {
                 return;
-            }
-
-            var key = keys.FirstOrDefault();
-            var query = DbMgr.Query<SynonymDicEntity>(s => s.Content == key);
-            if(query != null && query.Count() > 0)
-            {
-                key = query.FirstOrDefault().Keyword;
             }
 
             string RandPic = GetRandPic(key);
 
             SendPic(key + "/" + RandPic, MsgDTO.fromGroup);
+        }
+
+        private string GenKey(string msg)
+        {
+            var keys = Keywords.Where(k => msg.Contains(k));
+            if (keys != null && keys.Count() > 0)
+            {
+                return keys.FirstOrDefault();
+            }
+
+            var query = DbMgr.Query<SynonymDicEntity>(s => msg.Contains(s.Content));
+            if(query == null || query.Count() == 0)
+            {
+                return string.Empty;
+            }
+
+            return query.FirstOrDefault().Keyword;
         }
 
         private void SendPic(string picPath, long group)

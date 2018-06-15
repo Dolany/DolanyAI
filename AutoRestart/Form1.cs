@@ -19,6 +19,8 @@ namespace AutoRestart
         private string ProcessName = "CQP";
         private IList<RestartInfo> list = new BindingList<RestartInfo>();
 
+        private bool IsRunning = true;
+
         public Form1()
         {
             InitializeComponent();
@@ -112,9 +114,22 @@ namespace AutoRestart
         private void QPan_MiniMizedToTuoPan()
         {
             this.Hide();
-            //window任务栏中是否显示窗体
             this.ShowInTaskbar = false;
             this.notifyIcon1.Visible = true;
+        }
+
+        private void ppMenuItem_Click(object sender, EventArgs e)
+        {
+            if(IsRunning)
+            {
+                ppMenuItem.Text = "暂停";
+                timer.Start();
+            }
+            else
+            {
+                ppMenuItem.Text = "继续";
+                timer.Stop();
+            }
         }
     }
 }

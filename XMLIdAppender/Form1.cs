@@ -48,6 +48,7 @@ namespace XMLIdAppender
                 {
                     node.SetAttributeValue("Id", Guid.NewGuid().ToString());
                 }
+                node.Name = root.Name;
             }
 
             root.Save(fileName);
