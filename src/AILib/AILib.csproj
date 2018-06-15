@@ -60,7 +60,6 @@
     <Compile Include="AIMgr.cs" />
     <Compile Include="AI\AlermClock\AlermClockAI.cs" />
     <Compile Include="AI\CartoonSaying\CartoonSayingAI.cs" />
-    <Compile Include="AI\CartoonSaying\SayingInfo.cs" />
     <Compile Include="AI\Interaction\Publisher\Publisher.cs" />
     <Compile Include="AI\RandomPic\RandomPicAI.cs" />
     <Compile Include="Base\AIAttribute.cs" />
@@ -84,6 +83,7 @@
     <Compile Include="Entities\LogEntity.cs" />
     <Compile Include="Entities\PublishRecordEntity.cs" />
     <Compile Include="Entities\QQNumReflectEntity.cs" />
+    <Compile Include="Entities\SayingEntity.cs" />
     <Compile Include="Entities\SynonymDicEntity.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Properties\Settings.Designer.cs">
@@ -122,9 +122,6 @@
     <Service Include="{508349B6-6B84-4DF5-91F0-309BEEBAD82D}" />
   </ItemGroup>
   <ItemGroup>
-    <Content Include="AI\CartoonSaying\Saying.xml">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
     <Content Include="AI\Interaction\Publisher\PublishRecord.xml">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>

@@ -4,30 +4,22 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace AILib
+namespace AILib.Entities
 {
-    public class SayingInfo
+    public class SayingEntity : EntityBase
     {
-        /// <summary>
-        /// 出处
-        /// </summary>
+        [DataColumn]
         public string Cartoon { get; set; }
 
-        /// <summary>
-        /// 人物
-        /// </summary>
+        [DataColumn]
         public string Charactor { get; set; }
 
-        /// <summary>
-        /// 语录
-        /// </summary>
-        public string Sayings { get; set; }
-
+        [DataColumn]
         public long FromGroup { get; set; }
 
-        public static SayingInfo Parse(string Msg)
+        public static SayingEntity Parse(string Msg)
         {
-            if(string.IsNullOrEmpty(Msg))
+            if (string.IsNullOrEmpty(Msg))
             {
                 return null;
             }
@@ -40,13 +32,13 @@ namespace AILib
                     return null;
                 }
 
-                SayingInfo si = new SayingInfo()
+                SayingEntity si = new SayingEntity()
                 {
                     Cartoon = parts[0],
                     Charactor = parts[1],
-                    Sayings = parts[2]
+                    Content = parts[2]
                 };
-                if(si.IsValid)
+                if (si.IsValid)
                 {
                     return si;
                 }
@@ -63,18 +55,18 @@ namespace AILib
         {
             get
             {
-                return !string.IsNullOrEmpty(Cartoon) && !string.IsNullOrEmpty(Charactor) && !string.IsNullOrEmpty(Sayings);
+                return !string.IsNullOrEmpty(Cartoon) && !string.IsNullOrEmpty(Charactor) && !string.IsNullOrEmpty(Content);
             }
         }
 
         public bool Contains(string keyword)
         {
-            if(string.IsNullOrEmpty(keyword))
+            if (string.IsNullOrEmpty(keyword))
             {
                 return true;
             }
 
-            return Cartoon.Contains(keyword) || Charactor.Contains(keyword) || Sayings.Contains(keyword);
+            return Cartoon.Contains(keyword) || Charactor.Contains(keyword) || Content.Contains(keyword);
         }
     }
 }

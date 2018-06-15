@@ -91,6 +91,10 @@ namespace AILib
             foreach (XElement ele in root.Elements())
             {
                 Entity entity = EntityBase.FromElement<Entity>(ele);
+                if (entity == null)
+                {
+                    continue;
+                }
                 if (entity.Id == Id)
                 {
                     ele.Remove();
@@ -111,6 +115,10 @@ namespace AILib
             foreach (XElement ele in root.Elements())
             {
                 Entity entity = EntityBase.FromElement<Entity>(ele);
+                if (entity == null)
+                {
+                    continue;
+                }
                 if (express.Compile()(entity))
                 {
                     list.Add(ele);
@@ -132,6 +140,10 @@ namespace AILib
             foreach (XElement ele in root.Elements())
             {
                 Entity entity = EntityBase.FromElement<Entity>(ele);
+                if (entity == null)
+                {
+                    continue;
+                }
                 if (entity.Id == Id)
                 {
                     return entity;

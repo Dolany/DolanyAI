@@ -1,59 +1,36 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Data.Linq;
-using Flexlive.CQP.Framework;
-using System.Xml;
 using System.Xml.Linq;
+using AILib.Entities;
 
 namespace AILib
 {
     [AI(Name = "CartoonSayingAI", Description = "AI for Cartoon Sayings.", IsAvailable = true)]
     public class CartoonSayingAI : AIBase
     {
-        private string xmlFilePath = @"./AI/CartoonSaying/Saying.xml";
-
-        private List<SayingInfo> SayingList
+        private List<SayingEntity> SayingList
         {
             get
             {
-                XElement root = XElement.Load(xmlFilePath);
-
-                List<SayingInfo> list = new List<SayingInfo>();
-                foreach (XElement node in root.Nodes())
-                {
-                    SayingInfo s = new SayingInfo()
-                    {
-                        Cartoon = node.Attribute("Cartoon").Value,
-                        Charactor = node.Attribute("Charactor").Value,
-                        FromGroup = long.Parse(node.Attribute("FromGroup").Value),
-                        Sayings = node.Value
-                    };
-
-                    list.Add(s);
-                }
-
-                return list;
+                var query = DbMgr.Query<SayingEntity>();
+                return query == null ? null : query.ToList();
             }
         }
 
         public CartoonSayingAI(AIConfigDTO ConfigDTO)
             : base(ConfigDTO)
         {
-
         }
 
         public override void Work()
         {
-            
         }
 
         [EnterCommand(Command = "语录", SourceType = MsgType.Group)]
         public void ProcceedMsg(GroupMsgDTO MsgDTO)
         {
-            SayingInfo info = SayingInfo.Parse(MsgDTO.msg);
+            SayingEntity info = SayingEntity.Parse(MsgDTO.msg);
             if (info != null)
             {
                 string smsg = SaveSaying(info, MsgDTO.fromGroup) ? "语录录入成功！" : "语录录入失败！";
@@ -81,21 +58,17 @@ namespace AILib
             });
         }
 
-        private bool SaveSaying(SayingInfo info, long fromGroup)
+        private bool SaveSaying(SayingEntity info, long fromGroup)
         {
+            info.FromGroup = fromGroup;
+            info.Id = Guid.NewGuid().ToString();
+
             try
             {
-                XElement root = XElement.Load(xmlFilePath);
-                XElement node = new XElement("Saying", info.Sayings);
-                node.SetAttributeValue("Cartoon", info.Cartoon);
-                node.SetAttributeValue("Charactor", info.Charactor);
-                node.SetAttributeValue("FromGroup", fromGroup.ToString());
-                root.Add(node);
-                root.Save(xmlFilePath);
-
+                DbMgr.Insert(info);
                 return true;
             }
-            catch(Exception ex)
+            catch (Exception ex)
             {
                 Common.SendMsgToDeveloper(ex);
                 return false;
@@ -119,7 +92,7 @@ namespace AILib
 
                 Random random = new Random();
                 int randIdx = random.Next(list.Count);
-                
+
                 return GetShownSaying(list[randIdx]);
             }
             catch (Exception ex)
@@ -129,10 +102,10 @@ namespace AILib
             }
         }
 
-        private string GetShownSaying(SayingInfo s)
+        private string GetShownSaying(SayingEntity s)
         {
             string shownSaying = $@"
-    {s.Sayings}
+    {s.Content}
     ——《{s.Cartoon}》 {s.Charactor}
 ";
 
@@ -142,7 +115,7 @@ namespace AILib
         [EnterCommand(Command = "语录", SourceType = MsgType.Private, IsDeveloperOnly = true)]
         public void SayingTotalCount(PrivateMsgDTO MsgDTO)
         {
-            if(MsgDTO.msg == "总数")
+            if (MsgDTO.msg == "总数")
             {
                 Common.SendMsgToDeveloper($@"共有语录 {SayingList.Count}条");
             }
@@ -151,19 +124,16 @@ namespace AILib
         [EnterCommand(Command = "清空语录", SourceType = MsgType.Group, AuthorityLevel = AuthorityLevel.群主)]
         public void ClearSayings(GroupMsgDTO MsgDTO)
         {
-
         }
 
         [EnterCommand(Command = "语录封禁", SourceType = MsgType.Group, AuthorityLevel = AuthorityLevel.群主)]
         public void SayingSeal(GroupMsgDTO MsgDTO)
         {
-
         }
 
         [EnterCommand(Command = "语录解封", SourceType = MsgType.Group, AuthorityLevel = AuthorityLevel.群主)]
         public void SayingDeseal(GroupMsgDTO MsgDTO)
         {
-
         }
     }
 }
