@@ -56,7 +56,7 @@ namespace AILib
         {
             timer.Stop();
             System.Threading.Thread.Sleep(3 * 1000);
-            HourAlert(DateTime.Now.Hour.ToString());
+            HourAlert(DateTime.Now.Hour);
             timer.Interval = GetNextHourSpan().TotalMilliseconds;
             timer.Start();
         }
@@ -67,7 +67,7 @@ namespace AILib
             return nextHour - DateTime.Now;
         }
 
-        private void HourAlert(string curHour)
+        private void HourAlert(int curHour)
         {
             var availableList = AvailableGroups;
             if (availableList == null || availableList.Count() == 0)
@@ -79,7 +79,7 @@ namespace AILib
             {
                 foreach (var groupNum in availableList)
                 {
-                    string RanContent = GetRanAlertContent(groupNum, int.Parse(curHour));
+                    string RanContent = GetRanAlertContent(groupNum, curHour);
                     MsgSender.Instance.PushMsg(new SendMsgDTO()
                     {
                         Aim = groupNum,

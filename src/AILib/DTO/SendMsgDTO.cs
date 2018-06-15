@@ -9,7 +9,7 @@ namespace AILib
     public enum MsgType
     {
         Private,
-        Group
+        Group = 0
     }
 
     public class SendMsgDTO
