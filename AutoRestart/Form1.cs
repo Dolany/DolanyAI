@@ -124,11 +124,13 @@ namespace AutoRestart
             {
                 ppMenuItem.Text = "继续";
                 timer.Stop();
+                IsRunning = false;
             }
             else
             {
                 ppMenuItem.Text = "暂停";
                 timer.Start();
+                IsRunning = true;
             }
         }
     }

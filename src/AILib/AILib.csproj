@@ -61,6 +61,7 @@
     <Compile Include="AI\AlermClock\AlermClockAI.cs" />
     <Compile Include="AI\CartoonSaying\CartoonSayingAI.cs" />
     <Compile Include="AI\Interaction\Publisher\Publisher.cs" />
+    <Compile Include="AI\Jump300Report\JumpReportRequestor.cs" />
     <Compile Include="AI\RandomPic\RandomPicAI.cs" />
     <Compile Include="Base\AIAttribute.cs" />
     <Compile Include="Base\AIBase.cs" />
