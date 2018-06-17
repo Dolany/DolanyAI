@@ -14,6 +14,12 @@ namespace AILib.Html
         public void Load(string html)
         {
             document.Load(html);
+
+            Parse();
+        }
+
+        protected virtual void Parse()
+        {
         }
     }
 }
