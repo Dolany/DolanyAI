@@ -67,6 +67,9 @@
     <Compile Include="Base\AIBase.cs" />
     <Compile Include="Base\EnterCommandAttribute.cs" />
     <Compile Include="Common\Common.cs" />
+    <Compile Include="Html\HtmlDocument.cs" />
+    <Compile Include="Html\HtmlElement.cs" />
+    <Compile Include="Html\HttpRequester.cs" />
     <Compile Include="Common\Logger.cs" />
     <Compile Include="Common\MsgSender.cs" />
     <Compile Include="DTO\AIConfigDTO.cs" />

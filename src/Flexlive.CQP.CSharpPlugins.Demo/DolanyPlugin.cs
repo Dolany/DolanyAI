@@ -66,7 +66,13 @@ namespace Flexlive.CQP.CSharpPlugins.Demo
                 }
                 else
                 {
-                    Common.SendMsgToDeveloper($@"成功加载{AIs.Count}个ai");
+                    string msg = $@"成功加载{AIs.Count}个ai";
+                    foreach (var ai in AIs)
+                    {
+                        msg += '\r' + ai.Name + ":" + ai.Description;
+                    }
+
+                    Common.SendMsgToDeveloper(msg);
                 }
 
                 // 加载所有可用AI
