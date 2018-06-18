@@ -30,8 +30,6 @@ namespace Jump300Report
                 return;
             }
 
-            var t = Encoding.UTF8.GetBytes(name);
-
             JRR = new JumpReportRequestor(new GroupMsgDTO()
             {
                 msg = name

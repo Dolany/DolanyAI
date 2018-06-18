@@ -9,5 +9,9 @@ namespace AILib.AI.Jump300Report
 {
     public class JumpDetailHtmlParser : HtmlParser
     {
+        protected override void Parse()
+        {
+            var root = document.DocumentNode;
+        }
     }
 }

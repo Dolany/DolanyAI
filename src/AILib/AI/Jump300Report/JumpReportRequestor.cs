@@ -22,6 +22,33 @@ namespace AILib.AI.Jump300Report
         public void Work()
         {
             var allList = GetAllList(MsgDTO.msg);
+            var allDetails = GetAllDetails(allList);
+
+            JumpReportAnalyzer analyzer = new JumpReportAnalyzer(allList, allDetails);
+            string report = analyzer.GenReport();
+
+            ReportCallBack(MsgDTO, report);
+        }
+
+        private List<JumpDetailHtmlParser> GetAllDetails(List<JumpListHtmlParser> allList)
+        {
+            List<JumpDetailHtmlParser> allDetails = new List<JumpDetailHtmlParser>();
+            foreach (var list in allList)
+            {
+                foreach (var match in list.Matches)
+                {
+                    string aimStr = $"http://300report.jumpw.com/match.html?id={match.DetailAddr}";
+                    HttpRequester requester = new HttpRequester();
+                    string HtmlStr = requester.Request(aimStr);
+
+                    JumpDetailHtmlParser dp = new JumpDetailHtmlParser();
+                    dp.Load(HtmlStr);
+
+                    allDetails.Add(dp);
+                }
+            }
+
+            return allDetails;
         }
 
         private List<JumpListHtmlParser> GetAllList(string name)
