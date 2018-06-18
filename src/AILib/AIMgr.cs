@@ -44,14 +44,17 @@ namespace AILib
             }
         }
 
+        public static List<string> AllAvailableCommands { get; private set; }
+
         /// <summary>
         /// 加载指定列表中的AI
         /// </summary>
         /// <param name="AINames">AI名称列表</param>
         /// <param name="ConfigDTO">AI配置DTO</param>
-        public static void StartAIs( IEnumerable<string> AINames, AIConfigDTO ConfigDTO)
+        public static void StartAIs(IEnumerable<string> AINames, AIConfigDTO ConfigDTO)
         {
             AIList = new List<AIBase>();
+            AllAvailableCommands = new List<string>();
 
             Assembly assembly = Assembly.GetExecutingAssembly();
             Type[] typeArr = assembly.GetTypes();
@@ -70,18 +73,33 @@ namespace AILib
                 }
 
                 AIBase ai = assembly.CreateInstance(
-                    t.FullName, 
+                    t.FullName,
                     true,
-                    BindingFlags.Default, 
-                    null, 
+                    BindingFlags.Default,
+                    null,
                     new object[] { ConfigDTO },
-                    null, 
+                    null,
                     null
                     ) as AIBase;
-                if(ai != null)
+                if (ai != null)
                 {
                     AIList.Add(ai);
                     ai.Work();
+
+                    LoadCommands(ai);
+                }
+            }
+        }
+
+        private static void LoadCommands(AIBase ai)
+        {
+            Type t = ai.GetType();
+            foreach (var method in t.GetMethods())
+            {
+                foreach (var attr in method.GetCustomAttributes(typeof(EnterCommandAttribute), false))
+                {
+                    var enterAttr = attr as EnterCommandAttribute;
+                    AllAvailableCommands.Add(enterAttr.Command);
                 }
             }
         }
@@ -108,7 +126,7 @@ namespace AILib
                     ai.OnGroupMsgReceived(MsgDTO);
                 }
             }
-            catch(Exception ex)
+            catch (Exception ex)
             {
                 Common.SendMsgToDeveloper(ex);
             }
@@ -137,13 +155,13 @@ namespace AILib
 
         private static string GenCommand(ref string msg)
         {
-            if(string.IsNullOrEmpty(msg))
+            if (string.IsNullOrEmpty(msg))
             {
                 return string.Empty;
             }
 
             string[] strs = msg.Split(new char[] { ' ' });
-            if(strs == null || strs.Length == 0)
+            if (strs == null || strs.Length == 0)
             {
                 return string.Empty;
             }

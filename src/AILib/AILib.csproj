@@ -74,10 +74,12 @@
     <Compile Include="AI\Jump300Report\Model\JumpMatchListInfo.cs" />
     <Compile Include="AI\Jump300Report\Model\JumpServerRankInfo.cs" />
     <Compile Include="AI\RandomPic\RandomPicAI.cs" />
+    <Compile Include="AI\Repeater\RepeatorAI.cs" />
     <Compile Include="Base\AIAttribute.cs" />
     <Compile Include="Base\AIBase.cs" />
     <Compile Include="Base\EnterCommandAttribute.cs" />
     <Compile Include="Common\Common.cs" />
+    <Compile Include="Entities\RepeaterAvailableEntity.cs" />
     <Compile Include="Html\HtmlParser.cs" />
     <Compile Include="Html\HttpRequester.cs" />
     <Compile Include="Common\Logger.cs" />
