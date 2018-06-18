@@ -9,7 +9,10 @@ using Flexlive.CQP.Framework;
 
 namespace AILib
 {
-    [AI(Name = "RandomPicAI", Description = "AI for Sending Random Pic By Keyword.", IsAvailable = true)]
+    [AI(Name = "RandomPicAI",
+        Description = "AI for Sending Random Pic By Keyword.",
+        IsAvailable = true,
+        PriorityLevel = 11)]
     public class RandomPicAI : AIBase
     {
         private string PicPath = "data/image/";
@@ -18,7 +21,6 @@ namespace AILib
         public RandomPicAI(AIConfigDTO ConfigDTO)
             : base(ConfigDTO)
         {
-
         }
 
         public override void Work()
@@ -32,7 +34,7 @@ namespace AILib
 
             DirectoryInfo dirInfo = new DirectoryInfo(PicPath);
             DirectoryInfo[] childrenDirs = dirInfo.GetDirectories();
-            foreach(var info in childrenDirs)
+            foreach (var info in childrenDirs)
             {
                 Keywords.Add(info.Name);
             }
@@ -41,7 +43,7 @@ namespace AILib
         public override void OnGroupMsgReceived(GroupMsgDTO MsgDTO)
         {
             string key = GenKey(MsgDTO.command + MsgDTO.msg);
-            if(string.IsNullOrEmpty(key))
+            if (string.IsNullOrEmpty(key))
             {
                 return;
             }
@@ -60,7 +62,7 @@ namespace AILib
             }
 
             var query = DbMgr.Query<SynonymDicEntity>(s => msg.Contains(s.Content));
-            if(query == null || query.Count() == 0)
+            if (query == null || query.Count() == 0)
             {
                 return string.Empty;
             }
@@ -82,7 +84,7 @@ namespace AILib
         {
             DirectoryInfo dirInfo = new DirectoryInfo(PicPath + dirName);
             FileInfo[] fil = dirInfo.GetFiles();
-            if(fil == null || fil.Count() == 0)
+            if (fil == null || fil.Count() == 0)
             {
                 return string.Empty;
             }
@@ -103,13 +105,13 @@ namespace AILib
         [EnterCommand(Command = "添加同义词", SourceType = MsgType.Private, IsDeveloperOnly = true)]
         public void AppendSynonym(PrivateMsgDTO MsgDTO)
         {
-            if(string.IsNullOrEmpty(MsgDTO.msg))
+            if (string.IsNullOrEmpty(MsgDTO.msg))
             {
                 return;
             }
 
             string[] strs = MsgDTO.msg.Split(new char[] { ' ' }, StringSplitOptions.RemoveEmptyEntries);
-            if(strs == null || strs.Length != 2)
+            if (strs == null || strs.Length != 2)
             {
                 return;
             }

@@ -6,7 +6,10 @@ using AILib.Entities;
 
 namespace AILib
 {
-    [AI(Name = "CartoonSayingAI", Description = "AI for Cartoon Sayings.", IsAvailable = true)]
+    [AI(Name = "CartoonSayingAI",
+        Description = "AI for Cartoon Sayings.",
+        IsAvailable = true,
+        PriorityLevel = 10)]
     public class CartoonSayingAI : AIBase
     {
         private List<SayingEntity> SayingList
@@ -30,7 +33,7 @@ namespace AILib
         [EnterCommand(Command = "语录", SourceType = MsgType.Group, AuthorityLevel = AuthorityLevel.成员)]
         public void ProcceedMsg(GroupMsgDTO MsgDTO)
         {
-            if(IsInSealing(MsgDTO.fromGroup, MsgDTO.fromQQ))
+            if (IsInSealing(MsgDTO.fromGroup, MsgDTO.fromQQ))
             {
                 return;
             }
@@ -138,8 +141,8 @@ namespace AILib
         public void ClearSayings(GroupMsgDTO MsgDTO)
         {
             int delCount = DbMgr.Delete<SayingEntity>(s => s.FromGroup == MsgDTO.fromGroup
-                                                        && (s.Content.Contains(MsgDTO.msg) 
-                                                        || s.Charactor.Contains(MsgDTO.msg) 
+                                                        && (s.Content.Contains(MsgDTO.msg)
+                                                        || s.Charactor.Contains(MsgDTO.msg)
                                                         || s.Cartoon.Contains(MsgDTO.msg)));
 
             MsgSender.Instance.PushMsg(new SendMsgDTO()
@@ -154,13 +157,13 @@ namespace AILib
         public void SayingSeal(GroupMsgDTO MsgDTO)
         {
             long memberNum;
-            if(!long.TryParse(MsgDTO.msg, out memberNum))
+            if (!long.TryParse(MsgDTO.msg, out memberNum))
             {
                 return;
             }
 
             var query = DbMgr.Query<SayingSealEntity>(s => s.GroupNum == MsgDTO.fromGroup && s.SealMember == memberNum);
-            if(query != null && query.Count() > 0)
+            if (query != null && query.Count() > 0)
             {
                 MsgSender.Instance.PushMsg(new SendMsgDTO()
                 {
@@ -198,7 +201,7 @@ namespace AILib
             }
 
             int delCount = DbMgr.Delete<SayingSealEntity>(s => s.GroupNum == MsgDTO.fromGroup && s.SealMember == memberNum);
-            if(delCount == 0)
+            if (delCount == 0)
             {
                 MsgSender.Instance.PushMsg(new SendMsgDTO()
                 {

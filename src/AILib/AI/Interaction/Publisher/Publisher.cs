@@ -8,18 +8,19 @@ using AILib.Entities;
 
 namespace AILib
 {
-    [AI(Name = "Publisher", Description = "AI for Publishing Developing Record.", IsAvailable = true)]
+    [AI(Name = "Publisher",
+        Description = "AI for Publishing Developing Record.",
+        IsAvailable = true,
+        PriorityLevel = 11)]
     public class Publisher : AIBase
     {
         public Publisher(AIConfigDTO ConfigDTO)
             : base(ConfigDTO)
         {
-
         }
 
         public override void Work()
         {
-
         }
 
         [EnterCommand(Command = "发布记录", SourceType = MsgType.Private, IsDeveloperOnly = true)]
@@ -50,7 +51,7 @@ namespace AILib
 
                 Common.SendMsgToDeveloper($@"记录成功！序号为：{Index}");
             }
-            catch(Exception ex)
+            catch (Exception ex)
             {
                 Common.SendMsgToDeveloper(ex);
             }
@@ -59,20 +60,20 @@ namespace AILib
         private void PublishTo(string msg)
         {
             string[] strs = msg.Split(new char[] { ' ' }, StringSplitOptions.RemoveEmptyEntries);
-            if(strs == null || strs.Length != 2)
+            if (strs == null || strs.Length != 2)
             {
                 return;
             }
 
             string Rec = GetRecByIndex(strs[1]);
             long groupNum;
-            if(!long.TryParse(strs[0], out groupNum))
+            if (!long.TryParse(strs[0], out groupNum))
             {
                 return;
             }
-            if(groupNum == 0)
+            if (groupNum == 0)
             {
-                foreach(var group in ConfigDTO.AimGroups)
+                foreach (var group in ConfigDTO.AimGroups)
                 {
                     MsgSender.Instance.PushMsg(new SendMsgDTO()
                     {
@@ -98,7 +99,7 @@ namespace AILib
             try
             {
                 var query = DbMgr.Query<PublishRecordEntity>(p => p.Index == Index);
-                if(query == null || query.Count() == 0)
+                if (query == null || query.Count() == 0)
                 {
                     return string.Empty;
                 }

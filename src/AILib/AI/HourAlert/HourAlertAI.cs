@@ -5,7 +5,10 @@ using System.Linq;
 
 namespace AILib
 {
-    [AI(Name = "HourAlertAI", Description = "AI for Hour Alert.", IsAvailable = true)]
+    [AI(Name = "HourAlertAI",
+        Description = "AI for Hour Alert.",
+        IsAvailable = true,
+        PriorityLevel = 10)]
     public class HourAlertAI : AIBase
     {
         private System.Timers.Timer timer;

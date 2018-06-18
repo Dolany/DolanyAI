@@ -14,7 +14,10 @@ namespace AILib
         public AlermClockEntity ClockEntity { get; set; }
     }
 
-    [AI(Name = "AlermClockAI", Description = "AI for Alerm Clock.", IsAvailable = true)]
+    [AI(Name = "AlermClockAI",
+        Description = "AI for Alerm Clock.",
+        IsAvailable = true,
+        PriorityLevel = 10)]
     public class AlermClockAI : AIBase
     {
         private List<TimerEx> ClockList = new List<TimerEx>();

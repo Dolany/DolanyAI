@@ -8,7 +8,10 @@ using AILib.Entities;
 
 namespace AILib
 {
-    [AI(Name = "RepeatorAI", Description = "AI for Repeating Random words.", IsAvailable = true)]
+    [AI(Name = "RepeatorAI",
+        Description = "AI for Repeating Random words.",
+        IsAvailable = true,
+        PriorityLevel = 0)]
     public class RepeatorAI : AIBase
     {
         private int RepeatLimit = 30;
