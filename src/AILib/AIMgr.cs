@@ -83,11 +83,18 @@ namespace AILib
                     ) as AIBase;
                 if (ai != null)
                 {
+                    ai.PriorityLevel = attr.PriorityLevel;
                     AIList.Add(ai);
-                    ai.Work();
-
-                    LoadCommands(ai);
                 }
+            }
+
+            AIList.Sort();
+            AIList.Reverse();
+            foreach (var ai in AIList)
+            {
+                ai.Work();
+
+                LoadCommands(ai);
             }
         }
 

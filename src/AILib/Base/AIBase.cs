@@ -8,9 +8,10 @@ using Flexlive.CQP.Framework;
 
 namespace AILib
 {
-    public abstract class AIBase
+    public abstract class AIBase : IComparable<AIBase>
     {
         public AIConfigDTO ConfigDTO { get; set; }
+        public int PriorityLevel { get; set; }
 
         public abstract void Work();
 
@@ -83,6 +84,11 @@ namespace AILib
                     return;
                 }
             }
+        }
+
+        public int CompareTo(AIBase other)
+        {
+            return this.PriorityLevel.CompareTo(other.PriorityLevel);
         }
     }
 }
