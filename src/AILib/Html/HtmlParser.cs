@@ -9,11 +9,11 @@ namespace AILib.Html
 {
     public class HtmlParser
     {
-        private HtmlDocument document = new HtmlDocument();
+        protected HtmlDocument document = new HtmlDocument();
 
         public void Load(string html)
         {
-            document.Load(html);
+            document.LoadHtml(html);
 
             Parse();
         }

@@ -7,6 +7,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using AILib.AI.Jump300Report;
 using AILib;
 
 namespace Jump300Report
@@ -29,9 +30,11 @@ namespace Jump300Report
                 return;
             }
 
+            var t = Encoding.UTF8.GetBytes(name);
+
             JRR = new JumpReportRequestor(new GroupMsgDTO()
             {
-                msg = "Dolany的宏世界"
+                msg = name
             }, ReportCallBack);
 
             Task.Run(new Action(() => JRR.Work()));

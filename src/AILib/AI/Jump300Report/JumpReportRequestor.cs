@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace AILib
+namespace AILib.AI.Jump300Report
 {
     public class JumpReportRequestor
     {
@@ -15,11 +15,39 @@ namespace AILib
         {
             this.MsgDTO = MsgDTO;
             this.ReportCallBack = ReportCallBack;
+
+            this.MsgDTO.msg = NameConvert(this.MsgDTO.msg);
         }
 
         public void Work()
         {
+            HttpRequester requester = new HttpRequester();
+            string HtmlStr = requester.Request($"http://300report.jumpw.com/list.html?name={MsgDTO.msg}");
 
+            JumpListHtmlParser listParser = new JumpListHtmlParser();
+            listParser.Load(HtmlStr);
+        }
+
+        private string NameConvert(string name)
+        {
+            string result = string.Empty;
+            foreach (var c in name)
+            {
+                if (IsAsciiChar(c))
+                {
+                    result += c;
+                    continue;
+                }
+
+                result += "%" + BitConverter.ToString(Encoding.UTF8.GetBytes(new char[] { c })).Replace("-", "%");
+            }
+
+            return result;
+        }
+
+        private bool IsAsciiChar(char c)
+        {
+            return c >= 0x20 && c <= 0x7e;
         }
     }
 }
