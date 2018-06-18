@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace AILib.AI.Jump300Report
 {
-    public class JumpMatchListInfo
+    public class JumpMatchBriefInfo
     {
         public string MatchMode { get; set; }
         public string HeroName { get; set; }

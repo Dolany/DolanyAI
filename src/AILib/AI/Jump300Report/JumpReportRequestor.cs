@@ -21,11 +21,34 @@ namespace AILib.AI.Jump300Report
 
         public void Work()
         {
-            HttpRequester requester = new HttpRequester();
-            string HtmlStr = requester.Request($"http://300report.jumpw.com/list.html?name={MsgDTO.msg}");
+            var allList = GetAllList(MsgDTO.msg);
+        }
 
-            JumpListHtmlParser listParser = new JumpListHtmlParser();
-            listParser.Load(HtmlStr);
+        private List<JumpListHtmlParser> GetAllList(string name)
+        {
+            List<JumpListHtmlParser> list = new List<JumpListHtmlParser>();
+            HttpRequester requester = new HttpRequester();
+            int count = 0;
+            int idx = 0;
+
+            do
+            {
+                string HtmlStr = requester.Request($"http://300report.jumpw.com/list.html?name={MsgDTO.msg}&index={idx}");
+
+                JumpListHtmlParser listParser = new JumpListHtmlParser();
+                listParser.Load(HtmlStr);
+
+                count = listParser.Matches.Count;
+                if (count == 0)
+                {
+                    break;
+                }
+
+                idx += count;
+                list.Add(listParser);
+            } while (true);
+
+            return list;
         }
 
         private string NameConvert(string name)
