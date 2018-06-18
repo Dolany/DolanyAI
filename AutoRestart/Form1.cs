@@ -9,13 +9,15 @@ using System.Threading.Tasks;
 using System.Windows.Forms;
 using System.Diagnostics;
 using System.Timers;
+using System.IO;
 
 namespace AutoRestart
 {
     public partial class Form1 : Form
     {
         private System.Timers.Timer timer = new System.Timers.Timer();
-        private string FileName = @"C:\Software\CQA-tuling\酷Q Pro\QuickStart.lnk";
+        private string CQPRootPath = @"C:\Software\CQA-tuling\酷Q Pro\";
+
         private string ProcessName = "CQP";
         private IList<RestartInfo> list = new BindingList<RestartInfo>();
 
@@ -38,10 +40,9 @@ namespace AutoRestart
 
         private void TimeUp(object sender, ElapsedEventArgs e)
         {
-            if (!IsCQRunning())
-            {
-                Restart();
-            }
+            Restart();
+
+            ClearOldPicCache();
         }
 
         private bool IsCQRunning()
@@ -65,7 +66,12 @@ namespace AutoRestart
 
         private void Restart()
         {
-            ProcessStartInfo psInfo = new ProcessStartInfo(FileName);
+            if (IsCQRunning())
+            {
+                return;
+            }
+
+            ProcessStartInfo psInfo = new ProcessStartInfo(CQPRootPath + "QuickStart.lnk");
             Process.Start(psInfo);
 
             list.Insert(0, new RestartInfo()
@@ -77,6 +83,20 @@ namespace AutoRestart
                 dataGridView1.DataSource = list;
                 dataGridView1.Refresh();
             }));
+        }
+
+        private void ClearOldPicCache()
+        {
+            string picCachePath = CQPRootPath + @"\data\image\";
+
+            DirectoryInfo dir = new DirectoryInfo(picCachePath);
+            foreach (var f in dir.GetFiles())
+            {
+                if (f.Extension == ".cqimg" && f.CreationTime <= DateTime.Now.AddHours(-1))
+                {
+                    f.Delete();
+                }
+            }
         }
 
         private void notifyIcon1_MouseDoubleClick(object sender, MouseEventArgs e)

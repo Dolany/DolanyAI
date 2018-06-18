@@ -12,6 +12,8 @@ namespace AILib.AI.Jump300Report
         protected override void Parse()
         {
             var root = document.DocumentNode;
+
+            // TODO
         }
     }
 }
