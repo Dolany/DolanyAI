@@ -21,5 +21,6 @@ namespace AILib
         public bool IsDeveloperOnly { get; set; }
         public AuthorityLevel AuthorityLevel { get; set; }
         public string Description { get; set; }
+        public string syntax { get; set; }
     }
 }

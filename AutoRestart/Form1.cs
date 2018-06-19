@@ -76,6 +76,8 @@ namespace AutoRestart
                 {
                     p.Kill();
                     LogEntity.Log($"[Kill] {DateTime.Now}");
+
+                    Restart();
                     return;
                 }
             }

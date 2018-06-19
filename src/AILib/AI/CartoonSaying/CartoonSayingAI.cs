@@ -6,10 +6,12 @@ using AILib.Entities;
 
 namespace AILib
 {
-    [AI(Name = "CartoonSayingAI",
+    [AI(
+        Name = "CartoonSayingAI",
         Description = "AI for Cartoon Sayings.",
         IsAvailable = true,
-        PriorityLevel = 10)]
+        PriorityLevel = 10
+        )]
     public class CartoonSayingAI : AIBase
     {
         private List<SayingEntity> SayingList

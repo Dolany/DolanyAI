@@ -14,10 +14,12 @@ namespace AILib
         public AlermClockEntity ClockEntity { get; set; }
     }
 
-    [AI(Name = "AlermClockAI",
+    [AI(
+        Name = "AlermClockAI",
         Description = "AI for Alerm Clock.",
         IsAvailable = true,
-        PriorityLevel = 10)]
+        PriorityLevel = 10
+        )]
     public class AlermClockAI : AIBase
     {
         private List<TimerEx> ClockList = new List<TimerEx>();
@@ -56,8 +58,20 @@ namespace AILib
             }
         }
 
-        [EnterCommand(Command = "设定闹钟", SourceType = MsgType.Group, AuthorityLevel = AuthorityLevel.成员)]
-        [EnterCommand(Command = "设置闹钟", SourceType = MsgType.Group, AuthorityLevel = AuthorityLevel.成员)]
+        [EnterCommand(
+            Command = "设定闹钟",
+            SourceType = MsgType.Group,
+            AuthorityLevel = AuthorityLevel.成员,
+            Description = "设定在指定时间的闹钟，我会到时候艾特你并显示提醒内容",
+            syntax = "[目标时间] [提醒内容]"
+            )]
+        [EnterCommand(
+            Command = "设置闹钟",
+            SourceType = MsgType.Group,
+            AuthorityLevel = AuthorityLevel.成员,
+            Description = "功能同设定闹钟",
+            syntax = "[目标时间] [提醒内容]"
+            )]
         public void SetClock(GroupMsgDTO MsgDTO)
         {
             string[] strs = MsgDTO.msg.Split(new char[] { ' ' });
@@ -164,7 +178,13 @@ namespace AILib
             }
         }
 
-        [EnterCommand(Command = "我的闹钟", SourceType = MsgType.Group, AuthorityLevel = AuthorityLevel.成员)]
+        [EnterCommand(
+            Command = "我的闹钟",
+            SourceType = MsgType.Group,
+            AuthorityLevel = AuthorityLevel.成员,
+            Description = "查询你当前设置的闹钟",
+            syntax = ""
+            )]
         public void QueryClock(GroupMsgDTO MsgDTO)
         {
             var allClocks = DbMgr.Query<AlermClockEntity>(q => q.GroupNumber == MsgDTO.fromGroup
