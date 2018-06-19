@@ -45,11 +45,18 @@ namespace AutoRestart
 
         private void TimeUp(object sender, ElapsedEventArgs e)
         {
-            Restart();
+            try
+            {
+                Restart();
 
-            CheckHeartBeat();
+                CheckHeartBeat();
 
-            ClearOldPicCache();
+                ClearOldPicCache();
+            }
+            catch (Exception ex)
+            {
+                Common.SendMsgToDeveloper(ex);
+            }
         }
 
         private void CheckHeartBeat()

@@ -63,14 +63,14 @@ namespace AILib
             SourceType = MsgType.Group,
             AuthorityLevel = AuthorityLevel.成员,
             Description = "设定在指定时间的闹钟，我会到时候艾特你并显示提醒内容",
-            syntax = "[目标时间] [提醒内容]"
+            Syntax = "[目标时间] [提醒内容]"
             )]
         [EnterCommand(
             Command = "设置闹钟",
             SourceType = MsgType.Group,
             AuthorityLevel = AuthorityLevel.成员,
             Description = "功能同设定闹钟",
-            syntax = "[目标时间] [提醒内容]"
+            Syntax = "[目标时间] [提醒内容]"
             )]
         public void SetClock(GroupMsgDTO MsgDTO)
         {
@@ -183,7 +183,7 @@ namespace AILib
             SourceType = MsgType.Group,
             AuthorityLevel = AuthorityLevel.成员,
             Description = "查询你当前设置的闹钟",
-            syntax = ""
+            Syntax = ""
             )]
         public void QueryClock(GroupMsgDTO MsgDTO)
         {
@@ -214,7 +214,13 @@ namespace AILib
             });
         }
 
-        [EnterCommand(Command = "删除闹钟", SourceType = MsgType.Group, AuthorityLevel = AuthorityLevel.成员)]
+        [EnterCommand(
+            Command = "删除闹钟",
+            SourceType = MsgType.Group,
+            AuthorityLevel = AuthorityLevel.成员,
+            Description = "删除指定时间的已经设置好的闹钟",
+            Syntax = "[目标时间]"
+            )]
         public void DeleteClock(GroupMsgDTO MsgDTO)
         {
             (int hour, int minute)? time = GenTimeFromStr(MsgDTO.msg);
@@ -249,7 +255,13 @@ namespace AILib
             ReloadAllClocks();
         }
 
-        [EnterCommand(Command = "清空闹钟", SourceType = MsgType.Group, AuthorityLevel = AuthorityLevel.成员)]
+        [EnterCommand(
+            Command = "清空闹钟",
+            SourceType = MsgType.Group,
+            AuthorityLevel = AuthorityLevel.成员,
+            Description = "清空设置过的所有闹钟",
+            Syntax = ""
+            )]
         public void ClearAllClock(GroupMsgDTO MsgDTO)
         {
             if (DbMgr.Delete<AlermClockEntity>(q => q.GroupNumber == MsgDTO.fromGroup

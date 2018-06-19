@@ -44,7 +44,8 @@ namespace AILib
                 DbMgr.Insert(new HeartBeatEntity()
                 {
                     Id = Guid.NewGuid().ToString(),
-                    LastBeatTime = DateTime.Now
+                    LastBeatTime = DateTime.Now,
+                    Content = "HeartBeat"
                 });
             }
             else

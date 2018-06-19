@@ -32,7 +32,13 @@ namespace AILib
         {
         }
 
-        [EnterCommand(Command = "语录", SourceType = MsgType.Group, AuthorityLevel = AuthorityLevel.成员)]
+        [EnterCommand(
+            Command = "语录",
+            SourceType = MsgType.Group,
+            AuthorityLevel = AuthorityLevel.成员,
+            Description = "录入语录或者按关键字检索语录",
+            Syntax = " 或者 语录 [关键字]; 语录 [出处] [人物] [内容]"
+            )]
         public void ProcceedMsg(GroupMsgDTO MsgDTO)
         {
             if (IsInSealing(MsgDTO.fromGroup, MsgDTO.fromQQ))
@@ -133,13 +139,25 @@ namespace AILib
             return shownSaying;
         }
 
-        [EnterCommand(Command = "语录总数", SourceType = MsgType.Private, IsDeveloperOnly = true)]
+        [EnterCommand(
+            Command = "语录总数",
+            SourceType = MsgType.Private,
+            IsDeveloperOnly = true,
+            Description = "查询录入的所有语录的总数",
+            Syntax = ""
+            )]
         public void SayingTotalCount(PrivateMsgDTO MsgDTO)
         {
             Common.SendMsgToDeveloper($@"共有语录 {SayingList.Count}条");
         }
 
-        [EnterCommand(Command = "删除语录", SourceType = MsgType.Group, AuthorityLevel = AuthorityLevel.群主)]
+        [EnterCommand(
+            Command = "删除语录",
+            SourceType = MsgType.Group,
+            AuthorityLevel = AuthorityLevel.群主,
+            Description = "按关键字删除语录",
+            Syntax = "[关键字]"
+            )]
         public void ClearSayings(GroupMsgDTO MsgDTO)
         {
             int delCount = DbMgr.Delete<SayingEntity>(s => s.FromGroup == MsgDTO.fromGroup
@@ -155,7 +173,13 @@ namespace AILib
             });
         }
 
-        [EnterCommand(Command = "语录封禁", SourceType = MsgType.Group, AuthorityLevel = AuthorityLevel.群主)]
+        [EnterCommand(
+            Command = "语录封禁",
+            SourceType = MsgType.Group,
+            AuthorityLevel = AuthorityLevel.群主,
+            Description = "封禁一个群员，让他无法使用语录功能",
+            Syntax = "[qq号码]"
+            )]
         public void SayingSeal(GroupMsgDTO MsgDTO)
         {
             long memberNum;
@@ -193,7 +217,13 @@ namespace AILib
             });
         }
 
-        [EnterCommand(Command = "语录解封", SourceType = MsgType.Group, AuthorityLevel = AuthorityLevel.群主)]
+        [EnterCommand(
+            Command = "语录解封",
+            SourceType = MsgType.Group,
+            AuthorityLevel = AuthorityLevel.群主,
+            Description = "解封一个群员，让他可以继续使用语录功能",
+            Syntax = "[qq号码]"
+            )]
         public void SayingDeseal(GroupMsgDTO MsgDTO)
         {
             long memberNum;
