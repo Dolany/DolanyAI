@@ -20,7 +20,7 @@ namespace AILib
         public MonitorAI(AIConfigDTO ConfigDTO)
             : base(ConfigDTO)
         {
-            timer.Interval = 20 * 1000;
+            timer.Interval = CheckFrequency * 1000;
             timer.Elapsed += TimeUp;
             timer.AutoReset = true;
         }

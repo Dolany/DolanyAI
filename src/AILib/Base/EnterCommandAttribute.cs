@@ -20,5 +20,6 @@ namespace AILib
         public MsgType SourceType { get; set; }
         public bool IsDeveloperOnly { get; set; }
         public AuthorityLevel AuthorityLevel { get; set; }
+        public string Description { get; set; }
     }
 }

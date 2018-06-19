@@ -45,7 +45,7 @@ namespace AILib
                 return;
             }
 
-            if (AIMgr.AllAvailableCommands.Contains(MsgDTO.command))
+            if (AIMgr.AllAvailableCommands.Select(p => p.Command).Contains(MsgDTO.command))
             {
                 return;
             }

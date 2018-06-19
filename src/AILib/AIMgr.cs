@@ -44,7 +44,7 @@ namespace AILib
             }
         }
 
-        public static List<string> AllAvailableCommands { get; private set; }
+        public static List<EnterCommandAttribute> AllAvailableCommands { get; private set; }
 
         /// <summary>
         /// 加载指定列表中的AI
@@ -54,7 +54,7 @@ namespace AILib
         public static void StartAIs(IEnumerable<string> AINames, AIConfigDTO ConfigDTO)
         {
             AIList = new List<AIBase>();
-            AllAvailableCommands = new List<string>();
+            AllAvailableCommands = new List<EnterCommandAttribute>();
 
             Assembly assembly = Assembly.GetExecutingAssembly();
             Type[] typeArr = assembly.GetTypes();
@@ -106,7 +106,7 @@ namespace AILib
                 foreach (var attr in method.GetCustomAttributes(typeof(EnterCommandAttribute), false))
                 {
                     var enterAttr = attr as EnterCommandAttribute;
-                    AllAvailableCommands.Add(enterAttr.Command);
+                    AllAvailableCommands.Add(enterAttr);
                 }
             }
         }

@@ -65,6 +65,7 @@
       <SubType>Component</SubType>
     </Compile>
     <Compile Include="AI\CartoonSaying\CartoonSayingAI.cs" />
+    <Compile Include="AI\Helper\HelperAI.cs" />
     <Compile Include="AI\Interaction\Publisher\Publisher.cs" />
     <Compile Include="AI\Jump300Report\Parser\JumpDetailHtmlParser.cs" />
     <Compile Include="AI\Jump300Report\Parser\JumpListHtmlParser.cs" />
