@@ -21,7 +21,6 @@ namespace AutoRestart
         private string CQPRootPath = @".\";
 
         private string ProcessName = "CQP";
-        private IList<RestartInfo> list = new BindingList<RestartInfo>();
 
         private bool IsRunning = true;
 
@@ -76,6 +75,7 @@ namespace AutoRestart
                 if (p.ProcessName == ProcessName)
                 {
                     p.Kill();
+                    LogEntity.Log($"[Kill] {DateTime.Now}");
                     return;
                 }
             }
@@ -110,13 +110,11 @@ namespace AutoRestart
             ProcessStartInfo psInfo = new ProcessStartInfo(CQPRootPath + "QuickStart.lnk");
             Process.Start(psInfo);
 
-            list.Insert(0, new RestartInfo()
-            {
-                time = DateTime.Now
-            });
+            LogEntity.Log($"[Restart] {DateTime.Now}");
+
             this.Invoke(new Action(() =>
             {
-                dataGridView1.DataSource = list;
+                dataGridView1.DataSource = DbMgr.Query<LogEntity>();
                 dataGridView1.Refresh();
             }));
         }
