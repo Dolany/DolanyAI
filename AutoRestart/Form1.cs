@@ -10,18 +10,24 @@ using System.Windows.Forms;
 using System.Diagnostics;
 using System.Timers;
 using System.IO;
+using AILib;
+using AILib.Entities;
 
 namespace AutoRestart
 {
     public partial class Form1 : Form
     {
         private System.Timers.Timer timer = new System.Timers.Timer();
-        private string CQPRootPath = @"C:\Software\CQA-tuling\酷Q Pro\";
+        private string CQPRootPath = @".\";
 
         private string ProcessName = "CQP";
         private IList<RestartInfo> list = new BindingList<RestartInfo>();
 
         private bool IsRunning = true;
+
+        private int MissHeartCount = 0;
+        private int MaxMissLimit = 4;
+        private int CheckFrequency = 30;
 
         public Form1()
         {
@@ -31,7 +37,7 @@ namespace AutoRestart
         private void Form1_Load(object sender, EventArgs e)
         {
             timer.Enabled = true;
-            timer.Interval = 30 * 1000;
+            timer.Interval = CheckFrequency * 1000;
             timer.AutoReset = true;
             timer.Elapsed += TimeUp;
 
@@ -43,6 +49,34 @@ namespace AutoRestart
             Restart();
 
             ClearOldPicCache();
+        }
+
+        private void CheckHeartBeat()
+        {
+            var query = DbMgr.Query<HeartBeatEntity>();
+            if (query == null || query.Count() == 0 || query.FirstOrDefault().LastBeatTime < DateTime.Now.AddSeconds(-CheckFrequency))
+            {
+                MissHeartCount++;
+            }
+
+            if (MissHeartCount > MaxMissLimit)
+            {
+                KillCQ();
+                MissHeartCount = 0;
+            }
+        }
+
+        private void KillCQ()
+        {
+            Process[] processes = Process.GetProcesses();
+            foreach (var p in processes)
+            {
+                if (p.ProcessName == ProcessName)
+                {
+                    p.Kill();
+                    return;
+                }
+            }
         }
 
         private bool IsCQRunning()

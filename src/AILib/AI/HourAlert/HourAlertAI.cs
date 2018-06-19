@@ -248,7 +248,7 @@ namespace AILib
             Common.SendMsgToDeveloper(msg);
         }
 
-        [EnterCommand(Command = "清空报时", SourceType = MsgType.Group, AuthorityLevel = AuthorityLevel.群主)]
+        [EnterCommand(Command = "清空报时", SourceType = MsgType.Group, AuthorityLevel = AuthorityLevel.管理员)]
         public void ClearAlert(GroupMsgDTO MsgDTO)
         {
             if (string.IsNullOrEmpty(MsgDTO.msg))
