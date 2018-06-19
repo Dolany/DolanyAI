@@ -48,6 +48,8 @@ namespace AutoRestart
         {
             Restart();
 
+            CheckHeartBeat();
+
             ClearOldPicCache();
         }
 
