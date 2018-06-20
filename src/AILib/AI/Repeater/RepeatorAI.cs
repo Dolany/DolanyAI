@@ -60,7 +60,13 @@ namespace AILib
             }
         }
 
-        [EnterCommand(Command = "复读机禁用", SourceType = MsgType.Group, AuthorityLevel = AuthorityLevel.群主)]
+        [EnterCommand(
+            Command = "复读机禁用",
+            SourceType = MsgType.Group,
+            AuthorityLevel = AuthorityLevel.群主,
+            Description = "禁用复读机功能，禁用后将不会在本群产生计数和进行复读",
+            Syntax = ""
+            )]
         public void Forbidden(GroupMsgDTO MsgDTO)
         {
             ForbiddenStateChange(MsgDTO.fromGroup, false);
@@ -73,7 +79,13 @@ namespace AILib
             });
         }
 
-        [EnterCommand(Command = "复读机启用", SourceType = MsgType.Group, AuthorityLevel = AuthorityLevel.群主)]
+        [EnterCommand(
+            Command = "复读机启用",
+            SourceType = MsgType.Group,
+            AuthorityLevel = AuthorityLevel.群主,
+            Description = "重新启用复读机功能",
+            Syntax = ""
+            )]
         public void Unforbidden(GroupMsgDTO MsgDTO)
         {
             ForbiddenStateChange(MsgDTO.fromGroup, true);
@@ -136,7 +148,13 @@ namespace AILib
             });
         }
 
-        [EnterCommand(Command = "设定复读频率", SourceType = MsgType.Private, IsDeveloperOnly = true)]
+        [EnterCommand(
+            Command = "设定复读频率",
+            SourceType = MsgType.Private,
+            IsDeveloperOnly = true,
+            Description = "设定复读功能的频率，即多少次计数后进行复读",
+            Syntax = "[复读频率]"
+            )]
         public void SetRepeatLimit(PrivateMsgDTO MsgDTO)
         {
             int limit;

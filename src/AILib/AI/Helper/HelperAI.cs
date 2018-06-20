@@ -6,10 +6,12 @@ using System.Threading.Tasks;
 
 namespace AILib
 {
-    [AI(Name = "HelperAI",
+    [AI(
+        Name = "HelperAI",
         Description = "AI for Getting Help Infos.",
         IsAvailable = true,
-        PriorityLevel = 10)]
+        PriorityLevel = 10
+        )]
     public class HelperAI : AIBase
     {
         public HelperAI(AIConfigDTO ConfigDTO)
@@ -21,7 +23,13 @@ namespace AILib
         {
         }
 
-        [EnterCommand(Command = "帮助", SourceType = MsgType.Group, AuthorityLevel = AuthorityLevel.成员)]
+        [EnterCommand(
+            Command = "帮助",
+            SourceType = MsgType.Group,
+            AuthorityLevel = AuthorityLevel.成员,
+            Description = "获取帮助信息",
+            Syntax = " 或者 帮助 [命令名]"
+            )]
         public void HelpMe(GroupMsgDTO MsgDTO)
         {
             if (string.IsNullOrEmpty(MsgDTO.msg))

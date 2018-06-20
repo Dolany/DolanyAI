@@ -8,10 +8,12 @@ using AILib.Entities;
 
 namespace AILib
 {
-    [AI(Name = "Publisher",
+    [AI(
+        Name = "Publisher",
         Description = "AI for Publishing Developing Record.",
         IsAvailable = true,
-        PriorityLevel = 11)]
+        PriorityLevel = 11
+        )]
     public class Publisher : AIBase
     {
         public Publisher(AIConfigDTO ConfigDTO)
@@ -23,13 +25,25 @@ namespace AILib
         {
         }
 
-        [EnterCommand(Command = "发布记录", SourceType = MsgType.Private, IsDeveloperOnly = true)]
+        [EnterCommand(
+            Command = "发布记录",
+            SourceType = MsgType.Private,
+            IsDeveloperOnly = true,
+            Description = "发布新版本内容，并留下记录，将返回一个记录编号",
+            Syntax = "[内容]"
+            )]
         public void PublishRec(PrivateMsgDTO MsgDTO)
         {
             PublishRec(MsgDTO.msg);
         }
 
-        [EnterCommand(Command = "发布", SourceType = MsgType.Private, IsDeveloperOnly = true)]
+        [EnterCommand(
+            Command = "发布",
+            SourceType = MsgType.Private,
+            IsDeveloperOnly = true,
+            Description = "将指定编号的内容发布到指定群组，群组号0时为全部群组",
+            Syntax = "[群组号] [记录编号]"
+            )]
         public void PublishTo(PrivateMsgDTO MsgDTO)
         {
             PublishTo(MsgDTO.msg);

@@ -99,13 +99,25 @@ namespace AILib
             }
         }
 
-        [EnterCommand(Command = "报时", SourceType = MsgType.Group, AuthorityLevel = AuthorityLevel.成员)]
+        [EnterCommand(
+            Command = "报时",
+            SourceType = MsgType.Group,
+            AuthorityLevel = AuthorityLevel.成员,
+            Description = "设定指定小时的报时内容",
+            Syntax = " [目标小时] [报时内容]"
+            )]
         public void AlertSet(GroupMsgDTO MsgDTO)
         {
             RecordAlertContent(MsgDTO.msg, MsgDTO.fromQQ, MsgDTO.fromGroup);
         }
 
-        [EnterCommand(Command = "报时开启", SourceType = MsgType.Group, AuthorityLevel = AuthorityLevel.管理员)]
+        [EnterCommand(
+            Command = "报时开启",
+            SourceType = MsgType.Group,
+            AuthorityLevel = AuthorityLevel.管理员,
+            Description = "设置报时功能开启",
+            Syntax = ""
+            )]
         public void AlertEnable(GroupMsgDTO MsgDTO)
         {
             AvailableStateChange(MsgDTO.fromGroup, true);
@@ -117,7 +129,13 @@ namespace AILib
             });
         }
 
-        [EnterCommand(Command = "报时关闭", SourceType = MsgType.Group, AuthorityLevel = AuthorityLevel.管理员)]
+        [EnterCommand(
+            Command = "报时关闭",
+            SourceType = MsgType.Group,
+            AuthorityLevel = AuthorityLevel.管理员,
+            Description = "设置报时功能关闭",
+            Syntax = ""
+            )]
         public void AlertDisenable(GroupMsgDTO MsgDTO)
         {
             AvailableStateChange(MsgDTO.fromGroup, false);
@@ -212,7 +230,13 @@ namespace AILib
             return list[randIdx].Content;
         }
 
-        [EnterCommand(Command = "报时", SourceType = MsgType.Private, IsDeveloperOnly = true)]
+        [EnterCommand(
+            Command = "报时",
+            SourceType = MsgType.Private,
+            IsDeveloperOnly = true,
+            Description = "获取指定群组和目标小时的随机报时内容",
+            Syntax = " [目标群组] [目标小时]"
+            )]
         public void AlertPrivate(PrivateMsgDTO MsgDTO)
         {
             string[] strs = MsgDTO.msg.Split(new char[] { ' ' }, StringSplitOptions.RemoveEmptyEntries);
@@ -237,7 +261,13 @@ namespace AILib
             Common.SendMsgToDeveloper($@"到{aimHour}点啦！ {RanContent}");
         }
 
-        [EnterCommand(Command = "所有报时开启群组", SourceType = MsgType.Private, IsDeveloperOnly = true)]
+        [EnterCommand(
+            Command = "所有报时开启群组",
+            SourceType = MsgType.Private,
+            IsDeveloperOnly = true,
+            Description = "获取所有报时开启群组的列表",
+            Syntax = ""
+            )]
         public void AllAvailabeGroups(PrivateMsgDTO MsgDTO)
         {
             var list = AvailableGroups;
@@ -250,7 +280,13 @@ namespace AILib
             Common.SendMsgToDeveloper(msg);
         }
 
-        [EnterCommand(Command = "清空报时", SourceType = MsgType.Group, AuthorityLevel = AuthorityLevel.管理员)]
+        [EnterCommand(
+            Command = "清空报时",
+            SourceType = MsgType.Group,
+            AuthorityLevel = AuthorityLevel.群主,
+            Description = "清空指定小时的所有报时内容",
+            Syntax = "[目标小时]"
+            )]
         public void ClearAlert(GroupMsgDTO MsgDTO)
         {
             if (string.IsNullOrEmpty(MsgDTO.msg))
@@ -281,7 +317,13 @@ namespace AILib
             });
         }
 
-        [EnterCommand(Command = "所有报时数目", SourceType = MsgType.Private, IsDeveloperOnly = true)]
+        [EnterCommand(
+            Command = "所有报时数目",
+            SourceType = MsgType.Private,
+            IsDeveloperOnly = true,
+            Description = "获取所有的报时数目",
+            Syntax = ""
+            )]
         public void TotalAlertCount(PrivateMsgDTO MsgDTO)
         {
             Common.SendMsgToDeveloper(AllAlertInfos.Count().ToString());

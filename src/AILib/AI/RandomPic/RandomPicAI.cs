@@ -9,10 +9,12 @@ using Flexlive.CQP.Framework;
 
 namespace AILib
 {
-    [AI(Name = "RandomPicAI",
+    [AI(
+        Name = "RandomPicAI",
         Description = "AI for Sending Random Pic By Keyword.",
         IsAvailable = true,
-        PriorityLevel = 11)]
+        PriorityLevel = 11
+        )]
     public class RandomPicAI : AIBase
     {
         private string PicPath = "data/image/";
@@ -94,7 +96,13 @@ namespace AILib
             return f.Name;
         }
 
-        [EnterCommand(Command = "重新加载图片", SourceType = MsgType.Private, IsDeveloperOnly = true)]
+        [EnterCommand(
+            Command = "重新加载图片",
+            SourceType = MsgType.Private,
+            IsDeveloperOnly = true,
+            Description = "重新加载图片列表，刷新搜索关键字",
+            Syntax = ""
+            )]
         public void RefreshKeywords(PrivateMsgDTO MsgDTO)
         {
             ReloadAllKeywords();
@@ -102,7 +110,13 @@ namespace AILib
             Common.SendMsgToDeveloper($"共加载了{Keywords.Count}个图片组");
         }
 
-        [EnterCommand(Command = "添加同义词", SourceType = MsgType.Private, IsDeveloperOnly = true)]
+        [EnterCommand(
+            Command = "添加同义词",
+            SourceType = MsgType.Private,
+            IsDeveloperOnly = true,
+            Description = "添加图片检索时的关键字",
+            Syntax = "[目标词] [同义词]"
+            )]
         public void AppendSynonym(PrivateMsgDTO MsgDTO)
         {
             if (string.IsNullOrEmpty(MsgDTO.msg))

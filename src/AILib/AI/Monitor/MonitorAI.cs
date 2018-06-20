@@ -8,10 +8,12 @@ using AILib.Entities;
 
 namespace AILib
 {
-    [AI(Name = "MonitorAI",
+    [AI(
+        Name = "MonitorAI",
         Description = "AI for Monitor Ais status and emitting heart beat.",
         IsAvailable = true,
-        PriorityLevel = 12)]
+        PriorityLevel = 12
+        )]
     public class MonitorAI : AIBase
     {
         private int CheckFrequency = 20;
