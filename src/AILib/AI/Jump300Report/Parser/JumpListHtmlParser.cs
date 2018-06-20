@@ -26,16 +26,22 @@ namespace AILib.AI.Jump300Report
             var root = document.DocumentNode;
 
             var nodes = SearchNodes(root, n => n.Name == "table");
-            if (nodes == null || nodes.Count() != 3)
+            if (nodes == null)
             {
                 return;
             }
-
             ParseBaseInfo(nodes[0].InnerText);
-            ParseRankInfos(nodes[1].InnerText);
-            ParseMatches(nodes[2].InnerText);
-
-            AppendAddr(nodes[2]);
+            if (nodes.Count() == 2)
+            {
+                ParseMatches(nodes[1].InnerText);
+                AppendAddr(nodes[1]);
+            }
+            else
+            {
+                ParseRankInfos(nodes[1].InnerText);
+                ParseMatches(nodes[2].InnerText);
+                AppendAddr(nodes[2]);
+            }
         }
 
         private void ParseBaseInfo(string text)

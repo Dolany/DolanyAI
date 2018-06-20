@@ -90,16 +90,8 @@ namespace AILib
             info.FromGroup = fromGroup;
             info.Id = Guid.NewGuid().ToString();
 
-            try
-            {
-                DbMgr.Insert(info);
-                return true;
-            }
-            catch (Exception ex)
-            {
-                Common.SendMsgToDeveloper(ex);
-                return false;
-            }
+            DbMgr.Insert(info);
+            return true;
         }
 
         private string GetRanSaying(long fromGroup, string keyword = null)
