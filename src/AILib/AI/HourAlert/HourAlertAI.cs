@@ -80,22 +80,15 @@ namespace AILib
                 return;
             }
 
-            try
+            foreach (var groupNum in availableList)
             {
-                foreach (var groupNum in availableList)
+                string RanContent = GetRanAlertContent(groupNum, curHour);
+                MsgSender.Instance.PushMsg(new SendMsgDTO()
                 {
-                    string RanContent = GetRanAlertContent(groupNum, curHour);
-                    MsgSender.Instance.PushMsg(new SendMsgDTO()
-                    {
-                        Aim = groupNum,
-                        Type = MsgType.Group,
-                        Msg = $@"到{curHour}点啦！ {RanContent}"
-                    });
-                }
-            }
-            catch (Exception ex)
-            {
-                Common.SendMsgToDeveloper(ex);
+                    Aim = groupNum,
+                    Type = MsgType.Group,
+                    Msg = $@"到{curHour}点啦！ {RanContent}"
+                });
             }
         }
 

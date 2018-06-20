@@ -104,29 +104,21 @@ namespace AILib
 
         private string GetRanSaying(long fromGroup, string keyword = null)
         {
-            try
+            var list = SayingList;
+            var query = from saying in list
+                        where (string.IsNullOrEmpty(keyword) ? true : saying.Contains(keyword))
+                            && (fromGroup == 0 ? true : saying.FromGroup == fromGroup)
+                        select saying;
+            if (query == null || query.Count() == 0)
             {
-                var list = SayingList;
-                var query = from saying in list
-                            where (string.IsNullOrEmpty(keyword) ? true : saying.Contains(keyword))
-                                && (fromGroup == 0 ? true : saying.FromGroup == fromGroup)
-                            select saying;
-                if (query == null || query.Count() == 0)
-                {
-                    return string.Empty;
-                }
-                list = query.ToList();
-
-                Random random = new Random();
-                int randIdx = random.Next(list.Count);
-
-                return GetShownSaying(list[randIdx]);
-            }
-            catch (Exception ex)
-            {
-                Common.SendMsgToDeveloper(ex);
                 return string.Empty;
             }
+            list = query.ToList();
+
+            Random random = new Random();
+            int randIdx = random.Next(list.Count);
+
+            return GetShownSaying(list[randIdx]);
         }
 
         private string GetShownSaying(SayingEntity s)

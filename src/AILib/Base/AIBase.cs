@@ -39,11 +39,7 @@ namespace AILib
                     }
 
                     string authority = CQ.GetGroupMemberInfo(MsgDTO.fromGroup, MsgDTO.fromQQ, true).Authority;
-                    if (enterAttr.AuthorityLevel == AuthorityLevel.群主 && authority != "群主")
-                    {
-                        break;
-                    }
-                    if (enterAttr.AuthorityLevel == AuthorityLevel.管理员 && (authority != "群主" && authority != "管理员"))
+                    if (!AuthorityCheck(enterAttr.AuthorityLevel, authority))
                     {
                         break;
                     }
@@ -57,6 +53,20 @@ namespace AILib
                     return;
                 }
             }
+        }
+
+        private bool AuthorityCheck(AuthorityLevel authorityLevel, string authority)
+        {
+            if (authorityLevel == AuthorityLevel.群主 && authority != "群主")
+            {
+                return false;
+            }
+            if (authorityLevel == AuthorityLevel.管理员 && (authority != "群主" && authority != "管理员"))
+            {
+                return false;
+            }
+
+            return true;
         }
 
         public virtual void OnPrivateMsgReceived(PrivateMsgDTO MsgDTO)
