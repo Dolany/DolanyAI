@@ -66,7 +66,7 @@
     </Compile>
     <Compile Include="AI\CartoonSaying\CartoonSayingAI.cs" />
     <Compile Include="AI\Helper\HelperAI.cs" />
-    <Compile Include="AI\Interaction\Publisher\Publisher.cs" />
+    <Compile Include="AI\DevelperOnly\Publisher\Publisher.cs" />
     <Compile Include="AI\Jump300Report\Parser\JumpDetailHtmlParser.cs" />
     <Compile Include="AI\Jump300Report\Parser\JumpListHtmlParser.cs" />
     <Compile Include="AI\Jump300Report\JumpReportAnalyzer.cs" />
@@ -74,7 +74,7 @@
     <Compile Include="AI\Jump300Report\Model\JumpBaseInfo.cs" />
     <Compile Include="AI\Jump300Report\Model\JumpMatchListInfo.cs" />
     <Compile Include="AI\Jump300Report\Model\JumpServerRankInfo.cs" />
-    <Compile Include="AI\Monitor\MonitorAI.cs" />
+    <Compile Include="AI\DevelperOnly\Monitor\MonitorAI.cs" />
     <Compile Include="AI\RandomPic\RandomPicAI.cs" />
     <Compile Include="AI\Repeater\RepeatorAI.cs" />
     <Compile Include="Base\AIAttribute.cs" />
