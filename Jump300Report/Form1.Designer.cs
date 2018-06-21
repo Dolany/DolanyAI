@@ -39,7 +39,7 @@
             this.nameTxt.Name = "nameTxt";
             this.nameTxt.Size = new System.Drawing.Size(201, 21);
             this.nameTxt.TabIndex = 0;
-            this.nameTxt.Text = "苍月风语";
+            this.nameTxt.Text = "Dolany的宏世界";
             // 
             // QueryBtn
             // 

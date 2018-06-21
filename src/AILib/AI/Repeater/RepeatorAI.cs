@@ -140,11 +140,13 @@ namespace AILib
         {
             Thread.Sleep(SleepTime);
 
+            string Msg = MsgDTO.command + (string.IsNullOrEmpty(MsgDTO.msg) ? string.Empty : " " + MsgDTO.msg);
+
             MsgSender.Instance.PushMsg(new SendMsgDTO()
             {
                 Aim = MsgDTO.fromGroup,
                 Type = MsgType.Group,
-                Msg = MsgDTO.command + " " + MsgDTO.msg
+                Msg = Msg
             });
         }
 
