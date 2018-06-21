@@ -21,7 +21,7 @@ namespace AILib.AI.Jump300Report
         {
             string report = string.Empty;
             report += SummaryReport();
-            return report;
+            return string.IsNullOrEmpty(report) ? "欸呀呀，战绩查询不到呀！" : report;
         }
 
         private string SummaryReport()
