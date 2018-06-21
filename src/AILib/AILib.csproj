@@ -67,6 +67,7 @@
     <Compile Include="AI\CartoonSaying\CartoonSayingAI.cs" />
     <Compile Include="AI\Helper\HelperAI.cs" />
     <Compile Include="AI\DevelperOnly\Publisher\Publisher.cs" />
+    <Compile Include="AI\Jump300Report\Jump300ReportAI.cs" />
     <Compile Include="AI\Jump300Report\Parser\JumpDetailHtmlParser.cs" />
     <Compile Include="AI\Jump300Report\Parser\JumpListHtmlParser.cs" />
     <Compile Include="AI\Jump300Report\JumpReportAnalyzer.cs" />
