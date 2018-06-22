@@ -49,7 +49,7 @@ namespace AILib.AI.Jump300Report
         }
 
         [JumpAnalyze(Order = 1, Title = "基础信息")]
-        private string SummaryReport()
+        public string SummaryReport()
         {
             if (Lists == null || Lists.Count == 0)
             {
@@ -66,7 +66,7 @@ namespace AILib.AI.Jump300Report
         }
 
         [JumpAnalyze(Order = 2, Title = "最常用的英雄")]
-        private string FavoriteHeroInfo()
+        public string FavoriteHeroInfo()
         {
             if (Lists == null || Lists.Count == 0)
             {
