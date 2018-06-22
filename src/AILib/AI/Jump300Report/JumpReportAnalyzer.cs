@@ -35,23 +35,37 @@ namespace AILib.AI.Jump300Report
 
             string report = string.Empty;
 
+            var query = GetReportMethods();
+            foreach (var m in query)
+            {
+                report += GenMethodReport(m);
+            }
+
+            return report;
+        }
+
+        private IOrderedEnumerable<MethodInfo> GetReportMethods()
+        {
             Type t = this.GetType();
             var query = t.GetMethods()
                 .Where(m => m.CustomAttributes.Any(a => a.AttributeType == typeof(JumpAnalyzeAttribute)))
                 .OrderBy(m => (m.GetCustomAttributes(typeof(JumpAnalyzeAttribute), false).FirstOrDefault() as JumpAnalyzeAttribute).Order);
-            foreach (var m in query)
-            {
-                string Title = (m.GetCustomAttributes(typeof(JumpAnalyzeAttribute), false).FirstOrDefault() as JumpAnalyzeAttribute).Title;
-                string content = t.InvokeMember(m.Name,
-                            BindingFlags.InvokeMethod,
-                            null,
-                            this,
-                            null
-                            ) as string;
-                report += $@"{Title} :
+
+            return query;
+        }
+
+        private string GenMethodReport(MethodInfo m)
+        {
+            string Title = (m.GetCustomAttributes(typeof(JumpAnalyzeAttribute), false).FirstOrDefault() as JumpAnalyzeAttribute).Title;
+            string content = m.DeclaringType.InvokeMember(m.Name,
+                        BindingFlags.InvokeMethod,
+                        null,
+                        this,
+                        null
+                        ) as string;
+            string report = $@"{Title} :
 {content}
 ";
-            }
 
             return report;
         }

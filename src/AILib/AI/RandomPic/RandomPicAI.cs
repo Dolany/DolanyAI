@@ -139,5 +139,23 @@ namespace AILib
 
             Common.SendMsgToDeveloper("添加成功！");
         }
+
+        [EnterCommand(
+            Command = "所有图片关键词",
+            SourceType = MsgType.Private,
+            IsDeveloperOnly = true,
+            Description = "获取所有图片关键字（不包括同义词）",
+            Syntax = ""
+            )]
+        public void AllPicKeywords(PrivateMsgDTO MsgDTO)
+        {
+            string msg = string.Empty;
+            foreach (var k in Keywords)
+            {
+                msg += k + '\r';
+            }
+
+            Common.SendMsgToDeveloper(msg);
+        }
     }
 }
