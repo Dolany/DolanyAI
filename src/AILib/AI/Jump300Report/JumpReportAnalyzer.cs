@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Reflection;
 
 namespace AILib.AI.Jump300Report
 {
@@ -19,11 +20,35 @@ namespace AILib.AI.Jump300Report
 
         public string GenReport()
         {
+            if (Lists == null || Lists.Count == 0)
+            {
+                return "欸呀呀，战绩查询不到呀！";
+            }
+
             string report = string.Empty;
-            report += SummaryReport();
-            return string.IsNullOrEmpty(report) ? "欸呀呀，战绩查询不到呀！" : report;
+
+            Type t = this.GetType();
+            var query = t.GetMethods()
+                .Where(m => m.CustomAttributes.Any(a => a.AttributeType == typeof(JumpAnalyzeAttribute)))
+                .OrderBy(m => (m.GetCustomAttributes(typeof(JumpAnalyzeAttribute), false).FirstOrDefault() as JumpAnalyzeAttribute).Order);
+            foreach (var m in query)
+            {
+                string Title = (m.GetCustomAttributes(typeof(JumpAnalyzeAttribute), false).FirstOrDefault() as JumpAnalyzeAttribute).Title;
+                string content = t.InvokeMember(m.Name,
+                            BindingFlags.InvokeMethod,
+                            null,
+                            this,
+                            null
+                            ) as string;
+                report += $@"{Title} :
+{content}
+";
+            }
+
+            return report;
         }
 
+        [JumpAnalyze(Order = 1, Title = "基础信息")]
         private string SummaryReport()
         {
             if (Lists == null || Lists.Count == 0)
@@ -31,17 +56,16 @@ namespace AILib.AI.Jump300Report
                 return string.Empty;
             }
 
-            string report = "基础信息：";
+            string report = string.Empty;
             foreach (var r in Lists.FirstOrDefault().BaseInfo)
             {
                 report += '\r' + r.Name + ":" + r.Value;
             }
 
-            report += '\r' + FavoriteHeroInfo();
-
             return report;
         }
 
+        [JumpAnalyze(Order = 2, Title = "最常用的英雄")]
         private string FavoriteHeroInfo()
         {
             if (Lists == null || Lists.Count == 0)
@@ -60,7 +84,7 @@ namespace AILib.AI.Jump300Report
                 }
             }
 
-            return $"最常用的英雄为：{FavoriteHero}   场次：{dic[FavoriteHero]}";
+            return $"{FavoriteHero}   场次：{dic[FavoriteHero]}";
         }
 
         private Dictionary<string, int> DicHeros()

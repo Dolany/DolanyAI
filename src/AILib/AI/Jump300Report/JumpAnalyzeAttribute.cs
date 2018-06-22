@@ -9,5 +9,7 @@ namespace AILib.AI.Jump300Report
     [AttributeUsage(AttributeTargets.Method)]
     public class JumpAnalyzeAttribute : Attribute
     {
+        public int Order { get; set; }
+        public string Title { get; set; }
     }
 }
