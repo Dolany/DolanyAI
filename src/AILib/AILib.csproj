@@ -77,13 +77,16 @@
     <Compile Include="AI\Jump300Report\Model\JumpServerRankInfo.cs" />
     <Compile Include="AI\DevelperOnly\Monitor\MonitorAI.cs" />
     <Compile Include="AI\RandomPic\RandomPicAI.cs" />
+    <Compile Include="AI\Repeater\PlusOneAI.cs" />
     <Compile Include="AI\Repeater\RepeatorAI.cs" />
     <Compile Include="Base\AIAttribute.cs" />
     <Compile Include="Base\AIBase.cs" />
     <Compile Include="Base\EnterCommandAttribute.cs" />
     <Compile Include="Common\Common.cs" />
+    <Compile Include="DTO\PlusOneCacheDTO.cs" />
     <Compile Include="Entities\HeartBeatEntity.cs" />
-    <Compile Include="Entities\RepeaterAvailableEntity.cs" />
+    <Compile Include="Entities\Repeat\PlusOneAvailableEntity.cs" />
+    <Compile Include="Entities\Repeat\RepeaterAvailableEntity.cs" />
     <Compile Include="Html\HtmlParser.cs" />
     <Compile Include="Html\HttpRequester.cs" />
     <Compile Include="Common\Logger.cs" />

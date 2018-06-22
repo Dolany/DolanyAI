@@ -1,0 +1,154 @@
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+using AILib.Entities;
+
+namespace AILib
+{
+    [AI(
+        Name = "PlusOneAI",
+        Description = "AI for Auto Plus One.",
+        IsAvailable = true,
+        PriorityLevel = 0
+        )]
+    public class PlusOneAI : AIBase
+    {
+        private List<PlusOneCacheDTO> Cache = new List<PlusOneCacheDTO>();
+
+        public PlusOneAI(AIConfigDTO ConfigDTO)
+            : base(ConfigDTO)
+        {
+        }
+
+        public override void Work()
+        {
+        }
+
+        public override void OnGroupMsgReceived(GroupMsgDTO MsgDTO)
+        {
+            if (!IsAvailable(MsgDTO.fromGroup))
+            {
+                return;
+            }
+
+            string FullMsg = MsgDTO.command + (string.IsNullOrEmpty(MsgDTO.msg) ? string.Empty : " " + MsgDTO.msg);
+
+            var query = Cache.Where(d => d.GroupNumber == MsgDTO.fromGroup);
+            if (query == null || query.Count() == 0)
+            {
+                Cache.Add(new PlusOneCacheDTO
+                {
+                    GroupNumber = MsgDTO.fromGroup,
+                    IsAlreadyRepeated = false,
+                    MsgCache = FullMsg
+                });
+
+                return;
+            }
+
+            var groupCache = query.FirstOrDefault();
+            Repeat(MsgDTO.fromGroup, FullMsg, groupCache);
+        }
+
+        private void Repeat(long fromGroup, string FullMsg, PlusOneCacheDTO groupCache)
+        {
+            if (groupCache.MsgCache != FullMsg)
+            {
+                groupCache.MsgCache = FullMsg;
+                groupCache.IsAlreadyRepeated = false;
+
+                return;
+            }
+            if (groupCache.IsAlreadyRepeated)
+            {
+                return;
+            }
+
+            MsgSender.Instance.PushMsg(new SendMsgDTO()
+            {
+                Aim = fromGroup,
+                Type = MsgType.Group,
+                Msg = FullMsg
+            });
+            groupCache.IsAlreadyRepeated = true;
+        }
+
+        [EnterCommand(
+            Command = "+1复读禁用",
+            SourceType = MsgType.Group,
+            AuthorityLevel = AuthorityLevel.群主,
+            Description = "禁用+1复读功能，禁用后将不会在本群进行+1复读",
+            Syntax = ""
+            )]
+        public void Forbidden(GroupMsgDTO MsgDTO)
+        {
+            ForbiddenStateChange(MsgDTO.fromGroup, false);
+
+            MsgSender.Instance.PushMsg(new SendMsgDTO()
+            {
+                Aim = MsgDTO.fromGroup,
+                Type = MsgType.Group,
+                Msg = "+1复读禁用成功！"
+            });
+        }
+
+        [EnterCommand(
+            Command = "+1复读启用",
+            SourceType = MsgType.Group,
+            AuthorityLevel = AuthorityLevel.群主,
+            Description = "重新启用+1复读功能",
+            Syntax = ""
+            )]
+        public void Unforbidden(GroupMsgDTO MsgDTO)
+        {
+            ForbiddenStateChange(MsgDTO.fromGroup, true);
+
+            MsgSender.Instance.PushMsg(new SendMsgDTO()
+            {
+                Aim = MsgDTO.fromGroup,
+                Type = MsgType.Group,
+                Msg = "+1复读启用成功！"
+            });
+        }
+
+        private void ForbiddenStateChange(long fromGroup, bool state)
+        {
+            var query = DbMgr.Query<PlusOneAvailableEntity>(r => r.GroupNumber == fromGroup);
+            if (query == null || query.Count() == 0)
+            {
+                DbMgr.Insert(new PlusOneAvailableEntity()
+                {
+                    Id = Guid.NewGuid().ToString(),
+                    GroupNumber = fromGroup,
+                    Content = state.ToString()
+                });
+                return;
+            }
+
+            var ra = query.FirstOrDefault();
+            ra.Content = state.ToString();
+            DbMgr.Update(ra);
+        }
+
+        private bool IsAvailable(long GroupNum)
+        {
+            var query = DbMgr.Query<PlusOneAvailableEntity>();
+            if (query == null || query.Count() == 0)
+            {
+                return true;
+            }
+
+            foreach (var r in query)
+            {
+                if (r.GroupNumber == GroupNum && !bool.Parse(r.Content))
+                {
+                    return false;
+                }
+            }
+
+            return true;
+        }
+    }
+}

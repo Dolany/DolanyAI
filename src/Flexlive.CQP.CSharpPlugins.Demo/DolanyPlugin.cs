@@ -64,16 +64,6 @@ namespace Flexlive.CQP.CSharpPlugins.Demo
                 {
                     Common.SendMsgToDeveloper("加载ai列表失败");
                 }
-                else
-                {
-                    string msg = $@"成功加载{AIs.Count}个ai";
-                    foreach (var ai in AIs)
-                    {
-                        msg += '\r' + ai.Name + ":" + ai.Description;
-                    }
-
-                    Common.SendMsgToDeveloper(msg);
-                }
 
                 // 加载所有可用AI
                 List<string> l = new List<string>();
@@ -85,6 +75,15 @@ namespace Flexlive.CQP.CSharpPlugins.Demo
                 {
                     AimGroups = GroupList
                 });
+
+                var allais = AIMgr.AllAIs;
+                string msg = $@"成功加载{allais.Count}个ai";
+                foreach (var ai in allais)
+                {
+                    msg += '\r' + ai.Name + ":" + ai.Description;
+                }
+
+                Common.SendMsgToDeveloper(msg);
             }
             catch (Exception ex)
             {
