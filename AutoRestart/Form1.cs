@@ -82,7 +82,7 @@ namespace AutoRestart
                 if (p.ProcessName == ProcessName)
                 {
                     p.Kill();
-                    LogEntity.Log($"[Kill] {DateTime.Now}");
+                    Logger.Log($"[Kill] {DateTime.Now}", "Restart");
 
                     Restart();
                     return;
@@ -119,11 +119,11 @@ namespace AutoRestart
             ProcessStartInfo psInfo = new ProcessStartInfo(CQPRootPath + "QuickStart.lnk");
             Process.Start(psInfo);
 
-            LogEntity.Log($"[Restart] {DateTime.Now}");
+            Logger.Log($"[Restart] {DateTime.Now}", "Restart");
 
             this.Invoke(new Action(() =>
             {
-                dataGridView1.DataSource = DbMgr.Query<LogEntity>();
+                dataGridView1.DataSource = DbMgr.Query<LogEntity>(l => l.LogType == "Restart");
                 dataGridView1.Refresh();
             }));
         }
@@ -194,6 +194,14 @@ namespace AutoRestart
                 ppMenuItem.Text = "暂停";
                 timer.Start();
                 IsRunning = true;
+            }
+        }
+
+        private void Form1_FormClosing(object sender, FormClosingEventArgs e)
+        {
+            if (MessageBox.Show("确定要关闭程序吗？", "注意", MessageBoxButtons.OKCancel) != DialogResult.OK)
+            {
+                e.Cancel = true;
             }
         }
     }
