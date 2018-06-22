@@ -12,6 +12,14 @@ namespace AILib.AI.Jump300Report
         public List<JumpListHtmlParser> Lists { get; set; }
         public List<JumpDetailHtmlParser> Details { get; set; }
 
+        public string PlayerName
+        {
+            get
+            {
+                return Lists.FirstOrDefault().BaseInfo.Where(b => b.Name == "角色名").FirstOrDefault().Value;
+            }
+        }
+
         public JumpReportAnalyzer(List<JumpListHtmlParser> Lists, List<JumpDetailHtmlParser> Details)
         {
             this.Lists = Lists;
@@ -106,6 +114,40 @@ namespace AILib.AI.Jump300Report
             }
 
             return dic;
+        }
+
+        [JumpAnalyze(Order = 3, Title = "平均打钱数")]
+        public string AverageGoldGen()
+        {
+            int gold = 0;
+            int validMatch = 0;
+            string playerName = PlayerName;
+            foreach (var detail in Details)
+            {
+                var query = detail.PlayersInfo.Where(p => p.PlayerName == playerName);
+                if (query == null || query.Count() == 0)
+                {
+                    continue;
+                }
+
+                gold += query.FirstOrDefault().MoneyGen;
+                validMatch++;
+            }
+
+            return (gold / validMatch).ToString();
+        }
+
+        [JumpAnalyze(Order = 4, Title = "平均比赛时长")]
+        public string AverageMatchSpan()
+        {
+            TimeSpan span = new TimeSpan(0);
+            foreach (var d in Details)
+            {
+                span += d.MatchBaseInfo.DuringSpan;
+            }
+
+            long avgSpan = (long)((span.TotalMilliseconds / Details.Count()) * 10000);
+            return (new TimeSpan(avgSpan)).ToString(@"hh\:mm\:ss");
         }
     }
 }

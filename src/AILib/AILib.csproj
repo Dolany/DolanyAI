@@ -67,6 +67,7 @@
     <Compile Include="AI\Jump300Report\Jump300ReportAI.cs" />
     <Compile Include="AI\Jump300Report\JumpAnalyzeAttribute.cs" />
     <Compile Include="AI\Jump300Report\Model\JumpMatchBaseInfo.cs" />
+    <Compile Include="AI\Jump300Report\Model\PlayerInfoInMatch.cs" />
     <Compile Include="AI\Jump300Report\Parser\JumpDetailHtmlParser.cs" />
     <Compile Include="AI\Jump300Report\Parser\JumpListHtmlParser.cs" />
     <Compile Include="AI\Jump300Report\JumpReportAnalyzer.cs" />
