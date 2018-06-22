@@ -33,8 +33,6 @@ namespace AILib
                 return;
             }
 
-            string FullMsg = MsgDTO.command + (string.IsNullOrEmpty(MsgDTO.msg) ? string.Empty : " " + MsgDTO.msg);
-
             var query = Cache.Where(d => d.GroupNumber == MsgDTO.fromGroup);
             if (query == null || query.Count() == 0)
             {
@@ -42,14 +40,14 @@ namespace AILib
                 {
                     GroupNumber = MsgDTO.fromGroup,
                     IsAlreadyRepeated = false,
-                    MsgCache = FullMsg
+                    MsgCache = MsgDTO.fullMsg
                 });
 
                 return;
             }
 
             var groupCache = query.FirstOrDefault();
-            Repeat(MsgDTO.fromGroup, FullMsg, groupCache);
+            Repeat(MsgDTO.fromGroup, MsgDTO.fullMsg, groupCache);
         }
 
         private void Repeat(long fromGroup, string FullMsg, PlusOneCacheDTO groupCache)

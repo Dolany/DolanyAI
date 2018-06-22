@@ -152,6 +152,7 @@ namespace Flexlive.CQP.CSharpPlugins.Demo
                     fromQQ = fromQQ,
                     fromAnonymous = fromAnonymous,
                     msg = msg,
+                    fullMsg = msg,
                     font = font
                 });
             }
