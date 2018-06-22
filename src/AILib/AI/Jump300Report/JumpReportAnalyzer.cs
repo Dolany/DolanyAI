@@ -154,5 +154,29 @@ namespace AILib.AI.Jump300Report
             long avgSpan = (long)((span.TotalMilliseconds / Details.Count()) * 10000);
             return (new TimeSpan(avgSpan)).ToString(@"hh\:mm\:ss");
         }
+
+        [JumpAnalyze(Order = 5, Title = "场均评分")]
+        public string AverageGrade()
+        {
+            int grade = 0;
+            string playerName = PlayerName;
+            foreach (var detail in Details)
+            {
+                if (detail.MatchBaseInfo.MatchKind == "战场")
+                {
+                    continue;
+                }
+
+                var query = detail.PlayersInfo.Where(p => p.PlayerName == PlayerName);
+                if (query == null || query.Count() == 0)
+                {
+                    continue;
+                }
+
+                grade += query.FirstOrDefault().Grade;
+            }
+
+            return (grade / Details.Count()).ToString();
+        }
     }
 }
