@@ -21,13 +21,20 @@ namespace AILib.AI.Jump300Report
 
         public void Work()
         {
-            var allList = GetAllList(MsgDTO.msg);
-            var allDetails = GetAllDetails(allList);
+            try
+            {
+                var allList = GetAllList(MsgDTO.msg);
+                var allDetails = GetAllDetails(allList);
 
-            JumpReportAnalyzer analyzer = new JumpReportAnalyzer(allList, allDetails);
-            string report = analyzer.GenReport();
+                JumpReportAnalyzer analyzer = new JumpReportAnalyzer(allList, allDetails);
+                string report = analyzer.GenReport();
 
-            ReportCallBack(MsgDTO, report);
+                ReportCallBack(MsgDTO, report);
+            }
+            catch (Exception ex)
+            {
+                ReportCallBack(MsgDTO, ex.Message + ex.StackTrace);
+            }
         }
 
         private List<JumpDetailHtmlParser> GetAllDetails(List<JumpListHtmlParser> allList)

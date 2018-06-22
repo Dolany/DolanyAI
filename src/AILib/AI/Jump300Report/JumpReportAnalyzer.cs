@@ -130,7 +130,12 @@ namespace AILib.AI.Jump300Report
                     continue;
                 }
 
-                gold += query.FirstOrDefault().MoneyGen;
+                int g = query.FirstOrDefault().MoneyGen;
+                if (g < 0)
+                {
+                    continue;
+                }
+                gold += g;
                 validMatch++;
             }
 
