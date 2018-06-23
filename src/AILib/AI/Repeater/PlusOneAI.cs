@@ -15,7 +15,7 @@ namespace AILib
         )]
     public class PlusOneAI : AIBase
     {
-        private List<PlusOneCacheDTO> Cache = new List<PlusOneCacheDTO>();
+        private List<PlusOneCache> Cache = new List<PlusOneCache>();
 
         public PlusOneAI(AIConfigDTO ConfigDTO)
             : base(ConfigDTO)
@@ -36,7 +36,7 @@ namespace AILib
             var query = Cache.Where(d => d.GroupNumber == MsgDTO.fromGroup);
             if (query == null || query.Count() == 0)
             {
-                Cache.Add(new PlusOneCacheDTO
+                Cache.Add(new PlusOneCache
                 {
                     GroupNumber = MsgDTO.fromGroup,
                     IsAlreadyRepeated = false,
@@ -50,7 +50,7 @@ namespace AILib
             Repeat(MsgDTO.fromGroup, MsgDTO.fullMsg, groupCache);
         }
 
-        private void Repeat(long fromGroup, string FullMsg, PlusOneCacheDTO groupCache)
+        private void Repeat(long fromGroup, string FullMsg, PlusOneCache groupCache)
         {
             if (groupCache.MsgCache != FullMsg)
             {

@@ -7,6 +7,9 @@ using System.Reflection;
 
 namespace AILib
 {
+    /// <summary>
+    /// AI管理类
+    /// </summary>
     public static class AIMgr
     {
         // 当前加载的AI列表
@@ -160,6 +163,11 @@ namespace AILib
             }
         }
 
+        /// <summary>
+        /// 提取消息命令，并将消息修改为没有命令的部分
+        /// </summary>
+        /// <param name="msg"></param>
+        /// <returns></returns>
         private static string GenCommand(ref string msg)
         {
             if (string.IsNullOrEmpty(msg))

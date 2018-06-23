@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace AILib
 {
-    public class PlusOneCacheDTO
+    public class PlusOneCache
     {
         public long GroupNumber { get; set; }
 
