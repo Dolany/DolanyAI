@@ -128,6 +128,7 @@ namespace AILib
                 }
 
                 string msg = MsgDTO.msg;
+                MsgDTO.fullMsg = msg;
                 MsgDTO.command = GenCommand(ref msg);
                 MsgDTO.msg = msg;
 
