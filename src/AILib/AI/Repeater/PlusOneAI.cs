@@ -26,11 +26,11 @@ namespace AILib
         {
         }
 
-        public override void OnGroupMsgReceived(GroupMsgDTO MsgDTO)
+        public override bool OnGroupMsgReceived(GroupMsgDTO MsgDTO)
         {
             if (!IsAvailable(MsgDTO.fromGroup))
             {
-                return;
+                return false;
             }
 
             var query = Cache.Where(d => d.GroupNumber == MsgDTO.fromGroup);
@@ -43,11 +43,12 @@ namespace AILib
                     MsgCache = MsgDTO.fullMsg
                 });
 
-                return;
+                return true;
             }
 
             var groupCache = query.FirstOrDefault();
             Repeat(MsgDTO.fromGroup, MsgDTO.fullMsg, groupCache);
+            return true;
         }
 
         private void Repeat(long fromGroup, string FullMsg, PlusOneCache groupCache)

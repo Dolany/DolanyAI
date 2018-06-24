@@ -13,7 +13,7 @@ namespace AILib
         Name = "RandomPicAI",
         Description = "AI for Sending Random Pic By Keyword.",
         IsAvailable = true,
-        PriorityLevel = 11
+        PriorityLevel = 2
         )]
     public class RandomPicAI : AIBase
     {
@@ -42,17 +42,51 @@ namespace AILib
             }
         }
 
-        public override void OnGroupMsgReceived(GroupMsgDTO MsgDTO)
+        public override bool OnGroupMsgReceived(GroupMsgDTO MsgDTO)
         {
+            if (base.OnGroupMsgReceived(MsgDTO))
+            {
+                return true;
+            }
+
             string key = GenKey(MsgDTO.command + MsgDTO.msg);
             if (string.IsNullOrEmpty(key))
             {
-                return;
+                return false;
             }
 
             string RandPic = GetRandPic(key);
 
             SendPic(key + "/" + RandPic, MsgDTO.fromGroup);
+            return true;
+        }
+
+        [EnterCommand(
+            Command = "随机图片",
+            SourceType = MsgType.Group,
+            AuthorityLevel = AuthorityLevel.成员,
+            Description = "随机发送近期内所有群组内发过的图片",
+            Syntax = ""
+            )]
+        public void RecentPic(GroupMsgDTO MsgDTO)
+        {
+            var imageList = GetRecentImageList();
+            int idx = (new Random()).Next(imageList.Count());
+            string sendImgName = imageList[idx].Name.Replace(".cqimg", "");
+
+            MsgSender.Instance.PushMsg(new SendMsgDTO()
+            {
+                Aim = MsgDTO.fromGroup,
+                Type = MsgType.Group,
+                Msg = CQ.CQCode_Image(sendImgName)
+            });
+        }
+
+        private List<FileInfo> GetRecentImageList()
+        {
+            DirectoryInfo dirInfo = new DirectoryInfo(PicPath);
+            var files = dirInfo.GetFiles();
+            return files.Where(f => f.Extension == ".cqimg").ToList();
         }
 
         private string GenKey(string msg)

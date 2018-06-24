@@ -12,7 +12,7 @@ namespace AILib
         Name = "RepeatorAI",
         Description = "AI for Repeating Random words.",
         IsAvailable = true,
-        PriorityLevel = 0
+        PriorityLevel = 1
         )]
     public class RepeatorAI : AIBase
     {
@@ -33,23 +33,23 @@ namespace AILib
         {
         }
 
-        public override void OnGroupMsgReceived(GroupMsgDTO MsgDTO)
+        public override bool OnGroupMsgReceived(GroupMsgDTO MsgDTO)
         {
             base.OnGroupMsgReceived(MsgDTO);
 
-            if (MsgDTO.msg.Contains("CQ:"))
-            {
-                return;
-            }
+            //if (MsgDTO.fullMsg.Contains("CQ:"))
+            //{
+            //    return;
+            //}
 
             if (!IsAvailable(MsgDTO.fromGroup))
             {
-                return;
+                return false;
             }
 
             if (AIMgr.AllAvailableCommands.Select(p => p.Command).Contains(MsgDTO.command))
             {
-                return;
+                return false;
             }
 
             CurCount++;
@@ -57,7 +57,10 @@ namespace AILib
             {
                 CurCount %= RepeatLimit;
                 Repeat(MsgDTO);
+                return true;
             }
+
+            return false;
         }
 
         [EnterCommand(

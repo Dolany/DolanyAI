@@ -133,7 +133,10 @@ namespace AILib
 
                 foreach (var ai in AIList)
                 {
-                    ai.OnGroupMsgReceived(MsgDTO);
+                    if (ai.OnGroupMsgReceived(MsgDTO))
+                    {
+                        break;
+                    }
                 }
             }
             catch (Exception ex)

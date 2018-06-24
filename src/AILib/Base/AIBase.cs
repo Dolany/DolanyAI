@@ -20,7 +20,7 @@ namespace AILib
             this.ConfigDTO = ConfigDTO;
         }
 
-        public virtual void OnGroupMsgReceived(GroupMsgDTO MsgDTO)
+        public virtual bool OnGroupMsgReceived(GroupMsgDTO MsgDTO)
         {
             if (MsgDTO.fromQQ < 0)
             {
@@ -50,9 +50,11 @@ namespace AILib
                             this,
                             new object[] { MsgDTO }
                             );
-                    return;
+                    return true;
                 }
             }
+
+            return false;
         }
 
         private bool AuthorityCheck(AuthorityLevel authorityLevel, string authority)
