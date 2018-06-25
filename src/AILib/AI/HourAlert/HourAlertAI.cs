@@ -20,7 +20,7 @@ namespace AILib
             get
             {
                 var query = DbMgr.Query<AlertContentEntity>();
-                return query == null ? null : query.ToList();
+                return query?.ToList();
             }
         }
 
@@ -40,6 +40,7 @@ namespace AILib
         public HourAlertAI(AIConfigDTO ConfigDTO)
             : base(ConfigDTO)
         {
+            RuntimeLogger.Log("HourAlertAI started");
         }
 
         public override void Work()
@@ -59,11 +60,13 @@ namespace AILib
 
         private void TimeUp(object sender, System.Timers.ElapsedEventArgs e)
         {
+            RuntimeLogger.Log("HourAlertAI TimeUp");
             timer.Stop();
             System.Threading.Thread.Sleep(3 * 1000);
             HourAlert(DateTime.Now.Hour);
             timer.Interval = GetNextHourSpan().TotalMilliseconds;
             timer.Start();
+            RuntimeLogger.Log("HourAlertAI TimeUp Completed");
         }
 
         private TimeSpan GetNextHourSpan()
@@ -74,6 +77,7 @@ namespace AILib
 
         private void HourAlert(int curHour)
         {
+            RuntimeLogger.Log("HourAlertAI HourAlert");
             var availableList = AvailableGroups;
             if (availableList == null || availableList.Count() == 0)
             {
@@ -90,6 +94,7 @@ namespace AILib
                     Msg = $@"到{curHour}点啦！ {RanContent}"
                 });
             }
+            RuntimeLogger.Log("HourAlertAI HourAlert Completed");
         }
 
         [EnterCommand(
@@ -115,6 +120,7 @@ namespace AILib
             )]
         public void AlertEnable(GroupMsgDTO MsgDTO)
         {
+            RuntimeLogger.Log("HourAlertAI Tryto AlertEnable");
             AvailableStateChange(MsgDTO.fromGroup, true);
             MsgSender.Instance.PushMsg(new SendMsgDTO()
             {
@@ -122,6 +128,7 @@ namespace AILib
                 Type = MsgType.Group,
                 Msg = "报时功能已开启！"
             });
+            RuntimeLogger.Log("HourAlertAI AlertEnable Completed");
         }
 
         [EnterCommand(
@@ -134,6 +141,7 @@ namespace AILib
             )]
         public void AlertDisenable(GroupMsgDTO MsgDTO)
         {
+            RuntimeLogger.Log("HourAlertAI Tryto AlertDisenable");
             AvailableStateChange(MsgDTO.fromGroup, false);
             MsgSender.Instance.PushMsg(new SendMsgDTO()
             {
@@ -141,6 +149,7 @@ namespace AILib
                 Type = MsgType.Group,
                 Msg = "报时功能已关闭！"
             });
+            RuntimeLogger.Log("HourAlertAI AlertDisenable Completed");
         }
 
         private void AvailableStateChange(long groupNumber, bool state)

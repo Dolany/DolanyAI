@@ -28,7 +28,7 @@ namespace AutoRestart
         private int MaxMissLimit = 4;
         private int CheckFrequency = 30;
 
-        private int ImageMaxCache = 30;
+        private int ImageMaxCache = 40;
 
         public Form1()
         {
@@ -84,7 +84,7 @@ namespace AutoRestart
                 if (p.ProcessName == ProcessName)
                 {
                     p.Kill();
-                    Logger.Log($"[Kill] {DateTime.Now}", "Restart");
+                    KeyLogger.Log($"[Kill] {DateTime.Now}", "Restart");
 
                     Restart();
                     return;
@@ -121,7 +121,7 @@ namespace AutoRestart
             ProcessStartInfo psInfo = new ProcessStartInfo(CQPRootPath + "QuickStart.lnk");
             Process.Start(psInfo);
 
-            Logger.Log($"[Restart] {DateTime.Now}", "Restart");
+            KeyLogger.Log($"[Restart] {DateTime.Now}", "Restart");
 
             this.Invoke(new Action(() =>
             {

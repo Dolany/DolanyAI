@@ -26,6 +26,7 @@ namespace AILib
         public CartoonSayingAI(AIConfigDTO ConfigDTO)
             : base(ConfigDTO)
         {
+            RuntimeLogger.Log("CartoonSayingAI constructed");
         }
 
         public override void Work()
@@ -42,6 +43,7 @@ namespace AILib
             )]
         public void ProcceedMsg(GroupMsgDTO MsgDTO)
         {
+            RuntimeLogger.Log("AlermClockAI Tryto ProcceedMsg In CartoonSayings");
             if (IsInSealing(MsgDTO.fromGroup, MsgDTO.fromQQ))
             {
                 return;
@@ -61,6 +63,7 @@ namespace AILib
             }
 
             SayingRequest(MsgDTO);
+            RuntimeLogger.Log("AlermClockAI ProcceedMsg Completed In CartoonSayings");
         }
 
         private void SayingRequest(GroupMsgDTO MsgDTO)
@@ -147,6 +150,7 @@ namespace AILib
             )]
         public void ClearSayings(GroupMsgDTO MsgDTO)
         {
+            RuntimeLogger.Log("AlermClockAI Tryto ClearSayings");
             int delCount = DbMgr.Delete<SayingEntity>(s => s.FromGroup == MsgDTO.fromGroup
                                                         && (s.Content.Contains(MsgDTO.msg)
                                                         || s.Charactor.Contains(MsgDTO.msg)
@@ -158,6 +162,7 @@ namespace AILib
                 Type = MsgType.Group,
                 Msg = $"共删除{delCount}条语录"
             });
+            RuntimeLogger.Log("AlermClockAI ClearSayings Complete");
         }
 
         [EnterCommand(
@@ -170,6 +175,7 @@ namespace AILib
             )]
         public void SayingSeal(GroupMsgDTO MsgDTO)
         {
+            RuntimeLogger.Log("AlermClockAI Tryto SayingSeal");
             long memberNum;
             if (!long.TryParse(MsgDTO.msg, out memberNum))
             {
@@ -203,6 +209,7 @@ namespace AILib
                 Type = MsgType.Group,
                 Msg = "封禁成功！"
             });
+            RuntimeLogger.Log("AlermClockAI SayingSeal Complete");
         }
 
         [EnterCommand(
@@ -215,6 +222,7 @@ namespace AILib
             )]
         public void SayingDeseal(GroupMsgDTO MsgDTO)
         {
+            RuntimeLogger.Log("AlermClockAI Tryto SayingDeseal");
             long memberNum;
             if (!long.TryParse(MsgDTO.msg, out memberNum))
             {
@@ -240,6 +248,7 @@ namespace AILib
                 Type = MsgType.Group,
                 Msg = "解封成功！"
             });
+            RuntimeLogger.Log("AlermClockAI SayingDeseal Complete");
         }
     }
 }

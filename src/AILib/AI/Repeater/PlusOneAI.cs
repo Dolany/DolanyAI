@@ -20,6 +20,7 @@ namespace AILib
         public PlusOneAI(AIConfigDTO ConfigDTO)
             : base(ConfigDTO)
         {
+            RuntimeLogger.Log("PlusOneAI started");
         }
 
         public override void Work()

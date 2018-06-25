@@ -29,6 +29,7 @@ namespace Flexlive.CQP.CSharpPlugins.Demo
                     list.Add(long.Parse(config.Content));
                 }
 
+                RuntimeLogger.Log("加载群号列表");
                 return list.ToArray();
             }
         }
@@ -55,7 +56,7 @@ namespace Flexlive.CQP.CSharpPlugins.Demo
             //完成插件线程、全局变量等自身运行所必须的初始化工作。
             try
             {
-                // 初始化xml
+                RuntimeLogger.Log("start up");
                 DbMgr.InitXmls();
 
                 // 获取可用AI列表
@@ -65,7 +66,7 @@ namespace Flexlive.CQP.CSharpPlugins.Demo
                     Common.SendMsgToDeveloper("加载ai列表失败");
                 }
 
-                // 加载所有可用AI
+                RuntimeLogger.Log("加载所有可用AI");
                 List<string> l = new List<string>();
                 foreach (var ai in AIs)
                 {
@@ -112,6 +113,7 @@ namespace Flexlive.CQP.CSharpPlugins.Demo
         public override void PrivateMessage(int subType, int sendTime, long fromQQ, string msg, int font)
         {
             // 处理私聊消息。
+            RuntimeLogger.Log($"receive private message: fromQQ:{fromQQ} msg:{msg} time:{DateTime.Now}");
             try
             {
                 AIMgr.OnPrivateMsgReceived(new PrivateMsgDTO()
@@ -141,6 +143,7 @@ namespace Flexlive.CQP.CSharpPlugins.Demo
         /// <param name = "font" > 字体。</param>
         public override void GroupMessage(int subType, int sendTime, long fromGroup, long fromQQ, string fromAnonymous, string msg, int font)
         {
+            RuntimeLogger.Log($"receive group message: fromGroup:{fromGroup} fromQQ:{fromQQ} msg:{msg} time:{DateTime.Now}");
             // 处理群消息。
             try
             {

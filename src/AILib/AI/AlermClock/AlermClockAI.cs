@@ -27,6 +27,7 @@ namespace AILib
         public AlermClockAI(AIConfigDTO ConfigDTO)
             : base(ConfigDTO)
         {
+            RuntimeLogger.Log("AlermClockAI constructed");
         }
 
         public override void Work()
@@ -36,6 +37,7 @@ namespace AILib
 
         private void ReloadAllClocks()
         {
+            RuntimeLogger.Log("AlermClockAI ReloadAllClocks");
             lock (ClockList)
             {
                 foreach (var clock in ClockList)
@@ -56,6 +58,7 @@ namespace AILib
                     StartClock(clock);
                 }
             }
+            RuntimeLogger.Log("AlermClockAI ReloadAllClocks Completed");
         }
 
         [EnterCommand(
@@ -76,6 +79,7 @@ namespace AILib
             )]
         public void SetClock(GroupMsgDTO MsgDTO)
         {
+            RuntimeLogger.Log("AlermClockAI Tryto SetClock");
             string[] strs = MsgDTO.msg.Split(new char[] { ' ' });
             if (strs == null || strs.Length < 2)
             {
@@ -105,10 +109,12 @@ namespace AILib
             };
 
             InsertClock(entity, MsgDTO);
+            RuntimeLogger.Log("AlermClockAI SetClock Complete");
         }
 
         private void InsertClock(AlermClockEntity entity, GroupMsgDTO MsgDTO)
         {
+            RuntimeLogger.Log("AlermClockAI InsertClock");
             try
             {
                 var query = DbMgr.Query<AlermClockEntity>(q => q.GroupNumber == MsgDTO.fromGroup
@@ -146,6 +152,7 @@ namespace AILib
                 });
                 Common.SendMsgToDeveloper(ex);
             }
+            RuntimeLogger.Log("AlermClockAI InsertClock Complete");
         }
 
         private void StartClock(AlermClockEntity entity)
@@ -163,6 +170,7 @@ namespace AILib
 
         private void TimeUp(object sender, ElapsedEventArgs e)
         {
+            RuntimeLogger.Log("AlermClockAI TimeUp");
             lock (ClockList)
             {
                 TimerEx timer = sender as TimerEx;
@@ -178,6 +186,7 @@ namespace AILib
                 timer.Interval = GetNextInterval(timer.ClockEntity.AimHourt, timer.ClockEntity.AimMinute);
                 timer.Start();
             }
+            RuntimeLogger.Log("AlermClockAI TimeUp Complete");
         }
 
         [EnterCommand(
@@ -190,6 +199,7 @@ namespace AILib
             )]
         public void QueryClock(GroupMsgDTO MsgDTO)
         {
+            RuntimeLogger.Log("AlermClockAI Tryto QueryClock");
             var allClocks = DbMgr.Query<AlermClockEntity>(q => q.GroupNumber == MsgDTO.fromGroup
                                                                 && q.Creator == MsgDTO.fromQQ);
             if (allClocks == null || allClocks.Count() == 0)
@@ -215,6 +225,7 @@ namespace AILib
                 Type = MsgType.Group,
                 Msg = Msg
             });
+            RuntimeLogger.Log("AlermClockAI QueryClock Complete");
         }
 
         [EnterCommand(
@@ -222,11 +233,12 @@ namespace AILib
             SourceType = MsgType.Group,
             AuthorityLevel = AuthorityLevel.成员,
             Description = "删除指定时间的已经设置好的闹钟",
-            Syntax = "[目标时间]";
+            Syntax = "[目标时间]",
             Tag = "闹钟与报时"
             )]
         public void DeleteClock(GroupMsgDTO MsgDTO)
         {
+            RuntimeLogger.Log("AlermClockAI Tryto DeleteClock");
             (int hour, int minute)? time = GenTimeFromStr(MsgDTO.msg);
             if (time == null)
             {
@@ -257,6 +269,7 @@ namespace AILib
             }
 
             ReloadAllClocks();
+            RuntimeLogger.Log("AlermClockAI DeleteClock Complete");
         }
 
         [EnterCommand(
@@ -269,6 +282,7 @@ namespace AILib
             )]
         public void ClearAllClock(GroupMsgDTO MsgDTO)
         {
+            RuntimeLogger.Log("AlermClockAI Tryto ClearAllClock");
             if (DbMgr.Delete<AlermClockEntity>(q => q.GroupNumber == MsgDTO.fromGroup
                                                      && q.Creator == MsgDTO.fromQQ
                                               ) > 0)
@@ -291,6 +305,7 @@ namespace AILib
             }
 
             ReloadAllClocks();
+            RuntimeLogger.Log("AlermClockAI ClearAllClock Complete");
         }
 
         private (int hour, int minute)? GenTimeFromStr(string timeStr)

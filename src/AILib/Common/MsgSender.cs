@@ -46,7 +46,7 @@ namespace AILib
 
         public void PushMsg(SendMsgDTO msg)
         {
-            lock(MsgQueue)
+            lock (MsgQueue)
             {
                 MsgQueue.Enqueue(msg);
             }
@@ -56,7 +56,7 @@ namespace AILib
         {
             lock (MsgQueue)
             {
-                foreach(var m in msgs)
+                foreach (var m in msgs)
                 {
                     MsgQueue.Enqueue(m);
                 }
@@ -65,30 +65,24 @@ namespace AILib
 
         private void SendAllMsgs()
         {
-            lock(MsgQueue)
+            lock (MsgQueue)
             {
                 while (MsgQueue.Count() > 0)
                 {
                     var msg = MsgQueue.Dequeue();
-                    if(msg.Aim < 0)
-                    {
-                        Logger.Log($@"SendTo Negative Number:{msg.Aim}");
-                        continue;
-                    }
-                    if(msg.Aim > 2147483647)
-                    {
-                        Logger.Log($@"SendTo Extra Big Number:{msg.Aim}");
-                    }
 
+                    RuntimeLogger.Log($"try send msg: type:{msg.Type.ToString()} msg:{msg.Msg} aim:{msg.Aim}");
                     switch (msg.Type)
                     {
                         case MsgType.Group:
                             CQ.SendGroupMessage(msg.Aim, msg.Msg);
                             break;
+
                         case MsgType.Private:
                             CQ.SendPrivateMessage(msg.Aim, msg.Msg);
                             break;
                     }
+                    RuntimeLogger.Log($"send finished");
                 }
             }
         }

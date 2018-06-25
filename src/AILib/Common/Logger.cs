@@ -7,7 +7,7 @@ using AILib.Entities;
 
 namespace AILib
 {
-    public static class Logger
+    public static class KeyLogger
     {
         public static void Log(string msg)
         {
@@ -15,7 +15,7 @@ namespace AILib
             {
                 Id = Guid.NewGuid().ToString(),
                 Content = msg,
-                LogType = "默认",
+                LogType = "default",
                 CreateTime = DateTime.Now
             };
 

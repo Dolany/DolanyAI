@@ -30,6 +30,9 @@ EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "FlexLiveBase", "FlexLiveBase", "{A774CF94-15B6-47D3-9EB9-E3ABAD4BCEA5}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "DolanyAi", "DolanyAi", "{38D37699-0341-4DD2-B9AF-666175A94AE8}"
+	ProjectSection(SolutionItems) = preProject
+		DevelopLog.txt = DevelopLog.txt
+	EndProjectSection
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
