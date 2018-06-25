@@ -52,14 +52,14 @@ namespace AILib
 
         public void HelpSummary(GroupMsgDTO MsgDTO)
         {
-            string helpMsg = "当前可用命令有：";
+            string helpMsg = "当前的命令标签有：";
             var commandAttrs = AIMgr.AllAvailableCommands.Where(c => c.SourceType == MsgType.Group);
             foreach (var c in commandAttrs)
             {
-                helpMsg += '\r' + c.Command;
+                helpMsg += '\r' + c.Tag;
             }
 
-            helpMsg += '\r' + "可以使用 帮助 [命令名] 来查询具体命令信息。";
+            helpMsg += '\r' + "可以使用 帮助 [标签名] 来查询标签中的具体命令名 或者使用 帮助 [命令名] 来查询具体命令信息。";
 
             MsgSender.Instance.PushMsg(new SendMsgDTO()
             {
@@ -95,8 +95,27 @@ namespace AILib
 
         public bool HelpTag(GroupMsgDTO MsgDTO)
         {
-            // TODO
-            return false;
+            var commands = AIMgr.AllAvailableCommands.Where(c => c.Tag == MsgDTO.msg && c.SourceType == MsgType.Group);
+            if (commands == null || commands.Count() == 0)
+            {
+                return false;
+            }
+
+            string helpMsg = $@"当前标签下有以下命令：";
+            foreach (var c in commands)
+            {
+                helpMsg += '\r' + c.Command;
+            }
+            helpMsg += '\r' + "可以使用 帮助 [命令名] 来查询具体命令信息。";
+
+            MsgSender.Instance.PushMsg(new SendMsgDTO()
+            {
+                Aim = MsgDTO.fromGroup,
+                Type = MsgType.Group,
+                Msg = helpMsg
+            });
+
+            return true;
         }
     }
 }

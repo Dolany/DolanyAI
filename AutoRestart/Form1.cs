@@ -125,7 +125,7 @@ namespace AutoRestart
 
             this.Invoke(new Action(() =>
             {
-                dataGridView1.DataSource = DbMgr.Query<LogEntity>(l => l.LogType == "Restart");
+                dataGridView1.DataSource = DbMgr.Query<LogEntity>(l => l.LogType == "Restart").OrderByDescending(l => l.CreateTime);
                 dataGridView1.Refresh();
             }));
         }
@@ -135,7 +135,7 @@ namespace AutoRestart
             string picCachePath = CQPRootPath + @"\data\image\";
 
             DirectoryInfo dir = new DirectoryInfo(picCachePath);
-            var query = dir.GetFiles().Where(f => f.Extension == ".cqimg").OrderByDescending(p => p.CreationTime);
+            var query = dir.GetFiles().OrderByDescending(p => p.CreationTime);
             var imageCacheList = query.ToList();
             for (int i = ImageMaxCache; i < imageCacheList.Count; i++)
             {
