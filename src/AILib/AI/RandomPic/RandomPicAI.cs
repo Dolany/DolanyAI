@@ -23,6 +23,7 @@ namespace AILib
         public RandomPicAI(AIConfigDTO ConfigDTO)
             : base(ConfigDTO)
         {
+            RuntimeLogger.Log("RandomPicAI started.");
         }
 
         public override void Work()
@@ -71,6 +72,7 @@ namespace AILib
             )]
         public void RecentPic(GroupMsgDTO MsgDTO)
         {
+            RuntimeLogger.Log("RandomPicAI Tryto RecentPic.");
             var imageList = GetRecentImageList();
             int idx = (new Random()).Next(imageList.Count());
             string sendImgName = imageList[idx].Name.Replace(".cqimg", "");
@@ -81,6 +83,7 @@ namespace AILib
                 Type = MsgType.Group,
                 Msg = CQ.CQCode_Image(sendImgName)
             });
+            RuntimeLogger.Log("RandomPicAI RecentPic completed");
         }
 
         private List<FileInfo> GetRecentImageList()

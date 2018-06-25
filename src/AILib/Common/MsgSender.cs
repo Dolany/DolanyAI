@@ -71,7 +71,7 @@ namespace AILib
                 {
                     var msg = MsgQueue.Dequeue();
 
-                    RuntimeLogger.Log($"try send msg: type:{msg.Type.ToString()} msg:{msg.Msg} aim:{msg.Aim}");
+                    RuntimeLogger.Log($"try send msg: type:{msg.Type.ToString()} msg:{msg.Msg} aim:{msg.Aim} time:{DateTime.Now}");
                     switch (msg.Type)
                     {
                         case MsgType.Group:

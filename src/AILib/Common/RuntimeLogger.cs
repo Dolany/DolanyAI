@@ -29,7 +29,7 @@ namespace AILib
                 return fi.Create();
             }
 
-            return fi.Open(FileMode.Open);
+            return fi.Open(FileMode.Append, FileAccess.Write);
         }
     }
 }
