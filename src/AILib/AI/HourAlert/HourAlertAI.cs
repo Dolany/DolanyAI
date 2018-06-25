@@ -97,7 +97,8 @@ namespace AILib
             SourceType = MsgType.Group,
             AuthorityLevel = AuthorityLevel.成员,
             Description = "设定指定小时的报时内容",
-            Syntax = " [目标小时] [报时内容]"
+            Syntax = " [目标小时] [报时内容]",
+            Tag = "闹钟与报时"
             )]
         public void AlertSet(GroupMsgDTO MsgDTO)
         {
@@ -109,7 +110,8 @@ namespace AILib
             SourceType = MsgType.Group,
             AuthorityLevel = AuthorityLevel.管理员,
             Description = "设置报时功能开启",
-            Syntax = ""
+            Syntax = "",
+            Tag = "闹钟与报时"
             )]
         public void AlertEnable(GroupMsgDTO MsgDTO)
         {
@@ -127,7 +129,8 @@ namespace AILib
             SourceType = MsgType.Group,
             AuthorityLevel = AuthorityLevel.管理员,
             Description = "设置报时功能关闭",
-            Syntax = ""
+            Syntax = "",
+            Tag = "闹钟与报时"
             )]
         public void AlertDisenable(GroupMsgDTO MsgDTO)
         {
@@ -228,7 +231,8 @@ namespace AILib
             SourceType = MsgType.Private,
             IsDeveloperOnly = true,
             Description = "获取指定群组和目标小时的随机报时内容",
-            Syntax = " [目标群组] [目标小时]"
+            Syntax = " [目标群组] [目标小时]",
+            Tag = "闹钟与报时"
             )]
         public void AlertPrivate(PrivateMsgDTO MsgDTO)
         {
@@ -259,7 +263,8 @@ namespace AILib
             SourceType = MsgType.Private,
             IsDeveloperOnly = true,
             Description = "获取所有报时开启群组的列表",
-            Syntax = ""
+            Syntax = "",
+            Tag = "闹钟与报时"
             )]
         public void AllAvailabeGroups(PrivateMsgDTO MsgDTO)
         {
@@ -278,7 +283,8 @@ namespace AILib
             SourceType = MsgType.Group,
             AuthorityLevel = AuthorityLevel.群主,
             Description = "清空指定小时的所有报时内容",
-            Syntax = "[目标小时]"
+            Syntax = "[目标小时]",
+            Tag = "闹钟与报时"
             )]
         public void ClearAlert(GroupMsgDTO MsgDTO)
         {
@@ -315,7 +321,8 @@ namespace AILib
             SourceType = MsgType.Private,
             IsDeveloperOnly = true,
             Description = "获取所有的报时数目",
-            Syntax = ""
+            Syntax = "",
+            Tag = "闹钟与报时"
             )]
         public void TotalAlertCount(PrivateMsgDTO MsgDTO)
         {

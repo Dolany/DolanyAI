@@ -37,11 +37,6 @@ namespace AILib
         {
             base.OnGroupMsgReceived(MsgDTO);
 
-            //if (MsgDTO.fullMsg.Contains("CQ:"))
-            //{
-            //    return;
-            //}
-
             if (!IsAvailable(MsgDTO.fromGroup))
             {
                 return false;
@@ -68,7 +63,8 @@ namespace AILib
             SourceType = MsgType.Group,
             AuthorityLevel = AuthorityLevel.群主,
             Description = "禁用复读机功能，禁用后将不会在本群产生计数和进行复读",
-            Syntax = ""
+            Syntax = "",
+            Tag = "复读机"
             )]
         public void Forbidden(GroupMsgDTO MsgDTO)
         {
@@ -87,7 +83,8 @@ namespace AILib
             SourceType = MsgType.Group,
             AuthorityLevel = AuthorityLevel.群主,
             Description = "重新启用复读机功能",
-            Syntax = ""
+            Syntax = "",
+            Tag = "复读机"
             )]
         public void Unforbidden(GroupMsgDTO MsgDTO)
         {
@@ -156,7 +153,8 @@ namespace AILib
             SourceType = MsgType.Private,
             IsDeveloperOnly = true,
             Description = "设定复读功能的频率，即多少次计数后进行复读",
-            Syntax = "[复读频率]"
+            Syntax = "[复读频率]",
+            Tag = "复读机"
             )]
         public void SetRepeatLimit(PrivateMsgDTO MsgDTO)
         {

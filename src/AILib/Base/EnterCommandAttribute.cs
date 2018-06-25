@@ -22,5 +22,6 @@ namespace AILib
         public AuthorityLevel AuthorityLevel { get; set; }
         public string Description { get; set; }
         public string Syntax { get; set; }
+        public string Tag { get; set; }
     }
 }

@@ -79,7 +79,8 @@ namespace AILib
             SourceType = MsgType.Group,
             AuthorityLevel = AuthorityLevel.群主,
             Description = "禁用+1复读功能，禁用后将不会在本群进行+1复读",
-            Syntax = ""
+            Syntax = "",
+            Tag = "复读机"
             )]
         public void Forbidden(GroupMsgDTO MsgDTO)
         {
@@ -98,7 +99,8 @@ namespace AILib
             SourceType = MsgType.Group,
             AuthorityLevel = AuthorityLevel.群主,
             Description = "重新启用+1复读功能",
-            Syntax = ""
+            Syntax = "",
+            Tag = "复读机"
             )]
         public void Unforbidden(GroupMsgDTO MsgDTO)
         {

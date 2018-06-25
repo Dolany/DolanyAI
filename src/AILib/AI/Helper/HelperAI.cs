@@ -28,7 +28,8 @@ namespace AILib
             SourceType = MsgType.Group,
             AuthorityLevel = AuthorityLevel.成员,
             Description = "获取帮助信息",
-            Syntax = " 或者 帮助 [命令名]"
+            Syntax = " 或者 帮助 [命令名]",
+            Tag = "帮助"
             )]
         public void HelpMe(GroupMsgDTO MsgDTO)
         {
@@ -38,7 +39,15 @@ namespace AILib
                 return;
             }
 
-            HelpCommand(MsgDTO);
+            if (HelpCommand(MsgDTO))
+            {
+                return;
+            }
+
+            if (HelpTag(MsgDTO))
+            {
+                return;
+            }
         }
 
         public void HelpSummary(GroupMsgDTO MsgDTO)
@@ -60,18 +69,12 @@ namespace AILib
             });
         }
 
-        public void HelpCommand(GroupMsgDTO MsgDTO)
+        public bool HelpCommand(GroupMsgDTO MsgDTO)
         {
             var commands = AIMgr.AllAvailableCommands.Where(c => c.Command == MsgDTO.msg && c.SourceType == MsgType.Group);
             if (commands == null || commands.Count() == 0)
             {
-                MsgSender.Instance.PushMsg(new SendMsgDTO()
-                {
-                    Aim = MsgDTO.fromGroup,
-                    Type = MsgType.Group,
-                    Msg = "哎呀呀！人家还不知道这条命令呢！"
-                });
-                return;
+                return false;
             }
 
             var command = commands.FirstOrDefault();
@@ -86,6 +89,14 @@ namespace AILib
                 Type = MsgType.Group,
                 Msg = helpMsg
             });
+
+            return true;
+        }
+
+        public bool HelpTag(GroupMsgDTO MsgDTO)
+        {
+            // TODO
+            return false;
         }
     }
 }
