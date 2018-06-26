@@ -106,7 +106,7 @@ namespace AILib
             Syntax = " [目标小时] [报时内容]",
             Tag = "闹钟与报时"
             )]
-        public void AlertSet(GroupMsgDTO MsgDTO)
+        public void AlertSet(GroupMsgDTO MsgDTO, object[] param)
         {
             RecordAlertContent(MsgDTO.msg, MsgDTO.fromQQ, MsgDTO.fromGroup);
         }
@@ -119,7 +119,7 @@ namespace AILib
             Syntax = "",
             Tag = "闹钟与报时"
             )]
-        public void AlertEnable(GroupMsgDTO MsgDTO)
+        public void AlertEnable(GroupMsgDTO MsgDTO, object[] param)
         {
             RuntimeLogger.Log("HourAlertAI Tryto AlertEnable");
             AvailableStateChange(MsgDTO.fromGroup, true);
@@ -140,7 +140,7 @@ namespace AILib
             Syntax = "",
             Tag = "闹钟与报时"
             )]
-        public void AlertDisenable(GroupMsgDTO MsgDTO)
+        public void AlertDisenable(GroupMsgDTO MsgDTO, object[] param)
         {
             RuntimeLogger.Log("HourAlertAI Tryto AlertDisenable");
             AvailableStateChange(MsgDTO.fromGroup, false);
@@ -244,7 +244,7 @@ namespace AILib
             Syntax = " [目标群组] [目标小时]",
             Tag = "闹钟与报时"
             )]
-        public void AlertPrivate(PrivateMsgDTO MsgDTO)
+        public void AlertPrivate(PrivateMsgDTO MsgDTO, object[] param)
         {
             string[] strs = MsgDTO.msg.Split(new char[] { ' ' }, StringSplitOptions.RemoveEmptyEntries);
             if (strs == null || strs.Length != 2)
@@ -276,7 +276,7 @@ namespace AILib
             Syntax = "",
             Tag = "闹钟与报时"
             )]
-        public void AllAvailabeGroups(PrivateMsgDTO MsgDTO)
+        public void AllAvailabeGroups(PrivateMsgDTO MsgDTO, object[] param)
         {
             var list = AvailableGroups;
             string msg = $"共有群组{list.Count}个";
@@ -296,7 +296,7 @@ namespace AILib
             Syntax = "[目标小时]",
             Tag = "闹钟与报时"
             )]
-        public void ClearAlert(GroupMsgDTO MsgDTO)
+        public void ClearAlert(GroupMsgDTO MsgDTO, object[] param)
         {
             if (string.IsNullOrEmpty(MsgDTO.msg))
             {
@@ -334,7 +334,7 @@ namespace AILib
             Syntax = "",
             Tag = "闹钟与报时"
             )]
-        public void TotalAlertCount(PrivateMsgDTO MsgDTO)
+        public void TotalAlertCount(PrivateMsgDTO MsgDTO, object[] param)
         {
             Common.SendMsgToDeveloper(AllAlertInfos.Count().ToString());
         }

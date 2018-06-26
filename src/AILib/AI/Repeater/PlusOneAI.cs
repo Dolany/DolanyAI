@@ -84,7 +84,7 @@ namespace AILib
             Syntax = "",
             Tag = "复读机"
             )]
-        public void Forbidden(GroupMsgDTO MsgDTO)
+        public void Forbidden(GroupMsgDTO MsgDTO, object[] param)
         {
             ForbiddenStateChange(MsgDTO.fromGroup, false);
 
@@ -104,7 +104,7 @@ namespace AILib
             Syntax = "",
             Tag = "复读机"
             )]
-        public void Unforbidden(GroupMsgDTO MsgDTO)
+        public void Unforbidden(GroupMsgDTO MsgDTO, object[] param)
         {
             ForbiddenStateChange(MsgDTO.fromGroup, true);
 

@@ -71,7 +71,7 @@ namespace AILib
             Syntax = "",
             Tag = "图片"
             )]
-        public void RecentPic(GroupMsgDTO MsgDTO)
+        public void RecentPic(GroupMsgDTO MsgDTO, object[] param)
         {
             RuntimeLogger.Log("RandomPicAI Tryto RecentPic.");
             var imageList = GetRecentImageList();
@@ -143,7 +143,7 @@ namespace AILib
             Syntax = "",
             Tag = "图片"
             )]
-        public void RefreshKeywords(PrivateMsgDTO MsgDTO)
+        public void RefreshKeywords(PrivateMsgDTO MsgDTO, object[] param)
         {
             ReloadAllKeywords();
 
@@ -158,7 +158,7 @@ namespace AILib
             Syntax = "[目标词] [同义词]",
             Tag = "图片"
             )]
-        public void AppendSynonym(PrivateMsgDTO MsgDTO)
+        public void AppendSynonym(PrivateMsgDTO MsgDTO, object[] param)
         {
             if (string.IsNullOrEmpty(MsgDTO.msg))
             {
@@ -189,7 +189,7 @@ namespace AILib
             Syntax = "",
             Tag = "图片"
             )]
-        public void AllPicKeywords(PrivateMsgDTO MsgDTO)
+        public void AllPicKeywords(PrivateMsgDTO MsgDTO, object[] param)
         {
             string msg = string.Empty;
             foreach (var k in Keywords)

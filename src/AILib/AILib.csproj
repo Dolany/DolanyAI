@@ -114,6 +114,8 @@
       <DesignTimeSharedInput>True</DesignTimeSharedInput>
       <DependentUpon>Settings.settings</DependentUpon>
     </Compile>
+    <Compile Include="SyntaxChecker\EmptyChecker.cs" />
+    <Compile Include="SyntaxChecker\ISyntaxChecker.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Flexlive.CQP.Framework\Flexlive.CQP.Framework.csproj">
@@ -149,5 +151,6 @@
       <Version>1.8.4</Version>
     </PackageReference>
   </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

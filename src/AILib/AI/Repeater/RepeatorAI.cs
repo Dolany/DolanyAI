@@ -66,7 +66,7 @@ namespace AILib
             Syntax = "",
             Tag = "复读机"
             )]
-        public void Forbidden(GroupMsgDTO MsgDTO)
+        public void Forbidden(GroupMsgDTO MsgDTO, object[] param)
         {
             ForbiddenStateChange(MsgDTO.fromGroup, false);
 
@@ -86,7 +86,7 @@ namespace AILib
             Syntax = "",
             Tag = "复读机"
             )]
-        public void Unforbidden(GroupMsgDTO MsgDTO)
+        public void Unforbidden(GroupMsgDTO MsgDTO, object[] param)
         {
             ForbiddenStateChange(MsgDTO.fromGroup, true);
 
@@ -156,7 +156,7 @@ namespace AILib
             Syntax = "[复读频率]",
             Tag = "复读机"
             )]
-        public void SetRepeatLimit(PrivateMsgDTO MsgDTO)
+        public void SetRepeatLimit(PrivateMsgDTO MsgDTO, object[] param)
         {
             int limit;
             if (!int.TryParse(MsgDTO.msg, out limit) || limit <= 0)

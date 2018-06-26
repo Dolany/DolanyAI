@@ -32,7 +32,7 @@ namespace AILib
             Syntax = " [角色名]",
             Tag = "战绩查询"
             )]
-        public void JumpReport(GroupMsgDTO MsgDTO)
+        public void JumpReport(GroupMsgDTO MsgDTO, object[] param)
         {
             MsgSender.Instance.PushMsg(new SendMsgDTO()
             {

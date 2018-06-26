@@ -33,7 +33,7 @@ namespace AILib
             Syntax = "[内容]",
             Tag = "发布"
             )]
-        public void PublishRec(PrivateMsgDTO MsgDTO)
+        public void PublishRec(PrivateMsgDTO MsgDTO, object[] param)
         {
             PublishRec(MsgDTO.msg);
         }
@@ -46,7 +46,7 @@ namespace AILib
             Syntax = "[群组号] [记录编号]",
             Tag = "发布"
             )]
-        public void PublishTo(PrivateMsgDTO MsgDTO)
+        public void PublishTo(PrivateMsgDTO MsgDTO, object[] param)
         {
             PublishTo(MsgDTO.msg);
         }

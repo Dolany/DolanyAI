@@ -66,7 +66,7 @@ namespace AILib
             Syntax = "",
             Tag = "监控"
             )]
-        public void StopHeart(PrivateMsgDTO MsgDTO)
+        public void StopHeart(PrivateMsgDTO MsgDTO, object[] param)
         {
             timer.Stop();
 

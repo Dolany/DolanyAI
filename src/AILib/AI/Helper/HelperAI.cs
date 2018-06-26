@@ -31,7 +31,7 @@ namespace AILib
             Syntax = " 或者 帮助 [命令名]",
             Tag = "帮助"
             )]
-        public void HelpMe(GroupMsgDTO MsgDTO)
+        public void HelpMe(GroupMsgDTO MsgDTO, object[] param)
         {
             if (string.IsNullOrEmpty(MsgDTO.msg))
             {

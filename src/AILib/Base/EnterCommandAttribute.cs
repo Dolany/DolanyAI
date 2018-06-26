@@ -23,5 +23,6 @@ namespace AILib
         public string Description { get; set; }
         public string Syntax { get; set; }
         public string Tag { get; set; }
+        public string SyntaxChecker { get; set; }
     }
 }

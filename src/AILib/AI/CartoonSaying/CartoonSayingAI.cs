@@ -42,7 +42,7 @@ namespace AILib
             Syntax = " 或者 语录 [关键字]; 语录 [出处] [人物] [内容]",
             Tag = "语录"
             )]
-        public void ProcceedMsg(GroupMsgDTO MsgDTO)
+        public void ProcceedMsg(GroupMsgDTO MsgDTO, object[] param)
         {
             RuntimeLogger.Log("AlermClockAI Tryto ProcceedMsg In CartoonSayings");
             if (IsInSealing(MsgDTO.fromGroup, MsgDTO.fromQQ))
@@ -136,7 +136,7 @@ namespace AILib
             Syntax = "",
             Tag = "语录"
             )]
-        public void SayingTotalCount(PrivateMsgDTO MsgDTO)
+        public void SayingTotalCount(PrivateMsgDTO MsgDTO, object[] param)
         {
             Common.SendMsgToDeveloper($@"共有语录 {SayingList.Count}条");
         }
@@ -149,7 +149,7 @@ namespace AILib
             Syntax = "[关键字]",
             Tag = "语录"
             )]
-        public void ClearSayings(GroupMsgDTO MsgDTO)
+        public void ClearSayings(GroupMsgDTO MsgDTO, object[] param)
         {
             RuntimeLogger.Log("AlermClockAI Tryto ClearSayings");
             int delCount = DbMgr.Delete<SayingEntity>(s => s.FromGroup == MsgDTO.fromGroup
@@ -174,7 +174,7 @@ namespace AILib
             Syntax = "[qq号码]",
             Tag = "语录"
             )]
-        public void SayingSeal(GroupMsgDTO MsgDTO)
+        public void SayingSeal(GroupMsgDTO MsgDTO, object[] param)
         {
             RuntimeLogger.Log("AlermClockAI Tryto SayingSeal");
             long memberNum;
@@ -221,7 +221,7 @@ namespace AILib
             Syntax = "[qq号码]",
             Tag = "语录"
             )]
-        public void SayingDeseal(GroupMsgDTO MsgDTO)
+        public void SayingDeseal(GroupMsgDTO MsgDTO, object[] param)
         {
             RuntimeLogger.Log("AlermClockAI Tryto SayingDeseal");
             long memberNum;

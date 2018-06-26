@@ -78,7 +78,7 @@ namespace AILib
             Syntax = "[目标时间] [提醒内容]",
             Tag = "闹钟与报时"
             )]
-        public void SetClock(GroupMsgDTO MsgDTO)
+        public void SetClock(GroupMsgDTO MsgDTO, object[] param)
         {
             RuntimeLogger.Log("AlermClockAI Tryto SetClock");
             string[] strs = MsgDTO.msg.Split(new char[] { ' ' });
@@ -198,7 +198,7 @@ namespace AILib
             Syntax = "",
             Tag = "闹钟与报时"
             )]
-        public void QueryClock(GroupMsgDTO MsgDTO)
+        public void QueryClock(GroupMsgDTO MsgDTO, object[] param)
         {
             RuntimeLogger.Log("AlermClockAI Tryto QueryClock");
             var allClocks = DbMgr.Query<AlermClockEntity>(q => q.GroupNumber == MsgDTO.fromGroup
@@ -237,7 +237,7 @@ namespace AILib
             Syntax = "[目标时间]",
             Tag = "闹钟与报时"
             )]
-        public void DeleteClock(GroupMsgDTO MsgDTO)
+        public void DeleteClock(GroupMsgDTO MsgDTO, object[] param)
         {
             RuntimeLogger.Log("AlermClockAI Tryto DeleteClock");
             (int hour, int minute)? time = GenTimeFromStr(MsgDTO.msg);
@@ -281,7 +281,7 @@ namespace AILib
             Syntax = "",
             Tag = "闹钟与报时"
             )]
-        public void ClearAllClock(GroupMsgDTO MsgDTO)
+        public void ClearAllClock(GroupMsgDTO MsgDTO, object[] param)
         {
             RuntimeLogger.Log("AlermClockAI Tryto ClearAllClock");
             if (DbMgr.Delete<AlermClockEntity>(q => q.GroupNumber == MsgDTO.fromGroup

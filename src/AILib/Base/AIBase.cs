@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 using System.Reflection;
 using Flexlive.CQP.Framework;
 using Flexlive.CQP.Framework.Utils;
+using AILib.SyntaxChecker;
 
 namespace AILib
 {
@@ -39,9 +40,13 @@ namespace AILib
                         continue;
                     }
 
-                    RuntimeLogger.Log($"try to get authority: fromGroup:{MsgDTO.fromGroup}, fromQQ:{MsgDTO.fromQQ}, time:{DateTime.Now}");
+                    object[] param;
+                    if (!Check(enterAttr, MsgDTO.msg, out param))
+                    {
+                        break;
+                    }
+
                     string authority = CQ.GetGroupMemberInfo(MsgDTO.fromGroup, MsgDTO.fromQQ, true).Authority;
-                    RuntimeLogger.Log($"authority is {authority}");
                     if (!AuthorityCheck(enterAttr.AuthorityLevel, authority))
                     {
                         break;
@@ -51,13 +56,35 @@ namespace AILib
                             BindingFlags.InvokeMethod,
                             null,
                             this,
-                            new object[] { MsgDTO }
+                            new object[] { MsgDTO, param }
                             );
                     return true;
                 }
             }
 
             return false;
+        }
+
+        private bool Check(EnterCommandAttribute enterAttr, string msg, out object[] param)
+        {
+            if (string.IsNullOrEmpty(enterAttr.SyntaxChecker))
+            {
+                param = null;
+                return true;
+            }
+
+            try
+            {
+                Assembly assembly = Assembly.GetExecutingAssembly();
+                object scObj = assembly.CreateInstance(enterAttr.SyntaxChecker + "Checker");
+                ISyntaxChecker checker = scObj as ISyntaxChecker;
+                return checker.Check(msg, out param);
+            }
+            catch
+            {
+                param = null;
+                return false;
+            }
         }
 
         private bool AuthorityCheck(AuthorityLevel authorityLevel, string authority)
@@ -86,15 +113,23 @@ namespace AILib
                     {
                         continue;
                     }
+
                     if (enterAttr.IsDeveloperOnly && MsgDTO.fromQQ != Common.DeveloperNumber)
                     {
-                        continue;
+                        break;
                     }
+
+                    object[] param;
+                    if (!Check(enterAttr, MsgDTO.msg, out param))
+                    {
+                        break;
+                    }
+
                     t.InvokeMember(method.Name,
                             BindingFlags.InvokeMethod,
                             null,
                             this,
-                            new object[] { MsgDTO }
+                            new object[] { MsgDTO, param }
                             );
                     return;
                 }
