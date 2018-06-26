@@ -97,13 +97,13 @@ namespace AILib
         private string GenKey(string msg)
         {
             var keys = Keywords.Where(k => msg.Contains(k));
-            if (keys != null && keys.Count() > 0)
+            if (!keys.IsNullOrEmpty())
             {
                 return keys.FirstOrDefault();
             }
 
             var query = DbMgr.Query<SynonymDicEntity>(s => msg.Contains(s.Content));
-            if (query == null || query.Count() == 0)
+            if (query.IsNullOrEmpty())
             {
                 return string.Empty;
             }
@@ -125,7 +125,7 @@ namespace AILib
         {
             DirectoryInfo dirInfo = new DirectoryInfo(PicPath + dirName);
             FileInfo[] fil = dirInfo.GetFiles();
-            if (fil == null || fil.Count() == 0)
+            if (fil.IsNullOrEmpty())
             {
                 return string.Empty;
             }

@@ -30,7 +30,7 @@ namespace AILib
             get
             {
                 var query = DbMgr.Query<AlertRegistedGroupEntity>(a => bool.Parse(a.Available));
-                if (query == null)
+                if (query.IsNullOrEmpty())
                 {
                     return null;
                 }
@@ -80,7 +80,7 @@ namespace AILib
         {
             RuntimeLogger.Log("HourAlertAI HourAlert");
             var availableList = AvailableGroups;
-            if (availableList == null || availableList.Count() == 0)
+            if (availableList.IsNullOrEmpty())
             {
                 return;
             }
@@ -156,7 +156,7 @@ namespace AILib
         private void AvailableStateChange(long groupNumber, bool state)
         {
             var query = DbMgr.Query<AlertRegistedGroupEntity>(a => long.Parse(a.Content) == groupNumber);
-            if (query == null || query.Count() == 0)
+            if (query.IsNullOrEmpty())
             {
                 DbMgr.Insert(new AlertRegistedGroupEntity()
                 {
@@ -224,7 +224,7 @@ namespace AILib
         private string GetRanAlertContent(long fromGroup, int aimHour)
         {
             var query = DbMgr.Query<AlertContentEntity>(a => a.FromGroup == fromGroup && a.AimHour == aimHour);
-            if (query == null || query.Count() == 0)
+            if (query.IsNullOrEmpty())
             {
                 return string.Empty;
             }

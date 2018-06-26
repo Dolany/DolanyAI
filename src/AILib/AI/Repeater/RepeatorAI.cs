@@ -101,7 +101,7 @@ namespace AILib
         private void ForbiddenStateChange(long fromGroup, bool state)
         {
             var query = DbMgr.Query<RepeaterAvailableEntity>(r => r.GroupNumber == fromGroup);
-            if (query == null || query.Count() == 0)
+            if (query.IsNullOrEmpty())
             {
                 DbMgr.Insert(new RepeaterAvailableEntity()
                 {
@@ -120,7 +120,7 @@ namespace AILib
         private bool IsAvailable(long GroupNum)
         {
             var query = DbMgr.Query<RepeaterAvailableEntity>();
-            if (query == null || query.Count() == 0)
+            if (query.IsNullOrEmpty())
             {
                 return true;
             }

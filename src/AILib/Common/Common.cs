@@ -27,5 +27,15 @@ namespace AILib
             SendMsgToDeveloper(ex.Message);
             SendMsgToDeveloper(ex.StackTrace);
         }
+
+        public static bool IsNullOrEmpty<T>(this IEnumerable<T> objs)
+        {
+            if (objs == null || objs.Count() == 0)
+            {
+                return true;
+            }
+
+            return false;
+        }
     }
 }

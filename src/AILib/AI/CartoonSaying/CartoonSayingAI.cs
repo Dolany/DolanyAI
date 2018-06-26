@@ -87,7 +87,7 @@ namespace AILib
         private bool IsInSealing(long groupNum, long memberNum)
         {
             var query = DbMgr.Query<SayingSealEntity>(s => s.GroupNum == groupNum && s.SealMember == memberNum);
-            return query != null && query.Count() > 0;
+            return !query.IsNullOrEmpty();
         }
 
         private bool SaveSaying(SayingEntity info, long fromGroup)
@@ -106,7 +106,7 @@ namespace AILib
                         where (string.IsNullOrEmpty(keyword) ? true : saying.Contains(keyword))
                             && (fromGroup == 0 ? true : saying.FromGroup == fromGroup)
                         select saying;
-            if (query == null || query.Count() == 0)
+            if (query.IsNullOrEmpty())
             {
                 return string.Empty;
             }
@@ -184,7 +184,7 @@ namespace AILib
             }
 
             var query = DbMgr.Query<SayingSealEntity>(s => s.GroupNum == MsgDTO.fromGroup && s.SealMember == memberNum);
-            if (query != null && query.Count() > 0)
+            if (!query.IsNullOrEmpty())
             {
                 MsgSender.Instance.PushMsg(new SendMsgDTO()
                 {
