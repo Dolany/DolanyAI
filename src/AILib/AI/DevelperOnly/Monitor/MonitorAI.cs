@@ -57,5 +57,20 @@ namespace AILib
                 DbMgr.Update(hb);
             }
         }
+
+        [EnterCommand(
+            Command = "停止心跳",
+            SourceType = MsgType.Private,
+            IsDeveloperOnly = true,
+            Description = "阻止心态",
+            Syntax = "",
+            Tag = "监控"
+            )]
+        public void StopHeart(PrivateMsgDTO MsgDTO)
+        {
+            timer.Stop();
+
+            Common.SendMsgToDeveloper("停止心跳成功！");
+        }
     }
 }
