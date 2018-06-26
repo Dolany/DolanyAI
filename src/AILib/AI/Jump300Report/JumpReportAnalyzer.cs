@@ -28,7 +28,7 @@ namespace AILib.AI.Jump300Report
 
         public string GenReport()
         {
-            if (Lists == null || Lists.Count == 0)
+            if (Lists.IsNullOrEmpty())
             {
                 return "欸呀呀，战绩查询不到呀！";
             }
@@ -73,7 +73,7 @@ namespace AILib.AI.Jump300Report
         [JumpAnalyze(Order = 1, Title = "基础信息")]
         public string SummaryReport()
         {
-            if (Lists == null || Lists.Count == 0)
+            if (Lists.IsNullOrEmpty())
             {
                 return string.Empty;
             }
@@ -90,7 +90,7 @@ namespace AILib.AI.Jump300Report
         [JumpAnalyze(Order = 2, Title = "最常用的英雄")]
         public string FavoriteHeroInfo()
         {
-            if (Lists == null || Lists.Count == 0)
+            if (Lists.IsNullOrEmpty())
             {
                 return string.Empty;
             }
@@ -139,7 +139,7 @@ namespace AILib.AI.Jump300Report
             foreach (var detail in Details)
             {
                 var query = detail.PlayersInfo.Where(p => p.PlayerName == playerName);
-                if (query == null || query.Count() == 0)
+                if (query.IsNullOrEmpty())
                 {
                     continue;
                 }
@@ -182,7 +182,7 @@ namespace AILib.AI.Jump300Report
                 }
 
                 var query = detail.PlayersInfo.Where(p => p.PlayerName == PlayerName);
-                if (query == null || query.Count() == 0)
+                if (query.IsNullOrEmpty())
                 {
                     continue;
                 }

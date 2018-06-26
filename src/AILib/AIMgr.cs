@@ -122,7 +122,7 @@ namespace AILib
         {
             try
             {
-                if (AIList == null || AIList.Count == 0)
+                if (AIList.IsNullOrEmpty())
                 {
                     return;
                 }
@@ -152,7 +152,7 @@ namespace AILib
         /// <param name="MsgDTO"></param>
         public static void OnPrivateMsgReceived(PrivateMsgDTO MsgDTO)
         {
-            if (AIList == null || AIList.Count == 0)
+            if (AIList.IsNullOrEmpty())
             {
                 return;
             }

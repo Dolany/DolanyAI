@@ -84,7 +84,6 @@
     <Compile Include="Base\EnterCommandAttribute.cs" />
     <Compile Include="Common\Common.cs" />
     <Compile Include="AI\Repeater\PlusOneCache.cs" />
-    <Compile Include="Common\RuntimeLogger.cs" />
     <Compile Include="Entities\HeartBeatEntity.cs" />
     <Compile Include="Entities\Repeat\PlusOneAvailableEntity.cs" />
     <Compile Include="Entities\Repeat\RepeaterAvailableEntity.cs" />

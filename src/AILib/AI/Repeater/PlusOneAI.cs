@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using AILib.Entities;
+using Flexlive.CQP.Framework.Utils;
 
 namespace AILib
 {
@@ -35,7 +36,7 @@ namespace AILib
             }
 
             var query = Cache.Where(d => d.GroupNumber == MsgDTO.fromGroup);
-            if (query == null || query.Count() == 0)
+            if (query.IsNullOrEmpty())
             {
                 Cache.Add(new PlusOneCache
                 {
@@ -118,7 +119,7 @@ namespace AILib
         private void ForbiddenStateChange(long fromGroup, bool state)
         {
             var query = DbMgr.Query<PlusOneAvailableEntity>(r => r.GroupNumber == fromGroup);
-            if (query == null || query.Count() == 0)
+            if (query.IsNullOrEmpty())
             {
                 DbMgr.Insert(new PlusOneAvailableEntity()
                 {
@@ -137,7 +138,7 @@ namespace AILib
         private bool IsAvailable(long GroupNum)
         {
             var query = DbMgr.Query<PlusOneAvailableEntity>();
-            if (query == null || query.Count() == 0)
+            if (query.IsNullOrEmpty())
             {
                 return true;
             }

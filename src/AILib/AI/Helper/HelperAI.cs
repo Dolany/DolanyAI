@@ -72,7 +72,7 @@ namespace AILib
         public bool HelpCommand(GroupMsgDTO MsgDTO)
         {
             var commands = AIMgr.AllAvailableCommands.Where(c => c.Command == MsgDTO.msg && c.SourceType == MsgType.Group);
-            if (commands == null || commands.Count() == 0)
+            if (commands.IsNullOrEmpty())
             {
                 return false;
             }
@@ -96,7 +96,7 @@ namespace AILib
         public bool HelpTag(GroupMsgDTO MsgDTO)
         {
             var commands = AIMgr.AllAvailableCommands.Where(c => c.Tag == MsgDTO.msg && c.SourceType == MsgType.Group);
-            if (commands == null || commands.Count() == 0)
+            if (commands.IsNullOrEmpty())
             {
                 return false;
             }

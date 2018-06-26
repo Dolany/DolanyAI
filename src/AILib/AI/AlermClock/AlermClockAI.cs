@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 using AILib.Entities;
 using Flexlive.CQP.Framework;
 using System.Timers;
+using Flexlive.CQP.Framework.Utils;
 
 namespace AILib
 {
@@ -48,7 +49,7 @@ namespace AILib
                 ClockList.Clear();
 
                 var clocks = DbMgr.Query<AlermClockEntity>();
-                if (clocks == null || clocks.Count() == 0)
+                if (clocks.IsNullOrEmpty())
                 {
                     return;
                 }
@@ -121,7 +122,7 @@ namespace AILib
                                                     && q.Creator == MsgDTO.fromQQ
                                                     && q.AimHourt == entity.AimHourt
                                                     && q.AimMinute == entity.AimMinute);
-                if (query != null && query.Count() > 0)
+                if (!query.IsNullOrEmpty())
                 {
                     MsgSender.Instance.PushMsg(new SendMsgDTO()
                     {
@@ -202,7 +203,7 @@ namespace AILib
             RuntimeLogger.Log("AlermClockAI Tryto QueryClock");
             var allClocks = DbMgr.Query<AlermClockEntity>(q => q.GroupNumber == MsgDTO.fromGroup
                                                                 && q.Creator == MsgDTO.fromQQ);
-            if (allClocks == null || allClocks.Count() == 0)
+            if (allClocks.IsNullOrEmpty())
             {
                 MsgSender.Instance.PushMsg(new SendMsgDTO()
                 {

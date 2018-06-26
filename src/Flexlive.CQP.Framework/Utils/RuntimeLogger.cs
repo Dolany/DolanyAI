@@ -2,15 +2,21 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-using System.Threading.Tasks;
 using System.IO;
 
-namespace AILib
+namespace Flexlive.CQP.Framework.Utils
 {
+    /// <summary>
+    ///
+    /// </summary>
     public static class RuntimeLogger
     {
         private static string LogPath = "./RuntimeLog/";
 
+        /// <summary>
+        ///
+        /// </summary>
+        /// <param name="log"></param>
         public static void Log(string log)
         {
             var steam = CheckFile();

@@ -41,7 +41,7 @@ namespace AILib
         private void TimeUp(object sender, ElapsedEventArgs e)
         {
             var query = DbMgr.Query<HeartBeatEntity>();
-            if (query == null || query.Count() == 0)
+            if (query.IsNullOrEmpty())
             {
                 DbMgr.Insert(new HeartBeatEntity()
                 {

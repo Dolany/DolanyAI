@@ -75,6 +75,7 @@
     <Compile Include="CQLogger.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="CQUDPProxy.cs" />
+    <Compile Include="Utils\RuntimeLogger.cs" />
     <Compile Include="Utils\StringHelper.cs" />
   </ItemGroup>
   <ItemGroup>

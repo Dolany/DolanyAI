@@ -26,7 +26,7 @@ namespace AILib.AI.Jump300Report
             var root = document.DocumentNode;
 
             var nodes = SearchNodes(root, n => n.Name == "table");
-            if (nodes == null || nodes.Count() == 0)
+            if (nodes.IsNullOrEmpty())
             {
                 return;
             }

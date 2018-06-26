@@ -5,6 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Reflection;
 using Flexlive.CQP.Framework;
+using Flexlive.CQP.Framework.Utils;
 
 namespace AILib
 {
@@ -38,7 +39,9 @@ namespace AILib
                         continue;
                     }
 
+                    RuntimeLogger.Log($"try to get authority: fromGroup:{MsgDTO.fromGroup}, fromQQ:{MsgDTO.fromQQ}, time:{DateTime.Now}");
                     string authority = CQ.GetGroupMemberInfo(MsgDTO.fromGroup, MsgDTO.fromQQ, true).Authority;
+                    RuntimeLogger.Log($"authority is {authority}");
                     if (!AuthorityCheck(enterAttr.AuthorityLevel, authority))
                     {
                         break;

@@ -115,7 +115,7 @@ namespace AILib
             try
             {
                 var query = DbMgr.Query<PublishRecordEntity>(p => p.Index == Index);
-                if (query == null || query.Count() == 0)
+                if (query.IsNullOrEmpty())
                 {
                     return string.Empty;
                 }

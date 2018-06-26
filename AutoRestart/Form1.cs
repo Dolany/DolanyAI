@@ -64,7 +64,7 @@ namespace AutoRestart
         private void CheckHeartBeat()
         {
             var query = DbMgr.Query<HeartBeatEntity>();
-            if (query == null || query.Count() == 0 || query.FirstOrDefault().LastBeatTime < DateTime.Now.AddSeconds(-CheckFrequency))
+            if (query.IsNullOrEmpty() || query.FirstOrDefault().LastBeatTime < DateTime.Now.AddSeconds(-CheckFrequency))
             {
                 MissHeartCount++;
             }

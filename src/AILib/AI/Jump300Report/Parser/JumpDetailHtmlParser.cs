@@ -30,7 +30,7 @@ namespace AILib.AI.Jump300Report
         private void PlayersInfoAnalyze(HtmlNode root)
         {
             var query = SearchNodes(root, n => n.Name == "table");
-            if (query == null || query.Count() == 0)
+            if (query.IsNullOrEmpty())
             {
                 return;
             }
@@ -106,7 +106,7 @@ namespace AILib.AI.Jump300Report
             var query = SearchNodes(root,
                 (n) => n.Name == "div"
                 && n.ChildAttributes("class").Any((p) => p.Value == "datamsg"));
-            if (query == null || query.Count() == 0)
+            if (query.IsNullOrEmpty())
             {
                 return;
             }

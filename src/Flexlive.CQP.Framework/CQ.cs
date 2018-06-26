@@ -53,7 +53,6 @@ namespace Flexlive.CQP.Framework
             _syncRoot = new object();
         }
 
-
         #region CQ码
 
         /// <summary>
@@ -139,7 +138,7 @@ namespace Flexlive.CQP.Framework
         {
             return "[CQ:shake]";
         }
-        
+
         /// <summary>
         /// 获取 匿名代码。
         /// </summary>
@@ -150,7 +149,7 @@ namespace Flexlive.CQP.Framework
         {
             return "[CQ:anonymous" + (ignore ? ",ignore=true" : "") + "]";
         }
-        
+
         /// <summary>
         /// 获取 匿名代码。
         /// </summary>
@@ -251,7 +250,7 @@ namespace Flexlive.CQP.Framework
             return String.Format("[CQ:share,url={0},title={1},content={2},image={3}]", url, title, content, imageUrl);
         }
 
-        #endregion
+        #endregion CQ码
 
         #region 发送与接收
 
@@ -273,6 +272,7 @@ namespace Flexlive.CQP.Framework
         /// <param name="message">群消息内容。</param>
         public static void SendGroupMessage(long groupNumber, string message)
         {
+            RuntimeLogger.Log($"SendGroupMessage groupNumber：{groupNumber}， message：{message}");
             CQLogger.GetInstance().AddLog(String.Format("[↑][群聊] 群：{0} {1}", groupNumber, message));
 
             if (ProxyType == CQProxyType.UDP)
@@ -284,6 +284,7 @@ namespace Flexlive.CQP.Framework
             {
                 CQAPI.SendGroupMessage(CQAPI.GetAuthCode(), groupNumber, message);
             }
+            RuntimeLogger.Log($"SendGroupMessage finished");
         }
 
         /// <summary>
@@ -304,6 +305,7 @@ namespace Flexlive.CQP.Framework
         /// <param name="message">私聊消息内容。</param>
         public static void SendPrivateMessage(long qqNumber, string message)
         {
+            RuntimeLogger.Log($"SendPrivateMessage qqNumber：{qqNumber}， message：{message}");
             CQLogger.GetInstance().AddLog(String.Format("[↑][私聊] QQ：{0} {1}", qqNumber, message));
 
             if (ProxyType == CQProxyType.UDP)
@@ -315,6 +317,7 @@ namespace Flexlive.CQP.Framework
             {
                 CQAPI.SendPrivateMessage(CQAPI.GetAuthCode(), qqNumber, message);
             }
+            RuntimeLogger.Log($"SendPrivateMessage finished");
         }
 
         /// <summary>
@@ -347,7 +350,7 @@ namespace Flexlive.CQP.Framework
                 CQAPI.SendDiscussMessage(CQAPI.GetAuthCode(), discussNumber, message);
             }
         }
-        
+
         /// <summary>
         /// 发送赞。
         /// </summary>
@@ -406,7 +409,7 @@ namespace Flexlive.CQP.Framework
             }
         }
 
-        #endregion
+        #endregion 发送与接收
 
         #region 管理
 
@@ -800,7 +803,7 @@ namespace Flexlive.CQP.Framework
             }
         }
 
-        #endregion
+        #endregion 管理
 
         #region 取基本信息
 
@@ -836,57 +839,56 @@ namespace Flexlive.CQP.Framework
         /// <param name="cache">是否使用缓存（使用缓存后，当后第一次访问会通过客户端读取，之后每次都通过缓存获得）。</param>
         public static CQGroupMemberInfo GetGroupMemberInfo(long groupNumber, long qqNumber, bool cache = true)
         {
-                lock (_syncRoot)
+            RuntimeLogger.Log($"GetGroupMemberInfo groupNumber:{groupNumber}, qqNumber:{qqNumber}");
+            lock (_syncRoot)
+            {
+                Dictionary<long, CQGroupMemberInfo> dicMemebers = new Dictionary<long, CQGroupMemberInfo>();
+
+                if (_dicCache.ContainsKey(groupNumber))
                 {
-                    Dictionary<long, CQGroupMemberInfo> dicMemebers = new Dictionary<long, CQGroupMemberInfo>();
-
-                    if (_dicCache.ContainsKey(groupNumber))
-                    {
-                        dicMemebers = _dicCache[groupNumber];
-                    }
-                    else
-                    {
-                        _dicCache.Add(groupNumber, dicMemebers);
-                    }
-
-                    CQGroupMemberInfo member = new CQGroupMemberInfo();
-
-                    if (dicMemebers.ContainsKey(qqNumber))
-                    {
-                        member = dicMemebers[qqNumber];
-                    }
-                    else
-                    {
-                        dicMemebers.Add(qqNumber, member);
-                    }
-
-                    if (!cache || member.RefreshDate.Date.AddDays(1) < DateTime.Now)
-                    {
-                        CQLogger.GetInstance().AddLog(String.Format("[↓][成员] 群：{0} QQ：{1}", groupNumber, qqNumber));
-                        string content = String.Empty;
-
-                        if(CQ.ProxyType == CQProxyType.UDP)
-                        {
-                            content = String.Format("GroupMemberRequest|{0}|{1}", groupNumber, qqNumber);
-                            member = CQUDPProxy.GetInstance().GetGroupMemberInfo(content);
-                        }
-                        if (CQ.ProxyType == CQProxyType.NativeClr)
-                        {
-                            content = CQAPI.GetGroupMemberInfo(CQAPI.GetAuthCode(), groupNumber, qqNumber, cache ? 1 : 0);
-                            member = CQMessageAnalysis.AnalyzeGroupMember(content);
-                        }
-
-                        if (cache)
-                        {
-                            dicMemebers[qqNumber] = member;
-                        }
-                    }
-
-                    return member;
+                    dicMemebers = _dicCache[groupNumber];
+                }
+                else
+                {
+                    _dicCache.Add(groupNumber, dicMemebers);
                 }
 
+                CQGroupMemberInfo member = new CQGroupMemberInfo();
 
-            return new CQGroupMemberInfo();
+                if (dicMemebers.ContainsKey(qqNumber))
+                {
+                    member = dicMemebers[qqNumber];
+                }
+                else
+                {
+                    dicMemebers.Add(qqNumber, member);
+                }
+
+                if (!cache || member.RefreshDate.Date.AddDays(1) < DateTime.Now)
+                {
+                    CQLogger.GetInstance().AddLog(String.Format("[↓][成员] 群：{0} QQ：{1}", groupNumber, qqNumber));
+                    string content = String.Empty;
+
+                    if (CQ.ProxyType == CQProxyType.UDP)
+                    {
+                        content = String.Format("GroupMemberRequest|{0}|{1}", groupNumber, qqNumber);
+                        member = CQUDPProxy.GetInstance().GetGroupMemberInfo(content);
+                    }
+                    if (CQ.ProxyType == CQProxyType.NativeClr)
+                    {
+                        content = CQAPI.GetGroupMemberInfo(CQAPI.GetAuthCode(), groupNumber, qqNumber, cache ? 1 : 0);
+                        member = CQMessageAnalysis.AnalyzeGroupMember(content);
+                    }
+
+                    if (cache)
+                    {
+                        dicMemebers[qqNumber] = member;
+                    }
+                }
+
+                RuntimeLogger.Log($"GetGroupMemberInfo finished");
+                return member;
+            }
         }
 
         /// <summary>
@@ -906,7 +908,7 @@ namespace Flexlive.CQP.Framework
         public static long GetLoginQQ()
         {
             CQLogger.GetInstance().AddLog(String.Format("[↓][帐号] 取登录QQ"));
-            
+
             try
             {
                 if (ProxyType == CQProxyType.UDP)
@@ -922,7 +924,6 @@ namespace Flexlive.CQP.Framework
             }
             catch
             {
-
             }
 
             return 0;
@@ -961,7 +962,6 @@ namespace Flexlive.CQP.Framework
             }
             catch
             {
-
             }
 
             return "";
@@ -984,7 +984,6 @@ namespace Flexlive.CQP.Framework
         public static string GetCookies()
         {
             CQLogger.GetInstance().AddLog(String.Format("[↓][帐号] 取Cookies"));
-
 
             if (ProxyType == CQProxyType.UDP)
             {
@@ -1027,7 +1026,7 @@ namespace Flexlive.CQP.Framework
                 return CQAPI.GetCsrfToken(CQAPI.GetAuthCode());
             }
         }
-        
+
         /// <summary>
         /// 获取C#插件的应用目录。
         /// </summary>
@@ -1063,13 +1062,12 @@ namespace Flexlive.CQP.Framework
             return Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "CSharpPlugins");
         }
 
-
         //CQ.CQ码_名片分享 ()
         //CQ.CQ码_音乐自定义分享 ()
 
         //CQ.取陌生人信息 ()
 
-        #endregion
+        #endregion 取基本信息
 
         #region 扩展功能
 
@@ -1157,7 +1155,6 @@ namespace Flexlive.CQP.Framework
                 }
                 catch
                 {
-
                 }
             }
 
@@ -1211,15 +1208,12 @@ namespace Flexlive.CQP.Framework
                 }
                 catch
                 {
-
                 }
             }
 
             return list;
         }
 
-        #endregion
-
-
+        #endregion 扩展功能
     }
 }

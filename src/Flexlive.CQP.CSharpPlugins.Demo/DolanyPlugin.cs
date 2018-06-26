@@ -5,6 +5,7 @@ using AILib;
 using System.Collections.Generic;
 using System.Xml.Linq;
 using AILib.Entities;
+using Flexlive.CQP.Framework.Utils;
 
 namespace Flexlive.CQP.CSharpPlugins.Demo
 {
