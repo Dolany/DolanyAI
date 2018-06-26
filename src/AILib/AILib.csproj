@@ -114,8 +114,12 @@
       <DesignTimeSharedInput>True</DesignTimeSharedInput>
       <DependentUpon>Settings.settings</DependentUpon>
     </Compile>
-    <Compile Include="SyntaxChecker\EmptyChecker.cs" />
+    <Compile Include="SyntaxChecker\AlermClock\DeleteClockChecker.cs" />
+    <Compile Include="SyntaxChecker\CartoonSayings\ProcceedMsgChecker.cs" />
+    <Compile Include="SyntaxChecker\Common\EmptyChecker.cs" />
+    <Compile Include="SyntaxChecker\Common\NotEmptyChecker.cs" />
     <Compile Include="SyntaxChecker\ISyntaxChecker.cs" />
+    <Compile Include="SyntaxChecker\AlermClock\SetClockChecker.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Flexlive.CQP.Framework\Flexlive.CQP.Framework.csproj">

@@ -37,5 +37,28 @@ namespace AILib
 
             return false;
         }
+
+        public static (int hour, int minute)? GenTimeFromStr(string timeStr)
+        {
+            string[] strs = timeStr.Split(new char[] { ':', '：' });
+            if (strs == null || strs.Length != 2)
+            {
+                return null;
+            }
+
+            int hour;
+            if (!int.TryParse(strs[0], out hour))
+            {
+                return null;
+            }
+
+            int minute;
+            if (!int.TryParse(strs[1], out minute))
+            {
+                return null;
+            }
+
+            return (hour, minute);
+        }
     }
 }

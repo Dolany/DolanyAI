@@ -40,7 +40,8 @@ namespace AILib
             AuthorityLevel = AuthorityLevel.成员,
             Description = "录入语录或者按关键字检索语录",
             Syntax = " 或者 语录 [关键字]; 语录 [出处] [人物] [内容]",
-            Tag = "语录"
+            Tag = "语录",
+            SyntaxChecker = "ProcceedMsg"
             )]
         public void ProcceedMsg(GroupMsgDTO MsgDTO, object[] param)
         {
@@ -50,26 +51,32 @@ namespace AILib
                 return;
             }
 
-            SayingEntity info = SayingEntity.Parse(MsgDTO.msg);
-            if (info != null)
+            switch ((int)param[0])
             {
-                string smsg = SaveSaying(info, MsgDTO.fromGroup) ? "语录录入成功！" : "语录录入失败！";
-                MsgSender.Instance.PushMsg(new SendMsgDTO()
-                {
-                    Aim = MsgDTO.fromGroup,
-                    Type = MsgType.Group,
-                    Msg = smsg
-                });
-                return;
+                case 1:
+                    string smsg = SaveSaying(param[1] as SayingEntity, MsgDTO.fromGroup) ? "语录录入成功！" : "语录录入失败！";
+                    MsgSender.Instance.PushMsg(new SendMsgDTO()
+                    {
+                        Aim = MsgDTO.fromGroup,
+                        Type = MsgType.Group,
+                        Msg = smsg
+                    });
+                    break;
+
+                case 2:
+                    SayingRequest(MsgDTO);
+                    break;
+
+                case 3:
+                    SayingRequest(MsgDTO, param[1] as string);
+                    break;
             }
 
-            SayingRequest(MsgDTO);
             RuntimeLogger.Log("AlermClockAI ProcceedMsg Completed In CartoonSayings");
         }
 
-        private void SayingRequest(GroupMsgDTO MsgDTO)
+        private void SayingRequest(GroupMsgDTO MsgDTO, string keyword = null)
         {
-            string keyword = string.IsNullOrEmpty(MsgDTO.msg.Trim()) ? null : MsgDTO.msg;
             string ranSaying = GetRanSaying(MsgDTO.fromGroup, keyword);
             if (string.IsNullOrEmpty(ranSaying))
             {
@@ -134,7 +141,8 @@ namespace AILib
             IsDeveloperOnly = true,
             Description = "查询录入的所有语录的总数",
             Syntax = "",
-            Tag = "语录"
+            Tag = "语录",
+            SyntaxChecker = "Empty"
             )]
         public void SayingTotalCount(PrivateMsgDTO MsgDTO, object[] param)
         {
@@ -147,7 +155,8 @@ namespace AILib
             AuthorityLevel = AuthorityLevel.群主,
             Description = "按关键字删除语录",
             Syntax = "[关键字]",
-            Tag = "语录"
+            Tag = "语录",
+            SyntaxChecker = "NotEmpty"
             )]
         public void ClearSayings(GroupMsgDTO MsgDTO, object[] param)
         {

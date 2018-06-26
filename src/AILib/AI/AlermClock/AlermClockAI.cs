@@ -68,7 +68,8 @@ namespace AILib
             AuthorityLevel = AuthorityLevel.成员,
             Description = "设定在指定时间的闹钟，我会到时候艾特你并显示提醒内容",
             Syntax = "[目标时间] [提醒内容]",
-            Tag = "闹钟与报时"
+            Tag = "闹钟与报时",
+            SyntaxChecker = "SetClock"
             )]
         [EnterCommand(
             Command = "设置闹钟",
@@ -76,34 +77,21 @@ namespace AILib
             AuthorityLevel = AuthorityLevel.成员,
             Description = "功能同设定闹钟",
             Syntax = "[目标时间] [提醒内容]",
-            Tag = "闹钟与报时"
+            Tag = "闹钟与报时",
+            SyntaxChecker = "SetClock"
             )]
         public void SetClock(GroupMsgDTO MsgDTO, object[] param)
         {
             RuntimeLogger.Log("AlermClockAI Tryto SetClock");
-            string[] strs = MsgDTO.msg.Split(new char[] { ' ' });
-            if (strs == null || strs.Length < 2)
-            {
-                return;
-            }
 
-            (int hour, int minute)? time = GenTimeFromStr(strs[0]);
-            if (time == null)
-            {
-                return;
-            }
-
-            if (string.IsNullOrEmpty(strs[1]))
-            {
-                return;
-            }
+            (int hour, int minute)? time = param[0] as (int hour, int minute)?;
 
             AlermClockEntity entity = new AlermClockEntity()
             {
                 Id = Guid.NewGuid().ToString(),
                 AimHourt = time.Value.hour,
                 AimMinute = time.Value.minute,
-                Content = strs[1],
+                Content = param[1] as string,
                 Creator = MsgDTO.fromQQ,
                 GroupNumber = MsgDTO.fromGroup,
                 CreateTime = DateTime.Now
@@ -196,7 +184,8 @@ namespace AILib
             AuthorityLevel = AuthorityLevel.成员,
             Description = "查询你当前设置的闹钟",
             Syntax = "",
-            Tag = "闹钟与报时"
+            Tag = "闹钟与报时",
+            SyntaxChecker = "Empty"
             )]
         public void QueryClock(GroupMsgDTO MsgDTO, object[] param)
         {
@@ -235,16 +224,13 @@ namespace AILib
             AuthorityLevel = AuthorityLevel.成员,
             Description = "删除指定时间的已经设置好的闹钟",
             Syntax = "[目标时间]",
-            Tag = "闹钟与报时"
+            Tag = "闹钟与报时",
+            SyntaxChecker = "DeleteClock"
             )]
         public void DeleteClock(GroupMsgDTO MsgDTO, object[] param)
         {
             RuntimeLogger.Log("AlermClockAI Tryto DeleteClock");
-            (int hour, int minute)? time = GenTimeFromStr(MsgDTO.msg);
-            if (time == null)
-            {
-                return;
-            }
+            (int hour, int minute)? time = param[0] as (int hour, int minute)?;
 
             if (DbMgr.Delete<AlermClockEntity>(q => q.GroupNumber == MsgDTO.fromGroup
                                                      && q.Creator == MsgDTO.fromQQ
@@ -279,7 +265,8 @@ namespace AILib
             AuthorityLevel = AuthorityLevel.成员,
             Description = "清空设置过的所有闹钟",
             Syntax = "",
-            Tag = "闹钟与报时"
+            Tag = "闹钟与报时",
+            SyntaxChecker = "Empty"
             )]
         public void ClearAllClock(GroupMsgDTO MsgDTO, object[] param)
         {
