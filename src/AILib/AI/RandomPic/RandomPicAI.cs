@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 using AILib.Entities;
 using System.IO;
 using Flexlive.CQP.Framework;
+using Flexlive.CQP.Framework.Utils;
 
 namespace AILib
 {
