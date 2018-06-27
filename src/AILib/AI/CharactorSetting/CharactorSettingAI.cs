@@ -98,18 +98,13 @@ namespace AILib
             });
         }
 
+        public void ViewCharactor(GroupMsgDTO MsgDTO, object[] param)
+        {
+        }
+
         private void TryToInsertChar(GroupMsgDTO MsgDTO, string charactor, string settingName, string content)
         {
-            if (!IsCharactorCreator(MsgDTO, charactor))
-            {
-                MsgSender.Instance.PushMsg(new SendMsgDTO
-                {
-                    Aim = MsgDTO.fromGroup,
-                    Type = MsgType.Group,
-                    Msg = $"只能修改自己创建的人物哦~"
-                });
-            }
-            else if (IsQQFullChar(MsgDTO))
+            if (IsQQFullChar(MsgDTO))
             {
                 MsgSender.Instance.PushMsg(new SendMsgDTO
                 {
@@ -126,6 +121,17 @@ namespace AILib
 
         private void TryToUpdateChar(GroupMsgDTO MsgDTO, string charactor, string settingName, string content)
         {
+            if (!IsCharactorCreator(MsgDTO, charactor))
+            {
+                MsgSender.Instance.PushMsg(new SendMsgDTO
+                {
+                    Aim = MsgDTO.fromGroup,
+                    Type = MsgType.Group,
+                    Msg = $"只能修改自己创建的人物哦~"
+                });
+                return;
+            }
+
             if (IsSettingFull(MsgDTO.fromGroup, charactor, settingName))
             {
                 MsgSender.Instance.PushMsg(new SendMsgDTO
@@ -161,9 +167,12 @@ namespace AILib
 
         private bool IsQQFullChar(GroupMsgDTO MsgDTO)
         {
-            var query = DbMgr.Query<CharactorSettingEntity>(cs => cs.GroupNumber == MsgDTO.fromGroup && cs.Creator == MsgDTO.fromQQ)
-                .GroupBy(p => p.Charactor)
-                .Select(p => p.First());
+            var query = DbMgr.Query<CharactorSettingEntity>(cs => cs.GroupNumber == MsgDTO.fromGroup && cs.Creator == MsgDTO.fromQQ);
+            if (query.IsNullOrEmpty())
+            {
+                return false;
+            }
+            query = query.GroupBy(p => p.Charactor).Select(p => p.First());
             return !query.IsNullOrEmpty() && query.Count() > MaxCharNumPerQQ;
         }
 
