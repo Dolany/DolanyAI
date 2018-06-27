@@ -181,7 +181,8 @@ namespace AILib
             AuthorityLevel = AuthorityLevel.群主,
             Description = "封禁一个群员，让他无法使用语录功能",
             Syntax = "[qq号码]",
-            Tag = "语录"
+            Tag = "语录",
+            SyntaxChecker = "Long"
             )]
         public void SayingSeal(GroupMsgDTO MsgDTO, object[] param)
         {
@@ -228,7 +229,8 @@ namespace AILib
             AuthorityLevel = AuthorityLevel.群主,
             Description = "解封一个群员，让他可以继续使用语录功能",
             Syntax = "[qq号码]",
-            Tag = "语录"
+            Tag = "语录",
+            SyntaxChecker = "Long"
             )]
         public void SayingDeseal(GroupMsgDTO MsgDTO, object[] param)
         {

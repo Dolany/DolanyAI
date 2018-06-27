@@ -69,7 +69,8 @@ namespace AILib
             AuthorityLevel = AuthorityLevel.成员,
             Description = "随机发送近期内所有群组内发过的图片",
             Syntax = "",
-            Tag = "图片"
+            Tag = "图片",
+            SyntaxChecker = "Empty"
             )]
         public void RecentPic(GroupMsgDTO MsgDTO, object[] param)
         {
@@ -141,7 +142,8 @@ namespace AILib
             IsDeveloperOnly = true,
             Description = "重新加载图片列表，刷新搜索关键字",
             Syntax = "",
-            Tag = "图片"
+            Tag = "图片",
+            SyntaxChecker = "Empty"
             )]
         public void RefreshKeywords(PrivateMsgDTO MsgDTO, object[] param)
         {
@@ -156,26 +158,19 @@ namespace AILib
             IsDeveloperOnly = true,
             Description = "添加图片检索时的关键字",
             Syntax = "[目标词] [同义词]",
-            Tag = "图片"
+            Tag = "图片",
+            SyntaxChecker = "TwoWords"
             )]
         public void AppendSynonym(PrivateMsgDTO MsgDTO, object[] param)
         {
-            if (string.IsNullOrEmpty(MsgDTO.msg))
-            {
-                return;
-            }
-
-            string[] strs = MsgDTO.msg.Split(new char[] { ' ' }, StringSplitOptions.RemoveEmptyEntries);
-            if (strs == null || strs.Length != 2)
-            {
-                return;
-            }
+            string Keyword = param[0] as string;
+            string Content = param[1] as string;
 
             DbMgr.Insert(new SynonymDicEntity()
             {
                 Id = Guid.NewGuid().ToString(),
-                Keyword = strs[0],
-                Content = strs[1]
+                Keyword = Keyword,
+                Content = Content
             });
 
             Common.SendMsgToDeveloper("添加成功！");
@@ -187,7 +182,8 @@ namespace AILib
             IsDeveloperOnly = true,
             Description = "获取所有图片关键字（不包括同义词）",
             Syntax = "",
-            Tag = "图片"
+            Tag = "图片",
+            SyntaxChecker = "Empty"
             )]
         public void AllPicKeywords(PrivateMsgDTO MsgDTO, object[] param)
         {

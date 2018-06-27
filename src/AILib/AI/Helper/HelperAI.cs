@@ -29,7 +29,7 @@ namespace AILib
             AuthorityLevel = AuthorityLevel.成员,
             Description = "获取帮助信息",
             Syntax = " 或者 帮助 [命令名]",
-            Tag = "帮助"
+            Tag = "帮助系统"
             )]
         public void HelpMe(GroupMsgDTO MsgDTO, object[] param)
         {
@@ -53,7 +53,7 @@ namespace AILib
         public void HelpSummary(GroupMsgDTO MsgDTO)
         {
             string helpMsg = "当前的命令标签有：";
-            var commandAttrs = AIMgr.AllAvailableCommands.Where(c => c.SourceType == MsgType.Group);
+            var commandAttrs = AIMgr.AllAvailableCommands.Where(c => c.SourceType == MsgType.Group).GroupBy(c => c.Tag).Select(p => p.First());
             foreach (var c in commandAttrs)
             {
                 helpMsg += '\r' + c.Tag;

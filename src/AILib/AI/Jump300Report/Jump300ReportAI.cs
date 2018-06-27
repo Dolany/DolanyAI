@@ -30,7 +30,8 @@ namespace AILib
             AuthorityLevel = AuthorityLevel.成员,
             Description = "查询300英雄战绩信息",
             Syntax = " [角色名]",
-            Tag = "战绩查询"
+            Tag = "战绩查询",
+            SyntaxChecker = "NotEmpty"
             )]
         public void JumpReport(GroupMsgDTO MsgDTO, object[] param)
         {

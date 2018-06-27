@@ -104,11 +104,24 @@ namespace AILib
             AuthorityLevel = AuthorityLevel.成员,
             Description = "设定指定小时的报时内容",
             Syntax = " [目标小时] [报时内容]",
-            Tag = "闹钟与报时"
+            Tag = "闹钟与报时",
+            SyntaxChecker = "HourAlert"
             )]
         public void AlertSet(GroupMsgDTO MsgDTO, object[] param)
         {
-            RecordAlertContent(MsgDTO.msg, MsgDTO.fromQQ, MsgDTO.fromGroup);
+            AlertContentEntity info = param[0] as AlertContentEntity;
+
+            info.CreateTime = DateTime.Now;
+            info.Creator = MsgDTO.fromQQ;
+            info.FromGroup = MsgDTO.fromGroup;
+
+            string Msg = SaveAlertContent(info) ? "报时内容保存成功！" : "报时内容保存失败！";
+            MsgSender.Instance.PushMsg(new SendMsgDTO()
+            {
+                Aim = MsgDTO.fromGroup,
+                Type = MsgType.Group,
+                Msg = Msg
+            });
         }
 
         [EnterCommand(
@@ -117,7 +130,8 @@ namespace AILib
             AuthorityLevel = AuthorityLevel.管理员,
             Description = "设置报时功能开启",
             Syntax = "",
-            Tag = "闹钟与报时"
+            Tag = "闹钟与报时",
+            SyntaxChecker = "Empty"
             )]
         public void AlertEnable(GroupMsgDTO MsgDTO, object[] param)
         {
@@ -138,7 +152,8 @@ namespace AILib
             AuthorityLevel = AuthorityLevel.管理员,
             Description = "设置报时功能关闭",
             Syntax = "",
-            Tag = "闹钟与报时"
+            Tag = "闹钟与报时",
+            SyntaxChecker = "Empty"
             )]
         public void AlertDisenable(GroupMsgDTO MsgDTO, object[] param)
         {
@@ -242,27 +257,13 @@ namespace AILib
             IsDeveloperOnly = true,
             Description = "获取指定群组和目标小时的随机报时内容",
             Syntax = " [目标群组] [目标小时]",
-            Tag = "闹钟与报时"
+            Tag = "闹钟与报时",
+            SyntaxChecker = "AlertPrivate"
             )]
         public void AlertPrivate(PrivateMsgDTO MsgDTO, object[] param)
         {
-            string[] strs = MsgDTO.msg.Split(new char[] { ' ' }, StringSplitOptions.RemoveEmptyEntries);
-            if (strs == null || strs.Length != 2)
-            {
-                return;
-            }
-
-            int aimHour;
-            if (!int.TryParse(strs[0], out aimHour))
-            {
-                return;
-            }
-
-            long aimGroup;
-            if (!long.TryParse(strs[1], out aimGroup))
-            {
-                return;
-            }
+            long aimGroup = (long)param[0];
+            int aimHour = (int)param[1];
 
             string RanContent = GetRanAlertContent(aimGroup, aimHour);
             Common.SendMsgToDeveloper($@"到{aimHour}点啦！ {RanContent}");
@@ -274,7 +275,8 @@ namespace AILib
             IsDeveloperOnly = true,
             Description = "获取所有报时开启群组的列表",
             Syntax = "",
-            Tag = "闹钟与报时"
+            Tag = "闹钟与报时",
+            SyntaxChecker = "Empty"
             )]
         public void AllAvailabeGroups(PrivateMsgDTO MsgDTO, object[] param)
         {
@@ -294,20 +296,12 @@ namespace AILib
             AuthorityLevel = AuthorityLevel.群主,
             Description = "清空指定小时的所有报时内容",
             Syntax = "[目标小时]",
-            Tag = "闹钟与报时"
+            Tag = "闹钟与报时",
+            SyntaxChecker = "Long"
             )]
         public void ClearAlert(GroupMsgDTO MsgDTO, object[] param)
         {
-            if (string.IsNullOrEmpty(MsgDTO.msg))
-            {
-                return;
-            }
-
-            long num;
-            if (!long.TryParse(MsgDTO.msg, out num))
-            {
-                return;
-            }
+            long num = (long)param[0];
 
             if (num <= 24)
             {
@@ -332,7 +326,8 @@ namespace AILib
             IsDeveloperOnly = true,
             Description = "获取所有的报时数目",
             Syntax = "",
-            Tag = "闹钟与报时"
+            Tag = "闹钟与报时",
+            SyntaxChecker = "Empty"
             )]
         public void TotalAlertCount(PrivateMsgDTO MsgDTO, object[] param)
         {

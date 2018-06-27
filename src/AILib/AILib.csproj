@@ -117,9 +117,14 @@
     <Compile Include="SyntaxChecker\AlermClock\DeleteClockChecker.cs" />
     <Compile Include="SyntaxChecker\CartoonSayings\ProcceedMsgChecker.cs" />
     <Compile Include="SyntaxChecker\Common\EmptyChecker.cs" />
+    <Compile Include="SyntaxChecker\Common\LongChecker.cs" />
     <Compile Include="SyntaxChecker\Common\NotEmptyChecker.cs" />
+    <Compile Include="SyntaxChecker\Common\TwoWordsChecker.cs" />
+    <Compile Include="SyntaxChecker\HourAlert\AlertPrivateChecker.cs" />
+    <Compile Include="SyntaxChecker\HourAlert\HourAlertChecker.cs" />
     <Compile Include="SyntaxChecker\ISyntaxChecker.cs" />
     <Compile Include="SyntaxChecker\AlermClock\SetClockChecker.cs" />
+    <Compile Include="SyntaxChecker\Publisher\PublishToChecker.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Flexlive.CQP.Framework\Flexlive.CQP.Framework.csproj">

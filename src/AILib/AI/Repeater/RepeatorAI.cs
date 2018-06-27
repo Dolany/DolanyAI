@@ -16,9 +16,9 @@ namespace AILib
         )]
     public class RepeatorAI : AIBase
     {
-        private int RepeatLimit = 30;
+        private long RepeatLimit = 30;
 
-        private int CurCount = 0;
+        private long CurCount = 0;
 
         private int SleepTime = 1000;
 
@@ -64,7 +64,8 @@ namespace AILib
             AuthorityLevel = AuthorityLevel.群主,
             Description = "禁用复读机功能，禁用后将不会在本群产生计数和进行复读",
             Syntax = "",
-            Tag = "复读机"
+            Tag = "复读机",
+            SyntaxChecker = "Empty"
             )]
         public void Forbidden(GroupMsgDTO MsgDTO, object[] param)
         {
@@ -84,7 +85,8 @@ namespace AILib
             AuthorityLevel = AuthorityLevel.群主,
             Description = "重新启用复读机功能",
             Syntax = "",
-            Tag = "复读机"
+            Tag = "复读机",
+            SyntaxChecker = "Empty"
             )]
         public void Unforbidden(GroupMsgDTO MsgDTO, object[] param)
         {
@@ -154,17 +156,12 @@ namespace AILib
             IsDeveloperOnly = true,
             Description = "设定复读功能的频率，即多少次计数后进行复读",
             Syntax = "[复读频率]",
-            Tag = "复读机"
+            Tag = "复读机",
+            SyntaxChecker = "Long"
             )]
         public void SetRepeatLimit(PrivateMsgDTO MsgDTO, object[] param)
         {
-            int limit;
-            if (!int.TryParse(MsgDTO.msg, out limit) || limit <= 0)
-            {
-                return;
-            }
-
-            RepeatLimit = limit;
+            RepeatLimit = (long)param[0];
         }
     }
 }
