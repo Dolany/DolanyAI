@@ -62,6 +62,7 @@
       <SubType>Component</SubType>
     </Compile>
     <Compile Include="AI\CartoonSaying\CartoonSayingAI.cs" />
+    <Compile Include="AI\CharactorSetting\CharactorSettingAI.cs" />
     <Compile Include="AI\Helper\HelperAI.cs" />
     <Compile Include="AI\DevelperOnly\Publisher\Publisher.cs" />
     <Compile Include="AI\Jump300Report\Jump300ReportAI.cs" />
@@ -84,6 +85,7 @@
     <Compile Include="Base\EnterCommandAttribute.cs" />
     <Compile Include="Common\Common.cs" />
     <Compile Include="AI\Repeater\PlusOneCache.cs" />
+    <Compile Include="Entities\CharactorSetting\CharactorSettingEntity.cs" />
     <Compile Include="Entities\HeartBeatEntity.cs" />
     <Compile Include="Entities\Repeat\PlusOneAvailableEntity.cs" />
     <Compile Include="Entities\Repeat\RepeaterAvailableEntity.cs" />
@@ -119,6 +121,7 @@
     <Compile Include="SyntaxChecker\Common\EmptyChecker.cs" />
     <Compile Include="SyntaxChecker\Common\LongChecker.cs" />
     <Compile Include="SyntaxChecker\Common\NotEmptyChecker.cs" />
+    <Compile Include="SyntaxChecker\Common\ThreeWordsChecker.cs" />
     <Compile Include="SyntaxChecker\Common\TwoWordsChecker.cs" />
     <Compile Include="SyntaxChecker\HourAlert\AlertPrivateChecker.cs" />
     <Compile Include="SyntaxChecker\HourAlert\HourAlertChecker.cs" />
