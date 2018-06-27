@@ -40,7 +40,7 @@ namespace AILib
             AuthorityLevel = AuthorityLevel.成员,
             Description = "录入语录或者按关键字检索语录",
             Syntax = " 或者 语录 [关键字]; 语录 [出处] [人物] [内容]",
-            Tag = "语录",
+            Tag = "语录功能",
             SyntaxChecker = "ProcceedMsg"
             )]
         public void ProcceedMsg(GroupMsgDTO MsgDTO, object[] param)
@@ -141,7 +141,7 @@ namespace AILib
             IsDeveloperOnly = true,
             Description = "查询录入的所有语录的总数",
             Syntax = "",
-            Tag = "语录",
+            Tag = "语录功能",
             SyntaxChecker = "Empty"
             )]
         public void SayingTotalCount(PrivateMsgDTO MsgDTO, object[] param)
@@ -155,7 +155,7 @@ namespace AILib
             AuthorityLevel = AuthorityLevel.群主,
             Description = "按关键字删除语录",
             Syntax = "[关键字]",
-            Tag = "语录",
+            Tag = "语录功能",
             SyntaxChecker = "NotEmpty"
             )]
         public void ClearSayings(GroupMsgDTO MsgDTO, object[] param)
@@ -181,7 +181,7 @@ namespace AILib
             AuthorityLevel = AuthorityLevel.群主,
             Description = "封禁一个群员，让他无法使用语录功能",
             Syntax = "[qq号码]",
-            Tag = "语录",
+            Tag = "语录功能",
             SyntaxChecker = "Long"
             )]
         public void SayingSeal(GroupMsgDTO MsgDTO, object[] param)
@@ -229,7 +229,7 @@ namespace AILib
             AuthorityLevel = AuthorityLevel.群主,
             Description = "解封一个群员，让他可以继续使用语录功能",
             Syntax = "[qq号码]",
-            Tag = "语录",
+            Tag = "语录功能",
             SyntaxChecker = "Long"
             )]
         public void SayingDeseal(GroupMsgDTO MsgDTO, object[] param)

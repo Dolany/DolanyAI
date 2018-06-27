@@ -54,6 +54,50 @@ namespace AILib
             }
         }
 
+        [EnterCommand(
+            Command = "删除人物",
+            SourceType = MsgType.Group,
+            AuthorityLevel = AuthorityLevel.成员,
+            Description = "删除一个人物",
+            Syntax = "[人物名]",
+            Tag = "设定",
+            SyntaxChecker = "NotEmpty"
+            )]
+        public void DeleteCharactor(GroupMsgDTO MsgDTO, object[] param)
+        {
+            string charactor = param[0] as string;
+            var query = DbMgr.Query<CharactorSettingEntity>(c => c.GroupNumber == MsgDTO.fromGroup && c.Charactor == charactor);
+            if (query.IsNullOrEmpty())
+            {
+                MsgSender.Instance.PushMsg(new SendMsgDTO
+                {
+                    Aim = MsgDTO.fromGroup,
+                    Type = MsgType.Group,
+                    Msg = "这个人物还没有被创建呢！"
+                });
+                return;
+            }
+
+            if (query.First().Creator != MsgDTO.fromQQ)
+            {
+                MsgSender.Instance.PushMsg(new SendMsgDTO
+                {
+                    Aim = MsgDTO.fromGroup,
+                    Type = MsgType.Group,
+                    Msg = "你只能删除自己创建的人物噢！"
+                });
+                return;
+            }
+
+            DbMgr.Delete<CharactorSettingEntity>(c => c.GroupNumber == MsgDTO.fromGroup && c.Charactor == charactor);
+            MsgSender.Instance.PushMsg(new SendMsgDTO
+            {
+                Aim = MsgDTO.fromGroup,
+                Type = MsgType.Group,
+                Msg = "删除成功！"
+            });
+        }
+
         private void TryToInsertChar(GroupMsgDTO MsgDTO, string charactor, string settingName, string content)
         {
             if (!IsCharactorCreator(MsgDTO, charactor))
@@ -153,7 +197,10 @@ namespace AILib
 
         private void ModifySetting(GroupMsgDTO MsgDTO, string charactor, string settingName, string content)
         {
-            var cs = DbMgr.Query<CharactorSettingEntity>(cs => cs.GroupNumber == fromGroup && cs.Charactor == charactor && cs.SettingName == settingName).FirstOrDefault();
+            var cs = DbMgr.Query<CharactorSettingEntity>(c => c.GroupNumber == MsgDTO.fromGroup
+                && c.Charactor == charactor
+                && c.SettingName == settingName)
+                .FirstOrDefault();
             cs.Content = content;
             DbMgr.Update(cs);
             MsgSender.Instance.PushMsg(new SendMsgDTO

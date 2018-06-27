@@ -76,7 +76,7 @@ namespace AILib
             try
             {
                 Assembly assembly = Assembly.GetExecutingAssembly();
-                object scObj = assembly.CreateInstance(enterAttr.SyntaxChecker + "Checker");
+                object scObj = assembly.CreateInstance("AILib.SyntaxChecker." + enterAttr.SyntaxChecker + "Checker");
                 ISyntaxChecker checker = scObj as ISyntaxChecker;
                 return checker.Check(msg, out param);
             }
