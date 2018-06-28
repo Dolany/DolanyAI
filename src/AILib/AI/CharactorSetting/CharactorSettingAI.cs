@@ -98,8 +98,42 @@ namespace AILib
             });
         }
 
+        [EnterCommand(
+            Command = "人物设定浏览",
+            SourceType = MsgType.Group,
+            AuthorityLevel = AuthorityLevel.成员,
+            Description = "浏览一个人物的全部设定",
+            Syntax = "[人物名]",
+            Tag = "设定",
+            SyntaxChecker = "NotEmpty"
+            )]
         public void ViewCharactor(GroupMsgDTO MsgDTO, object[] param)
         {
+            string charactor = param[0] as string;
+            var query = DbMgr.Query<CharactorSettingEntity>(c => c.GroupNumber == MsgDTO.fromGroup && c.Charactor == charactor);
+            if (query.IsNullOrEmpty())
+            {
+                MsgSender.Instance.PushMsg(new SendMsgDTO
+                {
+                    Aim = MsgDTO.fromGroup,
+                    Type = MsgType.Group,
+                    Msg = $"这个人物还没有创建哦~"
+                });
+                return;
+            }
+
+            string msg = charactor + ':';
+            foreach (var c in query)
+            {
+                msg += '\r' + c.SettingName + ':' + c.Content;
+            }
+
+            MsgSender.Instance.PushMsg(new SendMsgDTO
+            {
+                Aim = MsgDTO.fromGroup,
+                Type = MsgType.Group,
+                Msg = msg
+            });
         }
 
         private void TryToInsertChar(GroupMsgDTO MsgDTO, string charactor, string settingName, string content)
