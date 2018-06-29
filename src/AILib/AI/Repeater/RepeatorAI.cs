@@ -41,6 +41,10 @@ namespace AILib
             {
                 return false;
             }
+            if (MsgDTO.fullMsg.Contains("CQ:at"))
+            {
+                return false;
+            }
 
             if (AIMgr.AllAvailableCommands.Select(p => p.Command).Contains(MsgDTO.command))
             {

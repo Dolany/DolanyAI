@@ -34,6 +34,10 @@ namespace AILib
             {
                 return false;
             }
+            if (MsgDTO.fullMsg.Contains("CQ:at"))
+            {
+                return false;
+            }
 
             var query = Cache.Where(d => d.GroupNumber == MsgDTO.fromGroup);
             if (query.IsNullOrEmpty())
