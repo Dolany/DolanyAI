@@ -92,7 +92,10 @@ namespace AILib
         {
             DirectoryInfo dirInfo = new DirectoryInfo(PicPath);
             var files = dirInfo.GetFiles();
-            return files.Where(f => f.Extension == ".cqimg").ToList();
+            return files.Where(f => f.Extension == ".cqimg")
+                        .OrderBy(f => f.CreationTime)
+                        .Skip(10)
+                        .ToList();
         }
 
         private string GenKey(string msg)
