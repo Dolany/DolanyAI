@@ -34,22 +34,11 @@ namespace AILib
             {
                 foreach (var attr in method.GetCustomAttributes(typeof(EnterCommandAttribute), false))
                 {
-                    var enterAttr = attr as EnterCommandAttribute;
-                    if (enterAttr.Command != MsgDTO.command || enterAttr.SourceType != MsgType.Group)
+                    object[] param;
+
+                    if (!GroupCheck(attr as EnterCommandAttribute, MsgDTO, out param))
                     {
                         continue;
-                    }
-
-                    object[] param;
-                    if (!Check(enterAttr, MsgDTO.msg, out param))
-                    {
-                        break;
-                    }
-
-                    string authority = CQ.GetGroupMemberInfo(MsgDTO.fromGroup, MsgDTO.fromQQ, true).Authority;
-                    if (!AuthorityCheck(enterAttr.AuthorityLevel, authority))
-                    {
-                        break;
                     }
 
                     t.InvokeMember(method.Name,
@@ -65,7 +54,29 @@ namespace AILib
             return false;
         }
 
-        private bool Check(EnterCommandAttribute enterAttr, string msg, out object[] param)
+        private bool GroupCheck(EnterCommandAttribute enterAttr, GroupMsgDTO MsgDTO, out object[] param)
+        {
+            if (enterAttr.Command != MsgDTO.command || enterAttr.SourceType != MsgType.Group)
+            {
+                param = null;
+                return false;
+            }
+
+            if (!SyntaxCheck(enterAttr, MsgDTO.msg, out param))
+            {
+                return false;
+            }
+
+            string authority = CQ.GetGroupMemberInfo(MsgDTO.fromGroup, MsgDTO.fromQQ, true).Authority;
+            if (!AuthorityCheck(enterAttr.AuthorityLevel, authority))
+            {
+                return false;
+            }
+
+            return true;
+        }
+
+        private bool SyntaxCheck(EnterCommandAttribute enterAttr, string msg, out object[] param)
         {
             if (string.IsNullOrEmpty(enterAttr.SyntaxChecker))
             {
@@ -108,21 +119,11 @@ namespace AILib
             {
                 foreach (var attr in method.GetCustomAttributes(typeof(EnterCommandAttribute), false))
                 {
-                    var enterAttr = attr as EnterCommandAttribute;
-                    if (enterAttr.Command != MsgDTO.command || enterAttr.SourceType != MsgType.Private)
+                    object[] param;
+
+                    if (!PrivateCheck(attr as EnterCommandAttribute, MsgDTO, out param))
                     {
                         continue;
-                    }
-
-                    if (enterAttr.IsDeveloperOnly && MsgDTO.fromQQ != Common.DeveloperNumber)
-                    {
-                        break;
-                    }
-
-                    object[] param;
-                    if (!Check(enterAttr, MsgDTO.msg, out param))
-                    {
-                        break;
                     }
 
                     t.InvokeMember(method.Name,
@@ -134,6 +135,27 @@ namespace AILib
                     return;
                 }
             }
+        }
+
+        private bool PrivateCheck(EnterCommandAttribute enterAttr, PrivateMsgDTO MsgDTO, out object[] param)
+        {
+            param = null;
+            if (enterAttr.Command != MsgDTO.command || enterAttr.SourceType != MsgType.Private)
+            {
+                return false;
+            }
+
+            if (enterAttr.IsDeveloperOnly && MsgDTO.fromQQ != Common.DeveloperNumber)
+            {
+                return false;
+            }
+
+            if (!SyntaxCheck(enterAttr, MsgDTO.msg, out param))
+            {
+                return false;
+            }
+
+            return true;
         }
 
         public int CompareTo(AIBase other)

@@ -53,7 +53,7 @@ namespace AILib
         public void HelpSummary(GroupMsgDTO MsgDTO)
         {
             string helpMsg = "当前的命令标签有：";
-            var commandAttrs = AIMgr.AllAvailableCommands.Where(c => c.SourceType == MsgType.Group).GroupBy(c => c.Tag).Select(p => p.First());
+            var commandAttrs = GetCommandAttrs();
             foreach (var c in commandAttrs)
             {
                 helpMsg += '\r' + c.Tag;
@@ -67,6 +67,14 @@ namespace AILib
                 Type = MsgType.Group,
                 Msg = helpMsg
             });
+        }
+
+        private IEnumerable<EnterCommandAttribute> GetCommandAttrs()
+        {
+            return AIMgr.AllAvailableCommands
+                .Where(c => c.SourceType == MsgType.Group)
+                .GroupBy(c => c.Tag)
+                .Select(p => p.First());
         }
 
         public bool HelpCommand(GroupMsgDTO MsgDTO)
