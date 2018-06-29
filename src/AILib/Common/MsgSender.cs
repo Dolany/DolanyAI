@@ -72,7 +72,6 @@ namespace AILib
                 {
                     var msg = MsgQueue.Dequeue();
 
-                    RuntimeLogger.Log($"try send msg: type:{msg.Type.ToString()} msg:{msg.Msg} aim:{msg.Aim} time:{DateTime.Now}");
                     switch (msg.Type)
                     {
                         case MsgType.Group:
@@ -83,7 +82,6 @@ namespace AILib
                             CQ.SendPrivateMessage(msg.Aim, msg.Msg);
                             break;
                     }
-                    RuntimeLogger.Log($"send finished");
                 }
             }
         }

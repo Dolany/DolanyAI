@@ -15,6 +15,8 @@ namespace AILib
         // 当前加载的AI列表
         public static List<AIBase> AIList;
 
+        public static MsgReceiveCache MsgReceiveCache;
+
         // 所有可用的AI列表
         public static List<AIInfoDTO> AllAIs
         {
@@ -57,6 +59,7 @@ namespace AILib
         public static void StartAIs(IEnumerable<string> AINames, AIConfigDTO ConfigDTO)
         {
             AIList = new List<AIBase>();
+            MsgReceiveCache = new MsgReceiveCache(GroupMsgCallBack);
             AllAvailableCommands = new List<EnterCommandAttribute>();
 
             Assembly assembly = Assembly.GetExecutingAssembly();
@@ -120,18 +123,23 @@ namespace AILib
         /// <param name="MsgDTO"></param>
         public static void OnGroupMsgReceived(GroupMsgDTO MsgDTO)
         {
+            if (AIList.IsNullOrEmpty())
+            {
+                return;
+            }
+
+            string msg = MsgDTO.msg;
+            MsgDTO.fullMsg = msg;
+            MsgDTO.command = GenCommand(ref msg);
+            MsgDTO.msg = msg;
+
+            MsgReceiveCache.PushMsg(MsgDTO);
+        }
+
+        private static void GroupMsgCallBack(GroupMsgDTO MsgDTO)
+        {
             try
             {
-                if (AIList.IsNullOrEmpty())
-                {
-                    return;
-                }
-
-                string msg = MsgDTO.msg;
-                MsgDTO.fullMsg = msg;
-                MsgDTO.command = GenCommand(ref msg);
-                MsgDTO.msg = msg;
-
                 foreach (var ai in AIList)
                 {
                     if (ai.OnGroupMsgReceived(MsgDTO))
