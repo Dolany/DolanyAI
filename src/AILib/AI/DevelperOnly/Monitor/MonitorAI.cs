@@ -64,7 +64,7 @@ namespace AILib
             IsDeveloperOnly = true,
             Description = "阻止心态",
             Syntax = "",
-            Tag = "监控",
+            Tag = "监控功能",
             SyntaxChecker = "Empty"
             )]
         public void StopHeart(PrivateMsgDTO MsgDTO, object[] param)

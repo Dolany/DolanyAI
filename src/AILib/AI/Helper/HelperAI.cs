@@ -29,7 +29,7 @@ namespace AILib
             AuthorityLevel = AuthorityLevel.成员,
             Description = "获取帮助信息",
             Syntax = " 或者 帮助 [命令名]",
-            Tag = "帮助系统"
+            Tag = "帮助功能"
             )]
         public void HelpMe(GroupMsgDTO MsgDTO, object[] param)
         {

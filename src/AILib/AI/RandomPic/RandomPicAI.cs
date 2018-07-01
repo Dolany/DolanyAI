@@ -69,7 +69,7 @@ namespace AILib
             AuthorityLevel = AuthorityLevel.成员,
             Description = "随机发送近期内所有群组内发过的图片",
             Syntax = "",
-            Tag = "图片",
+            Tag = "图片功能",
             SyntaxChecker = "Empty"
             )]
         public void RecentPic(GroupMsgDTO MsgDTO, object[] param)
@@ -145,7 +145,7 @@ namespace AILib
             IsDeveloperOnly = true,
             Description = "重新加载图片列表，刷新搜索关键字",
             Syntax = "",
-            Tag = "图片",
+            Tag = "图片功能",
             SyntaxChecker = "Empty"
             )]
         public void RefreshKeywords(PrivateMsgDTO MsgDTO, object[] param)
@@ -161,7 +161,7 @@ namespace AILib
             IsDeveloperOnly = true,
             Description = "添加图片检索时的关键字",
             Syntax = "[目标词] [同义词]",
-            Tag = "图片",
+            Tag = "图片功能",
             SyntaxChecker = "TwoWords"
             )]
         public void AppendSynonym(PrivateMsgDTO MsgDTO, object[] param)
@@ -185,7 +185,7 @@ namespace AILib
             IsDeveloperOnly = true,
             Description = "获取所有图片关键字（不包括同义词）",
             Syntax = "",
-            Tag = "图片",
+            Tag = "图片功能",
             SyntaxChecker = "Empty"
             )]
         public void AllPicKeywords(PrivateMsgDTO MsgDTO, object[] param)

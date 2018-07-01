@@ -35,7 +35,7 @@ namespace AILib
             AuthorityLevel = AuthorityLevel.成员,
             Description = "设定一个人物",
             Syntax = "[人物名] [设定项] [设定内容]",
-            Tag = "设定",
+            Tag = "设定功能",
             SyntaxChecker = "ThreeWords"
             )]
         public void SetCharactor(GroupMsgDTO MsgDTO, object[] param)
@@ -60,7 +60,7 @@ namespace AILib
             AuthorityLevel = AuthorityLevel.成员,
             Description = "删除一个人物",
             Syntax = "[人物名]",
-            Tag = "设定",
+            Tag = "设定功能",
             SyntaxChecker = "NotEmpty"
             )]
         public void DeleteCharactor(GroupMsgDTO MsgDTO, object[] param)
@@ -104,7 +104,7 @@ namespace AILib
             AuthorityLevel = AuthorityLevel.成员,
             Description = "浏览一个人物的全部设定",
             Syntax = "[人物名]",
-            Tag = "设定",
+            Tag = "设定功能",
             SyntaxChecker = "NotEmpty"
             )]
         public void ViewCharactor(GroupMsgDTO MsgDTO, object[] param)

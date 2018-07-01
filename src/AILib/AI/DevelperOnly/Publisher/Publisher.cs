@@ -31,7 +31,7 @@ namespace AILib
             IsDeveloperOnly = true,
             Description = "发布新版本内容，并留下记录，将返回一个记录编号",
             Syntax = "[内容]",
-            Tag = "发布",
+            Tag = "发布功能",
             SyntaxChecker = "NotEmpty"
             )]
         public void PublishRec(PrivateMsgDTO MsgDTO, object[] param)
@@ -45,7 +45,7 @@ namespace AILib
             IsDeveloperOnly = true,
             Description = "将指定编号的内容发布到指定群组，群组号0时为全部群组",
             Syntax = "[群组号] [记录编号]",
-            Tag = "发布",
+            Tag = "发布功能",
             SyntaxChecker = "PublishTo"
             )]
         public void PublishTo(PrivateMsgDTO MsgDTO, object[] param)
