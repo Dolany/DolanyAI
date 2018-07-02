@@ -64,6 +64,8 @@
     <Compile Include="AI\CartoonSaying\CartoonSayingAI.cs" />
     <Compile Include="AI\CharactorSetting\CharactorSettingAI.cs" />
     <Compile Include="AI\Fortune\FortuneAI.cs" />
+    <Compile Include="AI\Fortune\FortuneRequestor.cs" />
+    <Compile Include="AI\Fortune\StarFortuneParser.cs" />
     <Compile Include="AI\Hello\HelloAI.cs" />
     <Compile Include="AI\Helper\HelperAI.cs" />
     <Compile Include="AI\DevelperOnly\Publisher\Publisher.cs" />

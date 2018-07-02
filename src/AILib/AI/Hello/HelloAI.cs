@@ -36,7 +36,7 @@ namespace AILib
 
             var query = DbMgr.Query<HelloEntity>(h => h.GroupNum == MsgDTO.fromGroup
                     && h.QQNum == MsgDTO.fromQQ
-                    && string.Compare(DateTime.Now.ToString("yyyy-MM-dd"), h.LastHelloDate) > 0
+                    && string.Compare(DateTime.Now.ToDateString(), h.LastHelloDate) > 0
                     );
             if (query.IsNullOrEmpty())
             {
@@ -56,7 +56,7 @@ namespace AILib
                 Msg = $"{CQ.CQCode_At(MsgDTO.fromQQ)} {hello.Content}"
             });
 
-            hello.LastHelloDate = DateTime.Now.ToString("yyyy-MM-dd");
+            hello.LastHelloDate = DateTime.Now.ToDateString();
             DbMgr.Update(hello);
         }
 
@@ -65,7 +65,7 @@ namespace AILib
             SourceType = MsgType.Group,
             AuthorityLevel = AuthorityLevel.成员,
             Description = "设定每天打招呼的内容",
-            Syntax = "",
+            Syntax = "[设定内容]",
             Tag = "打招呼功能",
             SyntaxChecker = "NotEmpty"
             )]
@@ -82,7 +82,7 @@ namespace AILib
                     Id = Guid.NewGuid().ToString(),
                     GroupNum = MsgDTO.fromGroup,
                     QQNum = MsgDTO.fromQQ,
-                    LastHelloDate = DateTime.Now.ToString("yyyy-MM-dd"),
+                    LastHelloDate = DateTime.Now.ToDateString(),
                     Content = content
                 });
             }

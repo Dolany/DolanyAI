@@ -14,6 +14,7 @@ namespace AILib.Entities
     {
         [DataColumn]
         public string Id { get; set; }
+
         public string Content { get; set; }
 
         public string EntityName
@@ -32,19 +33,14 @@ namespace AILib.Entities
             ele.SetValue(Content);
 
             Type t = this.GetType();
-            foreach(var prop in t.GetProperties())
+            foreach (var prop in t.GetProperties())
             {
-                if(prop.GetCustomAttributes(typeof(DataColumnAttribute), false).Length <= 0)
+                if (prop.GetCustomAttributes(typeof(DataColumnAttribute), false).Length <= 0)
                 {
                     continue;
                 }
-                var propValue = t.InvokeMember(prop.Name,
-                    BindingFlags.GetProperty,
-                    null,
-                    this,
-                    null
-                    );
-                ele.SetAttributeValue(prop.Name, propValue.ToString());
+
+                ele.SetAttributeValue(prop.Name, prop.GetValue(this).ToString());
             }
 
             return ele;
@@ -53,7 +49,7 @@ namespace AILib.Entities
         public static Entity FromElement<Entity>(XElement ele) where Entity : EntityBase, new()
         {
             Entity entity = new Entity();
-            if(entity.EntityName != ele.Name)
+            if (entity.EntityName != ele.Name)
             {
                 return null;
             }

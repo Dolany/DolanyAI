@@ -64,6 +64,37 @@ namespace AILib
             ShowRandFortune(MsgDTO, rf);
         }
 
+        [EnterCommand(
+            Command = "星座运势",
+            SourceType = MsgType.Group,
+            AuthorityLevel = AuthorityLevel.成员,
+            Description = "获取星座运势",
+            Syntax = "[星座名]",
+            Tag = "运势功能",
+            SyntaxChecker = "NotEmpty"
+            )]
+        public void StarFortune(GroupMsgDTO MsgDTO, object[] param)
+        {
+            MsgSender.Instance.PushMsg(new SendMsgDTO()
+            {
+                Aim = MsgDTO.fromGroup,
+                Type = MsgType.Group,
+                Msg = "查询中，请稍候"
+            });
+            FortuneRequestor jr = new FortuneRequestor(MsgDTO, ReportCallBack);
+            Task.Run(() => jr.Work());
+        }
+
+        public void ReportCallBack(GroupMsgDTO MsgDTO, string Report)
+        {
+            MsgSender.Instance.PushMsg(new SendMsgDTO()
+            {
+                Aim = MsgDTO.fromGroup,
+                Type = MsgType.Group,
+                Msg = Report
+            });
+        }
+
         private int GetRandomFortune()
         {
             Random rand = new Random();
