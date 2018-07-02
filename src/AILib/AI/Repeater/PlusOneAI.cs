@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-using System.Threading.Tasks;
+using System.Threading;
 using AILib.Entities;
 using Flexlive.CQP.Framework.Utils;
 
@@ -52,6 +52,7 @@ namespace AILib
                 return false;
             }
 
+            Thread.Sleep(2000);
             var groupCache = query.FirstOrDefault();
             Repeat(MsgDTO.fromGroup, MsgDTO.fullMsg, groupCache);
             return true;

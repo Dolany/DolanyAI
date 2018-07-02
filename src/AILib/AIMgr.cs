@@ -84,9 +84,6 @@ namespace AILib
             AIList = new List<AIBase>();
             MsgReceiveCache = new MsgReceiveCache(GroupMsgCallBack);
             AllAvailableCommands = new List<EnterCommandAttribute>();
-
-            TotalReceiveCount = 0;
-            HitReceiveCount = 0;
         }
 
         private static void CreateAI(IEnumerable<string> AINames, AIConfigDTO ConfigDTO, Type t, Assembly assembly)

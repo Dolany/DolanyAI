@@ -20,7 +20,7 @@ namespace AILib
 
         private long CurCount = 0;
 
-        private int SleepTime = 1000;
+        private int SleepTime = 3000;
 
         private object lockObj = new object();
 
