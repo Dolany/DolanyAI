@@ -37,18 +37,18 @@
             this.ppMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.toolStripSeparator1 = new System.Windows.Forms.ToolStripSeparator();
             this.MenuItemClose = new System.Windows.Forms.ToolStripMenuItem();
+            this.refreshBtn = new System.Windows.Forms.Button();
+            this.restartBtn = new System.Windows.Forms.Button();
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).BeginInit();
             this.TuoPanContextMenuStrip.SuspendLayout();
             this.SuspendLayout();
             // 
             // dataGridView1
             // 
-            this.dataGridView1.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            this.dataGridView1.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.dataGridView1.Location = new System.Drawing.Point(0, 0);
+            this.dataGridView1.Location = new System.Drawing.Point(0, 29);
             this.dataGridView1.Name = "dataGridView1";
             this.dataGridView1.RowTemplate.Height = 23;
-            this.dataGridView1.Size = new System.Drawing.Size(954, 335);
+            this.dataGridView1.Size = new System.Drawing.Size(954, 306);
             this.dataGridView1.TabIndex = 0;
             // 
             // notifyIcon1
@@ -95,11 +95,33 @@
             this.MenuItemClose.Text = "退出";
             this.MenuItemClose.Click += new System.EventHandler(this.MenuItemClose_Click);
             // 
+            // refreshBtn
+            // 
+            this.refreshBtn.Location = new System.Drawing.Point(0, 1);
+            this.refreshBtn.Name = "refreshBtn";
+            this.refreshBtn.Size = new System.Drawing.Size(75, 23);
+            this.refreshBtn.TabIndex = 1;
+            this.refreshBtn.Text = "刷新";
+            this.refreshBtn.UseVisualStyleBackColor = true;
+            this.refreshBtn.Click += new System.EventHandler(this.refreshBtn_Click);
+            // 
+            // restartBtn
+            // 
+            this.restartBtn.Location = new System.Drawing.Point(124, 0);
+            this.restartBtn.Name = "restartBtn";
+            this.restartBtn.Size = new System.Drawing.Size(75, 23);
+            this.restartBtn.TabIndex = 2;
+            this.restartBtn.Text = "重启";
+            this.restartBtn.UseVisualStyleBackColor = true;
+            this.restartBtn.Click += new System.EventHandler(this.restartBtn_Click);
+            // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 12F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(954, 335);
+            this.Controls.Add(this.restartBtn);
+            this.Controls.Add(this.refreshBtn);
             this.Controls.Add(this.dataGridView1);
             this.Name = "Form1";
             this.Text = "自动重启CQP";
@@ -121,6 +143,8 @@
         private System.Windows.Forms.ToolStripMenuItem MenuItemClose;
         private System.Windows.Forms.ToolStripSeparator toolStripSeparator1;
         private System.Windows.Forms.ToolStripMenuItem ppMenuItem;
+        private System.Windows.Forms.Button refreshBtn;
+        private System.Windows.Forms.Button restartBtn;
     }
 }
 

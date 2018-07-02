@@ -43,6 +43,8 @@ namespace AutoRestart
             timer.Elapsed += TimeUp;
 
             timer.Start();
+
+            RefreshTable();
         }
 
         private void TimeUp(object sender, ElapsedEventArgs e)
@@ -123,9 +125,15 @@ namespace AutoRestart
 
             KeyLogger.Log($"[Restart] {DateTime.Now}", "Restart");
 
+            RefreshTable();
+        }
+
+        private void RefreshTable()
+        {
             this.Invoke(new Action(() =>
             {
-                dataGridView1.DataSource = DbMgr.Query<LogEntity>(l => l.LogType == "Restart").OrderByDescending(l => l.CreateTime);
+                var query = DbMgr.Query<LogEntity>(l => l.LogType == "Restart");
+                dataGridView1.DataSource = query.OrderByDescending(l => l.CreateTime).ToList();
                 dataGridView1.Refresh();
             }));
         }
@@ -204,6 +212,16 @@ namespace AutoRestart
             {
                 e.Cancel = true;
             }
+        }
+
+        private void refreshBtn_Click(object sender, EventArgs e)
+        {
+            RefreshTable();
+        }
+
+        private void restartBtn_Click(object sender, EventArgs e)
+        {
+            KillCQ();
         }
     }
 }
