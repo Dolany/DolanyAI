@@ -49,7 +49,7 @@ namespace AILib
                     MsgCache = MsgDTO.fullMsg
                 });
 
-                return true;
+                return false;
             }
 
             var groupCache = query.FirstOrDefault();

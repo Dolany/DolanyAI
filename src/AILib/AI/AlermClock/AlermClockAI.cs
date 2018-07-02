@@ -104,43 +104,28 @@ namespace AILib
         private void InsertClock(AlermClockEntity entity, GroupMsgDTO MsgDTO)
         {
             RuntimeLogger.Log("AlermClockAI InsertClock");
-            try
-            {
-                var query = DbMgr.Query<AlermClockEntity>(q => q.GroupNumber == MsgDTO.fromGroup
+            var query = DbMgr.Query<AlermClockEntity>(q => q.GroupNumber == MsgDTO.fromGroup
                                                     && q.Creator == MsgDTO.fromQQ
                                                     && q.AimHourt == entity.AimHourt
                                                     && q.AimMinute == entity.AimMinute);
-                if (!query.IsNullOrEmpty())
-                {
-                    MsgSender.Instance.PushMsg(new SendMsgDTO()
-                    {
-                        Aim = MsgDTO.fromGroup,
-                        Type = MsgType.Group,
-                        Msg = $@"{CQ.CQCode_At(MsgDTO.fromQQ)} 八嘎！你已经在这个时间点设置过闹钟啦！"
-                    });
-                    return;
-                }
-
+            if (!query.IsNullOrEmpty())
+            {
+                var clock = query.FirstOrDefault();
+                clock.Content = entity.Content;
+                DbMgr.Update(clock);
+            }
+            else
+            {
                 DbMgr.Insert(entity);
                 StartClock(entity);
+            }
 
-                MsgSender.Instance.PushMsg(new SendMsgDTO()
-                {
-                    Aim = MsgDTO.fromGroup,
-                    Type = MsgType.Group,
-                    Msg = "闹钟设定成功！"
-                });
-            }
-            catch (Exception ex)
+            MsgSender.Instance.PushMsg(new SendMsgDTO()
             {
-                MsgSender.Instance.PushMsg(new SendMsgDTO()
-                {
-                    Aim = MsgDTO.fromGroup,
-                    Type = MsgType.Group,
-                    Msg = "闹钟设定失败！"
-                });
-                Common.SendMsgToDeveloper(ex);
-            }
+                Aim = MsgDTO.fromGroup,
+                Type = MsgType.Group,
+                Msg = "闹钟设定成功！"
+            });
             RuntimeLogger.Log("AlermClockAI InsertClock Complete");
         }
 
@@ -296,30 +281,7 @@ namespace AILib
             RuntimeLogger.Log("AlermClockAI ClearAllClock Complete");
         }
 
-        private (int hour, int minute)? GenTimeFromStr(string timeStr)
-        {
-            string[] strs = timeStr.Split(new char[] { ':', '：' });
-            if (strs == null || strs.Length != 2)
-            {
-                return null;
-            }
-
-            int hour;
-            if (!int.TryParse(strs[0], out hour))
-            {
-                return null;
-            }
-
-            int minute;
-            if (!int.TryParse(strs[1], out minute))
-            {
-                return null;
-            }
-
-            return (hour, minute);
-        }
-
-        private int GetNextInterval(int hour, int minute)
+        private double GetNextInterval(int hour, int minute)
         {
             DateTime now = DateTime.Now;
             DateTime aimTime = new DateTime(now.Year, now.Month, now.Day, hour, minute, 0);
@@ -328,7 +290,7 @@ namespace AILib
                 aimTime = aimTime.AddDays(1);
             }
 
-            return (int)(aimTime - now).TotalMilliseconds;
+            return (aimTime - now).TotalMilliseconds;
         }
     }
 }

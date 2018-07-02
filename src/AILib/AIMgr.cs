@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Reflection;
+using Flexlive.CQP.Framework.Utils;
 
 namespace AILib
 {
@@ -16,6 +17,9 @@ namespace AILib
         public static List<AIBase> AIList;
 
         public static MsgReceiveCache MsgReceiveCache;
+
+        private static int TotalReceiveCount;
+        private static int HitReceiveCount;
 
         // 所有可用的AI列表
         public static List<AIInfoDTO> AllAIs
@@ -58,40 +62,14 @@ namespace AILib
         /// <param name="ConfigDTO">AI配置DTO</param>
         public static void StartAIs(IEnumerable<string> AINames, AIConfigDTO ConfigDTO)
         {
-            AIList = new List<AIBase>();
-            MsgReceiveCache = new MsgReceiveCache(GroupMsgCallBack);
-            AllAvailableCommands = new List<EnterCommandAttribute>();
+            Init();
 
             Assembly assembly = Assembly.GetExecutingAssembly();
             Type[] typeArr = assembly.GetTypes();
 
             foreach (Type t in typeArr)
             {
-                object[] attributes = t.GetCustomAttributes(typeof(AIAttribute), false);
-                if (attributes.Length <= 0 || !(attributes[0] is AIAttribute))
-                {
-                    continue;
-                }
-                AIAttribute attr = attributes[0] as AIAttribute;
-                if (!AINames.Contains(attr.Name))
-                {
-                    continue;
-                }
-
-                AIBase ai = assembly.CreateInstance(
-                    t.FullName,
-                    true,
-                    BindingFlags.Default,
-                    null,
-                    new object[] { ConfigDTO },
-                    null,
-                    null
-                    ) as AIBase;
-                if (ai != null)
-                {
-                    ai.PriorityLevel = attr.PriorityLevel;
-                    AIList.Add(ai);
-                }
+                CreateAI(AINames, ConfigDTO, t, assembly);
             }
 
             AIList = AIList.OrderByDescending(a => a.PriorityLevel).ToList();
@@ -100,6 +78,45 @@ namespace AILib
                 ai.Work();
 
                 LoadCommands(ai);
+            }
+        }
+
+        private static void Init()
+        {
+            AIList = new List<AIBase>();
+            MsgReceiveCache = new MsgReceiveCache(GroupMsgCallBack);
+            AllAvailableCommands = new List<EnterCommandAttribute>();
+
+            TotalReceiveCount = 0;
+            HitReceiveCount = 0;
+        }
+
+        private static void CreateAI(IEnumerable<string> AINames, AIConfigDTO ConfigDTO, Type t, Assembly assembly)
+        {
+            object[] attributes = t.GetCustomAttributes(typeof(AIAttribute), false);
+            if (attributes.Length <= 0 || !(attributes[0] is AIAttribute))
+            {
+                return;
+            }
+            AIAttribute attr = attributes[0] as AIAttribute;
+            if (!AINames.Contains(attr.Name))
+            {
+                return;
+            }
+
+            AIBase ai = assembly.CreateInstance(
+                t.FullName,
+                true,
+                BindingFlags.Default,
+                null,
+                new object[] { ConfigDTO },
+                null,
+                null
+                ) as AIBase;
+            if (ai != null)
+            {
+                ai.PriorityLevel = attr.PriorityLevel;
+                AIList.Add(ai);
             }
         }
 
@@ -127,12 +144,25 @@ namespace AILib
                 return;
             }
 
+            TotalPlus();
             string msg = MsgDTO.msg;
             MsgDTO.fullMsg = msg;
             MsgDTO.command = GenCommand(ref msg);
             MsgDTO.msg = msg;
 
             MsgReceiveCache.PushMsg(MsgDTO);
+        }
+
+        private static void TotalPlus()
+        {
+            TotalReceiveCount++;
+            RuntimeLogger.Log("Total:" + TotalReceiveCount.ToString());
+        }
+
+        private static void HitPlus()
+        {
+            HitReceiveCount++;
+            RuntimeLogger.Log("Hit:" + HitReceiveCount.ToString());
         }
 
         private static void GroupMsgCallBack(GroupMsgDTO MsgDTO)
@@ -143,6 +173,7 @@ namespace AILib
                 {
                     if (ai.OnGroupMsgReceived(MsgDTO))
                     {
+                        HitPlus();
                         break;
                     }
                 }
