@@ -10,7 +10,7 @@ using AILib.SyntaxChecker;
 
 namespace AILib
 {
-    public abstract class AIBase : IComparable<AIBase>
+    public abstract class AIBase
     {
         public AIConfigDTO ConfigDTO { get; set; }
         public int PriorityLevel { get; set; }
@@ -156,11 +156,6 @@ namespace AILib
             }
 
             return true;
-        }
-
-        public int CompareTo(AIBase other)
-        {
-            return this.PriorityLevel.CompareTo(other.PriorityLevel);
         }
     }
 }

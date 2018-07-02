@@ -94,8 +94,7 @@ namespace AILib
                 }
             }
 
-            AIList.Sort();
-            AIList.Reverse();
+            AIList = AIList.OrderByDescending(a => a.PriorityLevel).ToList();
             foreach (var ai in AIList)
             {
                 ai.Work();

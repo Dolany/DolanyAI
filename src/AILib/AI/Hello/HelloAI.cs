@@ -36,7 +36,7 @@ namespace AILib
 
             var query = DbMgr.Query<HelloEntity>(h => h.GroupNum == MsgDTO.fromGroup
                     && h.QQNum == MsgDTO.fromQQ
-                    && string.Compare(DateTime.Now.ToString("yyyy-MM-dd"), h.LastHelloDate) < 0
+                    && string.Compare(DateTime.Now.ToString("yyyy-MM-dd"), h.LastHelloDate) > 0
                     );
             if (query.IsNullOrEmpty())
             {
