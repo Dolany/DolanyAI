@@ -19,9 +19,6 @@ namespace AILib
 
         public static MsgReceiveCache MsgReceiveCache;
 
-        private static int TotalReceiveCount;
-        private static int HitReceiveCount;
-
         // 所有可用的AI列表
         public static List<AIInfoDTO> AllAIs
         {
@@ -145,25 +142,12 @@ namespace AILib
                 return;
             }
 
-            TotalPlus();
             string msg = MsgDTO.msg;
             MsgDTO.fullMsg = msg;
             MsgDTO.command = GenCommand(ref msg);
             MsgDTO.msg = msg;
 
             MsgReceiveCache.PushMsg(MsgDTO);
-        }
-
-        private static void TotalPlus()
-        {
-            TotalReceiveCount++;
-            RuntimeLogger.Log("Total:" + TotalReceiveCount.ToString());
-        }
-
-        private static void HitPlus()
-        {
-            HitReceiveCount++;
-            RuntimeLogger.Log("Hit:" + HitReceiveCount.ToString());
         }
 
         private static void GroupMsgCallBack(GroupMsgDTO MsgDTO)
@@ -179,7 +163,6 @@ namespace AILib
 
                     if (ai.OnGroupMsgReceived(MsgDTO))
                     {
-                        HitPlus();
                         break;
                     }
                 }
