@@ -7,7 +7,6 @@ using System.Reflection;
 using Flexlive.CQP.Framework;
 using Flexlive.CQP.Framework.Utils;
 using AILib.SyntaxChecker;
-using AILib.Entities;
 
 namespace AILib
 {
@@ -25,11 +24,6 @@ namespace AILib
 
         public virtual bool OnGroupMsgReceived(GroupMsgDTO MsgDTO)
         {
-            if (IsAiSealed(MsgDTO))
-            {
-                return false;
-            }
-
             if (MsgDTO.fromQQ < 0)
             {
                 MsgDTO.fromQQ = MsgDTO.fromQQ & 0xFFFFFFFF;
@@ -58,12 +52,6 @@ namespace AILib
             }
 
             return false;
-        }
-
-        private bool IsAiSealed(GroupMsgDTO MsgDTO)
-        {
-            var query = DbMgr.Query<AISealEntity>(s => s.GroupNum == MsgDTO.fromGroup && s.Content == GetType().Name);
-            return !query.IsNullOrEmpty();
         }
 
         private bool GroupCheck(EnterCommandAttribute enterAttr, GroupMsgDTO MsgDTO, out object[] param)

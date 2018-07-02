@@ -5,6 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Reflection;
 using Flexlive.CQP.Framework.Utils;
+using AILib.Entities;
 
 namespace AILib
 {
@@ -171,6 +172,11 @@ namespace AILib
             {
                 foreach (var ai in AIList)
                 {
+                    if (IsAiSealed(MsgDTO, ai))
+                    {
+                        continue;
+                    }
+
                     if (ai.OnGroupMsgReceived(MsgDTO))
                     {
                         HitPlus();
@@ -182,6 +188,12 @@ namespace AILib
             {
                 Common.SendMsgToDeveloper(ex);
             }
+        }
+
+        private static bool IsAiSealed(GroupMsgDTO MsgDTO, AIBase ai)
+        {
+            var query = DbMgr.Query<AISealEntity>(s => s.GroupNum == MsgDTO.fromGroup && s.Content == ai.GetType().Name);
+            return !query.IsNullOrEmpty();
         }
 
         /// <summary>
