@@ -123,6 +123,7 @@
             this.Controls.Add(this.restartBtn);
             this.Controls.Add(this.refreshBtn);
             this.Controls.Add(this.dataGridView1);
+            this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.Name = "Form1";
             this.Text = "自动重启CQP";
             this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.Form1_FormClosing);
