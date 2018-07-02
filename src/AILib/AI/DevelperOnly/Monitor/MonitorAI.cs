@@ -73,5 +73,62 @@ namespace AILib
 
             Common.SendMsgToDeveloper("停止心跳成功！");
         }
+
+        [EnterCommand(
+            Command = "功能封印",
+            SourceType = MsgType.Private,
+            IsDeveloperOnly = true,
+            Description = "封印一个群的某个ai功能",
+            Syntax = "",
+            Tag = "ai封印功能",
+            SyntaxChecker = "LongAndAny"
+            )]
+        public void SealAi(PrivateMsgDTO MsgDTO, object[] param)
+        {
+            long groupNum = (long)param[0];
+            string aiName = GetAiRealName(param[1] as string);
+            if (string.IsNullOrEmpty(aiName))
+            {
+                Common.SendMsgToDeveloper("查找ai失败！");
+                return;
+            }
+
+            var query = DbMgr.Query<AISealEntity>(a => a.GroupNum == groupNum && a.Content == aiName);
+            if (!query.IsNullOrEmpty())
+            {
+                Common.SendMsgToDeveloper("ai功能已经在封印中！");
+                return;
+            }
+
+            AISealEntity aiseal = new AISealEntity()
+            {
+                Id = Guid.NewGuid().ToString(),
+                GroupNum = groupNum,
+                Content = aiName
+            };
+            DbMgr.Insert(aiseal);
+            Common.SendMsgToDeveloper("ai封印成功！");
+        }
+
+        private string GetAiRealName(string aiName)
+        {
+            var list = AIMgr.AIList;
+            foreach (var ai in list)
+            {
+                Type t = ai.GetType();
+                object[] attributes = t.GetCustomAttributes(typeof(AIAttribute), false);
+                if (attributes.Length <= 0 || !(attributes[0] is AIAttribute))
+                {
+                    continue;
+                }
+                AIAttribute attr = attributes[0] as AIAttribute;
+                if (attr.Name == aiName)
+                {
+                    return t.Name;
+                }
+            }
+
+            return string.Empty;
+        }
     }
 }

@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace AILib.SyntaxChecker
 {
-    public class PublishToChecker : ISyntaxChecker
+    public class LongAndAnyChecker : ISyntaxChecker
     {
         public bool Check(string msg, out object[] param)
         {

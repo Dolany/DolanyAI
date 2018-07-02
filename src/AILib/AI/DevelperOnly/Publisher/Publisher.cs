@@ -46,7 +46,7 @@ namespace AILib
             Description = "将指定编号的内容发布到指定群组，群组号0时为全部群组",
             Syntax = "[群组号] [记录编号]",
             Tag = "发布功能",
-            SyntaxChecker = "PublishTo"
+            SyntaxChecker = "LongAndAny"
             )]
         public void PublishTo(PrivateMsgDTO MsgDTO, object[] param)
         {

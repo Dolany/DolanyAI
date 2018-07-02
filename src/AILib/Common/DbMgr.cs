@@ -159,6 +159,11 @@ namespace AILib
             Type t = typeof(Entity);
             string EntityName = t.Name.Replace("Entity", "");
             XElement root = XElement.Load(EntityFilePath(EntityName));
+            if (root == null || root.IsEmpty)
+            {
+                return null;
+            }
+
             List<Entity> list = new List<Entity>();
             foreach (XElement ele in root.Elements())
             {

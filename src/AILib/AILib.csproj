@@ -63,6 +63,7 @@
     </Compile>
     <Compile Include="AI\CartoonSaying\CartoonSayingAI.cs" />
     <Compile Include="AI\CharactorSetting\CharactorSettingAI.cs" />
+    <Compile Include="AI\Fortune\FortuneAI.cs" />
     <Compile Include="AI\Hello\HelloAI.cs" />
     <Compile Include="AI\Helper\HelperAI.cs" />
     <Compile Include="AI\DevelperOnly\Publisher\Publisher.cs" />
@@ -87,9 +88,11 @@
     <Compile Include="Common\Common.cs" />
     <Compile Include="AI\Repeater\PlusOneCache.cs" />
     <Compile Include="Common\MsgReceiveCache.cs" />
+    <Compile Include="Entities\AISealEntity.cs" />
     <Compile Include="Entities\CharactorSetting\CharactorSettingEntity.cs" />
     <Compile Include="Entities\HeartBeatEntity.cs" />
     <Compile Include="Entities\HelloEntity.cs" />
+    <Compile Include="Entities\RandomFortuneEntity.cs" />
     <Compile Include="Entities\Repeat\PlusOneAvailableEntity.cs" />
     <Compile Include="Entities\Repeat\RepeaterAvailableEntity.cs" />
     <Compile Include="Html\HtmlParser.cs" />
@@ -130,7 +133,7 @@
     <Compile Include="SyntaxChecker\HourAlert\HourAlertChecker.cs" />
     <Compile Include="SyntaxChecker\ISyntaxChecker.cs" />
     <Compile Include="SyntaxChecker\AlermClock\SetClockChecker.cs" />
-    <Compile Include="SyntaxChecker\Publisher\PublishToChecker.cs" />
+    <Compile Include="SyntaxChecker\Publisher\LongAndAnyChecker.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Flexlive.CQP.Framework\Flexlive.CQP.Framework.csproj">

@@ -38,6 +38,11 @@ namespace AILib
             return false;
         }
 
+        public static string ToDateString(this DateTime dt)
+        {
+            return dt.ToString("yyyy-MM-dd");
+        }
+
         public static (int hour, int minute)? GenTimeFromStr(string timeStr)
         {
             string[] strs = timeStr.Split(new char[] { ':', '：' });
