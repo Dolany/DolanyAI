@@ -22,11 +22,11 @@ namespace StarFortune
 
         private void queryBtn_Click(object sender, EventArgs e)
         {
-            string name = starCombo.Text;
+            string StarName = starCombo.Text;
 
             Requestor = new FortuneRequestor(new GroupMsgDTO()
             {
-                msg = name
+                msg = StarName
             }, ReportCallBack);
 
             Task.Run(new Action(() => Requestor.Work()));
