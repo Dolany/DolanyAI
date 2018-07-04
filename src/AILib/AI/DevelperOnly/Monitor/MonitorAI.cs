@@ -130,5 +130,33 @@ namespace AILib
 
             return string.Empty;
         }
+
+        [EnterCommand(
+            Command = "增加屏蔽词",
+            SourceType = MsgType.Private,
+            IsDeveloperOnly = true,
+            Description = "增加需要屏蔽的词汇",
+            Syntax = "",
+            Tag = "屏蔽词",
+            SyntaxChecker = "NotEmpty"
+            )]
+        public void AddDirtyWordsDic(PrivateMsgDTO MsgDTO, object[] param)
+        {
+            string dw = param[0] as string;
+            var query = DbMgr.Query<DirtyWordEntity>(d => d.Content == dw);
+            if(!query.IsNullOrEmpty())
+            {
+                Common.SendMsgToDeveloper("该词已在屏蔽列表中！");
+                return;
+            }
+
+            DbMgr.Insert(new DirtyWordEntity
+            {
+                Id = Guid.NewGuid().ToString(),
+                Content = dw
+            });
+            DirtyFilter.InitWordList();
+            Common.SendMsgToDeveloper("添加成功！");
+        }
     }
 }

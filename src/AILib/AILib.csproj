@@ -92,8 +92,9 @@
     <Compile Include="Common\DirtyFilter.cs" />
     <Compile Include="Common\MsgReceiveCache.cs" />
     <Compile Include="Entities\AISealEntity.cs" />
-    <Compile Include="Entities\BlackListEntity.cs" />
+    <Compile Include="Entities\DirtyFilter\BlackListEntity.cs" />
     <Compile Include="Entities\CharactorSetting\CharactorSettingEntity.cs" />
+    <Compile Include="Entities\DirtyFilter\DirtyWordEntity.cs" />
     <Compile Include="Entities\HeartBeatEntity.cs" />
     <Compile Include="Entities\HelloEntity.cs" />
     <Compile Include="Entities\RandomFortuneEntity.cs" />
