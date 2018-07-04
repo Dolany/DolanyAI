@@ -19,6 +19,8 @@ namespace AILib
 
         public static MsgReceiveCache MsgReceiveCache;
 
+        public static DirtyFilter Filter;
+
         // 所有可用的AI列表
         public static List<AIInfoDTO> AllAIs
         {
@@ -84,6 +86,7 @@ namespace AILib
             AIList = new List<AIBase>();
             MsgReceiveCache = new MsgReceiveCache(GroupMsgCallBack);
             AllAvailableCommands = new List<EnterCommandAttribute>();
+            Filter = new DirtyFilter();
         }
 
         private static void CreateAI(IEnumerable<string> AINames, AIConfigDTO ConfigDTO, Type t, Assembly assembly)
@@ -139,6 +142,11 @@ namespace AILib
                 return;
             }
 
+            if (Filter.IsInBlackList(MsgDTO.fromQQ) || !Filter.Filter(MsgDTO.fromQQ, MsgDTO.msg))
+            {
+                return;
+            }
+
             string msg = MsgDTO.msg;
             MsgDTO.fullMsg = msg;
             MsgDTO.command = GenCommand(ref msg);
@@ -183,6 +191,11 @@ namespace AILib
         public static void OnPrivateMsgReceived(PrivateMsgDTO MsgDTO)
         {
             if (AIList.IsNullOrEmpty())
+            {
+                return;
+            }
+
+            if (Filter.IsInBlackList(MsgDTO.fromQQ) || !Filter.Filter(MsgDTO.fromQQ, MsgDTO.msg))
             {
                 return;
             }

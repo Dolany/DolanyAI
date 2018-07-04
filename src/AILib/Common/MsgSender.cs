@@ -16,6 +16,8 @@ namespace AILib
 
         private System.Timers.Timer timer = new System.Timers.Timer();
 
+        private DirtyFilter Filter = new DirtyFilter();
+
         private MsgSender()
         {
             timer = new System.Timers.Timer();
@@ -71,7 +73,6 @@ namespace AILib
                 while (MsgQueue.Count() > 0)
                 {
                     var msg = MsgQueue.Dequeue();
-
                     switch (msg.Type)
                     {
                         case MsgType.Group:

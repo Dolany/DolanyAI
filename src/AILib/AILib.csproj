@@ -89,8 +89,10 @@
     <Compile Include="Base\EnterCommandAttribute.cs" />
     <Compile Include="Common\Common.cs" />
     <Compile Include="AI\Repeater\PlusOneCache.cs" />
+    <Compile Include="Common\DirtyFilter.cs" />
     <Compile Include="Common\MsgReceiveCache.cs" />
     <Compile Include="Entities\AISealEntity.cs" />
+    <Compile Include="Entities\BlackListEntity.cs" />
     <Compile Include="Entities\CharactorSetting\CharactorSettingEntity.cs" />
     <Compile Include="Entities\HeartBeatEntity.cs" />
     <Compile Include="Entities\HelloEntity.cs" />
