@@ -72,6 +72,15 @@ namespace AILib
             Tag = "图片功能",
             SyntaxChecker = "Empty"
             )]
+        [EnterCommand(
+            Command = "一键盗图",
+            SourceType = MsgType.Group,
+            AuthorityLevel = AuthorityLevel.成员,
+            Description = "随机发送近期内所有群组内发过的图片",
+            Syntax = "",
+            Tag = "图片功能",
+            SyntaxChecker = "Empty"
+            )]
         public void RecentPic(GroupMsgDTO MsgDTO, object[] param)
         {
             RuntimeLogger.Log("RandomPicAI Tryto RecentPic.");
