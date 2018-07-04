@@ -15,12 +15,16 @@ namespace AILib
 
         public DirtyFilter()
         {
+            if (WordList == null)
+            {
+                WordList = new List<string>();
+            }
             InitWordList();
         }
 
         public bool Filter(long QQNum, string msg)
         {
-            if(IsDirtyWord(msg))
+            if (IsDirtyWord(msg))
             {
                 AddInBlackList(QQNum);
                 return false;
@@ -31,7 +35,7 @@ namespace AILib
         private void AddInBlackList(long QQNum)
         {
             var query = DbMgr.Query<BlackListEntity>(b => b.QQNum == QQNum);
-            if(!query.IsNullOrEmpty())
+            if (!query.IsNullOrEmpty())
             {
                 var black = query.First();
                 black.BlackCount++;
@@ -54,7 +58,7 @@ namespace AILib
         public static void InitWordList()
         {
             var query = DbMgr.Query<DirtyWordEntity>();
-            if(!query.IsNullOrEmpty())
+            if (!query.IsNullOrEmpty())
             {
                 WordList = query.Select(d => d.Content).ToList();
             }
@@ -68,14 +72,14 @@ namespace AILib
                 return false;
             }
 
-            return query.Count() >= MaxTolerateCount;
+            return query.First().BlackCount >= MaxTolerateCount;
         }
 
         private bool IsDirtyWord(string msg)
         {
-            foreach(var w in WordList)
+            foreach (var w in WordList)
             {
-                if(msg.Contains(w))
+                if (msg.Contains(w))
                 {
                     return true;
                 }
