@@ -63,6 +63,13 @@
       <DependentUpon>AutoRestartForm.cs</DependentUpon>
     </Compile>
     <Compile Include="Tools\AutoRestart\AutoRestartTool.cs" />
+    <Compile Include="Tools\BlackList\BlackListForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Tools\BlackList\BlackListForm.Designer.cs">
+      <DependentUpon>BlackListForm.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Tools\BlackList\BlackListTool.cs" />
     <Compile Include="Tools\CleanPicCache\CleanPicCacheAI.cs" />
     <Compile Include="Tools\CleanPicCache\CleanPicCacheForm.cs">
       <SubType>Form</SubType>
