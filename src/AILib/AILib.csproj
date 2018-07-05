@@ -92,6 +92,7 @@
     <Compile Include="Common\DirtyFilter.cs" />
     <Compile Include="Common\MsgReceiveCache.cs" />
     <Compile Include="Entities\AISealEntity.cs" />
+    <Compile Include="Entities\ConfigEntity.cs" />
     <Compile Include="Entities\DirtyFilter\BlackListEntity.cs" />
     <Compile Include="Entities\CharactorSetting\CharactorSettingEntity.cs" />
     <Compile Include="Entities\DirtyFilter\DirtyWordEntity.cs" />
@@ -115,7 +116,7 @@
     <Compile Include="Entities\Common\EntityBase.cs" />
     <Compile Include="DTO\SendMsgDTO.cs" />
     <Compile Include="Entities\AlermClockEntity.cs" />
-    <Compile Include="Entities\Common\GroupConfigEntity.cs" />
+    <Compile Include="Entities\GroupConfigEntity.cs" />
     <Compile Include="Entities\Common\LogEntity.cs" />
     <Compile Include="Entities\PublishRecordEntity.cs" />
     <Compile Include="Entities\Saying\SayingEntity.cs" />

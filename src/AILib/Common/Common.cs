@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using Flexlive.CQP.Framework;
+using AILib.Entities;
 
 namespace AILib
 {
@@ -64,6 +65,26 @@ namespace AILib
             }
 
             return (hour, minute);
+        }
+
+        public static void SetConfig(string name, string value)
+        {
+            var query = DbMgr.Query<ConfigEntity>(c => c.Name == name);
+            if (query.IsNullOrEmpty())
+            {
+                DbMgr.Insert(new ConfigEntity
+                {
+                    Id = Guid.NewGuid().ToString(),
+                    Name = name,
+                    Content = value
+                });
+            }
+            else
+            {
+                var config = query.First();
+                config.Content = value;
+                DbMgr.Update(config);
+            }
         }
     }
 }
