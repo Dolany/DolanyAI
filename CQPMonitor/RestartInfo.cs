@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace AutoRestart
+namespace CQPMonitor
 {
     public class RestartInfo
     {

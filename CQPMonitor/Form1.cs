@@ -13,7 +13,7 @@ using System.IO;
 using AILib;
 using AILib.Entities;
 
-namespace AutoRestart
+namespace CQPMonitor
 {
     public partial class Form1 : Form
     {

@@ -1,4 +1,4 @@
-﻿namespace AutoRestart
+﻿namespace CQPMonitor
 {
     partial class Form1
     {

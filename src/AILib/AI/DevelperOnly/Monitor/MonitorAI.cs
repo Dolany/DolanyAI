@@ -79,7 +79,7 @@ namespace AILib
             SourceType = MsgType.Private,
             IsDeveloperOnly = true,
             Description = "封印一个群的某个ai功能",
-            Syntax = "",
+            Syntax = "[群组号] [需要封印的ai名]",
             Tag = "ai封印功能",
             SyntaxChecker = "LongAndAny"
             )]
@@ -136,7 +136,7 @@ namespace AILib
             SourceType = MsgType.Private,
             IsDeveloperOnly = true,
             Description = "增加需要屏蔽的词汇",
-            Syntax = "",
+            Syntax = "[屏蔽词]",
             Tag = "屏蔽词",
             SyntaxChecker = "NotEmpty"
             )]
@@ -144,7 +144,7 @@ namespace AILib
         {
             string dw = param[0] as string;
             var query = DbMgr.Query<DirtyWordEntity>(d => d.Content == dw);
-            if(!query.IsNullOrEmpty())
+            if (!query.IsNullOrEmpty())
             {
                 Common.SendMsgToDeveloper("该词已在屏蔽列表中！");
                 return;
@@ -157,6 +157,24 @@ namespace AILib
             });
             DirtyFilter.InitWordList();
             Common.SendMsgToDeveloper("添加成功！");
+        }
+
+        [EnterCommand(
+            Command = "系统设置",
+            SourceType = MsgType.Private,
+            IsDeveloperOnly = true,
+            Description = "修改系统配置",
+            Syntax = "[配置项] [值]",
+            Tag = "系统设置功能",
+            SyntaxChecker = "TwoWords"
+            )]
+        public void SetConfig(PrivateMsgDTO MsgDTO, object[] param)
+        {
+            string configName = param[0] as string;
+            string configValue = param[1] as string;
+
+            Common.SetConfig(configName, configValue);
+            Common.SendMsgToDeveloper("设置完成！");
         }
     }
 }

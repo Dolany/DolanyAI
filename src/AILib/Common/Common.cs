@@ -86,5 +86,16 @@ namespace AILib
                 DbMgr.Update(config);
             }
         }
+
+        public static string GetConfig(string name)
+        {
+            var query = DbMgr.Query<ConfigEntity>(c => c.Name == name);
+            if (query.IsNullOrEmpty())
+            {
+                return null;
+            }
+
+            return query.First().Content;
+        }
     }
 }
