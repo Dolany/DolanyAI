@@ -28,7 +28,7 @@ namespace AutoRestart
         private int MaxMissLimit = 4;
         private int CheckFrequency = 30;
 
-        private int ImageMaxCache = 100;
+        private int ImageMaxCache = 200;
 
         public Form1()
         {
