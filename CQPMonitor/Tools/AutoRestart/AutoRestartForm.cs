@@ -16,5 +16,20 @@ namespace CQPMonitor.Tools.AutoRestart
         {
             InitializeComponent();
         }
+
+        private void 删除选中行的数据ToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void RestartBtn_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void RefreshTableBtn_Click(object sender, EventArgs e)
+        {
+
+        }
     }
 }
