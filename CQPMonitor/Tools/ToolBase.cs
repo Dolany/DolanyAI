@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Windows.Forms;
 
 namespace CQPMonitor.Tools
 {
@@ -12,9 +13,11 @@ namespace CQPMonitor.Tools
         public string Decription { get; set; }
         public string Icon { get; set; }
         public bool IsAutoStart { get; set; }
+        public Form RelatedForm { get; set; }
 
         public virtual void Work()
         {
+            RelatedForm.Show();
         }
     }
 }
