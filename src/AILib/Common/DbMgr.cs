@@ -167,18 +167,24 @@ namespace AILib
             List<Entity> list = new List<Entity>();
             foreach (XElement ele in root.Elements())
             {
-                Entity entity = EntityBase.FromElement<Entity>(ele);
-                if (entity == null)
-                {
-                    continue;
-                }
-                if (express == null || express.Compile()(entity))
-                {
-                    list.Add(entity);
-                }
+                AppendEntity(ele, express, list);
             }
 
             return list.Count == 0 ? null : list;
+        }
+
+        private static void AppendEntity<Entity>(XElement ele, Expression<Func<Entity, bool>> express, List<Entity> list)
+            where Entity : EntityBase, new()
+        {
+            Entity entity = EntityBase.FromElement<Entity>(ele);
+            if (entity == null)
+            {
+                return;
+            }
+            if (express == null || express.Compile()(entity))
+            {
+                list.Add(entity);
+            }
         }
 
         private static string EntityFilePath(string EntityName)

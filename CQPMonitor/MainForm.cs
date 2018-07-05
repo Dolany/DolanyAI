@@ -15,7 +15,7 @@ using AILib.Entities;
 
 namespace CQPMonitor
 {
-    public partial class Form1 : Form
+    public partial class MainForm : Form
     {
         private System.Timers.Timer timer = new System.Timers.Timer();
         private string CQPRootPath = @".\";
@@ -30,7 +30,7 @@ namespace CQPMonitor
 
         private int ImageMaxCache = 200;
 
-        public Form1()
+        public MainForm()
         {
             InitializeComponent();
         }
