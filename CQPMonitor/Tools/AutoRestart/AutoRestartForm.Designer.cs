@@ -31,20 +31,20 @@
             this.components = new System.ComponentModel.Container();
             this.tableLayoutPanel1 = new System.Windows.Forms.TableLayoutPanel();
             this.ShowTable = new System.Windows.Forms.DataGridView();
-            this.tableLayoutPanel2 = new System.Windows.Forms.TableLayoutPanel();
-            this.label1 = new System.Windows.Forms.Label();
-            this.CurStateLbl = new System.Windows.Forms.Label();
-            this.contextMenuStrip1 = new System.Windows.Forms.ContextMenuStrip(this.components);
-            this.删除选中行的数据ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.RestartBtn = new System.Windows.Forms.Button();
-            this.RefreshTableBtn = new System.Windows.Forms.Button();
             this.CreateTimeColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.TypeColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.ContentColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.contextMenuStrip1 = new System.Windows.Forms.ContextMenuStrip(this.components);
+            this.删除选中行的数据ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.tableLayoutPanel2 = new System.Windows.Forms.TableLayoutPanel();
+            this.label1 = new System.Windows.Forms.Label();
+            this.CurStateLbl = new System.Windows.Forms.Label();
+            this.RestartBtn = new System.Windows.Forms.Button();
+            this.RefreshTableBtn = new System.Windows.Forms.Button();
             this.tableLayoutPanel1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.ShowTable)).BeginInit();
-            this.tableLayoutPanel2.SuspendLayout();
             this.contextMenuStrip1.SuspendLayout();
+            this.tableLayoutPanel2.SuspendLayout();
             this.SuspendLayout();
             // 
             // tableLayoutPanel1
@@ -82,6 +82,44 @@
             this.ShowTable.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
             this.ShowTable.Size = new System.Drawing.Size(430, 444);
             this.ShowTable.TabIndex = 0;
+            // 
+            // CreateTimeColumn
+            // 
+            this.CreateTimeColumn.DataPropertyName = "CreateTime";
+            this.CreateTimeColumn.Frozen = true;
+            this.CreateTimeColumn.HeaderText = "时间";
+            this.CreateTimeColumn.Name = "CreateTimeColumn";
+            this.CreateTimeColumn.ReadOnly = true;
+            // 
+            // TypeColumn
+            // 
+            this.TypeColumn.DataPropertyName = "Type";
+            this.TypeColumn.Frozen = true;
+            this.TypeColumn.HeaderText = "类型";
+            this.TypeColumn.Name = "TypeColumn";
+            this.TypeColumn.ReadOnly = true;
+            // 
+            // ContentColumn
+            // 
+            this.ContentColumn.DataPropertyName = "Content";
+            this.ContentColumn.HeaderText = "内容";
+            this.ContentColumn.Name = "ContentColumn";
+            this.ContentColumn.ReadOnly = true;
+            this.ContentColumn.Width = 200;
+            // 
+            // contextMenuStrip1
+            // 
+            this.contextMenuStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.删除选中行的数据ToolStripMenuItem});
+            this.contextMenuStrip1.Name = "contextMenuStrip1";
+            this.contextMenuStrip1.Size = new System.Drawing.Size(173, 26);
+            // 
+            // 删除选中行的数据ToolStripMenuItem
+            // 
+            this.删除选中行的数据ToolStripMenuItem.Name = "删除选中行的数据ToolStripMenuItem";
+            this.删除选中行的数据ToolStripMenuItem.Size = new System.Drawing.Size(172, 22);
+            this.删除选中行的数据ToolStripMenuItem.Text = "删除选中行的数据";
+            this.删除选中行的数据ToolStripMenuItem.Click += new System.EventHandler(this.删除选中行的数据ToolStripMenuItem_Click);
             // 
             // tableLayoutPanel2
             // 
@@ -121,20 +159,6 @@
             this.CurStateLbl.TabIndex = 1;
             this.CurStateLbl.Text = "正常";
             // 
-            // contextMenuStrip1
-            // 
-            this.contextMenuStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.删除选中行的数据ToolStripMenuItem});
-            this.contextMenuStrip1.Name = "contextMenuStrip1";
-            this.contextMenuStrip1.Size = new System.Drawing.Size(173, 26);
-            // 
-            // 删除选中行的数据ToolStripMenuItem
-            // 
-            this.删除选中行的数据ToolStripMenuItem.Name = "删除选中行的数据ToolStripMenuItem";
-            this.删除选中行的数据ToolStripMenuItem.Size = new System.Drawing.Size(172, 22);
-            this.删除选中行的数据ToolStripMenuItem.Text = "删除选中行的数据";
-            this.删除选中行的数据ToolStripMenuItem.Click += new System.EventHandler(this.删除选中行的数据ToolStripMenuItem_Click);
-            // 
             // RestartBtn
             // 
             this.RestartBtn.Location = new System.Drawing.Point(3, 45);
@@ -155,30 +179,6 @@
             this.RefreshTableBtn.UseVisualStyleBackColor = true;
             this.RefreshTableBtn.Click += new System.EventHandler(this.RefreshTableBtn_Click);
             // 
-            // CreateTimeColumn
-            // 
-            this.CreateTimeColumn.DataPropertyName = "CreateTime";
-            this.CreateTimeColumn.Frozen = true;
-            this.CreateTimeColumn.HeaderText = "时间";
-            this.CreateTimeColumn.Name = "CreateTimeColumn";
-            this.CreateTimeColumn.ReadOnly = true;
-            // 
-            // TypeColumn
-            // 
-            this.TypeColumn.DataPropertyName = "Type";
-            this.TypeColumn.Frozen = true;
-            this.TypeColumn.HeaderText = "类型";
-            this.TypeColumn.Name = "TypeColumn";
-            this.TypeColumn.ReadOnly = true;
-            // 
-            // ContentColumn
-            // 
-            this.ContentColumn.DataPropertyName = "Content";
-            this.ContentColumn.HeaderText = "内容";
-            this.ContentColumn.Name = "ContentColumn";
-            this.ContentColumn.ReadOnly = true;
-            this.ContentColumn.Width = 200;
-            // 
             // AutoRestartForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 12F);
@@ -187,11 +187,13 @@
             this.Controls.Add(this.tableLayoutPanel1);
             this.Name = "AutoRestartForm";
             this.Text = "重启监视工具";
+            this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.AutoRestartForm_FormClosing);
+            this.Load += new System.EventHandler(this.AutoRestartForm_Load);
             this.tableLayoutPanel1.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.ShowTable)).EndInit();
+            this.contextMenuStrip1.ResumeLayout(false);
             this.tableLayoutPanel2.ResumeLayout(false);
             this.tableLayoutPanel2.PerformLayout();
-            this.contextMenuStrip1.ResumeLayout(false);
             this.ResumeLayout(false);
 
         }

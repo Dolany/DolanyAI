@@ -26,7 +26,14 @@ namespace DolanyToolControl
             NameLbl.Text = name;
             StatusLbl.Text = status;
             DescriptionLbl.Text = description;
-            IconBox.Image = Image.FromFile(icon);
+            try
+            {
+                IconBox.Image = Image.FromFile(icon);
+            }
+            catch
+            {
+
+            }
         }
     }
 }

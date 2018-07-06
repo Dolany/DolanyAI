@@ -109,13 +109,13 @@ namespace AILib
 
         private string GenKey(string msg)
         {
-            var keys = Keywords.Where(k => msg.Contains(k));
+            var keys = Keywords.Where(k => msg == k);
             if (!keys.IsNullOrEmpty())
             {
                 return keys.FirstOrDefault();
             }
 
-            var query = DbMgr.Query<SynonymDicEntity>(s => msg.Contains(s.Content));
+            var query = DbMgr.Query<SynonymDicEntity>(s => msg == s.Content);
             if (query.IsNullOrEmpty())
             {
                 return string.Empty;

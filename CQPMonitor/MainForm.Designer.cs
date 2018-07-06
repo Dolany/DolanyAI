@@ -36,6 +36,7 @@
             this.ppMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.toolStripSeparator1 = new System.Windows.Forms.ToolStripSeparator();
             this.MenuItemClose = new System.Windows.Forms.ToolStripMenuItem();
+            this.MainPanel = new System.Windows.Forms.FlowLayoutPanel();
             this.TuoPanContextMenuStrip.SuspendLayout();
             this.SuspendLayout();
             // 
@@ -83,11 +84,20 @@
             this.MenuItemClose.Text = "退出";
             this.MenuItemClose.Click += new System.EventHandler(this.MenuItemClose_Click);
             // 
+            // MainPanel
+            // 
+            this.MainPanel.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.MainPanel.Location = new System.Drawing.Point(0, 0);
+            this.MainPanel.Name = "MainPanel";
+            this.MainPanel.Size = new System.Drawing.Size(562, 305);
+            this.MainPanel.TabIndex = 1;
+            // 
             // MainForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 12F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(493, 232);
+            this.ClientSize = new System.Drawing.Size(562, 305);
+            this.Controls.Add(this.MainPanel);
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.Name = "MainForm";
             this.Text = "CQP管理";
@@ -106,6 +116,7 @@
         private System.Windows.Forms.ToolStripMenuItem MenuItemClose;
         private System.Windows.Forms.ToolStripSeparator toolStripSeparator1;
         private System.Windows.Forms.ToolStripMenuItem ppMenuItem;
+        private System.Windows.Forms.FlowLayoutPanel MainPanel;
     }
 }
 

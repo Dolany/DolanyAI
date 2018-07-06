@@ -21,8 +21,6 @@ namespace CQPMonitor.Tools.AutoRestart
 
         private string ProcessName = "CQP";
 
-        private bool IsRunning = true;
-
         private int MissHeartCount = 0;
         private int MaxMissLimit = 4;
         private int CheckFrequency = 30;
@@ -45,7 +43,7 @@ namespace CQPMonitor.Tools.AutoRestart
 
             timer.Start();
 
-            RefreshTable();
+            //RefreshTable();
         }
 
         private void TimeUp(object sender, ElapsedEventArgs e)
@@ -156,6 +154,18 @@ namespace CQPMonitor.Tools.AutoRestart
         private void RefreshTableBtn_Click(object sender, EventArgs e)
         {
             KillCQ();
+            Restart();
+        }
+
+        private void AutoRestartForm_Load(object sender, EventArgs e)
+        {
+            RefreshTable();
+        }
+
+        private void AutoRestartForm_FormClosing(object sender, FormClosingEventArgs e)
+        {
+            Hide();
+            e.Cancel = true;
         }
     }
 }

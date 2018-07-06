@@ -7,11 +7,17 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using CQPMonitor.Tools;
+using DolanyToolControl;
+using System.IO;
+using System.Reflection;
 
 namespace CQPMonitor
 {
     public partial class MainForm : Form
     {
+        private List<ToolBase> Tools = new List<ToolBase>();
+
         public MainForm()
         {
             InitializeComponent();
@@ -19,10 +25,56 @@ namespace CQPMonitor
 
         private void Form1_Load(object sender, EventArgs e)
         {
+            LoadAllTools();
+            LayoutTools();
         }
 
         private void LoadAllTools()
         {
+            Assembly assembly = Assembly.GetExecutingAssembly();
+            var types = assembly.GetTypes().Where(t => t.IsSubclassOf(typeof(ToolBase)));
+            foreach(var t in types)
+            {
+                var tool = assembly.CreateInstance(t.FullName) as ToolBase;
+                Tools.Add(tool);
+                if(tool.IsAutoStart)
+                {
+                    tool.Work();
+                }
+            }
+        }
+
+        private void LayoutTools()
+        {
+            foreach(var tool in Tools)
+            {
+                LayoutTool(tool);
+            }
+        }
+
+        private void LayoutTool(ToolBase tool)
+        {
+            dolanyToolCon dolanyTool = new dolanyToolCon(
+                tool.Name, 
+                "",
+                tool.Decription,
+                tool.Icon,
+                tool.RelatedForm
+                );
+
+            dolanyTool.Parent = MainPanel;
+            dolanyTool.Click += onTool_Click;
+            tool.RelatedControl = dolanyTool;
+        }
+
+        private void onTool_Click(object sender, EventArgs e)
+        {
+            if(sender != null || sender is dolanyToolCon)
+            {
+                var toolCon = sender as dolanyToolCon;
+                var tool = Tools.Where(t => t.RelatedControl == toolCon).First();
+                tool.Show();
+            }
         }
 
         private void notifyIcon1_MouseDoubleClick(object sender, MouseEventArgs e)

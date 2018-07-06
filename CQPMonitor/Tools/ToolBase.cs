@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using DolanyToolControl;
 
 namespace CQPMonitor.Tools
 {
@@ -14,10 +15,16 @@ namespace CQPMonitor.Tools
         public string Icon { get; set; }
         public bool IsAutoStart { get; set; }
         public Form RelatedForm { get; set; }
+        public dolanyToolCon RelatedControl { get; set; }
 
         public virtual void Work()
         {
-            if(RelatedForm != null)
+            
+        }
+
+        public virtual void Show()
+        {
+            if (RelatedForm != null)
             {
                 RelatedForm.StartPosition = FormStartPosition.CenterParent;
                 RelatedForm.Show();
