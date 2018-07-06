@@ -38,6 +38,9 @@
             this.删除选中行的数据ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.RestartBtn = new System.Windows.Forms.Button();
             this.RefreshTableBtn = new System.Windows.Forms.Button();
+            this.CreateTimeColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.TypeColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.ContentColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.tableLayoutPanel1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.ShowTable)).BeginInit();
             this.tableLayoutPanel2.SuspendLayout();
@@ -65,11 +68,16 @@
             this.ShowTable.AllowUserToAddRows = false;
             this.ShowTable.AllowUserToDeleteRows = false;
             this.ShowTable.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+            this.ShowTable.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
+            this.CreateTimeColumn,
+            this.TypeColumn,
+            this.ContentColumn});
             this.ShowTable.ContextMenuStrip = this.contextMenuStrip1;
             this.ShowTable.Dock = System.Windows.Forms.DockStyle.Fill;
             this.ShowTable.Location = new System.Drawing.Point(367, 3);
             this.ShowTable.Name = "ShowTable";
             this.ShowTable.ReadOnly = true;
+            this.ShowTable.RowHeadersVisible = false;
             this.ShowTable.RowTemplate.Height = 23;
             this.ShowTable.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
             this.ShowTable.Size = new System.Drawing.Size(430, 444);
@@ -147,6 +155,30 @@
             this.RefreshTableBtn.UseVisualStyleBackColor = true;
             this.RefreshTableBtn.Click += new System.EventHandler(this.RefreshTableBtn_Click);
             // 
+            // CreateTimeColumn
+            // 
+            this.CreateTimeColumn.DataPropertyName = "CreateTime";
+            this.CreateTimeColumn.Frozen = true;
+            this.CreateTimeColumn.HeaderText = "时间";
+            this.CreateTimeColumn.Name = "CreateTimeColumn";
+            this.CreateTimeColumn.ReadOnly = true;
+            // 
+            // TypeColumn
+            // 
+            this.TypeColumn.DataPropertyName = "Type";
+            this.TypeColumn.Frozen = true;
+            this.TypeColumn.HeaderText = "类型";
+            this.TypeColumn.Name = "TypeColumn";
+            this.TypeColumn.ReadOnly = true;
+            // 
+            // ContentColumn
+            // 
+            this.ContentColumn.DataPropertyName = "Content";
+            this.ContentColumn.HeaderText = "内容";
+            this.ContentColumn.Name = "ContentColumn";
+            this.ContentColumn.ReadOnly = true;
+            this.ContentColumn.Width = 200;
+            // 
             // AutoRestartForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 12F);
@@ -175,5 +207,8 @@
         private System.Windows.Forms.ToolStripMenuItem 删除选中行的数据ToolStripMenuItem;
         private System.Windows.Forms.Button RestartBtn;
         private System.Windows.Forms.Button RefreshTableBtn;
+        private System.Windows.Forms.DataGridViewTextBoxColumn CreateTimeColumn;
+        private System.Windows.Forms.DataGridViewTextBoxColumn TypeColumn;
+        private System.Windows.Forms.DataGridViewTextBoxColumn ContentColumn;
     }
 }
