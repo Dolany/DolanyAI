@@ -56,6 +56,13 @@
     </Compile>
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Tools\AISealMgr\AISealMgrForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Tools\AISealMgr\AISealMgrForm.Designer.cs">
+      <DependentUpon>AISealMgrForm.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Tools\AISealMgr\AISealMgrTool.cs" />
     <Compile Include="Tools\AutoRestart\AutoRestartForm.cs">
       <SubType>Form</SubType>
     </Compile>
