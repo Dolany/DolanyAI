@@ -28,69 +28,45 @@
         /// </summary>
         private void InitializeComponent()
         {
-            this.IconBox = new System.Windows.Forms.PictureBox();
             this.NameLbl = new System.Windows.Forms.Label();
-            this.DescriptionLbl = new System.Windows.Forms.Label();
-            this.StatusLbl = new System.Windows.Forms.Label();
-            ((System.ComponentModel.ISupportInitialize)(this.IconBox)).BeginInit();
+            this.panel1 = new System.Windows.Forms.Panel();
             this.SuspendLayout();
-            // 
-            // IconBox
-            // 
-            this.IconBox.Location = new System.Drawing.Point(0, 19);
-            this.IconBox.Name = "IconBox";
-            this.IconBox.Size = new System.Drawing.Size(51, 50);
-            this.IconBox.SizeMode = System.Windows.Forms.PictureBoxSizeMode.AutoSize;
-            this.IconBox.TabIndex = 0;
-            this.IconBox.TabStop = false;
             // 
             // NameLbl
             // 
-            this.NameLbl.AutoSize = true;
-            this.NameLbl.Location = new System.Drawing.Point(3, 4);
+            this.NameLbl.Font = new System.Drawing.Font("微软雅黑", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
+            this.NameLbl.Location = new System.Drawing.Point(3, 80);
             this.NameLbl.Name = "NameLbl";
-            this.NameLbl.Size = new System.Drawing.Size(41, 12);
+            this.NameLbl.Size = new System.Drawing.Size(97, 26);
             this.NameLbl.TabIndex = 1;
             this.NameLbl.Text = "label1";
+            this.NameLbl.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            this.NameLbl.Click += new System.EventHandler(this.NameLbl_Click);
             // 
-            // DescriptionLbl
+            // panel1
             // 
-            this.DescriptionLbl.Location = new System.Drawing.Point(57, 19);
-            this.DescriptionLbl.Name = "DescriptionLbl";
-            this.DescriptionLbl.Size = new System.Drawing.Size(59, 50);
-            this.DescriptionLbl.TabIndex = 2;
-            this.DescriptionLbl.Text = "label1";
-            // 
-            // StatusLbl
-            // 
-            this.StatusLbl.AutoSize = true;
-            this.StatusLbl.Location = new System.Drawing.Point(66, 4);
-            this.StatusLbl.Name = "StatusLbl";
-            this.StatusLbl.Size = new System.Drawing.Size(41, 12);
-            this.StatusLbl.TabIndex = 3;
-            this.StatusLbl.Text = "label1";
+            this.panel1.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
+            this.panel1.Location = new System.Drawing.Point(2, 1);
+            this.panel1.Name = "panel1";
+            this.panel1.Size = new System.Drawing.Size(98, 76);
+            this.panel1.TabIndex = 4;
+            this.panel1.Click += new System.EventHandler(this.panel1_Click);
             // 
             // dolanyToolCon
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 12F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.Controls.Add(this.StatusLbl);
-            this.Controls.Add(this.DescriptionLbl);
+            this.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
+            this.Controls.Add(this.panel1);
             this.Controls.Add(this.NameLbl);
-            this.Controls.Add(this.IconBox);
             this.Name = "dolanyToolCon";
-            this.Size = new System.Drawing.Size(119, 69);
-            ((System.ComponentModel.ISupportInitialize)(this.IconBox)).EndInit();
+            this.Size = new System.Drawing.Size(103, 106);
             this.ResumeLayout(false);
-            this.PerformLayout();
 
         }
 
         #endregion
-
-        private System.Windows.Forms.PictureBox IconBox;
         private System.Windows.Forms.Label NameLbl;
-        private System.Windows.Forms.Label DescriptionLbl;
-        private System.Windows.Forms.Label StatusLbl;
+        private System.Windows.Forms.Panel panel1;
     }
 }

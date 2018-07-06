@@ -16,6 +16,8 @@ namespace CQPMonitor
 {
     public partial class MainForm : Form
     {
+        private string ImagePath = "./Image/";
+
         private List<ToolBase> Tools = new List<ToolBase>();
 
         public MainForm()
@@ -58,7 +60,7 @@ namespace CQPMonitor
                 tool.Name, 
                 "",
                 tool.Decription,
-                tool.Icon,
+                ImagePath + tool.Icon,
                 tool.RelatedForm
                 );
 

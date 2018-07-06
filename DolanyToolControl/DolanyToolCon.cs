@@ -24,16 +24,39 @@ namespace DolanyToolControl
         {
             this.RelatedObj = RelatedObj;
             NameLbl.Text = name;
-            StatusLbl.Text = status;
-            DescriptionLbl.Text = description;
+
+            ToolTip toolTip = new ToolTip();
+            toolTip.ShowAlways = true;
+            toolTip.SetToolTip(panel1, description);
+
             try
             {
-                IconBox.Image = Image.FromFile(icon);
+                panel1.BackgroundImage = Image.FromFile(icon);
             }
             catch
             {
 
             }
+        }
+
+        private void panel1_Click(object sender, EventArgs e)
+        {
+            this.OnClick(e);
+        }
+
+        private void NameLbl_Click(object sender, EventArgs e)
+        {
+            this.OnClick(e);
+        }
+
+        private void StatusLbl_Click(object sender, EventArgs e)
+        {
+            this.OnClick(e);
+        }
+
+        private void DescriptionLbl_Click(object sender, EventArgs e)
+        {
+            this.OnClick(e);
         }
     }
 }
