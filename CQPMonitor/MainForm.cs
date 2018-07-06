@@ -8,16 +8,10 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 
-
-
-
-
 namespace CQPMonitor
 {
     public partial class MainForm : Form
     {
-        
-
         public MainForm()
         {
             InitializeComponent();
@@ -25,22 +19,10 @@ namespace CQPMonitor
 
         private void Form1_Load(object sender, EventArgs e)
         {
-            
         }
 
-        
-
-        private void ClearOldPicCache()
+        private void LoadAllTools()
         {
-            //string picCachePath = CQPRootPath + @"\data\image\";
-
-            //DirectoryInfo dir = new DirectoryInfo(picCachePath);
-            //var query = dir.GetFiles().OrderByDescending(p => p.CreationTime);
-            //var imageCacheList = query.ToList();
-            //for (int i = ImageMaxCache; i < imageCacheList.Count; i++)
-            //{
-            //    imageCacheList[i].Delete();
-            //}
         }
 
         private void notifyIcon1_MouseDoubleClick(object sender, MouseEventArgs e)
@@ -104,16 +86,6 @@ namespace CQPMonitor
             {
                 e.Cancel = true;
             }
-        }
-
-        private void refreshBtn_Click(object sender, EventArgs e)
-        {
-            
-        }
-
-        private void restartBtn_Click(object sender, EventArgs e)
-        {
-            
         }
     }
 }

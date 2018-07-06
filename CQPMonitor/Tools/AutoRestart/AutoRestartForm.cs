@@ -10,7 +10,6 @@ using System.Windows.Forms;
 using AILib;
 using AILib.Entities;
 using System.Diagnostics;
-using System.IO;
 using System.Timers;
 
 namespace CQPMonitor.Tools.AutoRestart
@@ -27,8 +26,6 @@ namespace CQPMonitor.Tools.AutoRestart
         private int MissHeartCount = 0;
         private int MaxMissLimit = 4;
         private int CheckFrequency = 30;
-
-        private int ImageMaxCache = 200;
 
         private List<LogEntity> Logs;
 
