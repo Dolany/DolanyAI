@@ -10,6 +10,8 @@ namespace CQPMonitor.Tools
 {
     public class ToolBase
     {
+        private string ImagePath = "./Image/";
+
         public string Name { get; set; }
         public string Decription { get; set; }
         public string Icon { get; set; }
@@ -27,6 +29,7 @@ namespace CQPMonitor.Tools
             if (RelatedForm != null)
             {
                 RelatedForm.StartPosition = FormStartPosition.CenterParent;
+                RelatedForm.Icon = new System.Drawing.Icon(ImagePath + Icon);
                 RelatedForm.Show();
             }
         }
