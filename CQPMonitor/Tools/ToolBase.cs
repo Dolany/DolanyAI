@@ -17,7 +17,11 @@ namespace CQPMonitor.Tools
 
         public virtual void Work()
         {
-            RelatedForm.Show();
+            if(RelatedForm != null)
+            {
+                RelatedForm.StartPosition = FormStartPosition.CenterParent;
+                RelatedForm.Show();
+            }
         }
     }
 }
