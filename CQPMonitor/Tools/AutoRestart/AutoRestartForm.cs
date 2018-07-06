@@ -30,6 +30,8 @@ namespace CQPMonitor.Tools.AutoRestart
 
         private int ImageMaxCache = 200;
 
+        private List<LogEntity> Logs;
+
         public AutoRestartForm()
         {
             InitializeComponent();
@@ -133,14 +135,20 @@ namespace CQPMonitor.Tools.AutoRestart
             this.Invoke(new Action(() =>
             {
                 var query = DbMgr.Query<LogEntity>(l => l.LogType == "Restart");
-                ShowTable.DataSource = query.OrderByDescending(l => l.CreateTime).ToList();
+                Logs = query.OrderByDescending(l => l.CreateTime).ToList();
+                ShowTable.DataSource = Logs;
                 ShowTable.Refresh();
             }));
         }
 
         private void 删除选中行的数据ToolStripMenuItem_Click(object sender, EventArgs e)
         {
+            if (ShowTable.CurrentRow == null || ShowTable.CurrentRow.Index < 0)
+            {
+                return;
+            }
 
+            DbMgr.Delete<LogEntity>(Logs[ShowTable.CurrentRow.Index].Id);
         }
 
         private void RestartBtn_Click(object sender, EventArgs e)
