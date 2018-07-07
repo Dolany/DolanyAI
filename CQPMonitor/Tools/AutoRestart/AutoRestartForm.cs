@@ -24,6 +24,7 @@ namespace CQPMonitor.Tools.AutoRestart
         private int MissHeartCount = 0;
         private int MaxMissLimit = 4;
         private int CheckFrequency = 30;
+        private int LogShowCount = 30;
 
         private List<LogEntity> Logs;
 
@@ -37,10 +38,11 @@ namespace CQPMonitor.Tools.AutoRestart
 
             InitializeComponent();
 
-            Init();
+            InitUI();
+            InitTimer();
         }
 
-        private void Init()
+        private void InitTimer()
         {
             timer.Enabled = true;
             timer.Interval = CheckFrequency * 1000;
@@ -50,6 +52,30 @@ namespace CQPMonitor.Tools.AutoRestart
             if (IsAutoStart)
             {
                 timer.Start();
+            }
+        }
+
+        private void InitUI()
+        {
+            radioButton1.Checked = IsAutoStart;
+            radioButton2.Checked = !IsAutoStart;
+
+            string MaxMissLimit_Config = Common.GetConfig("MaxMissLimit");
+            if (!string.IsNullOrEmpty(MaxMissLimit_Config))
+            {
+                MaxMissLimit = int.Parse(MaxMissLimit_Config);
+            }
+
+            string CheckFrequency_Config = Common.GetConfig("CheckFrequency");
+            if (!string.IsNullOrEmpty(CheckFrequency_Config))
+            {
+                CheckFrequency = int.Parse(CheckFrequency_Config);
+            }
+
+            string LogShowCount_Config = Common.GetConfig("LogShowCount");
+            if (!string.IsNullOrEmpty(LogShowCount_Config))
+            {
+                LogShowCount = int.Parse(LogShowCount_Config);
             }
         }
 
@@ -137,8 +163,9 @@ namespace CQPMonitor.Tools.AutoRestart
             this.Invoke(new Action(() =>
             {
                 var query = DbMgr.Query<LogEntity>(l => l.LogType == "Restart");
-                Logs = query.OrderByDescending(l => l.CreateTime).ToList();
-                ShowTable.DataSource = Logs.Select(l => (l.CreateTime, l.Content, l.LogType));
+                Logs = query.OrderByDescending(l => l.CreateTime).Take(LogShowCount).ToList();
+                //ShowTable.DataSource = Logs.Select(l => (l.CreateTime, l.LogType, l.Content)).ToList();
+                ShowTable.DataSource = Logs;
                 ShowTable.Refresh();
             }));
         }
@@ -168,6 +195,16 @@ namespace CQPMonitor.Tools.AutoRestart
         private void AutoRestartForm_Load(object sender, EventArgs e)
         {
             RefreshTable();
+            RefreshTxt();
+        }
+
+        private void RefreshTxt()
+        {
+            RefreshFreqTxt.Text = CheckFrequency.ToString();
+            MaxMissCountTxt.Text = MaxMissLimit.ToString();
+            LogShowCountTxt.Text = LogShowCount.ToString();
+
+            timer.Interval = CheckFrequency * 1000;
         }
 
         public override void Shutdown()
@@ -176,6 +213,41 @@ namespace CQPMonitor.Tools.AutoRestart
 
             timer.Stop();
             timer.Enabled = false;
+        }
+
+        private void radioButton1_CheckedChanged(object sender, EventArgs e)
+        {
+            if (radioButton1.Checked)
+            {
+                timer.Start();
+            }
+            else
+            {
+                timer.Stop();
+            }
+        }
+
+        private void SaveBtn_Click(object sender, EventArgs e)
+        {
+            int m, c, l;
+            if (!int.TryParse(RefreshFreqTxt.Text, out c)
+                || !int.TryParse(MaxMissCountTxt.Text, out m)
+                || !int.TryParse(LogShowCountTxt.Text, out l))
+            {
+                MessageBox.Show("输入不合法！");
+                return;
+            }
+
+            CheckFrequency = c;
+            MaxMissLimit = m;
+            LogShowCount = l;
+            RefreshTxt();
+
+            Common.SetConfig("MaxMissLimit", MaxMissLimit.ToString());
+            Common.SetConfig("CheckFrequency", CheckFrequency.ToString());
+            Common.SetConfig("LogShowCount", LogShowCount.ToString());
+
+            MessageBox.Show("保存成功！");
         }
     }
 }

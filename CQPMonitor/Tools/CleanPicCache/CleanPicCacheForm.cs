@@ -49,6 +49,23 @@ namespace CQPMonitor.Tools.CleanPicCache
             {
                 CleanFreq = int.Parse(CleanFreq_Config);
             }
+
+            timer.Interval = CleanFreq * 1000;
+            timer.AutoReset = true;
+            timer.Enabled = true;
+            timer.Elapsed += TimeUp;
+
+            if (IsAutoStart)
+            {
+                timer.Start();
+                radioButton1.Checked = true;
+                radioButton2.Checked = false;
+            }
+            else
+            {
+                radioButton1.Checked = false;
+                radioButton2.Checked = true;
+            }
         }
 
         private void TimeUp(object sender, ElapsedEventArgs e)
@@ -72,6 +89,8 @@ namespace CQPMonitor.Tools.CleanPicCache
             {
                 f.Delete();
             }
+
+            RefreshCacheCount();
         }
 
         private void SaveBtn_Click(object sender, EventArgs e)
@@ -116,6 +135,8 @@ namespace CQPMonitor.Tools.CleanPicCache
         {
             MaxCacheCountTxt.Text = MaxCache.ToString();
             CleanFreqTxt.Text = CleanFreq.ToString();
+
+            RefreshCacheCount();
         }
 
         public override void Shutdown()
@@ -124,6 +145,12 @@ namespace CQPMonitor.Tools.CleanPicCache
 
             timer.Stop();
             timer.Enabled = false;
+        }
+
+        private void RefreshCacheCount()
+        {
+            DirectoryInfo dir = new DirectoryInfo(CachePath);
+            CurCacheCountLbl.Text = dir.GetFiles().Count().ToString();
         }
     }
 }
