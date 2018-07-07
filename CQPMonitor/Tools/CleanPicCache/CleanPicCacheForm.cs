@@ -117,5 +117,13 @@ namespace CQPMonitor.Tools.CleanPicCache
             MaxCacheCountTxt.Text = MaxCache.ToString();
             CleanFreqTxt.Text = CleanFreq.ToString();
         }
+
+        public override void Shutdown()
+        {
+            base.Shutdown();
+
+            timer.Stop();
+            timer.Enabled = false;
+        }
     }
 }

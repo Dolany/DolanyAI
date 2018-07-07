@@ -138,7 +138,7 @@ namespace CQPMonitor.Tools.AutoRestart
             {
                 var query = DbMgr.Query<LogEntity>(l => l.LogType == "Restart");
                 Logs = query.OrderByDescending(l => l.CreateTime).ToList();
-                ShowTable.DataSource = Logs;
+                ShowTable.DataSource = Logs.Select(l => (l.CreateTime, l.Content, l.LogType));
                 ShowTable.Refresh();
             }));
         }
@@ -168,6 +168,14 @@ namespace CQPMonitor.Tools.AutoRestart
         private void AutoRestartForm_Load(object sender, EventArgs e)
         {
             RefreshTable();
+        }
+
+        public override void Shutdown()
+        {
+            base.Shutdown();
+
+            timer.Stop();
+            timer.Enabled = false;
         }
     }
 }

@@ -97,12 +97,12 @@ namespace CQPMonitor
 
         private void MenuItemClose_Click(object sender, EventArgs e)
         {
-            Application.Exit();
+            Close();
         }
 
         private void Form1_SizeChanged(object sender, EventArgs e)
         {
-            if (this.WindowState == System.Windows.Forms.FormWindowState.Minimized)
+            if (this.WindowState == FormWindowState.Minimized)
             {
                 this.QPan_MiniMizedToTuoPan();
             }

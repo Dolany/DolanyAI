@@ -23,7 +23,6 @@ namespace CQPMonitor.Tools
             : base()
         {
             FormClosing += Form_FormClosing;
-            StartPosition = FormStartPosition.CenterParent;
         }
 
         public virtual void Work()
@@ -32,6 +31,9 @@ namespace CQPMonitor.Tools
 
         public void ShowTool()
         {
+            StartPosition = FormStartPosition.CenterScreen;
+            MaximizeBox = false;
+            MinimizeBox = false;
             try
             {
                 Icon = new System.Drawing.Icon(ImagePath + ToolIcon);
@@ -44,6 +46,11 @@ namespace CQPMonitor.Tools
         {
             Hide();
             e.Cancel = true;
+        }
+
+        public virtual void Shutdown()
+        {
+            return;
         }
     }
 }

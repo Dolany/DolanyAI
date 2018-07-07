@@ -31,9 +31,6 @@
             this.components = new System.ComponentModel.Container();
             this.tableLayoutPanel1 = new System.Windows.Forms.TableLayoutPanel();
             this.ShowTable = new System.Windows.Forms.DataGridView();
-            this.CreateTimeColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.TypeColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.ContentColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.contextMenuStrip1 = new System.Windows.Forms.ContextMenuStrip(this.components);
             this.删除选中行的数据ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.tableLayoutPanel2 = new System.Windows.Forms.TableLayoutPanel();
@@ -42,8 +39,11 @@
             this.RestartBtn = new System.Windows.Forms.Button();
             this.RefreshTableBtn = new System.Windows.Forms.Button();
             this.groupBox1 = new System.Windows.Forms.GroupBox();
-            this.radioButton1 = new System.Windows.Forms.RadioButton();
             this.radioButton2 = new System.Windows.Forms.RadioButton();
+            this.radioButton1 = new System.Windows.Forms.RadioButton();
+            this.CreateTimeColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.TypeColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.ContentColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.tableLayoutPanel1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.ShowTable)).BeginInit();
             this.contextMenuStrip1.SuspendLayout();
@@ -86,30 +86,6 @@
             this.ShowTable.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
             this.ShowTable.Size = new System.Drawing.Size(430, 444);
             this.ShowTable.TabIndex = 0;
-            // 
-            // CreateTimeColumn
-            // 
-            this.CreateTimeColumn.DataPropertyName = "CreateTime";
-            this.CreateTimeColumn.Frozen = true;
-            this.CreateTimeColumn.HeaderText = "时间";
-            this.CreateTimeColumn.Name = "CreateTimeColumn";
-            this.CreateTimeColumn.ReadOnly = true;
-            // 
-            // TypeColumn
-            // 
-            this.TypeColumn.DataPropertyName = "Type";
-            this.TypeColumn.Frozen = true;
-            this.TypeColumn.HeaderText = "类型";
-            this.TypeColumn.Name = "TypeColumn";
-            this.TypeColumn.ReadOnly = true;
-            // 
-            // ContentColumn
-            // 
-            this.ContentColumn.DataPropertyName = "Content";
-            this.ContentColumn.HeaderText = "内容";
-            this.ContentColumn.Name = "ContentColumn";
-            this.ContentColumn.ReadOnly = true;
-            this.ContentColumn.Width = 200;
             // 
             // contextMenuStrip1
             // 
@@ -196,6 +172,16 @@
             this.groupBox1.TabStop = false;
             this.groupBox1.Text = "自动重启";
             // 
+            // radioButton2
+            // 
+            this.radioButton2.AutoSize = true;
+            this.radioButton2.Location = new System.Drawing.Point(67, 14);
+            this.radioButton2.Name = "radioButton2";
+            this.radioButton2.Size = new System.Drawing.Size(35, 16);
+            this.radioButton2.TabIndex = 1;
+            this.radioButton2.Text = "否";
+            this.radioButton2.UseVisualStyleBackColor = true;
+            // 
             // radioButton1
             // 
             this.radioButton1.AutoSize = true;
@@ -208,15 +194,29 @@
             this.radioButton1.Text = "是";
             this.radioButton1.UseVisualStyleBackColor = true;
             // 
-            // radioButton2
+            // CreateTimeColumn
             // 
-            this.radioButton2.AutoSize = true;
-            this.radioButton2.Location = new System.Drawing.Point(67, 14);
-            this.radioButton2.Name = "radioButton2";
-            this.radioButton2.Size = new System.Drawing.Size(35, 16);
-            this.radioButton2.TabIndex = 1;
-            this.radioButton2.Text = "否";
-            this.radioButton2.UseVisualStyleBackColor = true;
+            this.CreateTimeColumn.DataPropertyName = "CreateTime";
+            this.CreateTimeColumn.Frozen = true;
+            this.CreateTimeColumn.HeaderText = "时间";
+            this.CreateTimeColumn.Name = "CreateTimeColumn";
+            this.CreateTimeColumn.ReadOnly = true;
+            // 
+            // TypeColumn
+            // 
+            this.TypeColumn.DataPropertyName = "LogType";
+            this.TypeColumn.Frozen = true;
+            this.TypeColumn.HeaderText = "类型";
+            this.TypeColumn.Name = "TypeColumn";
+            this.TypeColumn.ReadOnly = true;
+            // 
+            // ContentColumn
+            // 
+            this.ContentColumn.DataPropertyName = "Content";
+            this.ContentColumn.HeaderText = "内容";
+            this.ContentColumn.Name = "ContentColumn";
+            this.ContentColumn.ReadOnly = true;
+            this.ContentColumn.Width = 200;
             // 
             // AutoRestartForm
             // 
@@ -249,11 +249,11 @@
         private System.Windows.Forms.ToolStripMenuItem 删除选中行的数据ToolStripMenuItem;
         private System.Windows.Forms.Button RestartBtn;
         private System.Windows.Forms.Button RefreshTableBtn;
-        private System.Windows.Forms.DataGridViewTextBoxColumn CreateTimeColumn;
-        private System.Windows.Forms.DataGridViewTextBoxColumn TypeColumn;
-        private System.Windows.Forms.DataGridViewTextBoxColumn ContentColumn;
         private System.Windows.Forms.GroupBox groupBox1;
         private System.Windows.Forms.RadioButton radioButton2;
         private System.Windows.Forms.RadioButton radioButton1;
+        private System.Windows.Forms.DataGridViewTextBoxColumn CreateTimeColumn;
+        private System.Windows.Forms.DataGridViewTextBoxColumn TypeColumn;
+        private System.Windows.Forms.DataGridViewTextBoxColumn ContentColumn;
     }
 }
