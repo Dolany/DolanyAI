@@ -226,7 +226,6 @@
             this.Controls.Add(this.tableLayoutPanel1);
             this.Name = "AutoRestartForm";
             this.Text = "重启监视工具";
-            this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.AutoRestartForm_FormClosing);
             this.Load += new System.EventHandler(this.AutoRestartForm_Load);
             this.tableLayoutPanel1.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.ShowTable)).EndInit();

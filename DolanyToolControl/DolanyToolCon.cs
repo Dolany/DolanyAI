@@ -12,17 +12,14 @@ namespace DolanyToolControl
 {
     public partial class dolanyToolCon : UserControl
     {
-        public object RelatedObj = null;
-
         public dolanyToolCon()
         {
             InitializeComponent();
         }
 
-        public dolanyToolCon(string name, string status, string description, string icon, object RelatedObj)
+        public dolanyToolCon(string name, string status, string description, string icon)
             : this()
         {
-            this.RelatedObj = RelatedObj;
             NameLbl.Text = name;
 
             ToolTip toolTip = new ToolTip();
@@ -35,7 +32,6 @@ namespace DolanyToolControl
             }
             catch
             {
-
             }
         }
 

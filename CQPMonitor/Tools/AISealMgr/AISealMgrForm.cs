@@ -11,27 +11,17 @@ using System.Windows.Forms;
 
 namespace CQPMonitor.Tools.AISealMgr
 {
-    public partial class AISealMgrForm : Form
+    public partial class AISealMgrForm : ToolBaseForm
     {
-        private int ImageMaxCache = 200;
-        private string CQPRootPath = @".\";
-
         public AISealMgrForm()
         {
+            ToolName = "AI封禁管理";
+            Decription = "AI封禁管理";
+            ToolIcon = "aiseal.ico";
+            IsAutoStart = true;
+            Order = 4;
+
             InitializeComponent();
-        }
-
-        private void ClearOldPicCache()
-        {
-            string picCachePath = CQPRootPath + @"\data\image\";
-
-            DirectoryInfo dir = new DirectoryInfo(picCachePath);
-            var query = dir.GetFiles().OrderByDescending(p => p.CreationTime);
-            var imageCacheList = query.ToList();
-            for (int i = ImageMaxCache; i < imageCacheList.Count; i++)
-            {
-                imageCacheList[i].Delete();
-            }
         }
     }
 }

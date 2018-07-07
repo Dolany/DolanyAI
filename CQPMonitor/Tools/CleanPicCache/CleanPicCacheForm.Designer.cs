@@ -31,16 +31,16 @@
             this.label1 = new System.Windows.Forms.Label();
             this.CurCacheCountLbl = new System.Windows.Forms.Label();
             this.groupBox1 = new System.Windows.Forms.GroupBox();
-            this.groupBox2 = new System.Windows.Forms.GroupBox();
-            this.groupBox3 = new System.Windows.Forms.GroupBox();
-            this.button1 = new System.Windows.Forms.Button();
-            this.radioButton1 = new System.Windows.Forms.RadioButton();
-            this.radioButton2 = new System.Windows.Forms.RadioButton();
-            this.label2 = new System.Windows.Forms.Label();
-            this.MaxCacheCountTxt = new System.Windows.Forms.TextBox();
-            this.label3 = new System.Windows.Forms.Label();
-            this.CleanFreqTxt = new System.Windows.Forms.TextBox();
             this.SaveBtn = new System.Windows.Forms.Button();
+            this.CleanFreqTxt = new System.Windows.Forms.TextBox();
+            this.label3 = new System.Windows.Forms.Label();
+            this.MaxCacheCountTxt = new System.Windows.Forms.TextBox();
+            this.label2 = new System.Windows.Forms.Label();
+            this.groupBox2 = new System.Windows.Forms.GroupBox();
+            this.radioButton2 = new System.Windows.Forms.RadioButton();
+            this.radioButton1 = new System.Windows.Forms.RadioButton();
+            this.button1 = new System.Windows.Forms.Button();
+            this.groupBox3 = new System.Windows.Forms.GroupBox();
             this.groupBox1.SuspendLayout();
             this.groupBox2.SuspendLayout();
             this.groupBox3.SuspendLayout();
@@ -77,6 +77,50 @@
             this.groupBox1.TabStop = false;
             this.groupBox1.Text = "设置";
             // 
+            // SaveBtn
+            // 
+            this.SaveBtn.Location = new System.Drawing.Point(111, 151);
+            this.SaveBtn.Name = "SaveBtn";
+            this.SaveBtn.Size = new System.Drawing.Size(75, 23);
+            this.SaveBtn.TabIndex = 4;
+            this.SaveBtn.Text = "保存";
+            this.SaveBtn.UseVisualStyleBackColor = true;
+            this.SaveBtn.Click += new System.EventHandler(this.SaveBtn_Click);
+            // 
+            // CleanFreqTxt
+            // 
+            this.CleanFreqTxt.Location = new System.Drawing.Point(92, 58);
+            this.CleanFreqTxt.Name = "CleanFreqTxt";
+            this.CleanFreqTxt.RightToLeft = System.Windows.Forms.RightToLeft.Yes;
+            this.CleanFreqTxt.Size = new System.Drawing.Size(94, 21);
+            this.CleanFreqTxt.TabIndex = 3;
+            // 
+            // label3
+            // 
+            this.label3.AutoSize = true;
+            this.label3.Location = new System.Drawing.Point(6, 61);
+            this.label3.Name = "label3";
+            this.label3.Size = new System.Drawing.Size(89, 12);
+            this.label3.TabIndex = 2;
+            this.label3.Text = "清理频率(秒)：";
+            // 
+            // MaxCacheCountTxt
+            // 
+            this.MaxCacheCountTxt.Location = new System.Drawing.Point(92, 25);
+            this.MaxCacheCountTxt.Name = "MaxCacheCountTxt";
+            this.MaxCacheCountTxt.RightToLeft = System.Windows.Forms.RightToLeft.Yes;
+            this.MaxCacheCountTxt.Size = new System.Drawing.Size(94, 21);
+            this.MaxCacheCountTxt.TabIndex = 1;
+            // 
+            // label2
+            // 
+            this.label2.AutoSize = true;
+            this.label2.Location = new System.Drawing.Point(6, 28);
+            this.label2.Name = "label2";
+            this.label2.Size = new System.Drawing.Size(77, 12);
+            this.label2.TabIndex = 0;
+            this.label2.Text = "最大缓存数：";
+            // 
             // groupBox2
             // 
             this.groupBox2.Controls.Add(this.radioButton2);
@@ -89,26 +133,16 @@
             this.groupBox2.TabStop = false;
             this.groupBox2.Text = "操作";
             // 
-            // groupBox3
+            // radioButton2
             // 
-            this.groupBox3.Controls.Add(this.label1);
-            this.groupBox3.Controls.Add(this.CurCacheCountLbl);
-            this.groupBox3.Location = new System.Drawing.Point(14, 12);
-            this.groupBox3.Name = "groupBox3";
-            this.groupBox3.Size = new System.Drawing.Size(190, 45);
-            this.groupBox3.TabIndex = 4;
-            this.groupBox3.TabStop = false;
-            this.groupBox3.Text = "监视";
-            // 
-            // button1
-            // 
-            this.button1.Location = new System.Drawing.Point(6, 20);
-            this.button1.Name = "button1";
-            this.button1.Size = new System.Drawing.Size(75, 23);
-            this.button1.TabIndex = 0;
-            this.button1.Text = "立刻清理";
-            this.button1.UseVisualStyleBackColor = true;
-            this.button1.Click += new System.EventHandler(this.button1_Click);
+            this.radioButton2.AutoSize = true;
+            this.radioButton2.Location = new System.Drawing.Point(89, 33);
+            this.radioButton2.Name = "radioButton2";
+            this.radioButton2.Size = new System.Drawing.Size(71, 16);
+            this.radioButton2.TabIndex = 2;
+            this.radioButton2.TabStop = true;
+            this.radioButton2.Text = "暂停清理";
+            this.radioButton2.UseVisualStyleBackColor = true;
             // 
             // radioButton1
             // 
@@ -123,60 +157,26 @@
             this.radioButton1.UseVisualStyleBackColor = true;
             this.radioButton1.CheckedChanged += new System.EventHandler(this.radioButton1_CheckedChanged);
             // 
-            // radioButton2
+            // button1
             // 
-            this.radioButton2.AutoSize = true;
-            this.radioButton2.Location = new System.Drawing.Point(89, 33);
-            this.radioButton2.Name = "radioButton2";
-            this.radioButton2.Size = new System.Drawing.Size(71, 16);
-            this.radioButton2.TabIndex = 2;
-            this.radioButton2.TabStop = true;
-            this.radioButton2.Text = "暂停清理";
-            this.radioButton2.UseVisualStyleBackColor = true;
+            this.button1.Location = new System.Drawing.Point(6, 20);
+            this.button1.Name = "button1";
+            this.button1.Size = new System.Drawing.Size(75, 23);
+            this.button1.TabIndex = 0;
+            this.button1.Text = "立刻清理";
+            this.button1.UseVisualStyleBackColor = true;
+            this.button1.Click += new System.EventHandler(this.button1_Click);
             // 
-            // label2
+            // groupBox3
             // 
-            this.label2.AutoSize = true;
-            this.label2.Location = new System.Drawing.Point(6, 28);
-            this.label2.Name = "label2";
-            this.label2.Size = new System.Drawing.Size(77, 12);
-            this.label2.TabIndex = 0;
-            this.label2.Text = "最大缓存数：";
-            // 
-            // MaxCacheCountTxt
-            // 
-            this.MaxCacheCountTxt.Location = new System.Drawing.Point(92, 25);
-            this.MaxCacheCountTxt.Name = "MaxCacheCountTxt";
-            this.MaxCacheCountTxt.RightToLeft = System.Windows.Forms.RightToLeft.Yes;
-            this.MaxCacheCountTxt.Size = new System.Drawing.Size(94, 21);
-            this.MaxCacheCountTxt.TabIndex = 1;
-            // 
-            // label3
-            // 
-            this.label3.AutoSize = true;
-            this.label3.Location = new System.Drawing.Point(6, 61);
-            this.label3.Name = "label3";
-            this.label3.Size = new System.Drawing.Size(89, 12);
-            this.label3.TabIndex = 2;
-            this.label3.Text = "清理频率(秒)：";
-            // 
-            // CleanFreqTxt
-            // 
-            this.CleanFreqTxt.Location = new System.Drawing.Point(92, 58);
-            this.CleanFreqTxt.Name = "CleanFreqTxt";
-            this.CleanFreqTxt.RightToLeft = System.Windows.Forms.RightToLeft.Yes;
-            this.CleanFreqTxt.Size = new System.Drawing.Size(94, 21);
-            this.CleanFreqTxt.TabIndex = 3;
-            // 
-            // SaveBtn
-            // 
-            this.SaveBtn.Location = new System.Drawing.Point(111, 151);
-            this.SaveBtn.Name = "SaveBtn";
-            this.SaveBtn.Size = new System.Drawing.Size(75, 23);
-            this.SaveBtn.TabIndex = 4;
-            this.SaveBtn.Text = "保存";
-            this.SaveBtn.UseVisualStyleBackColor = true;
-            this.SaveBtn.Click += new System.EventHandler(this.SaveBtn_Click);
+            this.groupBox3.Controls.Add(this.label1);
+            this.groupBox3.Controls.Add(this.CurCacheCountLbl);
+            this.groupBox3.Location = new System.Drawing.Point(14, 12);
+            this.groupBox3.Name = "groupBox3";
+            this.groupBox3.Size = new System.Drawing.Size(190, 45);
+            this.groupBox3.TabIndex = 4;
+            this.groupBox3.TabStop = false;
+            this.groupBox3.Text = "监视";
             // 
             // CleanPicCacheForm
             // 

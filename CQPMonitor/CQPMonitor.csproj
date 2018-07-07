@@ -63,29 +63,27 @@
     <Compile Include="Tools\AISealMgr\AISealMgrForm.Designer.cs">
       <DependentUpon>AISealMgrForm.cs</DependentUpon>
     </Compile>
-    <Compile Include="Tools\AISealMgr\AISealMgrTool.cs" />
     <Compile Include="Tools\AutoRestart\AutoRestartForm.cs">
       <SubType>Form</SubType>
     </Compile>
     <Compile Include="Tools\AutoRestart\AutoRestartForm.Designer.cs">
       <DependentUpon>AutoRestartForm.cs</DependentUpon>
     </Compile>
-    <Compile Include="Tools\AutoRestart\AutoRestartTool.cs" />
     <Compile Include="Tools\BlackList\BlackListForm.cs">
       <SubType>Form</SubType>
     </Compile>
     <Compile Include="Tools\BlackList\BlackListForm.Designer.cs">
       <DependentUpon>BlackListForm.cs</DependentUpon>
     </Compile>
-    <Compile Include="Tools\BlackList\BlackListTool.cs" />
-    <Compile Include="Tools\CleanPicCache\CleanPicCacheAI.cs" />
     <Compile Include="Tools\CleanPicCache\CleanPicCacheForm.cs">
       <SubType>Form</SubType>
     </Compile>
     <Compile Include="Tools\CleanPicCache\CleanPicCacheForm.Designer.cs">
       <DependentUpon>CleanPicCacheForm.cs</DependentUpon>
     </Compile>
-    <Compile Include="Tools\ToolBase.cs" />
+    <Compile Include="Tools\ToolBaseForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
     <EmbeddedResource Include="MainForm.resx">
       <DependentUpon>MainForm.cs</DependentUpon>
     </EmbeddedResource>

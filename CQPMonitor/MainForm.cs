@@ -18,7 +18,7 @@ namespace CQPMonitor
     {
         private string ImagePath = "./Image/";
 
-        private List<ToolBase> Tools = new List<ToolBase>();
+        private List<ToolBaseForm> Tools = new List<ToolBaseForm>();
 
         public MainForm()
         {
@@ -34,34 +34,31 @@ namespace CQPMonitor
         private void LoadAllTools()
         {
             Assembly assembly = Assembly.GetExecutingAssembly();
-            var types = assembly.GetTypes().Where(t => t.IsSubclassOf(typeof(ToolBase)));
-            foreach(var t in types)
+            var types = assembly.GetTypes().Where(t => t.IsSubclassOf(typeof(ToolBaseForm)));
+            foreach (var t in types)
             {
-                var tool = assembly.CreateInstance(t.FullName) as ToolBase;
+                var tool = assembly.CreateInstance(t.FullName) as ToolBaseForm;
                 Tools.Add(tool);
-                if(tool.IsAutoStart)
-                {
-                    tool.Work();
-                }
             }
+
+            Tools = Tools.OrderBy(t => t.Order).ToList();
         }
 
         private void LayoutTools()
         {
-            foreach(var tool in Tools)
+            foreach (var tool in Tools)
             {
                 LayoutTool(tool);
             }
         }
 
-        private void LayoutTool(ToolBase tool)
+        private void LayoutTool(ToolBaseForm tool)
         {
             dolanyToolCon dolanyTool = new dolanyToolCon(
-                tool.Name, 
+                tool.ToolName,
                 "",
                 tool.Decription,
-                ImagePath + tool.Icon,
-                tool.RelatedForm
+                ImagePath + tool.ToolIcon
                 );
 
             dolanyTool.Parent = MainPanel;
@@ -71,11 +68,11 @@ namespace CQPMonitor
 
         private void onTool_Click(object sender, EventArgs e)
         {
-            if(sender != null || sender is dolanyToolCon)
+            if (sender != null || sender is dolanyToolCon)
             {
                 var toolCon = sender as dolanyToolCon;
                 var tool = Tools.Where(t => t.RelatedControl == toolCon).First();
-                tool.Show();
+                tool.ShowTool();
             }
         }
 

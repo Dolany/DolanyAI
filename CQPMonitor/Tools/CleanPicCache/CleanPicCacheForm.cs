@@ -9,24 +9,34 @@ using System.Threading.Tasks;
 using System.Windows.Forms;
 using AILib;
 using System.Timers;
+using System.IO;
 
 namespace CQPMonitor.Tools.CleanPicCache
 {
-    public partial class CleanPicCacheForm : Form
+    public partial class CleanPicCacheForm : ToolBaseForm
     {
+        private string CachePath = "./data/image/";
+
         private int MaxCache = 100;
         private int CleanFreq = 5;
 
         private System.Timers.Timer timer = new System.Timers.Timer();
 
-        public CleanPicCacheForm(bool IsAutoStart)
+        public CleanPicCacheForm()
+            : base()
         {
+            ToolName = "清理图片缓存";
+            Decription = "清理图片缓存";
+            ToolIcon = "cleancache.ico";
+            IsAutoStart = true;
+            Order = 2;
+
             InitializeComponent();
 
-            Init(IsAutoStart);
+            Init();
         }
 
-        public void Init(bool IsAutoStart)
+        public void Init()
         {
             string MaxCache_Config = Common.GetConfig("MaxPicCacheCount");
             if (!string.IsNullOrEmpty(MaxCache_Config))
@@ -45,11 +55,22 @@ namespace CQPMonitor.Tools.CleanPicCache
         {
             try
             {
-                
+                CleanCache();
             }
             catch (Exception ex)
             {
                 Common.SendMsgToDeveloper(ex);
+            }
+        }
+
+        private void CleanCache()
+        {
+            DirectoryInfo dir = new DirectoryInfo(CachePath);
+            int cleanCount = dir.GetFiles().Count() - MaxCache;
+            var cleanFiles = dir.GetFiles().OrderBy(f => f.CreationTime).Take(cleanCount);
+            foreach (var f in cleanFiles)
+            {
+                f.Delete();
             }
         }
 
@@ -59,7 +80,7 @@ namespace CQPMonitor.Tools.CleanPicCache
             string CleanFreqStr = CleanFreqTxt.Text;
 
             int m, c;
-            if(!int.TryParse(MaxCacheCountStr, out m) || !int.TryParse(CleanFreqStr, out c))
+            if (!int.TryParse(MaxCacheCountStr, out m) || !int.TryParse(CleanFreqStr, out c))
             {
                 MessageBox.Show("输入不合法！");
                 return;
@@ -76,12 +97,19 @@ namespace CQPMonitor.Tools.CleanPicCache
 
         private void button1_Click(object sender, EventArgs e)
         {
-
+            CleanCache();
         }
 
         private void radioButton1_CheckedChanged(object sender, EventArgs e)
         {
-
+            if (radioButton1.Checked)
+            {
+                timer.Start();
+            }
+            else
+            {
+                timer.Stop();
+            }
         }
 
         private void CleanPicCacheForm_Load(object sender, EventArgs e)

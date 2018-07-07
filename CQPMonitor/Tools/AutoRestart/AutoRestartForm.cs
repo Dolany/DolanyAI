@@ -14,7 +14,7 @@ using System.Timers;
 
 namespace CQPMonitor.Tools.AutoRestart
 {
-    public partial class AutoRestartForm : Form
+    public partial class AutoRestartForm : ToolBaseForm
     {
         private System.Timers.Timer timer = new System.Timers.Timer();
         private string CQPRootPath = @".\";
@@ -27,21 +27,27 @@ namespace CQPMonitor.Tools.AutoRestart
 
         private List<LogEntity> Logs;
 
-        public AutoRestartForm(bool IsAutoStart)
+        public AutoRestartForm()
         {
+            ToolName = "自动重启";
+            Decription = "自动重启CQP，检测历史重启情况";
+            ToolIcon = "autorestart.ico";
+            IsAutoStart = true;
+            Order = 1;
+
             InitializeComponent();
 
-            Init(IsAutoStart);
+            Init();
         }
 
-        private void Init(bool IsAutoStart)
+        private void Init()
         {
             timer.Enabled = true;
             timer.Interval = CheckFrequency * 1000;
             timer.AutoReset = true;
             timer.Elapsed += TimeUp;
 
-            if(IsAutoStart)
+            if (IsAutoStart)
             {
                 timer.Start();
             }
@@ -145,28 +151,23 @@ namespace CQPMonitor.Tools.AutoRestart
             }
 
             DbMgr.Delete<LogEntity>(Logs[ShowTable.CurrentRow.Index].Id);
-        }
-
-        private void RestartBtn_Click(object sender, EventArgs e)
-        {
             RefreshTable();
         }
 
-        private void RefreshTableBtn_Click(object sender, EventArgs e)
+        private void RestartBtn_Click(object sender, EventArgs e)
         {
             KillCQ();
             Restart();
         }
 
-        private void AutoRestartForm_Load(object sender, EventArgs e)
+        private void RefreshTableBtn_Click(object sender, EventArgs e)
         {
             RefreshTable();
         }
 
-        private void AutoRestartForm_FormClosing(object sender, FormClosingEventArgs e)
+        private void AutoRestartForm_Load(object sender, EventArgs e)
         {
-            Hide();
-            e.Cancel = true;
+            RefreshTable();
         }
     }
 }
