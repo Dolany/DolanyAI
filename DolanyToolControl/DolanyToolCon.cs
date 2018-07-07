@@ -48,15 +48,5 @@ namespace DolanyToolControl
         {
             this.OnClick(e);
         }
-
-        private void StatusLbl_Click(object sender, EventArgs e)
-        {
-            this.OnClick(e);
-        }
-
-        private void DescriptionLbl_Click(object sender, EventArgs e)
-        {
-            this.OnClick(e);
-        }
     }
 }

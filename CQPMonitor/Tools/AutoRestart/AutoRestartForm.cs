@@ -27,23 +27,24 @@ namespace CQPMonitor.Tools.AutoRestart
 
         private List<LogEntity> Logs;
 
-        public AutoRestartForm()
+        public AutoRestartForm(bool IsAutoStart)
         {
             InitializeComponent();
 
-            Init();
+            Init(IsAutoStart);
         }
 
-        private void Init()
+        private void Init(bool IsAutoStart)
         {
             timer.Enabled = true;
             timer.Interval = CheckFrequency * 1000;
             timer.AutoReset = true;
             timer.Elapsed += TimeUp;
 
-            timer.Start();
-
-            //RefreshTable();
+            if(IsAutoStart)
+            {
+                timer.Start();
+            }
         }
 
         private void TimeUp(object sender, ElapsedEventArgs e)

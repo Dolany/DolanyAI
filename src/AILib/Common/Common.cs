@@ -92,7 +92,7 @@ namespace AILib
             var query = DbMgr.Query<ConfigEntity>(c => c.Name == name);
             if (query.IsNullOrEmpty())
             {
-                return null;
+                return string.Empty;
             }
 
             return query.First().Content;

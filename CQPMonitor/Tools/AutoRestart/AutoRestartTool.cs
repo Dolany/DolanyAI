@@ -14,8 +14,8 @@ namespace CQPMonitor.Tools
             Name = "自动重启";
             Decription = "自动重启CQP，检测历史重启情况";
             Icon = "autorestart.ico";
-            IsAutoStart = false;
-            RelatedForm = new AutoRestartForm();
+            IsAutoStart = true;
+            RelatedForm = new AutoRestartForm(IsAutoStart);
         }
 
         public override void Work()

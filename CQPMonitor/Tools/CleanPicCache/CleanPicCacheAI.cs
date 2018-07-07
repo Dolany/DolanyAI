@@ -15,7 +15,7 @@ namespace CQPMonitor.Tools
             Decription = "清理图片缓存";
             Icon = "cleancache.ico";
             IsAutoStart = true;
-            RelatedForm = new CleanPicCacheForm();
+            RelatedForm = new CleanPicCacheForm(IsAutoStart);
         }
 
         public override void Work()

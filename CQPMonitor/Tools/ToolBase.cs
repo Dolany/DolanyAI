@@ -29,7 +29,11 @@ namespace CQPMonitor.Tools
             if (RelatedForm != null)
             {
                 RelatedForm.StartPosition = FormStartPosition.CenterParent;
-                RelatedForm.Icon = new System.Drawing.Icon(ImagePath + Icon);
+                try
+                {
+                    RelatedForm.Icon = new System.Drawing.Icon(ImagePath + Icon);
+                }
+                catch { }
                 RelatedForm.Show();
             }
         }

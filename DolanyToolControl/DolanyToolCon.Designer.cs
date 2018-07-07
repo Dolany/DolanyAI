@@ -37,7 +37,7 @@
             this.NameLbl.Font = new System.Drawing.Font("微软雅黑", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
             this.NameLbl.Location = new System.Drawing.Point(3, 80);
             this.NameLbl.Name = "NameLbl";
-            this.NameLbl.Size = new System.Drawing.Size(97, 26);
+            this.NameLbl.Size = new System.Drawing.Size(81, 26);
             this.NameLbl.TabIndex = 1;
             this.NameLbl.Text = "label1";
             this.NameLbl.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
@@ -48,7 +48,7 @@
             this.panel1.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
             this.panel1.Location = new System.Drawing.Point(2, 1);
             this.panel1.Name = "panel1";
-            this.panel1.Size = new System.Drawing.Size(98, 76);
+            this.panel1.Size = new System.Drawing.Size(82, 76);
             this.panel1.TabIndex = 4;
             this.panel1.Click += new System.EventHandler(this.panel1_Click);
             // 
@@ -60,7 +60,7 @@
             this.Controls.Add(this.panel1);
             this.Controls.Add(this.NameLbl);
             this.Name = "dolanyToolCon";
-            this.Size = new System.Drawing.Size(103, 106);
+            this.Size = new System.Drawing.Size(86, 106);
             this.ResumeLayout(false);
 
         }

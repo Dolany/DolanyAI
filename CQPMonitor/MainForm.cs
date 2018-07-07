@@ -120,18 +120,6 @@ namespace CQPMonitor
 
         private void ppMenuItem_Click(object sender, EventArgs e)
         {
-            //if (IsRunning)
-            //{
-            //    ppMenuItem.Text = "继续";
-            //    timer.Stop();
-            //    IsRunning = false;
-            //}
-            //else
-            //{
-            //    ppMenuItem.Text = "暂停";
-            //    timer.Start();
-            //    IsRunning = true;
-            //}
         }
 
         private void Form1_FormClosing(object sender, FormClosingEventArgs e)

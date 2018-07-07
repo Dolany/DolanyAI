@@ -102,6 +102,9 @@
     <EmbeddedResource Include="Tools\AutoRestart\AutoRestartForm.resx">
       <DependentUpon>AutoRestartForm.cs</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="Tools\CleanPicCache\CleanPicCacheForm.resx">
+      <DependentUpon>CleanPicCacheForm.cs</DependentUpon>
+    </EmbeddedResource>
     <None Include="Properties\Settings.settings">
       <Generator>SettingsSingleFileGenerator</Generator>
       <LastGenOutput>Settings.Designer.cs</LastGenOutput>
@@ -128,6 +131,9 @@
   <ItemGroup>
     <Content Include="app.ico" />
     <Content Include="Image\autorestart.ico">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Image\cleancache.ico">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
   </ItemGroup>
