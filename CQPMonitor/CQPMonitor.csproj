@@ -75,6 +75,12 @@
     <Compile Include="Tools\BlackList\BlackListForm.Designer.cs">
       <DependentUpon>BlackListForm.cs</DependentUpon>
     </Compile>
+    <Compile Include="Tools\BlackList\NewDirtyWordForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Tools\BlackList\NewDirtyWordForm.Designer.cs">
+      <DependentUpon>NewDirtyWordForm.cs</DependentUpon>
+    </Compile>
     <Compile Include="Tools\CleanPicCache\CleanPicCacheForm.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -103,6 +109,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Tools\BlackList\BlackListForm.resx">
       <DependentUpon>BlackListForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Tools\BlackList\NewDirtyWordForm.resx">
+      <DependentUpon>NewDirtyWordForm.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Tools\CleanPicCache\CleanPicCacheForm.resx">
       <DependentUpon>CleanPicCacheForm.cs</DependentUpon>
