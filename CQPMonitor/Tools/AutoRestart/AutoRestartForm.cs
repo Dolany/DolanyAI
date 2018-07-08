@@ -99,6 +99,7 @@ namespace CQPMonitor.Tools.AutoRestart
             if (query.IsNullOrEmpty() || query.FirstOrDefault().LastBeatTime < DateTime.Now.AddSeconds(-CheckFrequency))
             {
                 MissHeartCount++;
+                SetState("失联计数：" + MissHeartCount.ToString());
             }
 
             if (MissHeartCount > MaxMissLimit)
@@ -108,8 +109,17 @@ namespace CQPMonitor.Tools.AutoRestart
             }
         }
 
+        private void SetState(string state)
+        {
+            Invoke(new Action(() =>
+            {
+                CurStateLbl.Text = state;
+            }));
+        }
+
         private void KillCQ()
         {
+            SetState("Kill");
             Process[] processes = Process.GetProcesses();
             foreach (var p in processes)
             {
@@ -150,12 +160,14 @@ namespace CQPMonitor.Tools.AutoRestart
                 return;
             }
 
+            SetState("Restart");
             ProcessStartInfo psInfo = new ProcessStartInfo(CQPRootPath + "QuickStart.lnk");
             Process.Start(psInfo);
 
             KeyLogger.Log($"[Restart] {DateTime.Now}", "Restart");
 
             RefreshTable();
+            SetState("正常");
         }
 
         private void RefreshTable()
