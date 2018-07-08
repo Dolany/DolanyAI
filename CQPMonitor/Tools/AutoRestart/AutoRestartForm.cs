@@ -14,6 +14,13 @@ using System.Timers;
 
 namespace CQPMonitor.Tools.AutoRestart
 {
+    [Tool(
+        ToolName = "自动重启",
+        Decription = "自动重启CQP，检测历史重启情况",
+        ToolIcon = "autorestart.ico",
+        IsAutoStart = true,
+        Order = 1
+        )]
     public partial class AutoRestartForm : ToolBaseForm
     {
         private System.Timers.Timer timer = new System.Timers.Timer();
@@ -30,12 +37,6 @@ namespace CQPMonitor.Tools.AutoRestart
 
         public AutoRestartForm()
         {
-            ToolName = "自动重启";
-            Decription = "自动重启CQP，检测历史重启情况";
-            ToolIcon = "autorestart.ico";
-            IsAutoStart = true;
-            Order = 1;
-
             InitializeComponent();
 
             InitUI();
@@ -49,7 +50,7 @@ namespace CQPMonitor.Tools.AutoRestart
             timer.AutoReset = true;
             timer.Elapsed += TimeUp;
 
-            if (IsAutoStart)
+            if (ToolAttr.IsAutoStart)
             {
                 timer.Start();
             }
@@ -57,8 +58,8 @@ namespace CQPMonitor.Tools.AutoRestart
 
         private void InitUI()
         {
-            radioButton1.Checked = IsAutoStart;
-            radioButton2.Checked = !IsAutoStart;
+            radioButton1.Checked = ToolAttr.IsAutoStart;
+            radioButton2.Checked = !ToolAttr.IsAutoStart;
 
             string MaxMissLimit_Config = Common.GetConfig("MaxMissLimit");
             if (!string.IsNullOrEmpty(MaxMissLimit_Config))
@@ -100,6 +101,10 @@ namespace CQPMonitor.Tools.AutoRestart
             {
                 MissHeartCount++;
                 SetState("失联计数：" + MissHeartCount.ToString());
+            }
+            else
+            {
+                SetState("正常");
             }
 
             if (MissHeartCount > MaxMissLimit)

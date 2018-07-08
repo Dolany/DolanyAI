@@ -45,13 +45,13 @@
             this.label1 = new System.Windows.Forms.Label();
             this.CurStateLbl = new System.Windows.Forms.Label();
             this.groupBox4 = new System.Windows.Forms.GroupBox();
-            this.label2 = new System.Windows.Forms.Label();
-            this.RefreshFreqTxt = new System.Windows.Forms.TextBox();
-            this.label3 = new System.Windows.Forms.Label();
-            this.MaxMissCountTxt = new System.Windows.Forms.TextBox();
-            this.label4 = new System.Windows.Forms.Label();
-            this.LogShowCountTxt = new System.Windows.Forms.TextBox();
             this.SaveBtn = new System.Windows.Forms.Button();
+            this.LogShowCountTxt = new System.Windows.Forms.TextBox();
+            this.label4 = new System.Windows.Forms.Label();
+            this.MaxMissCountTxt = new System.Windows.Forms.TextBox();
+            this.label3 = new System.Windows.Forms.Label();
+            this.RefreshFreqTxt = new System.Windows.Forms.TextBox();
+            this.label2 = new System.Windows.Forms.Label();
             this.contextMenuStrip1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.ShowTable)).BeginInit();
             this.groupBox1.SuspendLayout();
@@ -206,7 +206,7 @@
             // CurStateLbl
             // 
             this.CurStateLbl.AutoSize = true;
-            this.CurStateLbl.Location = new System.Drawing.Point(110, 17);
+            this.CurStateLbl.Location = new System.Drawing.Point(100, 17);
             this.CurStateLbl.Name = "CurStateLbl";
             this.CurStateLbl.Size = new System.Drawing.Size(29, 12);
             this.CurStateLbl.TabIndex = 8;
@@ -228,39 +228,23 @@
             this.groupBox4.TabStop = false;
             this.groupBox4.Text = "设置";
             // 
-            // label2
+            // SaveBtn
             // 
-            this.label2.AutoSize = true;
-            this.label2.Location = new System.Drawing.Point(4, 28);
-            this.label2.Name = "label2";
-            this.label2.Size = new System.Drawing.Size(77, 12);
-            this.label2.TabIndex = 0;
-            this.label2.Text = "检查频率(秒)";
+            this.SaveBtn.Location = new System.Drawing.Point(87, 229);
+            this.SaveBtn.Name = "SaveBtn";
+            this.SaveBtn.Size = new System.Drawing.Size(75, 23);
+            this.SaveBtn.TabIndex = 6;
+            this.SaveBtn.Text = "保存";
+            this.SaveBtn.UseVisualStyleBackColor = true;
+            this.SaveBtn.Click += new System.EventHandler(this.SaveBtn_Click);
             // 
-            // RefreshFreqTxt
+            // LogShowCountTxt
             // 
-            this.RefreshFreqTxt.Location = new System.Drawing.Point(83, 25);
-            this.RefreshFreqTxt.Name = "RefreshFreqTxt";
-            this.RefreshFreqTxt.RightToLeft = System.Windows.Forms.RightToLeft.Yes;
-            this.RefreshFreqTxt.Size = new System.Drawing.Size(79, 21);
-            this.RefreshFreqTxt.TabIndex = 1;
-            // 
-            // label3
-            // 
-            this.label3.AutoSize = true;
-            this.label3.Location = new System.Drawing.Point(4, 61);
-            this.label3.Name = "label3";
-            this.label3.Size = new System.Drawing.Size(77, 12);
-            this.label3.TabIndex = 2;
-            this.label3.Text = "最大失联计数";
-            // 
-            // MaxMissCountTxt
-            // 
-            this.MaxMissCountTxt.Location = new System.Drawing.Point(83, 58);
-            this.MaxMissCountTxt.Name = "MaxMissCountTxt";
-            this.MaxMissCountTxt.RightToLeft = System.Windows.Forms.RightToLeft.Yes;
-            this.MaxMissCountTxt.Size = new System.Drawing.Size(79, 21);
-            this.MaxMissCountTxt.TabIndex = 3;
+            this.LogShowCountTxt.Location = new System.Drawing.Point(83, 88);
+            this.LogShowCountTxt.Name = "LogShowCountTxt";
+            this.LogShowCountTxt.RightToLeft = System.Windows.Forms.RightToLeft.Yes;
+            this.LogShowCountTxt.Size = new System.Drawing.Size(79, 21);
+            this.LogShowCountTxt.TabIndex = 5;
             // 
             // label4
             // 
@@ -271,23 +255,39 @@
             this.label4.TabIndex = 4;
             this.label4.Text = "日志显示行数";
             // 
-            // LogShowCountTxt
+            // MaxMissCountTxt
             // 
-            this.LogShowCountTxt.Location = new System.Drawing.Point(83, 88);
-            this.LogShowCountTxt.Name = "LogShowCountTxt";
-            this.LogShowCountTxt.RightToLeft = System.Windows.Forms.RightToLeft.Yes;
-            this.LogShowCountTxt.Size = new System.Drawing.Size(79, 21);
-            this.LogShowCountTxt.TabIndex = 5;
+            this.MaxMissCountTxt.Location = new System.Drawing.Point(83, 58);
+            this.MaxMissCountTxt.Name = "MaxMissCountTxt";
+            this.MaxMissCountTxt.RightToLeft = System.Windows.Forms.RightToLeft.Yes;
+            this.MaxMissCountTxt.Size = new System.Drawing.Size(79, 21);
+            this.MaxMissCountTxt.TabIndex = 3;
             // 
-            // SaveBtn
+            // label3
             // 
-            this.SaveBtn.Location = new System.Drawing.Point(87, 229);
-            this.SaveBtn.Name = "SaveBtn";
-            this.SaveBtn.Size = new System.Drawing.Size(75, 23);
-            this.SaveBtn.TabIndex = 6;
-            this.SaveBtn.Text = "保存";
-            this.SaveBtn.UseVisualStyleBackColor = true;
-            this.SaveBtn.Click += new System.EventHandler(this.SaveBtn_Click);
+            this.label3.AutoSize = true;
+            this.label3.Location = new System.Drawing.Point(4, 61);
+            this.label3.Name = "label3";
+            this.label3.Size = new System.Drawing.Size(77, 12);
+            this.label3.TabIndex = 2;
+            this.label3.Text = "最大失联计数";
+            // 
+            // RefreshFreqTxt
+            // 
+            this.RefreshFreqTxt.Location = new System.Drawing.Point(83, 25);
+            this.RefreshFreqTxt.Name = "RefreshFreqTxt";
+            this.RefreshFreqTxt.RightToLeft = System.Windows.Forms.RightToLeft.Yes;
+            this.RefreshFreqTxt.Size = new System.Drawing.Size(79, 21);
+            this.RefreshFreqTxt.TabIndex = 1;
+            // 
+            // label2
+            // 
+            this.label2.AutoSize = true;
+            this.label2.Location = new System.Drawing.Point(4, 28);
+            this.label2.Name = "label2";
+            this.label2.Size = new System.Drawing.Size(77, 12);
+            this.label2.TabIndex = 0;
+            this.label2.Text = "检查频率(秒)";
             // 
             // AutoRestartForm
             // 

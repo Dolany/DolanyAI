@@ -12,11 +12,15 @@ namespace CQPMonitor.Tools
     {
         private string ImagePath = "./Image/";
 
-        public string ToolName { get; set; }
-        public string Decription { get; set; }
-        public string ToolIcon { get; set; }
-        public bool IsAutoStart { get; set; }
-        public int Order { get; set; }
+        public ToolAttribute ToolAttr
+        {
+            get
+            {
+                Type t = this.GetType();
+                return t.GetCustomAttributes(typeof(ToolAttribute), false).First() as ToolAttribute;
+            }
+        }
+
         public dolanyToolCon RelatedControl { get; set; }
 
         public ToolBaseForm()
@@ -36,7 +40,7 @@ namespace CQPMonitor.Tools
             MinimizeBox = false;
             try
             {
-                Icon = new System.Drawing.Icon(ImagePath + ToolIcon);
+                Icon = new System.Drawing.Icon(ImagePath + ToolAttr.ToolIcon);
             }
             catch { }
             Show();

@@ -13,6 +13,13 @@ using System.IO;
 
 namespace CQPMonitor.Tools.CleanPicCache
 {
+    [Tool(
+        ToolName = "清理图片缓存",
+        Decription = "清理图片缓存",
+        ToolIcon = "cleancache.ico",
+        IsAutoStart = true,
+        Order = 2
+        )]
     public partial class CleanPicCacheForm : ToolBaseForm
     {
         private string CachePath = "./data/image/";
@@ -25,12 +32,6 @@ namespace CQPMonitor.Tools.CleanPicCache
         public CleanPicCacheForm()
             : base()
         {
-            ToolName = "清理图片缓存";
-            Decription = "清理图片缓存";
-            ToolIcon = "cleancache.ico";
-            IsAutoStart = true;
-            Order = 2;
-
             InitializeComponent();
 
             Init();
@@ -55,7 +56,7 @@ namespace CQPMonitor.Tools.CleanPicCache
             timer.Enabled = true;
             timer.Elapsed += TimeUp;
 
-            if (IsAutoStart)
+            if (ToolAttr.IsAutoStart)
             {
                 timer.Start();
                 radioButton1.Checked = true;

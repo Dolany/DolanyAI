@@ -41,7 +41,7 @@ namespace CQPMonitor
                 Tools.Add(tool);
             }
 
-            Tools = Tools.OrderBy(t => t.Order).ToList();
+            Tools = Tools.OrderBy(t => t.ToolAttr.Order).ToList();
         }
 
         private void LayoutTools()
@@ -55,10 +55,10 @@ namespace CQPMonitor
         private void LayoutTool(ToolBaseForm tool)
         {
             dolanyToolCon dolanyTool = new dolanyToolCon(
-                tool.ToolName,
+                tool.ToolAttr.ToolName,
                 "",
-                tool.Decription,
-                ImagePath + tool.ToolIcon
+                tool.ToolAttr.Decription,
+                ImagePath + tool.ToolAttr.ToolIcon
                 );
 
             dolanyTool.Parent = MainPanel;

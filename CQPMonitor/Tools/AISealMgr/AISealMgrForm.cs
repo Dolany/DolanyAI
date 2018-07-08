@@ -11,16 +11,17 @@ using System.Windows.Forms;
 
 namespace CQPMonitor.Tools.AISealMgr
 {
+    [Tool(
+        ToolName = "AI封禁管理",
+        Decription = "AI封禁管理",
+        ToolIcon = "aiseal.ico",
+        IsAutoStart = false,
+        Order = 4
+        )]
     public partial class AISealMgrForm : ToolBaseForm
     {
         public AISealMgrForm()
         {
-            ToolName = "AI封禁管理";
-            Decription = "AI封禁管理";
-            ToolIcon = "aiseal.ico";
-            IsAutoStart = true;
-            Order = 4;
-
             InitializeComponent();
         }
     }
