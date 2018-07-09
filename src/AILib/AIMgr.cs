@@ -54,7 +54,10 @@ namespace AILib
         /// <param name="ConfigDTO">AI配置DTO</param>
         public void StartAIs()
         {
-            AIList = AIList.OrderByDescending(a => a.Value.AIAttr.PriorityLevel).ToList();
+            AIList = AIList.OrderByDescending(a => a.Value.AIAttr.PriorityLevel)
+                           .GroupBy(a => a.Value.AIAttr.Name)
+                           .Select(g => g.First())
+                           .ToList();
             foreach (var ai in AIList)
             {
                 ai.Value.Work();
@@ -109,24 +112,17 @@ namespace AILib
 
         private void GroupMsgCallBack(GroupMsgDTO MsgDTO)
         {
-            try
+            foreach (var ai in AIList)
             {
-                foreach (var ai in AIList)
+                if (IsAiSealed(MsgDTO, ai.Value))
                 {
-                    if (IsAiSealed(MsgDTO, ai.Value))
-                    {
-                        continue;
-                    }
-
-                    if (ai.Value.OnGroupMsgReceived(MsgDTO))
-                    {
-                        break;
-                    }
+                    continue;
                 }
-            }
-            catch (Exception ex)
-            {
-                Common.SendMsgToDeveloper(ex);
+
+                if (ai.Value.OnGroupMsgReceived(MsgDTO))
+                {
+                    break;
+                }
             }
         }
 
