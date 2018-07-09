@@ -5,9 +5,11 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Xml.Linq;
 using AILib.Entities;
+using System.ComponentModel.Composition;
 
 namespace AILib
 {
+    [Export(typeof(AIBase))]
     [AI(
         Name = "Publisher",
         Description = "AI for Publishing Developing Record.",
@@ -16,8 +18,8 @@ namespace AILib
         )]
     public class Publisher : AIBase
     {
-        public Publisher(AIConfigDTO ConfigDTO)
-            : base(ConfigDTO)
+        public Publisher()
+            : base()
         {
         }
 
@@ -50,29 +52,29 @@ namespace AILib
             )]
         public void PublishTo(PrivateMsgDTO MsgDTO, object[] param)
         {
-            string Rec = GetRecByIndex(param[1] as string);
-            long groupNum = (long)param[0];
-            if (groupNum == 0)
-            {
-                foreach (var group in ConfigDTO.AimGroups)
-                {
-                    MsgSender.Instance.PushMsg(new SendMsgDTO()
-                    {
-                        Aim = group,
-                        Type = MsgType.Group,
-                        Msg = Rec
-                    });
-                }
-            }
-            else
-            {
-                MsgSender.Instance.PushMsg(new SendMsgDTO()
-                {
-                    Aim = groupNum,
-                    Type = MsgType.Group,
-                    Msg = Rec
-                });
-            }
+            //string Rec = GetRecByIndex(param[1] as string);
+            //long groupNum = (long)param[0];
+            //if (groupNum == 0)
+            //{
+            //    foreach (var group in ConfigDTO.AimGroups)
+            //    {
+            //        MsgSender.Instance.PushMsg(new SendMsgDTO()
+            //        {
+            //            Aim = group,
+            //            Type = MsgType.Group,
+            //            Msg = Rec
+            //        });
+            //    }
+            //}
+            //else
+            //{
+            //    MsgSender.Instance.PushMsg(new SendMsgDTO()
+            //    {
+            //        Aim = groupNum,
+            //        Type = MsgType.Group,
+            //        Msg = Rec
+            //    });
+            //}
         }
 
         private void PublishRec(string msg)

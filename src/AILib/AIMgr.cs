@@ -6,23 +6,27 @@ using System.Threading.Tasks;
 using System.Reflection;
 using Flexlive.CQP.Framework.Utils;
 using AILib.Entities;
+using System.ComponentModel.Composition;
 
 namespace AILib
 {
     /// <summary>
     /// AI管理类
     /// </summary>
-    public static class AIMgr
+    public class AIMgr
     {
         // 当前加载的AI列表
-        public static List<AIBase> AIList;
+        [ImportMany(typeof(AIBase))]
+        public IEnumerable<Lazy<AIBase>> AIList;
 
-        public static MsgReceiveCache MsgReceiveCache;
+        public MsgReceiveCache MsgReceiveCache;
 
-        public static DirtyFilter Filter;
+        public DirtyFilter Filter;
+
+        private static AIMgr _instance;
 
         // 所有可用的AI列表
-        public static List<AIInfoDTO> AllAIs
+        public List<AIInfoDTO> AllAIs
         {
             get
             {
@@ -53,72 +57,52 @@ namespace AILib
             }
         }
 
-        public static List<EnterCommandAttribute> AllAvailableCommands { get; private set; }
+        public List<EnterCommandAttribute> AllAvailableCommands { get; private set; }
+
+        public static AIMgr Instance
+        {
+            get
+            {
+                if (_instance == null)
+                {
+                    _instance = new AIMgr();
+                }
+
+                return _instance;
+            }
+        }
+
+        public AIMgr()
+        {
+            this.ComposePartsSelf();
+
+            Init();
+        }
 
         /// <summary>
         /// 加载指定列表中的AI
         /// </summary>
         /// <param name="AINames">AI名称列表</param>
         /// <param name="ConfigDTO">AI配置DTO</param>
-        public static void StartAIs(IEnumerable<string> AINames, AIConfigDTO ConfigDTO)
+        public void StartAIs()
         {
-            Init();
-
-            Assembly assembly = Assembly.GetExecutingAssembly();
-            Type[] typeArr = assembly.GetTypes();
-
-            foreach (Type t in typeArr)
-            {
-                CreateAI(AINames, ConfigDTO, t, assembly);
-            }
-
-            AIList = AIList.OrderByDescending(a => a.PriorityLevel).ToList();
+            AIList = AIList.OrderByDescending(a => a.Value.PriorityLevel).ToList();
             foreach (var ai in AIList)
             {
-                ai.Work();
+                ai.Value.Work();
 
-                LoadCommands(ai);
+                LoadCommands(ai.Value);
             }
         }
 
-        private static void Init()
+        private void Init()
         {
-            AIList = new List<AIBase>();
             MsgReceiveCache = new MsgReceiveCache(GroupMsgCallBack);
             AllAvailableCommands = new List<EnterCommandAttribute>();
             Filter = new DirtyFilter();
         }
 
-        private static void CreateAI(IEnumerable<string> AINames, AIConfigDTO ConfigDTO, Type t, Assembly assembly)
-        {
-            object[] attributes = t.GetCustomAttributes(typeof(AIAttribute), false);
-            if (attributes.Length <= 0 || !(attributes[0] is AIAttribute))
-            {
-                return;
-            }
-            AIAttribute attr = attributes[0] as AIAttribute;
-            if (!AINames.Contains(attr.Name))
-            {
-                return;
-            }
-
-            AIBase ai = assembly.CreateInstance(
-                t.FullName,
-                true,
-                BindingFlags.Default,
-                null,
-                new object[] { ConfigDTO },
-                null,
-                null
-                ) as AIBase;
-            if (ai != null)
-            {
-                ai.PriorityLevel = attr.PriorityLevel;
-                AIList.Add(ai);
-            }
-        }
-
-        private static void LoadCommands(AIBase ai)
+        private void LoadCommands(AIBase ai)
         {
             Type t = ai.GetType();
             foreach (var method in t.GetMethods())
@@ -135,7 +119,7 @@ namespace AILib
         /// 处理群组消息收到事件
         /// </summary>
         /// <param name="MsgDTO"></param>
-        public static void OnGroupMsgReceived(GroupMsgDTO MsgDTO)
+        public void OnGroupMsgReceived(GroupMsgDTO MsgDTO)
         {
             if (AIList.IsNullOrEmpty())
             {
@@ -155,18 +139,18 @@ namespace AILib
             MsgReceiveCache.PushMsg(MsgDTO);
         }
 
-        private static void GroupMsgCallBack(GroupMsgDTO MsgDTO)
+        private void GroupMsgCallBack(GroupMsgDTO MsgDTO)
         {
             try
             {
                 foreach (var ai in AIList)
                 {
-                    if (IsAiSealed(MsgDTO, ai))
+                    if (IsAiSealed(MsgDTO, ai.Value))
                     {
                         continue;
                     }
 
-                    if (ai.OnGroupMsgReceived(MsgDTO))
+                    if (ai.Value.OnGroupMsgReceived(MsgDTO))
                     {
                         break;
                     }
@@ -178,7 +162,7 @@ namespace AILib
             }
         }
 
-        private static bool IsAiSealed(GroupMsgDTO MsgDTO, AIBase ai)
+        private bool IsAiSealed(GroupMsgDTO MsgDTO, AIBase ai)
         {
             var query = DbMgr.Query<AISealEntity>(s => s.GroupNum == MsgDTO.fromGroup && s.Content == ai.GetType().Name);
             return !query.IsNullOrEmpty();
@@ -188,7 +172,7 @@ namespace AILib
         /// 处理私聊消息收到事件
         /// </summary>
         /// <param name="MsgDTO"></param>
-        public static void OnPrivateMsgReceived(PrivateMsgDTO MsgDTO)
+        public void OnPrivateMsgReceived(PrivateMsgDTO MsgDTO)
         {
             if (AIList.IsNullOrEmpty())
             {
@@ -206,7 +190,7 @@ namespace AILib
 
             foreach (var ai in AIList)
             {
-                ai.OnPrivateMsgReceived(MsgDTO);
+                ai.Value.OnPrivateMsgReceived(MsgDTO);
             }
         }
 
@@ -215,7 +199,7 @@ namespace AILib
         /// </summary>
         /// <param name="msg"></param>
         /// <returns></returns>
-        private static string GenCommand(ref string msg)
+        private string GenCommand(ref string msg)
         {
             if (string.IsNullOrEmpty(msg))
             {

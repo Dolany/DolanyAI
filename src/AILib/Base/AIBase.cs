@@ -12,14 +12,20 @@ namespace AILib
 {
     public abstract class AIBase
     {
-        public AIConfigDTO ConfigDTO { get; set; }
-        public int PriorityLevel { get; set; }
+        public int PriorityLevel
+        {
+            get
+            {
+                Type t = this.GetType();
+                var prop = t.GetCustomAttribute(typeof(AIAttribute)) as AIAttribute;
+                return prop.PriorityLevel;
+            }
+        }
 
         public abstract void Work();
 
-        public AIBase(AIConfigDTO ConfigDTO)
+        public AIBase()
         {
-            this.ConfigDTO = ConfigDTO;
         }
 
         public virtual bool OnGroupMsgReceived(GroupMsgDTO MsgDTO)

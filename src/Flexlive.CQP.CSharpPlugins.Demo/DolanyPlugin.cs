@@ -60,29 +60,15 @@ namespace Flexlive.CQP.CSharpPlugins.Demo
                 RuntimeLogger.Log("start up");
                 DbMgr.InitXmls();
 
-                // 获取可用AI列表
-                var AIs = AIMgr.AllAIs;
-                if (AIs.Count == 0)
-                {
-                    Common.SendMsgToDeveloper("加载ai列表失败");
-                }
-
                 RuntimeLogger.Log("加载所有可用AI");
-                List<string> l = new List<string>();
-                foreach (var ai in AIs)
-                {
-                    l.Add(ai.Name);
-                }
-                AIMgr.StartAIs(l.ToArray(), new AIConfigDTO()
-                {
-                    AimGroups = GroupList
-                });
 
-                var allais = AIMgr.AllAIs;
-                string msg = $@"成功加载{allais.Count}个ai";
+                AIMgr.Instance.StartAIs();
+
+                var allais = AIMgr.Instance.AllAIs;
+                string msg = $@"成功加载{allais.Count}个ai /r";
                 foreach (var ai in allais)
                 {
-                    msg += '\r' + ai.Name + ":" + ai.Description;
+                    msg += ai.Name + " ";
                 }
 
                 Common.SendMsgToDeveloper(msg);
@@ -117,7 +103,7 @@ namespace Flexlive.CQP.CSharpPlugins.Demo
             RuntimeLogger.Log($"receive private message: fromQQ:{fromQQ} msg:{msg} time:{DateTime.Now}");
             try
             {
-                AIMgr.OnPrivateMsgReceived(new PrivateMsgDTO()
+                AIMgr.Instance.OnPrivateMsgReceived(new PrivateMsgDTO()
                 {
                     subType = subType,
                     sendTime = sendTime,
@@ -148,7 +134,7 @@ namespace Flexlive.CQP.CSharpPlugins.Demo
             // 处理群消息。
             try
             {
-                AIMgr.OnGroupMsgReceived(new GroupMsgDTO()
+                AIMgr.Instance.OnGroupMsgReceived(new GroupMsgDTO()
                 {
                     subType = subType,
                     sendTime = sendTime,

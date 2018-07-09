@@ -5,9 +5,11 @@ using System.Text;
 using System.Threading;
 using AILib.Entities;
 using Flexlive.CQP.Framework.Utils;
+using System.ComponentModel.Composition;
 
 namespace AILib
 {
+    [Export(typeof(AIBase))]
     [AI(
         Name = "PlusOneAI",
         Description = "AI for Auto Plus One.",
@@ -18,8 +20,8 @@ namespace AILib
     {
         private List<PlusOneCache> Cache = new List<PlusOneCache>();
 
-        public PlusOneAI(AIConfigDTO ConfigDTO)
-            : base(ConfigDTO)
+        public PlusOneAI()
+            : base()
         {
             RuntimeLogger.Log("PlusOneAI started");
         }

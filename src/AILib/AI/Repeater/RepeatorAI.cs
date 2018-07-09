@@ -5,9 +5,11 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Threading;
 using AILib.Entities;
+using System.ComponentModel.Composition;
 
 namespace AILib
 {
+    [Export(typeof(AIBase))]
     [AI(
         Name = "RepeatorAI",
         Description = "AI for Repeating Random words.",
@@ -24,8 +26,8 @@ namespace AILib
 
         private object lockObj = new object();
 
-        public RepeatorAI(AIConfigDTO ConfigDTO)
-            : base(ConfigDTO)
+        public RepeatorAI()
+            : base()
         {
         }
 
@@ -46,7 +48,7 @@ namespace AILib
                 return false;
             }
 
-            if (AIMgr.AllAvailableCommands.Select(p => p.Command).Contains(MsgDTO.command))
+            if (AIMgr.Instance.AllAvailableCommands.Select(p => p.Command).Contains(MsgDTO.command))
             {
                 return false;
             }

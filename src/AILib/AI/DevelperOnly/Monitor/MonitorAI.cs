@@ -5,9 +5,11 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Timers;
 using AILib.Entities;
+using System.ComponentModel.Composition;
 
 namespace AILib
 {
+    [Export(typeof(AIBase))]
     [AI(
         Name = "MonitorAI",
         Description = "AI for Monitor Ais status and emitting heart beat.",
@@ -19,8 +21,8 @@ namespace AILib
         private int CheckFrequency = 10;
         private Timer timer = new Timer();
 
-        public MonitorAI(AIConfigDTO ConfigDTO)
-            : base(ConfigDTO)
+        public MonitorAI()
+            : base()
         {
             timer.Interval = CheckFrequency * 1000;
             timer.Elapsed += TimeUp;
@@ -112,7 +114,7 @@ namespace AILib
 
         private string GetAiRealName(string aiName)
         {
-            var list = AIMgr.AIList;
+            var list = AIMgr.Instance.AIList;
             foreach (var ai in list)
             {
                 Type t = ai.GetType();

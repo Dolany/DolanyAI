@@ -6,9 +6,11 @@ using System.Threading.Tasks;
 using Flexlive.CQP.Framework.Utils;
 using AILib.Entities;
 using Flexlive.CQP.Framework;
+using System.ComponentModel.Composition;
 
 namespace AILib
 {
+    [Export(typeof(AIBase))]
     [AI(
         Name = "HelloAI",
         Description = "AI for Saying Hello to you at everyday you say at the first time in one group.",
@@ -17,8 +19,8 @@ namespace AILib
         )]
     public class HelloAI : AIBase
     {
-        public HelloAI(AIConfigDTO ConfigDTO)
-            : base(ConfigDTO)
+        public HelloAI()
+            : base()
         {
             RuntimeLogger.Log("HelloAI started.");
         }

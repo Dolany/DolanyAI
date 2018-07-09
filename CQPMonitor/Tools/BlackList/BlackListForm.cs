@@ -118,5 +118,13 @@ namespace CQPMonitor.Tools.BlackList
             DbMgr.Delete<DirtyWordEntity>(DirtyWordList[curRow.Index].Id);
             RefreshDirtyWordsTable();
         }
+
+        public override void Shutdown()
+        {
+            base.Shutdown();
+
+            timer.Stop();
+            timer.Enabled = false;
+        }
     }
 }

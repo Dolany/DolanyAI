@@ -5,9 +5,11 @@ using System.Text;
 using System.Threading.Tasks;
 using Flexlive.CQP.Framework.Utils;
 using AILib.Entities;
+using System.ComponentModel.Composition;
 
 namespace AILib
 {
+    [Export(typeof(AIBase))]
     [AI(
         Name = "FortuneAI",
         Description = "AI for Fortune.",
@@ -16,8 +18,8 @@ namespace AILib
         )]
     public class FortuneAI : AIBase
     {
-        public FortuneAI(AIConfigDTO ConfigDTO)
-            : base(ConfigDTO)
+        public FortuneAI()
+            : base()
         {
             RuntimeLogger.Log("FortuneAI started.");
         }

@@ -7,6 +7,7 @@ using AILib.Entities;
 using Flexlive.CQP.Framework;
 using System.Timers;
 using Flexlive.CQP.Framework.Utils;
+using System.ComponentModel.Composition;
 
 namespace AILib
 {
@@ -15,6 +16,7 @@ namespace AILib
         public AlermClockEntity ClockEntity { get; set; }
     }
 
+    [Export(typeof(AIBase))]
     [AI(
         Name = "AlermClockAI",
         Description = "AI for Alerm Clock.",
@@ -25,8 +27,8 @@ namespace AILib
     {
         private List<TimerEx> ClockList = new List<TimerEx>();
 
-        public AlermClockAI(AIConfigDTO ConfigDTO)
-            : base(ConfigDTO)
+        public AlermClockAI()
+            : base()
         {
             RuntimeLogger.Log("AlermClockAI constructed");
         }

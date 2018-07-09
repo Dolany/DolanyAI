@@ -3,9 +3,11 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.ComponentModel.Composition;
 
 namespace AILib
 {
+    [Export(typeof(AIBase))]
     [AI(
         Name = "HelperAI",
         Description = "AI for Getting Help Infos.",
@@ -14,8 +16,8 @@ namespace AILib
         )]
     public class HelperAI : AIBase
     {
-        public HelperAI(AIConfigDTO ConfigDTO)
-            : base(ConfigDTO)
+        public HelperAI()
+            : base()
         {
         }
 
@@ -71,7 +73,7 @@ namespace AILib
 
         private IEnumerable<EnterCommandAttribute> GetCommandAttrs()
         {
-            return AIMgr.AllAvailableCommands
+            return AIMgr.Instance.AllAvailableCommands
                 .Where(c => c.SourceType == MsgType.Group)
                 .GroupBy(c => c.Tag)
                 .Select(p => p.First());
@@ -79,7 +81,7 @@ namespace AILib
 
         public bool HelpCommand(GroupMsgDTO MsgDTO)
         {
-            var commands = AIMgr.AllAvailableCommands.Where(c => c.Command == MsgDTO.msg && c.SourceType == MsgType.Group);
+            var commands = AIMgr.Instance.AllAvailableCommands.Where(c => c.Command == MsgDTO.msg && c.SourceType == MsgType.Group);
             if (commands.IsNullOrEmpty())
             {
                 return false;
@@ -103,7 +105,7 @@ namespace AILib
 
         public bool HelpTag(GroupMsgDTO MsgDTO)
         {
-            var commands = AIMgr.AllAvailableCommands.Where(c => c.Tag == MsgDTO.msg && c.SourceType == MsgType.Group);
+            var commands = AIMgr.Instance.AllAvailableCommands.Where(c => c.Tag == MsgDTO.msg && c.SourceType == MsgType.Group);
             if (commands.IsNullOrEmpty())
             {
                 return false;

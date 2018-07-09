@@ -4,9 +4,11 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using AILib.AI.Jump300Report;
+using System.ComponentModel.Composition;
 
 namespace AILib
 {
+    [Export(typeof(AIBase))]
     [AI(
         Name = "Jump300ReportAI",
         Description = "AI for 300 heros report.",
@@ -15,8 +17,8 @@ namespace AILib
         )]
     public class Jump300ReportAI : AIBase
     {
-        public Jump300ReportAI(AIConfigDTO ConfigDTO)
-            : base(ConfigDTO)
+        public Jump300ReportAI()
+            : base()
         {
         }
 

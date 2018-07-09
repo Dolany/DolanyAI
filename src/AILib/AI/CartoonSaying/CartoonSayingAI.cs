@@ -4,9 +4,11 @@ using System.Linq;
 using System.Xml.Linq;
 using AILib.Entities;
 using Flexlive.CQP.Framework.Utils;
+using System.ComponentModel.Composition;
 
 namespace AILib
 {
+    [Export(typeof(AIBase))]
     [AI(
         Name = "CartoonSayingAI",
         Description = "AI for Cartoon Sayings.",
@@ -24,8 +26,8 @@ namespace AILib
             }
         }
 
-        public CartoonSayingAI(AIConfigDTO ConfigDTO)
-            : base(ConfigDTO)
+        public CartoonSayingAI()
+            : base()
         {
             RuntimeLogger.Log("CartoonSayingAI constructed");
         }

@@ -3,9 +3,11 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using Flexlive.CQP.Framework.Utils;
+using System.ComponentModel.Composition;
 
 namespace AILib
 {
+    [Export(typeof(AIBase))]
     [AI(
         Name = "HourAlertAI",
         Description = "AI for Hour Alert.",
@@ -38,8 +40,8 @@ namespace AILib
             }
         }
 
-        public HourAlertAI(AIConfigDTO ConfigDTO)
-            : base(ConfigDTO)
+        public HourAlertAI()
+            : base()
         {
             RuntimeLogger.Log("HourAlertAI started");
         }

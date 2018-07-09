@@ -5,9 +5,11 @@ using System.Text;
 using System.Threading.Tasks;
 using Flexlive.CQP.Framework.Utils;
 using AILib.Entities;
+using System.ComponentModel.Composition;
 
 namespace AILib
 {
+    [Export(typeof(AIBase))]
     [AI(
         Name = "CharactorSettingAI",
         Description = "AI for Setting a Charactor.",
@@ -19,8 +21,8 @@ namespace AILib
         private int MaxCharNumPerQQ = 10;
         private int MaxSettingPerChar = 7;
 
-        public CharactorSettingAI(AIConfigDTO ConfigDTO)
-            : base(ConfigDTO)
+        public CharactorSettingAI()
+            : base()
         {
             RuntimeLogger.Log("CharactorSettingAI constructed");
         }

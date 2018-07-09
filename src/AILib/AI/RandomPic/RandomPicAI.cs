@@ -7,9 +7,11 @@ using AILib.Entities;
 using System.IO;
 using Flexlive.CQP.Framework;
 using Flexlive.CQP.Framework.Utils;
+using System.ComponentModel.Composition;
 
 namespace AILib
 {
+    [Export(typeof(AIBase))]
     [AI(
         Name = "RandomPicAI",
         Description = "AI for Sending Random Pic By Keyword.",
@@ -21,8 +23,8 @@ namespace AILib
         private string PicPath = "data/image/";
         private List<string> Keywords = new List<string>();
 
-        public RandomPicAI(AIConfigDTO ConfigDTO)
-            : base(ConfigDTO)
+        public RandomPicAI()
+            : base()
         {
             RuntimeLogger.Log("RandomPicAI started.");
         }

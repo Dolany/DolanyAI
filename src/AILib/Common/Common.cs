@@ -5,6 +5,9 @@ using System.Text;
 using System.Threading.Tasks;
 using Flexlive.CQP.Framework;
 using AILib.Entities;
+using System.ComponentModel.Composition;
+using System.Reflection;
+using System.ComponentModel.Composition.Hosting;
 
 namespace AILib
 {
@@ -96,6 +99,20 @@ namespace AILib
             }
 
             return query.First().Content;
+        }
+
+        public static T ComposePartsSelf<T>(this T obj) where T : class
+        {
+            var catalog = new AggregateCatalog();
+
+            catalog.Catalogs.Add(new AssemblyCatalog(Assembly.GetExecutingAssembly()));
+            catalog.Catalogs.Add(new DirectoryCatalog("."));
+
+            var _container = new CompositionContainer(catalog);
+
+            _container.ComposeParts(obj);
+
+            return obj;
         }
     }
 }
