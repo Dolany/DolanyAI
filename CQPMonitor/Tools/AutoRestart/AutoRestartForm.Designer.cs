@@ -42,6 +42,8 @@
             this.radioButton2 = new System.Windows.Forms.RadioButton();
             this.radioButton1 = new System.Windows.Forms.RadioButton();
             this.groupBox3 = new System.Windows.Forms.GroupBox();
+            this.RestartCountLbl = new System.Windows.Forms.Label();
+            this.label5 = new System.Windows.Forms.Label();
             this.label1 = new System.Windows.Forms.Label();
             this.CurStateLbl = new System.Windows.Forms.Label();
             this.groupBox4 = new System.Windows.Forms.GroupBox();
@@ -187,6 +189,8 @@
             // 
             // groupBox3
             // 
+            this.groupBox3.Controls.Add(this.RestartCountLbl);
+            this.groupBox3.Controls.Add(this.label5);
             this.groupBox3.Controls.Add(this.label1);
             this.groupBox3.Controls.Add(this.CurStateLbl);
             this.groupBox3.Location = new System.Drawing.Point(12, 12);
@@ -195,6 +199,24 @@
             this.groupBox3.TabIndex = 12;
             this.groupBox3.TabStop = false;
             this.groupBox3.Text = "监视";
+            // 
+            // RestartCountLbl
+            // 
+            this.RestartCountLbl.AutoSize = true;
+            this.RestartCountLbl.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
+            this.RestartCountLbl.Location = new System.Drawing.Point(101, 45);
+            this.RestartCountLbl.Name = "RestartCountLbl";
+            this.RestartCountLbl.Size = new System.Drawing.Size(2, 14);
+            this.RestartCountLbl.TabIndex = 10;
+            // 
+            // label5
+            // 
+            this.label5.AutoSize = true;
+            this.label5.Location = new System.Drawing.Point(6, 45);
+            this.label5.Name = "label5";
+            this.label5.Size = new System.Drawing.Size(89, 12);
+            this.label5.TabIndex = 9;
+            this.label5.Text = "24小时重启计数";
             // 
             // label1
             // 
@@ -300,6 +322,7 @@
             this.Controls.Add(this.groupBox3);
             this.Controls.Add(this.groupBox1);
             this.Controls.Add(this.ShowTable);
+            this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.Fixed3D;
             this.Name = "AutoRestartForm";
             this.Text = "重启监视工具";
             this.Load += new System.EventHandler(this.AutoRestartForm_Load);
@@ -340,5 +363,7 @@
         private System.Windows.Forms.Button SaveBtn;
         private System.Windows.Forms.TextBox LogShowCountTxt;
         private System.Windows.Forms.Label label4;
+        private System.Windows.Forms.Label RestartCountLbl;
+        private System.Windows.Forms.Label label5;
     }
 }

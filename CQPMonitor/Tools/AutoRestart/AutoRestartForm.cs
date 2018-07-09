@@ -87,11 +87,25 @@ namespace CQPMonitor.Tools.AutoRestart
                 Restart();
 
                 CheckHeartBeat();
+
+                SetRestartCount();
             }
             catch (Exception ex)
             {
                 Common.SendMsgToDeveloper(ex);
             }
+        }
+
+        private void SetRestartCount()
+        {
+            var query = DbMgr.Query<LogEntity>(l =>
+                l.LogType == "Restart"
+                && l.Content.Contains("Restart")
+                && l.CreateTime >= DateTime.Now.AddDays(-1)
+                );
+
+            int count = query.IsNullOrEmpty() ? 0 : query.Count();
+            RestartCountLbl.Text = count.ToString();
         }
 
         private void CheckHeartBeat()
@@ -213,6 +227,7 @@ namespace CQPMonitor.Tools.AutoRestart
         {
             RefreshTable();
             RefreshTxt();
+            SetRestartCount();
         }
 
         private void RefreshTxt()
