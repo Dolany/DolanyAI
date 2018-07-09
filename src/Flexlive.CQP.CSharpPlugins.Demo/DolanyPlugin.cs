@@ -6,6 +6,7 @@ using System.Collections.Generic;
 using System.Xml.Linq;
 using AILib.Entities;
 using Flexlive.CQP.Framework.Utils;
+using System.Linq;
 
 namespace Flexlive.CQP.CSharpPlugins.Demo
 {
@@ -64,11 +65,11 @@ namespace Flexlive.CQP.CSharpPlugins.Demo
 
                 AIMgr.Instance.StartAIs();
 
-                var allais = AIMgr.Instance.AllAIs;
-                string msg = $@"成功加载{allais.Count}个ai /r";
+                var allais = AIMgr.Instance.AIList;
+                string msg = $@"成功加载{allais.Count()}个ai /r";
                 foreach (var ai in allais)
                 {
-                    msg += ai.Name + " ";
+                    msg += ai.Value.AIAttr.Name + " ";
                 }
 
                 Common.SendMsgToDeveloper(msg);

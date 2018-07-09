@@ -25,38 +25,6 @@ namespace AILib
 
         private static AIMgr _instance;
 
-        // 所有可用的AI列表
-        public List<AIInfoDTO> AllAIs
-        {
-            get
-            {
-                List<AIInfoDTO> list = new List<AIInfoDTO>();
-                Assembly assembly = Assembly.GetExecutingAssembly();
-                Type[] typeArr = assembly.GetTypes();
-
-                foreach (Type t in typeArr)
-                {
-                    object[] attributes = t.GetCustomAttributes(typeof(AIAttribute), false);
-                    if (attributes.Length <= 0 || !(attributes[0] is AIAttribute))
-                    {
-                        continue;
-                    }
-                    AIAttribute attr = attributes[0] as AIAttribute;
-                    if (!attr.IsAvailable)
-                    {
-                        continue;
-                    }
-                    list.Add(new AIInfoDTO()
-                    {
-                        Name = attr.Name,
-                        Description = attr.Description
-                    });
-                }
-
-                return list;
-            }
-        }
-
         public List<EnterCommandAttribute> AllAvailableCommands { get; private set; }
 
         public static AIMgr Instance
@@ -86,7 +54,7 @@ namespace AILib
         /// <param name="ConfigDTO">AI配置DTO</param>
         public void StartAIs()
         {
-            AIList = AIList.OrderByDescending(a => a.Value.PriorityLevel).ToList();
+            AIList = AIList.OrderByDescending(a => a.Value.AIAttr.PriorityLevel).ToList();
             foreach (var ai in AIList)
             {
                 ai.Value.Work();

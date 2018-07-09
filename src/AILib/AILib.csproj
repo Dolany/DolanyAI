@@ -106,7 +106,6 @@
     <Compile Include="Html\HttpRequester.cs" />
     <Compile Include="Common\Logger.cs" />
     <Compile Include="Common\MsgSender.cs" />
-    <Compile Include="DTO\AIInfoDTO.cs" />
     <Compile Include="AI\HourAlert\HourAlertAI.cs" />
     <Compile Include="DTO\GroupMsgDTO.cs" />
     <Compile Include="DTO\PrivateMsgDTO.cs" />

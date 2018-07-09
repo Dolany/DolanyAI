@@ -12,13 +12,13 @@ namespace AILib
 {
     public abstract class AIBase
     {
-        public int PriorityLevel
+        public AIAttribute AIAttr
         {
             get
             {
                 Type t = this.GetType();
                 var prop = t.GetCustomAttribute(typeof(AIAttribute)) as AIAttribute;
-                return prop.PriorityLevel;
+                return prop;
             }
         }
 
