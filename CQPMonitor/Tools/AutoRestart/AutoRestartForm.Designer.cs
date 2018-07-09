@@ -86,6 +86,7 @@
             this.ContentColumn});
             this.ShowTable.ContextMenuStrip = this.contextMenuStrip1;
             this.ShowTable.Location = new System.Drawing.Point(186, 2);
+            this.ShowTable.MultiSelect = false;
             this.ShowTable.Name = "ShowTable";
             this.ShowTable.ReadOnly = true;
             this.ShowTable.RowHeadersVisible = false;
