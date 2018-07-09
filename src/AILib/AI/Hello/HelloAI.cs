@@ -10,7 +10,6 @@ using System.ComponentModel.Composition;
 
 namespace AILib
 {
-    [Export(typeof(AIBase))]
     [AI(
         Name = "HelloAI",
         Description = "AI for Saying Hello to you at everyday you say at the first time in one group.",

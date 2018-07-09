@@ -7,7 +7,6 @@ using System.ComponentModel.Composition;
 
 namespace AILib
 {
-    [Export(typeof(AIBase))]
     [AI(
         Name = "HourAlertAI",
         Description = "AI for Hour Alert.",

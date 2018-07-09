@@ -16,8 +16,8 @@ namespace AILib
     public class AIMgr
     {
         // 当前加载的AI列表
-        [ImportMany(typeof(AIBase))]
-        public IEnumerable<Lazy<AIBase>> AIList;
+        [ImportMany]
+        public IEnumerable<Lazy<AIBase, IAIExportCapabilities>> AIList;
 
         public MsgReceiveCache MsgReceiveCache;
 
@@ -48,14 +48,12 @@ namespace AILib
         }
 
         /// <summary>
-        /// 加载指定列表中的AI
+        /// 加载AI
         /// </summary>
-        /// <param name="AINames">AI名称列表</param>
-        /// <param name="ConfigDTO">AI配置DTO</param>
         public void StartAIs()
         {
-            AIList = AIList.OrderByDescending(a => a.Value.AIAttr.PriorityLevel)
-                           .GroupBy(a => a.Value.AIAttr.Name)
+            AIList = AIList.OrderByDescending(a => a.Metadata.PriorityLevel)
+                           .GroupBy(a => a.Metadata.Name)
                            .Select(g => g.First())
                            .ToList();
             foreach (var ai in AIList)

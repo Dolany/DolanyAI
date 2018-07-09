@@ -11,7 +11,6 @@ using System.ComponentModel.Composition;
 
 namespace AILib
 {
-    [Export(typeof(AIBase))]
     [AI(
         Name = "RandomPicAI",
         Description = "AI for Sending Random Pic By Keyword.",

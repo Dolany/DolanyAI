@@ -9,7 +9,6 @@ using System.ComponentModel.Composition;
 
 namespace AILib
 {
-    [Export(typeof(AIBase))]
     [AI(
         Name = "MonitorAI",
         Description = "AI for Monitor Ais status and emitting heart beat.",

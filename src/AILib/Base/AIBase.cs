@@ -12,16 +12,6 @@ namespace AILib
 {
     public abstract class AIBase
     {
-        public AIAttribute AIAttr
-        {
-            get
-            {
-                Type t = this.GetType();
-                var prop = t.GetCustomAttribute(typeof(AIAttribute)) as AIAttribute;
-                return prop;
-            }
-        }
-
         public abstract void Work();
 
         public AIBase()

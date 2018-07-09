@@ -9,7 +9,6 @@ using System.ComponentModel.Composition;
 
 namespace AILib
 {
-    [Export(typeof(AIBase))]
     [AI(
         Name = "Publisher",
         Description = "AI for Publishing Developing Record.",

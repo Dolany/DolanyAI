@@ -16,7 +16,6 @@ namespace AILib
         public AlermClockEntity ClockEntity { get; set; }
     }
 
-    [Export(typeof(AIBase))]
     [AI(
         Name = "AlermClockAI",
         Description = "AI for Alerm Clock.",

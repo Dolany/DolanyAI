@@ -7,6 +7,7 @@ using System.Xml.Linq;
 using AILib.Entities;
 using Flexlive.CQP.Framework.Utils;
 using System.Linq;
+using System.ComponentModel.Composition;
 
 namespace Flexlive.CQP.CSharpPlugins.Demo
 {
@@ -69,7 +70,7 @@ namespace Flexlive.CQP.CSharpPlugins.Demo
                 string msg = $@"成功加载{allais.Count()}个ai /r/n";
                 foreach (var ai in allais)
                 {
-                    msg += ai.Value.AIAttr.Name + " ";
+                    msg += ai.Metadata.Name + " ";
                 }
 
                 Common.SendMsgToDeveloper(msg);
