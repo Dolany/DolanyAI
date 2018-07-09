@@ -78,6 +78,7 @@
             // 
             this.ShowTable.AllowUserToAddRows = false;
             this.ShowTable.AllowUserToDeleteRows = false;
+            this.ShowTable.AllowUserToResizeRows = false;
             this.ShowTable.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             this.ShowTable.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
             this.CreateTimeColumn,
