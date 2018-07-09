@@ -115,6 +115,10 @@
     <None Include="App.config" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\DolanyToolControl\DolanyToolControl.csproj">
+      <Project>{20ea6e46-2134-4ca3-ac6f-63865762e1e7}</Project>
+      <Name>DolanyToolControl</Name>
+    </ProjectReference>
     <ProjectReference Include="..\src\AILib\AILib.csproj">
       <Project>{0c458874-8035-4426-bc8b-25252760ee82}</Project>
       <Name>AILib</Name>
