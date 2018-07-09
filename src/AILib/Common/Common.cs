@@ -114,5 +114,19 @@ namespace AILib
 
             return obj;
         }
+
+        public static T ComposePartsSelf<T>(this T obj, Assembly assembly) where T : class
+        {
+            var catalog = new AggregateCatalog();
+
+            catalog.Catalogs.Add(new AssemblyCatalog(assembly));
+            catalog.Catalogs.Add(new DirectoryCatalog("."));
+
+            var _container = new CompositionContainer(catalog);
+
+            _container.ComposeParts(obj);
+
+            return obj;
+        }
     }
 }

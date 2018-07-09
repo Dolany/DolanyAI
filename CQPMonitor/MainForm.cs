@@ -11,6 +11,8 @@ using CQPMonitor.Tools;
 using DolanyToolControl;
 using System.IO;
 using System.Reflection;
+using System.ComponentModel.Composition;
+using AILib;
 
 namespace CQPMonitor
 {
@@ -18,11 +20,14 @@ namespace CQPMonitor
     {
         private string ImagePath = "./Image/";
 
-        private List<ToolBaseForm> Tools = new List<ToolBaseForm>();
+        [ImportMany]
+        private IEnumerable<Lazy<ToolBaseForm, IToolCapabilities>> Tools;
 
         public MainForm()
         {
             InitializeComponent();
+
+            this.ComposePartsSelf(Assembly.GetExecutingAssembly());
         }
 
         private void Form1_Load(object sender, EventArgs e)
@@ -33,22 +38,14 @@ namespace CQPMonitor
 
         private void LoadAllTools()
         {
-            Assembly assembly = Assembly.GetExecutingAssembly();
-            var types = assembly.GetTypes().Where(t => t.IsSubclassOf(typeof(ToolBaseForm)));
-            foreach (var t in types)
-            {
-                var tool = assembly.CreateInstance(t.FullName) as ToolBaseForm;
-                Tools.Add(tool);
-            }
-
-            Tools = Tools.OrderBy(t => t.ToolAttr.Order).ToList();
+            Tools = Tools.OrderBy(t => t.Metadata.Order).ToList();
         }
 
         private void LayoutTools()
         {
             foreach (var tool in Tools)
             {
-                LayoutTool(tool);
+                LayoutTool(tool.Value);
             }
         }
 
@@ -71,8 +68,8 @@ namespace CQPMonitor
             if (sender != null || sender is dolanyToolCon)
             {
                 var toolCon = sender as dolanyToolCon;
-                var tool = Tools.Where(t => t.RelatedControl == toolCon).First();
-                tool.ShowTool();
+                var tool = Tools.Where(t => t.Value.RelatedControl == toolCon).First();
+                tool.Value.ShowTool();
             }
         }
 
