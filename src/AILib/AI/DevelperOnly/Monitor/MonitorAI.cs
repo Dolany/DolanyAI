@@ -16,7 +16,7 @@ namespace AILib
         )]
     public class MonitorAI : AIBase
     {
-        private int CheckFrequency = 20;
+        private int CheckFrequency = 10;
         private Timer timer = new Timer();
 
         public MonitorAI(AIConfigDTO ConfigDTO)
