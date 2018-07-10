@@ -15,9 +15,13 @@ namespace AILib
         )]
     public class HelperAI : AIBase
     {
+        [ImportMany(typeof(Action<GroupMsgDTO, object[]>))]
+        public IEnumerable<Lazy<Action<GroupMsgDTO, object[]>, IGroupEnterCommandCapabilities>> AllAvailableGroupCommands;
+
         public HelperAI()
             : base()
         {
+            this.ComposePartsSelf();
         }
 
         public override void Work()
@@ -71,14 +75,14 @@ namespace AILib
 
         private IEnumerable<IGroupEnterCommandCapabilities> GetCommandAttrs()
         {
-            return AIMgr.Instance.AllAvailableGroupCommands
+            return AllAvailableGroupCommands
                 .GroupBy(c => c.Metadata.Tag)
                 .Select(p => p.First().Metadata);
         }
 
         public bool HelpCommand(GroupMsgDTO MsgDTO)
         {
-            var commands = AIMgr.Instance.AllAvailableGroupCommands.Where(c => c.Metadata.Command == MsgDTO.msg);
+            var commands = AllAvailableGroupCommands.Where(c => c.Metadata.Command == MsgDTO.msg);
             if (commands.IsNullOrEmpty())
             {
                 return false;
@@ -102,7 +106,7 @@ namespace AILib
 
         public bool HelpTag(GroupMsgDTO MsgDTO)
         {
-            var commands = AIMgr.Instance.AllAvailableGroupCommands.Where(c => c.Metadata.Tag == MsgDTO.msg);
+            var commands = AllAvailableGroupCommands.Where(c => c.Metadata.Tag == MsgDTO.msg);
             if (commands.IsNullOrEmpty())
             {
                 return false;

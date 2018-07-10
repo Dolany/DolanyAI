@@ -16,7 +16,7 @@ namespace AILib
     public class AIMgr
     {
         // 当前加载的AI列表
-        [ImportMany]
+        [ImportMany(typeof(AIBase))]
         public IEnumerable<Lazy<AIBase, IAIExportCapabilities>> AIList;
 
         public MsgReceiveCache MsgReceiveCache;
@@ -24,9 +24,6 @@ namespace AILib
         public DirtyFilter Filter;
 
         private static AIMgr _instance;
-
-        [ImportMany]
-        public IEnumerable<Lazy<Action<GroupMsgDTO, object[]>, IGroupEnterCommandCapabilities>> AllAvailableGroupCommands { get; set; }
 
         public static AIMgr Instance
         {

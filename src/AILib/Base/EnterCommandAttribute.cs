@@ -16,7 +16,7 @@ namespace AILib
 
     [MetadataAttribute]
     [System.AttributeUsage(System.AttributeTargets.Method, AllowMultiple = true)]
-    public class GroupEnterCommandAttributeAttribute : ExportAttribute
+    public class GroupEnterCommandAttributeAttribute : ExportAttribute, IGroupEnterCommandCapabilities
     {
         public GroupEnterCommandAttributeAttribute()
             : base(typeof(Action<GroupMsgDTO, object[]>))
@@ -43,7 +43,7 @@ namespace AILib
 
     [MetadataAttribute]
     [System.AttributeUsage(System.AttributeTargets.Method, AllowMultiple = true)]
-    public class PrivateEnterCommandAttributeAttribute : ExportAttribute
+    public class PrivateEnterCommandAttributeAttribute : ExportAttribute, IPrivateEnterCommandCapabilities
     {
         public PrivateEnterCommandAttributeAttribute()
             : base(typeof(Action<PrivateMsgDTO, object[]>))
