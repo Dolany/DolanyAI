@@ -35,9 +35,8 @@ namespace AILib
         {
         }
 
-        [EnterCommand(
+        [GroupEnterCommandAttribute(
             Command = "语录",
-            SourceType = MsgType.Group,
             AuthorityLevel = AuthorityLevel.成员,
             Description = "录入语录或者按关键字检索语录",
             Syntax = " 或者 语录 [关键字]; 语录 [出处] [人物] [内容]",
@@ -136,10 +135,8 @@ namespace AILib
             return shownSaying;
         }
 
-        [EnterCommand(
+        [PrivateEnterCommandAttribute(
             Command = "语录总数",
-            SourceType = MsgType.Private,
-            IsDeveloperOnly = true,
             Description = "查询录入的所有语录的总数",
             Syntax = "",
             Tag = "语录功能",
@@ -150,9 +147,8 @@ namespace AILib
             Common.SendMsgToDeveloper($@"共有语录 {SayingList.Count}条");
         }
 
-        [EnterCommand(
+        [GroupEnterCommandAttribute(
             Command = "删除语录",
-            SourceType = MsgType.Group,
             AuthorityLevel = AuthorityLevel.群主,
             Description = "按关键字删除语录",
             Syntax = "[关键字]",
@@ -176,9 +172,8 @@ namespace AILib
             RuntimeLogger.Log("AlermClockAI ClearSayings Complete");
         }
 
-        [EnterCommand(
+        [GroupEnterCommandAttribute(
             Command = "语录封禁",
-            SourceType = MsgType.Group,
             AuthorityLevel = AuthorityLevel.群主,
             Description = "封禁一个群员，让他无法使用语录功能",
             Syntax = "[qq号码]",
@@ -224,9 +219,8 @@ namespace AILib
             RuntimeLogger.Log("AlermClockAI SayingSeal Complete");
         }
 
-        [EnterCommand(
+        [GroupEnterCommandAttribute(
             Command = "语录解封",
-            SourceType = MsgType.Group,
             AuthorityLevel = AuthorityLevel.群主,
             Description = "解封一个群员，让他可以继续使用语录功能",
             Syntax = "[qq号码]",

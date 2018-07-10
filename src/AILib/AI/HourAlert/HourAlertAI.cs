@@ -99,9 +99,8 @@ namespace AILib
             RuntimeLogger.Log("HourAlertAI HourAlert Completed");
         }
 
-        [EnterCommand(
+        [GroupEnterCommandAttribute(
             Command = "报时",
-            SourceType = MsgType.Group,
             AuthorityLevel = AuthorityLevel.成员,
             Description = "设定指定小时的报时内容",
             Syntax = " [目标小时] [报时内容]",
@@ -125,9 +124,8 @@ namespace AILib
             });
         }
 
-        [EnterCommand(
+        [GroupEnterCommandAttribute(
             Command = "报时开启",
-            SourceType = MsgType.Group,
             AuthorityLevel = AuthorityLevel.管理员,
             Description = "设置报时功能开启",
             Syntax = "",
@@ -147,9 +145,8 @@ namespace AILib
             RuntimeLogger.Log("HourAlertAI AlertEnable Completed");
         }
 
-        [EnterCommand(
+        [GroupEnterCommandAttribute(
             Command = "报时关闭",
-            SourceType = MsgType.Group,
             AuthorityLevel = AuthorityLevel.管理员,
             Description = "设置报时功能关闭",
             Syntax = "",
@@ -252,10 +249,8 @@ namespace AILib
             return list[randIdx].Content;
         }
 
-        [EnterCommand(
+        [PrivateEnterCommandAttribute(
             Command = "报时",
-            SourceType = MsgType.Private,
-            IsDeveloperOnly = true,
             Description = "获取指定群组和目标小时的随机报时内容",
             Syntax = " [目标群组] [目标小时]",
             Tag = "闹钟与报时功能",
@@ -270,10 +265,8 @@ namespace AILib
             Common.SendMsgToDeveloper($@"到{aimHour}点啦！ {RanContent}");
         }
 
-        [EnterCommand(
+        [PrivateEnterCommandAttribute(
             Command = "所有报时开启群组",
-            SourceType = MsgType.Private,
-            IsDeveloperOnly = true,
             Description = "获取所有报时开启群组的列表",
             Syntax = "",
             Tag = "闹钟与报时功能",
@@ -291,9 +284,8 @@ namespace AILib
             Common.SendMsgToDeveloper(msg);
         }
 
-        [EnterCommand(
+        [GroupEnterCommandAttribute(
             Command = "清空报时",
-            SourceType = MsgType.Group,
             AuthorityLevel = AuthorityLevel.群主,
             Description = "清空指定小时的所有报时内容",
             Syntax = "[目标小时]",
@@ -321,10 +313,8 @@ namespace AILib
             });
         }
 
-        [EnterCommand(
+        [PrivateEnterCommandAttribute(
             Command = "所有报时数目",
-            SourceType = MsgType.Private,
-            IsDeveloperOnly = true,
             Description = "获取所有的报时数目",
             Syntax = "",
             Tag = "闹钟与报时功能",

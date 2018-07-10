@@ -24,9 +24,8 @@ namespace AILib
         {
         }
 
-        [EnterCommand(
+        [GroupEnterCommandAttribute(
             Command = "帮助",
-            SourceType = MsgType.Group,
             AuthorityLevel = AuthorityLevel.成员,
             Description = "获取帮助信息",
             Syntax = " 或者 帮助 [命令名]",
@@ -70,27 +69,26 @@ namespace AILib
             });
         }
 
-        private IEnumerable<EnterCommandAttribute> GetCommandAttrs()
+        private IEnumerable<IGroupEnterCommandCapabilities> GetCommandAttrs()
         {
-            return AIMgr.Instance.AllAvailableCommands
-                .Where(c => c.SourceType == MsgType.Group)
-                .GroupBy(c => c.Tag)
-                .Select(p => p.First());
+            return AIMgr.Instance.AllAvailableGroupCommands
+                .GroupBy(c => c.Metadata.Tag)
+                .Select(p => p.First().Metadata);
         }
 
         public bool HelpCommand(GroupMsgDTO MsgDTO)
         {
-            var commands = AIMgr.Instance.AllAvailableCommands.Where(c => c.Command == MsgDTO.msg && c.SourceType == MsgType.Group);
+            var commands = AIMgr.Instance.AllAvailableGroupCommands.Where(c => c.Metadata.Command == MsgDTO.msg);
             if (commands.IsNullOrEmpty())
             {
                 return false;
             }
 
             var command = commands.FirstOrDefault();
-            string helpMsg = $@"命令：{command.Command}
-格式： {command.Command} {command.Syntax}
-描述： {command.Description}
-权限： {command.AuthorityLevel.ToString()}";
+            string helpMsg = $@"命令：{command.Metadata.Command}
+格式： {command.Metadata.Command} {command.Metadata.Syntax}
+描述： {command.Metadata.Description}
+权限： {command.Metadata.AuthorityLevel.ToString()}";
 
             MsgSender.Instance.PushMsg(new SendMsgDTO()
             {
@@ -104,7 +102,7 @@ namespace AILib
 
         public bool HelpTag(GroupMsgDTO MsgDTO)
         {
-            var commands = AIMgr.Instance.AllAvailableCommands.Where(c => c.Tag == MsgDTO.msg && c.SourceType == MsgType.Group);
+            var commands = AIMgr.Instance.AllAvailableGroupCommands.Where(c => c.Metadata.Tag == MsgDTO.msg);
             if (commands.IsNullOrEmpty())
             {
                 return false;
@@ -113,7 +111,7 @@ namespace AILib
             string helpMsg = $@"当前标签下有以下命令：";
             foreach (var c in commands)
             {
-                helpMsg += '\r' + c.Command;
+                helpMsg += '\r' + c.Metadata.Command;
             }
             helpMsg += '\r' + "可以使用 帮助 [命令名] 来查询具体命令信息。";
 

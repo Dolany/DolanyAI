@@ -25,9 +25,8 @@ namespace AILib
         {
         }
 
-        [EnterCommand(
+        [GroupEnterCommandAttribute(
             Command = "战绩查询",
-            SourceType = MsgType.Group,
             AuthorityLevel = AuthorityLevel.成员,
             Description = "查询300英雄战绩信息",
             Syntax = " [角色名]",

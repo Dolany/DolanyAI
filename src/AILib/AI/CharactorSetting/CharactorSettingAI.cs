@@ -30,9 +30,8 @@ namespace AILib
         {
         }
 
-        [EnterCommand(
+        [GroupEnterCommandAttribute(
             Command = "人物设定",
-            SourceType = MsgType.Group,
             AuthorityLevel = AuthorityLevel.成员,
             Description = "设定一个人物",
             Syntax = "[人物名] [设定项] [设定内容]",
@@ -55,9 +54,8 @@ namespace AILib
             }
         }
 
-        [EnterCommand(
+        [GroupEnterCommandAttribute(
             Command = "删除人物",
-            SourceType = MsgType.Group,
             AuthorityLevel = AuthorityLevel.成员,
             Description = "删除一个人物",
             Syntax = "[人物名]",
@@ -99,9 +97,8 @@ namespace AILib
             });
         }
 
-        [EnterCommand(
+        [GroupEnterCommandAttribute(
             Command = "人物设定浏览",
-            SourceType = MsgType.Group,
             AuthorityLevel = AuthorityLevel.成员,
             Description = "浏览一个人物的全部设定",
             Syntax = "[人物名]",

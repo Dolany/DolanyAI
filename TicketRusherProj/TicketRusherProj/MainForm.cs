@@ -7,6 +7,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using TicketRusherProj.Parser;
 
 namespace TicketRusherProj
 {
@@ -15,6 +16,9 @@ namespace TicketRusherProj
         public MainForm()
         {
             InitializeComponent();
+
+            LoginParser parser = new LoginParser();
+            parser.Load("http://m.damai.cn");
         }
     }
 }

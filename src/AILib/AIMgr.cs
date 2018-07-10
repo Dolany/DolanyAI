@@ -25,7 +25,8 @@ namespace AILib
 
         private static AIMgr _instance;
 
-        public List<EnterCommandAttribute> AllAvailableCommands { get; private set; }
+        [ImportMany]
+        public IEnumerable<Lazy<Action<GroupMsgDTO, object[]>, IGroupEnterCommandCapabilities>> AllAvailableGroupCommands { get; set; }
 
         public static AIMgr Instance
         {
@@ -59,29 +60,13 @@ namespace AILib
             foreach (var ai in AIList)
             {
                 ai.Value.Work();
-
-                LoadCommands(ai.Value);
             }
         }
 
         private void Init()
         {
             MsgReceiveCache = new MsgReceiveCache(GroupMsgCallBack);
-            AllAvailableCommands = new List<EnterCommandAttribute>();
             Filter = new DirtyFilter();
-        }
-
-        private void LoadCommands(AIBase ai)
-        {
-            Type t = ai.GetType();
-            foreach (var method in t.GetMethods())
-            {
-                foreach (var attr in method.GetCustomAttributes(typeof(EnterCommandAttribute), false))
-                {
-                    var enterAttr = attr as EnterCommandAttribute;
-                    AllAvailableCommands.Add(enterAttr);
-                }
-            }
         }
 
         /// <summary>

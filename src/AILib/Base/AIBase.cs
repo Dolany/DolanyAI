@@ -28,11 +28,11 @@ namespace AILib
             Type t = this.GetType();
             foreach (var method in t.GetMethods())
             {
-                foreach (var attr in method.GetCustomAttributes(typeof(EnterCommandAttribute), false))
+                foreach (var attr in method.GetCustomAttributes(typeof(GroupEnterCommandAttributeAttribute), false))
                 {
                     object[] param;
 
-                    if (!GroupCheck(attr as EnterCommandAttribute, MsgDTO, out param))
+                    if (!GroupCheck(attr as GroupEnterCommandAttributeAttribute, MsgDTO, out param))
                     {
                         continue;
                     }
@@ -50,15 +50,15 @@ namespace AILib
             return false;
         }
 
-        private bool GroupCheck(EnterCommandAttribute enterAttr, GroupMsgDTO MsgDTO, out object[] param)
+        private bool GroupCheck(GroupEnterCommandAttributeAttribute enterAttr, GroupMsgDTO MsgDTO, out object[] param)
         {
-            if (enterAttr.Command != MsgDTO.command || enterAttr.SourceType != MsgType.Group)
+            if (enterAttr.Command != MsgDTO.command)
             {
                 param = null;
                 return false;
             }
 
-            if (!SyntaxCheck(enterAttr, MsgDTO.msg, out param))
+            if (!SyntaxCheck(enterAttr.SyntaxChecker, MsgDTO.msg, out param))
             {
                 return false;
             }
@@ -72,9 +72,9 @@ namespace AILib
             return true;
         }
 
-        private bool SyntaxCheck(EnterCommandAttribute enterAttr, string msg, out object[] param)
+        private bool SyntaxCheck(string SyntaxChecker, string msg, out object[] param)
         {
-            if (string.IsNullOrEmpty(enterAttr.SyntaxChecker))
+            if (string.IsNullOrEmpty(SyntaxChecker))
             {
                 param = null;
                 return true;
@@ -83,7 +83,7 @@ namespace AILib
             try
             {
                 Assembly assembly = Assembly.GetExecutingAssembly();
-                object scObj = assembly.CreateInstance("AILib.SyntaxChecker." + enterAttr.SyntaxChecker + "Checker");
+                object scObj = assembly.CreateInstance("AILib.SyntaxChecker." + SyntaxChecker + "Checker");
                 ISyntaxChecker checker = scObj as ISyntaxChecker;
                 return checker.Check(msg, out param);
             }
@@ -113,11 +113,11 @@ namespace AILib
             Type t = this.GetType();
             foreach (var method in t.GetMethods())
             {
-                foreach (var attr in method.GetCustomAttributes(typeof(EnterCommandAttribute), false))
+                foreach (var attr in method.GetCustomAttributes(typeof(PrivateEnterCommandAttributeAttribute), false))
                 {
                     object[] param;
 
-                    if (!PrivateCheck(attr as EnterCommandAttribute, MsgDTO, out param))
+                    if (!PrivateCheck(attr as PrivateEnterCommandAttributeAttribute, MsgDTO, out param))
                     {
                         continue;
                     }
@@ -133,10 +133,10 @@ namespace AILib
             }
         }
 
-        private bool PrivateCheck(EnterCommandAttribute enterAttr, PrivateMsgDTO MsgDTO, out object[] param)
+        private bool PrivateCheck(PrivateEnterCommandAttributeAttribute enterAttr, PrivateMsgDTO MsgDTO, out object[] param)
         {
             param = null;
-            if (enterAttr.Command != MsgDTO.command || enterAttr.SourceType != MsgType.Private)
+            if (enterAttr.Command != MsgDTO.command)
             {
                 return false;
             }
@@ -146,7 +146,7 @@ namespace AILib
                 return false;
             }
 
-            if (!SyntaxCheck(enterAttr, MsgDTO.msg, out param))
+            if (!SyntaxCheck(enterAttr.SyntaxChecker, MsgDTO.msg, out param))
             {
                 return false;
             }

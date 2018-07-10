@@ -61,9 +61,8 @@ namespace AILib
             DbMgr.Update(hello);
         }
 
-        [EnterCommand(
+        [GroupEnterCommandAttribute(
             Command = "打招呼设定",
-            SourceType = MsgType.Group,
             AuthorityLevel = AuthorityLevel.成员,
             Description = "设定每天打招呼的内容",
             Syntax = "[设定内容]",
@@ -102,9 +101,8 @@ namespace AILib
             });
         }
 
-        [EnterCommand(
+        [GroupEnterCommandAttribute(
             Command = "打招呼",
-            SourceType = MsgType.Group,
             AuthorityLevel = AuthorityLevel.成员,
             Description = "发送打招呼的内容",
             Syntax = "",
@@ -134,9 +132,8 @@ namespace AILib
             });
         }
 
-        [EnterCommand(
+        [GroupEnterCommandAttribute(
             Command = "打招呼删除",
-            SourceType = MsgType.Group,
             AuthorityLevel = AuthorityLevel.成员,
             Description = "删除打招呼的内容",
             Syntax = "",

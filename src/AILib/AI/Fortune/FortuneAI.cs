@@ -27,9 +27,8 @@ namespace AILib
         {
         }
 
-        [EnterCommand(
+        [GroupEnterCommandAttribute(
             Command = ".luck",
-            SourceType = MsgType.Group,
             AuthorityLevel = AuthorityLevel.成员,
             Description = "获取每天运势",
             Syntax = "",
@@ -65,9 +64,8 @@ namespace AILib
             ShowRandFortune(MsgDTO, rf);
         }
 
-        [EnterCommand(
+        [GroupEnterCommandAttribute(
             Command = "星座运势",
-            SourceType = MsgType.Group,
             AuthorityLevel = AuthorityLevel.成员,
             Description = "获取星座运势",
             Syntax = "[星座名]",
