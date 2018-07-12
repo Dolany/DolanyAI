@@ -129,7 +129,6 @@
       <DesignTimeSharedInput>True</DesignTimeSharedInput>
       <DependentUpon>Settings.settings</DependentUpon>
     </Compile>
-    <Compile Include="Session\GroupSession.cs" />
     <Compile Include="SyntaxChecker\AlermClock\DeleteClockChecker.cs" />
     <Compile Include="SyntaxChecker\CartoonSayings\ProcceedMsgChecker.cs" />
     <Compile Include="SyntaxChecker\Common\EmptyChecker.cs" />

@@ -37,5 +37,8 @@ namespace AILib.Entities
 
         [DataColumn]
         public int Courage { get; set; }
+
+        [DataColumn]
+        public string CareerId { get; set; }
     }
 }
