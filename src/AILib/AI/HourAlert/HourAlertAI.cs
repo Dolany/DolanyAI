@@ -99,7 +99,7 @@ namespace AILib
             RuntimeLogger.Log("HourAlertAI HourAlert Completed");
         }
 
-        [GroupEnterCommandAttribute(
+        [GroupEnterCommand(
             Command = "报时",
             AuthorityLevel = AuthorityLevel.成员,
             Description = "设定指定小时的报时内容",
@@ -124,7 +124,7 @@ namespace AILib
             });
         }
 
-        [GroupEnterCommandAttribute(
+        [GroupEnterCommand(
             Command = "报时开启",
             AuthorityLevel = AuthorityLevel.管理员,
             Description = "设置报时功能开启",
@@ -145,7 +145,7 @@ namespace AILib
             RuntimeLogger.Log("HourAlertAI AlertEnable Completed");
         }
 
-        [GroupEnterCommandAttribute(
+        [GroupEnterCommand(
             Command = "报时关闭",
             AuthorityLevel = AuthorityLevel.管理员,
             Description = "设置报时功能关闭",
@@ -217,7 +217,7 @@ namespace AILib
             return list[randIdx].Content;
         }
 
-        [PrivateEnterCommandAttribute(
+        [PrivateEnterCommand(
             Command = "报时",
             Description = "获取指定群组和目标小时的随机报时内容",
             Syntax = " [目标群组] [目标小时]",
@@ -233,7 +233,7 @@ namespace AILib
             Common.SendMsgToDeveloper($@"到{aimHour}点啦！ {RanContent}");
         }
 
-        [PrivateEnterCommandAttribute(
+        [PrivateEnterCommand(
             Command = "所有报时开启群组",
             Description = "获取所有报时开启群组的列表",
             Syntax = "",
@@ -252,7 +252,7 @@ namespace AILib
             Common.SendMsgToDeveloper(msg);
         }
 
-        [GroupEnterCommandAttribute(
+        [GroupEnterCommand(
             Command = "清空报时",
             AuthorityLevel = AuthorityLevel.群主,
             Description = "清空指定小时的所有报时内容",
@@ -281,7 +281,7 @@ namespace AILib
             });
         }
 
-        [PrivateEnterCommandAttribute(
+        [PrivateEnterCommand(
             Command = "所有报时数目",
             Description = "获取所有的报时数目",
             Syntax = "",

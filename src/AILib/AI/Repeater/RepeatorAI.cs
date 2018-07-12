@@ -67,7 +67,7 @@ namespace AILib
             return false;
         }
 
-        [GroupEnterCommandAttribute(
+        [GroupEnterCommand(
             Command = "复读机禁用",
             AuthorityLevel = AuthorityLevel.群主,
             Description = "禁用复读机功能，禁用后将不会在本群产生计数和进行复读",
@@ -87,7 +87,7 @@ namespace AILib
             });
         }
 
-        [GroupEnterCommandAttribute(
+        [GroupEnterCommand(
             Command = "复读机启用",
             AuthorityLevel = AuthorityLevel.群主,
             Description = "重新启用复读机功能",
@@ -157,7 +157,7 @@ namespace AILib
             });
         }
 
-        [PrivateEnterCommandAttribute(
+        [PrivateEnterCommand(
             Command = "设定复读频率",
             Description = "设定复读功能的频率，即多少次计数后进行复读",
             Syntax = "[复读频率]",

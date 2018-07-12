@@ -82,7 +82,7 @@ namespace AILib
             groupCache.IsAlreadyRepeated = true;
         }
 
-        [GroupEnterCommandAttribute(
+        [GroupEnterCommand(
             Command = "+1复读禁用",
             AuthorityLevel = AuthorityLevel.群主,
             Description = "禁用+1复读功能，禁用后将不会在本群进行+1复读",
@@ -102,7 +102,7 @@ namespace AILib
             });
         }
 
-        [GroupEnterCommandAttribute(
+        [GroupEnterCommand(
             Command = "+1复读启用",
             AuthorityLevel = AuthorityLevel.群主,
             Description = "重新启用+1复读功能",

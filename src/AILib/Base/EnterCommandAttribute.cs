@@ -16,9 +16,9 @@ namespace AILib
 
     [MetadataAttribute]
     [System.AttributeUsage(System.AttributeTargets.Method, AllowMultiple = true)]
-    public class GroupEnterCommandAttributeAttribute : ExportAttribute, IGroupEnterCommandCapabilities
+    public class GroupEnterCommandAttribute : ExportAttribute, IGroupEnterCommandCapabilities
     {
-        public GroupEnterCommandAttributeAttribute()
+        public GroupEnterCommandAttribute()
             : base("GroupEnterCommand")
         {
         }
@@ -43,9 +43,9 @@ namespace AILib
 
     [MetadataAttribute]
     [System.AttributeUsage(System.AttributeTargets.Method, AllowMultiple = true)]
-    public class PrivateEnterCommandAttributeAttribute : ExportAttribute, IPrivateEnterCommandCapabilities
+    public class PrivateEnterCommandAttribute : ExportAttribute, IPrivateEnterCommandCapabilities
     {
-        public PrivateEnterCommandAttributeAttribute()
+        public PrivateEnterCommandAttribute()
             : base("PrivateEnterCommand")
         {
         }

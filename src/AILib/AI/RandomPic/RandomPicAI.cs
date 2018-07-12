@@ -64,7 +64,7 @@ namespace AILib
             return true;
         }
 
-        [GroupEnterCommandAttribute(
+        [GroupEnterCommand(
             Command = "随机图片",
             AuthorityLevel = AuthorityLevel.成员,
             Description = "随机发送近期内所有群组内发过的图片",
@@ -72,7 +72,7 @@ namespace AILib
             Tag = "图片功能",
             SyntaxChecker = "Empty"
             )]
-        [GroupEnterCommandAttribute(
+        [GroupEnterCommand(
             Command = "一键盗图",
             AuthorityLevel = AuthorityLevel.成员,
             Description = "随机发送近期内所有群组内发过的图片",
@@ -147,7 +147,7 @@ namespace AILib
             return f.Name;
         }
 
-        [PrivateEnterCommandAttribute(
+        [PrivateEnterCommand(
             Command = "重新加载图片",
             Description = "重新加载图片列表，刷新搜索关键字",
             Syntax = "",
@@ -161,7 +161,7 @@ namespace AILib
             Common.SendMsgToDeveloper($"共加载了{Keywords.Count}个图片组");
         }
 
-        [PrivateEnterCommandAttribute(
+        [PrivateEnterCommand(
             Command = "添加同义词",
             Description = "添加图片检索时的关键字",
             Syntax = "[目标词] [同义词]",
@@ -183,7 +183,7 @@ namespace AILib
             Common.SendMsgToDeveloper("添加成功！");
         }
 
-        [PrivateEnterCommandAttribute(
+        [PrivateEnterCommand(
             Command = "所有图片关键词",
             Description = "获取所有图片关键字（不包括同义词）",
             Syntax = "",

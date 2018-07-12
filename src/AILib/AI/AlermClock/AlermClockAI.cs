@@ -63,7 +63,7 @@ namespace AILib
             RuntimeLogger.Log("AlermClockAI ReloadAllClocks Completed");
         }
 
-        [GroupEnterCommandAttribute(
+        [GroupEnterCommand(
             Command = "设定闹钟",
             AuthorityLevel = AuthorityLevel.成员,
             Description = "设定在指定时间的闹钟，我会到时候艾特你并显示提醒内容",
@@ -71,7 +71,7 @@ namespace AILib
             Tag = "闹钟与报时功能",
             SyntaxChecker = "SetClock"
             )]
-        [GroupEnterCommandAttribute(
+        [GroupEnterCommand(
             Command = "设置闹钟",
             AuthorityLevel = AuthorityLevel.成员,
             Description = "功能同设定闹钟",
@@ -162,7 +162,7 @@ namespace AILib
             RuntimeLogger.Log("AlermClockAI TimeUp Complete");
         }
 
-        [GroupEnterCommandAttribute(
+        [GroupEnterCommand(
             Command = "我的闹钟",
             AuthorityLevel = AuthorityLevel.成员,
             Description = "查询你当前设置的闹钟",
@@ -201,7 +201,7 @@ namespace AILib
             RuntimeLogger.Log("AlermClockAI QueryClock Complete");
         }
 
-        [GroupEnterCommandAttribute(
+        [GroupEnterCommand(
             Command = "删除闹钟",
             AuthorityLevel = AuthorityLevel.成员,
             Description = "删除指定时间的已经设置好的闹钟",
@@ -241,7 +241,7 @@ namespace AILib
             RuntimeLogger.Log("AlermClockAI DeleteClock Complete");
         }
 
-        [GroupEnterCommandAttribute(
+        [GroupEnterCommand(
             Command = "清空闹钟",
             AuthorityLevel = AuthorityLevel.成员,
             Description = "清空设置过的所有闹钟",

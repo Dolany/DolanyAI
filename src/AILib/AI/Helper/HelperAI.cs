@@ -28,7 +28,7 @@ namespace AILib
         {
         }
 
-        [GroupEnterCommandAttribute(
+        [GroupEnterCommand(
             Command = "帮助",
             AuthorityLevel = AuthorityLevel.成员,
             Description = "获取帮助信息",

@@ -26,7 +26,7 @@ namespace AILib
         {
         }
 
-        [PrivateEnterCommandAttribute(
+        [PrivateEnterCommand(
             Command = "发布记录",
             Description = "发布新版本内容，并留下记录，将返回一个记录编号",
             Syntax = "[内容]",
@@ -38,7 +38,7 @@ namespace AILib
             PublishRec(MsgDTO.Msg);
         }
 
-        [PrivateEnterCommandAttribute(
+        [PrivateEnterCommand(
             Command = "发布",
             Description = "将指定编号的内容发布到指定群组，群组号0时为全部群组",
             Syntax = "[群组号] [记录编号]",

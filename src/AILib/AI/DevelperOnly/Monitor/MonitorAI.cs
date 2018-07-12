@@ -59,7 +59,7 @@ namespace AILib
             }
         }
 
-        [PrivateEnterCommandAttribute(
+        [PrivateEnterCommand(
             Command = "停止心跳",
             Description = "阻止心态",
             Syntax = "",
@@ -73,7 +73,7 @@ namespace AILib
             Common.SendMsgToDeveloper("停止心跳成功！");
         }
 
-        [PrivateEnterCommandAttribute(
+        [PrivateEnterCommand(
             Command = "功能封印",
             Description = "封印一个群的某个ai功能",
             Syntax = "[群组号] [需要封印的ai名]",
@@ -128,7 +128,7 @@ namespace AILib
             return string.Empty;
         }
 
-        [PrivateEnterCommandAttribute(
+        [PrivateEnterCommand(
             Command = "增加屏蔽词",
             Description = "增加需要屏蔽的词汇",
             Syntax = "[屏蔽词]",
@@ -154,7 +154,7 @@ namespace AILib
             Common.SendMsgToDeveloper("添加成功！");
         }
 
-        [PrivateEnterCommandAttribute(
+        [PrivateEnterCommand(
             Command = "系统设置",
             Description = "修改系统配置",
             Syntax = "[配置项] [值]",

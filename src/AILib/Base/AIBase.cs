@@ -28,11 +28,11 @@ namespace AILib
             Type t = this.GetType();
             foreach (var method in t.GetMethods())
             {
-                foreach (var attr in method.GetCustomAttributes(typeof(GroupEnterCommandAttributeAttribute), false))
+                foreach (var attr in method.GetCustomAttributes(typeof(GroupEnterCommandAttribute), false))
                 {
                     object[] param;
 
-                    if (!GroupCheck(attr as GroupEnterCommandAttributeAttribute, MsgDTO, out param))
+                    if (!GroupCheck(attr as GroupEnterCommandAttribute, MsgDTO, out param))
                     {
                         continue;
                     }
@@ -50,7 +50,7 @@ namespace AILib
             return false;
         }
 
-        private bool GroupCheck(GroupEnterCommandAttributeAttribute enterAttr, GroupMsgDTO MsgDTO, out object[] param)
+        private bool GroupCheck(GroupEnterCommandAttribute enterAttr, GroupMsgDTO MsgDTO, out object[] param)
         {
             if (enterAttr.Command != MsgDTO.Command)
             {
@@ -113,11 +113,11 @@ namespace AILib
             Type t = this.GetType();
             foreach (var method in t.GetMethods())
             {
-                foreach (var attr in method.GetCustomAttributes(typeof(PrivateEnterCommandAttributeAttribute), false))
+                foreach (var attr in method.GetCustomAttributes(typeof(PrivateEnterCommandAttribute), false))
                 {
                     object[] param;
 
-                    if (!PrivateCheck(attr as PrivateEnterCommandAttributeAttribute, MsgDTO, out param))
+                    if (!PrivateCheck(attr as PrivateEnterCommandAttribute, MsgDTO, out param))
                     {
                         continue;
                     }
@@ -133,7 +133,7 @@ namespace AILib
             }
         }
 
-        private bool PrivateCheck(PrivateEnterCommandAttributeAttribute enterAttr, PrivateMsgDTO MsgDTO, out object[] param)
+        private bool PrivateCheck(PrivateEnterCommandAttribute enterAttr, PrivateMsgDTO MsgDTO, out object[] param)
         {
             param = null;
             if (enterAttr.Command != MsgDTO.Command)
