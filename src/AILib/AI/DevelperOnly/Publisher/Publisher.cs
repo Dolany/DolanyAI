@@ -35,7 +35,7 @@ namespace AILib
             )]
         public void PublishRec(PrivateMsgDTO MsgDTO, object[] param)
         {
-            PublishRec(MsgDTO.msg);
+            PublishRec(MsgDTO.Msg);
         }
 
         [PrivateEnterCommandAttribute(

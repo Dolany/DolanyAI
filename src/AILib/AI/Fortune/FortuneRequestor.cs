@@ -26,7 +26,7 @@ namespace AILib
             StarFortuneParser parser = new StarFortuneParser();
 
             HttpRequester requester = new HttpRequester();
-            int code = GetStarCode(MsgDTO.msg);
+            int code = GetStarCode(MsgDTO.Msg);
             if (code < 0)
             {
                 ReportCallBack(MsgDTO, "未查找到该星座！");

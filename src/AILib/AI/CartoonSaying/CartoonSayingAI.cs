@@ -46,7 +46,7 @@ namespace AILib
         public void ProcceedMsg(GroupMsgDTO MsgDTO, object[] param)
         {
             RuntimeLogger.Log("AlermClockAI Tryto ProcceedMsg In CartoonSayings");
-            if (IsInSealing(MsgDTO.fromGroup, MsgDTO.fromQQ))
+            if (IsInSealing(MsgDTO.FromGroup, MsgDTO.FromQQ))
             {
                 return;
             }
@@ -54,10 +54,10 @@ namespace AILib
             switch ((int)param[0])
             {
                 case 1:
-                    string smsg = SaveSaying(param[1] as SayingEntity, MsgDTO.fromGroup) ? "语录录入成功！" : "语录录入失败！";
+                    string smsg = SaveSaying(param[1] as SayingEntity, MsgDTO.FromGroup) ? "语录录入成功！" : "语录录入失败！";
                     MsgSender.Instance.PushMsg(new SendMsgDTO()
                     {
-                        Aim = MsgDTO.fromGroup,
+                        Aim = MsgDTO.FromGroup,
                         Type = MsgType.Group,
                         Msg = smsg
                     });
@@ -77,7 +77,7 @@ namespace AILib
 
         private void SayingRequest(GroupMsgDTO MsgDTO, string keyword = null)
         {
-            string ranSaying = GetRanSaying(MsgDTO.fromGroup, keyword);
+            string ranSaying = GetRanSaying(MsgDTO.FromGroup, keyword);
             if (string.IsNullOrEmpty(ranSaying))
             {
                 return;
@@ -85,7 +85,7 @@ namespace AILib
 
             MsgSender.Instance.PushMsg(new SendMsgDTO()
             {
-                Aim = MsgDTO.fromGroup,
+                Aim = MsgDTO.FromGroup,
                 Type = MsgType.Group,
                 Msg = ranSaying
             });
@@ -158,14 +158,14 @@ namespace AILib
         public void ClearSayings(GroupMsgDTO MsgDTO, object[] param)
         {
             RuntimeLogger.Log("AlermClockAI Tryto ClearSayings");
-            int delCount = DbMgr.Delete<SayingEntity>(s => s.FromGroup == MsgDTO.fromGroup
-                                                        && (s.Content.Contains(MsgDTO.msg)
-                                                        || s.Charactor.Contains(MsgDTO.msg)
-                                                        || s.Cartoon.Contains(MsgDTO.msg)));
+            int delCount = DbMgr.Delete<SayingEntity>(s => s.FromGroup == MsgDTO.FromGroup
+                                                        && (s.Content.Contains(MsgDTO.Msg)
+                                                        || s.Charactor.Contains(MsgDTO.Msg)
+                                                        || s.Cartoon.Contains(MsgDTO.Msg)));
 
             MsgSender.Instance.PushMsg(new SendMsgDTO()
             {
-                Aim = MsgDTO.fromGroup,
+                Aim = MsgDTO.FromGroup,
                 Type = MsgType.Group,
                 Msg = $"共删除{delCount}条语录"
             });
@@ -184,17 +184,17 @@ namespace AILib
         {
             RuntimeLogger.Log("AlermClockAI Tryto SayingSeal");
             long memberNum;
-            if (!long.TryParse(MsgDTO.msg, out memberNum))
+            if (!long.TryParse(MsgDTO.Msg, out memberNum))
             {
                 return;
             }
 
-            var query = DbMgr.Query<SayingSealEntity>(s => s.GroupNum == MsgDTO.fromGroup && s.SealMember == memberNum);
+            var query = DbMgr.Query<SayingSealEntity>(s => s.GroupNum == MsgDTO.FromGroup && s.SealMember == memberNum);
             if (!query.IsNullOrEmpty())
             {
                 MsgSender.Instance.PushMsg(new SendMsgDTO()
                 {
-                    Aim = MsgDTO.fromGroup,
+                    Aim = MsgDTO.FromGroup,
                     Type = MsgType.Group,
                     Msg = "此成员正在封禁中！"
                 });
@@ -207,12 +207,12 @@ namespace AILib
                 Id = Guid.NewGuid().ToString(),
                 CreateTime = DateTime.Now,
                 SealMember = memberNum,
-                GroupNum = MsgDTO.fromGroup,
+                GroupNum = MsgDTO.FromGroup,
                 Content = "封禁"
             });
             MsgSender.Instance.PushMsg(new SendMsgDTO()
             {
-                Aim = MsgDTO.fromGroup,
+                Aim = MsgDTO.FromGroup,
                 Type = MsgType.Group,
                 Msg = "封禁成功！"
             });
@@ -231,17 +231,17 @@ namespace AILib
         {
             RuntimeLogger.Log("AlermClockAI Tryto SayingDeseal");
             long memberNum;
-            if (!long.TryParse(MsgDTO.msg, out memberNum))
+            if (!long.TryParse(MsgDTO.Msg, out memberNum))
             {
                 return;
             }
 
-            int delCount = DbMgr.Delete<SayingSealEntity>(s => s.GroupNum == MsgDTO.fromGroup && s.SealMember == memberNum);
+            int delCount = DbMgr.Delete<SayingSealEntity>(s => s.GroupNum == MsgDTO.FromGroup && s.SealMember == memberNum);
             if (delCount == 0)
             {
                 MsgSender.Instance.PushMsg(new SendMsgDTO()
                 {
-                    Aim = MsgDTO.fromGroup,
+                    Aim = MsgDTO.FromGroup,
                     Type = MsgType.Group,
                     Msg = "此成员尚未被封禁！"
                 });
@@ -251,7 +251,7 @@ namespace AILib
 
             MsgSender.Instance.PushMsg(new SendMsgDTO()
             {
-                Aim = MsgDTO.fromGroup,
+                Aim = MsgDTO.FromGroup,
                 Type = MsgType.Group,
                 Msg = "解封成功！"
             });

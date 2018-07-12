@@ -52,7 +52,7 @@ namespace AILib
                 return true;
             }
 
-            string key = GenKey(MsgDTO.command + MsgDTO.msg);
+            string key = GenKey(MsgDTO.Command + MsgDTO.Msg);
             if (string.IsNullOrEmpty(key))
             {
                 return false;
@@ -60,7 +60,7 @@ namespace AILib
 
             string RandPic = GetRandPic(key);
 
-            SendPic(key + "/" + RandPic, MsgDTO.fromGroup);
+            SendPic(key + "/" + RandPic, MsgDTO.FromGroup);
             return true;
         }
 
@@ -89,7 +89,7 @@ namespace AILib
 
             MsgSender.Instance.PushMsg(new SendMsgDTO()
             {
-                Aim = MsgDTO.fromGroup,
+                Aim = MsgDTO.FromGroup,
                 Type = MsgType.Group,
                 Msg = CQ.CQCode_Image(sendImgName)
             });

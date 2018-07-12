@@ -31,23 +31,23 @@ namespace AILib
 
         public override bool OnGroupMsgReceived(GroupMsgDTO MsgDTO)
         {
-            if (!IsAvailable(MsgDTO.fromGroup))
+            if (!IsAvailable(MsgDTO.FromGroup))
             {
                 return false;
             }
-            if (MsgDTO.fullMsg.Contains("CQ:at"))
+            if (MsgDTO.FullMsg.Contains("CQ:at"))
             {
                 return false;
             }
 
-            var query = Cache.Where(d => d.GroupNumber == MsgDTO.fromGroup);
+            var query = Cache.Where(d => d.GroupNumber == MsgDTO.FromGroup);
             if (query.IsNullOrEmpty())
             {
                 Cache.Add(new PlusOneCache
                 {
-                    GroupNumber = MsgDTO.fromGroup,
+                    GroupNumber = MsgDTO.FromGroup,
                     IsAlreadyRepeated = false,
-                    MsgCache = MsgDTO.fullMsg
+                    MsgCache = MsgDTO.FullMsg
                 });
 
                 return false;
@@ -55,7 +55,7 @@ namespace AILib
 
             Thread.Sleep(2000);
             var groupCache = query.FirstOrDefault();
-            Repeat(MsgDTO.fromGroup, MsgDTO.fullMsg, groupCache);
+            Repeat(MsgDTO.FromGroup, MsgDTO.FullMsg, groupCache);
             return true;
         }
 
@@ -92,11 +92,11 @@ namespace AILib
             )]
         public void Forbidden(GroupMsgDTO MsgDTO, object[] param)
         {
-            ForbiddenStateChange(MsgDTO.fromGroup, false);
+            ForbiddenStateChange(MsgDTO.FromGroup, false);
 
             MsgSender.Instance.PushMsg(new SendMsgDTO()
             {
-                Aim = MsgDTO.fromGroup,
+                Aim = MsgDTO.FromGroup,
                 Type = MsgType.Group,
                 Msg = "+1复读禁用成功！"
             });
@@ -112,11 +112,11 @@ namespace AILib
             )]
         public void Unforbidden(GroupMsgDTO MsgDTO, object[] param)
         {
-            ForbiddenStateChange(MsgDTO.fromGroup, true);
+            ForbiddenStateChange(MsgDTO.FromGroup, true);
 
             MsgSender.Instance.PushMsg(new SendMsgDTO()
             {
-                Aim = MsgDTO.fromGroup,
+                Aim = MsgDTO.FromGroup,
                 Type = MsgType.Group,
                 Msg = "+1复读启用成功！"
             });

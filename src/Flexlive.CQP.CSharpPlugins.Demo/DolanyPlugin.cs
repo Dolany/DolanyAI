@@ -107,11 +107,11 @@ namespace Flexlive.CQP.CSharpPlugins.Demo
             {
                 AIMgr.Instance.OnPrivateMsgReceived(new PrivateMsgDTO()
                 {
-                    subType = subType,
-                    sendTime = sendTime,
-                    fromQQ = fromQQ,
-                    msg = msg,
-                    font = font
+                    SubType = subType,
+                    SendTime = sendTime,
+                    FromQQ = fromQQ,
+                    Msg = msg,
+                    Font = font
                 });
             }
             catch (Exception ex)
@@ -138,14 +138,14 @@ namespace Flexlive.CQP.CSharpPlugins.Demo
             {
                 AIMgr.Instance.OnGroupMsgReceived(new GroupMsgDTO()
                 {
-                    subType = subType,
-                    sendTime = sendTime,
-                    fromGroup = fromGroup,
-                    fromQQ = fromQQ,
-                    fromAnonymous = fromAnonymous,
-                    msg = msg,
-                    fullMsg = msg,
-                    font = font
+                    SubType = subType,
+                    SendTime = sendTime,
+                    FromGroup = fromGroup,
+                    FromQQ = fromQQ,
+                    FromAnonymous = fromAnonymous,
+                    Msg = msg,
+                    FullMsg = msg,
+                    Font = font
                 });
             }
             catch (Exception ex)

@@ -16,14 +16,14 @@ namespace AILib.AI.Jump300Report
             this.MsgDTO = MsgDTO;
             this.ReportCallBack = ReportCallBack;
 
-            this.MsgDTO.msg = NameConvert(this.MsgDTO.msg);
+            this.MsgDTO.Msg = NameConvert(this.MsgDTO.Msg);
         }
 
         public void Work()
         {
             try
             {
-                var allList = GetAllList(MsgDTO.msg);
+                var allList = GetAllList(MsgDTO.Msg);
                 var allDetails = GetAllDetails(allList);
 
                 JumpReportAnalyzer analyzer = new JumpReportAnalyzer(allList, allDetails);
@@ -67,7 +67,7 @@ namespace AILib.AI.Jump300Report
 
             do
             {
-                string HtmlStr = requester.Request($"http://300report.jumpw.com/list.html?name={MsgDTO.msg}&index={idx}");
+                string HtmlStr = requester.Request($"http://300report.jumpw.com/list.html?name={MsgDTO.Msg}&index={idx}");
 
                 JumpListHtmlParser listParser = new JumpListHtmlParser();
                 listParser.Load(HtmlStr);

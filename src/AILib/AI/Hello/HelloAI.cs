@@ -35,8 +35,8 @@ namespace AILib
                 return true;
             }
 
-            var query = DbMgr.Query<HelloEntity>(h => h.GroupNum == MsgDTO.fromGroup
-                    && h.QQNum == MsgDTO.fromQQ
+            var query = DbMgr.Query<HelloEntity>(h => h.GroupNum == MsgDTO.FromGroup
+                    && h.QQNum == MsgDTO.FromQQ
                     && string.Compare(DateTime.Now.ToDateString(), h.LastHelloDate) > 0
                     );
             if (query.IsNullOrEmpty())
@@ -52,9 +52,9 @@ namespace AILib
         {
             MsgSender.Instance.PushMsg(new SendMsgDTO
             {
-                Aim = MsgDTO.fromGroup,
+                Aim = MsgDTO.FromGroup,
                 Type = MsgType.Group,
-                Msg = $"{CQ.CQCode_At(MsgDTO.fromQQ)} {hello.Content}"
+                Msg = $"{CQ.CQCode_At(MsgDTO.FromQQ)} {hello.Content}"
             });
 
             hello.LastHelloDate = DateTime.Now.ToDateString();
@@ -73,15 +73,15 @@ namespace AILib
         {
             string content = param[0] as string;
 
-            var query = DbMgr.Query<HelloEntity>(h => h.GroupNum == MsgDTO.fromGroup
-                    && h.QQNum == MsgDTO.fromQQ);
+            var query = DbMgr.Query<HelloEntity>(h => h.GroupNum == MsgDTO.FromGroup
+                    && h.QQNum == MsgDTO.FromQQ);
             if (query.IsNullOrEmpty())
             {
                 DbMgr.Insert(new HelloEntity
                 {
                     Id = Guid.NewGuid().ToString(),
-                    GroupNum = MsgDTO.fromGroup,
-                    QQNum = MsgDTO.fromQQ,
+                    GroupNum = MsgDTO.FromGroup,
+                    QQNum = MsgDTO.FromQQ,
                     LastHelloDate = DateTime.Now.ToDateString(),
                     Content = content
                 });
@@ -95,7 +95,7 @@ namespace AILib
 
             MsgSender.Instance.PushMsg(new SendMsgDTO
             {
-                Aim = MsgDTO.fromGroup,
+                Aim = MsgDTO.FromGroup,
                 Type = MsgType.Group,
                 Msg = "招呼内容设定成功"
             });
@@ -111,13 +111,13 @@ namespace AILib
             )]
         public void SayHello(GroupMsgDTO MsgDTO, object[] param)
         {
-            var query = DbMgr.Query<HelloEntity>(h => h.GroupNum == MsgDTO.fromGroup
-                    && h.QQNum == MsgDTO.fromQQ);
+            var query = DbMgr.Query<HelloEntity>(h => h.GroupNum == MsgDTO.FromGroup
+                    && h.QQNum == MsgDTO.FromQQ);
             if (query.IsNullOrEmpty())
             {
                 MsgSender.Instance.PushMsg(new SendMsgDTO
                 {
-                    Aim = MsgDTO.fromGroup,
+                    Aim = MsgDTO.FromGroup,
                     Type = MsgType.Group,
                     Msg = "你还没有设定过招呼内容哦~"
                 });
@@ -126,9 +126,9 @@ namespace AILib
 
             MsgSender.Instance.PushMsg(new SendMsgDTO
             {
-                Aim = MsgDTO.fromGroup,
+                Aim = MsgDTO.FromGroup,
                 Type = MsgType.Group,
-                Msg = $"{CQ.CQCode_At(MsgDTO.fromQQ)} {query.First().Content}"
+                Msg = $"{CQ.CQCode_At(MsgDTO.FromQQ)} {query.First().Content}"
             });
         }
 
@@ -142,13 +142,13 @@ namespace AILib
             )]
         public void DeleteHello(GroupMsgDTO MsgDTO, object[] param)
         {
-            var query = DbMgr.Query<HelloEntity>(h => h.GroupNum == MsgDTO.fromGroup
-                    && h.QQNum == MsgDTO.fromQQ);
+            var query = DbMgr.Query<HelloEntity>(h => h.GroupNum == MsgDTO.FromGroup
+                    && h.QQNum == MsgDTO.FromQQ);
             if (query.IsNullOrEmpty())
             {
                 MsgSender.Instance.PushMsg(new SendMsgDTO
                 {
-                    Aim = MsgDTO.fromGroup,
+                    Aim = MsgDTO.FromGroup,
                     Type = MsgType.Group,
                     Msg = "你还没有设定过招呼内容哦~"
                 });
@@ -158,7 +158,7 @@ namespace AILib
             DbMgr.Delete<HelloEntity>(query.First().Id);
             MsgSender.Instance.PushMsg(new SendMsgDTO
             {
-                Aim = MsgDTO.fromGroup,
+                Aim = MsgDTO.FromGroup,
                 Type = MsgType.Group,
                 Msg = "删除成功！"
             });

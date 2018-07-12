@@ -42,16 +42,16 @@ namespace AILib
         {
             base.OnGroupMsgReceived(MsgDTO);
 
-            if (!IsAvailable(MsgDTO.fromGroup))
+            if (!IsAvailable(MsgDTO.FromGroup))
             {
                 return false;
             }
-            if (MsgDTO.fullMsg.Contains("CQ:at"))
+            if (MsgDTO.FullMsg.Contains("CQ:at"))
             {
                 return false;
             }
 
-            if (AllAvailableGroupCommands.Select(p => p.Metadata.Command).Contains(MsgDTO.command))
+            if (AllAvailableGroupCommands.Select(p => p.Metadata.Command).Contains(MsgDTO.Command))
             {
                 return false;
             }
@@ -77,11 +77,11 @@ namespace AILib
             )]
         public void Forbidden(GroupMsgDTO MsgDTO, object[] param)
         {
-            ForbiddenStateChange(MsgDTO.fromGroup, false);
+            ForbiddenStateChange(MsgDTO.FromGroup, false);
 
             MsgSender.Instance.PushMsg(new SendMsgDTO()
             {
-                Aim = MsgDTO.fromGroup,
+                Aim = MsgDTO.FromGroup,
                 Type = MsgType.Group,
                 Msg = "复读机禁用成功！"
             });
@@ -97,11 +97,11 @@ namespace AILib
             )]
         public void Unforbidden(GroupMsgDTO MsgDTO, object[] param)
         {
-            ForbiddenStateChange(MsgDTO.fromGroup, true);
+            ForbiddenStateChange(MsgDTO.FromGroup, true);
 
             MsgSender.Instance.PushMsg(new SendMsgDTO()
             {
-                Aim = MsgDTO.fromGroup,
+                Aim = MsgDTO.FromGroup,
                 Type = MsgType.Group,
                 Msg = "复读机启用成功！"
             });
@@ -151,9 +151,9 @@ namespace AILib
 
             MsgSender.Instance.PushMsg(new SendMsgDTO()
             {
-                Aim = MsgDTO.fromGroup,
+                Aim = MsgDTO.FromGroup,
                 Type = MsgType.Group,
-                Msg = MsgDTO.fullMsg
+                Msg = MsgDTO.FullMsg
             });
         }
 

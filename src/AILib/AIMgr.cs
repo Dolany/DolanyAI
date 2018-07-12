@@ -15,7 +15,6 @@ namespace AILib
     /// </summary>
     public class AIMgr
     {
-        // 当前加载的AI列表
         [ImportMany(typeof(AIBase))]
         public IEnumerable<Lazy<AIBase, IAIExportCapabilities>> AIList;
 
@@ -77,15 +76,15 @@ namespace AILib
                 return;
             }
 
-            if (Filter.IsInBlackList(MsgDTO.fromQQ) || !Filter.Filter(MsgDTO.fromQQ, MsgDTO.msg))
+            if (Filter.IsInBlackList(MsgDTO.FromQQ) || !Filter.Filter(MsgDTO.FromQQ, MsgDTO.Msg))
             {
                 return;
             }
 
-            string msg = MsgDTO.msg;
-            MsgDTO.fullMsg = msg;
-            MsgDTO.command = GenCommand(ref msg);
-            MsgDTO.msg = msg;
+            string msg = MsgDTO.Msg;
+            MsgDTO.FullMsg = msg;
+            MsgDTO.Command = GenCommand(ref msg);
+            MsgDTO.Msg = msg;
 
             MsgReceiveCache.PushMsg(MsgDTO);
         }
@@ -108,7 +107,7 @@ namespace AILib
 
         private bool IsAiSealed(GroupMsgDTO MsgDTO, AIBase ai)
         {
-            var query = DbMgr.Query<AISealEntity>(s => s.GroupNum == MsgDTO.fromGroup && s.Content == ai.GetType().Name);
+            var query = DbMgr.Query<AISealEntity>(s => s.GroupNum == MsgDTO.FromGroup && s.Content == ai.GetType().Name);
             return !query.IsNullOrEmpty();
         }
 
@@ -123,14 +122,14 @@ namespace AILib
                 return;
             }
 
-            if (Filter.IsInBlackList(MsgDTO.fromQQ) || !Filter.Filter(MsgDTO.fromQQ, MsgDTO.msg))
+            if (Filter.IsInBlackList(MsgDTO.FromQQ) || !Filter.Filter(MsgDTO.FromQQ, MsgDTO.Msg))
             {
                 return;
             }
 
-            string msg = MsgDTO.msg;
-            MsgDTO.command = GenCommand(ref msg);
-            MsgDTO.msg = msg;
+            string msg = MsgDTO.Msg;
+            MsgDTO.Command = GenCommand(ref msg);
+            MsgDTO.Msg = msg;
 
             foreach (var ai in AIList)
             {

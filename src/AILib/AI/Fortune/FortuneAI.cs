@@ -37,7 +37,7 @@ namespace AILib
             )]
         public void RandomFortune(GroupMsgDTO MsgDTO, object[] param)
         {
-            var query = DbMgr.Query<RandomFortuneEntity>(r => r.QQNum == MsgDTO.fromQQ);
+            var query = DbMgr.Query<RandomFortuneEntity>(r => r.QQNum == MsgDTO.FromQQ);
             if (!query.IsNullOrEmpty())
             {
                 var f = query.First();
@@ -57,7 +57,7 @@ namespace AILib
             {
                 Id = Guid.NewGuid().ToString(),
                 UpdateDate = DateTime.Now.ToDateString(),
-                QQNum = MsgDTO.fromQQ,
+                QQNum = MsgDTO.FromQQ,
                 Content = randFor.ToString()
             };
             DbMgr.Insert(rf);
@@ -76,7 +76,7 @@ namespace AILib
         {
             MsgSender.Instance.PushMsg(new SendMsgDTO()
             {
-                Aim = MsgDTO.fromGroup,
+                Aim = MsgDTO.FromGroup,
                 Type = MsgType.Group,
                 Msg = "查询中，请稍候"
             });
@@ -88,7 +88,7 @@ namespace AILib
         {
             MsgSender.Instance.PushMsg(new SendMsgDTO()
             {
-                Aim = MsgDTO.fromGroup,
+                Aim = MsgDTO.FromGroup,
                 Type = MsgType.Group,
                 Msg = Report
             });
@@ -110,7 +110,7 @@ namespace AILib
 
             MsgSender.Instance.PushMsg(new SendMsgDTO
             {
-                Aim = MsgDTO.fromGroup,
+                Aim = MsgDTO.FromGroup,
                 Type = MsgType.Group,
                 Msg = msg
             });

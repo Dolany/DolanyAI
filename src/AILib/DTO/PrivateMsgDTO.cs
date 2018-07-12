@@ -8,16 +8,16 @@ namespace AILib
 {
     public class PrivateMsgDTO
     {
-        public int subType { get; set; }
+        public int SubType { get; set; }
 
-        public int sendTime { get; set; }
+        public int SendTime { get; set; }
 
-        public long fromQQ { get; set; }
+        public long FromQQ { get; set; }
 
-        public string msg { get; set; }
+        public string Msg { get; set; }
 
-        public int font { get; set; }
+        public int Font { get; set; }
 
-        public string command { get; set; }
+        public string Command { get; set; }
     }
 }

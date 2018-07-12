@@ -26,7 +26,7 @@ namespace StarFortune
 
             Requestor = new FortuneRequestor(new GroupMsgDTO()
             {
-                msg = StarName
+                Msg = StarName
             }, ReportCallBack);
 
             Task.Run(new Action(() => Requestor.Work()));

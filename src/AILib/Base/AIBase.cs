@@ -20,9 +20,9 @@ namespace AILib
 
         public virtual bool OnGroupMsgReceived(GroupMsgDTO MsgDTO)
         {
-            if (MsgDTO.fromQQ < 0)
+            if (MsgDTO.FromQQ < 0)
             {
-                MsgDTO.fromQQ = MsgDTO.fromQQ & 0xFFFFFFFF;
+                MsgDTO.FromQQ = MsgDTO.FromQQ & 0xFFFFFFFF;
             }
 
             Type t = this.GetType();
@@ -52,18 +52,18 @@ namespace AILib
 
         private bool GroupCheck(GroupEnterCommandAttributeAttribute enterAttr, GroupMsgDTO MsgDTO, out object[] param)
         {
-            if (enterAttr.Command != MsgDTO.command)
+            if (enterAttr.Command != MsgDTO.Command)
             {
                 param = null;
                 return false;
             }
 
-            if (!SyntaxCheck(enterAttr.SyntaxChecker, MsgDTO.msg, out param))
+            if (!SyntaxCheck(enterAttr.SyntaxChecker, MsgDTO.Msg, out param))
             {
                 return false;
             }
 
-            string authority = CQ.GetGroupMemberInfo(MsgDTO.fromGroup, MsgDTO.fromQQ, true).Authority;
+            string authority = CQ.GetGroupMemberInfo(MsgDTO.FromGroup, MsgDTO.FromQQ, true).Authority;
             if (!AuthorityCheck(enterAttr.AuthorityLevel, authority))
             {
                 return false;
@@ -136,17 +136,17 @@ namespace AILib
         private bool PrivateCheck(PrivateEnterCommandAttributeAttribute enterAttr, PrivateMsgDTO MsgDTO, out object[] param)
         {
             param = null;
-            if (enterAttr.Command != MsgDTO.command)
+            if (enterAttr.Command != MsgDTO.Command)
             {
                 return false;
             }
 
-            if (enterAttr.IsDeveloperOnly && MsgDTO.fromQQ != Common.DeveloperNumber)
+            if (enterAttr.IsDeveloperOnly && MsgDTO.FromQQ != Common.DeveloperNumber)
             {
                 return false;
             }
 
-            if (!SyntaxCheck(enterAttr.SyntaxChecker, MsgDTO.msg, out param))
+            if (!SyntaxCheck(enterAttr.SyntaxChecker, MsgDTO.Msg, out param))
             {
                 return false;
             }

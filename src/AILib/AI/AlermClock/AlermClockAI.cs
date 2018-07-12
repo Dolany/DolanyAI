@@ -91,8 +91,8 @@ namespace AILib
                 AimHourt = time.Value.hour,
                 AimMinute = time.Value.minute,
                 Content = param[1] as string,
-                Creator = MsgDTO.fromQQ,
-                GroupNumber = MsgDTO.fromGroup,
+                Creator = MsgDTO.FromQQ,
+                GroupNumber = MsgDTO.FromGroup,
                 CreateTime = DateTime.Now
             };
 
@@ -103,8 +103,8 @@ namespace AILib
         private void InsertClock(AlermClockEntity entity, GroupMsgDTO MsgDTO)
         {
             RuntimeLogger.Log("AlermClockAI InsertClock");
-            var query = DbMgr.Query<AlermClockEntity>(q => q.GroupNumber == MsgDTO.fromGroup
-                                                    && q.Creator == MsgDTO.fromQQ
+            var query = DbMgr.Query<AlermClockEntity>(q => q.GroupNumber == MsgDTO.FromGroup
+                                                    && q.Creator == MsgDTO.FromQQ
                                                     && q.AimHourt == entity.AimHourt
                                                     && q.AimMinute == entity.AimMinute);
             if (!query.IsNullOrEmpty())
@@ -121,7 +121,7 @@ namespace AILib
 
             MsgSender.Instance.PushMsg(new SendMsgDTO()
             {
-                Aim = MsgDTO.fromGroup,
+                Aim = MsgDTO.FromGroup,
                 Type = MsgType.Group,
                 Msg = "闹钟设定成功！"
             });
@@ -173,20 +173,20 @@ namespace AILib
         public void QueryClock(GroupMsgDTO MsgDTO, object[] param)
         {
             RuntimeLogger.Log("AlermClockAI Tryto QueryClock");
-            var allClocks = DbMgr.Query<AlermClockEntity>(q => q.GroupNumber == MsgDTO.fromGroup
-                                                                && q.Creator == MsgDTO.fromQQ);
+            var allClocks = DbMgr.Query<AlermClockEntity>(q => q.GroupNumber == MsgDTO.FromGroup
+                                                                && q.Creator == MsgDTO.FromQQ);
             if (allClocks.IsNullOrEmpty())
             {
                 MsgSender.Instance.PushMsg(new SendMsgDTO()
                 {
-                    Aim = MsgDTO.fromGroup,
+                    Aim = MsgDTO.FromGroup,
                     Type = MsgType.Group,
-                    Msg = $@"{CQ.CQCode_At(MsgDTO.fromQQ)} 你还没有设定闹钟呢！"
+                    Msg = $@"{CQ.CQCode_At(MsgDTO.FromQQ)} 你还没有设定闹钟呢！"
                 });
                 return;
             }
 
-            string Msg = $@"{CQ.CQCode_At(MsgDTO.fromQQ)} 你当前共设定了{allClocks.Count()}个闹钟";
+            string Msg = $@"{CQ.CQCode_At(MsgDTO.FromQQ)} 你当前共设定了{allClocks.Count()}个闹钟";
             foreach (var clock in allClocks)
             {
                 Msg += '\r' + $@"{clock.AimHourt.ToString("00")}:{clock.AimMinute.ToString("00")} {clock.Content}";
@@ -194,7 +194,7 @@ namespace AILib
 
             MsgSender.Instance.PushMsg(new SendMsgDTO()
             {
-                Aim = MsgDTO.fromGroup,
+                Aim = MsgDTO.FromGroup,
                 Type = MsgType.Group,
                 Msg = Msg
             });
@@ -214,15 +214,15 @@ namespace AILib
             RuntimeLogger.Log("AlermClockAI Tryto DeleteClock");
             (int hour, int minute)? time = param[0] as (int hour, int minute)?;
 
-            if (DbMgr.Delete<AlermClockEntity>(q => q.GroupNumber == MsgDTO.fromGroup
-                                                     && q.Creator == MsgDTO.fromQQ
+            if (DbMgr.Delete<AlermClockEntity>(q => q.GroupNumber == MsgDTO.FromGroup
+                                                     && q.Creator == MsgDTO.FromQQ
                                                      && q.AimHourt == time.Value.hour
                                                      && q.AimMinute == time.Value.minute
                                               ) > 0)
             {
                 MsgSender.Instance.PushMsg(new SendMsgDTO()
                 {
-                    Aim = MsgDTO.fromGroup,
+                    Aim = MsgDTO.FromGroup,
                     Type = MsgType.Group,
                     Msg = "删除闹钟成功！"
                 });
@@ -231,7 +231,7 @@ namespace AILib
             {
                 MsgSender.Instance.PushMsg(new SendMsgDTO()
                 {
-                    Aim = MsgDTO.fromGroup,
+                    Aim = MsgDTO.FromGroup,
                     Type = MsgType.Group,
                     Msg = "八嘎！你还没有在这个时间点设置过闹钟呢！"
                 });
@@ -252,13 +252,13 @@ namespace AILib
         public void ClearAllClock(GroupMsgDTO MsgDTO, object[] param)
         {
             RuntimeLogger.Log("AlermClockAI Tryto ClearAllClock");
-            if (DbMgr.Delete<AlermClockEntity>(q => q.GroupNumber == MsgDTO.fromGroup
-                                                     && q.Creator == MsgDTO.fromQQ
+            if (DbMgr.Delete<AlermClockEntity>(q => q.GroupNumber == MsgDTO.FromGroup
+                                                     && q.Creator == MsgDTO.FromQQ
                                               ) > 0)
             {
                 MsgSender.Instance.PushMsg(new SendMsgDTO()
                 {
-                    Aim = MsgDTO.fromGroup,
+                    Aim = MsgDTO.FromGroup,
                     Type = MsgType.Group,
                     Msg = "清空闹钟成功！"
                 });
@@ -267,7 +267,7 @@ namespace AILib
             {
                 MsgSender.Instance.PushMsg(new SendMsgDTO()
                 {
-                    Aim = MsgDTO.fromGroup,
+                    Aim = MsgDTO.FromGroup,
                     Type = MsgType.Group,
                     Msg = "八嘎！你还没有设置过闹钟呢！"
                 });

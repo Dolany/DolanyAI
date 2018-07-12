@@ -32,7 +32,7 @@ namespace Jump300Report
 
             JRR = new JumpReportRequestor(new GroupMsgDTO()
             {
-                msg = name
+                Msg = name
             }, ReportCallBack);
 
             Task.Run(new Action(() => JRR.Work()));

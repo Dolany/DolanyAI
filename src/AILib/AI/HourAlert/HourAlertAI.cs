@@ -112,13 +112,13 @@ namespace AILib
             AlertContentEntity info = param[0] as AlertContentEntity;
 
             info.CreateTime = DateTime.Now;
-            info.Creator = MsgDTO.fromQQ;
-            info.FromGroup = MsgDTO.fromGroup;
+            info.Creator = MsgDTO.FromQQ;
+            info.FromGroup = MsgDTO.FromGroup;
 
             string Msg = SaveAlertContent(info) ? "报时内容保存成功！" : "报时内容保存失败！";
             MsgSender.Instance.PushMsg(new SendMsgDTO()
             {
-                Aim = MsgDTO.fromGroup,
+                Aim = MsgDTO.FromGroup,
                 Type = MsgType.Group,
                 Msg = Msg
             });
@@ -135,10 +135,10 @@ namespace AILib
         public void AlertEnable(GroupMsgDTO MsgDTO, object[] param)
         {
             RuntimeLogger.Log("HourAlertAI Tryto AlertEnable");
-            AvailableStateChange(MsgDTO.fromGroup, true);
+            AvailableStateChange(MsgDTO.FromGroup, true);
             MsgSender.Instance.PushMsg(new SendMsgDTO()
             {
-                Aim = MsgDTO.fromGroup,
+                Aim = MsgDTO.FromGroup,
                 Type = MsgType.Group,
                 Msg = "报时功能已开启！"
             });
@@ -156,10 +156,10 @@ namespace AILib
         public void AlertDisenable(GroupMsgDTO MsgDTO, object[] param)
         {
             RuntimeLogger.Log("HourAlertAI Tryto AlertDisenable");
-            AvailableStateChange(MsgDTO.fromGroup, false);
+            AvailableStateChange(MsgDTO.FromGroup, false);
             MsgSender.Instance.PushMsg(new SendMsgDTO()
             {
-                Aim = MsgDTO.fromGroup,
+                Aim = MsgDTO.FromGroup,
                 Type = MsgType.Group,
                 Msg = "报时功能已关闭！"
             });
@@ -183,38 +183,6 @@ namespace AILib
                 var arg = query.FirstOrDefault();
                 arg.Available = state.ToString();
                 DbMgr.Update(arg);
-            }
-        }
-
-        public void RecordAlertContent(string msg, long fromQQ, long fromGroup)
-        {
-            AlertContentEntity info = AlertContentEntity.Parse(msg);
-            if (info == null)
-            {
-                return;
-            }
-
-            info.CreateTime = DateTime.Now;
-            info.Creator = fromQQ;
-            info.FromGroup = fromGroup;
-
-            if (SaveAlertContent(info))
-            {
-                MsgSender.Instance.PushMsg(new SendMsgDTO()
-                {
-                    Aim = fromGroup,
-                    Type = MsgType.Group,
-                    Msg = "报时内容保存成功！"
-                });
-            }
-            else
-            {
-                MsgSender.Instance.PushMsg(new SendMsgDTO()
-                {
-                    Aim = fromGroup,
-                    Type = MsgType.Group,
-                    Msg = "报时内容保存失败！"
-                });
             }
         }
 
@@ -307,7 +275,7 @@ namespace AILib
 
             MsgSender.Instance.PushMsg(new SendMsgDTO()
             {
-                Aim = MsgDTO.fromGroup,
+                Aim = MsgDTO.FromGroup,
                 Type = MsgType.Group,
                 Msg = "删除成功！"
             });

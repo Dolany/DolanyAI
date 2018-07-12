@@ -37,7 +37,7 @@ namespace AILib
             )]
         public void HelpMe(GroupMsgDTO MsgDTO, object[] param)
         {
-            if (string.IsNullOrEmpty(MsgDTO.msg))
+            if (string.IsNullOrEmpty(MsgDTO.Msg))
             {
                 HelpSummary(MsgDTO);
                 return;
@@ -67,7 +67,7 @@ namespace AILib
 
             MsgSender.Instance.PushMsg(new SendMsgDTO()
             {
-                Aim = MsgDTO.fromGroup,
+                Aim = MsgDTO.FromGroup,
                 Type = MsgType.Group,
                 Msg = helpMsg
             });
@@ -82,7 +82,7 @@ namespace AILib
 
         public bool HelpCommand(GroupMsgDTO MsgDTO)
         {
-            var commands = AllAvailableGroupCommands.Where(c => c.Metadata.Command == MsgDTO.msg);
+            var commands = AllAvailableGroupCommands.Where(c => c.Metadata.Command == MsgDTO.Msg);
             if (commands.IsNullOrEmpty())
             {
                 return false;
@@ -96,7 +96,7 @@ namespace AILib
 
             MsgSender.Instance.PushMsg(new SendMsgDTO()
             {
-                Aim = MsgDTO.fromGroup,
+                Aim = MsgDTO.FromGroup,
                 Type = MsgType.Group,
                 Msg = helpMsg
             });
@@ -106,7 +106,7 @@ namespace AILib
 
         public bool HelpTag(GroupMsgDTO MsgDTO)
         {
-            var commands = AllAvailableGroupCommands.Where(c => c.Metadata.Tag == MsgDTO.msg);
+            var commands = AllAvailableGroupCommands.Where(c => c.Metadata.Tag == MsgDTO.Msg);
             if (commands.IsNullOrEmpty())
             {
                 return false;
@@ -121,7 +121,7 @@ namespace AILib
 
             MsgSender.Instance.PushMsg(new SendMsgDTO()
             {
-                Aim = MsgDTO.fromGroup,
+                Aim = MsgDTO.FromGroup,
                 Type = MsgType.Group,
                 Msg = helpMsg
             });
