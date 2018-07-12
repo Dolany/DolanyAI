@@ -25,9 +25,6 @@ namespace AILib
 
         private object lockObj = new object();
 
-        [ImportMany("GroupEnterCommand")]
-        public IEnumerable<Lazy<Action<GroupMsgDTO, object[]>, IGroupEnterCommandCapabilities>> AllAvailableGroupCommands;
-
         public RepeatorAI()
             : base()
         {
@@ -51,7 +48,7 @@ namespace AILib
                 return false;
             }
 
-            if (AllAvailableGroupCommands.Select(p => p.Metadata.Command).Contains(MsgDTO.Command))
+            if (AIMgr.Instance.AllAvailableGroupCommands.Select(p => p.Command).Contains(MsgDTO.Command))
             {
                 return false;
             }

@@ -24,6 +24,8 @@ namespace AILib
 
         private static AIMgr _instance;
 
+        public List<GroupEnterCommandAttribute> AllAvailableGroupCommands = new List<GroupEnterCommandAttribute>();
+
         public static AIMgr Instance
         {
             get
@@ -56,6 +58,19 @@ namespace AILib
             foreach (var ai in AIList)
             {
                 ai.Value.Work();
+                ExtractCommands(ai.Value);
+            }
+        }
+
+        private void ExtractCommands(AIBase ai)
+        {
+            Type type = ai.GetType();
+            foreach (var method in type.GetMethods())
+            {
+                foreach (GroupEnterCommandAttribute attr in method.GetCustomAttributes(typeof(GroupEnterCommandAttribute), false))
+                {
+                    AllAvailableGroupCommands.Add(attr);
+                }
             }
         }
 

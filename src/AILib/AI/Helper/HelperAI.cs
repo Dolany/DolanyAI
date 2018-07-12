@@ -15,9 +15,6 @@ namespace AILib
         )]
     public class HelperAI : AIBase
     {
-        [ImportMany("GroupEnterCommand")]
-        public IEnumerable<Lazy<Action<GroupMsgDTO, object[]>, IGroupEnterCommandCapabilities>> AllAvailableGroupCommands;
-
         public HelperAI()
             : base()
         {
@@ -75,24 +72,24 @@ namespace AILib
 
         private IEnumerable<IGroupEnterCommandCapabilities> GetCommandAttrs()
         {
-            return AllAvailableGroupCommands
-                .GroupBy(c => c.Metadata.Tag)
-                .Select(p => p.First().Metadata);
+            return AIMgr.Instance.AllAvailableGroupCommands
+                .GroupBy(c => c.Tag)
+                .Select(p => p.First());
         }
 
         public bool HelpCommand(GroupMsgDTO MsgDTO)
         {
-            var commands = AllAvailableGroupCommands.Where(c => c.Metadata.Command == MsgDTO.Msg);
+            var commands = AIMgr.Instance.AllAvailableGroupCommands.Where(c => c.Command == MsgDTO.Msg);
             if (commands.IsNullOrEmpty())
             {
                 return false;
             }
 
             var command = commands.FirstOrDefault();
-            string helpMsg = $@"命令：{command.Metadata.Command}
-格式： {command.Metadata.Command} {command.Metadata.Syntax}
-描述： {command.Metadata.Description}
-权限： {command.Metadata.AuthorityLevel.ToString()}";
+            string helpMsg = $@"命令：{command.Command}
+格式： {command.Command} {command.Syntax}
+描述： {command.Description}
+权限： {command.AuthorityLevel.ToString()}";
 
             MsgSender.Instance.PushMsg(new SendMsgDTO()
             {
@@ -106,7 +103,7 @@ namespace AILib
 
         public bool HelpTag(GroupMsgDTO MsgDTO)
         {
-            var commands = AllAvailableGroupCommands.Where(c => c.Metadata.Tag == MsgDTO.Msg);
+            var commands = AIMgr.Instance.AllAvailableGroupCommands.Where(c => c.Tag == MsgDTO.Msg);
             if (commands.IsNullOrEmpty())
             {
                 return false;
@@ -115,7 +112,7 @@ namespace AILib
             string helpMsg = $@"当前标签下有以下命令：";
             foreach (var c in commands)
             {
-                helpMsg += '\r' + c.Metadata.Command;
+                helpMsg += '\r' + c.Command;
             }
             helpMsg += '\r' + "可以使用 帮助 [命令名] 来查询具体命令信息。";
 
