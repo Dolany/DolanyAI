@@ -92,12 +92,14 @@
     <Compile Include="AI\Repeater\PlusOneCache.cs" />
     <Compile Include="Common\DirtyFilter.cs" />
     <Compile Include="Common\MsgReceiveCache.cs" />
-    <Compile Include="Entities\AISealEntity.cs" />
-    <Compile Include="Entities\ConfigEntity.cs" />
+    <Compile Include="Entities\ForestAdvanture\ForestAdvantureEntity.cs" />
+    <Compile Include="Entities\ForestAdvanture\HeroCharactorEntity.cs" />
+    <Compile Include="Entities\Management\AISealEntity.cs" />
+    <Compile Include="Entities\Management\ConfigEntity.cs" />
     <Compile Include="Entities\DirtyFilter\BlackListEntity.cs" />
     <Compile Include="Entities\CharactorSetting\CharactorSettingEntity.cs" />
     <Compile Include="Entities\DirtyFilter\DirtyWordEntity.cs" />
-    <Compile Include="Entities\HeartBeatEntity.cs" />
+    <Compile Include="Entities\Management\HeartBeatEntity.cs" />
     <Compile Include="Entities\HelloEntity.cs" />
     <Compile Include="Entities\RandomFortuneEntity.cs" />
     <Compile Include="Entities\Repeat\PlusOneAvailableEntity.cs" />
@@ -115,18 +117,19 @@
     <Compile Include="Entities\Common\EntityBase.cs" />
     <Compile Include="DTO\SendMsgDTO.cs" />
     <Compile Include="Entities\AlermClockEntity.cs" />
-    <Compile Include="Entities\GroupConfigEntity.cs" />
+    <Compile Include="Entities\Management\GroupConfigEntity.cs" />
     <Compile Include="Entities\Common\LogEntity.cs" />
-    <Compile Include="Entities\PublishRecordEntity.cs" />
+    <Compile Include="Entities\Management\PublishRecordEntity.cs" />
     <Compile Include="Entities\Saying\SayingEntity.cs" />
     <Compile Include="Entities\Saying\SayingSealEntity.cs" />
-    <Compile Include="Entities\SynonymDicEntity.cs" />
+    <Compile Include="Entities\Management\SynonymDicEntity.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Properties\Settings.Designer.cs">
       <AutoGen>True</AutoGen>
       <DesignTimeSharedInput>True</DesignTimeSharedInput>
       <DependentUpon>Settings.settings</DependentUpon>
     </Compile>
+    <Compile Include="Session\GroupSession.cs" />
     <Compile Include="SyntaxChecker\AlermClock\DeleteClockChecker.cs" />
     <Compile Include="SyntaxChecker\CartoonSayings\ProcceedMsgChecker.cs" />
     <Compile Include="SyntaxChecker\Common\EmptyChecker.cs" />

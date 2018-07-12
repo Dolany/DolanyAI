@@ -2,6 +2,7 @@
 using System.Xml;
 using System.Reflection;
 using System.Xml.Linq;
+using System.Collections.Generic;
 
 namespace AILib.Entities
 {
@@ -62,6 +63,7 @@ namespace AILib.Entities
                 {
                     continue;
                 }
+
                 string attrValue = ele.Attribute(prop.Name).Value;
                 prop.SetValue(entity, Convert.ChangeType(attrValue, prop.PropertyType));
             }
