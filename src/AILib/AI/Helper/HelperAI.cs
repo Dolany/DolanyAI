@@ -15,7 +15,7 @@ namespace AILib
         )]
     public class HelperAI : AIBase
     {
-        [ImportMany(typeof(Action<GroupMsgDTO, object[]>))]
+        [ImportMany("GroupEnterCommand")]
         public IEnumerable<Lazy<Action<GroupMsgDTO, object[]>, IGroupEnterCommandCapabilities>> AllAvailableGroupCommands;
 
         public HelperAI()

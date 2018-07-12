@@ -19,7 +19,7 @@ namespace AILib
     public class GroupEnterCommandAttributeAttribute : ExportAttribute, IGroupEnterCommandCapabilities
     {
         public GroupEnterCommandAttributeAttribute()
-            : base(typeof(Action<GroupMsgDTO, object[]>))
+            : base("GroupEnterCommand")
         {
         }
 
@@ -46,7 +46,7 @@ namespace AILib
     public class PrivateEnterCommandAttributeAttribute : ExportAttribute, IPrivateEnterCommandCapabilities
     {
         public PrivateEnterCommandAttributeAttribute()
-            : base(typeof(Action<PrivateMsgDTO, object[]>))
+            : base("PrivateEnterCommand")
         {
         }
 

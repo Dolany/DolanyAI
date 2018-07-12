@@ -25,7 +25,7 @@ namespace AILib
 
         private object lockObj = new object();
 
-        [ImportMany(typeof(Action<GroupMsgDTO, object[]>))]
+        [ImportMany("GroupEnterCommand")]
         public IEnumerable<Lazy<Action<GroupMsgDTO, object[]>, IGroupEnterCommandCapabilities>> AllAvailableGroupCommands;
 
         public RepeatorAI()
