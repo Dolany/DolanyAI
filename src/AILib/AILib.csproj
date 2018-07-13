@@ -95,6 +95,7 @@
     <Compile Include="Entities\ForestAdvanture\Basic\CareerEntity.cs" />
     <Compile Include="Entities\ForestAdvanture\Basic\EquipEntity.cs" />
     <Compile Include="Entities\ForestAdvanture\Basic\EquipTypeEntity.cs" />
+    <Compile Include="Entities\ForestAdvanture\Basic\MonsterRaceEntity.cs" />
     <Compile Include="Entities\ForestAdvanture\Basic\MonsterTypeEntity.cs" />
     <Compile Include="Entities\ForestAdvanture\Basic\SkillTypeEntity.cs" />
     <Compile Include="Entities\ForestAdvanture\ForestAdvantureEntity.cs" />
