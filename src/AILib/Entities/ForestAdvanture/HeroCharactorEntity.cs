@@ -40,5 +40,8 @@ namespace AILib.Entities
 
         [DataColumn]
         public string CareerId { get; set; }
+
+        [DataColumn]
+        public int Gold { get; set; }
     }
 }

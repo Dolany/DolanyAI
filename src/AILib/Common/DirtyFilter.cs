@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using AILib.Entities;
+using Flexlive.CQP.Framework;
 
 namespace AILib
 {
@@ -22,17 +23,17 @@ namespace AILib
             InitWordList();
         }
 
-        public bool Filter(long QQNum, string msg)
+        public bool Filter(long GroupNum, long QQNum, string msg)
         {
             if (IsDirtyWord(msg))
             {
-                AddInBlackList(QQNum);
+                AddInBlackList(GroupNum, QQNum);
                 return false;
             }
             return true;
         }
 
-        private void AddInBlackList(long QQNum)
+        private void AddInBlackList(long GroupNum, long QQNum)
         {
             var query = DbMgr.Query<BlackListEntity>(b => b.QQNum == QQNum);
             if (!query.IsNullOrEmpty())
@@ -41,18 +42,18 @@ namespace AILib
                 black.BlackCount++;
                 black.UpdateTime = DateTime.Now;
                 DbMgr.Update(black);
+                return;
             }
-            else
+
+            DbMgr.Insert(new BlackListEntity
             {
-                DbMgr.Insert(new BlackListEntity
-                {
-                    Id = Guid.NewGuid().ToString(),
-                    BlackCount = 1,
-                    UpdateTime = DateTime.Now,
-                    QQNum = QQNum,
-                    Content = string.Empty
-                });
-            }
+                Id = Guid.NewGuid().ToString(),
+                BlackCount = 1,
+                UpdateTime = DateTime.Now,
+                QQNum = QQNum,
+                NickName = CQ.GetGroupMemberInfo(GroupNum, QQNum, true).QQName,
+                Content = string.Empty
+            });
         }
 
         public static void InitWordList()

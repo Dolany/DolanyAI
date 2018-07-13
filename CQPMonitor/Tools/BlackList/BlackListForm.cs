@@ -21,8 +21,6 @@ namespace CQPMonitor.Tools.BlackList
         )]
     public partial class BlackListForm : ToolBaseForm
     {
-        //private System.Timers.Timer timer = new System.Timers.Timer();
-
         private List<BlackListEntity> BlackListList;
         private List<DirtyWordEntity> DirtyWordList;
 
@@ -33,7 +31,7 @@ namespace CQPMonitor.Tools.BlackList
 
         private void RefreshBlackListTable()
         {
-            var query = DbMgr.Query<BlackListEntity>().OrderByDescending(b => b.UpdateTime);
+            var query = DbMgr.Query<BlackListEntity>().OrderByDescending(b => b.BlackCount);
             BlackListList = query.ToList();
             blackListTable.DataSource = BlackListList;
         }
@@ -54,13 +52,6 @@ namespace CQPMonitor.Tools.BlackList
         {
             RefreshBlackListTable();
             RefreshDirtyWordsTable();
-
-            //timer.Interval = 5000;
-            //timer.Enabled = true;
-            //timer.Elapsed += TimeUp;
-            //timer.AutoReset = true;
-
-            //timer.Start();
         }
 
         private void TimeUp(object sender, System.Timers.ElapsedEventArgs e)
@@ -122,9 +113,6 @@ namespace CQPMonitor.Tools.BlackList
         public override void Shutdown()
         {
             base.Shutdown();
-
-            //timer.Stop();
-            //timer.Enabled = false;
         }
     }
 }

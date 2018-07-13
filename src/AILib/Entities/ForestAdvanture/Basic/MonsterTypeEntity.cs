@@ -6,18 +6,18 @@ using System.Threading.Tasks;
 
 namespace AILib.Entities
 {
-    public class BlackListEntity : EntityBase
+    public class MonsterTypeEntity : EntityBase
     {
         [DataColumn]
-        public DateTime UpdateTime { get; set; }
+        public string Name { get; set; }
 
         [DataColumn]
-        public long QQNum { get; set; }
+        public int HP { get; set; }
 
         [DataColumn]
-        public int BlackCount { get; set; }
+        public int MP { get; set; }
 
         [DataColumn]
-        public string NickName { get; set; }
+        public string MonsterRaceId { get; set; }
     }
 }

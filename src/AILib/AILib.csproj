@@ -93,9 +93,14 @@
     <Compile Include="Common\DirtyFilter.cs" />
     <Compile Include="Common\MsgReceiveCache.cs" />
     <Compile Include="Entities\ForestAdvanture\Basic\CareerEntity.cs" />
+    <Compile Include="Entities\ForestAdvanture\Basic\EquipEntity.cs" />
+    <Compile Include="Entities\ForestAdvanture\Basic\EquipTypeEntity.cs" />
+    <Compile Include="Entities\ForestAdvanture\Basic\MonsterTypeEntity.cs" />
+    <Compile Include="Entities\ForestAdvanture\Basic\SkillTypeEntity.cs" />
     <Compile Include="Entities\ForestAdvanture\ForestAdvantureEntity.cs" />
     <Compile Include="Entities\ForestAdvanture\HeroCharactorEntity.cs" />
     <Compile Include="Entities\ForestAdvanture\Basic\SkillEntity.cs" />
+    <Compile Include="Entities\ForestAdvanture\Relationship\RS_CharactorEquipEntity.cs" />
     <Compile Include="Entities\ForestAdvanture\Relationship\RS_CharactorSkillEntity.cs" />
     <Compile Include="Entities\Management\AISealEntity.cs" />
     <Compile Include="Entities\Management\ConfigEntity.cs" />

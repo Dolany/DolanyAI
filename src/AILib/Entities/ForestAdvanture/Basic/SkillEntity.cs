@@ -22,5 +22,8 @@ namespace AILib.Entities
 
         [DataColumn]
         public int IsAutoLearn { get; set; }
+
+        [DataColumn]
+        public string SkillTypeId { get; set; }
     }
 }

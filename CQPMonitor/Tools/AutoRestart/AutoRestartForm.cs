@@ -33,6 +33,8 @@ namespace CQPMonitor.Tools.AutoRestart
         private int CheckFrequency = 30;
         private int LogShowCount = 30;
 
+        private bool IsLoaded = false;
+
         private List<LogEntity> Logs;
 
         public AutoRestartForm()
@@ -130,6 +132,11 @@ namespace CQPMonitor.Tools.AutoRestart
 
         private void SetState(string state)
         {
+            if (!IsLoaded)
+            {
+                return;
+            }
+
             Invoke(new Action(() =>
             {
                 CurStateLbl.Text = state;
@@ -191,6 +198,11 @@ namespace CQPMonitor.Tools.AutoRestart
 
         private void RefreshTable()
         {
+            if (!IsLoaded)
+            {
+                return;
+            }
+
             this.Invoke(new Action(() =>
             {
                 var query = DbMgr.Query<LogEntity>(l => l.LogType == "Restart");
@@ -225,6 +237,8 @@ namespace CQPMonitor.Tools.AutoRestart
 
         private void AutoRestartForm_Load(object sender, EventArgs e)
         {
+            IsLoaded = true;
+
             RefreshTable();
             RefreshTxt();
             SetRestartCount();

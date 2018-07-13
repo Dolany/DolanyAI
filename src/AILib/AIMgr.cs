@@ -91,7 +91,12 @@ namespace AILib
                 return;
             }
 
-            if (Filter.IsInBlackList(MsgDTO.FromQQ) || !Filter.Filter(MsgDTO.FromQQ, MsgDTO.Msg))
+            if (MsgDTO.FromQQ < 0)
+            {
+                MsgDTO.FromQQ = MsgDTO.FromQQ & 0xFFFFFFFF;
+            }
+
+            if (Filter.IsInBlackList(MsgDTO.FromQQ) || !Filter.Filter(MsgDTO.FromGroup, MsgDTO.FromQQ, MsgDTO.Msg))
             {
                 return;
             }
@@ -137,10 +142,10 @@ namespace AILib
                 return;
             }
 
-            if (Filter.IsInBlackList(MsgDTO.FromQQ) || !Filter.Filter(MsgDTO.FromQQ, MsgDTO.Msg))
-            {
-                return;
-            }
+            //if (Filter.IsInBlackList(MsgDTO.FromQQ) || !Filter.Filter(MsgDTO.FromQQ, MsgDTO.Msg))
+            //{
+            //    return;
+            //}
 
             string msg = MsgDTO.Msg;
             MsgDTO.Command = GenCommand(ref msg);

@@ -20,11 +20,6 @@ namespace AILib
 
         public virtual bool OnGroupMsgReceived(GroupMsgDTO MsgDTO)
         {
-            if (MsgDTO.FromQQ < 0)
-            {
-                MsgDTO.FromQQ = MsgDTO.FromQQ & 0xFFFFFFFF;
-            }
-
             Type t = this.GetType();
             foreach (var method in t.GetMethods())
             {
