@@ -12,7 +12,7 @@ namespace AILib
     [AI(
         Name = "MonitorAI",
         Description = "AI for Monitor Ais status and emitting heart beat.",
-        IsAvailable = true,
+        IsAvailable = false,
         PriorityLevel = 12
         )]
     public class MonitorAI : AIBase

@@ -10,7 +10,7 @@ namespace AILib
     [AI(
         Name = "HourAlertAI",
         Description = "AI for Hour Alert.",
-        IsAvailable = true,
+        IsAvailable = false,
         PriorityLevel = 10
         )]
     public class HourAlertAI : AIBase

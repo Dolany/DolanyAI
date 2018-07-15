@@ -19,7 +19,7 @@ namespace AILib
     [AI(
         Name = "AlermClockAI",
         Description = "AI for Alerm Clock.",
-        IsAvailable = true,
+        IsAvailable = false,
         PriorityLevel = 10
         )]
     public class AlermClockAI : AIBase

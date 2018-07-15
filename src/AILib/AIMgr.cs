@@ -51,7 +51,8 @@ namespace AILib
         /// </summary>
         public void StartAIs()
         {
-            AIList = AIList.OrderByDescending(a => a.Metadata.PriorityLevel)
+            AIList = AIList.Where(a => a.Metadata.IsAvailable)
+                           .OrderByDescending(a => a.Metadata.PriorityLevel)
                            .GroupBy(a => a.Metadata.Name)
                            .Select(g => g.First())
                            .ToList();
