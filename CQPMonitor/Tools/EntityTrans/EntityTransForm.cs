@@ -29,29 +29,28 @@ namespace CQPMonitor.Tools
 
         private void button1_Click(object sender, EventArgs e)
         {
-            var entities = DbMgr.Query<RandomFortuneEntity>();
-            foreach (var en in entities)
-            {
-                UpdateToSqlServer(en);
-            }
+            //var entities = DbMgr.Query<RepeaterAvailableEntity>();
+            //foreach (var en in entities)
+            //{
+            //    UpdateToSqlServer(en);
+            //}
 
-            MessageBox.Show("complete " + entities.Count());
+            //MessageBox.Show("complete " + entities.Count());
         }
 
-        private void UpdateToSqlServer(RandomFortuneEntity en)
-        {
-            using (AIDatabase db = new AIDatabase())
-            {
-                db.RandomFortune.Add(new RandomFortune
-                {
-                    Id = en.Id,
-                    QQNum = en.QQNum,
-                    UpdateDate = en.UpdateDate,
-                    FortuneValue = int.Parse(en.Content)
-                });
+        //private void UpdateToSqlServer(RepeaterAvailableEntity en)
+        //{
+        //    using (AIDatabase db = new AIDatabase())
+        //    {
+        //        db.RepeaterAvailable.Add(new RepeaterAvailable
+        //        {
+        //            Id = en.Id,
+        //            GroupNumber = en.GroupNumber,
+        //            Available = bool.Parse(en.Content)
+        //        });
 
-                db.SaveChanges();
-            }
-        }
+        //        db.SaveChanges();
+        //    }
+        //}
     }
 }

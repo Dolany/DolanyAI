@@ -42,11 +42,20 @@
           <Property Name="UpdateDate" Type="datetime" Nullable="false" />
           <Property Name="FortuneValue" Type="int" Nullable="false" />
         </EntityType>
+        <EntityType Name="RepeaterAvailable">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="nvarchar" MaxLength="50" Nullable="false" />
+          <Property Name="GroupNumber" Type="bigint" Nullable="false" />
+          <Property Name="Available" Type="bit" Nullable="false" />
+        </EntityType>
         <EntityContainer Name="AIDatabaseModelStoreContainer">
           <EntitySet Name="FishingRecord" EntityType="Self.FishingRecord" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="FishItem" EntityType="Self.FishItem" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="PlusOneAvailable" EntityType="Self.PlusOneAvailable" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="RandomFortune" EntityType="Self.RandomFortune" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="RepeaterAvailable" EntityType="Self.RepeaterAvailable" Schema="dbo" store:Type="Tables" />
         </EntityContainer>
       </Schema></edmx:StorageModels>
     <!-- CSDL content -->
@@ -57,6 +66,7 @@
           <EntitySet Name="FishItem" EntityType="AIDatabaseModel.FishItem" />
           <EntitySet Name="PlusOneAvailable" EntityType="AIDatabaseModel.PlusOneAvailable" />
           <EntitySet Name="RandomFortune" EntityType="AIDatabaseModel.RandomFortune" />
+          <EntitySet Name="RepeaterAvailable" EntityType="AIDatabaseModel.RepeaterAvailable" />
         </EntityContainer>
         <EntityType Name="FishingRecord">
           <Key>
@@ -94,6 +104,14 @@
           <Property Name="QQNum" Type="Int64" Nullable="false" />
           <Property Name="UpdateDate" Type="DateTime" Nullable="false" Precision="3" />
           <Property Name="FortuneValue" Type="Int32" Nullable="false" />
+        </EntityType>
+        <EntityType Name="RepeaterAvailable">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="GroupNumber" Type="Int64" Nullable="false" />
+          <Property Name="Available" Type="Boolean" Nullable="false" />
         </EntityType>
       </Schema>
     </edmx:ConceptualModels>
@@ -138,6 +156,15 @@
                 <ScalarProperty Name="FortuneValue" ColumnName="FortuneValue" />
                 <ScalarProperty Name="UpdateDate" ColumnName="UpdateDate" />
                 <ScalarProperty Name="QQNum" ColumnName="QQNum" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="RepeaterAvailable">
+            <EntityTypeMapping TypeName="AIDatabaseModel.RepeaterAvailable">
+              <MappingFragment StoreEntitySet="RepeaterAvailable">
+                <ScalarProperty Name="Available" ColumnName="Available" />
+                <ScalarProperty Name="GroupNumber" ColumnName="GroupNumber" />
                 <ScalarProperty Name="Id" ColumnName="Id" />
               </MappingFragment>
             </EntityTypeMapping>

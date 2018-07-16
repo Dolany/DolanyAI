@@ -121,6 +121,9 @@
     <Compile Include="Db\PlusOneAvailable.cs">
       <DependentUpon>AIModel.tt</DependentUpon>
     </Compile>
+    <Compile Include="Db\RepeaterAvailable.cs">
+      <DependentUpon>AIModel.tt</DependentUpon>
+    </Compile>
     <Compile Include="Entities\ForestAdvanture\Basic\CareerEntity.cs" />
     <Compile Include="Entities\ForestAdvanture\Basic\EquipEntity.cs" />
     <Compile Include="Entities\ForestAdvanture\Basic\EquipTypeEntity.cs" />
@@ -139,7 +142,6 @@
     <Compile Include="Entities\DirtyFilter\DirtyWordEntity.cs" />
     <Compile Include="Entities\Management\HeartBeatEntity.cs" />
     <Compile Include="Entities\HelloEntity.cs" />
-    <Compile Include="Entities\Repeat\RepeaterAvailableEntity.cs" />
     <Compile Include="Html\HtmlParser.cs" />
     <Compile Include="Html\HttpRequester.cs" />
     <Compile Include="Common\Logger.cs" />

@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 using System.Threading;
 using AILib.Entities;
 using System.ComponentModel.Composition;
+using AILib.Db;
 
 namespace AILib
 {
@@ -106,40 +107,48 @@ namespace AILib
 
         private void ForbiddenStateChange(long fromGroup, bool state)
         {
-            var query = DbMgr.Query<RepeaterAvailableEntity>(r => r.GroupNumber == fromGroup);
-            if (query.IsNullOrEmpty())
+            using (AIDatabase db = new AIDatabase())
             {
-                DbMgr.Insert(new RepeaterAvailableEntity()
+                var query = db.RepeaterAvailable.Where(r => r.GroupNumber == fromGroup);
+                if (query.IsNullOrEmpty())
                 {
-                    Id = Guid.NewGuid().ToString(),
-                    GroupNumber = fromGroup,
-                    Content = state.ToString()
-                });
-                return;
-            }
+                    db.RepeaterAvailable.Add(new RepeaterAvailable()
+                    {
+                        Id = Guid.NewGuid().ToString(),
+                        GroupNumber = fromGroup,
+                        Available = state
+                    });
+                }
+                else
+                {
+                    var ra = query.FirstOrDefault();
+                    ra.Available = state;
+                }
 
-            var ra = query.FirstOrDefault();
-            ra.Content = state.ToString();
-            DbMgr.Update(ra);
+                db.SaveChanges();
+            }
         }
 
         private bool IsAvailable(long GroupNum)
         {
-            var query = DbMgr.Query<RepeaterAvailableEntity>();
-            if (query.IsNullOrEmpty())
+            using (AIDatabase db = new AIDatabase())
             {
+                var query = db.RepeaterAvailable;
+                if (query.IsNullOrEmpty())
+                {
+                    return true;
+                }
+
+                foreach (var r in query)
+                {
+                    if (r.GroupNumber == GroupNum && !r.Available)
+                    {
+                        return false;
+                    }
+                }
+
                 return true;
             }
-
-            foreach (var r in query)
-            {
-                if (r.GroupNumber == GroupNum && !bool.Parse(r.Content))
-                {
-                    return false;
-                }
-            }
-
-            return true;
         }
 
         private void Repeat(GroupMsgDTO MsgDTO)
