@@ -32,6 +32,11 @@ namespace AILib
 
         public override bool OnGroupMsgReceived(GroupMsgDTO MsgDTO)
         {
+            if (base.OnGroupMsgReceived(MsgDTO))
+            {
+                return true;
+            }
+
             if (!IsAvailable(MsgDTO.FromGroup))
             {
                 return false;
