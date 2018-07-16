@@ -112,6 +112,21 @@ namespace AILib
 
         private void GroupMsgCallBack(GroupMsgDTO MsgDTO)
         {
+            try
+            {
+                Task.Run(new Action(() =>
+                {
+                    GroupMsgCallBack_Func(MsgDTO);
+                }));
+            }
+            catch (Exception ex)
+            {
+                Common.SendMsgToDeveloper(ex);
+            }
+        }
+
+        private void GroupMsgCallBack_Func(GroupMsgDTO MsgDTO)
+        {
             foreach (var ai in AIList)
             {
                 if (IsAiSealed(MsgDTO, ai.Value))

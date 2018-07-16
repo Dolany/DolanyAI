@@ -18,7 +18,7 @@ namespace CQPMonitor.Tools.AutoRestart
         ToolName = "自动重启",
         Decription = "自动重启CQP，检测历史重启情况",
         ToolIcon = "autorestart.ico",
-        IsAutoStart = false,
+        IsAutoStart = true,
         Order = 1
         )]
     public partial class AutoRestartForm : ToolBaseForm
@@ -88,7 +88,7 @@ namespace CQPMonitor.Tools.AutoRestart
             {
                 Restart();
 
-                CheckHeartBeat();
+                //CheckHeartBeat();
 
                 SetRestartCount();
             }
