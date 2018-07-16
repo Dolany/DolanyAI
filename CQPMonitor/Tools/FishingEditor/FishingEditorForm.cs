@@ -8,6 +8,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 using AILib.Db;
+using AILib;
 
 namespace CQPMonitor.Tools.FishingEditor
 {
@@ -27,6 +28,12 @@ namespace CQPMonitor.Tools.FishingEditor
 
         private void button1_Click(object sender, EventArgs e)
         {
+            using (AIDatabase db = new AIDatabase())
+            {
+                var query = db.PlusOneAvailable.Where(r => r.GroupNumber == 411277569 && !r.Available);
+
+                MessageBox.Show((!query.IsNullOrEmpty()).ToString());
+            }
         }
     }
 }

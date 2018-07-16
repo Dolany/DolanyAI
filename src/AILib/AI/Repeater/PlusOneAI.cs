@@ -152,8 +152,16 @@ namespace AILib
         {
             using (AIDatabase db = new AIDatabase())
             {
-                var query = db.PlusOneAvailable.Where(r => r.GroupNumber == GroupNum && !r.Available);
-                return !query.IsNullOrEmpty();
+                try
+                {
+                    var query = db.PlusOneAvailable.Where(r => r.GroupNumber == GroupNum && !r.Available);
+                    return query.IsNullOrEmpty();
+                }
+                catch (Exception ex)
+                {
+                    //Common.SendMsgToDeveloper(ex);
+                    return true;
+                }
             }
         }
     }

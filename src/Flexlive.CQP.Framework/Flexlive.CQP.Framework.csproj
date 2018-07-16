@@ -79,6 +79,9 @@
     <Compile Include="Utils\StringHelper.cs" />
   </ItemGroup>
   <ItemGroup>
+    <None Include="app.config">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
     <None Include="CSPlugins.cfg">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
