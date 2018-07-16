@@ -14,10 +14,19 @@ namespace AILib.Db
     
     public partial class FishItem
     {
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
+        public FishItem()
+        {
+            this.FishingRecord = new HashSet<FishingRecord>();
+        }
+    
         public string Id { get; set; }
         public string Name { get; set; }
         public string Description { get; set; }
-        public Nullable<int> RareRate { get; set; }
+        public int RareRate { get; set; }
         public string Icon { get; set; }
+    
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<FishingRecord> FishingRecord { get; set; }
     }
 }

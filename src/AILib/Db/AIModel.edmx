@@ -4,52 +4,145 @@
   <edmx:Runtime>
     <!-- SSDL content -->
     <edmx:StorageModels>
-      <Schema Namespace="AIDatabaseModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+    <Schema Namespace="AIDatabaseModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+        <EntityType Name="FishingRecord">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="nvarchar" MaxLength="50" Nullable="false" />
+          <Property Name="GroupNum" Type="bigint" Nullable="false" />
+          <Property Name="QQNum" Type="bigint" Nullable="false" />
+          <Property Name="ItemId" Type="nvarchar" MaxLength="50" />
+          <Property Name="FishingTime" Type="datetime" Nullable="false" />
+        </EntityType>
         <EntityType Name="FishItem">
           <Key>
             <PropertyRef Name="Id" />
           </Key>
           <Property Name="Id" Type="nvarchar" MaxLength="50" Nullable="false" />
-          <Property Name="Name" Type="nvarchar" MaxLength="50" />
+          <Property Name="Name" Type="nvarchar" MaxLength="50" Nullable="false" />
           <Property Name="Description" Type="nvarchar" MaxLength="50" />
-          <Property Name="RareRate" Type="int" />
+          <Property Name="RareRate" Type="int" Nullable="false" />
           <Property Name="Icon" Type="nvarchar" MaxLength="50" />
         </EntityType>
+        <EntityType Name="PlusOneAvailable">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="nvarchar" MaxLength="50" Nullable="false" />
+          <Property Name="GroupNumber" Type="bigint" Nullable="false" />
+          <Property Name="Available" Type="bit" Nullable="false" />
+        </EntityType>
+        <Association Name="FK_FishingRecord_ToTable">
+          <End Role="FishItem" Type="Self.FishItem" Multiplicity="0..1" />
+          <End Role="FishingRecord" Type="Self.FishingRecord" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="FishItem">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="FishingRecord">
+              <PropertyRef Name="ItemId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
         <EntityContainer Name="AIDatabaseModelStoreContainer">
+          <EntitySet Name="FishingRecord" EntityType="Self.FishingRecord" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="FishItem" EntityType="Self.FishItem" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="PlusOneAvailable" EntityType="Self.PlusOneAvailable" Schema="dbo" store:Type="Tables" />
+          <AssociationSet Name="FK_FishingRecord_ToTable" Association="Self.FK_FishingRecord_ToTable">
+            <End Role="FishItem" EntitySet="FishItem" />
+            <End Role="FishingRecord" EntitySet="FishingRecord" />
+          </AssociationSet>
         </EntityContainer>
-      </Schema>
-    </edmx:StorageModels>
+      </Schema></edmx:StorageModels>
     <!-- CSDL content -->
     <edmx:ConceptualModels>
       <Schema Namespace="AIDatabaseModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+        <EntityContainer Name="AIDatabase" annotation:LazyLoadingEnabled="true">
+          <EntitySet Name="FishingRecord" EntityType="AIDatabaseModel.FishingRecord" />
+          <EntitySet Name="FishItem" EntityType="AIDatabaseModel.FishItem" />
+          <EntitySet Name="PlusOneAvailable" EntityType="AIDatabaseModel.PlusOneAvailable" />
+          <AssociationSet Name="FK_FishingRecord_ToTable" Association="AIDatabaseModel.FK_FishingRecord_ToTable">
+            <End Role="FishItem" EntitySet="FishItem" />
+            <End Role="FishingRecord" EntitySet="FishingRecord" />
+          </AssociationSet>
+        </EntityContainer>
+        <EntityType Name="FishingRecord">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="GroupNum" Type="Int64" Nullable="false" />
+          <Property Name="QQNum" Type="Int64" Nullable="false" />
+          <Property Name="ItemId" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="FishingTime" Type="DateTime" Nullable="false" Precision="3" />
+          <NavigationProperty Name="FishItem" Relationship="AIDatabaseModel.FK_FishingRecord_ToTable" FromRole="FishingRecord" ToRole="FishItem" />
+        </EntityType>
         <EntityType Name="FishItem">
           <Key>
             <PropertyRef Name="Id" />
           </Key>
-          <Property Name="Id" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
-          <Property Name="Name" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="Id" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="Name" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
           <Property Name="Description" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
-          <Property Name="RareRate" Type="Int32" />
+          <Property Name="RareRate" Type="Int32" Nullable="false" />
           <Property Name="Icon" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="FishingRecord" Relationship="AIDatabaseModel.FK_FishingRecord_ToTable" FromRole="FishItem" ToRole="FishingRecord" />
         </EntityType>
-        <EntityContainer Name="AIDatabase" annotation:LazyLoadingEnabled="true">
-          <EntitySet Name="FishItem" EntityType="Self.FishItem" />
-        </EntityContainer>
+        <EntityType Name="PlusOneAvailable">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="GroupNumber" Type="Int64" Nullable="false" />
+          <Property Name="Available" Type="Boolean" Nullable="false" />
+        </EntityType>
+        <Association Name="FK_FishingRecord_ToTable">
+          <End Type="AIDatabaseModel.FishItem" Role="FishItem" Multiplicity="0..1" />
+          <End Type="AIDatabaseModel.FishingRecord" Role="FishingRecord" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="FishItem">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="FishingRecord">
+              <PropertyRef Name="ItemId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
       </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
     <edmx:Mappings>
       <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
         <EntityContainerMapping StorageEntityContainer="AIDatabaseModelStoreContainer" CdmEntityContainer="AIDatabase">
+          <EntitySetMapping Name="FishingRecord">
+            <EntityTypeMapping TypeName="AIDatabaseModel.FishingRecord">
+              <MappingFragment StoreEntitySet="FishingRecord">
+                <ScalarProperty Name="FishingTime" ColumnName="FishingTime" />
+                <ScalarProperty Name="ItemId" ColumnName="ItemId" />
+                <ScalarProperty Name="QQNum" ColumnName="QQNum" />
+                <ScalarProperty Name="GroupNum" ColumnName="GroupNum" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
           <EntitySetMapping Name="FishItem">
             <EntityTypeMapping TypeName="AIDatabaseModel.FishItem">
               <MappingFragment StoreEntitySet="FishItem">
-                <ScalarProperty Name="Id" ColumnName="Id" />
-                <ScalarProperty Name="Name" ColumnName="Name" />
-                <ScalarProperty Name="Description" ColumnName="Description" />
-                <ScalarProperty Name="RareRate" ColumnName="RareRate" />
                 <ScalarProperty Name="Icon" ColumnName="Icon" />
+                <ScalarProperty Name="RareRate" ColumnName="RareRate" />
+                <ScalarProperty Name="Description" ColumnName="Description" />
+                <ScalarProperty Name="Name" ColumnName="Name" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="PlusOneAvailable">
+            <EntityTypeMapping TypeName="AIDatabaseModel.PlusOneAvailable">
+              <MappingFragment StoreEntitySet="PlusOneAvailable">
+                <ScalarProperty Name="Available" ColumnName="Available" />
+                <ScalarProperty Name="GroupNumber" ColumnName="GroupNumber" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>

@@ -6,6 +6,7 @@ using System.Threading;
 using AILib.Entities;
 using Flexlive.CQP.Framework.Utils;
 using System.ComponentModel.Composition;
+using AILib.Db;
 
 namespace AILib
 {
@@ -124,40 +125,36 @@ namespace AILib
 
         private void ForbiddenStateChange(long fromGroup, bool state)
         {
-            var query = DbMgr.Query<PlusOneAvailableEntity>(r => r.GroupNumber == fromGroup);
-            if (query.IsNullOrEmpty())
+            using (AIDatabase db = new AIDatabase())
             {
-                DbMgr.Insert(new PlusOneAvailableEntity()
+                var query = db.PlusOneAvailable.Where(r => r.GroupNumber == fromGroup);
+                if (query.IsNullOrEmpty())
                 {
-                    Id = Guid.NewGuid().ToString(),
-                    GroupNumber = fromGroup,
-                    Content = state.ToString()
-                });
-                return;
-            }
+                    PlusOneAvailable pa = new PlusOneAvailable
+                    {
+                        Id = Guid.NewGuid().ToString(),
+                        GroupNumber = fromGroup,
+                        Available = state
+                    };
+                    db.PlusOneAvailable.Add(pa);
+                }
+                else
+                {
+                    var ra = query.FirstOrDefault();
+                    ra.Available = state;
+                }
 
-            var ra = query.FirstOrDefault();
-            ra.Content = state.ToString();
-            DbMgr.Update(ra);
+                db.SaveChanges();
+            }
         }
 
         private bool IsAvailable(long GroupNum)
         {
-            var query = DbMgr.Query<PlusOneAvailableEntity>();
-            if (query.IsNullOrEmpty())
+            using (AIDatabase db = new AIDatabase())
             {
-                return true;
+                var query = db.PlusOneAvailable.Where(r => r.GroupNumber == GroupNum && !r.Available);
+                return !query.IsNullOrEmpty();
             }
-
-            foreach (var r in query)
-            {
-                if (r.GroupNumber == GroupNum && !bool.Parse(r.Content))
-                {
-                    return false;
-                }
-            }
-
-            return true;
         }
     }
 }

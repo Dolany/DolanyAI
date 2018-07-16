@@ -27,15 +27,6 @@ namespace CQPMonitor.Tools.FishingEditor
 
         private void button1_Click(object sender, EventArgs e)
         {
-            DbTest dbTest = new DbTest();
-            dbTest.Test(new FishItem()
-            {
-                Id = Guid.NewGuid().ToString(),
-                Name = "普通的杨树叶",
-                Description = "随处可见的杨树叶，并没有什么奇怪的东西",
-                Icon = "普通的杨树叶.jpg",
-                RareRate = 1000
-            });
         }
     }
 }

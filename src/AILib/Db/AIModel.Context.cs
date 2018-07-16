@@ -25,6 +25,8 @@ namespace AILib.Db
             throw new UnintentionalCodeFirstException();
         }
     
+        public virtual DbSet<FishingRecord> FishingRecord { get; set; }
         public virtual DbSet<FishItem> FishItem { get; set; }
+        public virtual DbSet<PlusOneAvailable> PlusOneAvailable { get; set; }
     }
 }

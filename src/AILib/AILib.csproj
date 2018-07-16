@@ -109,11 +109,15 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>AIModel.edmx</DependentUpon>
     </Compile>
+    <Compile Include="Db\FishingRecord.cs">
+      <DependentUpon>AIModel.tt</DependentUpon>
+    </Compile>
     <Compile Include="Db\FishItem.cs">
       <DependentUpon>AIModel.tt</DependentUpon>
     </Compile>
-    <Compile Include="Entities\Fishing\FishingRecordEntity.cs" />
-    <Compile Include="Entities\Fishing\FishItemEntity.cs" />
+    <Compile Include="Db\PlusOneAvailable.cs">
+      <DependentUpon>AIModel.tt</DependentUpon>
+    </Compile>
     <Compile Include="Entities\ForestAdvanture\Basic\CareerEntity.cs" />
     <Compile Include="Entities\ForestAdvanture\Basic\EquipEntity.cs" />
     <Compile Include="Entities\ForestAdvanture\Basic\EquipTypeEntity.cs" />
@@ -133,7 +137,6 @@
     <Compile Include="Entities\Management\HeartBeatEntity.cs" />
     <Compile Include="Entities\HelloEntity.cs" />
     <Compile Include="Entities\RandomFortuneEntity.cs" />
-    <Compile Include="Entities\Repeat\PlusOneAvailableEntity.cs" />
     <Compile Include="Entities\Repeat\RepeaterAvailableEntity.cs" />
     <Compile Include="Html\HtmlParser.cs" />
     <Compile Include="Html\HttpRequester.cs" />
