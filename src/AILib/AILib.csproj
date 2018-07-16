@@ -84,6 +84,9 @@
     <Compile Include="AI\Jump300Report\Model\JumpMatchListInfo.cs" />
     <Compile Include="AI\Jump300Report\Model\JumpServerRankInfo.cs" />
     <Compile Include="AI\DevelperOnly\Monitor\MonitorAI.cs" />
+    <Compile Include="Db\RandomFortune.cs">
+      <DependentUpon>AIModel.tt</DependentUpon>
+    </Compile>
     <Compile Include="AI\RandomPic\RandomPicAI.cs" />
     <Compile Include="AI\Repeater\PlusOneAI.cs" />
     <Compile Include="AI\Repeater\RepeatorAI.cs" />
@@ -136,7 +139,6 @@
     <Compile Include="Entities\DirtyFilter\DirtyWordEntity.cs" />
     <Compile Include="Entities\Management\HeartBeatEntity.cs" />
     <Compile Include="Entities\HelloEntity.cs" />
-    <Compile Include="Entities\RandomFortuneEntity.cs" />
     <Compile Include="Entities\Repeat\RepeaterAvailableEntity.cs" />
     <Compile Include="Html\HtmlParser.cs" />
     <Compile Include="Html\HttpRequester.cs" />

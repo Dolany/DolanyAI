@@ -33,26 +33,20 @@
           <Property Name="GroupNumber" Type="bigint" Nullable="false" />
           <Property Name="Available" Type="bit" Nullable="false" />
         </EntityType>
-        <Association Name="FK_FishingRecord_ToTable">
-          <End Role="FishItem" Type="Self.FishItem" Multiplicity="0..1" />
-          <End Role="FishingRecord" Type="Self.FishingRecord" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="FishItem">
-              <PropertyRef Name="Id" />
-            </Principal>
-            <Dependent Role="FishingRecord">
-              <PropertyRef Name="ItemId" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
+        <EntityType Name="RandomFortune">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="nvarchar" MaxLength="50" Nullable="false" />
+          <Property Name="QQNum" Type="bigint" Nullable="false" />
+          <Property Name="UpdateDate" Type="datetime" Nullable="false" />
+          <Property Name="FortuneValue" Type="int" Nullable="false" />
+        </EntityType>
         <EntityContainer Name="AIDatabaseModelStoreContainer">
           <EntitySet Name="FishingRecord" EntityType="Self.FishingRecord" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="FishItem" EntityType="Self.FishItem" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="PlusOneAvailable" EntityType="Self.PlusOneAvailable" Schema="dbo" store:Type="Tables" />
-          <AssociationSet Name="FK_FishingRecord_ToTable" Association="Self.FK_FishingRecord_ToTable">
-            <End Role="FishItem" EntitySet="FishItem" />
-            <End Role="FishingRecord" EntitySet="FishingRecord" />
-          </AssociationSet>
+          <EntitySet Name="RandomFortune" EntityType="Self.RandomFortune" Schema="dbo" store:Type="Tables" />
         </EntityContainer>
       </Schema></edmx:StorageModels>
     <!-- CSDL content -->
@@ -62,10 +56,7 @@
           <EntitySet Name="FishingRecord" EntityType="AIDatabaseModel.FishingRecord" />
           <EntitySet Name="FishItem" EntityType="AIDatabaseModel.FishItem" />
           <EntitySet Name="PlusOneAvailable" EntityType="AIDatabaseModel.PlusOneAvailable" />
-          <AssociationSet Name="FK_FishingRecord_ToTable" Association="AIDatabaseModel.FK_FishingRecord_ToTable">
-            <End Role="FishItem" EntitySet="FishItem" />
-            <End Role="FishingRecord" EntitySet="FishingRecord" />
-          </AssociationSet>
+          <EntitySet Name="RandomFortune" EntityType="AIDatabaseModel.RandomFortune" />
         </EntityContainer>
         <EntityType Name="FishingRecord">
           <Key>
@@ -76,7 +67,6 @@
           <Property Name="QQNum" Type="Int64" Nullable="false" />
           <Property Name="ItemId" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
           <Property Name="FishingTime" Type="DateTime" Nullable="false" Precision="3" />
-          <NavigationProperty Name="FishItem" Relationship="AIDatabaseModel.FK_FishingRecord_ToTable" FromRole="FishingRecord" ToRole="FishItem" />
         </EntityType>
         <EntityType Name="FishItem">
           <Key>
@@ -87,7 +77,6 @@
           <Property Name="Description" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
           <Property Name="RareRate" Type="Int32" Nullable="false" />
           <Property Name="Icon" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
-          <NavigationProperty Name="FishingRecord" Relationship="AIDatabaseModel.FK_FishingRecord_ToTable" FromRole="FishItem" ToRole="FishingRecord" />
         </EntityType>
         <EntityType Name="PlusOneAvailable">
           <Key>
@@ -97,18 +86,15 @@
           <Property Name="GroupNumber" Type="Int64" Nullable="false" />
           <Property Name="Available" Type="Boolean" Nullable="false" />
         </EntityType>
-        <Association Name="FK_FishingRecord_ToTable">
-          <End Type="AIDatabaseModel.FishItem" Role="FishItem" Multiplicity="0..1" />
-          <End Type="AIDatabaseModel.FishingRecord" Role="FishingRecord" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="FishItem">
-              <PropertyRef Name="Id" />
-            </Principal>
-            <Dependent Role="FishingRecord">
-              <PropertyRef Name="ItemId" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
+        <EntityType Name="RandomFortune">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="QQNum" Type="Int64" Nullable="false" />
+          <Property Name="UpdateDate" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="FortuneValue" Type="Int32" Nullable="false" />
+        </EntityType>
       </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
@@ -146,6 +132,16 @@
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
+          <EntitySetMapping Name="RandomFortune">
+            <EntityTypeMapping TypeName="AIDatabaseModel.RandomFortune">
+              <MappingFragment StoreEntitySet="RandomFortune">
+                <ScalarProperty Name="FortuneValue" ColumnName="FortuneValue" />
+                <ScalarProperty Name="UpdateDate" ColumnName="UpdateDate" />
+                <ScalarProperty Name="QQNum" ColumnName="QQNum" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
         </EntityContainerMapping>
       </Mapping>
     </edmx:Mappings>
@@ -161,7 +157,7 @@
       <DesignerInfoPropertySet>
         <DesignerProperty Name="ValidateOnBuild" Value="true" />
         <DesignerProperty Name="EnablePluralization" Value="false" />
-        <DesignerProperty Name="IncludeForeignKeysInModel" Value="true" />
+        <DesignerProperty Name="IncludeForeignKeysInModel" Value="False" />
         <DesignerProperty Name="UseLegacyProvider" Value="false" />
         <DesignerProperty Name="CodeGenerationStrategy" Value="无" />
       </DesignerInfoPropertySet>

@@ -89,6 +89,12 @@
     <Compile Include="Tools\CleanPicCache\CleanPicCacheForm.Designer.cs">
       <DependentUpon>CleanPicCacheForm.cs</DependentUpon>
     </Compile>
+    <Compile Include="Tools\EntityTrans\EntityTransForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Tools\EntityTrans\EntityTransForm.Designer.cs">
+      <DependentUpon>EntityTransForm.cs</DependentUpon>
+    </Compile>
     <Compile Include="Tools\FishingEditor\FishingEditorForm.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -123,6 +129,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Tools\CleanPicCache\CleanPicCacheForm.resx">
       <DependentUpon>CleanPicCacheForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Tools\EntityTrans\EntityTransForm.resx">
+      <DependentUpon>EntityTransForm.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Tools\FishingEditor\FishingEditorForm.resx">
       <DependentUpon>FishingEditorForm.cs</DependentUpon>

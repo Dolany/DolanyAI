@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 using Flexlive.CQP.Framework.Utils;
 using AILib.Entities;
 using System.ComponentModel.Composition;
+using AILib.Db;
 
 namespace AILib
 {
@@ -37,31 +38,34 @@ namespace AILib
             )]
         public void RandomFortune(GroupMsgDTO MsgDTO, object[] param)
         {
-            var query = DbMgr.Query<RandomFortuneEntity>(r => r.QQNum == MsgDTO.FromQQ);
-            if (!query.IsNullOrEmpty())
+            using (AIDatabase db = new AIDatabase())
             {
-                var f = query.First();
-                if (string.Compare(DateTime.Now.ToDateString(), f.UpdateDate) > 0)
+                var query = db.RandomFortune.Where(r => r.QQNum == MsgDTO.FromQQ);
+                if (!query.IsNullOrEmpty())
                 {
-                    f.Content = GetRandomFortune().ToString();
-                    f.UpdateDate = DateTime.Now.ToDateString();
-                    DbMgr.Update(f);
+                    var f = query.First();
+                    if (DateTime.Now.Date > f.UpdateDate.Date)
+                    {
+                        f.FortuneValue = GetRandomFortune();
+                        f.UpdateDate = DateTime.Now;
+                        db.SaveChanges();
+                    }
+
+                    ShowRandFortune(MsgDTO, f);
+                    return;
                 }
 
-                ShowRandFortune(MsgDTO, f);
-                return;
+                int randFor = GetRandomFortune();
+                var rf = new RandomFortune
+                {
+                    Id = Guid.NewGuid().ToString(),
+                    UpdateDate = DateTime.Now,
+                    QQNum = MsgDTO.FromQQ,
+                    FortuneValue = randFor
+                };
+                db.RandomFortune.Add(rf);
+                ShowRandFortune(MsgDTO, rf);
             }
-
-            int randFor = GetRandomFortune();
-            RandomFortuneEntity rf = new RandomFortuneEntity
-            {
-                Id = Guid.NewGuid().ToString(),
-                UpdateDate = DateTime.Now.ToDateString(),
-                QQNum = MsgDTO.FromQQ,
-                Content = randFor.ToString()
-            };
-            DbMgr.Insert(rf);
-            ShowRandFortune(MsgDTO, rf);
         }
 
         [GroupEnterCommand(
@@ -100,10 +104,10 @@ namespace AILib
             return rand.Next(101);
         }
 
-        private void ShowRandFortune(GroupMsgDTO MsgDTO, RandomFortuneEntity rf)
+        private void ShowRandFortune(GroupMsgDTO MsgDTO, RandomFortune rf)
         {
-            string msg = "你今天的运势是：" + rf.Content + "%\r";
-            for (int i = 0; i < int.Parse(rf.Content); i++)
+            string msg = "你今天的运势是：" + rf.FortuneValue + "%\r";
+            for (int i = 0; i < rf.FortuneValue; i++)
             {
                 msg += "|";
             }

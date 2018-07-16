@@ -12,12 +12,11 @@ namespace AILib.Db
     using System;
     using System.Collections.Generic;
     
-    public partial class FishItem
+    public partial class RandomFortune
     {
         public string Id { get; set; }
-        public string Name { get; set; }
-        public string Description { get; set; }
-        public int RareRate { get; set; }
-        public string Icon { get; set; }
+        public long QQNum { get; set; }
+        public System.DateTime UpdateDate { get; set; }
+        public int FortuneValue { get; set; }
     }
 }

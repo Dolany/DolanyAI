@@ -5,10 +5,10 @@
     <!-- Diagram content (shape and connector positions) -->
     <edmx:Diagrams>
       <Diagram DiagramId="81c166127e1547f6807e2b7e3bb906fe" Name="Diagram1">
-        <EntityTypeShape EntityType="AIDatabaseModel.FishingRecord" Width="1.5" PointX="3" PointY="0.875" />
-        <EntityTypeShape EntityType="AIDatabaseModel.FishItem" Width="1.5" PointX="0.75" PointY="0.875" />
-        <EntityTypeShape EntityType="AIDatabaseModel.PlusOneAvailable" Width="1.5" PointX="0.75" PointY="4.75" />
-        <AssociationConnector Association="AIDatabaseModel.FK_FishingRecord_ToTable" />
+        <EntityTypeShape EntityType="AIDatabaseModel.FishingRecord" Width="1.5" PointX="0.75" PointY="0.75" />
+        <EntityTypeShape EntityType="AIDatabaseModel.FishItem" Width="1.5" PointX="2.75" PointY="0.75" />
+        <EntityTypeShape EntityType="AIDatabaseModel.PlusOneAvailable" Width="1.5" PointX="0.75" PointY="3.75" />
+        <EntityTypeShape EntityType="AIDatabaseModel.RandomFortune" Width="1.5" PointX="2.75" PointY="3.75" />
       </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>

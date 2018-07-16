@@ -28,5 +28,6 @@ namespace AILib.Db
         public virtual DbSet<FishingRecord> FishingRecord { get; set; }
         public virtual DbSet<FishItem> FishItem { get; set; }
         public virtual DbSet<PlusOneAvailable> PlusOneAvailable { get; set; }
+        public virtual DbSet<RandomFortune> RandomFortune { get; set; }
     }
 }

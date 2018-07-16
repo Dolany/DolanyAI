@@ -19,7 +19,5 @@ namespace AILib.Db
         public long QQNum { get; set; }
         public string ItemId { get; set; }
         public System.DateTime FishingTime { get; set; }
-    
-        public virtual FishItem FishItem { get; set; }
     }
 }
