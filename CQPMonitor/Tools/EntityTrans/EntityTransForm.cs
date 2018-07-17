@@ -29,15 +29,19 @@ namespace CQPMonitor.Tools
 
         private void button1_Click(object sender, EventArgs e)
         {
-            //var entities = DbMgr.Query<DirtyWordEntity>();
+            //var entities = DbMgr.Query<AlertContentEntity>();
             //foreach (var en in entities)
             //{
             //    using (AIDatabase db = new AIDatabase())
             //    {
-            //        db.DirtyWord.Add(new AILib.Db.DirtyWord
+            //        db.AlertContent.Add(new AILib.Db.AlertContent
             //        {
             //            Id = en.Id,
-            //            Content = en.Content
+            //            Content = en.Content,
+            //            FromGroup = en.FromGroup,
+            //            AimHour = en.AimHour,
+            //            CreateTime = en.CreateTime,
+            //            Creator = en.Creator
             //        });
 
             //        db.SaveChanges();

@@ -18,12 +18,15 @@ namespace AILib
     {
         private System.Timers.Timer timer;
 
-        public List<AlertContentEntity> AllAlertInfos
+        public List<AlertContent> AllAlertInfos
         {
             get
             {
-                var query = DbMgr.Query<AlertContentEntity>();
-                return query?.ToList();
+                using (AIDatabase db = new AIDatabase())
+                {
+                    var query = db.AlertContent;
+                    return query?.ToList();
+                }
             }
         }
 
@@ -113,7 +116,7 @@ namespace AILib
             )]
         public void AlertSet(GroupMsgDTO MsgDTO, object[] param)
         {
-            AlertContentEntity info = param[0] as AlertContentEntity;
+            AlertContent info = param[0] as AlertContent;
 
             info.CreateTime = DateTime.Now;
             info.Creator = MsgDTO.FromQQ;
@@ -193,12 +196,16 @@ namespace AILib
             }
         }
 
-        private bool SaveAlertContent(AlertContentEntity info)
+        private bool SaveAlertContent(AlertContent info)
         {
             try
             {
-                info.Id = Guid.NewGuid().ToString();
-                DbMgr.Insert(info);
+                using (AIDatabase db = new AIDatabase())
+                {
+                    info.Id = Guid.NewGuid().ToString();
+                    db.AlertContent.Add(info);
+                    db.SaveChanges();
+                }
 
                 return true;
             }
@@ -211,17 +218,20 @@ namespace AILib
 
         private string GetRanAlertContent(long fromGroup, int aimHour)
         {
-            var query = DbMgr.Query<AlertContentEntity>(a => a.FromGroup == fromGroup && a.AimHour == aimHour);
-            if (query.IsNullOrEmpty())
+            using (AIDatabase db = new AIDatabase())
             {
-                return string.Empty;
+                var query = db.AlertContent.Where(a => a.FromGroup == fromGroup && a.AimHour == aimHour);
+                if (query.IsNullOrEmpty())
+                {
+                    return string.Empty;
+                }
+                var list = query.ToList();
+
+                Random random = new Random();
+                int randIdx = random.Next(list.Count);
+
+                return list[randIdx].Content;
             }
-            var list = query.ToList();
-
-            Random random = new Random();
-            int randIdx = random.Next(list.Count);
-
-            return list[randIdx].Content;
         }
 
         [PrivateEnterCommand(
@@ -271,13 +281,20 @@ namespace AILib
         {
             long num = (long)param[0];
 
-            if (num <= 24)
+            using (AIDatabase db = new AIDatabase())
             {
-                DbMgr.Delete<AlertContentEntity>(a => a.AimHour == (int)num);
-            }
-            else
-            {
-                DbMgr.Delete<AlertContentEntity>(a => a.Creator == num);
+                if (num <= 24)
+                {
+                    var query = db.AlertContent.Where(a => a.AimHour == (int)num);
+                    db.AlertContent.RemoveRange(query);
+                }
+                else
+                {
+                    var query = db.AlertContent.Where(a => a.Creator == num);
+                    db.AlertContent.RemoveRange(query);
+                }
+
+                db.SaveChanges();
             }
 
             MsgSender.Instance.PushMsg(new SendMsgDTO()

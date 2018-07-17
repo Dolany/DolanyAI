@@ -88,8 +88,6 @@ namespace CQPMonitor.Tools.AutoRestart
             {
                 Restart();
 
-                //CheckHeartBeat();
-
                 SetRestartCount();
             }
             catch (Exception ex)
@@ -108,26 +106,6 @@ namespace CQPMonitor.Tools.AutoRestart
 
             int count = query.IsNullOrEmpty() ? 0 : query.Count();
             RestartCountLbl.Text = count.ToString();
-        }
-
-        private void CheckHeartBeat()
-        {
-            var query = DbMgr.Query<HeartBeatEntity>();
-            if (query.IsNullOrEmpty() || query.FirstOrDefault().LastBeatTime < DateTime.Now.AddSeconds(-CheckFrequency))
-            {
-                MissHeartCount++;
-                SetState("失联计数：" + MissHeartCount.ToString());
-            }
-            else
-            {
-                SetState("正常");
-            }
-
-            if (MissHeartCount > MaxMissLimit)
-            {
-                KillCQ();
-                MissHeartCount = 0;
-            }
         }
 
         private void SetState(string state)

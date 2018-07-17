@@ -89,6 +89,9 @@
     <Compile Include="Db\AlermClock.cs">
       <DependentUpon>AIModel.tt</DependentUpon>
     </Compile>
+    <Compile Include="Db\AlertContent.cs">
+      <DependentUpon>AIModel.tt</DependentUpon>
+    </Compile>
     <Compile Include="Db\AlertRegistedGroup.cs">
       <DependentUpon>AIModel.tt</DependentUpon>
     </Compile>
@@ -159,7 +162,6 @@
     <Compile Include="Entities\ForestAdvanture\Relationship\RS_CharactorEquipEntity.cs" />
     <Compile Include="Entities\ForestAdvanture\Relationship\RS_CharactorSkillEntity.cs" />
     <Compile Include="Entities\Management\ConfigEntity.cs" />
-    <Compile Include="Entities\Management\HeartBeatEntity.cs" />
     <Compile Include="Html\HtmlParser.cs" />
     <Compile Include="Html\HttpRequester.cs" />
     <Compile Include="Common\Logger.cs" />
@@ -168,7 +170,7 @@
     <Compile Include="DTO\GroupMsgDTO.cs" />
     <Compile Include="DTO\PrivateMsgDTO.cs" />
     <Compile Include="Common\DbMgr.cs" />
-    <Compile Include="Entities\HourAlert\AlertContentEntity.cs" />
+    <Compile Include="AI\HourAlert\AlertContentExtension.cs" />
     <Compile Include="Entities\Common\EntityBase.cs" />
     <Compile Include="DTO\SendMsgDTO.cs" />
     <Compile Include="Entities\Common\LogEntity.cs" />
@@ -251,6 +253,9 @@
       <DependentUpon>AIModel.edmx</DependentUpon>
       <LastGenOutput>AIModel.cs</LastGenOutput>
     </Content>
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="Entities\HourAlert\" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

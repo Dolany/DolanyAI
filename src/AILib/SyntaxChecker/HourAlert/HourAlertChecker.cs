@@ -4,6 +4,8 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using AILib.Entities;
+using AILib.Db;
+using AILib;
 
 namespace AILib.SyntaxChecker
 {
@@ -12,7 +14,7 @@ namespace AILib.SyntaxChecker
         public bool Check(string msg, out object[] param)
         {
             param = null;
-            AlertContentEntity info = AlertContentEntity.Parse(msg);
+            AlertContent info = AlertContentExtension.Parse(msg);
             if (info == null)
             {
                 return false;

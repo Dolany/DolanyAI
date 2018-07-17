@@ -3,21 +3,13 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using AILib.Db;
 
-namespace AILib.Entities
+namespace AILib
 {
-    public class AlertContentEntity : EntityBase
+    public static class AlertContentExtension
     {
-        [DataColumn]
-        public long FromGroup { get; set; }
-        [DataColumn]
-        public long Creator { get; set; }
-        [DataColumn]
-        public DateTime CreateTime { get; set; }
-        [DataColumn]
-        public int AimHour { get; set; }
-
-        public static AlertContentEntity Parse(string msg)
+        public static AlertContent Parse(string msg)
         {
             if (string.IsNullOrEmpty(msg))
             {
@@ -36,13 +28,13 @@ namespace AILib.Entities
                 return null;
             }
 
-            AlertContentEntity info = new AlertContentEntity()
+            AlertContent info = new AlertContent()
             {
                 Content = strs[1],
                 AimHour = aimHour
             };
 
-            if (!info.IsValid)
+            if (!info.IsValid())
             {
                 return null;
             }
@@ -50,12 +42,9 @@ namespace AILib.Entities
             return info;
         }
 
-        public bool IsValid
+        public static bool IsValid(this AlertContent ac)
         {
-            get
-            {
-                return !string.IsNullOrEmpty(Content) && AimHour >= 0 && AimHour <= 23;
-            }
+            return !string.IsNullOrEmpty(ac.Content) && ac.AimHour >= 0 && ac.AimHour <= 23;
         }
     }
 }

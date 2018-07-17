@@ -25,6 +25,17 @@
           <Property Name="AimMinute" Type="int" Nullable="false" />
           <Property Name="Content" Type="nvarchar" MaxLength="100" />
         </EntityType>
+        <EntityType Name="AlertContent">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="nvarchar" MaxLength="50" Nullable="false" />
+          <Property Name="FromGroup" Type="bigint" Nullable="false" />
+          <Property Name="Creator" Type="bigint" Nullable="false" />
+          <Property Name="CreateTime" Type="datetime" Nullable="false" />
+          <Property Name="AimHour" Type="int" Nullable="false" />
+          <Property Name="Content" Type="nvarchar" MaxLength="100" />
+        </EntityType>
         <EntityType Name="AlertRegistedGroup">
           <Key>
             <PropertyRef Name="Id" />
@@ -130,6 +141,7 @@
         <EntityContainer Name="AIDatabaseModelStoreContainer">
           <EntitySet Name="AISeal" EntityType="Self.AISeal" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="AlermClock" EntityType="Self.AlermClock" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="AlertContent" EntityType="Self.AlertContent" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="AlertRegistedGroup" EntityType="Self.AlertRegistedGroup" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="BlackList" EntityType="Self.BlackList" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="CharactorSetting" EntityType="Self.CharactorSetting" Schema="dbo" store:Type="Tables" />
@@ -160,6 +172,7 @@
           <EntitySet Name="AISeal" EntityType="AIDatabaseModel.AISeal" />
           <EntitySet Name="BlackList" EntityType="AIDatabaseModel.BlackList" />
           <EntitySet Name="DirtyWord" EntityType="AIDatabaseModel.DirtyWord" />
+          <EntitySet Name="AlertContent" EntityType="AIDatabaseModel.AlertContent" />
         </EntityContainer>
         <EntityType Name="FishingRecord">
           <Key>
@@ -282,6 +295,17 @@
           </Key>
           <Property Name="Id" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
           <Property Name="Content" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+        </EntityType>
+        <EntityType Name="AlertContent">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="FromGroup" Type="Int64" Nullable="false" />
+          <Property Name="Creator" Type="Int64" Nullable="false" />
+          <Property Name="CreateTime" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="AimHour" Type="Int32" Nullable="false" />
+          <Property Name="Content" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
         </EntityType>
       </Schema>
     </edmx:ConceptualModels>
@@ -420,6 +444,18 @@
             <EntityTypeMapping TypeName="AIDatabaseModel.DirtyWord">
               <MappingFragment StoreEntitySet="DirtyWord">
                 <ScalarProperty Name="Content" ColumnName="Content" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="AlertContent">
+            <EntityTypeMapping TypeName="AIDatabaseModel.AlertContent">
+              <MappingFragment StoreEntitySet="AlertContent">
+                <ScalarProperty Name="Content" ColumnName="Content" />
+                <ScalarProperty Name="AimHour" ColumnName="AimHour" />
+                <ScalarProperty Name="CreateTime" ColumnName="CreateTime" />
+                <ScalarProperty Name="Creator" ColumnName="Creator" />
+                <ScalarProperty Name="FromGroup" ColumnName="FromGroup" />
                 <ScalarProperty Name="Id" ColumnName="Id" />
               </MappingFragment>
             </EntityTypeMapping>
