@@ -114,10 +114,22 @@ namespace AILib
         {
             try
             {
-                Task.Run(new Action(() =>
+                //Task.Run(new Action(() =>
+                //{
+                //    GroupMsgCallBack_Func(MsgDTO);
+                //}));
+                foreach (var ai in AIList)
                 {
-                    GroupMsgCallBack_Func(MsgDTO);
-                }));
+                    if (IsAiSealed(MsgDTO, ai.Value))
+                    {
+                        continue;
+                    }
+
+                    if (ai.Value.OnGroupMsgReceived(MsgDTO))
+                    {
+                        break;
+                    }
+                }
             }
             catch (Exception ex)
             {

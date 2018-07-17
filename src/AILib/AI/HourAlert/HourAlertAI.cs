@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.Linq;
 using Flexlive.CQP.Framework.Utils;
 using System.ComponentModel.Composition;
+using AILib.Db;
 
 namespace AILib
 {
@@ -30,12 +31,15 @@ namespace AILib
         {
             get
             {
-                var query = DbMgr.Query<AlertRegistedGroupEntity>(a => bool.Parse(a.Available));
-                if (query.IsNullOrEmpty())
+                using (AIDatabase db = new AIDatabase())
                 {
-                    return null;
+                    var query = db.AlertRegistedGroup.Where(a => bool.Parse(a.Available));
+                    if (query.IsNullOrEmpty())
+                    {
+                        return null;
+                    }
+                    return query.Select(q => q.GroupNum).ToList();
                 }
-                return query.Select(q => long.Parse(q.Content)).ToList();
             }
         }
 
@@ -168,21 +172,24 @@ namespace AILib
 
         private void AvailableStateChange(long groupNumber, bool state)
         {
-            var query = DbMgr.Query<AlertRegistedGroupEntity>(a => long.Parse(a.Content) == groupNumber);
-            if (query.IsNullOrEmpty())
+            using (AIDatabase db = new AIDatabase())
             {
-                DbMgr.Insert(new AlertRegistedGroupEntity()
+                var query = db.AlertRegistedGroup.Where(a => a.GroupNum == groupNumber);
+                if (query.IsNullOrEmpty())
                 {
-                    Id = Guid.NewGuid().ToString(),
-                    Content = groupNumber.ToString(),
-                    Available = state.ToString()
-                });
-            }
-            else
-            {
-                var arg = query.FirstOrDefault();
-                arg.Available = state.ToString();
-                DbMgr.Update(arg);
+                    db.AlertRegistedGroup.Add(new AlertRegistedGroup()
+                    {
+                        Id = Guid.NewGuid().ToString(),
+                        GroupNum = groupNumber,
+                        Available = state.ToString()
+                    });
+                }
+                else
+                {
+                    var arg = query.FirstOrDefault();
+                    arg.Available = state.ToString();
+                }
+                db.SaveChanges();
             }
         }
 

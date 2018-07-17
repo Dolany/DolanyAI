@@ -29,19 +29,17 @@ namespace CQPMonitor.Tools
 
         private void button1_Click(object sender, EventArgs e)
         {
-            //var entities = DbMgr.Query<AlermClockEntity>();
+            //var entities = DbMgr.Query<HelloEntity>();
             //foreach (var en in entities)
             //{
             //    using (AIDatabase db = new AIDatabase())
             //    {
-            //        db.AlermClock.Add(new AlermClock
+            //        db.Hello.Add(new Hello
             //        {
             //            Id = en.Id,
-            //            GroupNumber = en.GroupNumber,
-            //            Creator = en.Creator,
-            //            CreateTime = en.CreateTime,
-            //            AimHourt = en.AimHourt,
-            //            AimMinute = en.AimMinute,
+            //            GroupNum = en.GroupNum,
+            //            QQNum = en.QQNum,
+            //            LastHelloDate = DateTime.Parse(en.LastHelloDate),
             //            Content = en.Content
             //        });
 

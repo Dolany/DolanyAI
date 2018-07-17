@@ -33,5 +33,7 @@ namespace AILib.Db
         public virtual DbSet<CharactorSetting> CharactorSetting { get; set; }
         public virtual DbSet<SayingSeal> SayingSeal { get; set; }
         public virtual DbSet<AlermClock> AlermClock { get; set; }
+        public virtual DbSet<AlertRegistedGroup> AlertRegistedGroup { get; set; }
+        public virtual DbSet<Hello> Hello { get; set; }
     }
 }

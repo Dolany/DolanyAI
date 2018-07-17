@@ -17,6 +17,14 @@
           <Property Name="AimMinute" Type="int" Nullable="false" />
           <Property Name="Content" Type="nvarchar" MaxLength="100" />
         </EntityType>
+        <EntityType Name="AlertRegistedGroup">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="nvarchar" MaxLength="50" Nullable="false" />
+          <Property Name="Available" Type="nvarchar" MaxLength="50" />
+          <Property Name="GroupNum" Type="bigint" Nullable="false" />
+        </EntityType>
         <EntityType Name="CharactorSetting">
           <Key>
             <PropertyRef Name="Id" />
@@ -48,6 +56,16 @@
           <Property Name="Description" Type="nvarchar" MaxLength="50" />
           <Property Name="RareRate" Type="int" Nullable="false" />
           <Property Name="Icon" Type="nvarchar" MaxLength="50" />
+        </EntityType>
+        <EntityType Name="Hello">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="nvarchar" MaxLength="50" Nullable="false" />
+          <Property Name="GroupNum" Type="bigint" Nullable="false" />
+          <Property Name="QQNum" Type="bigint" Nullable="false" />
+          <Property Name="LastHelloDate" Type="datetime" Nullable="false" />
+          <Property Name="Content" Type="nvarchar" MaxLength="200" />
         </EntityType>
         <EntityType Name="PlusOneAvailable">
           <Key>
@@ -86,9 +104,11 @@
         </EntityType>
         <EntityContainer Name="AIDatabaseModelStoreContainer">
           <EntitySet Name="AlermClock" EntityType="Self.AlermClock" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="AlertRegistedGroup" EntityType="Self.AlertRegistedGroup" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="CharactorSetting" EntityType="Self.CharactorSetting" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="FishingRecord" EntityType="Self.FishingRecord" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="FishItem" EntityType="Self.FishItem" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Hello" EntityType="Self.Hello" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="PlusOneAvailable" EntityType="Self.PlusOneAvailable" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="RandomFortune" EntityType="Self.RandomFortune" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="RepeaterAvailable" EntityType="Self.RepeaterAvailable" Schema="dbo" store:Type="Tables" />
@@ -107,6 +127,8 @@
           <EntitySet Name="CharactorSetting" EntityType="AIDatabaseModel.CharactorSetting" />
           <EntitySet Name="SayingSeal" EntityType="AIDatabaseModel.SayingSeal" />
           <EntitySet Name="AlermClock" EntityType="AIDatabaseModel.AlermClock" />
+          <EntitySet Name="AlertRegistedGroup" EntityType="AIDatabaseModel.AlertRegistedGroup" />
+          <EntitySet Name="Hello" EntityType="AIDatabaseModel.Hello" />
         </EntityContainer>
         <EntityType Name="FishingRecord">
           <Key>
@@ -186,6 +208,24 @@
           <Property Name="AimHourt" Type="Int32" Nullable="false" />
           <Property Name="AimMinute" Type="Int32" Nullable="false" />
           <Property Name="Content" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
+        </EntityType>
+        <EntityType Name="AlertRegistedGroup">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="Available" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="GroupNum" Type="Int64" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Hello">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="GroupNum" Type="Int64" Nullable="false" />
+          <Property Name="QQNum" Type="Int64" Nullable="false" />
+          <Property Name="LastHelloDate" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="Content" Type="String" MaxLength="200" FixedLength="false" Unicode="true" />
         </EntityType>
       </Schema>
     </edmx:ConceptualModels>
@@ -276,6 +316,26 @@
                 <ScalarProperty Name="CreateTime" ColumnName="CreateTime" />
                 <ScalarProperty Name="Creator" ColumnName="Creator" />
                 <ScalarProperty Name="GroupNumber" ColumnName="GroupNumber" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="AlertRegistedGroup">
+            <EntityTypeMapping TypeName="AIDatabaseModel.AlertRegistedGroup">
+              <MappingFragment StoreEntitySet="AlertRegistedGroup">
+                <ScalarProperty Name="GroupNum" ColumnName="GroupNum" />
+                <ScalarProperty Name="Available" ColumnName="Available" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Hello">
+            <EntityTypeMapping TypeName="AIDatabaseModel.Hello">
+              <MappingFragment StoreEntitySet="Hello">
+                <ScalarProperty Name="Content" ColumnName="Content" />
+                <ScalarProperty Name="LastHelloDate" ColumnName="LastHelloDate" />
+                <ScalarProperty Name="QQNum" ColumnName="QQNum" />
+                <ScalarProperty Name="GroupNum" ColumnName="GroupNum" />
                 <ScalarProperty Name="Id" ColumnName="Id" />
               </MappingFragment>
             </EntityTypeMapping>

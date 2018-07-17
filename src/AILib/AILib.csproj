@@ -87,7 +87,13 @@
     <Compile Include="Db\AlermClock.cs">
       <DependentUpon>AIModel.tt</DependentUpon>
     </Compile>
+    <Compile Include="Db\AlertRegistedGroup.cs">
+      <DependentUpon>AIModel.tt</DependentUpon>
+    </Compile>
     <Compile Include="Db\CharactorSetting.cs">
+      <DependentUpon>AIModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Db\Hello.cs">
       <DependentUpon>AIModel.tt</DependentUpon>
     </Compile>
     <Compile Include="Db\RandomFortune.cs">
@@ -149,7 +155,6 @@
     <Compile Include="Entities\DirtyFilter\BlackListEntity.cs" />
     <Compile Include="Entities\DirtyFilter\DirtyWordEntity.cs" />
     <Compile Include="Entities\Management\HeartBeatEntity.cs" />
-    <Compile Include="Entities\HelloEntity.cs" />
     <Compile Include="Html\HtmlParser.cs" />
     <Compile Include="Html\HttpRequester.cs" />
     <Compile Include="Common\Logger.cs" />
@@ -159,7 +164,6 @@
     <Compile Include="DTO\PrivateMsgDTO.cs" />
     <Compile Include="Common\DbMgr.cs" />
     <Compile Include="Entities\HourAlert\AlertContentEntity.cs" />
-    <Compile Include="Entities\HourAlert\AlertRegistedGroupEntity.cs" />
     <Compile Include="Entities\Common\EntityBase.cs" />
     <Compile Include="DTO\SendMsgDTO.cs" />
     <Compile Include="Entities\Management\GroupConfigEntity.cs" />
