@@ -86,13 +86,26 @@ namespace CQPMonitor.Tools.AutoRestart
         {
             try
             {
-                Restart();
-
-                SetRestartCount();
+                //Restart();
+                ProcessMonitor();
+                //SetRestartCount();
             }
             catch (Exception ex)
             {
                 Common.SendMsgToDeveloper(ex);
+            }
+        }
+
+        private void ProcessMonitor()
+        {
+            Process[] processes = Process.GetProcesses();
+
+            foreach (var p in processes)
+            {
+                if (p.ProcessName == ProcessName)
+                {
+                    int c = p.ExitCode;
+                }
             }
         }
 
