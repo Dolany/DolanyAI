@@ -64,6 +64,7 @@
     <Compile Include="AI\AlermClock\AlermClockAI.cs">
       <SubType>Component</SubType>
     </Compile>
+    <Compile Include="AI\AlermClock\AlertClockExtension.cs" />
     <Compile Include="AI\CartoonSaying\CartoonSayingAI.cs" />
     <Compile Include="AI\CharactorSetting\CharactorSettingAI.cs" />
     <Compile Include="AI\Fortune\FortuneAI.cs" />

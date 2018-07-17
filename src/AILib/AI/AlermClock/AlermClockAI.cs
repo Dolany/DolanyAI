@@ -55,7 +55,7 @@ namespace AILib
                     var clocks = db.AlermClock;
                     foreach (var clock in clocks)
                     {
-                        StartClock(clock);
+                        StartClock(clock.Clone());
                     }
                 }
             }
@@ -119,7 +119,7 @@ namespace AILib
                 else
                 {
                     db.AlermClock.Add(entity);
-                    StartClock(entity);
+                    StartClock(entity.Clone());
                 }
 
                 db.SaveChanges();

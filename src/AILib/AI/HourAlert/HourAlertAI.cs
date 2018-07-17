@@ -65,6 +65,8 @@ namespace AILib
             timer.AutoReset = false;
             timer.Enabled = true;
             timer.Elapsed += new System.Timers.ElapsedEventHandler(TimeUp);
+
+            timer.Start();
         }
 
         private void TimeUp(object sender, System.Timers.ElapsedEventArgs e)
