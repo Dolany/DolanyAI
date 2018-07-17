@@ -55,6 +55,13 @@
           <Property Name="SettingName" Type="nvarchar" MaxLength="50" />
           <Property Name="Content" Type="nvarchar" MaxLength="100" />
         </EntityType>
+        <EntityType Name="DirtyWord">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="nvarchar" MaxLength="50" Nullable="false" />
+          <Property Name="Content" Type="nvarchar" MaxLength="50" />
+        </EntityType>
         <EntityType Name="FishingRecord">
           <Key>
             <PropertyRef Name="Id" />
@@ -126,6 +133,7 @@
           <EntitySet Name="AlertRegistedGroup" EntityType="Self.AlertRegistedGroup" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="BlackList" EntityType="Self.BlackList" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="CharactorSetting" EntityType="Self.CharactorSetting" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="DirtyWord" EntityType="Self.DirtyWord" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="FishingRecord" EntityType="Self.FishingRecord" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="FishItem" EntityType="Self.FishItem" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Hello" EntityType="Self.Hello" Schema="dbo" store:Type="Tables" />
@@ -151,6 +159,7 @@
           <EntitySet Name="Hello" EntityType="AIDatabaseModel.Hello" />
           <EntitySet Name="AISeal" EntityType="AIDatabaseModel.AISeal" />
           <EntitySet Name="BlackList" EntityType="AIDatabaseModel.BlackList" />
+          <EntitySet Name="DirtyWord" EntityType="AIDatabaseModel.DirtyWord" />
         </EntityContainer>
         <EntityType Name="FishingRecord">
           <Key>
@@ -266,6 +275,13 @@
           <Property Name="QQNum" Type="Int64" Nullable="false" />
           <Property Name="BlackCount" Type="Int32" Nullable="false" />
           <Property Name="NickName" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+        </EntityType>
+        <EntityType Name="DirtyWord">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="Content" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
         </EntityType>
       </Schema>
     </edmx:ConceptualModels>
@@ -396,6 +412,14 @@
                 <ScalarProperty Name="BlackCount" ColumnName="BlackCount" />
                 <ScalarProperty Name="QQNum" ColumnName="QQNum" />
                 <ScalarProperty Name="UpdateTime" ColumnName="UpdateTime" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="DirtyWord">
+            <EntityTypeMapping TypeName="AIDatabaseModel.DirtyWord">
+              <MappingFragment StoreEntitySet="DirtyWord">
+                <ScalarProperty Name="Content" ColumnName="Content" />
                 <ScalarProperty Name="Id" ColumnName="Id" />
               </MappingFragment>
             </EntityTypeMapping>

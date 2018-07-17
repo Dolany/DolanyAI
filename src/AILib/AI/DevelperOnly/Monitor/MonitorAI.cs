@@ -143,18 +143,22 @@ namespace AILib
         public void AddDirtyWordsDic(PrivateMsgDTO MsgDTO, object[] param)
         {
             string dw = param[0] as string;
-            var query = DbMgr.Query<DirtyWordEntity>(d => d.Content == dw);
-            if (!query.IsNullOrEmpty())
+            using (AIDatabase db = new AIDatabase())
             {
-                Common.SendMsgToDeveloper("该词已在屏蔽列表中！");
-                return;
-            }
+                var query = db.DirtyWord.Where(d => d.Content == dw);
+                if (!query.IsNullOrEmpty())
+                {
+                    Common.SendMsgToDeveloper("该词已在屏蔽列表中！");
+                    return;
+                }
 
-            DbMgr.Insert(new DirtyWordEntity
-            {
-                Id = Guid.NewGuid().ToString(),
-                Content = dw
-            });
+                db.DirtyWord.Add(new DirtyWord
+                {
+                    Id = Guid.NewGuid().ToString(),
+                    Content = dw
+                });
+                db.SaveChanges();
+            }
             DirtyFilter.InitWordList();
             Common.SendMsgToDeveloper("添加成功！");
         }

@@ -63,10 +63,13 @@ namespace AILib
 
         public static void InitWordList()
         {
-            var query = DbMgr.Query<DirtyWordEntity>();
-            if (!query.IsNullOrEmpty())
+            using (AIDatabase db = new AIDatabase())
             {
-                WordList = query.Select(d => d.Content).ToList();
+                var query = db.DirtyWord;
+                if (!query.IsNullOrEmpty())
+                {
+                    WordList = query.Select(d => d.Content).ToList();
+                }
             }
         }
 

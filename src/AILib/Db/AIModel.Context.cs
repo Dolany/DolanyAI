@@ -37,5 +37,6 @@ namespace AILib.Db
         public virtual DbSet<Hello> Hello { get; set; }
         public virtual DbSet<AISeal> AISeal { get; set; }
         public virtual DbSet<BlackList> BlackList { get; set; }
+        public virtual DbSet<DirtyWord> DirtyWord { get; set; }
     }
 }

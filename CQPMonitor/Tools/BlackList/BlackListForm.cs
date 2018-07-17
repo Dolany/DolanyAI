@@ -23,7 +23,7 @@ namespace CQPMonitor.Tools.BlackList
     public partial class BlackListForm : ToolBaseForm
     {
         private List<AILib.Db.BlackList> BlackListList;
-        private List<DirtyWordEntity> DirtyWordList;
+        private List<DirtyWord> DirtyWordList;
 
         public BlackListForm()
         {
@@ -42,8 +42,11 @@ namespace CQPMonitor.Tools.BlackList
 
         private void RefreshDirtyWordsTable()
         {
-            var query = DbMgr.Query<DirtyWordEntity>();
-            DirtyWordList = query.ToList();
+            using (AIDatabase db = new AIDatabase())
+            {
+                var query = db.DirtyWord;
+                DirtyWordList = query.ToList();
+            }
             dirtyWordsTable.DataSource = DirtyWordList;
         }
 
@@ -118,7 +121,13 @@ namespace CQPMonitor.Tools.BlackList
                 return;
             }
 
-            DbMgr.Delete<DirtyWordEntity>(DirtyWordList[curRow.Index].Id);
+            using (AIDatabase db = new AIDatabase())
+            {
+                var id = DirtyWordList[curRow.Index].Id;
+                var query = db.DirtyWord.Where(d => d.Id == id);
+                db.DirtyWord.RemoveRange(query);
+                db.SaveChanges();
+            }
             RefreshDirtyWordsTable();
         }
 

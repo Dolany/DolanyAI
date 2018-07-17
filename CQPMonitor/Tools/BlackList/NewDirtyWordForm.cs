@@ -9,6 +9,7 @@ using System.Threading.Tasks;
 using System.Windows.Forms;
 using AILib;
 using AILib.Entities;
+using AILib.Db;
 
 namespace CQPMonitor.Tools.BlackList
 {
@@ -34,19 +35,23 @@ namespace CQPMonitor.Tools.BlackList
                 return;
             }
 
-            var query = DbMgr.Query<DirtyWordEntity>(d => d.Content == word);
-            if (!query.IsNullOrEmpty())
+            using (AIDatabase db = new AIDatabase())
             {
-                MessageBox.Show("屏蔽词已存在！");
-                wordTxt.Focus();
-                return;
-            }
+                var query = db.DirtyWord.Where(d => d.Content == word);
+                if (!query.IsNullOrEmpty())
+                {
+                    MessageBox.Show("屏蔽词已存在！");
+                    wordTxt.Focus();
+                    return;
+                }
 
-            DbMgr.Insert(new DirtyWordEntity()
-            {
-                Id = Guid.NewGuid().ToString(),
-                Content = word
-            });
+                db.DirtyWord.Add(new DirtyWord()
+                {
+                    Id = Guid.NewGuid().ToString(),
+                    Content = word
+                });
+                db.SaveChanges();
+            }
             this.DialogResult = DialogResult.OK;
         }
     }

@@ -17,6 +17,7 @@
         <EntityTypeShape EntityType="AIDatabaseModel.Hello" Width="1.5" PointX="7.375" PointY="4.75" />
         <EntityTypeShape EntityType="AIDatabaseModel.AISeal" Width="1.5" PointX="5.375" PointY="7.75" />
         <EntityTypeShape EntityType="AIDatabaseModel.BlackList" Width="1.5" PointX="7.375" PointY="7.75" />
+        <EntityTypeShape EntityType="AIDatabaseModel.DirtyWord" Width="1.5" PointX="9.375" PointY="0.75" />
       </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>
