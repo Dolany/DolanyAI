@@ -104,7 +104,7 @@ namespace CQPMonitor.Tools.AutoRestart
             {
                 if (p.ProcessName == ProcessName)
                 {
-                    int c = p.ExitCode;
+                    var icon = IconHelper.GetSmallIconFromHandle(p.Handle);
                 }
             }
         }
