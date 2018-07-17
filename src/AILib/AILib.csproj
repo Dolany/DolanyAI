@@ -93,6 +93,9 @@
     <Compile Include="Db\AlertRegistedGroup.cs">
       <DependentUpon>AIModel.tt</DependentUpon>
     </Compile>
+    <Compile Include="Db\BlackList.cs">
+      <DependentUpon>AIModel.tt</DependentUpon>
+    </Compile>
     <Compile Include="Db\CharactorSetting.cs">
       <DependentUpon>AIModel.tt</DependentUpon>
     </Compile>
@@ -154,7 +157,6 @@
     <Compile Include="Entities\ForestAdvanture\Relationship\RS_CharactorEquipEntity.cs" />
     <Compile Include="Entities\ForestAdvanture\Relationship\RS_CharactorSkillEntity.cs" />
     <Compile Include="Entities\Management\ConfigEntity.cs" />
-    <Compile Include="Entities\DirtyFilter\BlackListEntity.cs" />
     <Compile Include="Entities\DirtyFilter\DirtyWordEntity.cs" />
     <Compile Include="Entities\Management\HeartBeatEntity.cs" />
     <Compile Include="Html\HtmlParser.cs" />

@@ -9,6 +9,7 @@ using System.Threading.Tasks;
 using System.Windows.Forms;
 using AILib;
 using AILib.Entities;
+using AILib.Db;
 
 namespace CQPMonitor.Tools.BlackList
 {
@@ -21,7 +22,7 @@ namespace CQPMonitor.Tools.BlackList
         )]
     public partial class BlackListForm : ToolBaseForm
     {
-        private List<BlackListEntity> BlackListList;
+        private List<AILib.Db.BlackList> BlackListList;
         private List<DirtyWordEntity> DirtyWordList;
 
         public BlackListForm()
@@ -31,8 +32,11 @@ namespace CQPMonitor.Tools.BlackList
 
         private void RefreshBlackListTable()
         {
-            var query = DbMgr.Query<BlackListEntity>().OrderByDescending(b => b.BlackCount);
-            BlackListList = query.ToList();
+            using (AIDatabase db = new AIDatabase())
+            {
+                var query = db.BlackList.OrderByDescending(b => b.BlackCount);
+                BlackListList = query.ToList();
+            }
             blackListTable.DataSource = BlackListList;
         }
 
@@ -76,9 +80,13 @@ namespace CQPMonitor.Tools.BlackList
                 return;
             }
 
-            var entity = BlackListList[curRow.Index];
-            entity.BlackCount = 10;
-            DbMgr.Update(entity);
+            var id = BlackListList[curRow.Index].Id;
+            using (AIDatabase db = new AIDatabase())
+            {
+                var entity = db.BlackList.First(b => b.Id == id);
+                entity.BlackCount = 10;
+                db.SaveChanges();
+            }
 
             RefreshBlackListTable();
         }
@@ -91,9 +99,13 @@ namespace CQPMonitor.Tools.BlackList
                 return;
             }
 
-            var entity = BlackListList[curRow.Index];
-            entity.BlackCount = 0;
-            DbMgr.Update(entity);
+            var id = BlackListList[curRow.Index].Id;
+            using (AIDatabase db = new AIDatabase())
+            {
+                var entity = db.BlackList.First(b => b.Id == id);
+                entity.BlackCount = 0;
+                db.SaveChanges();
+            }
 
             RefreshBlackListTable();
         }

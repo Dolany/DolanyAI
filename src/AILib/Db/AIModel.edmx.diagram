@@ -16,6 +16,7 @@
         <EntityTypeShape EntityType="AIDatabaseModel.AlertRegistedGroup" Width="1.5" PointX="3.375" PointY="7.75" />
         <EntityTypeShape EntityType="AIDatabaseModel.Hello" Width="1.5" PointX="7.375" PointY="4.75" />
         <EntityTypeShape EntityType="AIDatabaseModel.AISeal" Width="1.5" PointX="5.375" PointY="7.75" />
+        <EntityTypeShape EntityType="AIDatabaseModel.BlackList" Width="1.5" PointX="7.375" PointY="7.75" />
       </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>

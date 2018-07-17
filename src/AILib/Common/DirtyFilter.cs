@@ -5,6 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using AILib.Entities;
 using Flexlive.CQP.Framework;
+using AILib.Db;
 
 namespace AILib
 {
@@ -35,25 +36,29 @@ namespace AILib
 
         private void AddInBlackList(long GroupNum, long QQNum)
         {
-            var query = DbMgr.Query<BlackListEntity>(b => b.QQNum == QQNum);
-            if (!query.IsNullOrEmpty())
+            using (AIDatabase db = new AIDatabase())
             {
-                var black = query.First();
-                black.BlackCount++;
-                black.UpdateTime = DateTime.Now;
-                DbMgr.Update(black);
-                return;
-            }
+                var query = db.BlackList.Where(b => b.QQNum == QQNum);
+                if (!query.IsNullOrEmpty())
+                {
+                    var black = query.First();
+                    black.BlackCount++;
+                    black.UpdateTime = DateTime.Now;
+                }
+                else
+                {
+                    db.BlackList.Add(new BlackList
+                    {
+                        Id = Guid.NewGuid().ToString(),
+                        BlackCount = 1,
+                        UpdateTime = DateTime.Now,
+                        QQNum = QQNum,
+                        NickName = CQ.GetGroupMemberInfo(GroupNum, QQNum, true).QQName
+                    });
+                }
 
-            DbMgr.Insert(new BlackListEntity
-            {
-                Id = Guid.NewGuid().ToString(),
-                BlackCount = 1,
-                UpdateTime = DateTime.Now,
-                QQNum = QQNum,
-                NickName = CQ.GetGroupMemberInfo(GroupNum, QQNum, true).QQName,
-                Content = string.Empty
-            });
+                db.SaveChanges();
+            }
         }
 
         public static void InitWordList()
@@ -67,13 +72,16 @@ namespace AILib
 
         public bool IsInBlackList(long fromQQ)
         {
-            var query = DbMgr.Query<BlackListEntity>(b => b.QQNum == fromQQ);
-            if (query.IsNullOrEmpty())
+            using (AIDatabase db = new AIDatabase())
             {
-                return false;
-            }
+                var query = db.BlackList.Where(b => b.QQNum == fromQQ);
+                if (query.IsNullOrEmpty())
+                {
+                    return false;
+                }
 
-            return query.First().BlackCount >= MaxTolerateCount;
+                return query.First().BlackCount >= MaxTolerateCount;
+            }
         }
 
         private bool IsDirtyWord(string msg)

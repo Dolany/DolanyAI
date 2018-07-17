@@ -33,6 +33,16 @@
           <Property Name="Available" Type="nvarchar" MaxLength="50" />
           <Property Name="GroupNum" Type="bigint" Nullable="false" />
         </EntityType>
+        <EntityType Name="BlackList">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="nvarchar" MaxLength="50" Nullable="false" />
+          <Property Name="UpdateTime" Type="datetime" Nullable="false" />
+          <Property Name="QQNum" Type="bigint" Nullable="false" />
+          <Property Name="BlackCount" Type="int" Nullable="false" />
+          <Property Name="NickName" Type="nvarchar" MaxLength="50" />
+        </EntityType>
         <EntityType Name="CharactorSetting">
           <Key>
             <PropertyRef Name="Id" />
@@ -114,6 +124,7 @@
           <EntitySet Name="AISeal" EntityType="Self.AISeal" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="AlermClock" EntityType="Self.AlermClock" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="AlertRegistedGroup" EntityType="Self.AlertRegistedGroup" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="BlackList" EntityType="Self.BlackList" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="CharactorSetting" EntityType="Self.CharactorSetting" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="FishingRecord" EntityType="Self.FishingRecord" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="FishItem" EntityType="Self.FishItem" Schema="dbo" store:Type="Tables" />
@@ -139,6 +150,7 @@
           <EntitySet Name="AlertRegistedGroup" EntityType="AIDatabaseModel.AlertRegistedGroup" />
           <EntitySet Name="Hello" EntityType="AIDatabaseModel.Hello" />
           <EntitySet Name="AISeal" EntityType="AIDatabaseModel.AISeal" />
+          <EntitySet Name="BlackList" EntityType="AIDatabaseModel.BlackList" />
         </EntityContainer>
         <EntityType Name="FishingRecord">
           <Key>
@@ -244,6 +256,16 @@
           <Property Name="Id" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
           <Property Name="GroupNum" Type="Int64" Nullable="false" />
           <Property Name="AiName" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+        </EntityType>
+        <EntityType Name="BlackList">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="UpdateTime" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="QQNum" Type="Int64" Nullable="false" />
+          <Property Name="BlackCount" Type="Int32" Nullable="false" />
+          <Property Name="NickName" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
         </EntityType>
       </Schema>
     </edmx:ConceptualModels>
@@ -363,6 +385,17 @@
               <MappingFragment StoreEntitySet="AISeal">
                 <ScalarProperty Name="AiName" ColumnName="AiName" />
                 <ScalarProperty Name="GroupNum" ColumnName="GroupNum" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="BlackList">
+            <EntityTypeMapping TypeName="AIDatabaseModel.BlackList">
+              <MappingFragment StoreEntitySet="BlackList">
+                <ScalarProperty Name="NickName" ColumnName="NickName" />
+                <ScalarProperty Name="BlackCount" ColumnName="BlackCount" />
+                <ScalarProperty Name="QQNum" ColumnName="QQNum" />
+                <ScalarProperty Name="UpdateTime" ColumnName="UpdateTime" />
                 <ScalarProperty Name="Id" ColumnName="Id" />
               </MappingFragment>
             </EntityTypeMapping>

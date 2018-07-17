@@ -29,16 +29,18 @@ namespace CQPMonitor.Tools
 
         private void button1_Click(object sender, EventArgs e)
         {
-            //var entities = DbMgr.Query<AISealEntity>();
+            //var entities = DbMgr.Query<BlackListEntity>();
             //foreach (var en in entities)
             //{
             //    using (AIDatabase db = new AIDatabase())
             //    {
-            //        db.AISeal.Add(new AISeal
+            //        db.BlackList.Add(new AILib.Db.BlackList
             //        {
             //            Id = en.Id,
-            //            GroupNum = en.GroupNum,
-            //            AiName = en.Content
+            //            UpdateTime = en.UpdateTime,
+            //            BlackCount = en.BlackCount,
+            //            QQNum = en.QQNum,
+            //            NickName = en.NickName
             //        });
 
             //        db.SaveChanges();
