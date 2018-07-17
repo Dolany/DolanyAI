@@ -1,11 +1,7 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using Flexlive.CQP.Framework.Utils;
-using AILib.Entities;
-using System.ComponentModel.Composition;
+using AILib.Db;
 
 namespace AILib
 {
@@ -64,37 +60,45 @@ namespace AILib
             )]
         public void DeleteCharactor(GroupMsgDTO MsgDTO, object[] param)
         {
-            string charactor = param[0] as string;
-            var query = DbMgr.Query<CharactorSettingEntity>(c => c.GroupNumber == MsgDTO.FromGroup && c.Charactor == charactor);
-            if (query.IsNullOrEmpty())
+            using (AIDatabase db = new AIDatabase())
             {
+                string charactor = param[0] as string;
+                var query = db.CharactorSetting.Where(c => c.GroupNumber == MsgDTO.FromGroup && c.Charactor == charactor);
+                if (query.IsNullOrEmpty())
+                {
+                    MsgSender.Instance.PushMsg(new SendMsgDTO
+                    {
+                        Aim = MsgDTO.FromGroup,
+                        Type = MsgType.Group,
+                        Msg = "这个人物还没有被创建呢！"
+                    });
+                    return;
+                }
+
+                if (query.First().Creator != MsgDTO.FromQQ)
+                {
+                    MsgSender.Instance.PushMsg(new SendMsgDTO
+                    {
+                        Aim = MsgDTO.FromGroup,
+                        Type = MsgType.Group,
+                        Msg = "你只能删除自己创建的人物噢！"
+                    });
+                    return;
+                }
+
+                foreach (var c in query)
+                {
+                    db.CharactorSetting.Remove(c);
+                }
+                db.SaveChanges();
+
                 MsgSender.Instance.PushMsg(new SendMsgDTO
                 {
                     Aim = MsgDTO.FromGroup,
                     Type = MsgType.Group,
-                    Msg = "这个人物还没有被创建呢！"
+                    Msg = "删除成功！"
                 });
-                return;
             }
-
-            if (query.First().Creator != MsgDTO.FromQQ)
-            {
-                MsgSender.Instance.PushMsg(new SendMsgDTO
-                {
-                    Aim = MsgDTO.FromGroup,
-                    Type = MsgType.Group,
-                    Msg = "你只能删除自己创建的人物噢！"
-                });
-                return;
-            }
-
-            DbMgr.Delete<CharactorSettingEntity>(c => c.GroupNumber == MsgDTO.FromGroup && c.Charactor == charactor);
-            MsgSender.Instance.PushMsg(new SendMsgDTO
-            {
-                Aim = MsgDTO.FromGroup,
-                Type = MsgType.Group,
-                Msg = "删除成功！"
-            });
         }
 
         [GroupEnterCommand(
@@ -107,31 +111,34 @@ namespace AILib
             )]
         public void ViewCharactor(GroupMsgDTO MsgDTO, object[] param)
         {
-            string charactor = param[0] as string;
-            var query = DbMgr.Query<CharactorSettingEntity>(c => c.GroupNumber == MsgDTO.FromGroup && c.Charactor == charactor);
-            if (query.IsNullOrEmpty())
+            using (AIDatabase db = new AIDatabase())
             {
+                string charactor = param[0] as string;
+                var query = db.CharactorSetting.Where(c => c.GroupNumber == MsgDTO.FromGroup && c.Charactor == charactor);
+                if (query.IsNullOrEmpty())
+                {
+                    MsgSender.Instance.PushMsg(new SendMsgDTO
+                    {
+                        Aim = MsgDTO.FromGroup,
+                        Type = MsgType.Group,
+                        Msg = $"这个人物还没有创建哦~"
+                    });
+                    return;
+                }
+
+                string msg = charactor + ':';
+                foreach (var c in query)
+                {
+                    msg += '\r' + c.SettingName + ':' + c.Content;
+                }
+
                 MsgSender.Instance.PushMsg(new SendMsgDTO
                 {
                     Aim = MsgDTO.FromGroup,
                     Type = MsgType.Group,
-                    Msg = $"这个人物还没有创建哦~"
+                    Msg = msg
                 });
-                return;
             }
-
-            string msg = charactor + ':';
-            foreach (var c in query)
-            {
-                msg += '\r' + c.SettingName + ':' + c.Content;
-            }
-
-            MsgSender.Instance.PushMsg(new SendMsgDTO
-            {
-                Aim = MsgDTO.FromGroup,
-                Type = MsgType.Group,
-                Msg = msg
-            });
         }
 
         private void TryToInsertChar(GroupMsgDTO MsgDTO, string charactor, string settingName, string content)
@@ -187,75 +194,100 @@ namespace AILib
 
         private bool IsCharactorCreator(GroupMsgDTO MsgDTO, string charactor)
         {
-            var query = DbMgr.Query<CharactorSettingEntity>(cs => cs.GroupNumber == MsgDTO.FromGroup && cs.Charactor == charactor);
-            return query.First().Creator == MsgDTO.FromQQ;
+            using (AIDatabase db = new AIDatabase())
+            {
+                var query = db.CharactorSetting.Where(cs => cs.GroupNumber == MsgDTO.FromGroup && cs.Charactor == charactor);
+                return query.First().Creator == MsgDTO.FromQQ;
+            }
         }
 
         private bool IsSettingExist(long fromGroup, string charactor, string settingName)
         {
-            var query = DbMgr.Query<CharactorSettingEntity>(cs => cs.GroupNumber == fromGroup && cs.Charactor == charactor && cs.SettingName == settingName);
-            return !query.IsNullOrEmpty();
+            using (AIDatabase db = new AIDatabase())
+            {
+                var query = db.CharactorSetting.Where(cs => cs.GroupNumber == fromGroup && cs.Charactor == charactor && cs.SettingName == settingName);
+                return !query.IsNullOrEmpty();
+            }
         }
 
         private bool IsQQFullChar(GroupMsgDTO MsgDTO)
         {
-            var query = DbMgr.Query<CharactorSettingEntity>(cs => cs.GroupNumber == MsgDTO.FromGroup && cs.Creator == MsgDTO.FromQQ);
-            if (query.IsNullOrEmpty())
+            using (AIDatabase db = new AIDatabase())
             {
-                return false;
+                var query = db.CharactorSetting.Where(cs => cs.GroupNumber == MsgDTO.FromGroup && cs.Creator == MsgDTO.FromQQ);
+                if (query.IsNullOrEmpty())
+                {
+                    return false;
+                }
+                query = query.GroupBy(p => p.Charactor).Select(p => p.First());
+                return !query.IsNullOrEmpty() && query.Count() > MaxCharNumPerQQ;
             }
-            query = query.GroupBy(p => p.Charactor).Select(p => p.First());
-            return !query.IsNullOrEmpty() && query.Count() > MaxCharNumPerQQ;
         }
 
         private bool IsSettingFull(long fromGroup, string charactor, string settingName)
         {
-            var query = DbMgr.Query<CharactorSettingEntity>(cs => cs.GroupNumber == fromGroup && cs.Charactor == charactor && cs.SettingName != settingName);
-            return !query.IsNullOrEmpty() && query.Count() > MaxSettingPerChar;
+            using (AIDatabase db = new AIDatabase())
+            {
+                var query = db.CharactorSetting.Where(cs => cs.GroupNumber == fromGroup && cs.Charactor == charactor && cs.SettingName != settingName);
+                return !query.IsNullOrEmpty() && query.Count() > MaxSettingPerChar;
+            }
         }
 
         private void InsertSetting(GroupMsgDTO MsgDTO, string charactor, string settingName, string content)
         {
-            CharactorSettingEntity cs = new CharactorSettingEntity
+            using (AIDatabase db = new AIDatabase())
             {
-                Id = Guid.NewGuid().ToString(),
-                CreateTime = DateTime.Now,
-                GroupNumber = MsgDTO.FromGroup,
-                Creator = MsgDTO.FromQQ,
-                Charactor = charactor,
-                SettingName = settingName,
-                Content = content
-            };
+                CharactorSetting cs = new CharactorSetting
+                {
+                    Id = Guid.NewGuid().ToString(),
+                    CreateTime = DateTime.Now,
+                    GroupNumber = MsgDTO.FromGroup,
+                    Creator = MsgDTO.FromQQ,
+                    Charactor = charactor,
+                    SettingName = settingName,
+                    Content = content
+                };
 
-            DbMgr.Insert(cs);
-            MsgSender.Instance.PushMsg(new SendMsgDTO
-            {
-                Aim = MsgDTO.FromGroup,
-                Type = MsgType.Group,
-                Msg = "设定成功！"
-            });
+                db.CharactorSetting.Add(cs);
+                db.SaveChanges();
+
+                MsgSender.Instance.PushMsg(new SendMsgDTO
+                {
+                    Aim = MsgDTO.FromGroup,
+                    Type = MsgType.Group,
+                    Msg = "设定成功！"
+                });
+            }
         }
 
         private void ModifySetting(GroupMsgDTO MsgDTO, string charactor, string settingName, string content)
         {
-            var cs = DbMgr.Query<CharactorSettingEntity>(c => c.GroupNumber == MsgDTO.FromGroup
+            using (AIDatabase db = new AIDatabase())
+            {
+                var cs = db.CharactorSetting.Where(c => c.GroupNumber == MsgDTO.FromGroup
                 && c.Charactor == charactor
                 && c.SettingName == settingName)
                 .FirstOrDefault();
-            cs.Content = content;
-            DbMgr.Update(cs);
-            MsgSender.Instance.PushMsg(new SendMsgDTO
-            {
-                Aim = MsgDTO.FromGroup,
-                Type = MsgType.Group,
-                Msg = "修改设定成功！"
-            });
+
+                cs.Content = content;
+                db.SaveChanges();
+
+                MsgSender.Instance.PushMsg(new SendMsgDTO
+                {
+                    Aim = MsgDTO.FromGroup,
+                    Type = MsgType.Group,
+                    Msg = "修改设定成功！"
+                });
+            }
         }
 
         private bool IsExistCharactor(long groupNumber, string charactor)
         {
-            var query = DbMgr.Query<CharactorSettingEntity>(cs => cs.GroupNumber == groupNumber && cs.Charactor == charactor);
-            return !query.IsNullOrEmpty();
+            using (AIDatabase db = new AIDatabase())
+            {
+                var query = db.CharactorSetting.Where(cs => cs.GroupNumber == groupNumber && cs.Charactor == charactor);
+                return !query.IsNullOrEmpty();
+            }
         }
     }
 }

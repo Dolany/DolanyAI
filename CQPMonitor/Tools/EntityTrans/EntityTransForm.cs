@@ -29,28 +29,27 @@ namespace CQPMonitor.Tools
 
         private void button1_Click(object sender, EventArgs e)
         {
-            //var entities = DbMgr.Query<RepeaterAvailableEntity>();
+            //var entities = DbMgr.Query<AlermClockEntity>();
             //foreach (var en in entities)
             //{
-            //    UpdateToSqlServer(en);
+            //    using (AIDatabase db = new AIDatabase())
+            //    {
+            //        db.AlermClock.Add(new AlermClock
+            //        {
+            //            Id = en.Id,
+            //            GroupNumber = en.GroupNumber,
+            //            Creator = en.Creator,
+            //            CreateTime = en.CreateTime,
+            //            AimHourt = en.AimHourt,
+            //            AimMinute = en.AimMinute,
+            //            Content = en.Content
+            //        });
+
+            //        db.SaveChanges();
+            //    }
             //}
 
             //MessageBox.Show("complete " + entities.Count());
         }
-
-        //private void UpdateToSqlServer(RepeaterAvailableEntity en)
-        //{
-        //    using (AIDatabase db = new AIDatabase())
-        //    {
-        //        db.RepeaterAvailable.Add(new RepeaterAvailable
-        //        {
-        //            Id = en.Id,
-        //            GroupNumber = en.GroupNumber,
-        //            Available = bool.Parse(en.Content)
-        //        });
-
-        //        db.SaveChanges();
-        //    }
-        //}
     }
 }

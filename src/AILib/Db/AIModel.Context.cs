@@ -30,5 +30,8 @@ namespace AILib.Db
         public virtual DbSet<PlusOneAvailable> PlusOneAvailable { get; set; }
         public virtual DbSet<RandomFortune> RandomFortune { get; set; }
         public virtual DbSet<RepeaterAvailable> RepeaterAvailable { get; set; }
+        public virtual DbSet<CharactorSetting> CharactorSetting { get; set; }
+        public virtual DbSet<SayingSeal> SayingSeal { get; set; }
+        public virtual DbSet<AlermClock> AlermClock { get; set; }
     }
 }

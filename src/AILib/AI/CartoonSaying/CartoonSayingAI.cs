@@ -5,6 +5,7 @@ using System.Xml.Linq;
 using AILib.Entities;
 using Flexlive.CQP.Framework.Utils;
 using System.ComponentModel.Composition;
+using AILib.Db;
 
 namespace AILib
 {
@@ -93,8 +94,11 @@ namespace AILib
 
         private bool IsInSealing(long groupNum, long memberNum)
         {
-            var query = DbMgr.Query<SayingSealEntity>(s => s.GroupNum == groupNum && s.SealMember == memberNum);
-            return !query.IsNullOrEmpty();
+            using (AIDatabase db = new AIDatabase())
+            {
+                var query = db.SayingSeal.Where(s => s.GroupNum == groupNum && s.SealMember == memberNum);
+                return !query.IsNullOrEmpty();
+            }
         }
 
         private bool SaveSaying(SayingEntity info, long fromGroup)
@@ -189,27 +193,32 @@ namespace AILib
                 return;
             }
 
-            var query = DbMgr.Query<SayingSealEntity>(s => s.GroupNum == MsgDTO.FromGroup && s.SealMember == memberNum);
-            if (!query.IsNullOrEmpty())
+            using (AIDatabase db = new AIDatabase())
             {
-                MsgSender.Instance.PushMsg(new SendMsgDTO()
+                var query = db.SayingSeal.Where(s => s.GroupNum == MsgDTO.FromGroup && s.SealMember == memberNum);
+                if (!query.IsNullOrEmpty())
                 {
-                    Aim = MsgDTO.FromGroup,
-                    Type = MsgType.Group,
-                    Msg = "此成员正在封禁中！"
+                    MsgSender.Instance.PushMsg(new SendMsgDTO()
+                    {
+                        Aim = MsgDTO.FromGroup,
+                        Type = MsgType.Group,
+                        Msg = "此成员正在封禁中！"
+                    });
+
+                    return;
+                }
+
+                db.SayingSeal.Add(new SayingSeal()
+                {
+                    Id = Guid.NewGuid().ToString(),
+                    CreateTime = DateTime.Now,
+                    SealMember = memberNum,
+                    GroupNum = MsgDTO.FromGroup,
+                    Content = "封禁"
                 });
 
-                return;
+                db.SaveChanges();
             }
-
-            DbMgr.Insert(new SayingSealEntity()
-            {
-                Id = Guid.NewGuid().ToString(),
-                CreateTime = DateTime.Now,
-                SealMember = memberNum,
-                GroupNum = MsgDTO.FromGroup,
-                Content = "封禁"
-            });
             MsgSender.Instance.PushMsg(new SendMsgDTO()
             {
                 Aim = MsgDTO.FromGroup,
@@ -236,17 +245,25 @@ namespace AILib
                 return;
             }
 
-            int delCount = DbMgr.Delete<SayingSealEntity>(s => s.GroupNum == MsgDTO.FromGroup && s.SealMember == memberNum);
-            if (delCount == 0)
+            using (AIDatabase db = new AIDatabase())
             {
-                MsgSender.Instance.PushMsg(new SendMsgDTO()
+                var query = db.SayingSeal.Where(s => s.GroupNum == MsgDTO.FromGroup && s.SealMember == memberNum);
+                if (query.IsNullOrEmpty())
                 {
-                    Aim = MsgDTO.FromGroup,
-                    Type = MsgType.Group,
-                    Msg = "此成员尚未被封禁！"
-                });
+                    MsgSender.Instance.PushMsg(new SendMsgDTO()
+                    {
+                        Aim = MsgDTO.FromGroup,
+                        Type = MsgType.Group,
+                        Msg = "此成员尚未被封禁！"
+                    });
 
-                return;
+                    return;
+                }
+                foreach (var s in query)
+                {
+                    db.SayingSeal.Remove(s);
+                }
+                db.SaveChanges();
             }
 
             MsgSender.Instance.PushMsg(new SendMsgDTO()

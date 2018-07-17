@@ -84,6 +84,12 @@
     <Compile Include="AI\Jump300Report\Model\JumpMatchListInfo.cs" />
     <Compile Include="AI\Jump300Report\Model\JumpServerRankInfo.cs" />
     <Compile Include="AI\DevelperOnly\Monitor\MonitorAI.cs" />
+    <Compile Include="Db\AlermClock.cs">
+      <DependentUpon>AIModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Db\CharactorSetting.cs">
+      <DependentUpon>AIModel.tt</DependentUpon>
+    </Compile>
     <Compile Include="Db\RandomFortune.cs">
       <DependentUpon>AIModel.tt</DependentUpon>
     </Compile>
@@ -124,6 +130,9 @@
     <Compile Include="Db\RepeaterAvailable.cs">
       <DependentUpon>AIModel.tt</DependentUpon>
     </Compile>
+    <Compile Include="Db\SayingSeal.cs">
+      <DependentUpon>AIModel.tt</DependentUpon>
+    </Compile>
     <Compile Include="Entities\ForestAdvanture\Basic\CareerEntity.cs" />
     <Compile Include="Entities\ForestAdvanture\Basic\EquipEntity.cs" />
     <Compile Include="Entities\ForestAdvanture\Basic\EquipTypeEntity.cs" />
@@ -138,7 +147,6 @@
     <Compile Include="Entities\Management\AISealEntity.cs" />
     <Compile Include="Entities\Management\ConfigEntity.cs" />
     <Compile Include="Entities\DirtyFilter\BlackListEntity.cs" />
-    <Compile Include="Entities\CharactorSetting\CharactorSettingEntity.cs" />
     <Compile Include="Entities\DirtyFilter\DirtyWordEntity.cs" />
     <Compile Include="Entities\Management\HeartBeatEntity.cs" />
     <Compile Include="Entities\HelloEntity.cs" />
@@ -154,12 +162,10 @@
     <Compile Include="Entities\HourAlert\AlertRegistedGroupEntity.cs" />
     <Compile Include="Entities\Common\EntityBase.cs" />
     <Compile Include="DTO\SendMsgDTO.cs" />
-    <Compile Include="Entities\AlermClockEntity.cs" />
     <Compile Include="Entities\Management\GroupConfigEntity.cs" />
     <Compile Include="Entities\Common\LogEntity.cs" />
     <Compile Include="Entities\Management\PublishRecordEntity.cs" />
     <Compile Include="Entities\Saying\SayingEntity.cs" />
-    <Compile Include="Entities\Saying\SayingSealEntity.cs" />
     <Compile Include="Entities\Management\SynonymDicEntity.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Properties\Settings.Designer.cs">

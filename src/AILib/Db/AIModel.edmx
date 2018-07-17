@@ -5,6 +5,30 @@
     <!-- SSDL content -->
     <edmx:StorageModels>
     <Schema Namespace="AIDatabaseModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+        <EntityType Name="AlermClock">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="nvarchar" MaxLength="50" Nullable="false" />
+          <Property Name="GroupNumber" Type="bigint" Nullable="false" />
+          <Property Name="Creator" Type="bigint" Nullable="false" />
+          <Property Name="CreateTime" Type="datetime" Nullable="false" />
+          <Property Name="AimHourt" Type="int" Nullable="false" />
+          <Property Name="AimMinute" Type="int" Nullable="false" />
+          <Property Name="Content" Type="nvarchar" MaxLength="100" />
+        </EntityType>
+        <EntityType Name="CharactorSetting">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="nvarchar" MaxLength="50" Nullable="false" />
+          <Property Name="GroupNumber" Type="bigint" Nullable="false" />
+          <Property Name="Creator" Type="bigint" Nullable="false" />
+          <Property Name="CreateTime" Type="datetime" Nullable="false" />
+          <Property Name="Charactor" Type="nvarchar" MaxLength="50" />
+          <Property Name="SettingName" Type="nvarchar" MaxLength="50" />
+          <Property Name="Content" Type="nvarchar" MaxLength="100" />
+        </EntityType>
         <EntityType Name="FishingRecord">
           <Key>
             <PropertyRef Name="Id" />
@@ -50,12 +74,25 @@
           <Property Name="GroupNumber" Type="bigint" Nullable="false" />
           <Property Name="Available" Type="bit" Nullable="false" />
         </EntityType>
+        <EntityType Name="SayingSeal">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="nvarchar" MaxLength="50" Nullable="false" />
+          <Property Name="GroupNum" Type="bigint" Nullable="false" />
+          <Property Name="SealMember" Type="bigint" Nullable="false" />
+          <Property Name="CreateTime" Type="datetime" Nullable="false" />
+          <Property Name="Content" Type="nvarchar" MaxLength="50" />
+        </EntityType>
         <EntityContainer Name="AIDatabaseModelStoreContainer">
+          <EntitySet Name="AlermClock" EntityType="Self.AlermClock" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="CharactorSetting" EntityType="Self.CharactorSetting" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="FishingRecord" EntityType="Self.FishingRecord" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="FishItem" EntityType="Self.FishItem" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="PlusOneAvailable" EntityType="Self.PlusOneAvailable" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="RandomFortune" EntityType="Self.RandomFortune" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="RepeaterAvailable" EntityType="Self.RepeaterAvailable" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="SayingSeal" EntityType="Self.SayingSeal" Schema="dbo" store:Type="Tables" />
         </EntityContainer>
       </Schema></edmx:StorageModels>
     <!-- CSDL content -->
@@ -67,6 +104,9 @@
           <EntitySet Name="PlusOneAvailable" EntityType="AIDatabaseModel.PlusOneAvailable" />
           <EntitySet Name="RandomFortune" EntityType="AIDatabaseModel.RandomFortune" />
           <EntitySet Name="RepeaterAvailable" EntityType="AIDatabaseModel.RepeaterAvailable" />
+          <EntitySet Name="CharactorSetting" EntityType="AIDatabaseModel.CharactorSetting" />
+          <EntitySet Name="SayingSeal" EntityType="AIDatabaseModel.SayingSeal" />
+          <EntitySet Name="AlermClock" EntityType="AIDatabaseModel.AlermClock" />
         </EntityContainer>
         <EntityType Name="FishingRecord">
           <Key>
@@ -112,6 +152,40 @@
           <Property Name="Id" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
           <Property Name="GroupNumber" Type="Int64" Nullable="false" />
           <Property Name="Available" Type="Boolean" Nullable="false" />
+        </EntityType>
+        <EntityType Name="CharactorSetting">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="GroupNumber" Type="Int64" Nullable="false" />
+          <Property Name="Creator" Type="Int64" Nullable="false" />
+          <Property Name="CreateTime" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="Charactor" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="SettingName" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="Content" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
+        </EntityType>
+        <EntityType Name="SayingSeal">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="GroupNum" Type="Int64" Nullable="false" />
+          <Property Name="SealMember" Type="Int64" Nullable="false" />
+          <Property Name="CreateTime" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="Content" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+        </EntityType>
+        <EntityType Name="AlermClock">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="GroupNumber" Type="Int64" Nullable="false" />
+          <Property Name="Creator" Type="Int64" Nullable="false" />
+          <Property Name="CreateTime" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="AimHourt" Type="Int32" Nullable="false" />
+          <Property Name="AimMinute" Type="Int32" Nullable="false" />
+          <Property Name="Content" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
         </EntityType>
       </Schema>
     </edmx:ConceptualModels>
@@ -164,6 +238,43 @@
             <EntityTypeMapping TypeName="AIDatabaseModel.RepeaterAvailable">
               <MappingFragment StoreEntitySet="RepeaterAvailable">
                 <ScalarProperty Name="Available" ColumnName="Available" />
+                <ScalarProperty Name="GroupNumber" ColumnName="GroupNumber" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="CharactorSetting">
+            <EntityTypeMapping TypeName="AIDatabaseModel.CharactorSetting">
+              <MappingFragment StoreEntitySet="CharactorSetting">
+                <ScalarProperty Name="Content" ColumnName="Content" />
+                <ScalarProperty Name="SettingName" ColumnName="SettingName" />
+                <ScalarProperty Name="Charactor" ColumnName="Charactor" />
+                <ScalarProperty Name="CreateTime" ColumnName="CreateTime" />
+                <ScalarProperty Name="Creator" ColumnName="Creator" />
+                <ScalarProperty Name="GroupNumber" ColumnName="GroupNumber" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="SayingSeal">
+            <EntityTypeMapping TypeName="AIDatabaseModel.SayingSeal">
+              <MappingFragment StoreEntitySet="SayingSeal">
+                <ScalarProperty Name="Content" ColumnName="Content" />
+                <ScalarProperty Name="CreateTime" ColumnName="CreateTime" />
+                <ScalarProperty Name="SealMember" ColumnName="SealMember" />
+                <ScalarProperty Name="GroupNum" ColumnName="GroupNum" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="AlermClock">
+            <EntityTypeMapping TypeName="AIDatabaseModel.AlermClock">
+              <MappingFragment StoreEntitySet="AlermClock">
+                <ScalarProperty Name="Content" ColumnName="Content" />
+                <ScalarProperty Name="AimMinute" ColumnName="AimMinute" />
+                <ScalarProperty Name="AimHourt" ColumnName="AimHourt" />
+                <ScalarProperty Name="CreateTime" ColumnName="CreateTime" />
+                <ScalarProperty Name="Creator" ColumnName="Creator" />
                 <ScalarProperty Name="GroupNumber" ColumnName="GroupNumber" />
                 <ScalarProperty Name="Id" ColumnName="Id" />
               </MappingFragment>
