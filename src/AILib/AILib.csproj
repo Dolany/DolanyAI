@@ -84,6 +84,9 @@
     <Compile Include="AI\Jump300Report\Model\JumpMatchListInfo.cs" />
     <Compile Include="AI\Jump300Report\Model\JumpServerRankInfo.cs" />
     <Compile Include="AI\DevelperOnly\Monitor\MonitorAI.cs" />
+    <Compile Include="Db\AISeal.cs">
+      <DependentUpon>AIModel.tt</DependentUpon>
+    </Compile>
     <Compile Include="Db\AlermClock.cs">
       <DependentUpon>AIModel.tt</DependentUpon>
     </Compile>
@@ -150,7 +153,6 @@
     <Compile Include="Entities\ForestAdvanture\Basic\SkillEntity.cs" />
     <Compile Include="Entities\ForestAdvanture\Relationship\RS_CharactorEquipEntity.cs" />
     <Compile Include="Entities\ForestAdvanture\Relationship\RS_CharactorSkillEntity.cs" />
-    <Compile Include="Entities\Management\AISealEntity.cs" />
     <Compile Include="Entities\Management\ConfigEntity.cs" />
     <Compile Include="Entities\DirtyFilter\BlackListEntity.cs" />
     <Compile Include="Entities\DirtyFilter\DirtyWordEntity.cs" />
@@ -166,7 +168,6 @@
     <Compile Include="Entities\HourAlert\AlertContentEntity.cs" />
     <Compile Include="Entities\Common\EntityBase.cs" />
     <Compile Include="DTO\SendMsgDTO.cs" />
-    <Compile Include="Entities\Management\GroupConfigEntity.cs" />
     <Compile Include="Entities\Common\LogEntity.cs" />
     <Compile Include="Entities\Management\PublishRecordEntity.cs" />
     <Compile Include="Entities\Saying\SayingEntity.cs" />

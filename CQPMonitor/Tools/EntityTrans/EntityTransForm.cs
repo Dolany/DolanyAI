@@ -29,18 +29,16 @@ namespace CQPMonitor.Tools
 
         private void button1_Click(object sender, EventArgs e)
         {
-            //var entities = DbMgr.Query<HelloEntity>();
+            //var entities = DbMgr.Query<AISealEntity>();
             //foreach (var en in entities)
             //{
             //    using (AIDatabase db = new AIDatabase())
             //    {
-            //        db.Hello.Add(new Hello
+            //        db.AISeal.Add(new AISeal
             //        {
             //            Id = en.Id,
             //            GroupNum = en.GroupNum,
-            //            QQNum = en.QQNum,
-            //            LastHelloDate = DateTime.Parse(en.LastHelloDate),
-            //            Content = en.Content
+            //            AiName = en.Content
             //        });
 
             //        db.SaveChanges();

@@ -7,6 +7,7 @@ using System.Reflection;
 using Flexlive.CQP.Framework.Utils;
 using AILib.Entities;
 using System.ComponentModel.Composition;
+using AILib.Db;
 
 namespace AILib
 {
@@ -112,12 +113,16 @@ namespace AILib
 
         private void GroupMsgCallBack(GroupMsgDTO MsgDTO)
         {
+            Task.Run(new Action(() =>
+            {
+                GroupMsgCallBack_Func(MsgDTO);
+            }));
+        }
+
+        private void GroupMsgCallBack_Func(GroupMsgDTO MsgDTO)
+        {
             try
             {
-                //Task.Run(new Action(() =>
-                //{
-                //    GroupMsgCallBack_Func(MsgDTO);
-                //}));
                 foreach (var ai in AIList)
                 {
                     if (IsAiSealed(MsgDTO, ai.Value))
@@ -137,26 +142,14 @@ namespace AILib
             }
         }
 
-        private void GroupMsgCallBack_Func(GroupMsgDTO MsgDTO)
-        {
-            foreach (var ai in AIList)
-            {
-                if (IsAiSealed(MsgDTO, ai.Value))
-                {
-                    continue;
-                }
-
-                if (ai.Value.OnGroupMsgReceived(MsgDTO))
-                {
-                    break;
-                }
-            }
-        }
-
         private bool IsAiSealed(GroupMsgDTO MsgDTO, AIBase ai)
         {
-            var query = DbMgr.Query<AISealEntity>(s => s.GroupNum == MsgDTO.FromGroup && s.Content == ai.GetType().Name);
-            return !query.IsNullOrEmpty();
+            using (AIDatabase db = new AIDatabase())
+            {
+                var aiName = ai.GetType().Name;
+                var query = db.AISeal.Where(s => s.GroupNum == MsgDTO.FromGroup && s.AiName == aiName);
+                return !query.IsNullOrEmpty();
+            }
         }
 
         /// <summary>

@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 using System.Timers;
 using AILib.Entities;
 using System.ComponentModel.Composition;
+using AILib.Db;
 
 namespace AILib
 {
@@ -90,20 +91,24 @@ namespace AILib
                 return;
             }
 
-            var query = DbMgr.Query<AISealEntity>(a => a.GroupNum == groupNum && a.Content == aiName);
-            if (!query.IsNullOrEmpty())
+            using (AIDatabase db = new AIDatabase())
             {
-                Common.SendMsgToDeveloper("ai功能已经在封印中！");
-                return;
-            }
+                var query = db.AISeal.Where(a => a.GroupNum == groupNum && a.AiName == aiName);
+                if (!query.IsNullOrEmpty())
+                {
+                    Common.SendMsgToDeveloper("ai功能已经在封印中！");
+                    return;
+                }
 
-            AISealEntity aiseal = new AISealEntity()
-            {
-                Id = Guid.NewGuid().ToString(),
-                GroupNum = groupNum,
-                Content = aiName
-            };
-            DbMgr.Insert(aiseal);
+                AISeal aiseal = new AISeal()
+                {
+                    Id = Guid.NewGuid().ToString(),
+                    GroupNum = groupNum,
+                    AiName = aiName
+                };
+                db.AISeal.Add(aiseal);
+                db.SaveChanges();
+            }
             Common.SendMsgToDeveloper("ai封印成功！");
         }
 

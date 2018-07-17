@@ -1,12 +1,7 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using Flexlive.CQP.Framework.Utils;
-using AILib.Entities;
 using Flexlive.CQP.Framework;
-using System.ComponentModel.Composition;
 using AILib.Db;
 
 namespace AILib

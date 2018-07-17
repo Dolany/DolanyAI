@@ -35,5 +35,6 @@ namespace AILib.Db
         public virtual DbSet<AlermClock> AlermClock { get; set; }
         public virtual DbSet<AlertRegistedGroup> AlertRegistedGroup { get; set; }
         public virtual DbSet<Hello> Hello { get; set; }
+        public virtual DbSet<AISeal> AISeal { get; set; }
     }
 }

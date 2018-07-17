@@ -14,30 +14,6 @@ namespace Flexlive.CQP.CSharpPlugins.Demo
     public class DolanyPlugin : CQAppAbstract
     {
         /// <summary>
-        /// 群号列表
-        /// </summary>
-        public long[] GroupList
-        {
-            get
-            {
-                List<long> list = new List<long>();
-
-                var configs = DbMgr.Query<GroupConfigEntity>();
-                if (configs == null)
-                {
-                    return list.ToArray();
-                }
-                foreach (var config in configs)
-                {
-                    list.Add(long.Parse(config.Content));
-                }
-
-                RuntimeLogger.Log("加载群号列表");
-                return list.ToArray();
-            }
-        }
-
-        /// <summary>
         /// 应用初始化，用来初始化应用的基本信息。
         /// </summary>
         public override void Initialize()

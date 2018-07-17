@@ -5,6 +5,14 @@
     <!-- SSDL content -->
     <edmx:StorageModels>
     <Schema Namespace="AIDatabaseModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+        <EntityType Name="AISeal">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="nvarchar" MaxLength="50" Nullable="false" />
+          <Property Name="GroupNum" Type="bigint" Nullable="false" />
+          <Property Name="AiName" Type="nvarchar" MaxLength="50" />
+        </EntityType>
         <EntityType Name="AlermClock">
           <Key>
             <PropertyRef Name="Id" />
@@ -103,6 +111,7 @@
           <Property Name="Content" Type="nvarchar" MaxLength="50" />
         </EntityType>
         <EntityContainer Name="AIDatabaseModelStoreContainer">
+          <EntitySet Name="AISeal" EntityType="Self.AISeal" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="AlermClock" EntityType="Self.AlermClock" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="AlertRegistedGroup" EntityType="Self.AlertRegistedGroup" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="CharactorSetting" EntityType="Self.CharactorSetting" Schema="dbo" store:Type="Tables" />
@@ -129,6 +138,7 @@
           <EntitySet Name="AlermClock" EntityType="AIDatabaseModel.AlermClock" />
           <EntitySet Name="AlertRegistedGroup" EntityType="AIDatabaseModel.AlertRegistedGroup" />
           <EntitySet Name="Hello" EntityType="AIDatabaseModel.Hello" />
+          <EntitySet Name="AISeal" EntityType="AIDatabaseModel.AISeal" />
         </EntityContainer>
         <EntityType Name="FishingRecord">
           <Key>
@@ -226,6 +236,14 @@
           <Property Name="QQNum" Type="Int64" Nullable="false" />
           <Property Name="LastHelloDate" Type="DateTime" Nullable="false" Precision="3" />
           <Property Name="Content" Type="String" MaxLength="200" FixedLength="false" Unicode="true" />
+        </EntityType>
+        <EntityType Name="AISeal">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="GroupNum" Type="Int64" Nullable="false" />
+          <Property Name="AiName" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
         </EntityType>
       </Schema>
     </edmx:ConceptualModels>
@@ -335,6 +353,15 @@
                 <ScalarProperty Name="Content" ColumnName="Content" />
                 <ScalarProperty Name="LastHelloDate" ColumnName="LastHelloDate" />
                 <ScalarProperty Name="QQNum" ColumnName="QQNum" />
+                <ScalarProperty Name="GroupNum" ColumnName="GroupNum" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="AISeal">
+            <EntityTypeMapping TypeName="AIDatabaseModel.AISeal">
+              <MappingFragment StoreEntitySet="AISeal">
+                <ScalarProperty Name="AiName" ColumnName="AiName" />
                 <ScalarProperty Name="GroupNum" ColumnName="GroupNum" />
                 <ScalarProperty Name="Id" ColumnName="Id" />
               </MappingFragment>
