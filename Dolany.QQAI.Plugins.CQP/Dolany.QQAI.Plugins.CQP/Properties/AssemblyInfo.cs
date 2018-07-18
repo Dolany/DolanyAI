@@ -5,11 +5,11 @@ using System.Runtime.InteropServices;
 // 有关程序集的一般信息由以下
 // 控制。更改这些特性值可修改
 // 与程序集关联的信息。
-[assembly: AssemblyTitle("Newbe.Mahua.Plugins.Template1")]
+[assembly: AssemblyTitle("Dolany.QQAI.Plugins.CQP")]
 [assembly: AssemblyDescription("")]
 [assembly: AssemblyConfiguration("")]
 [assembly: AssemblyCompany("")]
-[assembly: AssemblyProduct("Newbe.Mahua.Plugins.Template1")]
+[assembly: AssemblyProduct("Dolany.QQAI.Plugins.CQP")]
 [assembly: AssemblyCopyright("Copyright ©  2017")]
 [assembly: AssemblyTrademark("")]
 [assembly: AssemblyCulture("")]
@@ -20,7 +20,7 @@ using System.Runtime.InteropServices;
 [assembly: ComVisible(false)]
 
 // 如果此项目向 COM 公开，则下列 GUID 用于类型库的 ID
-[assembly: Guid("b00a9c88-f9ea-4b36-a242-d65519a75e91")]
+[assembly: Guid("dae60d27-efa3-454d-ae3f-e90d6b344aab")]
 
 // 程序集的版本信息由下列四个值组成: 
 //

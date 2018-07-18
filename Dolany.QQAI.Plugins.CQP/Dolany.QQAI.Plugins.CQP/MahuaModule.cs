@@ -1,6 +1,7 @@
 ﻿using Autofac;
+using Newbe.Mahua;
 
-namespace Newbe.Mahua.Plugins.Template1
+namespace Dolany.QQAI.Plugins.CQP
 {
     /// <summary>
     /// Ioc容器注册
