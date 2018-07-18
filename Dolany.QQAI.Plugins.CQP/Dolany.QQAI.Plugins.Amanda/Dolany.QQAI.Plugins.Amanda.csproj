@@ -4,11 +4,11 @@
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProjectGuid>{DAE60D27-EFA3-454D-AE3F-E90D6B344AAB}</ProjectGuid>
+    <ProjectGuid>{429FB3F2-7DB1-4727-ADD4-047CDA54D09D}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>Dolany.QQAI.Plugins.CQP</RootNamespace>
-    <AssemblyName>Dolany.QQAI.Plugins.CQP</AssemblyName>
+    <RootNamespace>Dolany.QQAI.Plugins.Amanda</RootNamespace>
+    <AssemblyName>Dolany.QQAI.Plugins.Amanda</AssemblyName>
     <TargetFrameworkVersion>v4.5.2</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <NuGetPackageImportStamp>
@@ -49,6 +49,7 @@
     </Reference>
     <Reference Include="PresentationCore" />
     <Reference Include="PresentationFramework" />
+    <Reference Include="ReachFramework" />
     <Reference Include="System" />
     <Reference Include="System.Core" />
     <Reference Include="System.Drawing" />
@@ -70,7 +71,7 @@
     <Reference Include="WindowsBase" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="MahuaEvents\PrivateMessageFromFriendReceivedMahuaEvent1.cs" />
+    <Compile Include="MahuaEvents\ppi.cs" />
     <Compile Include="MahuaModule.cs" />
     <Compile Include="MyMenuProvider.cs" />
     <Compile Include="PluginInfo.cs" />
@@ -83,7 +84,6 @@
     <None Include="MahuaApis\readme.md" />
     <None Include="MahuaEvents\readme.md" />
     <None Include="NewbeLibs\Framework\NLog.config" />
-    <None Include="NewbeLibs\Platform\CQP\Content\Newbe.Mahua.CQP.json" />
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
@@ -91,22 +91,17 @@
     <Content Include="buildTools\nuget.exe" />
     <Content Include="NewbeLibs\Framework\Autofac.dll" />
     <Content Include="NewbeLibs\Framework\Extensions\Administration\Newbe.Mahua.Administration.WPF.dll" />
-    <Content Include="NewbeLibs\Framework\Extensions\Administration\Newbe.Mahua.Administration.WPF.pdb" />
     <Content Include="NewbeLibs\Framework\MediatR.dll" />
     <Content Include="NewbeLibs\Framework\MessagePack.dll" />
     <Content Include="NewbeLibs\Framework\Newbe.Mahua.dll" />
-    <Content Include="NewbeLibs\Framework\Newbe.Mahua.pdb" />
     <Content Include="NewbeLibs\Framework\Newbe.Mahua.PluginLoader.dll" />
-    <Content Include="NewbeLibs\Framework\Newbe.Mahua.PluginLoader.pdb" />
     <Content Include="NewbeLibs\Framework\Newbe.Mahua.xml" />
     <Content Include="NewbeLibs\Framework\NLog.dll" />
     <Content Include="NewbeLibs\Framework\System.Threading.Tasks.Extensions.dll" />
     <Content Include="NewbeLibs\Framework\System.ValueTuple.dll" />
-    <Content Include="NewbeLibs\Platform\CQP\CLR\Newbe.Mahua.CQP.dll" />
-    <Content Include="NewbeLibs\Platform\CQP\CLR\Newbe.Mahua.CQP.Native.dll" />
-    <Content Include="NewbeLibs\Platform\CQP\CLR\Newbe.Mahua.CQP.Native.pdb" />
-    <Content Include="NewbeLibs\Platform\CQP\CLR\Newbe.Mahua.CQP.pdb" />
-    <Content Include="NewbeLibs\Platform\CQP\Native\Newbe.Mahua.CQP.Native.dll" />
+    <Content Include="NewbeLibs\Platform\Amanda\CLR\Newbe.Mahua.Amanda.dll" />
+    <Content Include="NewbeLibs\Platform\Amanda\CLR\Newbe.Mahua.Amanda.Native.dll" />
+    <Content Include="NewbeLibs\Platform\Amanda\Native\Newbe.Mahua.Amanda.Native.dll" />
   </ItemGroup>
   <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

@@ -1,6 +1,6 @@
 ﻿using Newbe.Mahua;
 
-namespace Dolany.QQAI.Plugins.CQP
+namespace Dolany.QQAI.Plugins.Amanda
 {
     /// <summary>
     /// 本插件的基本信息
@@ -26,7 +26,7 @@ namespace Dolany.QQAI.Plugins.CQP
         /// <summary>
         /// 插件Id，用于唯一标识插件产品的Id，至少包含 AAA.BBB.CCC 三个部分
         /// </summary>
-        public string Id { get; set; } = "Dolany.QQAI.Plugins.CQP";
+        public string Id { get; set; } = "Dolany.QQAI.Plugins.Amanda";
 
         /// <summary>
         /// 插件描述

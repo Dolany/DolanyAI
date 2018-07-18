@@ -1,18 +1,18 @@
 ﻿using Newbe.Mahua.MahuaEvents;
-using Newbe.Mahua;
 using System.Threading.Tasks;
+using Newbe.Mahua;
 
-namespace Dolany.QQAI.Plugins.CQP.MahuaEvents
+namespace Dolany.QQAI.Plugins.Amanda.MahuaEvents
 {
     /// <summary>
     /// 来自好友的私聊消息接收事件
     /// </summary>
-    public class PrivateMessageFromFriendReceivedMahuaEvent1
+    public class ppi
         : IPrivateMessageFromFriendReceivedMahuaEvent
     {
         private readonly IMahuaApi _mahuaApi;
 
-        public PrivateMessageFromFriendReceivedMahuaEvent1(
+        public ppi(
             IMahuaApi mahuaApi)
         {
             _mahuaApi = mahuaApi;

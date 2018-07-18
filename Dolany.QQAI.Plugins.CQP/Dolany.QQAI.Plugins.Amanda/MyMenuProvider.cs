@@ -1,7 +1,7 @@
 ﻿using System.Collections.Generic;
 using Newbe.Mahua;
 
-namespace Dolany.QQAI.Plugins.CQP
+namespace Dolany.QQAI.Plugins.Amanda
 {
     public class MyMenuProvider : IMahuaMenuProvider
     {
