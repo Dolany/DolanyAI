@@ -1,5 +1,6 @@
 ﻿using Autofac;
 using Newbe.Mahua;
+using Dolany.QQAI.Plugins.CQP.MahuaEvents;
 
 namespace Dolany.QQAI.Plugins.CQP
 {
@@ -46,6 +47,8 @@ namespace Dolany.QQAI.Plugins.CQP
             {
                 base.Load(builder);
                 // 将需要监听的事件注册，若缺少此注册，则不会调用相关的实现类
+                builder.RegisterType<PrivateMessageFromFriendReceivedMahuaEvent1>()
+                    .As<PrivateMessageFromFriendReceivedMahuaEvent1>();
             }
         }
     }

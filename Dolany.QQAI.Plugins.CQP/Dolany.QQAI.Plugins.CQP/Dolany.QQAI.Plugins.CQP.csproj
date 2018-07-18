@@ -70,6 +70,7 @@
     <Reference Include="WindowsBase" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="MahuaEvents\PrivateMessageFromFriendReceivedMahuaEvent1.cs" />
     <Compile Include="MahuaModule.cs" />
     <Compile Include="MyMenuProvider.cs" />
     <Compile Include="PluginInfo.cs" />
