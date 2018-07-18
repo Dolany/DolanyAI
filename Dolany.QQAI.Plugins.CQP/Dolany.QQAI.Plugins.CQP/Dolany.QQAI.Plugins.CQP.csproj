@@ -7,12 +7,13 @@
     <ProjectGuid>{B00A9C88-F9EA-4B36-A242-D65519A75E91}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>Newbe.Mahua.Plugins.Template1</RootNamespace>
-    <AssemblyName>Newbe.Mahua.Plugins.Template1</AssemblyName>
-    <TargetFrameworkVersion>v4.5.2</TargetFrameworkVersion>
+    <RootNamespace>Dolany.QQAI.Plugins.CQP</RootNamespace>
+    <AssemblyName>Dolany.QQAI.Plugins.CQP</AssemblyName>
+    <TargetFrameworkVersion>v4.7.2</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <NuGetPackageImportStamp>
     </NuGetPackageImportStamp>
+    <TargetFrameworkProfile />
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>
@@ -41,6 +42,9 @@
     <Reference Include="MessagePack, Version=1.7.3.4, Culture=neutral, PublicKeyToken=b4a0369545f0a1be, processorArchitecture=MSIL">
       <HintPath>..\packages\MessagePack.1.7.3.4\lib\net45\MessagePack.dll</HintPath>
     </Reference>
+    <Reference Include="Microsoft.QualityTools.Testing.Fakes, Version=12.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+    </Reference>
     <Reference Include="Newbe.Mahua, Version=1.10.0.0, Culture=neutral, processorArchitecture=MSIL">
       <HintPath>..\packages\Newbe.Mahua.1.10.0\lib\net452\Newbe.Mahua.dll</HintPath>
     </Reference>
@@ -62,6 +66,9 @@
     <Reference Include="System.ValueTuple, Version=4.0.1.0, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51, processorArchitecture=MSIL">
       <HintPath>..\packages\System.ValueTuple.4.3.0\lib\netstandard1.0\System.ValueTuple.dll</HintPath>
     </Reference>
+    <Reference Include="System.ValueTuple.4.0.1.0.Fakes">
+      <HintPath>FakesAssemblies\System.ValueTuple.4.0.1.0.Fakes.dll</HintPath>
+    </Reference>
     <Reference Include="System.Web.Extensions" />
     <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Data.DataSetExtensions" />
@@ -81,6 +88,7 @@
     <None Include="build.bat" />
     <None Include="build.ps1" />
     <None Include="buildTools\packages.config" />
+    <Fakes Include="Fakes\System.ValueTuple.fakes" />
     <None Include="MahuaApis\readme.md" />
     <None Include="MahuaEvents\readme.md" />
     <None Include="NewbeLibs\Framework\NLog.config" />
