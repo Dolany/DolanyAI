@@ -104,7 +104,7 @@ namespace CQPMonitor.Tools.AutoRestart
             {
                 if (p.ProcessName == ProcessName)
                 {
-                    var icon = IconHelper.GetSmallIconFromHandle(p.Handle);
+                    var h = WinHandleHelper.FindWindowEx(p.MainWindowHandle, "发生错误", true);
                 }
             }
         }

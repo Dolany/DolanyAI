@@ -71,7 +71,7 @@
     <Compile Include="Tools\AutoRestart\AutoRestartForm.Designer.cs">
       <DependentUpon>AutoRestartForm.cs</DependentUpon>
     </Compile>
-    <Compile Include="Tools\AutoRestart\IconHelper.cs" />
+    <Compile Include="Tools\AutoRestart\WinHandleHelper.cs" />
     <Compile Include="Tools\BlackList\BlackListForm.cs">
       <SubType>Form</SubType>
     </Compile>
