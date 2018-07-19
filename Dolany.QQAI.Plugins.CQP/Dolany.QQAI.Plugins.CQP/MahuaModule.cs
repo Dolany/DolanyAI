@@ -1,9 +1,9 @@
 ﻿using Autofac;
 using Newbe.Mahua;
-using Dolany.QQAI.Plugins.Amanda.MahuaEvents;
+using Dolany.QQAI.Plugins.CQP.MahuaEvents;
 using Newbe.Mahua.MahuaEvents;
 
-namespace Dolany.QQAI.Plugins.Amanda
+namespace Dolany.QQAI.Plugins.CQP
 {
     /// <summary>
     /// Ioc容器注册
@@ -48,8 +48,9 @@ namespace Dolany.QQAI.Plugins.Amanda
             {
                 base.Load(builder);
                 // 将需要监听的事件注册，若缺少此注册，则不会调用相关的实现类
-                builder.RegisterType<ppi>()
-                    .As<IPrivateMessageFromFriendReceivedMahuaEvent>();
+
+                builder.RegisterType<AIMsgReceived>()
+                    .As<IGroupMessageReceivedMahuaEvent>();
             }
         }
     }
