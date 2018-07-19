@@ -1,6 +1,7 @@
 ﻿using Newbe.Mahua.MahuaEvents;
 using System;
 using Newbe.Mahua;
+using Dolany.QQAI.Plugins.CQP.DolanyAI;
 
 namespace Dolany.QQAI.Plugins.CQP.MahuaEvents
 {

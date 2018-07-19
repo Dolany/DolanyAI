@@ -1,12 +1,11 @@
-﻿/*已迁移*/
-
-using System;
-using System.Xml;
-using System.Reflection;
-using System.Xml.Linq;
+﻿using System;
 using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Xml.Linq;
+using System.Threading.Tasks;
 
-namespace AILib.Entities
+namespace Dolany.QQAI.Plugins.CQP.DolanyAI
 {
     [AttributeUsage(AttributeTargets.Property)]
     public class DataColumnAttribute : Attribute

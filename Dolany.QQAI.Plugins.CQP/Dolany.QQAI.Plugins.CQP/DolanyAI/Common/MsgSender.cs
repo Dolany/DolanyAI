@@ -5,7 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using Newbe.Mahua;
 
-namespace Dolany.QQAI.Plugins.CQP
+namespace Dolany.QQAI.Plugins.CQP.DolanyAI
 {
     public class MsgSender
     {
@@ -46,20 +46,14 @@ namespace Dolany.QQAI.Plugins.CQP
 
         public void PushMsg(SendMsgDTO msg)
         {
-            lock (MsgQueue)
-            {
-                MsgQueue.Enqueue(msg);
-            }
+            MsgQueue.Enqueue(msg);
         }
 
         public void PushMsg(IEnumerable<SendMsgDTO> msgs)
         {
-            lock (MsgQueue)
+            foreach (var m in msgs)
             {
-                foreach (var m in msgs)
-                {
-                    MsgQueue.Enqueue(m);
-                }
+                MsgQueue.Enqueue(m);
             }
         }
 
@@ -67,9 +61,9 @@ namespace Dolany.QQAI.Plugins.CQP
         {
             using (var robotSession = MahuaRobotManager.Instance.CreateSession())
             {
+                var api = robotSession.MahuaApi;
                 while (MsgQueue.Count() > 0)
                 {
-                    var api = robotSession.MahuaApi;
                     var msg = MsgQueue.Dequeue();
                     switch (msg.Type)
                     {

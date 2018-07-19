@@ -1,6 +1,4 @@
-﻿/*已迁移*/
-
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -10,9 +8,8 @@ using System.Xml.Linq;
 using System.Xml;
 using System.IO;
 using System.Linq.Expressions;
-using AILib.Entities;
 
-namespace AILib
+namespace Dolany.QQAI.Plugins.CQP.DolanyAI
 {
     public static class DbMgr
     {
@@ -44,18 +41,11 @@ namespace AILib
                 return;
             }
 
-            try
-            {
-                XmlDocument doc = new XmlDocument();
-                XmlElement root = doc.CreateElement(EntityName);
-                doc.AppendChild(root);
+            XmlDocument doc = new XmlDocument();
+            XmlElement root = doc.CreateElement(EntityName);
+            doc.AppendChild(root);
 
-                doc.Save(FilePath);
-            }
-            catch (Exception ex)
-            {
-                Common.SendMsgToDeveloper(ex);
-            }
+            doc.Save(FilePath);
         }
 
         public static void Insert(EntityBase entity)

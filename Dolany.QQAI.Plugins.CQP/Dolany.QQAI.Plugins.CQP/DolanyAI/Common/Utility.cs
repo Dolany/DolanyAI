@@ -1,20 +1,19 @@
-﻿/*已迁移*/
-
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using Flexlive.CQP.Framework;
-using AILib.Entities;
 using System.ComponentModel.Composition;
 using System.Reflection;
 using System.ComponentModel.Composition.Hosting;
+using Newbe.Mahua;
 
-namespace AILib
+namespace Dolany.QQAI.Plugins.CQP.DolanyAI
 {
-    public static class Common
+    public static class Utility
     {
+        private static Dictionary<Type, Object> SinglonMap;
+
         public static long DeveloperNumber
         {
             get
@@ -25,7 +24,11 @@ namespace AILib
 
         public static void SendMsgToDeveloper(string msg)
         {
-            CQ.SendPrivateMessage(DeveloperNumber, msg);
+            using (var robotSession = MahuaRobotManager.Instance.CreateSession())
+            {
+                var api = robotSession.MahuaApi;
+                api.SendPrivateMessage(DeveloperNumber.ToString(), msg);
+            }
         }
 
         public static void SendMsgToDeveloper(Exception ex)
@@ -129,6 +132,44 @@ namespace AILib
             _container.ComposeParts(obj);
 
             return obj;
+        }
+
+        public static T Instance<T>() where T : class, new()
+        {
+            if (SinglonMap == null)
+            {
+                SinglonMap = new Dictionary<Type, object>();
+            }
+
+            Type type = typeof(T);
+            if (SinglonMap.Keys.Contains(type))
+            {
+                return SinglonMap[type] as T;
+            }
+
+            var value = new T();
+            SinglonMap.Add(type, value);
+            return value;
+        }
+
+        public static T Clone<T>(this T obj) where T : class, new()
+        {
+            Type type = obj.GetType();
+            T copyT = new T();
+            foreach (var prop in type.GetProperties())
+            {
+                if (prop.CanRead && prop.CanWrite)
+                {
+                    prop.SetValue(copyT, prop.GetValue(obj));
+                }
+            }
+
+            return copyT;
+        }
+
+        public static GroupMemberInfo GetMemberInfo(GroupMsgDTO MsgDTO)
+        {
+            return Instance<GroupMemberInfoCacher>().GetMemberInfo(MsgDTO);
         }
     }
 }
