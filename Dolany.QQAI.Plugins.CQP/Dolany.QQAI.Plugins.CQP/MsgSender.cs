@@ -65,24 +65,21 @@ namespace Dolany.QQAI.Plugins.CQP
 
         private void SendAllMsgs()
         {
-            lock (MsgQueue)
+            using (var robotSession = MahuaRobotManager.Instance.CreateSession())
             {
-                using (var robotSession = MahuaRobotManager.Instance.CreateSession())
+                while (MsgQueue.Count() > 0)
                 {
-                    while (MsgQueue.Count() > 0)
+                    var api = robotSession.MahuaApi;
+                    var msg = MsgQueue.Dequeue();
+                    switch (msg.Type)
                     {
-                        var api = robotSession.MahuaApi;
-                        var msg = MsgQueue.Dequeue();
-                        switch (msg.Type)
-                        {
-                            case MsgType.Group:
-                                api.SendGroupMessage(msg.Aim.ToString(), msg.Msg);
-                                break;
+                        case MsgType.Group:
+                            api.SendGroupMessage(msg.Aim.ToString(), msg.Msg);
+                            break;
 
-                            case MsgType.Private:
-                                api.SendPrivateMessage(msg.Aim.ToString(), msg.Msg);
-                                break;
-                        }
+                        case MsgType.Private:
+                            api.SendPrivateMessage(msg.Aim.ToString(), msg.Msg);
+                            break;
                     }
                 }
             }
