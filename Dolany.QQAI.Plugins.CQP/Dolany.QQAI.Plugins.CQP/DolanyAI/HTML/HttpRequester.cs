@@ -1,13 +1,11 @@
-﻿/*已迁移*/
-
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-using System.Threading.Tasks;
 using System.Net;
+using System.Threading.Tasks;
 
-namespace AILib
+namespace Dolany.QQAI.Plugins.CQP.DolanyAI.HTML
 {
     public class HttpRequester
     {

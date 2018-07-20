@@ -1,12 +1,10 @@
-﻿/*已迁移*/
-
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace AILib.Entities
+namespace Dolany.QQAI.Plugins.CQP.DolanyAI
 {
     public class SayingEntity : EntityBase
     {

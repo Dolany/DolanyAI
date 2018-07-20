@@ -69,6 +69,7 @@
       <HintPath>..\packages\System.Runtime.CompilerServices.Unsafe.4.5.1\lib\netstandard1.0\System.Runtime.CompilerServices.Unsafe.dll</HintPath>
     </Reference>
     <Reference Include="System.Runtime.Serialization" />
+    <Reference Include="System.Security" />
     <Reference Include="System.Threading.Tasks.Extensions, Version=4.2.0.0, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51, processorArchitecture=MSIL">
       <HintPath>..\packages\System.Threading.Tasks.Extensions.4.5.1\lib\portable-net45+win8+wp8+wpa81\System.Threading.Tasks.Extensions.dll</HintPath>
     </Reference>
@@ -91,10 +92,72 @@
     <Compile Include="DolanyAI\Base\PrivateMsgDTO.cs" />
     <Compile Include="DolanyAI\Common\DbMgr.cs" />
     <Compile Include="DolanyAI\Common\GroupMemberInfoCacher.cs" />
+    <Compile Include="DolanyAI\Common\KeyLogger.cs" />
     <Compile Include="DolanyAI\Common\Utility.cs" />
+    <Compile Include="DolanyAI\Db\AIModel.Context.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>AIModel.Context.tt</DependentUpon>
+    </Compile>
+    <Compile Include="DolanyAI\Db\AIModel.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>AIModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="DolanyAI\Db\AIModel.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>AIModel.edmx</DependentUpon>
+    </Compile>
+    <Compile Include="DolanyAI\Db\AISeal.cs">
+      <DependentUpon>AIModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="DolanyAI\Db\AlermClock.cs">
+      <DependentUpon>AIModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="DolanyAI\Db\AlertContent.cs">
+      <DependentUpon>AIModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="DolanyAI\Db\AlertRegistedGroup.cs">
+      <DependentUpon>AIModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="DolanyAI\Db\BlackList.cs">
+      <DependentUpon>AIModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="DolanyAI\Db\CharactorSetting.cs">
+      <DependentUpon>AIModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="DolanyAI\Db\DirtyWord.cs">
+      <DependentUpon>AIModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="DolanyAI\Db\FishingRecord.cs">
+      <DependentUpon>AIModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="DolanyAI\Db\FishItem.cs">
+      <DependentUpon>AIModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="DolanyAI\Db\Hello.cs">
+      <DependentUpon>AIModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="DolanyAI\Db\PlusOneAvailable.cs">
+      <DependentUpon>AIModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="DolanyAI\Db\RandomFortune.cs">
+      <DependentUpon>AIModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="DolanyAI\Db\RepeaterAvailable.cs">
+      <DependentUpon>AIModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="DolanyAI\Db\SayingSeal.cs">
+      <DependentUpon>AIModel.tt</DependentUpon>
+    </Compile>
     <Compile Include="DolanyAI\Entities\Common\EntityBase.cs" />
     <Compile Include="DolanyAI\Entities\Common\LogEntity.cs" />
     <Compile Include="DolanyAI\Entities\Management\ConfigEntity.cs" />
+    <Compile Include="DolanyAI\Entities\Management\SynonymDicEntity.cs" />
+    <Compile Include="DolanyAI\Entities\Sayings\SayingEntity.cs" />
+    <Compile Include="DolanyAI\HTML\HtmlParser.cs" />
+    <Compile Include="DolanyAI\HTML\HttpRequester.cs" />
     <Compile Include="DolanyAI\SyntaxChecker\ISyntaxChecker.cs" />
     <Compile Include="MahuaEvents\AIMsgReceived.cs" />
     <Compile Include="MahuaModule.cs" />
@@ -109,6 +172,13 @@
     <None Include="build.bat" />
     <None Include="build.ps1" />
     <None Include="buildTools\packages.config" />
+    <EntityDeploy Include="DolanyAI\Db\AIModel.edmx">
+      <Generator>EntityModelCodeGenerator</Generator>
+      <LastGenOutput>AIModel.Designer.cs</LastGenOutput>
+    </EntityDeploy>
+    <None Include="DolanyAI\Db\AIModel.edmx.diagram">
+      <DependentUpon>AIModel.edmx</DependentUpon>
+    </None>
     <None Include="MahuaApis\readme.md" />
     <None Include="MahuaEvents\readme.md" />
     <None Include="NewbeLibs\Framework\NLog.config" />
@@ -118,6 +188,16 @@
   <ItemGroup>
     <Content Include="buildTools\7z.exe" />
     <Content Include="buildTools\nuget.exe" />
+    <Content Include="DolanyAI\Db\AIModel.Context.tt">
+      <Generator>TextTemplatingFileGenerator</Generator>
+      <LastGenOutput>AIModel.Context.cs</LastGenOutput>
+      <DependentUpon>AIModel.edmx</DependentUpon>
+    </Content>
+    <Content Include="DolanyAI\Db\AIModel.tt">
+      <Generator>TextTemplatingFileGenerator</Generator>
+      <DependentUpon>AIModel.edmx</DependentUpon>
+      <LastGenOutput>AIModel.cs</LastGenOutput>
+    </Content>
     <Content Include="NewbeLibs\Framework\Autofac.dll" />
     <Content Include="NewbeLibs\Framework\Extensions\Administration\Newbe.Mahua.Administration.WPF.dll" />
     <Content Include="NewbeLibs\Framework\Extensions\Administration\Newbe.Mahua.Administration.WPF.pdb" />
@@ -139,6 +219,9 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="DolanyAI\SyntaxChecker\Common\" />
+  </ItemGroup>
+  <ItemGroup>
+    <Service Include="{508349B6-6B84-4DF5-91F0-309BEEBAD82D}" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>
