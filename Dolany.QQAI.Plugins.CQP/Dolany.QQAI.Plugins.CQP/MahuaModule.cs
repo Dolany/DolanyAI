@@ -2,6 +2,9 @@
 using Newbe.Mahua;
 using Dolany.QQAI.Plugins.CQP.MahuaEvents;
 using Newbe.Mahua.MahuaEvents;
+using Dolany.QQAI.Plugins.CQP.DolanyAI;
+using System;
+using System.Linq;
 
 namespace Dolany.QQAI.Plugins.CQP
 {
@@ -17,6 +20,7 @@ namespace Dolany.QQAI.Plugins.CQP
             {
                 new PluginModule(),
                 new MahuaEventsModule(),
+                new AIModule()
             };
         }
 
@@ -51,6 +55,35 @@ namespace Dolany.QQAI.Plugins.CQP
 
                 builder.RegisterType<AIMsgReceived>()
                     .As<IGroupMessageReceivedMahuaEvent>();
+            }
+        }
+
+        private class AIModule : Module
+        {
+            protected override void Load(ContainerBuilder builder)
+            {
+                try
+                {
+                    RuntimeLogger.Log("start up");
+                    DbMgr.InitXmls();
+
+                    RuntimeLogger.Log("加载所有可用AI");
+
+                    AIMgr.Instance.StartAIs();
+
+                    var allais = AIMgr.Instance.AIList;
+                    string msg = $"成功加载{allais.Count()}个ai \r\n";
+                    foreach (var ai in allais)
+                    {
+                        msg += ai.Metadata.Name + " ";
+                    }
+
+                    Utility.SendMsgToDeveloper(msg);
+                }
+                catch (Exception ex)
+                {
+                    Utility.SendMsgToDeveloper(ex);
+                }
             }
         }
     }

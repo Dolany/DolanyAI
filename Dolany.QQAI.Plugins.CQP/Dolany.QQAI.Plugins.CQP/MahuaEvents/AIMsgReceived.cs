@@ -21,12 +21,26 @@ namespace Dolany.QQAI.Plugins.CQP.MahuaEvents
 
         public void ProcessGroupMessage(GroupMessageReceivedContext context)
         {
-            MsgSender.Instance.PushMsg(new SendMsgDTO
+            RuntimeLogger.Log($"receive group message: fromGroup:{context.FromGroup} fromQQ:{context.FromQq} msg:{context.Message} time:{DateTime.Now}");
+            // 处理群消息。
+            try
             {
-                Type = MsgType.Group,
-                Aim = long.Parse(context.FromGroup),
-                Msg = context.Message
-            });
+                AIMgr.Instance.OnGroupMsgReceived(new GroupMsgDTO()
+                {
+                    //SubType = context.,
+                    //SendTime = context.SendTime,
+                    FromGroup = long.Parse(context.FromGroup),
+                    FromQQ = long.Parse(context.FromQq),
+                    FromAnonymous = context.FromAnonymous,
+                    Msg = context.Message,
+                    FullMsg = context.Message,
+                    //Font = context.f
+                });
+            }
+            catch (Exception ex)
+            {
+                Utility.SendMsgToDeveloper(ex);
+            }
         }
     }
 }
