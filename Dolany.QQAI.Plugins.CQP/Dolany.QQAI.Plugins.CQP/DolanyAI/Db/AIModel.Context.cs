@@ -13,9 +13,9 @@ namespace Dolany.QQAI.Plugins.CQP.DolanyAI.Db
     using System.Data.Entity;
     using System.Data.Entity.Infrastructure;
     
-    public partial class AIDatabaseEntities : DbContext
+    public partial class AIDatabase : DbContext
     {
-        public AIDatabaseEntities()
+        public AIDatabase()
             : base("name=AIDatabaseEntities")
         {
         }

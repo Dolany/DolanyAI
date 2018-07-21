@@ -1,18 +1,12 @@
-﻿/*已迁移*/
-
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using AILib.Entities;
-using Flexlive.CQP.Framework;
+using Dolany.QQAI.Plugins.CQP.DolanyAI.Db;
 using System.Timers;
-using Flexlive.CQP.Framework.Utils;
-using System.ComponentModel.Composition;
-using AILib.Db;
 
-namespace AILib
+namespace Dolany.QQAI.Plugins.CQP.DolanyAI
 {
     public class TimerEx : Timer
     {

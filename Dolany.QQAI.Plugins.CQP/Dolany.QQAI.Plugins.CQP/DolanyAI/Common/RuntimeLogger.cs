@@ -1,16 +1,12 @@
-﻿/*已迁移*/
-
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.Threading.Tasks;
 using System.IO;
 
-namespace Flexlive.CQP.Framework.Utils
+namespace Dolany.QQAI.Plugins.CQP.DolanyAI
 {
-    /// <summary>
-    ///
-    /// </summary>
     public static class RuntimeLogger
     {
         private static string LogPath = "./RuntimeLog/";

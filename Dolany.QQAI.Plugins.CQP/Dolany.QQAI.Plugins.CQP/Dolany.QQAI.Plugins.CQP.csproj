@@ -85,6 +85,10 @@
     <Reference Include="WindowsBase" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="DolanyAI\AI\AlermClock\AlermClockAI.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="DolanyAI\AI\AlermClock\AlertContentExtension.cs" />
     <Compile Include="DolanyAI\Base\AIAttribute.cs" />
     <Compile Include="DolanyAI\Base\AIBase.cs" />
     <Compile Include="DolanyAI\Base\GroupEnterCommandAttribute.cs" />
@@ -93,6 +97,7 @@
     <Compile Include="DolanyAI\Common\DbMgr.cs" />
     <Compile Include="DolanyAI\Common\GroupMemberInfoCacher.cs" />
     <Compile Include="DolanyAI\Common\KeyLogger.cs" />
+    <Compile Include="DolanyAI\Common\RuntimeLogger.cs" />
     <Compile Include="DolanyAI\Common\Utility.cs" />
     <Compile Include="DolanyAI\Db\AIModel.Context.cs">
       <AutoGen>True</AutoGen>
