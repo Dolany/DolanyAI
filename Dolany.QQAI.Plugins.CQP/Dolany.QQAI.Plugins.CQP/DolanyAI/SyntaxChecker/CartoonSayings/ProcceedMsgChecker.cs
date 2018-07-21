@@ -1,13 +1,10 @@
-﻿/*已迁移*/
-
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using AILib.Entities;
 
-namespace AILib.SyntaxChecker
+namespace Dolany.QQAI.Plugins.CQP.DolanyAI
 {
     public class ProcceedMsgChecker : ISyntaxChecker
     {

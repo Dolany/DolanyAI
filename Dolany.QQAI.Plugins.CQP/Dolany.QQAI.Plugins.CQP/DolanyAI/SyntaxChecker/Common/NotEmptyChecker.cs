@@ -1,31 +1,22 @@
-﻿/*已迁移*/
-
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace AILib.SyntaxChecker
+namespace Dolany.QQAI.Plugins.CQP.DolanyAI
 {
-    public class LongChecker : ISyntaxChecker
+    public class NotEmptyChecker : ISyntaxChecker
     {
         public bool Check(string msg, out object[] param)
         {
             param = null;
-
             if (string.IsNullOrEmpty(msg))
             {
                 return false;
             }
 
-            long memberNum;
-            if (!long.TryParse(msg, out memberNum))
-            {
-                return false;
-            }
-
-            param = new object[] { memberNum };
+            param = new object[] { msg };
             return true;
         }
     }

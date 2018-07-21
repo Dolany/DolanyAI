@@ -194,7 +194,7 @@
     <Compile Include="SyntaxChecker\HourAlert\HourAlertChecker.cs" />
     <Compile Include="SyntaxChecker\ISyntaxChecker.cs" />
     <Compile Include="SyntaxChecker\AlermClock\SetClockChecker.cs" />
-    <Compile Include="SyntaxChecker\Publisher\LongAndAnyChecker.cs" />
+    <Compile Include="SyntaxChecker\Common\LongAndAnyChecker.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Flexlive.CQP.Framework\Flexlive.CQP.Framework.csproj">
