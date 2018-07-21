@@ -6,28 +6,24 @@ using System.Threading.Tasks;
 
 namespace Dolany.QQAI.Plugins.CQP.DolanyAI
 {
-    public class LongAndAnyChecker : ISyntaxChecker
+    public class DeleteClockChecker : ISyntaxChecker
     {
         public bool Check(string msg, out object[] param)
         {
             param = null;
+
             if (string.IsNullOrEmpty(msg))
             {
                 return false;
             }
-            string[] strs = msg.Split(new char[] { ' ' }, StringSplitOptions.RemoveEmptyEntries);
-            if (strs == null || strs.Length != 2)
+
+            (int hour, int minute)? time = Utility.GenTimeFromStr(msg);
+            if (time == null)
             {
                 return false;
             }
 
-            long groupNum;
-            if (!long.TryParse(strs[0], out groupNum))
-            {
-                return false;
-            }
-
-            param = new object[] { groupNum, strs[1] };
+            param = new object[] { time };
             return true;
         }
     }

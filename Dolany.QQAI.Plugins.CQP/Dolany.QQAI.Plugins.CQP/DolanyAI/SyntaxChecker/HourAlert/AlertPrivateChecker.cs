@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace Dolany.QQAI.Plugins.CQP.DolanyAI
 {
-    public class LongAndAnyChecker : ISyntaxChecker
+    public class AlertPrivateChecker
     {
         public bool Check(string msg, out object[] param)
         {
@@ -15,19 +15,26 @@ namespace Dolany.QQAI.Plugins.CQP.DolanyAI
             {
                 return false;
             }
+
             string[] strs = msg.Split(new char[] { ' ' }, StringSplitOptions.RemoveEmptyEntries);
             if (strs == null || strs.Length != 2)
             {
                 return false;
             }
 
-            long groupNum;
-            if (!long.TryParse(strs[0], out groupNum))
+            int aimHour;
+            if (!int.TryParse(strs[0], out aimHour))
             {
                 return false;
             }
 
-            param = new object[] { groupNum, strs[1] };
+            long aimGroup;
+            if (!long.TryParse(strs[1], out aimGroup))
+            {
+                return false;
+            }
+
+            param = new object[] { aimGroup, aimHour };
             return true;
         }
     }

@@ -158,12 +158,17 @@
     <Compile Include="DolanyAI\Entities\Sayings\SayingEntity.cs" />
     <Compile Include="DolanyAI\HTML\HtmlParser.cs" />
     <Compile Include="DolanyAI\HTML\HttpRequester.cs" />
+    <Compile Include="DolanyAI\SyntaxChecker\AlermClock\DeleteClockChecker.cs" />
+    <Compile Include="DolanyAI\SyntaxChecker\AlermClock\SetClockChecker.cs" />
     <Compile Include="DolanyAI\SyntaxChecker\CartoonSayings\ProcceedMsgChecker.cs" />
     <Compile Include="DolanyAI\SyntaxChecker\Common\EmptyChecker.cs" />
+    <Compile Include="DolanyAI\SyntaxChecker\Common\LongAndAnyChecker.cs" />
     <Compile Include="DolanyAI\SyntaxChecker\Common\LongChecker.cs" />
     <Compile Include="DolanyAI\SyntaxChecker\Common\NotEmptyChecker.cs" />
     <Compile Include="DolanyAI\SyntaxChecker\Common\ThreeWordsChecker.cs" />
     <Compile Include="DolanyAI\SyntaxChecker\Common\TwoWordsChecker.cs" />
+    <Compile Include="DolanyAI\SyntaxChecker\HourAlert\AlertPrivateChecker.cs" />
+    <Compile Include="DolanyAI\SyntaxChecker\HourAlert\HourAlertChecker.cs" />
     <Compile Include="DolanyAI\SyntaxChecker\ISyntaxChecker.cs" />
     <Compile Include="MahuaEvents\AIMsgReceived.cs" />
     <Compile Include="MahuaModule.cs" />

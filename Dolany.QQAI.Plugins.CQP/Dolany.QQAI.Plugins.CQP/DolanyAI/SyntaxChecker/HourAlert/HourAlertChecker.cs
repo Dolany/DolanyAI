@@ -1,15 +1,11 @@
-﻿/*已迁移*/
-
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using AILib.Entities;
-using AILib.Db;
-using AILib;
+using Dolany.QQAI.Plugins.CQP.DolanyAI.Db;
 
-namespace AILib.SyntaxChecker
+namespace Dolany.QQAI.Plugins.CQP.DolanyAI
 {
     public class HourAlertChecker : ISyntaxChecker
     {
