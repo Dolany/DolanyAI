@@ -5,7 +5,7 @@ using System.Text;
 using System.Net;
 using System.Threading.Tasks;
 
-namespace Dolany.QQAI.Plugins.CQP.DolanyAI.HTML
+namespace Dolany.QQAI.Plugins.CQP.DolanyAI
 {
     public class HttpRequester
     {

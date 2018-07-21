@@ -1,4 +1,6 @@
-﻿using System;
+﻿/*已迁移*/
+
+using System;
 using System.Linq;
 using Flexlive.CQP.Framework.Utils;
 using Flexlive.CQP.Framework;

@@ -1,4 +1,6 @@
-﻿using AILib.Entities;
+﻿/*已迁移*/
+
+using AILib.Entities;
 using System;
 using System.Collections.Generic;
 using System.Linq;

@@ -85,18 +85,46 @@
     <Reference Include="WindowsBase" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="DolanyAI\AIMgr.cs" />
     <Compile Include="DolanyAI\AI\AlermClock\AlermClockAI.cs">
       <SubType>Component</SubType>
     </Compile>
-    <Compile Include="DolanyAI\AI\AlermClock\AlertContentExtension.cs" />
+    <Compile Include="DolanyAI\AI\AlermClock\AlertClockExtension.cs" />
+    <Compile Include="DolanyAI\AI\HourAlert\AlertContentExtension.cs" />
+    <Compile Include="DolanyAI\AI\CartoonSaying\CartoonSayingAI.cs" />
+    <Compile Include="DolanyAI\AI\CharactorSetting\CharactorSettingAI.cs" />
+    <Compile Include="DolanyAI\AI\DevelperOnly\Monitor\MonitorAI.cs" />
+    <Compile Include="DolanyAI\AI\Fortune\FortuneAI.cs" />
+    <Compile Include="DolanyAI\AI\Fortune\FortuneRequestor.cs" />
+    <Compile Include="DolanyAI\AI\Fortune\StarFortuneParser.cs" />
+    <Compile Include="DolanyAI\AI\Hello\HelloAI.cs" />
+    <Compile Include="DolanyAI\AI\Helper\HelperAI.cs" />
+    <Compile Include="DolanyAI\AI\HourAlert\HourAlertAI.cs" />
+    <Compile Include="DolanyAI\AI\Jump300Report\Jump300ReportAI.cs" />
+    <Compile Include="DolanyAI\AI\Jump300Report\JumpAnalyzeAttribute.cs" />
+    <Compile Include="DolanyAI\AI\Jump300Report\JumpReportAnalyzer.cs" />
+    <Compile Include="DolanyAI\AI\Jump300Report\JumpReportRequestor.cs" />
+    <Compile Include="DolanyAI\AI\Jump300Report\Model\JumpBaseInfo.cs" />
+    <Compile Include="DolanyAI\AI\Jump300Report\Model\JumpMatchBaseInfo.cs" />
+    <Compile Include="DolanyAI\AI\Jump300Report\Model\JumpMatchBriefInfo.cs" />
+    <Compile Include="DolanyAI\AI\Jump300Report\Model\JumpServerRankInfo.cs" />
+    <Compile Include="DolanyAI\AI\Jump300Report\Model\PlayerInfoInMatch.cs" />
+    <Compile Include="DolanyAI\AI\Jump300Report\Parser\JumpDetailHtmlParser.cs" />
+    <Compile Include="DolanyAI\AI\Jump300Report\Parser\JumpListHtmlParser.cs" />
+    <Compile Include="DolanyAI\AI\RandomPic\RandomPicAI.cs" />
+    <Compile Include="DolanyAI\AI\Repeater\PlusOneAI.cs" />
+    <Compile Include="DolanyAI\AI\Repeater\PlusOneCache.cs" />
+    <Compile Include="DolanyAI\AI\Repeater\RepeatorAI.cs" />
     <Compile Include="DolanyAI\Base\AIAttribute.cs" />
     <Compile Include="DolanyAI\Base\AIBase.cs" />
     <Compile Include="DolanyAI\Base\GroupEnterCommandAttribute.cs" />
     <Compile Include="DolanyAI\Base\GroupMsgDTO.cs" />
     <Compile Include="DolanyAI\Base\PrivateMsgDTO.cs" />
     <Compile Include="DolanyAI\Common\DbMgr.cs" />
+    <Compile Include="DolanyAI\Common\DirtyFilter.cs" />
     <Compile Include="DolanyAI\Common\GroupMemberInfoCacher.cs" />
     <Compile Include="DolanyAI\Common\KeyLogger.cs" />
+    <Compile Include="DolanyAI\Common\MsgReceiveCache.cs" />
     <Compile Include="DolanyAI\Common\RuntimeLogger.cs" />
     <Compile Include="DolanyAI\Common\Utility.cs" />
     <Compile Include="DolanyAI\Db\AIModel.Context.cs">
