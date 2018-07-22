@@ -17,7 +17,7 @@ namespace Dolany.QQAI.Plugins.CQP.DolanyAI
                 return false;
             }
 
-            (int hour, int minute)? time = Utility.GenTimeFromStr(msg);
+            HourMinute time = Utility.GenTimeFromStr(msg);
             if (time == null)
             {
                 return false;

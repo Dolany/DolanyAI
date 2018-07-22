@@ -20,7 +20,7 @@ namespace Dolany.QQAI.Plugins.CQP.DolanyAI
             get
             {
                 var query = DbMgr.Query<SayingEntity>();
-                return query == null ? null : query.ToList();
+                return query?.ToList();
             }
         }
 
@@ -185,8 +185,7 @@ namespace Dolany.QQAI.Plugins.CQP.DolanyAI
         public void SayingSeal(GroupMsgDTO MsgDTO, object[] param)
         {
             RuntimeLogger.Log("AlermClockAI Tryto SayingSeal");
-            long memberNum;
-            if (!long.TryParse(MsgDTO.Msg, out memberNum))
+            if (!long.TryParse(MsgDTO.Msg, out long memberNum))
             {
                 return;
             }

@@ -52,7 +52,7 @@ namespace Dolany.QQAI.Plugins.CQP.DolanyAI
             return dt.ToString("yyyy-MM-dd");
         }
 
-        public static (int hour, int minute)? GenTimeFromStr(string timeStr)
+        public static HourMinute GenTimeFromStr(string timeStr)
         {
             string[] strs = timeStr.Split(new char[] { ':', '：' });
             if (strs == null || strs.Length != 2)
@@ -72,7 +72,11 @@ namespace Dolany.QQAI.Plugins.CQP.DolanyAI
                 return null;
             }
 
-            return (hour, minute);
+            return new HourMinute
+            {
+                Hour = hour,
+                Minute = minute
+            };
         }
 
         public static void SetConfig(string name, string value)
@@ -171,5 +175,11 @@ namespace Dolany.QQAI.Plugins.CQP.DolanyAI
         {
             return Instance<GroupMemberInfoCacher>().GetMemberInfo(MsgDTO);
         }
+    }
+
+    public class HourMinute
+    {
+        public int Hour { get; set; }
+        public int Minute { get; set; }
     }
 }

@@ -20,7 +20,7 @@ namespace Dolany.QQAI.Plugins.CQP
             {
                 new PluginModule(),
                 new MahuaEventsModule(),
-                new AIModule()
+                //new AIModule()
             };
         }
 
@@ -55,13 +55,7 @@ namespace Dolany.QQAI.Plugins.CQP
 
                 builder.RegisterType<AIMsgReceived>()
                     .As<IGroupMessageReceivedMahuaEvent>();
-            }
-        }
 
-        private class AIModule : Module
-        {
-            protected override void Load(ContainerBuilder builder)
-            {
                 try
                 {
                     RuntimeLogger.Log("start up");
@@ -86,5 +80,12 @@ namespace Dolany.QQAI.Plugins.CQP
                 }
             }
         }
+
+        //private class AIModule : Module
+        //{
+        //    protected override void Load(ContainerBuilder builder)
+        //    {
+        //    }
+        //}
     }
 }

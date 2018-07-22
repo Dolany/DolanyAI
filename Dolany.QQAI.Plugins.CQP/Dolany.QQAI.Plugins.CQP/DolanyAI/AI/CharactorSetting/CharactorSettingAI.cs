@@ -15,8 +15,8 @@ namespace Dolany.QQAI.Plugins.CQP.DolanyAI
         )]
     public class CharactorSettingAI : AIBase
     {
-        private int MaxCharNumPerQQ = 10;
-        private int MaxSettingPerChar = 7;
+        private readonly int MaxCharNumPerQQ = 10;
+        private readonly int MaxSettingPerChar = 7;
 
         public CharactorSettingAI()
             : base()

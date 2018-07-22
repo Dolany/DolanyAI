@@ -79,15 +79,15 @@ namespace Dolany.QQAI.Plugins.CQP.DolanyAI
         {
             RuntimeLogger.Log("AlermClockAI Tryto SetClock");
 
-            (int hour, int minute)? time = param[0] as (int hour, int minute)?;
+            HourMinute time = param[0] as HourMinute;
 
             using (AIDatabase db = new AIDatabase())
             {
                 AlermClock entity = new AlermClock()
                 {
                     Id = Guid.NewGuid().ToString(),
-                    AimHourt = time.Value.hour,
-                    AimMinute = time.Value.minute,
+                    AimHourt = time.Hour,
+                    AimMinute = time.Minute,
                     Content = param[1] as string,
                     Creator = MsgDTO.FromQQ,
                     GroupNumber = MsgDTO.FromGroup,
@@ -218,14 +218,14 @@ namespace Dolany.QQAI.Plugins.CQP.DolanyAI
         public void DeleteClock(GroupMsgDTO MsgDTO, object[] param)
         {
             RuntimeLogger.Log("AlermClockAI Tryto DeleteClock");
-            (int hour, int minute)? time = param[0] as (int hour, int minute)?;
+            HourMinute time = param[0] as HourMinute;
 
             using (AIDatabase db = new AIDatabase())
             {
                 var query = db.AlermClock.Where(q => q.GroupNumber == MsgDTO.FromGroup
                                                      && q.Creator == MsgDTO.FromQQ
-                                                     && q.AimHourt == time.Value.hour
-                                                     && q.AimMinute == time.Value.minute
+                                                     && q.AimHourt == time.Hour
+                                                     && q.AimMinute == time.Minute
                                               );
                 if (query.IsNullOrEmpty())
                 {
