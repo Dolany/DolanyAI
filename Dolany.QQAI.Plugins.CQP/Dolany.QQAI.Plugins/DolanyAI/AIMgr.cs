@@ -4,7 +4,6 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using Dolany.QQAI.Plugins.DolanyAI.Db;
-using System.ComponentModel.Composition;
 using System.Reflection;
 
 namespace Dolany.QQAI.Plugins.DolanyAI
@@ -14,8 +13,7 @@ namespace Dolany.QQAI.Plugins.DolanyAI
     /// </summary>
     public class AIMgr
     {
-        [ImportMany(typeof(AIBase))]
-        public IEnumerable<Lazy<AIBase, IAIExportCapabilities>> AIList;
+        public IEnumerable<KeyValuePair<AIBase, AIAttribute>> AIList;
 
         public MsgReceiveCache MsgReceiveCache;
 
@@ -40,8 +38,6 @@ namespace Dolany.QQAI.Plugins.DolanyAI
 
         public AIMgr()
         {
-            this.ComposePartsSelf(Assembly.GetExecutingAssembly());
-
             Init();
         }
 
@@ -50,15 +46,14 @@ namespace Dolany.QQAI.Plugins.DolanyAI
         /// </summary>
         public void StartAIs()
         {
-            AIList = AIList.Where(a => a.Metadata.IsAvailable)
-                           .OrderByDescending(a => a.Metadata.PriorityLevel)
-                           .GroupBy(a => a.Metadata.Name)
-                           .Select(g => g.First())
-                           .ToList();
+            AIList = AIList.Where(a => a.Value.IsAvailable)
+                           .OrderByDescending(a => a.Value.PriorityLevel)
+                           .GroupBy(a => a.Value.Name)
+                           .Select(g => g.First());
             foreach (var ai in AIList)
             {
-                ai.Value.Work();
-                ExtractCommands(ai.Value);
+                ai.Key.Work();
+                ExtractCommands(ai.Key);
             }
         }
 
@@ -76,8 +71,31 @@ namespace Dolany.QQAI.Plugins.DolanyAI
 
         private void Init()
         {
+            LoadAis();
+
             MsgReceiveCache = new MsgReceiveCache(GroupMsgCallBack);
             Filter = new DirtyFilter();
+        }
+
+        private void LoadAis()
+        {
+            var list = new List<KeyValuePair<AIBase, AIAttribute>>();
+
+            Assembly assembly = Assembly.GetExecutingAssembly();
+            foreach (var type in assembly.GetTypes())
+            {
+                if (!type.IsSubclassOf(typeof(AIBase)))
+                {
+                    continue;
+                }
+
+                var ai = assembly.CreateInstance(type.Name);
+                var attr = type.GetCustomAttribute(typeof(AIAttribute), false) as AIAttribute;
+
+                list.Add(new KeyValuePair<AIBase, AIAttribute>(ai as AIBase, attr));
+            }
+
+            AIList = list;
         }
 
         /// <summary>
@@ -123,12 +141,12 @@ namespace Dolany.QQAI.Plugins.DolanyAI
             {
                 foreach (var ai in AIList)
                 {
-                    if (IsAiSealed(MsgDTO, ai.Value))
+                    if (IsAiSealed(MsgDTO, ai.Key))
                     {
                         continue;
                     }
 
-                    if (ai.Value.OnGroupMsgReceived(MsgDTO))
+                    if (ai.Key.OnGroupMsgReceived(MsgDTO))
                     {
                         break;
                     }
@@ -172,7 +190,7 @@ namespace Dolany.QQAI.Plugins.DolanyAI
 
             foreach (var ai in AIList)
             {
-                ai.Value.OnPrivateMsgReceived(MsgDTO);
+                ai.Key.OnPrivateMsgReceived(MsgDTO);
             }
         }
 

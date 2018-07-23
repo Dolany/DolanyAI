@@ -3,9 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using System.ComponentModel.Composition;
 using System.Reflection;
-using System.ComponentModel.Composition.Hosting;
 using Newbe.Mahua;
 
 namespace Dolany.QQAI.Plugins.DolanyAI
@@ -104,34 +102,6 @@ namespace Dolany.QQAI.Plugins.DolanyAI
             }
 
             return query.First().Content;
-        }
-
-        public static T ComposePartsSelf<T>(this T obj) where T : class
-        {
-            var catalog = new AggregateCatalog();
-
-            catalog.Catalogs.Add(new AssemblyCatalog(Assembly.GetExecutingAssembly()));
-            catalog.Catalogs.Add(new DirectoryCatalog("."));
-
-            var _container = new CompositionContainer(catalog);
-
-            _container.ComposeParts(obj);
-
-            return obj;
-        }
-
-        public static T ComposePartsSelf<T>(this T obj, Assembly assembly) where T : class
-        {
-            var catalog = new AggregateCatalog();
-
-            catalog.Catalogs.Add(new AssemblyCatalog(assembly));
-            catalog.Catalogs.Add(new DirectoryCatalog("."));
-
-            var _container = new CompositionContainer(catalog);
-
-            _container.ComposeParts(obj);
-
-            return obj;
         }
 
         public static T Instance<T>() where T : class, new()

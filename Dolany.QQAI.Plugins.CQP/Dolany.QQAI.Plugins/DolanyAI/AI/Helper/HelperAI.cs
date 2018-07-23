@@ -17,7 +17,7 @@ namespace Dolany.QQAI.Plugins.DolanyAI
         public HelperAI()
             : base()
         {
-            this.ComposePartsSelf();
+            //this.ComposePartsSelf();
         }
 
         public override void Work()
@@ -69,7 +69,7 @@ namespace Dolany.QQAI.Plugins.DolanyAI
             });
         }
 
-        private IEnumerable<IGroupEnterCommandCapabilities> GetCommandAttrs()
+        private IEnumerable<GroupEnterCommandAttribute> GetCommandAttrs()
         {
             return AIMgr.Instance.AllAvailableGroupCommands
                 .GroupBy(c => c.Tag)

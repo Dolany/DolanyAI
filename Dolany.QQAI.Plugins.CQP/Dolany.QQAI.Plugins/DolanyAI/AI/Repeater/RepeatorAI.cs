@@ -27,7 +27,7 @@ namespace Dolany.QQAI.Plugins.DolanyAI
         public RepeatorAI()
             : base()
         {
-            this.ComposePartsSelf();
+            //this.ComposePartsSelf();
         }
 
         public override void Work()

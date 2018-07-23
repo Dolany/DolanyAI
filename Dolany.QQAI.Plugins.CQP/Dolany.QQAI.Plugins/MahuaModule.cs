@@ -75,7 +75,7 @@ namespace Dolany.QQAI.Plugins
                     string msg = $"成功加载{allais.Count()}个ai \r\n";
                     foreach (var ai in allais)
                     {
-                        msg += ai.Metadata.Name + " ";
+                        msg += ai.Value.Name + " ";
                     }
 
                     Utility.SendMsgToDeveloper(msg);
