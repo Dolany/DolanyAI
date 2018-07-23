@@ -1,5 +1,10 @@
 ﻿using Autofac;
 using Newbe.Mahua;
+using Dolany.QQAI.Plugins.DolanyAI;
+using Dolany.QQAI.Plugins.MahuaEvents;
+using Newbe.Mahua.MahuaEvents;
+using System.Linq;
+using System;
 
 namespace Dolany.QQAI.Plugins
 {
@@ -15,6 +20,7 @@ namespace Dolany.QQAI.Plugins
             {
                 new PluginModule(),
                 new MahuaEventsModule(),
+                new AIModule()
             };
         }
 
@@ -46,6 +52,38 @@ namespace Dolany.QQAI.Plugins
             {
                 base.Load(builder);
                 // 将需要监听的事件注册，若缺少此注册，则不会调用相关的实现类
+
+                builder.RegisterType<AIMsgReceived>()
+                    .As<IGroupMessageReceivedMahuaEvent>();
+            }
+        }
+
+        private class AIModule : Module
+        {
+            protected override void Load(ContainerBuilder builder)
+            {
+                try
+                {
+                    RuntimeLogger.Log("start up");
+                    DbMgr.InitXmls();
+
+                    RuntimeLogger.Log("加载所有可用AI");
+
+                    AIMgr.Instance.StartAIs();
+
+                    var allais = AIMgr.Instance.AIList;
+                    string msg = $"成功加载{allais.Count()}个ai \r\n";
+                    foreach (var ai in allais)
+                    {
+                        msg += ai.Metadata.Name + " ";
+                    }
+
+                    Utility.SendMsgToDeveloper(msg);
+                }
+                catch (Exception ex)
+                {
+                    Utility.SendMsgToDeveloper(ex);
+                }
             }
         }
     }
