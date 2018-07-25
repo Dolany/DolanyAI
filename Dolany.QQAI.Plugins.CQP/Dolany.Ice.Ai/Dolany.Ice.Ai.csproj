@@ -86,9 +86,13 @@
     </Compile>
     <Compile Include="DolanyAI\AI\AlermClock\AlertClockExtension.cs" />
     <Compile Include="DolanyAI\AI\CartoonSaying\CartoonSayingAI.cs" />
+    <Compile Include="DolanyAI\AI\CharactorSetting\CharactorSettingAI.cs" />
+    <Compile Include="DolanyAI\AI\DevelperOnly\Monitor\MonitorAI.cs" />
     <Compile Include="DolanyAI\AI\Hello\HelloAI.cs" />
+    <Compile Include="DolanyAI\AI\Helper\HelperAI.cs" />
     <Compile Include="DolanyAI\AI\HourAlert\AlertContentExtension.cs" />
     <Compile Include="DolanyAI\AI\HourAlert\HourAlertAI.cs" />
+    <Compile Include="DolanyAI\AI\RandomPic\RandomPicAI.cs" />
     <Compile Include="DolanyAI\AI\Repeater\PlusOneAI.cs" />
     <Compile Include="DolanyAI\AI\Repeater\PlusOneCache.cs" />
     <Compile Include="DolanyAI\AI\Repeater\RepeatorAI.cs" />
