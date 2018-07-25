@@ -17,10 +17,7 @@ namespace Dolany.Ice.Ai.DolanyAI
 
         public void PushMsg(GroupMsgDTO MsgDTO)
         {
-            lock (GroupMsgQueue)
-            {
-                GroupMsgQueue.Enqueue(MsgDTO);
-            }
+            GroupMsgQueue.Enqueue(MsgDTO);
         }
 
         public MsgReceiveCache(Action<GroupMsgDTO> CallBack)
@@ -36,13 +33,10 @@ namespace Dolany.Ice.Ai.DolanyAI
 
         private void TimeUp(object sender, System.Timers.ElapsedEventArgs e)
         {
-            lock (GroupMsgQueue)
+            while (GroupMsgQueue.Count > 0)
             {
-                while (GroupMsgQueue.Count > 0)
-                {
-                    var MsgDTO = GroupMsgQueue.Dequeue();
-                    CallBack(MsgDTO);
-                }
+                var MsgDTO = GroupMsgQueue.Dequeue();
+                CallBack(MsgDTO);
             }
         }
     }

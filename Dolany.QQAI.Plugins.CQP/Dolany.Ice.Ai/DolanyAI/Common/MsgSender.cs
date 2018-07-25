@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using Newbe.Mahua;
+using System.Timers;
 
 namespace Dolany.Ice.Ai.DolanyAI
 {
@@ -13,7 +14,7 @@ namespace Dolany.Ice.Ai.DolanyAI
 
         private Queue<SendMsgDTO> MsgQueue = new Queue<SendMsgDTO>();
 
-        private System.Timers.Timer timer = new System.Timers.Timer();
+        private Timer timer = new Timer();
 
         private MsgSender()
         {
@@ -21,12 +22,12 @@ namespace Dolany.Ice.Ai.DolanyAI
             timer.Interval = 1000;
             timer.AutoReset = true;
             timer.Enabled = true;
-            timer.Elapsed += new System.Timers.ElapsedEventHandler(TimerUp);
+            timer.Elapsed += new ElapsedEventHandler(TimerUp);
 
             timer.Start();
         }
 
-        private void TimerUp(object sender, System.Timers.ElapsedEventArgs e)
+        private void TimerUp(object sender, ElapsedEventArgs e)
         {
             SendAllMsgs();
         }
