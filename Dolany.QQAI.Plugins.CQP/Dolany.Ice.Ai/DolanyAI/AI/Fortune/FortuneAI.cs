@@ -61,6 +61,7 @@ namespace Dolany.Ice.Ai.DolanyAI
                     FortuneValue = randFor
                 };
                 db.RandomFortune.Add(rf);
+                db.SaveChanges();
                 ShowRandFortune(MsgDTO, rf);
             }
         }
