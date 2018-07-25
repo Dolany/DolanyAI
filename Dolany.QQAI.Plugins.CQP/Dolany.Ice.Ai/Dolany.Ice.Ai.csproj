@@ -202,6 +202,7 @@
     <Compile Include="DolanyAI\SyntaxChecker\HourAlert\AlertPrivateChecker.cs" />
     <Compile Include="DolanyAI\SyntaxChecker\HourAlert\HourAlertChecker.cs" />
     <Compile Include="DolanyAI\SyntaxChecker\ISyntaxChecker.cs" />
+    <Compile Include="MahuaApis\Amanda\AmandaCode.cs" />
     <Compile Include="MahuaApis\CQ\CQCode.cs" />
     <Compile Include="MahuaEvents\AIGroupMsgReceived.cs" />
     <Compile Include="MahuaModule.cs" />

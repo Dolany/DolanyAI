@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.IO;
-using Dolany.Ice.Ai.MahuaApis.CQ;
+using Dolany.Ice.Ai.MahuaApis;
 
 namespace Dolany.Ice.Ai.DolanyAI
 {
@@ -16,7 +16,7 @@ namespace Dolany.Ice.Ai.DolanyAI
         )]
     public class RandomPicAI : AIBase
     {
-        private string PicPath = "data/image/";
+        private string PicPath = "temp/image/";
         private List<string> Keywords = new List<string>();
 
         public RandomPicAI()
@@ -82,13 +82,13 @@ namespace Dolany.Ice.Ai.DolanyAI
             RuntimeLogger.Log("RandomPicAI Tryto RecentPic.");
             var imageList = GetRecentImageList();
             int idx = (new Random()).Next(imageList.Count());
-            string sendImgName = imageList[idx].Name.Replace(".cqimg", "");
+            string sendImgName = imageList[idx].Name.Replace(".ini", "");
 
             MsgSender.Instance.PushMsg(new SendMsgDTO()
             {
                 Aim = MsgDTO.FromGroup,
                 Type = MsgType.Group,
-                Msg = CQCode.CQCode_Image(sendImgName)
+                Msg = AmandaCode.AmandaCode_Pic(sendImgName)
             });
             RuntimeLogger.Log("RandomPicAI RecentPic completed");
         }
@@ -97,7 +97,7 @@ namespace Dolany.Ice.Ai.DolanyAI
         {
             DirectoryInfo dirInfo = new DirectoryInfo(PicPath);
             var files = dirInfo.GetFiles();
-            return files.Where(f => f.Extension == ".cqimg")
+            return files.Where(f => f.Extension == ".ini")
                         .OrderBy(f => f.CreationTime)
                         .Skip(10)
                         .ToList();
@@ -126,7 +126,7 @@ namespace Dolany.Ice.Ai.DolanyAI
             {
                 Aim = group,
                 Type = MsgType.Group,
-                Msg = CQCode.CQCode_Image(picPath)
+                Msg = AmandaCode.AmandaCode_Pic(picPath)
             });
         }
 
