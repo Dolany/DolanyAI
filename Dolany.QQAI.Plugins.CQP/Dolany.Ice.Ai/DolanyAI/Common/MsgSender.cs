@@ -53,7 +53,8 @@ namespace Dolany.Ice.Ai.DolanyAI
                 {
                     Id = Guid.NewGuid().ToString(),
                     Aim = msg.Aim,
-                    Type = msg.Type == MsgType.Group ? 0 : 1
+                    Type = msg.Type == MsgType.Group ? 0 : 1,
+                    Msg = msg.Msg
                 });
                 db.SaveChanges();
             }
