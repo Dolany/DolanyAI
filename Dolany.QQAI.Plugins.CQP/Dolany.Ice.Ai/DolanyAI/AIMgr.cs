@@ -114,18 +114,14 @@ namespace Dolany.Ice.Ai.DolanyAI
                 MsgDTO.FromQQ = MsgDTO.FromQQ & 0xFFFFFFFF;
             }
 
-            if (Filter.IsInBlackList(MsgDTO.FromQQ) || !Filter.Filter(MsgDTO.FromGroup, MsgDTO.FromQQ, MsgDTO.Msg))
-            {
-                return;
-            }
-
             string msg = MsgDTO.Msg;
             MsgDTO.FullMsg = msg;
             MsgDTO.Command = GenCommand(ref msg);
             MsgDTO.Msg = msg;
 
-            MsgReceiveCache.PushMsg(MsgDTO);
-            //GroupMsgCallBack_Func(MsgDTO);
+            //MsgReceiveCache.PushMsg(MsgDTO);
+            //GroupMsgCallBack(MsgDTO);
+            GroupMsgCallBack_Func(MsgDTO);
         }
 
         private void GroupMsgCallBack(GroupMsgDTO MsgDTO)
@@ -140,6 +136,11 @@ namespace Dolany.Ice.Ai.DolanyAI
         {
             try
             {
+                if (Filter.IsInBlackList(MsgDTO.FromQQ) || !Filter.Filter(MsgDTO.FromGroup, MsgDTO.FromQQ, MsgDTO.Msg))
+                {
+                    return;
+                }
+
                 foreach (var ai in AIList)
                 {
                     if (IsAiSealed(MsgDTO, ai.Key))

@@ -91,8 +91,8 @@ namespace Dolany.Ice.Ai.DolanyAI
                 {
                     var hello = query.FirstOrDefault();
                     hello.Content = content;
-                    db.SaveChanges();
                 }
+                db.SaveChanges();
             }
 
             MsgSender.Instance.PushMsg(new SendMsgDTO

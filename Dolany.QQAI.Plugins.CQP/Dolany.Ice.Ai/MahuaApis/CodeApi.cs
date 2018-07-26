@@ -8,7 +8,7 @@ namespace Dolany.Ice.Ai.MahuaApis
 {
     public class CodeApi
     {
-        public static string CurEnvirenment = "CQ";
+        public static string CurEnvirenment = "Amanda";
 
         public static string Code_At(long qqNumber)
         {
@@ -55,6 +55,23 @@ namespace Dolany.Ice.Ai.MahuaApis
 
                     case "Amanda":
                         return "temp/image/";
+                }
+
+                return string.Empty;
+            }
+        }
+
+        public static string ImageExtension
+        {
+            get
+            {
+                switch (CurEnvirenment)
+                {
+                    case "CQ":
+                        return ".cqimg";
+
+                    case "Amanda":
+                        return ".ini";
                 }
 
                 return string.Empty;

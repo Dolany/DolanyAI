@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using Newbe.Mahua;
+using Dolany.Ice.Ai.MahuaApis;
 
 namespace Dolany.Ice.Ai.DolanyAI
 {
@@ -44,11 +45,23 @@ namespace Dolany.Ice.Ai.DolanyAI
 
         private GroupMemberInfo GetNewInfo(GroupMsgDTO MsgDTO)
         {
-            using (var robotSession = MahuaRobotManager.Instance.CreateSession())
+            //using (var robotSession = MahuaRobotManager.Instance.CreateSession())
+            //{
+            //    var api = robotSession.MahuaApi;
+            //    return api.GetGroupMemberInfo(MsgDTO.FromGroup.ToString(), MsgDTO.FromQQ.ToString());
+            //}
+            var infos = AmandaAPIEx.GetMemberInfos(MsgDTO.FromGroup);
+            foreach (var info in infos.mems)
             {
-                var api = robotSession.MahuaApi;
-                return api.GetGroupMemberInfo(MsgDTO.FromGroup.ToString(), MsgDTO.FromQQ.ToString());
+                InfoCache.Add(new GroupMemberInfo
+                {
+                    Authority = info.role == 0 ? GroupMemberAuthority.Leader : (info.role == 1 ? GroupMemberAuthority.Manager : GroupMemberAuthority.Normal),
+                    Qq = info.uin.ToString(),
+                    NickName = info.nick
+                }, DateTime.Now);
             }
+
+            return InfoCache.First(i => long.Parse(i.Key.Qq) == MsgDTO.FromQQ).Key;
         }
     }
 }

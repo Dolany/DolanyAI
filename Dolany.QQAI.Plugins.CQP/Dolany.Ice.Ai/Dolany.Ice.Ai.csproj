@@ -56,6 +56,9 @@
     <Reference Include="Newbe.Mahua.PluginLoader, Version=1.10.0.0, Culture=neutral, processorArchitecture=MSIL">
       <HintPath>..\packages\Newbe.Mahua.PluginLoader.1.10.0\lib\net452\Newbe.Mahua.PluginLoader.dll</HintPath>
     </Reference>
+    <Reference Include="Newtonsoft.Json, Version=11.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
+      <HintPath>..\packages\Newtonsoft.Json.11.0.2\lib\net45\Newtonsoft.Json.dll</HintPath>
+    </Reference>
     <Reference Include="PresentationCore" />
     <Reference Include="PresentationFramework" />
     <Reference Include="ReachFramework" />
@@ -208,7 +211,12 @@
     <Compile Include="DolanyAI\SyntaxChecker\HourAlert\AlertPrivateChecker.cs" />
     <Compile Include="DolanyAI\SyntaxChecker\HourAlert\HourAlertChecker.cs" />
     <Compile Include="DolanyAI\SyntaxChecker\ISyntaxChecker.cs" />
+    <Compile Include="MahuaApis\Amanda\AmandaAPIEx.cs" />
     <Compile Include="MahuaApis\Amanda\AmandaCode.cs" />
+    <Compile Include="MahuaApis\Amanda\JsonHelper.cs" />
+    <Compile Include="MahuaApis\Amanda\ViewModel\GroupMemberInfoViewModel.cs" />
+    <Compile Include="MahuaApis\Amanda\ViewModel\GroupMemberLevelViewModel.cs" />
+    <Compile Include="MahuaApis\Amanda\ViewModel\GroupMemberListViewModel.cs" />
     <Compile Include="MahuaApis\CodeApi.cs" />
     <Compile Include="MahuaApis\CQ\CQCode.cs" />
     <Compile Include="MahuaEvents\AIGroupMsgReceived.cs" />
@@ -280,5 +288,6 @@
   <ItemGroup>
     <Service Include="{508349B6-6B84-4DF5-91F0-309BEEBAD82D}" />
   </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>
