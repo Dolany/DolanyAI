@@ -7,7 +7,6 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
-using AILib;
 using System.Timers;
 using System.IO;
 
@@ -39,13 +38,13 @@ namespace CQPMonitor.Tools.CleanPicCache
 
         public void Init()
         {
-            string MaxCache_Config = Common.GetConfig("MaxPicCacheCount");
+            string MaxCache_Config = Utility.GetConfig("MaxPicCacheCount");
             if (!string.IsNullOrEmpty(MaxCache_Config))
             {
                 MaxCache = int.Parse(MaxCache_Config);
             }
 
-            string CleanFreq_Config = Common.GetConfig("CleanFreq");
+            string CleanFreq_Config = Utility.GetConfig("CleanFreq");
             if (!string.IsNullOrEmpty(CleanFreq_Config))
             {
                 CleanFreq = int.Parse(CleanFreq_Config);
@@ -77,7 +76,7 @@ namespace CQPMonitor.Tools.CleanPicCache
             }
             catch (Exception ex)
             {
-                Common.SendMsgToDeveloper(ex);
+                Utility.SendMsgToDeveloper(ex);
             }
         }
 
@@ -109,8 +108,8 @@ namespace CQPMonitor.Tools.CleanPicCache
             MaxCache = m;
             CleanFreq = c;
 
-            Common.SetConfig("MaxPicCacheCount", MaxCache.ToString());
-            Common.SetConfig("CleanFreq", CleanFreq.ToString());
+            Utility.SetConfig("MaxPicCacheCount", MaxCache.ToString());
+            Utility.SetConfig("CleanFreq", CleanFreq.ToString());
 
             MessageBox.Show("保存成功！");
         }

@@ -82,7 +82,7 @@ namespace Dolany.Ice.Ai.DolanyAI
             RuntimeLogger.Log("RandomPicAI Tryto RecentPic.");
             var imageList = GetRecentImageList();
             int idx = (new Random()).Next(imageList.Count());
-            string sendImgName = imageList[idx].Name.Replace(".ini", "");
+            string sendImgName = imageList[idx].Name.Replace(".cqimg", "");
 
             MsgSender.Instance.PushMsg(new SendMsgDTO()
             {
@@ -97,7 +97,7 @@ namespace Dolany.Ice.Ai.DolanyAI
         {
             DirectoryInfo dirInfo = new DirectoryInfo(PicPath);
             var files = dirInfo.GetFiles();
-            return files.Where(f => f.Extension == ".ini")
+            return files.Where(f => f.Extension == ".cqimg")
                         .OrderBy(f => f.CreationTime)
                         .Skip(10)
                         .ToList();

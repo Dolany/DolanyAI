@@ -10,6 +10,7 @@ namespace Dolany.Ice.Ai.DolanyAI
     public static class RuntimeLogger
     {
         private static string LogPath = "./RuntimeLog/";
+        private static readonly object lockObj = new object();
 
         /// <summary>
         ///
@@ -17,12 +18,15 @@ namespace Dolany.Ice.Ai.DolanyAI
         /// <param name="log"></param>
         public static void Log(string log)
         {
-            var steam = CheckFile();
-            byte[] data = new UTF8Encoding().GetBytes($"{DateTime.Now.ToString()}:{log}\r");
-            steam.Write(data, 0, data.Length);
-            //清空缓冲区、关闭流
-            steam.Flush();
-            steam.Close();
+            lock (lockObj)
+            {
+                var steam = CheckFile();
+                byte[] data = new UTF8Encoding().GetBytes($"{DateTime.Now.ToString()}:{log}\r");
+                steam.Write(data, 0, data.Length);
+                //清空缓冲区、关闭流
+                steam.Flush();
+                steam.Close();
+            }
         }
 
         private static FileStream CheckFile()

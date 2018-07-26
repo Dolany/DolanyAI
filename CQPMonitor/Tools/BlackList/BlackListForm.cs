@@ -7,9 +7,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
-using AILib;
-using AILib.Entities;
-using AILib.Db;
+using Dolany.Ice.Ai.DolanyAI.Db;
 
 namespace CQPMonitor.Tools.BlackList
 {
@@ -22,7 +20,7 @@ namespace CQPMonitor.Tools.BlackList
         )]
     public partial class BlackListForm : ToolBaseForm
     {
-        private List<AILib.Db.BlackList> BlackListList;
+        private List<Dolany.Ice.Ai.DolanyAI.Db.BlackList> BlackListList;
         private List<DirtyWord> DirtyWordList;
 
         public BlackListForm()

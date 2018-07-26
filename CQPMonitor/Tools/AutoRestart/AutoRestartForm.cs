@@ -7,10 +7,9 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
-using AILib;
-using AILib.Entities;
 using System.Diagnostics;
 using System.Timers;
+using Dolany.Ice.Ai.DolanyAI;
 
 namespace CQPMonitor.Tools.AutoRestart
 {
@@ -63,19 +62,19 @@ namespace CQPMonitor.Tools.AutoRestart
             radioButton1.Checked = ToolAttr.IsAutoStart;
             radioButton2.Checked = !ToolAttr.IsAutoStart;
 
-            string MaxMissLimit_Config = Common.GetConfig("MaxMissLimit");
+            string MaxMissLimit_Config = Utility.GetConfig("MaxMissLimit");
             if (!string.IsNullOrEmpty(MaxMissLimit_Config))
             {
                 MaxMissLimit = int.Parse(MaxMissLimit_Config);
             }
 
-            string CheckFrequency_Config = Common.GetConfig("CheckFrequency");
+            string CheckFrequency_Config = Utility.GetConfig("CheckFrequency");
             if (!string.IsNullOrEmpty(CheckFrequency_Config))
             {
                 CheckFrequency = int.Parse(CheckFrequency_Config);
             }
 
-            string LogShowCount_Config = Common.GetConfig("LogShowCount");
+            string LogShowCount_Config = Utility.GetConfig("LogShowCount");
             if (!string.IsNullOrEmpty(LogShowCount_Config))
             {
                 LogShowCount = int.Parse(LogShowCount_Config);
@@ -92,7 +91,7 @@ namespace CQPMonitor.Tools.AutoRestart
             }
             catch (Exception ex)
             {
-                Common.SendMsgToDeveloper(ex);
+                Utility.SendMsgToDeveloper(ex);
             }
         }
 
@@ -130,7 +129,7 @@ namespace CQPMonitor.Tools.AutoRestart
                 if (p.ProcessName == ProcessName)
                 {
                     p.Kill();
-                    KeyLogger.Log($"[Kill] {DateTime.Now}", "Restart");
+                    //KeyLogger.Log($"[Kill] {DateTime.Now}", "Restart");
 
                     Restart();
                     return;
@@ -168,7 +167,7 @@ namespace CQPMonitor.Tools.AutoRestart
             ProcessStartInfo psInfo = new ProcessStartInfo(CQPRootPath + "QuickStart.lnk");
             Process.Start(psInfo);
 
-            KeyLogger.Log($"[Restart] {DateTime.Now}", "Restart");
+            //KeyLogger.Log($"[Restart] {DateTime.Now}", "Restart");
 
             RefreshTable();
             SetState("正常");
@@ -267,9 +266,9 @@ namespace CQPMonitor.Tools.AutoRestart
             LogShowCount = l;
             RefreshTxt();
 
-            Common.SetConfig("MaxMissLimit", MaxMissLimit.ToString());
-            Common.SetConfig("CheckFrequency", CheckFrequency.ToString());
-            Common.SetConfig("LogShowCount", LogShowCount.ToString());
+            Utility.SetConfig("MaxMissLimit", MaxMissLimit.ToString());
+            Utility.SetConfig("CheckFrequency", CheckFrequency.ToString());
+            Utility.SetConfig("LogShowCount", LogShowCount.ToString());
 
             MessageBox.Show("保存成功！");
         }

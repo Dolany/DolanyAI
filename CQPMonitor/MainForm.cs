@@ -12,7 +12,6 @@ using DolanyToolControl;
 using System.IO;
 using System.Reflection;
 using System.ComponentModel.Composition;
-using AILib;
 
 namespace CQPMonitor
 {

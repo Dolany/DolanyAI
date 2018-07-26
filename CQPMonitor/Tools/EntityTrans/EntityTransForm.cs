@@ -7,9 +7,6 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
-using AILib.Db;
-using AILib.Entities;
-using AILib;
 
 namespace CQPMonitor.Tools
 {

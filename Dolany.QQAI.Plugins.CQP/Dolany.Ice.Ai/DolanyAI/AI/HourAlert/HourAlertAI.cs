@@ -49,6 +49,7 @@ namespace Dolany.Ice.Ai.DolanyAI
             : base()
         {
             RuntimeLogger.Log("HourAlertAI started");
+            HourAlertFunc();
         }
 
         public override void Work()

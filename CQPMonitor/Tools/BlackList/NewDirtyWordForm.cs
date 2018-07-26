@@ -7,9 +7,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
-using AILib;
-using AILib.Entities;
-using AILib.Db;
+using Dolany.Ice.Ai.DolanyAI.Db;
 
 namespace CQPMonitor.Tools.BlackList
 {
