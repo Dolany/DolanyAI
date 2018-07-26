@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using Newbe.Mahua;
+using Dolany.Ice.Ai.DolanyAI.Db;
 
 namespace Dolany.Ice.Ai.DolanyAI
 {
@@ -11,7 +12,7 @@ namespace Dolany.Ice.Ai.DolanyAI
     {
         private static MsgSender instance;
 
-        private Queue<SendMsgDTO> MsgQueue = new Queue<SendMsgDTO>();
+        //private Queue<SendMsgDTO> MsgQueue = new Queue<SendMsgDTO>();
 
         private System.Timers.Timer timer = new System.Timers.Timer();
 
@@ -46,35 +47,52 @@ namespace Dolany.Ice.Ai.DolanyAI
 
         public void PushMsg(SendMsgDTO msg)
         {
-            MsgQueue.Enqueue(msg);
-        }
-
-        public void PushMsg(IEnumerable<SendMsgDTO> msgs)
-        {
-            foreach (var m in msgs)
+            using (AIDatabase db = new AIDatabase())
             {
-                MsgQueue.Enqueue(m);
+                db.MsgSendCache.Add(new MsgSendCache
+                {
+                    Id = Guid.NewGuid().ToString(),
+                    Aim = msg.Aim,
+                    Type = msg.Type == MsgType.Group ? 0 : 1
+                });
+                db.SaveChanges();
             }
         }
 
         private void SendAllMsgs()
         {
+            using (AIDatabase db = new AIDatabase())
+            {
+                var msgs = db.MsgSendCache;
+                foreach (var msg in msgs)
+                {
+                    SendMsg(new SendMsgDTO
+                    {
+                        Aim = msg.Aim,
+                        Msg = msg.Msg,
+                        Type = msg.Type == 0 ? MsgType.Group : MsgType.Private
+                    });
+                }
+
+                db.MsgSendCache.RemoveRange(msgs);
+                db.SaveChanges();
+            }
+        }
+
+        private void SendMsg(SendMsgDTO msg)
+        {
             using (var robotSession = MahuaRobotManager.Instance.CreateSession())
             {
                 var api = robotSession.MahuaApi;
-                while (MsgQueue.Count() > 0)
+                switch (msg.Type)
                 {
-                    var msg = MsgQueue.Dequeue();
-                    switch (msg.Type)
-                    {
-                        case MsgType.Group:
-                            api.SendGroupMessage(msg.Aim.ToString(), msg.Msg);
-                            break;
+                    case MsgType.Group:
+                        api.SendGroupMessage(msg.Aim.ToString(), msg.Msg);
+                        break;
 
-                        case MsgType.Private:
-                            api.SendPrivateMessage(msg.Aim.ToString(), msg.Msg);
-                            break;
-                    }
+                    case MsgType.Private:
+                        api.SendPrivateMessage(msg.Aim.ToString(), msg.Msg);
+                        break;
                 }
             }
         }

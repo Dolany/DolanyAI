@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Timers;
+using Dolany.Ice.Ai.DolanyAI.Db;
 
 namespace Dolany.Ice.Ai.DolanyAI
 {
@@ -11,15 +12,27 @@ namespace Dolany.Ice.Ai.DolanyAI
     {
         private Timer timer = new Timer();
 
-        private Queue<GroupMsgDTO> GroupMsgQueue = new Queue<GroupMsgDTO>();
+        //private Queue<GroupMsgDTO> GroupMsgQueue = new Queue<GroupMsgDTO>();
 
         private Action<GroupMsgDTO> CallBack = null;
 
         public void PushMsg(GroupMsgDTO MsgDTO)
         {
-            lock (GroupMsgQueue)
+            using (AIDatabase db = new AIDatabase())
             {
-                GroupMsgQueue.Enqueue(MsgDTO);
+                MsgRecievedCache cache = new MsgRecievedCache
+                {
+                    Id = Guid.NewGuid().ToString(),
+                    FromGroup = MsgDTO.FromGroup,
+                    FromQQ = MsgDTO.FromQQ,
+                    Msg = MsgDTO.Msg,
+                    FullMsg = MsgDTO.FullMsg,
+                    Command = MsgDTO.Command,
+                    Time = DateTime.Now
+                };
+
+                db.MsgRecievedCache.Add(cache);
+                db.SaveChanges();
             }
         }
 
@@ -36,13 +49,24 @@ namespace Dolany.Ice.Ai.DolanyAI
 
         private void TimeUp(object sender, System.Timers.ElapsedEventArgs e)
         {
-            lock (GroupMsgQueue)
+            using (AIDatabase db = new AIDatabase())
             {
-                while (GroupMsgQueue.Count > 0)
+                var msgs = db.MsgRecievedCache;
+                foreach (var msg in msgs)
                 {
-                    var MsgDTO = GroupMsgQueue.Dequeue();
-                    CallBack(MsgDTO);
+                    CallBack(new GroupMsgDTO
+                    {
+                        Msg = msg.Msg,
+                        Command = msg.Command,
+                        FullMsg = msg.FullMsg,
+                        FromGroup = msg.FromGroup,
+                        FromQQ = msg.FromQQ,
+                        //SendTime = msg.Time.to
+                    });
                 }
+
+                db.MsgRecievedCache.RemoveRange(msgs);
+                db.SaveChanges();
             }
         }
     }

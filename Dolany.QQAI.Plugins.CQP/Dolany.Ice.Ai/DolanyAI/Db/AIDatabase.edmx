@@ -4,7 +4,7 @@
   <edmx:Runtime>
     <!-- SSDL content -->
     <edmx:StorageModels>
-      <Schema Namespace="AIDatabaseModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+    <Schema Namespace="AIDatabaseModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
         <EntityType Name="AISeal">
           <Key>
             <PropertyRef Name="Id" />
@@ -103,6 +103,27 @@
           <Property Name="LastHelloDate" Type="datetime" Nullable="false" />
           <Property Name="Content" Type="nvarchar" MaxLength="200" />
         </EntityType>
+        <EntityType Name="MsgRecievedCache">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="nvarchar" MaxLength="50" Nullable="false" />
+          <Property Name="Msg" Type="nvarchar" MaxLength="200" />
+          <Property Name="FromGroup" Type="bigint" Nullable="false" />
+          <Property Name="FromQQ" Type="bigint" Nullable="false" />
+          <Property Name="Time" Type="datetime" Nullable="false" />
+          <Property Name="FullMsg" Type="nvarchar" MaxLength="200" />
+          <Property Name="Command" Type="nvarchar" MaxLength="50" />
+        </EntityType>
+        <EntityType Name="MsgSendCache">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="nvarchar" MaxLength="50" Nullable="false" />
+          <Property Name="Aim" Type="bigint" Nullable="false" />
+          <Property Name="Type" Type="int" Nullable="false" />
+          <Property Name="Msg" Type="nvarchar" MaxLength="400" />
+        </EntityType>
         <EntityType Name="PlusOneAvailable">
           <Key>
             <PropertyRef Name="Id" />
@@ -149,13 +170,14 @@
           <EntitySet Name="FishingRecord" EntityType="Self.FishingRecord" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="FishItem" EntityType="Self.FishItem" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Hello" EntityType="Self.Hello" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="MsgRecievedCache" EntityType="Self.MsgRecievedCache" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="MsgSendCache" EntityType="Self.MsgSendCache" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="PlusOneAvailable" EntityType="Self.PlusOneAvailable" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="RandomFortune" EntityType="Self.RandomFortune" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="RepeaterAvailable" EntityType="Self.RepeaterAvailable" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="SayingSeal" EntityType="Self.SayingSeal" Schema="dbo" store:Type="Tables" />
         </EntityContainer>
-      </Schema>
-    </edmx:StorageModels>
+      </Schema></edmx:StorageModels>
     <!-- CSDL content -->
     <edmx:ConceptualModels>
       <Schema Namespace="AIDatabaseModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
@@ -307,7 +329,30 @@
           <EntitySet Name="RandomFortune" EntityType="Self.RandomFortune" />
           <EntitySet Name="RepeaterAvailable" EntityType="Self.RepeaterAvailable" />
           <EntitySet Name="SayingSeal" EntityType="Self.SayingSeal" />
+          <EntitySet Name="MsgRecievedCache" EntityType="AIDatabaseModel.MsgRecievedCache" />
+          <EntitySet Name="MsgSendCache" EntityType="AIDatabaseModel.MsgSendCache" />
         </EntityContainer>
+        <EntityType Name="MsgRecievedCache">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="Msg" Type="String" MaxLength="200" FixedLength="false" Unicode="true" />
+          <Property Name="FromGroup" Type="Int64" Nullable="false" />
+          <Property Name="FromQQ" Type="Int64" Nullable="false" />
+          <Property Name="Time" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="FullMsg" Type="String" MaxLength="200" FixedLength="false" Unicode="true" />
+          <Property Name="Command" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+        </EntityType>
+        <EntityType Name="MsgSendCache">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="Aim" Type="Int64" Nullable="false" />
+          <Property Name="Type" Type="Int32" Nullable="false" />
+          <Property Name="Msg" Type="String" MaxLength="400" FixedLength="false" Unicode="true" />
+        </EntityType>
       </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
@@ -458,6 +503,29 @@
                 <ScalarProperty Name="SealMember" ColumnName="SealMember" />
                 <ScalarProperty Name="CreateTime" ColumnName="CreateTime" />
                 <ScalarProperty Name="Content" ColumnName="Content" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="MsgRecievedCache">
+            <EntityTypeMapping TypeName="AIDatabaseModel.MsgRecievedCache">
+              <MappingFragment StoreEntitySet="MsgRecievedCache">
+                <ScalarProperty Name="Command" ColumnName="Command" />
+                <ScalarProperty Name="FullMsg" ColumnName="FullMsg" />
+                <ScalarProperty Name="Time" ColumnName="Time" />
+                <ScalarProperty Name="FromQQ" ColumnName="FromQQ" />
+                <ScalarProperty Name="FromGroup" ColumnName="FromGroup" />
+                <ScalarProperty Name="Msg" ColumnName="Msg" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="MsgSendCache">
+            <EntityTypeMapping TypeName="AIDatabaseModel.MsgSendCache">
+              <MappingFragment StoreEntitySet="MsgSendCache">
+                <ScalarProperty Name="Msg" ColumnName="Msg" />
+                <ScalarProperty Name="Type" ColumnName="Type" />
+                <ScalarProperty Name="Aim" ColumnName="Aim" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>

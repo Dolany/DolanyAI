@@ -117,6 +117,12 @@
     <Compile Include="DolanyAI\Base\AIBase.cs" />
     <Compile Include="DolanyAI\Base\GroupEnterCommandAttribute.cs" />
     <Compile Include="DolanyAI\Common\MsgReceiveCache.cs" />
+    <Compile Include="DolanyAI\Db\MsgRecievedCache.cs">
+      <DependentUpon>AIDatabase.tt</DependentUpon>
+    </Compile>
+    <Compile Include="DolanyAI\Db\MsgSendCache.cs">
+      <DependentUpon>AIDatabase.tt</DependentUpon>
+    </Compile>
     <Compile Include="DolanyAI\DTO\GroupMsgDTO.cs" />
     <Compile Include="DolanyAI\DTO\PrivateMsgDTO.cs" />
     <Compile Include="DolanyAI\Common\DbMgr.cs" />
