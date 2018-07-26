@@ -16,7 +16,7 @@ namespace Dolany.Ice.Ai.DolanyAI
         )]
     public class RandomPicAI : AIBase
     {
-        private string PicPath = "temp/image/";
+        private string PicPath = CodeApi.ImagePath;
         private List<string> Keywords = new List<string>();
 
         public RandomPicAI()
@@ -88,7 +88,7 @@ namespace Dolany.Ice.Ai.DolanyAI
             {
                 Aim = MsgDTO.FromGroup,
                 Type = MsgType.Group,
-                Msg = AmandaCode.AmandaCode_Pic(sendImgName)
+                Msg = CodeApi.Code_Image(sendImgName)
             });
             RuntimeLogger.Log("RandomPicAI RecentPic completed");
         }
@@ -126,7 +126,7 @@ namespace Dolany.Ice.Ai.DolanyAI
             {
                 Aim = group,
                 Type = MsgType.Group,
-                Msg = AmandaCode.AmandaCode_Pic(picPath)
+                Msg = CodeApi.Code_Image(picPath)
             });
         }
 

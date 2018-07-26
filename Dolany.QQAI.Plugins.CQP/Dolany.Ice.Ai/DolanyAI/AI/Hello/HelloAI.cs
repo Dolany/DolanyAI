@@ -50,7 +50,7 @@ namespace Dolany.Ice.Ai.DolanyAI
                 {
                     Aim = MsgDTO.FromGroup,
                     Type = MsgType.Group,
-                    Msg = $"{AmandaCode.AmandaCode_At(MsgDTO.FromQQ)} {hello.Content}"
+                    Msg = $"{CodeApi.Code_At(MsgDTO.FromQQ)} {hello.Content}"
                 });
 
                 hello.LastHelloDate = DateTime.Now.Date;
@@ -132,7 +132,7 @@ namespace Dolany.Ice.Ai.DolanyAI
                 {
                     Aim = MsgDTO.FromGroup,
                     Type = MsgType.Group,
-                    Msg = $"{AmandaCode.AmandaCode_At(MsgDTO.FromQQ)} {query.First().Content}"
+                    Msg = $"{CodeApi.Code_At(MsgDTO.FromQQ)} {query.First().Content}"
                 });
             }
         }
