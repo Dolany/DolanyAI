@@ -5,7 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using Dolany.Ice.Ai.DolanyAI.Db;
 using System.Timers;
-using Dolany.Ice.Ai.MahuaApis.CQ;
+using Dolany.Ice.Ai.MahuaApis;
 
 namespace Dolany.Ice.Ai.DolanyAI
 {
@@ -156,7 +156,7 @@ namespace Dolany.Ice.Ai.DolanyAI
                 {
                     Aim = timer.ClockEntity.GroupNumber,
                     Type = MsgType.Group,
-                    Msg = $@"{CQCode.CQCode_At(timer.ClockEntity.Creator)} {timer.ClockEntity.Content}"
+                    Msg = $@"{AmandaCode.AmandaCode_At(timer.ClockEntity.Creator)} {timer.ClockEntity.Content}"
                 });
 
                 timer.Interval = GetNextInterval(timer.ClockEntity.AimHourt, timer.ClockEntity.AimMinute);
@@ -186,12 +186,12 @@ namespace Dolany.Ice.Ai.DolanyAI
                     {
                         Aim = MsgDTO.FromGroup,
                         Type = MsgType.Group,
-                        Msg = $@"{CQCode.CQCode_At(MsgDTO.FromQQ)} 你还没有设定闹钟呢！"
+                        Msg = $@"{AmandaCode.AmandaCode_At(MsgDTO.FromQQ)} 你还没有设定闹钟呢！"
                     });
                     return;
                 }
 
-                string Msg = $@"{CQCode.CQCode_At(MsgDTO.FromQQ)} 你当前共设定了{allClocks.Count()}个闹钟";
+                string Msg = $@"{AmandaCode.AmandaCode_At(MsgDTO.FromQQ)} 你当前共设定了{allClocks.Count()}个闹钟";
                 foreach (var clock in allClocks)
                 {
                     Msg += '\r' + $@"{clock.AimHourt.ToString("00")}:{clock.AimMinute.ToString("00")} {clock.Content}";

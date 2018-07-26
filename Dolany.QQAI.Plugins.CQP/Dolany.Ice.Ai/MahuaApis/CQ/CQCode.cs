@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Dolany.Ice.Ai.MahuaApis.CQ
+namespace Dolany.Ice.Ai.MahuaApis
 {
     public class CQCode
     {

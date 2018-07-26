@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using Dolany.Ice.Ai.DolanyAI.Db;
-using Dolany.Ice.Ai.MahuaApis.CQ;
+using Dolany.Ice.Ai.MahuaApis;
 
 namespace Dolany.Ice.Ai.DolanyAI
 {
@@ -50,7 +50,7 @@ namespace Dolany.Ice.Ai.DolanyAI
                 {
                     Aim = MsgDTO.FromGroup,
                     Type = MsgType.Group,
-                    Msg = $"{CQCode.CQCode_At(MsgDTO.FromQQ)} {hello.Content}"
+                    Msg = $"{AmandaCode.AmandaCode_At(MsgDTO.FromQQ)} {hello.Content}"
                 });
 
                 hello.LastHelloDate = DateTime.Now.Date;
@@ -132,7 +132,7 @@ namespace Dolany.Ice.Ai.DolanyAI
                 {
                     Aim = MsgDTO.FromGroup,
                     Type = MsgType.Group,
-                    Msg = $"{CQCode.CQCode_At(MsgDTO.FromQQ)} {query.First().Content}"
+                    Msg = $"{AmandaCode.AmandaCode_At(MsgDTO.FromQQ)} {query.First().Content}"
                 });
             }
         }
