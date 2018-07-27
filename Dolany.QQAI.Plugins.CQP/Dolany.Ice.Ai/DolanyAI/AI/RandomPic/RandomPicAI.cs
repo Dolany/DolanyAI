@@ -132,7 +132,8 @@ namespace Dolany.Ice.Ai.DolanyAI
             RuntimeLogger.Log("RandomPicAI Tryto RecentPic.");
             var imageList = GetRecentImageList();
             int idx = (new Random()).Next(imageList.Count());
-            string sendImgName = imageList[idx].Name.Replace(CodeApi.ImageExtension, "");
+            var ImageCache = Utility.ReadCacheInfo(imageList[idx]);
+            string sendImgName = $"{ImageCache.guid}.{ImageCache.type}";
 
             MsgSender.Instance.PushMsg(new SendMsgDTO()
             {
@@ -191,8 +192,8 @@ namespace Dolany.Ice.Ai.DolanyAI
 
             Random random = new Random();
             var f = fil[random.Next(fil.Length)];
-            var ImageCache = Utility.ReadCacheInfo(f);
-            return $"{ImageCache.guid}.{ImageCache.type}";
+            //var ImageCache = Utility.ReadCacheInfo(f);
+            return f.Name;
         }
 
         [PrivateEnterCommand(
