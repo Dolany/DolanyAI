@@ -105,20 +105,17 @@ namespace Dolany.Ice.Ai.DolanyAI
         private void ShowRandFortune(GroupMsgDTO MsgDTO, RandomFortune rf)
         {
             string msg = string.Empty;
-            if (rf.FortuneValue < 50)
+            Random rand = new Random();
+            if (rf.FortuneValue < 50 && rand.Next(100) <= 30)
             {
-                Random rand = new Random();
-                if (rand.Next(100) <= 30)
+                using (AIDatabase db = new AIDatabase())
                 {
-                    using (AIDatabase db = new AIDatabase())
-                    {
-                        var query = db.FortuneItem;
-                        var item = query.ElementAt(rand.Next(query.Count()));
-                        rf.FortuneValue += rf.FortuneValue * item.Value / 100;
-                        rf.FortuneValue %= 100;
-                        msg += $"恭喜你收到了 {item.Name} 的祝福\r";
-                        msg += $"你今天的运势是：{rf.FortuneValue}%({item.Value}%↑)\r";
-                    }
+                    var query = db.FortuneItem;
+                    var item = query.ElementAt(rand.Next(query.Count()));
+                    rf.FortuneValue += rf.FortuneValue * item.Value / 100;
+                    rf.FortuneValue %= 100;
+                    msg += $"恭喜你收到了 {item.Name} 的祝福\r";
+                    msg += $"你今天的运势是：{rf.FortuneValue}%({item.Value}%↑)\r";
                 }
             }
             else
