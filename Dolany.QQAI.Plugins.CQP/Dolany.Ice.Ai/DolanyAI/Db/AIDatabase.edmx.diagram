@@ -4,23 +4,24 @@
   <edmx:Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
     <!-- Diagram content (shape and connector positions) -->
     <edmx:Diagrams>
-      <Diagram DiagramId="b3856b66564443a78ad0cc9ab91baf26" Name="Diagram1">
-        <EntityTypeShape EntityType="AIDatabaseModel.AISeal" Width="1.5" PointX="0.75" PointY="0.75" IsExpanded="true" />
-        <EntityTypeShape EntityType="AIDatabaseModel.AlermClock" Width="1.5" PointX="2.75" PointY="0.75" IsExpanded="true" />
-        <EntityTypeShape EntityType="AIDatabaseModel.AlertContent" Width="1.5" PointX="4.75" PointY="0.75" IsExpanded="true" />
-        <EntityTypeShape EntityType="AIDatabaseModel.AlertRegistedGroup" Width="1.5" PointX="0.75" PointY="4.75" IsExpanded="true" />
-        <EntityTypeShape EntityType="AIDatabaseModel.BlackList" Width="1.5" PointX="2.75" PointY="4.75" IsExpanded="true" />
-        <EntityTypeShape EntityType="AIDatabaseModel.CharactorSetting" Width="1.5" PointX="4.75" PointY="3.75" IsExpanded="true" />
-        <EntityTypeShape EntityType="AIDatabaseModel.DirtyWord" Width="1.5" PointX="6.75" PointY="0.75" IsExpanded="true" />
-        <EntityTypeShape EntityType="AIDatabaseModel.FishingRecord" Width="1.5" PointX="6.75" PointY="3.75" IsExpanded="true" />
-        <EntityTypeShape EntityType="AIDatabaseModel.FishItem" Width="1.5" PointX="6.75" PointY="6.75" IsExpanded="true" />
-        <EntityTypeShape EntityType="AIDatabaseModel.Hello" Width="1.5" PointX="0.75" PointY="7.75" IsExpanded="true" />
-        <EntityTypeShape EntityType="AIDatabaseModel.PlusOneAvailable" Width="1.5" PointX="2.75" PointY="7.75" IsExpanded="true" />
-        <EntityTypeShape EntityType="AIDatabaseModel.RandomFortune" Width="1.5" PointX="8.75" PointY="0.75" IsExpanded="true" />
-        <EntityTypeShape EntityType="AIDatabaseModel.RepeaterAvailable" Width="1.5" PointX="8.75" PointY="3.75" IsExpanded="true" />
-        <EntityTypeShape EntityType="AIDatabaseModel.SayingSeal" Width="1.5" PointX="8.75" PointY="6.75" IsExpanded="true" />
-        <EntityTypeShape EntityType="AIDatabaseModel.MsgRecievedCache" Width="1.5" PointX="9.375" PointY="9.75" />
-        <EntityTypeShape EntityType="AIDatabaseModel.MsgSendCache" Width="1.5" PointX="5.375" PointY="9.75" />
+      <Diagram DiagramId="ab795014327a4cf4b8752e3a3e9415ba" Name="Diagram1">
+        <EntityTypeShape EntityType="Dolany.Ice.Ai.Dolany.Db.AISeal" Width="1.5" PointX="0.75" PointY="0.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="Dolany.Ice.Ai.Dolany.Db.AlermClock" Width="1.5" PointX="2.75" PointY="0.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="Dolany.Ice.Ai.Dolany.Db.AlertContent" Width="1.5" PointX="4.75" PointY="0.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="Dolany.Ice.Ai.Dolany.Db.AlertRegistedGroup" Width="1.5" PointX="0.75" PointY="4.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="Dolany.Ice.Ai.Dolany.Db.BlackList" Width="1.5" PointX="2.75" PointY="4.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="Dolany.Ice.Ai.Dolany.Db.CharactorSetting" Width="1.5" PointX="4.75" PointY="3.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="Dolany.Ice.Ai.Dolany.Db.DirtyWord" Width="1.5" PointX="6.75" PointY="0.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="Dolany.Ice.Ai.Dolany.Db.FishingRecord" Width="1.5" PointX="6.75" PointY="3.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="Dolany.Ice.Ai.Dolany.Db.FishItem" Width="1.5" PointX="6.75" PointY="6.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="Dolany.Ice.Ai.Dolany.Db.Hello" Width="1.5" PointX="0.75" PointY="7.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="Dolany.Ice.Ai.Dolany.Db.MemberRoleCache" Width="1.5" PointX="2.75" PointY="7.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="Dolany.Ice.Ai.Dolany.Db.MsgRecievedCache" Width="1.5" PointX="8.75" PointY="0.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="Dolany.Ice.Ai.Dolany.Db.MsgSendCache" Width="1.5" PointX="8.75" PointY="4.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="Dolany.Ice.Ai.Dolany.Db.PlusOneAvailable" Width="1.5" PointX="8.75" PointY="7.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="Dolany.Ice.Ai.Dolany.Db.RandomFortune" Width="1.5" PointX="4.75" PointY="9.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="Dolany.Ice.Ai.Dolany.Db.RepeaterAvailable" Width="1.5" PointX="10.75" PointY="0.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="Dolany.Ice.Ai.Dolany.Db.SayingSeal" Width="1.5" PointX="0.75" PointY="10.75" IsExpanded="true" />
       </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>

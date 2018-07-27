@@ -35,11 +35,12 @@ namespace Dolany.Ice.Ai.DolanyAI.Db
         public virtual DbSet<FishingRecord> FishingRecord { get; set; }
         public virtual DbSet<FishItem> FishItem { get; set; }
         public virtual DbSet<Hello> Hello { get; set; }
+        public virtual DbSet<MemberRoleCache> MemberRoleCache { get; set; }
+        public virtual DbSet<MsgRecievedCache> MsgRecievedCache { get; set; }
+        public virtual DbSet<MsgSendCache> MsgSendCache { get; set; }
         public virtual DbSet<PlusOneAvailable> PlusOneAvailable { get; set; }
         public virtual DbSet<RandomFortune> RandomFortune { get; set; }
         public virtual DbSet<RepeaterAvailable> RepeaterAvailable { get; set; }
         public virtual DbSet<SayingSeal> SayingSeal { get; set; }
-        public virtual DbSet<MsgRecievedCache> MsgRecievedCache { get; set; }
-        public virtual DbSet<MsgSendCache> MsgSendCache { get; set; }
     }
 }

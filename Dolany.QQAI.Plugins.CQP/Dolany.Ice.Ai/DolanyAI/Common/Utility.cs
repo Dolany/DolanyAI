@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using Newbe.Mahua;
+using Dolany.Ice.Ai.DolanyAI.Db;
 
 namespace Dolany.Ice.Ai.DolanyAI
 {
@@ -21,14 +22,14 @@ namespace Dolany.Ice.Ai.DolanyAI
 
         public static void SendMsgToDeveloper(string msg)
         {
-            //Task.Run(new Action(() =>
-            //{
-            //    using (var robotSession = MahuaRobotManager.Instance.CreateSession())
-            //    {
-            //        var api = robotSession.MahuaApi;
-            //        api.SendPrivateMessage(DeveloperNumber.ToString(), msg);
-            //    }
-            //}));
+            Task.Run(new Action(() =>
+            {
+                using (var robotSession = MahuaRobotManager.Instance.CreateSession())
+                {
+                    var api = robotSession.MahuaApi;
+                    api.SendPrivateMessage(DeveloperNumber.ToString(), msg);
+                }
+            }));
         }
 
         public static void SendMsgToDeveloper(Exception ex)
@@ -142,6 +143,16 @@ namespace Dolany.Ice.Ai.DolanyAI
         public static GroupMemberInfo GetMemberInfo(GroupMsgDTO MsgDTO)
         {
             return Instance<GroupMemberInfoCacher>().GetMemberInfo(MsgDTO);
+        }
+
+        public static string GetAuthCode()
+        {
+            using (AmandaLogDatabase db = new AmandaLogDatabase())
+            {
+                var log = db.日志.Where(p => p.内容.Contains("Dolany AI(Dolany.Ice.Ai)")).OrderByDescending(p => p.时间).First();
+                var strs = log.内容.Split(new string[] { "调用内存：" }, StringSplitOptions.RemoveEmptyEntries);
+                return strs[1];
+            }
         }
     }
 }

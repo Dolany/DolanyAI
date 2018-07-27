@@ -42,22 +42,22 @@ namespace Dolany.Ice.Ai.DolanyAI
                     var black = query.First();
                     black.BlackCount++;
                     black.UpdateTime = DateTime.Now;
+                    db.SaveChanges();
+                    return;
                 }
-                else
+
+                db.BlackList.Add(new BlackList
                 {
-                    db.BlackList.Add(new BlackList
+                    Id = Guid.NewGuid().ToString(),
+                    BlackCount = 1,
+                    UpdateTime = DateTime.Now,
+                    QQNum = QQNum,
+                    NickName = Utility.GetMemberInfo(new GroupMsgDTO
                     {
-                        Id = Guid.NewGuid().ToString(),
-                        BlackCount = 1,
-                        UpdateTime = DateTime.Now,
-                        QQNum = QQNum,
-                        NickName = Utility.GetMemberInfo(new GroupMsgDTO
-                        {
-                            FromGroup = GroupNum,
-                            FromQQ = QQNum
-                        }).NickName
-                    });
-                }
+                        FromGroup = GroupNum,
+                        FromQQ = QQNum
+                    }).NickName
+                });
 
                 db.SaveChanges();
             }
@@ -65,13 +65,15 @@ namespace Dolany.Ice.Ai.DolanyAI
 
         public static void InitWordList()
         {
-            using (AIDatabase db = new AIDatabase())
+            try
             {
-                var query = db.DirtyWord;
-                if (!query.IsNullOrEmpty())
+                using (AIDatabase db = new AIDatabase())
                 {
-                    WordList = query.Select(d => d.Content).ToList();
+                    WordList = db.DirtyWord.Select(d => d.Content).ToList();
                 }
+            }
+            catch (Exception ex)
+            {
             }
         }
 

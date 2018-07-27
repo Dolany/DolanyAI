@@ -3,23 +3,22 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Newbe.Mahua;
 
 namespace Dolany.Ice.Ai.MahuaApis
 {
     public class CodeApi
     {
-        public static string CurEnvirenment = "Amanda";
-
         public static string Code_At(long qqNumber)
         {
             string code = string.Empty;
-            switch (CurEnvirenment)
+            switch (MahuaGlobal.CurrentPlatform)
             {
-                case "CQ":
+                case MahuaPlatform.Cqp:
                     code = CQCode.CQCode_At(qqNumber);
                     break;
 
-                case "Amanda":
+                case MahuaPlatform.Amanda:
                     code = AmandaCode.AmandaCode_At(qqNumber);
                     break;
             }
@@ -30,13 +29,13 @@ namespace Dolany.Ice.Ai.MahuaApis
         public static string Code_Image(string fileName)
         {
             string code = string.Empty;
-            switch (CurEnvirenment)
+            switch (MahuaGlobal.CurrentPlatform)
             {
-                case "CQ":
+                case MahuaPlatform.Cqp:
                     code = CQCode.CQCode_Image(fileName);
                     break;
 
-                case "Amanda":
+                case MahuaPlatform.Amanda:
                     code = AmandaCode.AmandaCode_Pic(fileName);
                     break;
             }
@@ -48,12 +47,12 @@ namespace Dolany.Ice.Ai.MahuaApis
         {
             get
             {
-                switch (CurEnvirenment)
+                switch (MahuaGlobal.CurrentPlatform)
                 {
-                    case "CQ":
+                    case MahuaPlatform.Cqp:
                         return "data/image/";
 
-                    case "Amanda":
+                    case MahuaPlatform.Amanda:
                         return "temp/image/";
                 }
 
@@ -65,12 +64,12 @@ namespace Dolany.Ice.Ai.MahuaApis
         {
             get
             {
-                switch (CurEnvirenment)
+                switch (MahuaGlobal.CurrentPlatform)
                 {
-                    case "CQ":
+                    case MahuaPlatform.Cqp:
                         return ".cqimg";
 
-                    case "Amanda":
+                    case MahuaPlatform.Amanda:
                         return ".ini";
                 }
 

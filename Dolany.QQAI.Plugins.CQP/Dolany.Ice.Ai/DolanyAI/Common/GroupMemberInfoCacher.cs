@@ -45,11 +45,6 @@ namespace Dolany.Ice.Ai.DolanyAI
 
         private GroupMemberInfo GetNewInfo(GroupMsgDTO MsgDTO)
         {
-            //using (var robotSession = MahuaRobotManager.Instance.CreateSession())
-            //{
-            //    var api = robotSession.MahuaApi;
-            //    return api.GetGroupMemberInfo(MsgDTO.FromGroup.ToString(), MsgDTO.FromQQ.ToString());
-            //}
             var infos = AmandaAPIEx.GetMemberInfos(MsgDTO.FromGroup);
             foreach (var info in infos.mems)
             {

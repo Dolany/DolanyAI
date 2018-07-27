@@ -35,6 +35,9 @@
     <Reference Include="Autofac, Version=4.8.1.0, Culture=neutral, PublicKeyToken=17863af14b0044da, processorArchitecture=MSIL">
       <HintPath>..\packages\Autofac.4.8.1\lib\net45\Autofac.dll</HintPath>
     </Reference>
+    <Reference Include="Devart.Data, Version=5.0.1982.0, Culture=neutral, PublicKeyToken=09af7300eec23701, processorArchitecture=MSIL" />
+    <Reference Include="Devart.Data.SQLite, Version=5.11.1190.0, Culture=neutral, PublicKeyToken=09af7300eec23701, processorArchitecture=MSIL" />
+    <Reference Include="Devart.Data.SQLite.Entity.EF6, Version=5.11.1190.0, Culture=neutral, PublicKeyToken=09af7300eec23701, processorArchitecture=MSIL" />
     <Reference Include="EntityFramework, Version=6.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089, processorArchitecture=MSIL">
       <HintPath>..\packages\EntityFramework.6.2.0\lib\net45\EntityFramework.dll</HintPath>
     </Reference>
@@ -120,21 +123,6 @@
     <Compile Include="DolanyAI\Base\AIBase.cs" />
     <Compile Include="DolanyAI\Base\GroupEnterCommandAttribute.cs" />
     <Compile Include="DolanyAI\Common\MsgReceiveCache.cs" />
-    <Compile Include="DolanyAI\Db\MsgRecievedCache.cs">
-      <DependentUpon>AIDatabase.tt</DependentUpon>
-    </Compile>
-    <Compile Include="DolanyAI\Db\MsgSendCache.cs">
-      <DependentUpon>AIDatabase.tt</DependentUpon>
-    </Compile>
-    <Compile Include="DolanyAI\DTO\GroupMsgDTO.cs" />
-    <Compile Include="DolanyAI\DTO\PrivateMsgDTO.cs" />
-    <Compile Include="DolanyAI\Common\DbMgr.cs" />
-    <Compile Include="DolanyAI\Common\DirtyFilter.cs" />
-    <Compile Include="DolanyAI\Common\GroupMemberInfoCacher.cs" />
-    <Compile Include="DolanyAI\Common\MsgSender.cs" />
-    <Compile Include="DolanyAI\Common\RuntimeLogger.cs" />
-    <Compile Include="DolanyAI\DTO\SendMsgDTO.cs" />
-    <Compile Include="DolanyAI\Common\Utility.cs" />
     <Compile Include="DolanyAI\Db\AIDatabase.Context.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
@@ -162,6 +150,21 @@
     <Compile Include="DolanyAI\Db\AlertRegistedGroup.cs">
       <DependentUpon>AIDatabase.tt</DependentUpon>
     </Compile>
+    <Compile Include="DolanyAI\Db\AmandaLogDatabase.Context.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>AmandaLogDatabase.Context.tt</DependentUpon>
+    </Compile>
+    <Compile Include="DolanyAI\Db\AmandaLogDatabase.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>AmandaLogDatabase.tt</DependentUpon>
+    </Compile>
+    <Compile Include="DolanyAI\Db\AmandaLogDatabase.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>AmandaLogDatabase.edmx</DependentUpon>
+    </Compile>
     <Compile Include="DolanyAI\Db\BlackList.cs">
       <DependentUpon>AIDatabase.tt</DependentUpon>
     </Compile>
@@ -180,6 +183,15 @@
     <Compile Include="DolanyAI\Db\Hello.cs">
       <DependentUpon>AIDatabase.tt</DependentUpon>
     </Compile>
+    <Compile Include="DolanyAI\Db\MemberRoleCache.cs">
+      <DependentUpon>AIDatabase.tt</DependentUpon>
+    </Compile>
+    <Compile Include="DolanyAI\Db\MsgRecievedCache.cs">
+      <DependentUpon>AIDatabase.tt</DependentUpon>
+    </Compile>
+    <Compile Include="DolanyAI\Db\MsgSendCache.cs">
+      <DependentUpon>AIDatabase.tt</DependentUpon>
+    </Compile>
     <Compile Include="DolanyAI\Db\PlusOneAvailable.cs">
       <DependentUpon>AIDatabase.tt</DependentUpon>
     </Compile>
@@ -192,6 +204,18 @@
     <Compile Include="DolanyAI\Db\SayingSeal.cs">
       <DependentUpon>AIDatabase.tt</DependentUpon>
     </Compile>
+    <Compile Include="DolanyAI\Db\日志.cs">
+      <DependentUpon>AmandaLogDatabase.tt</DependentUpon>
+    </Compile>
+    <Compile Include="DolanyAI\DTO\GroupMsgDTO.cs" />
+    <Compile Include="DolanyAI\DTO\PrivateMsgDTO.cs" />
+    <Compile Include="DolanyAI\Common\DbMgr.cs" />
+    <Compile Include="DolanyAI\Common\DirtyFilter.cs" />
+    <Compile Include="DolanyAI\Common\GroupMemberInfoCacher.cs" />
+    <Compile Include="DolanyAI\Common\MsgSender.cs" />
+    <Compile Include="DolanyAI\Common\RuntimeLogger.cs" />
+    <Compile Include="DolanyAI\DTO\SendMsgDTO.cs" />
+    <Compile Include="DolanyAI\Common\Utility.cs" />
     <Compile Include="DolanyAI\Entities\Common\EntityBase.cs" />
     <Compile Include="DolanyAI\Entities\Common\LogEntity.cs" />
     <Compile Include="DolanyAI\Entities\Management\ConfigEntity.cs" />
@@ -237,6 +261,13 @@
     <None Include="DolanyAI\Db\AIDatabase.edmx.diagram">
       <DependentUpon>AIDatabase.edmx</DependentUpon>
     </None>
+    <EntityDeploy Include="DolanyAI\Db\AmandaLogDatabase.edmx">
+      <Generator>EntityModelCodeGenerator</Generator>
+      <LastGenOutput>AmandaLogDatabase.Designer.cs</LastGenOutput>
+    </EntityDeploy>
+    <None Include="DolanyAI\Db\AmandaLogDatabase.edmx.diagram">
+      <DependentUpon>AmandaLogDatabase.edmx</DependentUpon>
+    </None>
     <None Include="MahuaApis\readme.md" />
     <None Include="MahuaEvents\readme.md" />
     <None Include="NewbeLibs\Framework\NLog.config" />
@@ -248,13 +279,23 @@
     <Content Include="buildTools\nuget.exe" />
     <Content Include="DolanyAI\Db\AIDatabase.Context.tt">
       <Generator>TextTemplatingFileGenerator</Generator>
-      <LastGenOutput>AIDatabase.Context.cs</LastGenOutput>
       <DependentUpon>AIDatabase.edmx</DependentUpon>
+      <LastGenOutput>AIDatabase.Context.cs</LastGenOutput>
     </Content>
     <Content Include="DolanyAI\Db\AIDatabase.tt">
       <Generator>TextTemplatingFileGenerator</Generator>
       <DependentUpon>AIDatabase.edmx</DependentUpon>
       <LastGenOutput>AIDatabase.cs</LastGenOutput>
+    </Content>
+    <Content Include="DolanyAI\Db\AmandaLogDatabase.Context.tt">
+      <Generator>TextTemplatingFileGenerator</Generator>
+      <DependentUpon>AmandaLogDatabase.edmx</DependentUpon>
+      <LastGenOutput>AmandaLogDatabase.Context.cs</LastGenOutput>
+    </Content>
+    <Content Include="DolanyAI\Db\AmandaLogDatabase.tt">
+      <Generator>TextTemplatingFileGenerator</Generator>
+      <DependentUpon>AmandaLogDatabase.edmx</DependentUpon>
+      <LastGenOutput>AmandaLogDatabase.cs</LastGenOutput>
     </Content>
     <Content Include="NewbeLibs\Framework\Autofac.dll" />
     <Content Include="NewbeLibs\Framework\Extensions\Administration\Newbe.Mahua.Administration.WPF.dll" />

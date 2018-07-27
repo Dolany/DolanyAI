@@ -4,7 +4,7 @@
   <edmx:Runtime>
     <!-- SSDL content -->
     <edmx:StorageModels>
-    <Schema Namespace="AIDatabaseModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+      <Schema Namespace="Dolany.Ice.Ai.Dolany.Db.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
         <EntityType Name="AISeal">
           <Key>
             <PropertyRef Name="Id" />
@@ -103,6 +103,17 @@
           <Property Name="LastHelloDate" Type="datetime" Nullable="false" />
           <Property Name="Content" Type="nvarchar" MaxLength="200" />
         </EntityType>
+        <EntityType Name="MemberRoleCache">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="nvarchar" MaxLength="50" Nullable="false" />
+          <Property Name="QQNum" Type="bigint" Nullable="false" />
+          <Property Name="GroupNum" Type="bigint" Nullable="false" />
+          <Property Name="Role" Type="int" Nullable="false" />
+          <Property Name="Datatime" Type="datetime" Nullable="false" />
+          <Property Name="Nickname" Type="nvarchar" MaxLength="50" />
+        </EntityType>
         <EntityType Name="MsgRecievedCache">
           <Key>
             <PropertyRef Name="Id" />
@@ -159,7 +170,7 @@
           <Property Name="CreateTime" Type="datetime" Nullable="false" />
           <Property Name="Content" Type="nvarchar" MaxLength="50" />
         </EntityType>
-        <EntityContainer Name="AIDatabaseModelStoreContainer">
+        <EntityContainer Name="DolanyIceAiDolanyDbStoreContainer">
           <EntitySet Name="AISeal" EntityType="Self.AISeal" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="AlermClock" EntityType="Self.AlermClock" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="AlertContent" EntityType="Self.AlertContent" Schema="dbo" store:Type="Tables" />
@@ -170,6 +181,7 @@
           <EntitySet Name="FishingRecord" EntityType="Self.FishingRecord" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="FishItem" EntityType="Self.FishItem" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Hello" EntityType="Self.Hello" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="MemberRoleCache" EntityType="Self.MemberRoleCache" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="MsgRecievedCache" EntityType="Self.MsgRecievedCache" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="MsgSendCache" EntityType="Self.MsgSendCache" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="PlusOneAvailable" EntityType="Self.PlusOneAvailable" Schema="dbo" store:Type="Tables" />
@@ -177,10 +189,11 @@
           <EntitySet Name="RepeaterAvailable" EntityType="Self.RepeaterAvailable" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="SayingSeal" EntityType="Self.SayingSeal" Schema="dbo" store:Type="Tables" />
         </EntityContainer>
-      </Schema></edmx:StorageModels>
+      </Schema>
+    </edmx:StorageModels>
     <!-- CSDL content -->
     <edmx:ConceptualModels>
-      <Schema Namespace="AIDatabaseModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+      <Schema Namespace="Dolany.Ice.Ai.Dolany.Db" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
         <EntityType Name="AISeal">
           <Key>
             <PropertyRef Name="Id" />
@@ -279,6 +292,38 @@
           <Property Name="LastHelloDate" Type="DateTime" Nullable="false" Precision="3" />
           <Property Name="Content" Type="String" MaxLength="200" FixedLength="false" Unicode="true" />
         </EntityType>
+        <EntityType Name="MemberRoleCache">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="QQNum" Type="Int64" Nullable="false" />
+          <Property Name="GroupNum" Type="Int64" Nullable="false" />
+          <Property Name="Role" Type="Int32" Nullable="false" />
+          <Property Name="Datatime" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="Nickname" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+        </EntityType>
+        <EntityType Name="MsgRecievedCache">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="Msg" Type="String" MaxLength="200" FixedLength="false" Unicode="true" />
+          <Property Name="FromGroup" Type="Int64" Nullable="false" />
+          <Property Name="FromQQ" Type="Int64" Nullable="false" />
+          <Property Name="Time" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="FullMsg" Type="String" MaxLength="200" FixedLength="false" Unicode="true" />
+          <Property Name="Command" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+        </EntityType>
+        <EntityType Name="MsgSendCache">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="Aim" Type="Int64" Nullable="false" />
+          <Property Name="Type" Type="Int32" Nullable="false" />
+          <Property Name="Msg" Type="String" MaxLength="400" FixedLength="false" Unicode="true" />
+        </EntityType>
         <EntityType Name="PlusOneAvailable">
           <Key>
             <PropertyRef Name="Id" />
@@ -325,42 +370,22 @@
           <EntitySet Name="FishingRecord" EntityType="Self.FishingRecord" />
           <EntitySet Name="FishItem" EntityType="Self.FishItem" />
           <EntitySet Name="Hello" EntityType="Self.Hello" />
+          <EntitySet Name="MemberRoleCache" EntityType="Self.MemberRoleCache" />
+          <EntitySet Name="MsgRecievedCache" EntityType="Self.MsgRecievedCache" />
+          <EntitySet Name="MsgSendCache" EntityType="Self.MsgSendCache" />
           <EntitySet Name="PlusOneAvailable" EntityType="Self.PlusOneAvailable" />
           <EntitySet Name="RandomFortune" EntityType="Self.RandomFortune" />
           <EntitySet Name="RepeaterAvailable" EntityType="Self.RepeaterAvailable" />
           <EntitySet Name="SayingSeal" EntityType="Self.SayingSeal" />
-          <EntitySet Name="MsgRecievedCache" EntityType="AIDatabaseModel.MsgRecievedCache" />
-          <EntitySet Name="MsgSendCache" EntityType="AIDatabaseModel.MsgSendCache" />
         </EntityContainer>
-        <EntityType Name="MsgRecievedCache">
-          <Key>
-            <PropertyRef Name="Id" />
-          </Key>
-          <Property Name="Id" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
-          <Property Name="Msg" Type="String" MaxLength="200" FixedLength="false" Unicode="true" />
-          <Property Name="FromGroup" Type="Int64" Nullable="false" />
-          <Property Name="FromQQ" Type="Int64" Nullable="false" />
-          <Property Name="Time" Type="DateTime" Nullable="false" Precision="3" />
-          <Property Name="FullMsg" Type="String" MaxLength="200" FixedLength="false" Unicode="true" />
-          <Property Name="Command" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
-        </EntityType>
-        <EntityType Name="MsgSendCache">
-          <Key>
-            <PropertyRef Name="Id" />
-          </Key>
-          <Property Name="Id" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
-          <Property Name="Aim" Type="Int64" Nullable="false" />
-          <Property Name="Type" Type="Int32" Nullable="false" />
-          <Property Name="Msg" Type="String" MaxLength="400" FixedLength="false" Unicode="true" />
-        </EntityType>
       </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
     <edmx:Mappings>
       <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
-        <EntityContainerMapping StorageEntityContainer="AIDatabaseModelStoreContainer" CdmEntityContainer="AIDatabase">
+        <EntityContainerMapping StorageEntityContainer="DolanyIceAiDolanyDbStoreContainer" CdmEntityContainer="AIDatabase">
           <EntitySetMapping Name="AISeal">
-            <EntityTypeMapping TypeName="AIDatabaseModel.AISeal">
+            <EntityTypeMapping TypeName="Dolany.Ice.Ai.Dolany.Db.AISeal">
               <MappingFragment StoreEntitySet="AISeal">
                 <ScalarProperty Name="Id" ColumnName="Id" />
                 <ScalarProperty Name="GroupNum" ColumnName="GroupNum" />
@@ -369,7 +394,7 @@
             </EntityTypeMapping>
           </EntitySetMapping>
           <EntitySetMapping Name="AlermClock">
-            <EntityTypeMapping TypeName="AIDatabaseModel.AlermClock">
+            <EntityTypeMapping TypeName="Dolany.Ice.Ai.Dolany.Db.AlermClock">
               <MappingFragment StoreEntitySet="AlermClock">
                 <ScalarProperty Name="Id" ColumnName="Id" />
                 <ScalarProperty Name="GroupNumber" ColumnName="GroupNumber" />
@@ -382,7 +407,7 @@
             </EntityTypeMapping>
           </EntitySetMapping>
           <EntitySetMapping Name="AlertContent">
-            <EntityTypeMapping TypeName="AIDatabaseModel.AlertContent">
+            <EntityTypeMapping TypeName="Dolany.Ice.Ai.Dolany.Db.AlertContent">
               <MappingFragment StoreEntitySet="AlertContent">
                 <ScalarProperty Name="Id" ColumnName="Id" />
                 <ScalarProperty Name="FromGroup" ColumnName="FromGroup" />
@@ -394,7 +419,7 @@
             </EntityTypeMapping>
           </EntitySetMapping>
           <EntitySetMapping Name="AlertRegistedGroup">
-            <EntityTypeMapping TypeName="AIDatabaseModel.AlertRegistedGroup">
+            <EntityTypeMapping TypeName="Dolany.Ice.Ai.Dolany.Db.AlertRegistedGroup">
               <MappingFragment StoreEntitySet="AlertRegistedGroup">
                 <ScalarProperty Name="Id" ColumnName="Id" />
                 <ScalarProperty Name="Available" ColumnName="Available" />
@@ -403,7 +428,7 @@
             </EntityTypeMapping>
           </EntitySetMapping>
           <EntitySetMapping Name="BlackList">
-            <EntityTypeMapping TypeName="AIDatabaseModel.BlackList">
+            <EntityTypeMapping TypeName="Dolany.Ice.Ai.Dolany.Db.BlackList">
               <MappingFragment StoreEntitySet="BlackList">
                 <ScalarProperty Name="Id" ColumnName="Id" />
                 <ScalarProperty Name="UpdateTime" ColumnName="UpdateTime" />
@@ -414,7 +439,7 @@
             </EntityTypeMapping>
           </EntitySetMapping>
           <EntitySetMapping Name="CharactorSetting">
-            <EntityTypeMapping TypeName="AIDatabaseModel.CharactorSetting">
+            <EntityTypeMapping TypeName="Dolany.Ice.Ai.Dolany.Db.CharactorSetting">
               <MappingFragment StoreEntitySet="CharactorSetting">
                 <ScalarProperty Name="Id" ColumnName="Id" />
                 <ScalarProperty Name="GroupNumber" ColumnName="GroupNumber" />
@@ -427,7 +452,7 @@
             </EntityTypeMapping>
           </EntitySetMapping>
           <EntitySetMapping Name="DirtyWord">
-            <EntityTypeMapping TypeName="AIDatabaseModel.DirtyWord">
+            <EntityTypeMapping TypeName="Dolany.Ice.Ai.Dolany.Db.DirtyWord">
               <MappingFragment StoreEntitySet="DirtyWord">
                 <ScalarProperty Name="Id" ColumnName="Id" />
                 <ScalarProperty Name="Content" ColumnName="Content" />
@@ -435,7 +460,7 @@
             </EntityTypeMapping>
           </EntitySetMapping>
           <EntitySetMapping Name="FishingRecord">
-            <EntityTypeMapping TypeName="AIDatabaseModel.FishingRecord">
+            <EntityTypeMapping TypeName="Dolany.Ice.Ai.Dolany.Db.FishingRecord">
               <MappingFragment StoreEntitySet="FishingRecord">
                 <ScalarProperty Name="Id" ColumnName="Id" />
                 <ScalarProperty Name="GroupNum" ColumnName="GroupNum" />
@@ -446,7 +471,7 @@
             </EntityTypeMapping>
           </EntitySetMapping>
           <EntitySetMapping Name="FishItem">
-            <EntityTypeMapping TypeName="AIDatabaseModel.FishItem">
+            <EntityTypeMapping TypeName="Dolany.Ice.Ai.Dolany.Db.FishItem">
               <MappingFragment StoreEntitySet="FishItem">
                 <ScalarProperty Name="Id" ColumnName="Id" />
                 <ScalarProperty Name="Name" ColumnName="Name" />
@@ -457,7 +482,7 @@
             </EntityTypeMapping>
           </EntitySetMapping>
           <EntitySetMapping Name="Hello">
-            <EntityTypeMapping TypeName="AIDatabaseModel.Hello">
+            <EntityTypeMapping TypeName="Dolany.Ice.Ai.Dolany.Db.Hello">
               <MappingFragment StoreEntitySet="Hello">
                 <ScalarProperty Name="Id" ColumnName="Id" />
                 <ScalarProperty Name="GroupNum" ColumnName="GroupNum" />
@@ -467,8 +492,43 @@
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
+          <EntitySetMapping Name="MemberRoleCache">
+            <EntityTypeMapping TypeName="Dolany.Ice.Ai.Dolany.Db.MemberRoleCache">
+              <MappingFragment StoreEntitySet="MemberRoleCache">
+                <ScalarProperty Name="Id" ColumnName="Id" />
+                <ScalarProperty Name="QQNum" ColumnName="QQNum" />
+                <ScalarProperty Name="GroupNum" ColumnName="GroupNum" />
+                <ScalarProperty Name="Role" ColumnName="Role" />
+                <ScalarProperty Name="Datatime" ColumnName="Datatime" />
+                <ScalarProperty Name="Nickname" ColumnName="Nickname" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="MsgRecievedCache">
+            <EntityTypeMapping TypeName="Dolany.Ice.Ai.Dolany.Db.MsgRecievedCache">
+              <MappingFragment StoreEntitySet="MsgRecievedCache">
+                <ScalarProperty Name="Id" ColumnName="Id" />
+                <ScalarProperty Name="Msg" ColumnName="Msg" />
+                <ScalarProperty Name="FromGroup" ColumnName="FromGroup" />
+                <ScalarProperty Name="FromQQ" ColumnName="FromQQ" />
+                <ScalarProperty Name="Time" ColumnName="Time" />
+                <ScalarProperty Name="FullMsg" ColumnName="FullMsg" />
+                <ScalarProperty Name="Command" ColumnName="Command" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="MsgSendCache">
+            <EntityTypeMapping TypeName="Dolany.Ice.Ai.Dolany.Db.MsgSendCache">
+              <MappingFragment StoreEntitySet="MsgSendCache">
+                <ScalarProperty Name="Id" ColumnName="Id" />
+                <ScalarProperty Name="Aim" ColumnName="Aim" />
+                <ScalarProperty Name="Type" ColumnName="Type" />
+                <ScalarProperty Name="Msg" ColumnName="Msg" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
           <EntitySetMapping Name="PlusOneAvailable">
-            <EntityTypeMapping TypeName="AIDatabaseModel.PlusOneAvailable">
+            <EntityTypeMapping TypeName="Dolany.Ice.Ai.Dolany.Db.PlusOneAvailable">
               <MappingFragment StoreEntitySet="PlusOneAvailable">
                 <ScalarProperty Name="Id" ColumnName="Id" />
                 <ScalarProperty Name="GroupNumber" ColumnName="GroupNumber" />
@@ -477,7 +537,7 @@
             </EntityTypeMapping>
           </EntitySetMapping>
           <EntitySetMapping Name="RandomFortune">
-            <EntityTypeMapping TypeName="AIDatabaseModel.RandomFortune">
+            <EntityTypeMapping TypeName="Dolany.Ice.Ai.Dolany.Db.RandomFortune">
               <MappingFragment StoreEntitySet="RandomFortune">
                 <ScalarProperty Name="Id" ColumnName="Id" />
                 <ScalarProperty Name="QQNum" ColumnName="QQNum" />
@@ -487,7 +547,7 @@
             </EntityTypeMapping>
           </EntitySetMapping>
           <EntitySetMapping Name="RepeaterAvailable">
-            <EntityTypeMapping TypeName="AIDatabaseModel.RepeaterAvailable">
+            <EntityTypeMapping TypeName="Dolany.Ice.Ai.Dolany.Db.RepeaterAvailable">
               <MappingFragment StoreEntitySet="RepeaterAvailable">
                 <ScalarProperty Name="Id" ColumnName="Id" />
                 <ScalarProperty Name="GroupNumber" ColumnName="GroupNumber" />
@@ -496,36 +556,13 @@
             </EntityTypeMapping>
           </EntitySetMapping>
           <EntitySetMapping Name="SayingSeal">
-            <EntityTypeMapping TypeName="AIDatabaseModel.SayingSeal">
+            <EntityTypeMapping TypeName="Dolany.Ice.Ai.Dolany.Db.SayingSeal">
               <MappingFragment StoreEntitySet="SayingSeal">
                 <ScalarProperty Name="Id" ColumnName="Id" />
                 <ScalarProperty Name="GroupNum" ColumnName="GroupNum" />
                 <ScalarProperty Name="SealMember" ColumnName="SealMember" />
                 <ScalarProperty Name="CreateTime" ColumnName="CreateTime" />
                 <ScalarProperty Name="Content" ColumnName="Content" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
-          <EntitySetMapping Name="MsgRecievedCache">
-            <EntityTypeMapping TypeName="AIDatabaseModel.MsgRecievedCache">
-              <MappingFragment StoreEntitySet="MsgRecievedCache">
-                <ScalarProperty Name="Command" ColumnName="Command" />
-                <ScalarProperty Name="FullMsg" ColumnName="FullMsg" />
-                <ScalarProperty Name="Time" ColumnName="Time" />
-                <ScalarProperty Name="FromQQ" ColumnName="FromQQ" />
-                <ScalarProperty Name="FromGroup" ColumnName="FromGroup" />
-                <ScalarProperty Name="Msg" ColumnName="Msg" />
-                <ScalarProperty Name="Id" ColumnName="Id" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
-          <EntitySetMapping Name="MsgSendCache">
-            <EntityTypeMapping TypeName="AIDatabaseModel.MsgSendCache">
-              <MappingFragment StoreEntitySet="MsgSendCache">
-                <ScalarProperty Name="Msg" ColumnName="Msg" />
-                <ScalarProperty Name="Type" ColumnName="Type" />
-                <ScalarProperty Name="Aim" ColumnName="Aim" />
-                <ScalarProperty Name="Id" ColumnName="Id" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>

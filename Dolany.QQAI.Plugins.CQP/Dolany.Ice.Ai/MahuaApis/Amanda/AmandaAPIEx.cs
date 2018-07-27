@@ -4,18 +4,20 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Runtime.InteropServices;
+using Dolany.Ice.Ai.DolanyAI;
 
 namespace Dolany.Ice.Ai.MahuaApis
 {
     public class AmandaAPIEx
     {
-        public static string AuthCode = "2160";
+        //public static string AuthCode = "2160";
 
         [DllImport("bin\\message.dll")]
         private static extern string Api_GetGroupMemberList(string 群号, string AuthCode);
 
         private static string GetGroupMemberList(string 群号)
         {
+            string AuthCode = Utility.GetAuthCode();
             return Api_GetGroupMemberList(群号, AuthCode);
         }
 
