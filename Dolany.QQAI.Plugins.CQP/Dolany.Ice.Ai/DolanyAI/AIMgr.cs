@@ -48,8 +48,6 @@ namespace Dolany.Ice.Ai.DolanyAI
         {
             AIList = AIList.Where(a => a.Value.IsAvailable)
                            .OrderByDescending(a => a.Value.PriorityLevel);
-            //.GroupBy(a => a.Value.Name)
-            //.Select(g => g.First());
             foreach (var ai in AIList)
             {
                 ai.Key.Work();
