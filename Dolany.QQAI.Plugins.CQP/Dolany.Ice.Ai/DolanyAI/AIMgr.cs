@@ -47,9 +47,9 @@ namespace Dolany.Ice.Ai.DolanyAI
         public void StartAIs()
         {
             AIList = AIList.Where(a => a.Value.IsAvailable)
-                           .OrderByDescending(a => a.Value.PriorityLevel)
-                           .GroupBy(a => a.Value.Name)
-                           .Select(g => g.First());
+                           .OrderByDescending(a => a.Value.PriorityLevel);
+            //.GroupBy(a => a.Value.Name)
+            //.Select(g => g.First());
             foreach (var ai in AIList)
             {
                 ai.Key.Work();
@@ -128,35 +128,35 @@ namespace Dolany.Ice.Ai.DolanyAI
         {
             Task.Factory.StartNew(() =>
             {
-                GroupMsgCallBack_Func(MsgDTO);
+                try
+                {
+                    GroupMsgCallBack_Func(MsgDTO);
+                }
+                catch (Exception ex)
+                {
+                    Utility.SendMsgToDeveloper(ex);
+                }
             });
         }
 
         private void GroupMsgCallBack_Func(GroupMsgDTO MsgDTO)
         {
-            try
+            if (Filter.IsInBlackList(MsgDTO.FromQQ) || !Filter.Filter(MsgDTO.FromGroup, MsgDTO.FromQQ, MsgDTO.Msg))
             {
-                if (Filter.IsInBlackList(MsgDTO.FromQQ) || !Filter.Filter(MsgDTO.FromGroup, MsgDTO.FromQQ, MsgDTO.Msg))
-                {
-                    return;
-                }
-
-                foreach (var ai in AIList)
-                {
-                    if (IsAiSealed(MsgDTO, ai.Key))
-                    {
-                        continue;
-                    }
-
-                    if (ai.Key.OnGroupMsgReceived(MsgDTO))
-                    {
-                        break;
-                    }
-                }
+                return;
             }
-            catch (Exception ex)
+
+            foreach (var ai in AIList)
             {
-                Utility.SendMsgToDeveloper(ex);
+                if (IsAiSealed(MsgDTO, ai.Key))
+                {
+                    continue;
+                }
+
+                if (ai.Key.OnGroupMsgReceived(MsgDTO))
+                {
+                    break;
+                }
             }
         }
 

@@ -41,9 +41,10 @@ namespace Dolany.Ice.Ai.DolanyAI
                 var infos = AmandaAPIEx.GetMemberInfos(MsgDTO.FromGroup);
                 foreach (var info in infos.mems)
                 {
-                    if (db.MemberRoleCache.Any(p => p.GroupNum == MsgDTO.FromGroup && p.QQNum == info.uin))
+                    var query = db.MemberRoleCache.Where(p => p.GroupNum == MsgDTO.FromGroup && p.QQNum == info.uin);
+                    if (!query.IsNullOrEmpty())
                     {
-                        var cache = db.MemberRoleCache.Where(p => p.GroupNum == MsgDTO.FromGroup && p.QQNum == info.uin).First();
+                        var cache = query.First();
                         cache.Role = info.role;
                         cache.Datatime = DateTime.Now;
                         cache.Nickname = info.nick;
