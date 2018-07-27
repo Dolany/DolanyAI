@@ -56,7 +56,7 @@ namespace Dolany.Ice.Ai.DolanyAI
                 return false;
             }
 
-            GroupMemberAuthority authority = Utility.GetMemberInfo(MsgDTO).Authority;
+            int authority = Utility.GetMemberInfo(MsgDTO).Role;
             if (!AuthorityCheck(enterAttr.AuthorityLevel, authority))
             {
                 return false;
@@ -87,15 +87,15 @@ namespace Dolany.Ice.Ai.DolanyAI
             }
         }
 
-        private bool AuthorityCheck(AuthorityLevel authorityLevel, GroupMemberAuthority authority)
+        private bool AuthorityCheck(AuthorityLevel authorityLevel, int authority)
         {
             if (authorityLevel == AuthorityLevel.群主
-                && authority != GroupMemberAuthority.Leader)
+                && authority != 0)
             {
                 return false;
             }
             if (authorityLevel == AuthorityLevel.管理员
-                && (authority != GroupMemberAuthority.Leader && authority != GroupMemberAuthority.Manager))
+                && (authority != 0 && authority != 1))
             {
                 return false;
             }

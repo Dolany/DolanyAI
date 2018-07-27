@@ -56,7 +56,7 @@ namespace Dolany.Ice.Ai.DolanyAI
                     {
                         FromGroup = GroupNum,
                         FromQQ = QQNum
-                    }).NickName
+                    }).Nickname
                 });
 
                 db.SaveChanges();
