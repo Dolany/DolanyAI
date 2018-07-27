@@ -5,6 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.IO;
 using Dolany.Ice.Ai.MahuaApis;
+using System.Timers;
 
 namespace Dolany.Ice.Ai.DolanyAI
 {
@@ -19,6 +20,11 @@ namespace Dolany.Ice.Ai.DolanyAI
         private string PicPath = CodeApi.ImagePath;
         private List<string> Keywords = new List<string>();
 
+        private int MaxCache = 100;
+        private int CleanFreq = 5;
+
+        private Timer timer = new Timer();
+
         public RandomPicAI()
             : base()
         {
@@ -27,7 +33,51 @@ namespace Dolany.Ice.Ai.DolanyAI
 
         public override void Work()
         {
+            Init();
             ReloadAllKeywords();
+        }
+
+        public void Init()
+        {
+            string MaxCache_Config = Utility.GetConfig("MaxPicCacheCount");
+            if (!string.IsNullOrEmpty(MaxCache_Config))
+            {
+                MaxCache = int.Parse(MaxCache_Config);
+            }
+
+            string CleanFreq_Config = Utility.GetConfig("CleanFreq");
+            if (!string.IsNullOrEmpty(CleanFreq_Config))
+            {
+                CleanFreq = int.Parse(CleanFreq_Config);
+            }
+
+            timer.Interval = CleanFreq * 1000;
+            timer.AutoReset = true;
+            timer.Enabled = true;
+            timer.Elapsed += TimeUp;
+        }
+
+        private void TimeUp(object sender, ElapsedEventArgs e)
+        {
+            try
+            {
+                CleanCache();
+            }
+            catch (Exception ex)
+            {
+                Utility.SendMsgToDeveloper(ex);
+            }
+        }
+
+        private void CleanCache()
+        {
+            DirectoryInfo dir = new DirectoryInfo(PicPath);
+            int cleanCount = dir.GetFiles().Count() - MaxCache;
+            var cleanFiles = dir.GetFiles().OrderBy(f => f.CreationTime).Take(cleanCount);
+            foreach (var f in cleanFiles)
+            {
+                f.Delete();
+            }
         }
 
         public void ReloadAllKeywords()
@@ -141,7 +191,8 @@ namespace Dolany.Ice.Ai.DolanyAI
 
             Random random = new Random();
             var f = fil[random.Next(fil.Length)];
-            return f.Name;
+            var ImageCache = Utility.ReadCacheInfo(f);
+            return $"{ImageCache.guid}.{ImageCache.type}";
         }
 
         [PrivateEnterCommand(

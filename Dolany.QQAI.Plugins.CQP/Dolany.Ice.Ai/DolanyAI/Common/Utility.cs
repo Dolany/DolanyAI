@@ -5,6 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using Newbe.Mahua;
 using Dolany.Ice.Ai.DolanyAI.Db;
+using System.IO;
 
 namespace Dolany.Ice.Ai.DolanyAI
 {
@@ -34,8 +35,7 @@ namespace Dolany.Ice.Ai.DolanyAI
 
         public static void SendMsgToDeveloper(Exception ex)
         {
-            SendMsgToDeveloper(ex.Message);
-            SendMsgToDeveloper(ex.StackTrace);
+            SendMsgToDeveloper(ex.Message + '\r' + ex.StackTrace);
         }
 
         public static bool IsNullOrEmpty<T>(this IEnumerable<T> objs)
@@ -152,6 +152,40 @@ namespace Dolany.Ice.Ai.DolanyAI
                 var log = db.日志.Where(p => p.内容.Contains("Dolany AI(Dolany.Ice.Ai)")).OrderByDescending(p => p.时间).First();
                 var strs = log.内容.Split(new string[] { "调用内存：" }, StringSplitOptions.RemoveEmptyEntries);
                 return strs[1];
+            }
+        }
+
+        public static ImageCacheModel ReadCacheInfo(FileInfo file)
+        {
+            using (StreamReader reader = new StreamReader(file.FullName))
+            {
+                ImageCacheModel model = new ImageCacheModel();
+
+                String line;
+                while ((line = reader.ReadLine()) != null)
+                {
+                    var strs = line.Split(new char[] { '=' }, StringSplitOptions.RemoveEmptyEntries);
+                    if (strs.IsNullOrEmpty() || strs.Length < 2)
+                    {
+                        continue;
+                    }
+
+                    SetPropertyValue(model, strs[0], strs[1]);
+                }
+
+                return model;
+            }
+        }
+
+        public static void SetPropertyValue(Object obj, string propName, string propValue)
+        {
+            Type type = obj.GetType();
+            foreach (var prop in type.GetProperties())
+            {
+                if (prop.Name == propName)
+                {
+                    prop.SetValue(obj, Convert.ChangeType(propValue, prop.PropertyType));
+                }
             }
         }
     }
