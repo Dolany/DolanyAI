@@ -49,7 +49,6 @@ namespace Dolany.Ice.Ai.DolanyAI
             : base()
         {
             RuntimeLogger.Log("HourAlertAI started");
-            HourAlertFunc();
         }
 
         public override void Work()
@@ -72,11 +71,13 @@ namespace Dolany.Ice.Ai.DolanyAI
         private void TimeUp(object sender, System.Timers.ElapsedEventArgs e)
         {
             RuntimeLogger.Log("HourAlertAI TimeUp");
+
             timer.Stop();
             System.Threading.Thread.Sleep(3 * 1000);
             HourAlert(DateTime.Now.Hour);
             timer.Interval = GetNextHourSpan().TotalMilliseconds;
             timer.Start();
+
             RuntimeLogger.Log("HourAlertAI TimeUp Completed");
         }
 

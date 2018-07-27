@@ -42,5 +42,6 @@ namespace Dolany.Ice.Ai.DolanyAI.Db
         public virtual DbSet<RandomFortune> RandomFortune { get; set; }
         public virtual DbSet<RepeaterAvailable> RepeaterAvailable { get; set; }
         public virtual DbSet<SayingSeal> SayingSeal { get; set; }
+        public virtual DbSet<FortuneItem> FortuneItem { get; set; }
     }
 }

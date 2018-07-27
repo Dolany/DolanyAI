@@ -44,7 +44,11 @@ namespace CQPMonitor
         {
             foreach (var tool in Tools)
             {
-                LayoutTool(tool.Value);
+                try
+                {
+                    LayoutTool(tool.Value);
+                }
+                catch { }
             }
         }
 

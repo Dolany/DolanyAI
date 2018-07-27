@@ -180,6 +180,9 @@
     <Compile Include="DolanyAI\Db\FishItem.cs">
       <DependentUpon>AIDatabase.tt</DependentUpon>
     </Compile>
+    <Compile Include="DolanyAI\Db\FortuneItem.cs">
+      <DependentUpon>AIDatabase.tt</DependentUpon>
+    </Compile>
     <Compile Include="DolanyAI\Db\Hello.cs">
       <DependentUpon>AIDatabase.tt</DependentUpon>
     </Compile>

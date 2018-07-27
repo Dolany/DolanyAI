@@ -16,7 +16,7 @@ namespace CQPMonitor.Tools.CleanPicCache
         ToolName = "清理图片缓存",
         Decription = "清理图片缓存",
         ToolIcon = "cleancache.ico",
-        IsAutoStart = true,
+        IsAutoStart = false,
         Order = 2
         )]
     public partial class CleanPicCacheForm : ToolBaseForm
@@ -33,7 +33,7 @@ namespace CQPMonitor.Tools.CleanPicCache
         {
             InitializeComponent();
 
-            Init();
+            //Init();
         }
 
         public void Init()

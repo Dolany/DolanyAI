@@ -17,7 +17,7 @@ namespace CQPMonitor.Tools.AutoRestart
         ToolName = "自动重启",
         Decription = "自动重启CQP，检测历史重启情况",
         ToolIcon = "autorestart.ico",
-        IsAutoStart = true,
+        IsAutoStart = false,
         Order = 1
         )]
     public partial class AutoRestartForm : ToolBaseForm
@@ -40,8 +40,8 @@ namespace CQPMonitor.Tools.AutoRestart
         {
             InitializeComponent();
 
-            InitUI();
-            InitTimer();
+            //InitUI();
+            //InitTimer();
         }
 
         private void InitTimer()

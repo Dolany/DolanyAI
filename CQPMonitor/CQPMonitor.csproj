@@ -18,7 +18,7 @@
     <DebugSymbols>true</DebugSymbols>
     <DebugType>full</DebugType>
     <Optimize>false</Optimize>
-    <OutputPath>..\Dolany.QQAI.Plugins.CQP\Dolany.Ice.Ai\bin\Debug\</OutputPath>
+    <OutputPath>bin\Debug\</OutputPath>
     <DefineConstants>DEBUG;TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
@@ -101,6 +101,18 @@
     <Compile Include="Tools\FishingEditor\FishingEditorForm.Designer.cs">
       <DependentUpon>FishingEditorForm.cs</DependentUpon>
     </Compile>
+    <Compile Include="Tools\FortuneItem\FortuneItemEditForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Tools\FortuneItem\FortuneItemEditForm.Designer.cs">
+      <DependentUpon>FortuneItemEditForm.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Tools\FortuneItem\FortuneItemForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Tools\FortuneItem\FortuneItemForm.Designer.cs">
+      <DependentUpon>FortuneItemForm.cs</DependentUpon>
+    </Compile>
     <Compile Include="Tools\ToolAttribute.cs" />
     <Compile Include="Tools\ToolBaseForm.cs">
       <SubType>Form</SubType>
@@ -136,6 +148,12 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Tools\FishingEditor\FishingEditorForm.resx">
       <DependentUpon>FishingEditorForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Tools\FortuneItem\FortuneItemEditForm.resx">
+      <DependentUpon>FortuneItemEditForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Tools\FortuneItem\FortuneItemForm.resx">
+      <DependentUpon>FortuneItemForm.cs</DependentUpon>
     </EmbeddedResource>
     <None Include="packages.config" />
     <None Include="Properties\Settings.settings">

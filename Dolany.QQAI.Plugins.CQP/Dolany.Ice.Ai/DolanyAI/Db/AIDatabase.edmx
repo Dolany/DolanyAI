@@ -4,7 +4,7 @@
   <edmx:Runtime>
     <!-- SSDL content -->
     <edmx:StorageModels>
-      <Schema Namespace="Dolany.Ice.Ai.Dolany.Db.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+    <Schema Namespace="Dolany.Ice.Ai.Dolany.Db.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
         <EntityType Name="AISeal">
           <Key>
             <PropertyRef Name="Id" />
@@ -93,6 +93,16 @@
           <Property Name="RareRate" Type="int" Nullable="false" />
           <Property Name="Icon" Type="nvarchar" MaxLength="50" />
         </EntityType>
+        <EntityType Name="FortuneItem">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="nvarchar" MaxLength="50" Nullable="false" />
+          <Property Name="Name" Type="nvarchar" MaxLength="50" />
+          <Property Name="Description" Type="nvarchar" MaxLength="50" />
+          <Property Name="Value" Type="int" Nullable="false" />
+          <Property Name="Type" Type="int" Nullable="false" />
+        </EntityType>
         <EntityType Name="Hello">
           <Key>
             <PropertyRef Name="Id" />
@@ -180,6 +190,7 @@
           <EntitySet Name="DirtyWord" EntityType="Self.DirtyWord" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="FishingRecord" EntityType="Self.FishingRecord" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="FishItem" EntityType="Self.FishItem" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="FortuneItem" EntityType="Self.FortuneItem" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Hello" EntityType="Self.Hello" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="MemberRoleCache" EntityType="Self.MemberRoleCache" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="MsgRecievedCache" EntityType="Self.MsgRecievedCache" Schema="dbo" store:Type="Tables" />
@@ -189,8 +200,7 @@
           <EntitySet Name="RepeaterAvailable" EntityType="Self.RepeaterAvailable" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="SayingSeal" EntityType="Self.SayingSeal" Schema="dbo" store:Type="Tables" />
         </EntityContainer>
-      </Schema>
-    </edmx:StorageModels>
+      </Schema></edmx:StorageModels>
     <!-- CSDL content -->
     <edmx:ConceptualModels>
       <Schema Namespace="Dolany.Ice.Ai.Dolany.Db" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
@@ -377,7 +387,18 @@
           <EntitySet Name="RandomFortune" EntityType="Self.RandomFortune" />
           <EntitySet Name="RepeaterAvailable" EntityType="Self.RepeaterAvailable" />
           <EntitySet Name="SayingSeal" EntityType="Self.SayingSeal" />
+          <EntitySet Name="FortuneItem" EntityType="Dolany.Ice.Ai.Dolany.Db.FortuneItem" />
         </EntityContainer>
+        <EntityType Name="FortuneItem">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="Name" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="Description" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="Value" Type="Int32" Nullable="false" />
+          <Property Name="Type" Type="Int32" Nullable="false" />
+        </EntityType>
       </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
@@ -563,6 +584,17 @@
                 <ScalarProperty Name="SealMember" ColumnName="SealMember" />
                 <ScalarProperty Name="CreateTime" ColumnName="CreateTime" />
                 <ScalarProperty Name="Content" ColumnName="Content" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="FortuneItem">
+            <EntityTypeMapping TypeName="Dolany.Ice.Ai.Dolany.Db.FortuneItem">
+              <MappingFragment StoreEntitySet="FortuneItem">
+                <ScalarProperty Name="Type" ColumnName="Type" />
+                <ScalarProperty Name="Value" ColumnName="Value" />
+                <ScalarProperty Name="Description" ColumnName="Description" />
+                <ScalarProperty Name="Name" ColumnName="Name" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
