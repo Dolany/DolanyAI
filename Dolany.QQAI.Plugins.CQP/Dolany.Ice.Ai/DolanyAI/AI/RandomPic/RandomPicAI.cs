@@ -107,7 +107,7 @@ namespace Dolany.Ice.Ai.DolanyAI
 
             string RandPic = GetRandPic(key);
 
-            SendPic(key + "/" + RandPic, MsgDTO.FromGroup);
+            SendPic(PicPath + key + "/" + RandPic, MsgDTO.FromGroup);
             return true;
         }
 
@@ -142,6 +142,31 @@ namespace Dolany.Ice.Ai.DolanyAI
                 Msg = CodeApi.Code_Image(sendImgName)
             });
             RuntimeLogger.Log("RandomPicAI RecentPic completed");
+        }
+
+        [GroupEnterCommand(
+            Command = "随机闪照",
+            AuthorityLevel = AuthorityLevel.成员,
+            Description = "随机发送近期内所有群组内发过的图片（以闪照的形式）",
+            Syntax = "",
+            Tag = "图片功能",
+            SyntaxChecker = "Empty"
+            )]
+        public void RecentFlash(GroupMsgDTO MsgDTO, object[] param)
+        {
+            RuntimeLogger.Log("RandomPicAI Tryto RecentFlash.");
+            var imageList = GetRecentImageList();
+            int idx = (new Random()).Next(imageList.Count());
+            var ImageCache = Utility.ReadCacheInfo(imageList[idx]);
+            string sendImgName = $"{ImageCache.guid}.{ImageCache.type}";
+
+            MsgSender.Instance.PushMsg(new SendMsgDTO()
+            {
+                Aim = MsgDTO.FromGroup,
+                Type = MsgType.Group,
+                Msg = CodeApi.Code_Flash(sendImgName)
+            });
+            RuntimeLogger.Log("RandomPicAI RecentFlash completed");
         }
 
         private List<FileInfo> GetRecentImageList()

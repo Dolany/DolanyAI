@@ -43,6 +43,23 @@ namespace Dolany.Ice.Ai.MahuaApis
             return code;
         }
 
+        public static string Code_Flash(string fileName)
+        {
+            string code = string.Empty;
+            switch (MahuaGlobal.CurrentPlatform)
+            {
+                case MahuaPlatform.Cqp:
+                    //code = $"[QQ:flash,pic={fileName}]";
+                    break;
+
+                case MahuaPlatform.Amanda:
+                    code = $"[QQ:flash,pic={fileName}]";
+                    break;
+            }
+
+            return code;
+        }
+
         public static string ImagePath
         {
             get
