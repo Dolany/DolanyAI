@@ -111,11 +111,12 @@ namespace Dolany.Ice.Ai.DolanyAI
                 using (AIDatabase db = new AIDatabase())
                 {
                     var query = db.FortuneItem;
-                    var item = query.ElementAt(rand.Next(query.Count()));
-                    rf.FortuneValue += rf.FortuneValue * item.Value / 100;
+                    int idx = rand.Next(query.Count());
+                    var item = query.OrderBy(p => p.Id).Skip(idx).First();
+                    rf.FortuneValue += item.Value;
                     rf.FortuneValue %= 100;
                     msg += $"恭喜你收到了 {item.Name} 的祝福\r";
-                    msg += $"你今天的运势是：{rf.FortuneValue}%({item.Value}%↑)\r";
+                    msg += $"你今天的运势是：{rf.FortuneValue}%({item.Value}↑)\r";
                 }
             }
             else
