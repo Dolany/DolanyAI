@@ -73,7 +73,7 @@ namespace Dolany.Ice.Ai.DolanyAI
             RuntimeLogger.Log("HourAlertAI TimeUp");
 
             timer.Stop();
-            System.Threading.Thread.Sleep(3 * 1000);
+            //System.Threading.Thread.Sleep(3 * 1000);
             HourAlert(DateTime.Now.Hour);
             timer.Interval = GetNextHourSpan().TotalMilliseconds;
             timer.Start();
@@ -83,7 +83,7 @@ namespace Dolany.Ice.Ai.DolanyAI
 
         private TimeSpan GetNextHourSpan()
         {
-            DateTime nextHour = DateTime.Parse(DateTime.Now.ToString("yyyy-MM-dd HH:00:00")).AddHours(1);
+            DateTime nextHour = DateTime.Parse(DateTime.Now.ToString("yyyy-MM-dd HH:00:00")).AddHours(1).AddSeconds(3);
             return nextHour - DateTime.Now;
         }
 

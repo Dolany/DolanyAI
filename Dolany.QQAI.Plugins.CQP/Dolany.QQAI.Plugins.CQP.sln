@@ -9,6 +9,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CQPMonitor", "..\CQPMonitor
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DolanyToolControl", "..\DolanyToolControl\DolanyToolControl.csproj", "{20EA6E46-2134-4CA3-AC6F-63865762E1E7}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "KanColeVoiceClimber", "KanColeVoiceClimber\KanColeVoiceClimber.csproj", "{8BE62FE4-7CCE-471A-868A-244667A04D73}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -27,6 +29,10 @@ Global
 		{20EA6E46-2134-4CA3-AC6F-63865762E1E7}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{20EA6E46-2134-4CA3-AC6F-63865762E1E7}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{20EA6E46-2134-4CA3-AC6F-63865762E1E7}.Release|Any CPU.Build.0 = Release|Any CPU
+		{8BE62FE4-7CCE-471A-868A-244667A04D73}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{8BE62FE4-7CCE-471A-868A-244667A04D73}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{8BE62FE4-7CCE-471A-868A-244667A04D73}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{8BE62FE4-7CCE-471A-868A-244667A04D73}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
