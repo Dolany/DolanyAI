@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using Dolany.Ice.Ai.DolanyAI.Db;
+using Dolany.Ice.Ai.MahuaApis;
 
 namespace Dolany.Ice.Ai.DolanyAI
 {
@@ -105,41 +106,47 @@ namespace Dolany.Ice.Ai.DolanyAI
 
             foreach (var groupNum in availableList)
             {
-                string RanContent = GetRanAlertContent(groupNum, curHour);
+                var randGirl = GetRanAlertContent(groupNum, curHour);
                 MsgSender.Instance.PushMsg(new SendMsgDTO()
                 {
                     Aim = groupNum,
                     Type = MsgType.Group,
-                    Msg = $@"到{curHour}点啦！ {RanContent}"
+                    Msg = CodeApi.Code_Voice(randGirl.VoiceUrl)
+                });
+                MsgSender.Instance.PushMsg(new SendMsgDTO()
+                {
+                    Aim = groupNum,
+                    Type = MsgType.Group,
+                    Msg = randGirl.Content
                 });
             }
             RuntimeLogger.Log("HourAlertAI HourAlert Completed");
         }
 
-        [GroupEnterCommand(
-            Command = "报时",
-            AuthorityLevel = AuthorityLevel.成员,
-            Description = "设定指定小时的报时内容",
-            Syntax = " [目标小时] [报时内容]",
-            Tag = "闹钟与报时功能",
-            SyntaxChecker = "HourAlert"
-            )]
-        public void AlertSet(GroupMsgDTO MsgDTO, object[] param)
-        {
-            AlertContent info = param[0] as AlertContent;
+        //[GroupEnterCommand(
+        //    Command = "报时",
+        //    AuthorityLevel = AuthorityLevel.成员,
+        //    Description = "设定指定小时的报时内容",
+        //    Syntax = " [目标小时] [报时内容]",
+        //    Tag = "闹钟与报时功能",
+        //    SyntaxChecker = "HourAlert"
+        //    )]
+        //public void AlertSet(GroupMsgDTO MsgDTO, object[] param)
+        //{
+        //    AlertContent info = param[0] as AlertContent;
 
-            info.CreateTime = DateTime.Now;
-            info.Creator = MsgDTO.FromQQ;
-            info.FromGroup = MsgDTO.FromGroup;
+        //    info.CreateTime = DateTime.Now;
+        //    info.Creator = MsgDTO.FromQQ;
+        //    info.FromGroup = MsgDTO.FromGroup;
 
-            string Msg = SaveAlertContent(info) ? "报时内容保存成功！" : "报时内容保存失败！";
-            MsgSender.Instance.PushMsg(new SendMsgDTO()
-            {
-                Aim = MsgDTO.FromGroup,
-                Type = MsgType.Group,
-                Msg = Msg
-            });
-        }
+        //    string Msg = SaveAlertContent(info) ? "报时内容保存成功！" : "报时内容保存失败！";
+        //    MsgSender.Instance.PushMsg(new SendMsgDTO()
+        //    {
+        //        Aim = MsgDTO.FromGroup,
+        //        Type = MsgType.Group,
+        //        Msg = Msg
+        //    });
+        //}
 
         [GroupEnterCommand(
             Command = "报时开启",
@@ -226,39 +233,47 @@ namespace Dolany.Ice.Ai.DolanyAI
             }
         }
 
-        private string GetRanAlertContent(long fromGroup, int aimHour)
+        private KanColeGirlVoice GetRanAlertContent(long fromGroup, int aimHour)
         {
             using (AIDatabase db = new AIDatabase())
             {
-                var query = db.AlertContent.Where(a => a.FromGroup == fromGroup && a.AimHour == aimHour);
-                if (query.IsNullOrEmpty())
-                {
-                    return string.Empty;
-                }
-                var list = query.ToList();
+                string tag = HourToTag(aimHour);
+                var query = db.KanColeGirlVoice.Where(a => a.Tag == tag).OrderBy(a => a.Id);
 
                 Random random = new Random();
-                int randIdx = random.Next(list.Count);
+                int randIdx = random.Next(query.Count());
 
-                return list[randIdx].Content;
+                return query.Skip(randIdx).First().Clone();
             }
         }
 
-        [PrivateEnterCommand(
-            Command = "报时",
-            Description = "获取指定群组和目标小时的随机报时内容",
-            Syntax = " [目标群组] [目标小时]",
-            Tag = "闹钟与报时功能",
-            SyntaxChecker = "AlertPrivate"
-            )]
-        public void AlertPrivate(PrivateMsgDTO MsgDTO, object[] param)
+        private string HourToTag(int aimHour)
         {
-            long aimGroup = (long)param[0];
-            int aimHour = (int)param[1];
+            string tag = aimHour.ToString();
+            if (aimHour < 10)
+            {
+                tag = "0" + tag;
+            }
 
-            string RanContent = GetRanAlertContent(aimGroup, aimHour);
-            Utility.SendMsgToDeveloper($@"到{aimHour}点啦！ {RanContent}");
+            tag += "00";
+            return tag;
         }
+
+        //[PrivateEnterCommand(
+        //    Command = "报时",
+        //    Description = "获取指定群组和目标小时的随机报时内容",
+        //    Syntax = " [目标群组] [目标小时]",
+        //    Tag = "闹钟与报时功能",
+        //    SyntaxChecker = "AlertPrivate"
+        //    )]
+        //public void AlertPrivate(PrivateMsgDTO MsgDTO, object[] param)
+        //{
+        //    long aimGroup = (long)param[0];
+        //    int aimHour = (int)param[1];
+
+        //    string RanContent = GetRanAlertContent(aimGroup, aimHour);
+        //    Utility.SendMsgToDeveloper($@"到{aimHour}点啦！ {RanContent}");
+        //}
 
         [PrivateEnterCommand(
             Command = "所有报时开启群组",
@@ -279,41 +294,41 @@ namespace Dolany.Ice.Ai.DolanyAI
             Utility.SendMsgToDeveloper(msg);
         }
 
-        [GroupEnterCommand(
-            Command = "清空报时",
-            AuthorityLevel = AuthorityLevel.群主,
-            Description = "清空指定小时的所有报时内容",
-            Syntax = "[目标小时]",
-            Tag = "闹钟与报时功能",
-            SyntaxChecker = "Long"
-            )]
-        public void ClearAlert(GroupMsgDTO MsgDTO, object[] param)
-        {
-            long num = (long)param[0];
+        //[GroupEnterCommand(
+        //    Command = "清空报时",
+        //    AuthorityLevel = AuthorityLevel.群主,
+        //    Description = "清空指定小时的所有报时内容",
+        //    Syntax = "[目标小时]",
+        //    Tag = "闹钟与报时功能",
+        //    SyntaxChecker = "Long"
+        //    )]
+        //public void ClearAlert(GroupMsgDTO MsgDTO, object[] param)
+        //{
+        //    long num = (long)param[0];
 
-            using (AIDatabase db = new AIDatabase())
-            {
-                if (num <= 24)
-                {
-                    var query = db.AlertContent.Where(a => a.AimHour == (int)num);
-                    db.AlertContent.RemoveRange(query);
-                }
-                else
-                {
-                    var query = db.AlertContent.Where(a => a.Creator == num);
-                    db.AlertContent.RemoveRange(query);
-                }
+        //    using (AIDatabase db = new AIDatabase())
+        //    {
+        //        if (num <= 24)
+        //        {
+        //            var query = db.AlertContent.Where(a => a.AimHour == (int)num);
+        //            db.AlertContent.RemoveRange(query);
+        //        }
+        //        else
+        //        {
+        //            var query = db.AlertContent.Where(a => a.Creator == num);
+        //            db.AlertContent.RemoveRange(query);
+        //        }
 
-                db.SaveChanges();
-            }
+        //        db.SaveChanges();
+        //    }
 
-            MsgSender.Instance.PushMsg(new SendMsgDTO()
-            {
-                Aim = MsgDTO.FromGroup,
-                Type = MsgType.Group,
-                Msg = "删除成功！"
-            });
-        }
+        //    MsgSender.Instance.PushMsg(new SendMsgDTO()
+        //    {
+        //        Aim = MsgDTO.FromGroup,
+        //        Type = MsgType.Group,
+        //        Msg = "删除成功！"
+        //    });
+        //}
 
         [PrivateEnterCommand(
             Command = "所有报时数目",

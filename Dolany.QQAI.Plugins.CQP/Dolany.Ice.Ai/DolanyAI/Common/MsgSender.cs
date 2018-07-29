@@ -47,6 +47,11 @@ namespace Dolany.Ice.Ai.DolanyAI
 
         public void PushMsg(SendMsgDTO msg)
         {
+            if (string.IsNullOrEmpty(msg.Msg))
+            {
+                return;
+            }
+
             if (msg.Msg.Length > 200)
             {
                 PushMsg(new SendMsgDTO
