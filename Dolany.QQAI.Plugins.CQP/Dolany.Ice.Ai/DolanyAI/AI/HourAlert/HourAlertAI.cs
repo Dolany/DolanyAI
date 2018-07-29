@@ -35,12 +35,19 @@ namespace Dolany.Ice.Ai.DolanyAI
             {
                 using (AIDatabase db = new AIDatabase())
                 {
-                    var query = db.AlertRegistedGroup.Where(a => bool.Parse(a.Available));
-                    if (query.IsNullOrEmpty())
+                    try
+                    {
+                        var query = db.AlertRegistedGroup.Where(a => a.Available.ToLower() == "true");
+                        if (query.IsNullOrEmpty())
+                        {
+                            return null;
+                        }
+                        return query.Select(q => q.GroupNum).ToList();
+                    }
+                    catch (Exception ex)
                     {
                         return null;
                     }
-                    return query.Select(q => q.GroupNum).ToList();
                 }
             }
         }
