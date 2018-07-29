@@ -76,12 +76,12 @@ namespace Dolany.Ice.Ai.DolanyAI
             )]
         public void StarFortune(GroupMsgDTO MsgDTO, object[] param)
         {
-            MsgSender.Instance.PushMsg(new SendMsgDTO()
-            {
-                Aim = MsgDTO.FromGroup,
-                Type = MsgType.Group,
-                Msg = "查询中，请稍候"
-            });
+            //MsgSender.Instance.PushMsg(new SendMsgDTO()
+            //{
+            //    Aim = MsgDTO.FromGroup,
+            //    Type = MsgType.Group,
+            //    Msg = "查询中，请稍候"
+            //});
             FortuneRequestor jr = new FortuneRequestor(MsgDTO, ReportCallBack);
             Task.Run(() => jr.Work());
         }
@@ -114,7 +114,7 @@ namespace Dolany.Ice.Ai.DolanyAI
                     int idx = rand.Next(query.Count());
                     var item = query.OrderBy(p => p.Id).Skip(idx).First();
                     rf.FortuneValue += item.Value;
-                    rf.FortuneValue %= 100;
+                    rf.FortuneValue = rf.FortuneValue > 100 ? 100 : rf.FortuneValue;
                     msg += $"恭喜你收到了 {item.Name} 的祝福\r";
                     msg += $"你今天的运势是：{rf.FortuneValue}%({item.Value}↑)\r";
                 }

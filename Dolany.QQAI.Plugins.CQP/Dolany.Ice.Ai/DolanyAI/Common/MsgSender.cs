@@ -47,6 +47,23 @@ namespace Dolany.Ice.Ai.DolanyAI
 
         public void PushMsg(SendMsgDTO msg)
         {
+            if (msg.Msg.Length > 200)
+            {
+                PushMsg(new SendMsgDTO
+                {
+                    Aim = msg.Aim,
+                    Type = msg.Type,
+                    Msg = msg.Msg.Substring(0, 200)
+                });
+
+                PushMsg(new SendMsgDTO
+                {
+                    Aim = msg.Aim,
+                    Type = msg.Type,
+                    Msg = msg.Msg.Substring(200, msg.Msg.Length - 200)
+                });
+            }
+
             using (AIDatabase db = new AIDatabase())
             {
                 db.MsgSendCache.Add(new MsgSendCache
