@@ -16,7 +16,7 @@ namespace Dolany.Ice.Ai.DolanyAI
             this.MsgDTO = MsgDTO;
             this.ReportCallBack = ReportCallBack;
 
-            this.MsgDTO.Msg = NameConvert(this.MsgDTO.Msg);
+            this.MsgDTO.Msg = Utility.UrlCharConvert(this.MsgDTO.Msg);
         }
 
         public void Work()
@@ -83,28 +83,6 @@ namespace Dolany.Ice.Ai.DolanyAI
             } while (true);
 
             return list;
-        }
-
-        private string NameConvert(string name)
-        {
-            string result = string.Empty;
-            foreach (var c in name)
-            {
-                if (IsAsciiChar(c))
-                {
-                    result += c;
-                    continue;
-                }
-
-                result += "%" + BitConverter.ToString(Encoding.UTF8.GetBytes(new char[] { c })).Replace("-", "%");
-            }
-
-            return result;
-        }
-
-        private bool IsAsciiChar(char c)
-        {
-            return c >= 0x20 && c <= 0x7e;
         }
     }
 }

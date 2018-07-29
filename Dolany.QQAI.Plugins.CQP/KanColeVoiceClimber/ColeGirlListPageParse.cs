@@ -8,7 +8,7 @@ using HtmlAgilityPack;
 
 namespace KanColeVoiceClimber
 {
-    public class ColeGirlPageParse : HtmlParser
+    public class ColeGirlListPageParse : HtmlParser
     {
         public List<string> GirlList = new List<string>();
 

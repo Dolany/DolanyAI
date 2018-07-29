@@ -188,5 +188,27 @@ namespace Dolany.Ice.Ai.DolanyAI
                 }
             }
         }
+
+        public static string UrlCharConvert(string name)
+        {
+            string result = string.Empty;
+            foreach (var c in name)
+            {
+                if (IsAsciiChar(c))
+                {
+                    result += c;
+                    continue;
+                }
+
+                result += "%" + BitConverter.ToString(Encoding.UTF8.GetBytes(new char[] { c })).Replace("-", "%");
+            }
+
+            return result;
+        }
+
+        public static bool IsAsciiChar(char c)
+        {
+            return c >= 0x20 && c <= 0x7e;
+        }
     }
 }

@@ -27,13 +27,33 @@ namespace KanColeVoiceClimber
         {
             HttpRequester requester = new HttpRequester();
 
+            AppendTxt("请求列表页面中...");
             string aimStr = $"https://zh.moegirl.org/%E8%88%B0%E9%98%9FCollection/%E5%9B%BE%E9%89%B4/%E8%88%B0%E5%A8%98";
             string HtmlStr = requester.Request(aimStr);
 
-            ColeGirlPageParse parser = new ColeGirlPageParse();
+            AppendTxt("解析列表页面中...");
+            ColeGirlListPageParse parser = new ColeGirlListPageParse();
             parser.Load(HtmlStr);
 
             var list = parser.GirlList;
+            AppendTxt($"共找到{list.Count}个舰娘");
+            foreach (var name in list)
+            {
+                ParseAGirl(name);
+            }
+        }
+
+        private void AppendTxt(string text)
+        {
+            this.Invoke(new Action(() =>
+            {
+                ShowTxt.AppendText(text + '\r');
+            }));
+        }
+
+        private void ParseAGirl(string name)
+        {
+            AppendTxt($"正在解析{name}...");
         }
     }
 }
