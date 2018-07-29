@@ -23,6 +23,7 @@
         <EntityTypeShape EntityType="Dolany.Ice.Ai.Dolany.Db.RepeaterAvailable" Width="1.5" PointX="10.75" PointY="0.75" IsExpanded="true" />
         <EntityTypeShape EntityType="Dolany.Ice.Ai.Dolany.Db.SayingSeal" Width="1.5" PointX="0.75" PointY="10.75" IsExpanded="true" />
         <EntityTypeShape EntityType="Dolany.Ice.Ai.Dolany.Db.FortuneItem" Width="1.5" PointX="7.375" PointY="10.75" />
+        <EntityTypeShape EntityType="Dolany.Ice.Ai.Dolany.Db.KanColeGirlVoice" Width="1.5" PointX="9.375" PointY="10.75" />
       </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>

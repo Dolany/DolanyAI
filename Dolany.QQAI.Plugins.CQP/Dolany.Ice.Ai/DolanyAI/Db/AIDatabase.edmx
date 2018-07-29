@@ -113,6 +113,16 @@
           <Property Name="LastHelloDate" Type="datetime" Nullable="false" />
           <Property Name="Content" Type="nvarchar" MaxLength="200" />
         </EntityType>
+        <EntityType Name="KanColeGirlVoice">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="nvarchar" MaxLength="50" Nullable="false" />
+          <Property Name="Name" Type="nvarchar" MaxLength="50" />
+          <Property Name="VoiceUrl" Type="nvarchar" MaxLength="200" />
+          <Property Name="Content" Type="nvarchar" MaxLength="400" />
+          <Property Name="Tag" Type="nvarchar" MaxLength="50" />
+        </EntityType>
         <EntityType Name="MemberRoleCache">
           <Key>
             <PropertyRef Name="Id" />
@@ -192,6 +202,7 @@
           <EntitySet Name="FishItem" EntityType="Self.FishItem" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="FortuneItem" EntityType="Self.FortuneItem" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Hello" EntityType="Self.Hello" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="KanColeGirlVoice" EntityType="Self.KanColeGirlVoice" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="MemberRoleCache" EntityType="Self.MemberRoleCache" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="MsgRecievedCache" EntityType="Self.MsgRecievedCache" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="MsgSendCache" EntityType="Self.MsgSendCache" Schema="dbo" store:Type="Tables" />
@@ -388,6 +399,7 @@
           <EntitySet Name="RepeaterAvailable" EntityType="Self.RepeaterAvailable" />
           <EntitySet Name="SayingSeal" EntityType="Self.SayingSeal" />
           <EntitySet Name="FortuneItem" EntityType="Dolany.Ice.Ai.Dolany.Db.FortuneItem" />
+          <EntitySet Name="KanColeGirlVoice" EntityType="Dolany.Ice.Ai.Dolany.Db.KanColeGirlVoice" />
         </EntityContainer>
         <EntityType Name="FortuneItem">
           <Key>
@@ -398,6 +410,16 @@
           <Property Name="Description" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
           <Property Name="Value" Type="Int32" Nullable="false" />
           <Property Name="Type" Type="Int32" Nullable="false" />
+        </EntityType>
+        <EntityType Name="KanColeGirlVoice">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="Name" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="VoiceUrl" Type="String" MaxLength="200" FixedLength="false" Unicode="true" />
+          <Property Name="Content" Type="String" MaxLength="400" FixedLength="false" Unicode="true" />
+          <Property Name="Tag" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
         </EntityType>
       </Schema>
     </edmx:ConceptualModels>
@@ -593,6 +615,17 @@
                 <ScalarProperty Name="Type" ColumnName="Type" />
                 <ScalarProperty Name="Value" ColumnName="Value" />
                 <ScalarProperty Name="Description" ColumnName="Description" />
+                <ScalarProperty Name="Name" ColumnName="Name" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="KanColeGirlVoice">
+            <EntityTypeMapping TypeName="Dolany.Ice.Ai.Dolany.Db.KanColeGirlVoice">
+              <MappingFragment StoreEntitySet="KanColeGirlVoice">
+                <ScalarProperty Name="Tag" ColumnName="Tag" />
+                <ScalarProperty Name="Content" ColumnName="Content" />
+                <ScalarProperty Name="VoiceUrl" ColumnName="VoiceUrl" />
                 <ScalarProperty Name="Name" ColumnName="Name" />
                 <ScalarProperty Name="Id" ColumnName="Id" />
               </MappingFragment>

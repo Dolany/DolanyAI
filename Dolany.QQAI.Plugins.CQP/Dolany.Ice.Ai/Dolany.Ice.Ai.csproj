@@ -186,6 +186,9 @@
     <Compile Include="DolanyAI\Db\Hello.cs">
       <DependentUpon>AIDatabase.tt</DependentUpon>
     </Compile>
+    <Compile Include="DolanyAI\Db\KanColeGirlVoice.cs">
+      <DependentUpon>AIDatabase.tt</DependentUpon>
+    </Compile>
     <Compile Include="DolanyAI\Db\MemberRoleCache.cs">
       <DependentUpon>AIDatabase.tt</DependentUpon>
     </Compile>
