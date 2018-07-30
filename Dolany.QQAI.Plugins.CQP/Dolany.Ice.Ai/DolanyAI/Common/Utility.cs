@@ -23,14 +23,12 @@ namespace Dolany.Ice.Ai.DolanyAI
 
         public static void SendMsgToDeveloper(string msg)
         {
-            Task.Run(new Action(() =>
+            MsgSender.Instance.PushMsg(new SendMsgDTO
             {
-                using (var robotSession = MahuaRobotManager.Instance.CreateSession())
-                {
-                    var api = robotSession.MahuaApi;
-                    api.SendPrivateMessage(DeveloperNumber.ToString(), msg);
-                }
-            }));
+                Aim = DeveloperNumber,
+                Type = MsgType.Private,
+                Msg = msg
+            });
         }
 
         public static void SendMsgToDeveloper(Exception ex)

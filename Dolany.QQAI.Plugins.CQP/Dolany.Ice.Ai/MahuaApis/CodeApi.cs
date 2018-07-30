@@ -9,6 +9,8 @@ namespace Dolany.Ice.Ai.MahuaApis
 {
     public class CodeApi
     {
+        public static long SelfQQNum = 2105668527;
+
         public static string Code_At(long qqNumber)
         {
             string code = string.Empty;
@@ -24,6 +26,11 @@ namespace Dolany.Ice.Ai.MahuaApis
             }
 
             return code;
+        }
+
+        public static string Code_SelfAt()
+        {
+            return Code_At(SelfQQNum);
         }
 
         public static string Code_Image(string fileName)
