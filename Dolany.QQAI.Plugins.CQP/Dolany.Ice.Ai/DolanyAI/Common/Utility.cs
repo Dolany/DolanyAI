@@ -6,12 +6,14 @@ using System.Threading.Tasks;
 using Newbe.Mahua;
 using Dolany.Ice.Ai.DolanyAI.Db;
 using System.IO;
+using Dolany.Ice.Ai.MahuaApis;
 
 namespace Dolany.Ice.Ai.DolanyAI
 {
     public static class Utility
     {
         private static Dictionary<Type, Object> SinglonMap;
+        private static string AuthCode;
 
         public static long DeveloperNumber
         {
@@ -145,15 +147,20 @@ namespace Dolany.Ice.Ai.DolanyAI
 
         public static string GetAuthCode()
         {
-            using (AmandaLogDatabase db = new AmandaLogDatabase())
+            if (string.IsNullOrEmpty(AuthCode))
             {
-                var log = db.日志.Where(p => p.内容.Contains("Dolany AI(Dolany.Ice.Ai)")).OrderByDescending(p => p.时间).First();
-                var strs = log.内容.Split(new string[] { "调用内存：" }, StringSplitOptions.RemoveEmptyEntries);
-                return strs[1];
+                using (AmandaLogDatabase db = new AmandaLogDatabase())
+                {
+                    var log = db.日志.Where(p => p.内容.Contains("Dolany AI(Dolany.Ice.Ai)")).OrderByDescending(p => p.时间).First();
+                    var strs = log.内容.Split(new string[] { "调用内存：" }, StringSplitOptions.RemoveEmptyEntries);
+                    AuthCode = strs[1];
+                }
             }
+
+            return AuthCode;
         }
 
-        public static ImageCacheModel ReadCacheInfo(FileInfo file)
+        public static ImageCacheModel ReadImageCacheInfo(FileInfo file)
         {
             using (StreamReader reader = new StreamReader(file.FullName))
             {
@@ -173,6 +180,12 @@ namespace Dolany.Ice.Ai.DolanyAI
 
                 return model;
             }
+        }
+
+        public static ImageCacheModel ReadImageCacheInfo(string guid)
+        {
+            FileInfo file = new FileInfo(CodeApi.ImagePath + guid + CodeApi.ImageExtension);
+            return ReadImageCacheInfo(file);
         }
 
         public static void SetPropertyValue(Object obj, string propName, string propValue)

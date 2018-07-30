@@ -163,6 +163,14 @@
           <Property Name="GroupNumber" Type="bigint" Nullable="false" />
           <Property Name="Available" Type="bit" Nullable="false" />
         </EntityType>
+        <EntityType Name="PraiseRec">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="nvarchar" MaxLength="50" Nullable="false" />
+          <Property Name="QQNum" Type="bigint" Nullable="false" />
+          <Property Name="LastDate" Type="datetime" Nullable="false" />
+        </EntityType>
         <EntityType Name="RandomFortune">
           <Key>
             <PropertyRef Name="Id" />
@@ -207,6 +215,7 @@
           <EntitySet Name="MsgRecievedCache" EntityType="Self.MsgRecievedCache" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="MsgSendCache" EntityType="Self.MsgSendCache" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="PlusOneAvailable" EntityType="Self.PlusOneAvailable" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="PraiseRec" EntityType="Self.PraiseRec" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="RandomFortune" EntityType="Self.RandomFortune" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="RepeaterAvailable" EntityType="Self.RepeaterAvailable" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="SayingSeal" EntityType="Self.SayingSeal" Schema="dbo" store:Type="Tables" />
@@ -400,6 +409,7 @@
           <EntitySet Name="SayingSeal" EntityType="Self.SayingSeal" />
           <EntitySet Name="FortuneItem" EntityType="Dolany.Ice.Ai.Dolany.Db.FortuneItem" />
           <EntitySet Name="KanColeGirlVoice" EntityType="Dolany.Ice.Ai.Dolany.Db.KanColeGirlVoice" />
+          <EntitySet Name="PraiseRec" EntityType="Dolany.Ice.Ai.Dolany.Db.PraiseRec" />
         </EntityContainer>
         <EntityType Name="FortuneItem">
           <Key>
@@ -420,6 +430,14 @@
           <Property Name="VoiceUrl" Type="String" MaxLength="200" FixedLength="false" Unicode="true" />
           <Property Name="Content" Type="String" MaxLength="400" FixedLength="false" Unicode="true" />
           <Property Name="Tag" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+        </EntityType>
+        <EntityType Name="PraiseRec">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="QQNum" Type="Int64" Nullable="false" />
+          <Property Name="LastDate" Type="DateTime" Nullable="false" Precision="3" />
         </EntityType>
       </Schema>
     </edmx:ConceptualModels>
@@ -627,6 +645,15 @@
                 <ScalarProperty Name="Content" ColumnName="Content" />
                 <ScalarProperty Name="VoiceUrl" ColumnName="VoiceUrl" />
                 <ScalarProperty Name="Name" ColumnName="Name" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="PraiseRec">
+            <EntityTypeMapping TypeName="Dolany.Ice.Ai.Dolany.Db.PraiseRec">
+              <MappingFragment StoreEntitySet="PraiseRec">
+                <ScalarProperty Name="LastDate" ColumnName="LastDate" />
+                <ScalarProperty Name="QQNum" ColumnName="QQNum" />
                 <ScalarProperty Name="Id" ColumnName="Id" />
               </MappingFragment>
             </EntityTypeMapping>

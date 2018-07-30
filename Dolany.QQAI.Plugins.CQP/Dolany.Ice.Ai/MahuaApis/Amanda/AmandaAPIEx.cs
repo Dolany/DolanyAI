@@ -15,6 +15,9 @@ namespace Dolany.Ice.Ai.MahuaApis
         [DllImport("bin\\message.dll")]
         private static extern string Api_GetGroupMemberList(string 群号, string AuthCode);
 
+        [DllImport("bin\\message.dll")]
+        private static extern int Api_SendPraise(string QQ号, string AuthCode);
+
         private static string GetGroupMemberList(string 群号)
         {
             string AuthCode = Utility.GetAuthCode();
@@ -24,6 +27,12 @@ namespace Dolany.Ice.Ai.MahuaApis
         public static GroupMemberListViewModel GetMemberInfos(long GroupNum)
         {
             return JsonHelper.DeserializeJsonToObject<GroupMemberListViewModel>(GetGroupMemberList(GroupNum.ToString()));
+        }
+
+        public static int SendPraise(string QQ号)
+        {
+            string AuthCode = Utility.GetAuthCode();
+            return Api_SendPraise(QQ号, AuthCode);
         }
     }
 }

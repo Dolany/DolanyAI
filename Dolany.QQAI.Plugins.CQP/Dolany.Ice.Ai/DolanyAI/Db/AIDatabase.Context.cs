@@ -44,5 +44,6 @@ namespace Dolany.Ice.Ai.DolanyAI.Db
         public virtual DbSet<SayingSeal> SayingSeal { get; set; }
         public virtual DbSet<FortuneItem> FortuneItem { get; set; }
         public virtual DbSet<KanColeGirlVoice> KanColeGirlVoice { get; set; }
+        public virtual DbSet<PraiseRec> PraiseRec { get; set; }
     }
 }

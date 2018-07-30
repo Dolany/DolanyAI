@@ -132,7 +132,7 @@ namespace Dolany.Ice.Ai.DolanyAI
             RuntimeLogger.Log("RandomPicAI Tryto RecentPic.");
             var imageList = GetRecentImageList();
             int idx = (new Random()).Next(imageList.Count());
-            var ImageCache = Utility.ReadCacheInfo(imageList[idx]);
+            var ImageCache = Utility.ReadImageCacheInfo(imageList[idx]);
             string sendImgName = $"{ImageCache.guid}.{ImageCache.type}";
 
             MsgSender.Instance.PushMsg(new SendMsgDTO()
@@ -157,7 +157,7 @@ namespace Dolany.Ice.Ai.DolanyAI
             RuntimeLogger.Log("RandomPicAI Tryto RecentFlash.");
             var imageList = GetRecentImageList();
             int idx = (new Random()).Next(imageList.Count());
-            var ImageCache = Utility.ReadCacheInfo(imageList[idx]);
+            var ImageCache = Utility.ReadImageCacheInfo(imageList[idx]);
             string sendImgName = $"{ImageCache.guid}.{ImageCache.type}";
 
             MsgSender.Instance.PushMsg(new SendMsgDTO()

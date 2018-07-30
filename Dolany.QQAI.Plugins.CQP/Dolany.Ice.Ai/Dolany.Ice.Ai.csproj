@@ -115,6 +115,7 @@
     <Compile Include="DolanyAI\AI\Jump300Report\Model\PlayerInfoInMatch.cs" />
     <Compile Include="DolanyAI\AI\Jump300Report\Parser\JumpDetailHtmlParser.cs" />
     <Compile Include="DolanyAI\AI\Jump300Report\Parser\JumpListHtmlParser.cs" />
+    <Compile Include="DolanyAI\AI\PraiseMe\PraiseMeAI.cs" />
     <Compile Include="DolanyAI\AI\RandomPic\RandomPicAI.cs" />
     <Compile Include="DolanyAI\AI\Repeater\PlusOneAI.cs" />
     <Compile Include="DolanyAI\AI\Repeater\PlusOneCache.cs" />
@@ -201,6 +202,9 @@
       <DependentUpon>AIDatabase.tt</DependentUpon>
     </Compile>
     <Compile Include="DolanyAI\Db\PlusOneAvailable.cs">
+      <DependentUpon>AIDatabase.tt</DependentUpon>
+    </Compile>
+    <Compile Include="DolanyAI\Db\PraiseRec.cs">
       <DependentUpon>AIDatabase.tt</DependentUpon>
     </Compile>
     <Compile Include="DolanyAI\Db\RandomFortune.cs">
