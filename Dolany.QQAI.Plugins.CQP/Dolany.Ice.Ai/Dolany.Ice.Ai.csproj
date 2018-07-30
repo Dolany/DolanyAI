@@ -122,7 +122,8 @@
     <Compile Include="DolanyAI\Base\AIAttribute.cs" />
     <Compile Include="DolanyAI\Base\AIBase.cs" />
     <Compile Include="DolanyAI\Base\GroupEnterCommandAttribute.cs" />
-    <Compile Include="DolanyAI\Common\MsgReceiveCache.cs" />
+    <Compile Include="DolanyAI\Cache\MsgReceiveCache.cs" />
+    <Compile Include="DolanyAI\Common\RequestHelper.cs" />
     <Compile Include="DolanyAI\Db\AIDatabase.Context.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
@@ -217,8 +218,8 @@
     <Compile Include="DolanyAI\DTO\PrivateMsgDTO.cs" />
     <Compile Include="DolanyAI\Common\DbMgr.cs" />
     <Compile Include="DolanyAI\Common\DirtyFilter.cs" />
-    <Compile Include="DolanyAI\Common\GroupMemberInfoCacher.cs" />
-    <Compile Include="DolanyAI\Common\MsgSender.cs" />
+    <Compile Include="DolanyAI\Cache\GroupMemberInfoCacher.cs" />
+    <Compile Include="DolanyAI\Cache\MsgSender.cs" />
     <Compile Include="DolanyAI\Common\RuntimeLogger.cs" />
     <Compile Include="DolanyAI\DTO\SendMsgDTO.cs" />
     <Compile Include="DolanyAI\Common\Utility.cs" />
@@ -230,6 +231,8 @@
     <Compile Include="DolanyAI\HTML\HtmlParser.cs" />
     <Compile Include="DolanyAI\HTML\HttpRequester.cs" />
     <Compile Include="DolanyAI\Model\ImageCacheModel.cs" />
+    <Compile Include="DolanyAI\Model\RequestDataModel.cs" />
+    <Compile Include="DolanyAI\Model\TulingResponseData.cs" />
     <Compile Include="DolanyAI\SyntaxChecker\AlermClock\DeleteClockChecker.cs" />
     <Compile Include="DolanyAI\SyntaxChecker\AlermClock\SetClockChecker.cs" />
     <Compile Include="DolanyAI\SyntaxChecker\CartoonSayings\ProcceedMsgChecker.cs" />
