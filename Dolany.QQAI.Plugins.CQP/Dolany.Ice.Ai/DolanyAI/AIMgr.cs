@@ -117,8 +117,8 @@ namespace Dolany.Ice.Ai.DolanyAI
             MsgDTO.Command = GenCommand(ref msg);
             MsgDTO.Msg = msg;
 
-            MsgReceiveCache.PushMsg(MsgDTO);
-            //GroupMsgCallBack(MsgDTO);
+            //MsgReceiveCache.PushMsg(MsgDTO);
+            GroupMsgCallBack(MsgDTO);
             //GroupMsgCallBack_Func(MsgDTO);
         }
 
