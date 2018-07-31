@@ -54,6 +54,19 @@ namespace Dolany.Ice.Ai.DolanyAI
 
         private string RequestMsg(GroupMsgDTO MsgDTO)
         {
+            PostReq_Param post = GetPostReq(MsgDTO);
+
+            var response = RequestHelper.PostData<TulingResponseData>(post);
+            if (response == null || ErroCodes.Contains(response.intent.code))
+            {
+                return string.Empty;
+            }
+
+            return ParseResponse(response);
+        }
+
+        private PostReq_Param GetPostReq(GroupMsgDTO MsgDTO)
+        {
             PostReq_Param post = new PostReq_Param
             {
                 InterfaceName = RequestUrl,
@@ -77,12 +90,11 @@ namespace Dolany.Ice.Ai.DolanyAI
                 }
             };
 
-            var response = RequestHelper.PostData<TulingResponseData>(post);
-            if (response == null || ErroCodes.Contains(response.intent.code))
-            {
-                return string.Empty;
-            }
+            return post;
+        }
 
+        private string ParseResponse(TulingResponseData response)
+        {
             string result = string.Empty;
             foreach (var res in response.results)
             {
@@ -93,11 +105,15 @@ namespace Dolany.Ice.Ai.DolanyAI
                         break;
 
                     case "image":
-                        result += CodeApi.Code_Image(res.values.text);
+                        result += CodeApi.Code_Image(res.values.image);
                         break;
 
                     case "voice":
-                        result += CodeApi.Code_Voice(res.values.text);
+                        result += CodeApi.Code_Voice(res.values.voice);
+                        break;
+
+                    case "url":
+                        result += $" {res.values.url} ";
                         break;
                 }
             }
