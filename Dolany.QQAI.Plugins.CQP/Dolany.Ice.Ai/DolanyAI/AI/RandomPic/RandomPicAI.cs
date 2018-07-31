@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 using System.IO;
 using Dolany.Ice.Ai.MahuaApis;
 using System.Timers;
+using System.Reflection;
 
 namespace Dolany.Ice.Ai.DolanyAI
 {
@@ -107,7 +108,7 @@ namespace Dolany.Ice.Ai.DolanyAI
 
             string RandPic = GetRandPic(key);
 
-            SendPic(PicPath + key + "/" + RandPic, MsgDTO.FromGroup);
+            SendPic(Environment.CurrentDirectory + "/" + PicPath + key + "/" + RandPic, MsgDTO.FromGroup);
             return true;
         }
 
