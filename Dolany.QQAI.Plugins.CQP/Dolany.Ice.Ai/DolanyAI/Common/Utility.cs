@@ -185,6 +185,11 @@ namespace Dolany.Ice.Ai.DolanyAI
         public static ImageCacheModel ReadImageCacheInfo(string guid)
         {
             FileInfo file = new FileInfo(CodeApi.ImagePath + guid + CodeApi.ImageExtension);
+            if (!file.Exists)
+            {
+                return null;
+            }
+
             return ReadImageCacheInfo(file);
         }
 

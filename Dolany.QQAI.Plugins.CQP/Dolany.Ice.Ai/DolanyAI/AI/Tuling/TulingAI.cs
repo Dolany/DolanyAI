@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using Dolany.Ice.Ai.MahuaApis;
+using System.Text.RegularExpressions;
 
 namespace Dolany.Ice.Ai.DolanyAI
 {
@@ -67,19 +68,37 @@ namespace Dolany.Ice.Ai.DolanyAI
 
         private PostReq_Param GetPostReq(GroupMsgDTO MsgDTO)
         {
+            perceptionData perception;
+
+            string imageInfo = ParseImgText(MsgDTO.FullMsg);
+            if (string.IsNullOrEmpty(imageInfo))
+            {
+                perception = new perceptionData
+                {
+                    inputText = new inputTextData
+                    {
+                        text = MsgDTO.FullMsg
+                    }
+                };
+            }
+            else
+            {
+                perception = new perceptionData
+                {
+                    inputImage = new inputImageData
+                    {
+                        url = imageInfo
+                    }
+                };
+            }
+
             PostReq_Param post = new PostReq_Param
             {
                 InterfaceName = RequestUrl,
                 data = new TulingRequestData
                 {
                     reqType = 0,
-                    perception = new perceptionData
-                    {
-                        inputText = new inputTextData
-                        {
-                            text = MsgDTO.FullMsg
-                        }
-                    },
+                    perception = perception,
                     userInfo = new userInfoData
                     {
                         apiKey = ApiKey,
@@ -118,6 +137,34 @@ namespace Dolany.Ice.Ai.DolanyAI
                 }
             }
             return result;
+        }
+
+        private string ParseImgText(string msg)
+        {
+            if (!msg.Contains("QQ:pic="))
+            {
+                return string.Empty;
+            }
+
+            try
+            {
+                var strs1 = msg.Split(new string[] { "QQ:pic=" }, StringSplitOptions.RemoveEmptyEntries);
+                var strs2 = strs1.Last().Split(new char[] { ']' });
+                var strs3 = strs2.First().Split(new char[] { '.' });
+                string imageGuid = strs3.First();
+
+                var image = Utility.ReadImageCacheInfo(imageGuid);
+                if (image == null)
+                {
+                    return string.Empty;
+                }
+
+                return image.url;
+            }
+            catch
+            {
+                return string.Empty;
+            }
         }
     }
 }
