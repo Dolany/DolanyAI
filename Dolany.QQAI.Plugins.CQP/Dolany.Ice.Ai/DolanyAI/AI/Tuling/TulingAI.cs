@@ -83,7 +83,25 @@ namespace Dolany.Ice.Ai.DolanyAI
                 return string.Empty;
             }
 
-            return response.results.First().values.text;
+            string result = string.Empty;
+            foreach (var res in response.results)
+            {
+                switch (res.resultType)
+                {
+                    case "text":
+                        result += res.values.text;
+                        break;
+
+                    case "image":
+                        result += CodeApi.Code_Image(res.values.text);
+                        break;
+
+                    case "voice":
+                        result += CodeApi.Code_Voice(res.values.text);
+                        break;
+                }
+            }
+            return result;
         }
     }
 }

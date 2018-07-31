@@ -14,8 +14,14 @@ namespace Dolany.Ice.Ai.DolanyAI
 
     public class SendMsgDTO
     {
+        public string Guid { get; set; }
+
+        public int SerialNum { get; set; } = 0;
+
         public string Msg { get; set; }
+
         public long Aim { get; set; }
+
         public MsgType Type { get; set; }
     }
 }

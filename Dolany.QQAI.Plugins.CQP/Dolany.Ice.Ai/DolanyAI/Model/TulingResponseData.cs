@@ -30,5 +30,9 @@ namespace Dolany.Ice.Ai.DolanyAI
     public class TulingResponseData_Value
     {
         public string text { get; set; }
+        public string url { get; set; }
+        public string voice { get; set; }
+        public string image { get; set; }
+        public string video { get; set; }
     }
 }

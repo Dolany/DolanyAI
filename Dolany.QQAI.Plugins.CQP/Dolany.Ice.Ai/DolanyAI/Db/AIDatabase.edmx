@@ -154,6 +154,8 @@
           <Property Name="Aim" Type="bigint" Nullable="false" />
           <Property Name="Type" Type="int" Nullable="false" />
           <Property Name="Msg" Type="nvarchar" MaxLength="400" />
+          <Property Name="Guid" Type="nvarchar" MaxLength="50" />
+          <Property Name="SerialNum" Type="int" Nullable="false" />
         </EntityType>
         <EntityType Name="PlusOneAvailable">
           <Key>
@@ -353,6 +355,8 @@
           <Property Name="Aim" Type="Int64" Nullable="false" />
           <Property Name="Type" Type="Int32" Nullable="false" />
           <Property Name="Msg" Type="String" MaxLength="400" FixedLength="false" Unicode="true" />
+          <Property Name="Guid" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="SerialNum" Type="Int32" Nullable="false" />
         </EntityType>
         <EntityType Name="PlusOneAvailable">
           <Key>
@@ -581,6 +585,8 @@
           <EntitySetMapping Name="MsgSendCache">
             <EntityTypeMapping TypeName="Dolany.Ice.Ai.Dolany.Db.MsgSendCache">
               <MappingFragment StoreEntitySet="MsgSendCache">
+                <ScalarProperty Name="SerialNum" ColumnName="SerialNum" />
+                <ScalarProperty Name="Guid" ColumnName="Guid" />
                 <ScalarProperty Name="Id" ColumnName="Id" />
                 <ScalarProperty Name="Aim" ColumnName="Aim" />
                 <ScalarProperty Name="Type" ColumnName="Type" />

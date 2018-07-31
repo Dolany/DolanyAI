@@ -52,21 +52,32 @@ namespace Dolany.Ice.Ai.DolanyAI
                 return;
             }
 
+            if (msg.Guid.IsNullOrEmpty())
+            {
+                msg.Guid = Guid.NewGuid().ToString();
+            }
+
             if (msg.Msg.Length > 200)
             {
                 PushMsg(new SendMsgDTO
                 {
                     Aim = msg.Aim,
                     Type = msg.Type,
-                    Msg = msg.Msg.Substring(0, 200)
+                    Msg = msg.Msg.Substring(0, 200),
+                    Guid = msg.Guid,
+                    SerialNum = msg.SerialNum
                 });
 
                 PushMsg(new SendMsgDTO
                 {
                     Aim = msg.Aim,
                     Type = msg.Type,
-                    Msg = msg.Msg.Substring(200, msg.Msg.Length - 200)
+                    Msg = msg.Msg.Substring(200, msg.Msg.Length - 200),
+                    Guid = msg.Guid,
+                    SerialNum = msg.SerialNum + 1
                 });
+
+                return;
             }
 
             using (AIDatabase db = new AIDatabase())
@@ -86,7 +97,7 @@ namespace Dolany.Ice.Ai.DolanyAI
         {
             using (AIDatabase db = new AIDatabase())
             {
-                var msgs = db.MsgSendCache;
+                var msgs = db.MsgSendCache.OrderBy(p => p.Guid).ThenBy(p => p.SerialNum);
                 foreach (var msg in msgs)
                 {
                     SendMsg(new SendMsgDTO
