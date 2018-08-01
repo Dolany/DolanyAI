@@ -20,7 +20,7 @@ namespace Dolany.Ice.Ai.DolanyAI
         {
             timer = new System.Timers.Timer();
             timer.Interval = 1000;
-            timer.AutoReset = true;
+            timer.AutoReset = false;
             timer.Enabled = true;
             timer.Elapsed += new System.Timers.ElapsedEventHandler(TimerUp);
 
@@ -29,7 +29,9 @@ namespace Dolany.Ice.Ai.DolanyAI
 
         private void TimerUp(object sender, System.Timers.ElapsedEventArgs e)
         {
+            timer.Stop();
             SendAllMsgs();
+            timer.Start();
         }
 
         public static MsgSender Instance

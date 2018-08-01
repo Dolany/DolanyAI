@@ -44,6 +44,11 @@ namespace Dolany.Ice.Ai.DolanyAI
 
             MsgDTO.FullMsg = MsgDTO.FullMsg.Replace(CodeApi.Code_SelfAt(), "");
             string response = RequestMsg(MsgDTO);
+            if (string.IsNullOrEmpty(response))
+            {
+                return false;
+            }
+
             MsgSender.Instance.PushMsg(new SendMsgDTO
             {
                 Aim = MsgDTO.FromGroup,
