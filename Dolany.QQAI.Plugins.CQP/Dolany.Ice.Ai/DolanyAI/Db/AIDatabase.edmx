@@ -210,6 +210,14 @@
           <Property Name="CreateTime" Type="datetime" Nullable="false" />
           <Property Name="Content" Type="nvarchar" MaxLength="50" />
         </EntityType>
+        <EntityType Name="TohouSign">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="nvarchar" MaxLength="50" Nullable="false" />
+          <Property Name="Content" Type="nvarchar" MaxLength="200" />
+          <Property Name="SignTime" Type="datetime" />
+        </EntityType>
         <EntityContainer Name="DolanyIceAiDolanyDbStoreContainer">
           <EntitySet Name="AISeal" EntityType="Self.AISeal" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="AlermClock" EntityType="Self.AlermClock" Schema="dbo" store:Type="Tables" />
@@ -232,6 +240,7 @@
           <EntitySet Name="RepeaterAvailable" EntityType="Self.RepeaterAvailable" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Saying" EntityType="Self.Saying" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="SayingSeal" EntityType="Self.SayingSeal" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="TohouSign" EntityType="Self.TohouSign" Schema="dbo" store:Type="Tables" />
         </EntityContainer>
       </Schema></edmx:StorageModels>
     <!-- CSDL content -->
@@ -426,6 +435,7 @@
           <EntitySet Name="KanColeGirlVoice" EntityType="Dolany.Ice.Ai.Dolany.Db.KanColeGirlVoice" />
           <EntitySet Name="PraiseRec" EntityType="Dolany.Ice.Ai.Dolany.Db.PraiseRec" />
           <EntitySet Name="Saying" EntityType="Dolany.Ice.Ai.Dolany.Db.Saying" />
+          <EntitySet Name="TohouSign" EntityType="Dolany.Ice.Ai.Dolany.Db.TohouSign" />
         </EntityContainer>
         <EntityType Name="FortuneItem">
           <Key>
@@ -464,6 +474,14 @@
           <Property Name="Charactor" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
           <Property Name="FromGroup" Type="Int64" Nullable="false" />
           <Property Name="Content" Type="String" MaxLength="200" FixedLength="false" Unicode="true" />
+        </EntityType>
+        <EntityType Name="TohouSign">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="Content" Type="String" MaxLength="200" FixedLength="false" Unicode="true" />
+          <Property Name="SignTime" Type="DateTime" Precision="3" />
         </EntityType>
       </Schema>
     </edmx:ConceptualModels>
@@ -693,6 +711,15 @@
                 <ScalarProperty Name="FromGroup" ColumnName="FromGroup" />
                 <ScalarProperty Name="Charactor" ColumnName="Charactor" />
                 <ScalarProperty Name="Cartoon" ColumnName="Cartoon" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="TohouSign">
+            <EntityTypeMapping TypeName="Dolany.Ice.Ai.Dolany.Db.TohouSign">
+              <MappingFragment StoreEntitySet="TohouSign">
+                <ScalarProperty Name="SignTime" ColumnName="SignTime" />
+                <ScalarProperty Name="Content" ColumnName="Content" />
                 <ScalarProperty Name="Id" ColumnName="Id" />
               </MappingFragment>
             </EntityTypeMapping>

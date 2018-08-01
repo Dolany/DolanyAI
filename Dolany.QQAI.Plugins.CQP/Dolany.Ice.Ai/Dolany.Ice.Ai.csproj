@@ -123,6 +123,7 @@
     <Compile Include="DolanyAI\AI\Repeater\PlusOneAI.cs" />
     <Compile Include="DolanyAI\AI\Repeater\PlusOneCache.cs" />
     <Compile Include="DolanyAI\AI\Repeater\RepeatorAI.cs" />
+    <Compile Include="DolanyAI\AI\Sign\SignAI.cs" />
     <Compile Include="DolanyAI\AI\Tuling\TulingAI.cs" />
     <Compile Include="DolanyAI\Base\AIAttribute.cs" />
     <Compile Include="DolanyAI\Base\AIBase.cs" />
@@ -220,6 +221,9 @@
       <DependentUpon>AIDatabase.tt</DependentUpon>
     </Compile>
     <Compile Include="DolanyAI\Db\SayingSeal.cs">
+      <DependentUpon>AIDatabase.tt</DependentUpon>
+    </Compile>
+    <Compile Include="DolanyAI\Db\TohouSign.cs">
       <DependentUpon>AIDatabase.tt</DependentUpon>
     </Compile>
     <Compile Include="DolanyAI\Db\日志.cs">
