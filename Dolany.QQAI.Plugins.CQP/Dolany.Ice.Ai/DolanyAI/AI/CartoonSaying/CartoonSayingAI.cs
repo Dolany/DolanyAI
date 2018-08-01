@@ -15,12 +15,15 @@ namespace Dolany.Ice.Ai.DolanyAI
         )]
     public class CartoonSayingAI : AIBase
     {
-        private List<SayingEntity> SayingList
+        private List<Saying> SayingList
         {
             get
             {
-                var query = DbMgr.Query<SayingEntity>();
-                return query == null ? null : query.ToList();
+                using (AIDatabase db = new AIDatabase())
+                {
+                    var query = db.Saying;
+                    return query.IsNullOrEmpty() ? null : query.ToList();
+                }
             }
         }
 
@@ -53,7 +56,7 @@ namespace Dolany.Ice.Ai.DolanyAI
             switch ((int)param[0])
             {
                 case 1:
-                    string smsg = SaveSaying(param[1] as SayingEntity, MsgDTO.FromGroup) ? "语录录入成功！" : "语录录入失败！";
+                    string smsg = SaveSaying(param[1] as Saying, MsgDTO.FromGroup) ? "语录录入成功！" : "语录录入失败！";
                     MsgSender.Instance.PushMsg(new SendMsgDTO()
                     {
                         Aim = MsgDTO.FromGroup,
@@ -99,12 +102,16 @@ namespace Dolany.Ice.Ai.DolanyAI
             }
         }
 
-        private bool SaveSaying(SayingEntity info, long fromGroup)
+        private bool SaveSaying(Saying info, long fromGroup)
         {
             info.FromGroup = fromGroup;
             info.Id = Guid.NewGuid().ToString();
 
-            DbMgr.Insert(info);
+            using (AIDatabase db = new AIDatabase())
+            {
+                db.Saying.Add(info);
+                db.SaveChanges();
+            }
             return true;
         }
 
@@ -127,7 +134,7 @@ namespace Dolany.Ice.Ai.DolanyAI
             return GetShownSaying(list[randIdx]);
         }
 
-        private string GetShownSaying(SayingEntity s)
+        private string GetShownSaying(Saying s)
         {
             string shownSaying = $@"
     {s.Content}
@@ -160,17 +167,22 @@ namespace Dolany.Ice.Ai.DolanyAI
         public void ClearSayings(GroupMsgDTO MsgDTO, object[] param)
         {
             RuntimeLogger.Log("AlermClockAI Tryto ClearSayings");
-            int delCount = DbMgr.Delete<SayingEntity>(s => s.FromGroup == MsgDTO.FromGroup
+            using (AIDatabase db = new AIDatabase())
+            {
+                var query = db.Saying.Where(s => s.FromGroup == MsgDTO.FromGroup
                                                         && (s.Content.Contains(MsgDTO.Msg)
                                                         || s.Charactor.Contains(MsgDTO.Msg)
                                                         || s.Cartoon.Contains(MsgDTO.Msg)));
+                db.Saying.RemoveRange(query);
+                db.SaveChanges();
 
-            MsgSender.Instance.PushMsg(new SendMsgDTO()
-            {
-                Aim = MsgDTO.FromGroup,
-                Type = MsgType.Group,
-                Msg = $"共删除{delCount}条语录"
-            });
+                MsgSender.Instance.PushMsg(new SendMsgDTO()
+                {
+                    Aim = MsgDTO.FromGroup,
+                    Type = MsgType.Group,
+                    Msg = $"共删除{query.Count()}条语录"
+                });
+            }
             RuntimeLogger.Log("AlermClockAI ClearSayings Complete");
         }
 

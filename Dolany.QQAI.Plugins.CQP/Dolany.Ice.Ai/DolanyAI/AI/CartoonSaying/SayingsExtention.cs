@@ -3,21 +3,13 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Dolany.Ice.Ai.DolanyAI.Db;
 
 namespace Dolany.Ice.Ai.DolanyAI
 {
-    public class SayingEntity : EntityBase
+    public static class SayingsExtention
     {
-        [DataColumn]
-        public string Cartoon { get; set; }
-
-        [DataColumn]
-        public string Charactor { get; set; }
-
-        [DataColumn]
-        public long FromGroup { get; set; }
-
-        public static SayingEntity Parse(string Msg)
+        public static Saying Parse(string Msg)
         {
             if (string.IsNullOrEmpty(Msg))
             {
@@ -32,13 +24,14 @@ namespace Dolany.Ice.Ai.DolanyAI
                     return null;
                 }
 
-                SayingEntity si = new SayingEntity()
+                Saying si = new Saying()
                 {
+                    Id = Guid.NewGuid().ToString(),
                     Cartoon = parts[0],
                     Charactor = parts[1],
                     Content = parts[2]
                 };
-                if (si.IsValid)
+                if (si.IsValid())
                 {
                     return si;
                 }
@@ -51,22 +44,19 @@ namespace Dolany.Ice.Ai.DolanyAI
             }
         }
 
-        public bool IsValid
+        public static bool IsValid(this Saying saying)
         {
-            get
-            {
-                return !string.IsNullOrEmpty(Cartoon) && !string.IsNullOrEmpty(Charactor) && !string.IsNullOrEmpty(Content);
-            }
+            return !string.IsNullOrEmpty(saying.Cartoon) && !string.IsNullOrEmpty(saying.Charactor) && !string.IsNullOrEmpty(saying.Content);
         }
 
-        public bool Contains(string keyword)
+        public static bool Contains(this Saying saying, string keyword)
         {
             if (string.IsNullOrEmpty(keyword))
             {
                 return true;
             }
 
-            return Cartoon.Contains(keyword) || Charactor.Contains(keyword) || Content.Contains(keyword);
+            return saying.Cartoon.Contains(keyword) || saying.Charactor.Contains(keyword) || saying.Content.Contains(keyword);
         }
     }
 }

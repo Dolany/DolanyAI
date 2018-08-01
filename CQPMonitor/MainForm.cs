@@ -44,6 +44,10 @@ namespace CQPMonitor
         {
             foreach (var tool in Tools)
             {
+                if (!tool.Metadata.IsAutoStart)
+                {
+                    continue;
+                }
                 try
                 {
                     LayoutTool(tool.Value);

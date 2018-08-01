@@ -25,6 +25,7 @@
         <EntityTypeShape EntityType="Dolany.Ice.Ai.Dolany.Db.FortuneItem" Width="1.5" PointX="7.375" PointY="10.75" />
         <EntityTypeShape EntityType="Dolany.Ice.Ai.Dolany.Db.KanColeGirlVoice" Width="1.5" PointX="9.375" PointY="10.75" />
         <EntityTypeShape EntityType="Dolany.Ice.Ai.Dolany.Db.PraiseRec" Width="1.5" PointX="11.375" PointY="3.75" />
+        <EntityTypeShape EntityType="Dolany.Ice.Ai.Dolany.Db.Saying" Width="1.5" PointX="11.375" PointY="6.75" />
       </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>

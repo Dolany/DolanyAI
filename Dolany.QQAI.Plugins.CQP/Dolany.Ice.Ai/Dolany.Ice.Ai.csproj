@@ -95,6 +95,7 @@
     </Compile>
     <Compile Include="DolanyAI\AI\AlermClock\AlertClockExtension.cs" />
     <Compile Include="DolanyAI\AI\CartoonSaying\CartoonSayingAI.cs" />
+    <Compile Include="DolanyAI\AI\CartoonSaying\SayingsExtention.cs" />
     <Compile Include="DolanyAI\AI\CharactorSetting\CharactorSettingAI.cs" />
     <Compile Include="DolanyAI\AI\DevelperOnly\Monitor\MonitorAI.cs" />
     <Compile Include="DolanyAI\AI\Fortune\FortuneAI.cs" />
@@ -213,6 +214,9 @@
     <Compile Include="DolanyAI\Db\RepeaterAvailable.cs">
       <DependentUpon>AIDatabase.tt</DependentUpon>
     </Compile>
+    <Compile Include="DolanyAI\Db\Saying.cs">
+      <DependentUpon>AIDatabase.tt</DependentUpon>
+    </Compile>
     <Compile Include="DolanyAI\Db\SayingSeal.cs">
       <DependentUpon>AIDatabase.tt</DependentUpon>
     </Compile>
@@ -232,7 +236,6 @@
     <Compile Include="DolanyAI\Entities\Common\LogEntity.cs" />
     <Compile Include="DolanyAI\Entities\Management\ConfigEntity.cs" />
     <Compile Include="DolanyAI\Entities\Management\SynonymDicEntity.cs" />
-    <Compile Include="DolanyAI\Entities\Sayings\SayingEntity.cs" />
     <Compile Include="DolanyAI\HTML\HtmlParser.cs" />
     <Compile Include="DolanyAI\HTML\HttpRequester.cs" />
     <Compile Include="DolanyAI\Model\ImageCacheModel.cs" />

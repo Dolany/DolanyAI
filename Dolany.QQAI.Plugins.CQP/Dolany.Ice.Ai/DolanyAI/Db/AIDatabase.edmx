@@ -190,6 +190,16 @@
           <Property Name="GroupNumber" Type="bigint" Nullable="false" />
           <Property Name="Available" Type="bit" Nullable="false" />
         </EntityType>
+        <EntityType Name="Saying">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="nvarchar" MaxLength="50" Nullable="false" />
+          <Property Name="Cartoon" Type="nvarchar" MaxLength="50" />
+          <Property Name="Charactor" Type="nvarchar" MaxLength="50" />
+          <Property Name="FromGroup" Type="bigint" Nullable="false" />
+          <Property Name="Content" Type="nvarchar" MaxLength="200" />
+        </EntityType>
         <EntityType Name="SayingSeal">
           <Key>
             <PropertyRef Name="Id" />
@@ -220,6 +230,7 @@
           <EntitySet Name="PraiseRec" EntityType="Self.PraiseRec" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="RandomFortune" EntityType="Self.RandomFortune" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="RepeaterAvailable" EntityType="Self.RepeaterAvailable" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Saying" EntityType="Self.Saying" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="SayingSeal" EntityType="Self.SayingSeal" Schema="dbo" store:Type="Tables" />
         </EntityContainer>
       </Schema></edmx:StorageModels>
@@ -414,6 +425,7 @@
           <EntitySet Name="FortuneItem" EntityType="Dolany.Ice.Ai.Dolany.Db.FortuneItem" />
           <EntitySet Name="KanColeGirlVoice" EntityType="Dolany.Ice.Ai.Dolany.Db.KanColeGirlVoice" />
           <EntitySet Name="PraiseRec" EntityType="Dolany.Ice.Ai.Dolany.Db.PraiseRec" />
+          <EntitySet Name="Saying" EntityType="Dolany.Ice.Ai.Dolany.Db.Saying" />
         </EntityContainer>
         <EntityType Name="FortuneItem">
           <Key>
@@ -442,6 +454,16 @@
           <Property Name="Id" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
           <Property Name="QQNum" Type="Int64" Nullable="false" />
           <Property Name="LastDate" Type="DateTime" Nullable="false" Precision="3" />
+        </EntityType>
+        <EntityType Name="Saying">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="Cartoon" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="Charactor" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="FromGroup" Type="Int64" Nullable="false" />
+          <Property Name="Content" Type="String" MaxLength="200" FixedLength="false" Unicode="true" />
         </EntityType>
       </Schema>
     </edmx:ConceptualModels>
@@ -660,6 +682,17 @@
               <MappingFragment StoreEntitySet="PraiseRec">
                 <ScalarProperty Name="LastDate" ColumnName="LastDate" />
                 <ScalarProperty Name="QQNum" ColumnName="QQNum" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Saying">
+            <EntityTypeMapping TypeName="Dolany.Ice.Ai.Dolany.Db.Saying">
+              <MappingFragment StoreEntitySet="Saying">
+                <ScalarProperty Name="Content" ColumnName="Content" />
+                <ScalarProperty Name="FromGroup" ColumnName="FromGroup" />
+                <ScalarProperty Name="Charactor" ColumnName="Charactor" />
+                <ScalarProperty Name="Cartoon" ColumnName="Cartoon" />
                 <ScalarProperty Name="Id" ColumnName="Id" />
               </MappingFragment>
             </EntityTypeMapping>

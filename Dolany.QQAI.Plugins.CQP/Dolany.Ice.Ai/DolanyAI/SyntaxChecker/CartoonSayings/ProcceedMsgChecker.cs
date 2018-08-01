@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Dolany.Ice.Ai.DolanyAI.Db;
 
 namespace Dolany.Ice.Ai.DolanyAI
 {
@@ -11,7 +12,7 @@ namespace Dolany.Ice.Ai.DolanyAI
         public bool Check(string msg, out object[] param)
         {
             param = null;
-            SayingEntity info = SayingEntity.Parse(msg);
+            Saying info = SayingsExtention.Parse(msg);
             if (info != null)
             {
                 param = new object[] { 1, info };
