@@ -15,7 +15,7 @@ namespace CQPMonitor.Tools.BlackList
         ToolName = "黑名单管理",
         Decription = "管理黑名单以及屏蔽词",
         ToolIcon = "blacklist.ico",
-        IsAutoStart = false,
+        IsAutoStart = true,
         Order = 3
         )]
     public partial class BlackListForm : ToolBaseForm

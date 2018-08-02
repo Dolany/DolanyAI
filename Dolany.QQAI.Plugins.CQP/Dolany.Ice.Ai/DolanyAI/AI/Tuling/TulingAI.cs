@@ -49,12 +49,25 @@ namespace Dolany.Ice.Ai.DolanyAI
                 return false;
             }
 
-            MsgSender.Instance.PushMsg(new SendMsgDTO
+            string voice = response.Contains("QQ:") ? string.Empty : VoiceConvert.ConvertOnline(response);
+            if (string.IsNullOrEmpty(voice))
             {
-                Aim = MsgDTO.FromGroup,
-                Type = MsgType.Group,
-                Msg = $"{CodeApi.Code_At(MsgDTO.FromQQ)} {response}"
-            });
+                MsgSender.Instance.PushMsg(new SendMsgDTO
+                {
+                    Aim = MsgDTO.FromGroup,
+                    Type = MsgType.Group,
+                    Msg = $"{CodeApi.Code_At(MsgDTO.FromQQ)} {response}"
+                });
+            }
+            else
+            {
+                MsgSender.Instance.PushMsg(new SendMsgDTO
+                {
+                    Aim = MsgDTO.FromGroup,
+                    Type = MsgType.Group,
+                    Msg = $"{CodeApi.Code_Voice(voice)}"
+                });
+            }
             return true;
         }
 
