@@ -6,11 +6,10 @@ using System.Threading.Tasks;
 
 namespace Dolany.Ice.Ai.DolanyAI
 {
-    public class VoiceConvert
+    public class XfyunRequest
     {
-        public static string ConvertOnline(string text)
-        {
-            return XfyunRequestHelper.PostData(text);
-        }
+        public string auf { get; set; }
+        public string aue { get; set; }
+        public string voice_name { get; set; }
     }
 }
