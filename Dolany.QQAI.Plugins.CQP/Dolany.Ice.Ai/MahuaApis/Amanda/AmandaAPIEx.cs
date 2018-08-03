@@ -18,6 +18,9 @@ namespace Dolany.Ice.Ai.MahuaApis
         [DllImport("bin\\message.dll")]
         private static extern int Api_SendPraise(string QQ号, string AuthCode);
 
+        [DllImport("bin\\message.dll")]
+        private static extern string Api_163Music(string 歌曲ID, string AuthCode);
+
         private static string GetGroupMemberList(string 群号)
         {
             string AuthCode = Utility.GetAuthCode();
@@ -33,6 +36,13 @@ namespace Dolany.Ice.Ai.MahuaApis
         {
             string AuthCode = Utility.GetAuthCode();
             return Api_SendPraise(QQ号, AuthCode);
+        }
+
+        // 	网易云点歌
+        public static string _163Music(string 歌曲ID)
+        {
+            string AuthCode = Utility.GetAuthCode();
+            return Api_163Music(歌曲ID, AuthCode);
         }
     }
 }

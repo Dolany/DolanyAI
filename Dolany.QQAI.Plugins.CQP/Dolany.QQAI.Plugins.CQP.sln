@@ -13,6 +13,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "KanColeVoiceClimber", "KanC
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "VoiceCombineOnlineProj", "VoiceCombineOnlineProj\VoiceCombineOnlineProj.csproj", "{03DB6C7F-D136-4225-831E-81379F00C86B}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NeteaseMusicTest", "NeteaseMusicTest\NeteaseMusicTest.csproj", "{F2474795-4A87-4B06-BF61-BD49216976B0}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -39,6 +41,10 @@ Global
 		{03DB6C7F-D136-4225-831E-81379F00C86B}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{03DB6C7F-D136-4225-831E-81379F00C86B}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{03DB6C7F-D136-4225-831E-81379F00C86B}.Release|Any CPU.Build.0 = Release|Any CPU
+		{F2474795-4A87-4B06-BF61-BD49216976B0}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{F2474795-4A87-4B06-BF61-BD49216976B0}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{F2474795-4A87-4B06-BF61-BD49216976B0}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{F2474795-4A87-4B06-BF61-BD49216976B0}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

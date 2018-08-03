@@ -116,7 +116,7 @@
     <Compile Include="DolanyAI\AI\Jump300Report\Model\PlayerInfoInMatch.cs" />
     <Compile Include="DolanyAI\AI\Jump300Report\Parser\JumpDetailHtmlParser.cs" />
     <Compile Include="DolanyAI\AI\Jump300Report\Parser\JumpListHtmlParser.cs" />
-    <Compile Include="DolanyAI\AI\OrderSong\NetEaseMusicParser.cs" />
+    <Compile Include="DolanyAI\AI\OrderSong\NeteaseResponse.cs" />
     <Compile Include="DolanyAI\AI\OrderSong\OrderSongAI.cs" />
     <Compile Include="DolanyAI\AI\PraiseMe\PraiseMeAI.cs" />
     <Compile Include="DolanyAI\AI\RandomPic\RandomPicAI.cs" />

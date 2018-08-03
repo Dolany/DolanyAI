@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using HtmlAgilityPack;
+using Dolany.Ice.Ai.MahuaApis;
 
 namespace Dolany.Ice.Ai.DolanyAI
 {
@@ -39,29 +40,38 @@ namespace Dolany.Ice.Ai.DolanyAI
 
             string songId = GetSongId(songName);
 
-            SendMusic(songId);
+            var responseXml = GetMusicXml(songId);
+            MsgSender.Instance.PushMsg(new SendMsgDTO
+            {
+                Aim = MsgDTO.FromGroup,
+                Type = MsgType.Group,
+                Msg = responseXml
+            });
         }
 
         private string GetSongId(string songName)
         {
-            NetEaseMusicParser parser = new NetEaseMusicParser();
-            HttpRequester requester = new HttpRequester();
-            string aimStr = $"https://music.163.com/#/search/m/?s={Utility.UrlCharConvert(songName)}&type=1";
-            string HtmlStr = requester.Request(aimStr);
+            var response = RequestHelper.PostData<NeteaseResponse>(new PostReq_Param
+            {
+                InterfaceName = $"http://music.163.com/api/search/get/?s={Utility.UrlCharConvert(songName)}&type=1"
+            });
 
-            parser.Load(HtmlStr);
+            if (response == null)
+            {
+                return string.Empty;
+            }
 
-            return parser.SongId;
+            return response.result.songs.First().id;
         }
 
-        private void SendMusic(string songId)
+        private string GetMusicXml(string songId)
         {
             if (string.IsNullOrEmpty(songId))
             {
-                return;
+                return string.Empty;
             }
 
-            // TODO
+            return = AmandaAPIEx._163Music(songId);
         }
     }
 }
