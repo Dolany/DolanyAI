@@ -5,6 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using Dolany.Ice.Ai.MahuaApis;
 using Dolany.Ice.Ai.DolanyAI.Db;
+using System.Threading;
 
 namespace Dolany.Ice.Ai.DolanyAI
 {
@@ -16,6 +17,8 @@ namespace Dolany.Ice.Ai.DolanyAI
         )]
     public class PraiseMeAI : AIBase
     {
+        private DateTime LastTime = DateTime.Now;
+
         public PraiseMeAI()
             : base()
         {
@@ -34,8 +37,19 @@ namespace Dolany.Ice.Ai.DolanyAI
             Tag = "点赞功能",
             SyntaxChecker = "Empty"
             )]
-        public void SayHello(GroupMsgDTO MsgDTO, object[] param)
+        public void PraiseMe(GroupMsgDTO MsgDTO, object[] param)
         {
+            if (LastTime.AddMinutes(30) < DateTime.Now)
+            {
+                MsgSender.Instance.PushMsg(new SendMsgDTO
+                {
+                    Aim = MsgDTO.FromGroup,
+                    Type = MsgType.Group,
+                    Msg = "点赞太频繁啦！"
+                });
+                return;
+            }
+
             using (AIDatabase db = new AIDatabase())
             {
                 var query = db.PraiseRec.Where(p => p.QQNum == MsgDTO.FromQQ);
@@ -48,6 +62,8 @@ namespace Dolany.Ice.Ai.DolanyAI
                         LastDate = DateTime.Now.Date,
                         QQNum = MsgDTO.FromQQ
                     });
+
+                    LastTime = DateTime.Now;
                 }
                 else if (query.First().LastDate >= DateTime.Now.Date)
                 {
@@ -63,6 +79,8 @@ namespace Dolany.Ice.Ai.DolanyAI
                     Praise(MsgDTO);
                     var praise = query.First();
                     praise.LastDate = DateTime.Now.Date;
+
+                    LastTime = DateTime.Now;
                 }
                 db.SaveChanges();
             }
@@ -73,6 +91,7 @@ namespace Dolany.Ice.Ai.DolanyAI
             int result = -1;
             for (int i = 0; i < 10; i++)
             {
+                Thread.Sleep(100);
                 result = AmandaAPIEx.SendPraise(MsgDTO.FromQQ.ToString());
             }
 

@@ -15,7 +15,7 @@ namespace Dolany.Ice.Ai.DolanyAI
         //private Queue<SendMsgDTO> MsgQueue = new Queue<SendMsgDTO>();
 
         private System.Timers.Timer timer = new System.Timers.Timer();
-        private int MaxLength = 400;
+        private int MaxLength = 300;
 
         private MsgSender()
         {
