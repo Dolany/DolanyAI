@@ -153,7 +153,7 @@
           <Property Name="Id" Type="nvarchar" MaxLength="50" Nullable="false" />
           <Property Name="Aim" Type="bigint" Nullable="false" />
           <Property Name="Type" Type="int" Nullable="false" />
-          <Property Name="Msg" Type="nvarchar" MaxLength="600" />
+          <Property Name="Msg" Type="nvarchar" MaxLength="400" />
           <Property Name="Guid" Type="nvarchar" MaxLength="50" />
           <Property Name="SerialNum" Type="int" Nullable="false" />
         </EntityType>
@@ -210,6 +210,25 @@
           <Property Name="CreateTime" Type="datetime" Nullable="false" />
           <Property Name="Content" Type="nvarchar" MaxLength="50" />
         </EntityType>
+        <EntityType Name="TarotFortuneData">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="nvarchar" MaxLength="50" Nullable="false" />
+          <Property Name="Name" Type="nvarchar" MaxLength="50" />
+          <Property Name="IsPos" Type="bit" Nullable="false" />
+          <Property Name="Description" Type="nvarchar" MaxLength="200" Nullable="false" />
+          <Property Name="PicSrc" Type="nvarchar" MaxLength="100" Nullable="false" />
+        </EntityType>
+        <EntityType Name="TarotFortuneRecord">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="nvarchar" MaxLength="50" Nullable="false" />
+          <Property Name="QQNum" Type="bigint" Nullable="false" />
+          <Property Name="TarotId" Type="nvarchar" MaxLength="50" Nullable="false" />
+          <Property Name="UpdateTime" Type="datetime" Nullable="false" />
+        </EntityType>
         <EntityType Name="TohouSign">
           <Key>
             <PropertyRef Name="Id" />
@@ -240,6 +259,8 @@
           <EntitySet Name="RepeaterAvailable" EntityType="Self.RepeaterAvailable" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Saying" EntityType="Self.Saying" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="SayingSeal" EntityType="Self.SayingSeal" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="TarotFortuneData" EntityType="Self.TarotFortuneData" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="TarotFortuneRecord" EntityType="Self.TarotFortuneRecord" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="TohouSign" EntityType="Self.TohouSign" Schema="dbo" store:Type="Tables" />
         </EntityContainer>
       </Schema></edmx:StorageModels>
@@ -374,7 +395,7 @@
           <Property Name="Id" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
           <Property Name="Aim" Type="Int64" Nullable="false" />
           <Property Name="Type" Type="Int32" Nullable="false" />
-          <Property Name="Msg" Type="String" MaxLength="600" FixedLength="false" Unicode="true" />
+          <Property Name="Msg" Type="String" MaxLength="400" FixedLength="false" Unicode="true" />
           <Property Name="Guid" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
           <Property Name="SerialNum" Type="Int32" Nullable="false" />
         </EntityType>
@@ -489,20 +510,20 @@
           <Key>
             <PropertyRef Name="Id" />
           </Key>
-          <Property Name="Id" Type="String" Nullable="false" annotation:StoreGeneratedPattern="None" />
-          <Property Name="Name" Type="String" Nullable="false" />
+          <Property Name="Id" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="Name" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
           <Property Name="IsPos" Type="Boolean" Nullable="false" />
-          <Property Name="Description" Type="String" Nullable="false" />
-          <Property Name="PicSrc" Type="String" Nullable="false" />
+          <Property Name="Description" Type="String" Nullable="false" MaxLength="200" FixedLength="false" Unicode="true" />
+          <Property Name="PicSrc" Type="String" Nullable="false" MaxLength="100" FixedLength="false" Unicode="true" />
         </EntityType>
         <EntityType Name="TarotFortuneRecord">
           <Key>
             <PropertyRef Name="Id" />
           </Key>
-          <Property Name="Id" Type="String" Nullable="false" annotation:StoreGeneratedPattern="None" />
+          <Property Name="Id" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
           <Property Name="QQNum" Type="Int64" Nullable="false" />
-          <Property Name="TarotId" Type="String" Nullable="false" />
-          <Property Name="UpdateTime" Type="DateTime" Nullable="false" />
+          <Property Name="TarotId" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="UpdateTime" Type="DateTime" Nullable="false" Precision="3" />
         </EntityType>
       </Schema>
     </edmx:ConceptualModels>
@@ -741,6 +762,27 @@
               <MappingFragment StoreEntitySet="TohouSign">
                 <ScalarProperty Name="SignTime" ColumnName="SignTime" />
                 <ScalarProperty Name="Content" ColumnName="Content" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="TarotFortuneData">
+            <EntityTypeMapping TypeName="Dolany.Ice.Ai.Dolany.Db.TarotFortuneData">
+              <MappingFragment StoreEntitySet="TarotFortuneData">
+                <ScalarProperty Name="PicSrc" ColumnName="PicSrc" />
+                <ScalarProperty Name="Description" ColumnName="Description" />
+                <ScalarProperty Name="IsPos" ColumnName="IsPos" />
+                <ScalarProperty Name="Name" ColumnName="Name" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="TarotFortuneRecord">
+            <EntityTypeMapping TypeName="Dolany.Ice.Ai.Dolany.Db.TarotFortuneRecord">
+              <MappingFragment StoreEntitySet="TarotFortuneRecord">
+                <ScalarProperty Name="UpdateTime" ColumnName="UpdateTime" />
+                <ScalarProperty Name="TarotId" ColumnName="TarotId" />
+                <ScalarProperty Name="QQNum" ColumnName="QQNum" />
                 <ScalarProperty Name="Id" ColumnName="Id" />
               </MappingFragment>
             </EntityTypeMapping>
