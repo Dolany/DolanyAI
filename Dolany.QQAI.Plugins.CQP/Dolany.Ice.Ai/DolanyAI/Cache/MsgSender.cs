@@ -15,6 +15,7 @@ namespace Dolany.Ice.Ai.DolanyAI
         //private Queue<SendMsgDTO> MsgQueue = new Queue<SendMsgDTO>();
 
         private System.Timers.Timer timer = new System.Timers.Timer();
+        private int MaxLength = 400;
 
         private MsgSender()
         {
@@ -59,13 +60,13 @@ namespace Dolany.Ice.Ai.DolanyAI
                 msg.Guid = Guid.NewGuid().ToString();
             }
 
-            if (msg.Msg.Length > 200)
+            if (msg.Msg.Length > MaxLength)
             {
                 PushMsg(new SendMsgDTO
                 {
                     Aim = msg.Aim,
                     Type = msg.Type,
-                    Msg = msg.Msg.Substring(0, 200),
+                    Msg = msg.Msg.Substring(0, MaxLength),
                     Guid = msg.Guid,
                     SerialNum = msg.SerialNum
                 });
@@ -74,7 +75,7 @@ namespace Dolany.Ice.Ai.DolanyAI
                 {
                     Aim = msg.Aim,
                     Type = msg.Type,
-                    Msg = msg.Msg.Substring(200, msg.Msg.Length - 200),
+                    Msg = msg.Msg.Substring(MaxLength, msg.Msg.Length - MaxLength),
                     Guid = msg.Guid,
                     SerialNum = msg.SerialNum + 1
                 });

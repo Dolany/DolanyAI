@@ -153,7 +153,7 @@
           <Property Name="Id" Type="nvarchar" MaxLength="50" Nullable="false" />
           <Property Name="Aim" Type="bigint" Nullable="false" />
           <Property Name="Type" Type="int" Nullable="false" />
-          <Property Name="Msg" Type="nvarchar" MaxLength="400" />
+          <Property Name="Msg" Type="nvarchar" MaxLength="600" />
           <Property Name="Guid" Type="nvarchar" MaxLength="50" />
           <Property Name="SerialNum" Type="int" Nullable="false" />
         </EntityType>
@@ -374,7 +374,7 @@
           <Property Name="Id" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
           <Property Name="Aim" Type="Int64" Nullable="false" />
           <Property Name="Type" Type="Int32" Nullable="false" />
-          <Property Name="Msg" Type="String" MaxLength="400" FixedLength="false" Unicode="true" />
+          <Property Name="Msg" Type="String" MaxLength="600" FixedLength="false" Unicode="true" />
           <Property Name="Guid" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
           <Property Name="SerialNum" Type="Int32" Nullable="false" />
         </EntityType>
