@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using Dolany.Ice.Ai.DolanyAI.Db;
+using Dolany.Ice.Ai.MahuaApis;
 
 namespace Dolany.Ice.Ai.DolanyAI
 {
@@ -15,6 +16,8 @@ namespace Dolany.Ice.Ai.DolanyAI
         )]
     public class FortuneAI : AIBase
     {
+        private string TarotServerPath = "https://m.sheup.com/";
+
         public FortuneAI()
             : base()
         {
@@ -76,12 +79,6 @@ namespace Dolany.Ice.Ai.DolanyAI
             )]
         public void StarFortune(GroupMsgDTO MsgDTO, object[] param)
         {
-            //MsgSender.Instance.PushMsg(new SendMsgDTO()
-            //{
-            //    Aim = MsgDTO.FromGroup,
-            //    Type = MsgType.Group,
-            //    Msg = "查询中，请稍候"
-            //});
             FortuneRequestor jr = new FortuneRequestor(MsgDTO, ReportCallBack);
             Task.Run(() => jr.Work());
         }
@@ -135,6 +132,78 @@ namespace Dolany.Ice.Ai.DolanyAI
                 Type = MsgType.Group,
                 Msg = msg
             });
+        }
+
+        [GroupEnterCommand(
+            Command = ".zhan",
+            AuthorityLevel = AuthorityLevel.成员,
+            Description = "获取每日塔罗牌占卜",
+            Syntax = "",
+            Tag = "运势功能",
+            SyntaxChecker = "Empty"
+            )]
+        public void TarotFortune(GroupMsgDTO MsgDTO, object[] param)
+        {
+            using (AIDatabase db = new AIDatabase())
+            {
+                var query = db.TarotFortuneRecord.Where(t => t.QQNum == MsgDTO.FromQQ);
+                if (query.IsNullOrEmpty())
+                {
+                    var fortune = GetRandTarotFortune();
+                    SendTarotFortune(MsgDTO, fortune);
+                    db.TarotFortuneRecord.Add(new TarotFortuneRecord
+                    {
+                        Id = Guid.NewGuid().ToString(),
+                        QQNum = MsgDTO.FromQQ,
+                        UpdateTime = DateTime.Now.Date,
+                        TarotId = fortune.Id
+                    });
+                    db.SaveChanges();
+                    return;
+                }
+
+                var rec = query.First();
+                if (rec.UpdateTime < DateTime.Now.Date)
+                {
+                    var fortune = GetRandTarotFortune();
+                    SendTarotFortune(MsgDTO, fortune);
+                    rec.UpdateTime = DateTime.Now.Date;
+                    rec.TarotId = fortune.Id;
+                    db.SaveChanges();
+                    return;
+                }
+
+                var data = db.TarotFortuneData.First(p => p.Id == rec.TarotId);
+                SendTarotFortune(MsgDTO, data);
+            }
+        }
+
+        private void SendTarotFortune(GroupMsgDTO MsgDTO, TarotFortuneData data)
+        {
+            string msg = CodeApi.Code_Image(TarotServerPath + data.PicSrc) + '\r';
+            msg += "牌名：" + data.Name + '\r';
+            msg += data.IsPos ? "正位解释：" : "逆位解释：";
+            msg += data.Description;
+
+            MsgSender.Instance.PushMsg(new SendMsgDTO
+            {
+                Aim = MsgDTO.FromGroup,
+                Type = MsgType.Group,
+                Msg = msg
+            });
+        }
+
+        private TarotFortuneData GetRandTarotFortune()
+        {
+            using (AIDatabase db = new AIDatabase())
+            {
+                var datas = db.TarotFortuneData.OrderBy(p => p.Id);
+                int count = datas.Count();
+
+                Random ran = new Random();
+                var randData = datas.Skip(ran.Next(count)).First();
+                return randData.Clone();
+            }
         }
     }
 }

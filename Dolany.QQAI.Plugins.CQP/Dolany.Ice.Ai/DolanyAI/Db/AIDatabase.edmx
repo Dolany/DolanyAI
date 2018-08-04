@@ -436,6 +436,8 @@
           <EntitySet Name="PraiseRec" EntityType="Dolany.Ice.Ai.Dolany.Db.PraiseRec" />
           <EntitySet Name="Saying" EntityType="Dolany.Ice.Ai.Dolany.Db.Saying" />
           <EntitySet Name="TohouSign" EntityType="Dolany.Ice.Ai.Dolany.Db.TohouSign" />
+          <EntitySet Name="TarotFortuneData" EntityType="Dolany.Ice.Ai.Dolany.Db.TarotFortuneData" />
+          <EntitySet Name="TarotFortuneRecord" EntityType="Dolany.Ice.Ai.Dolany.Db.TarotFortuneRecord" />
         </EntityContainer>
         <EntityType Name="FortuneItem">
           <Key>
@@ -482,6 +484,25 @@
           <Property Name="Id" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
           <Property Name="Content" Type="String" MaxLength="200" FixedLength="false" Unicode="true" />
           <Property Name="SignTime" Type="DateTime" Precision="3" />
+        </EntityType>
+        <EntityType Name="TarotFortuneData">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="String" Nullable="false" annotation:StoreGeneratedPattern="None" />
+          <Property Name="Name" Type="String" Nullable="false" />
+          <Property Name="IsPos" Type="Boolean" Nullable="false" />
+          <Property Name="Description" Type="String" Nullable="false" />
+          <Property Name="PicSrc" Type="String" Nullable="false" />
+        </EntityType>
+        <EntityType Name="TarotFortuneRecord">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="String" Nullable="false" annotation:StoreGeneratedPattern="None" />
+          <Property Name="QQNum" Type="Int64" Nullable="false" />
+          <Property Name="TarotId" Type="String" Nullable="false" />
+          <Property Name="UpdateTime" Type="DateTime" Nullable="false" />
         </EntityType>
       </Schema>
     </edmx:ConceptualModels>

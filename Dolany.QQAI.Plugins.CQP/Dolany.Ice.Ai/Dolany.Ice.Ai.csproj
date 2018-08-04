@@ -225,6 +225,12 @@
     <Compile Include="DolanyAI\Db\SayingSeal.cs">
       <DependentUpon>AIDatabase.tt</DependentUpon>
     </Compile>
+    <Compile Include="DolanyAI\Db\TarotFortuneData.cs">
+      <DependentUpon>AIDatabase.tt</DependentUpon>
+    </Compile>
+    <Compile Include="DolanyAI\Db\TarotFortuneRecord.cs">
+      <DependentUpon>AIDatabase.tt</DependentUpon>
+    </Compile>
     <Compile Include="DolanyAI\Db\TohouSign.cs">
       <DependentUpon>AIDatabase.tt</DependentUpon>
     </Compile>

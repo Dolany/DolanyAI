@@ -47,5 +47,7 @@ namespace Dolany.Ice.Ai.DolanyAI.Db
         public virtual DbSet<PraiseRec> PraiseRec { get; set; }
         public virtual DbSet<Saying> Saying { get; set; }
         public virtual DbSet<TohouSign> TohouSign { get; set; }
+        public virtual DbSet<TarotFortuneData> TarotFortuneData { get; set; }
+        public virtual DbSet<TarotFortuneRecord> TarotFortuneRecord { get; set; }
     }
 }
