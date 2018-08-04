@@ -71,7 +71,7 @@ namespace Dolany.Ice.Ai.DolanyAI
                 return string.Empty;
             }
 
-            return = AmandaAPIEx._163Music(songId);
+            return AmandaAPIEx._163Music(songId);
         }
     }
 }
