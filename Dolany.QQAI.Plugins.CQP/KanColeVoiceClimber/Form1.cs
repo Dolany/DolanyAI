@@ -15,6 +15,7 @@ namespace KanColeVoiceClimber
 {
     public partial class Form1 : Form
     {
+        private string fileName;
         public Form1()
         {
             InitializeComponent();
@@ -22,6 +23,13 @@ namespace KanColeVoiceClimber
 
         private void startBtn_Click(object sender, EventArgs e)
         {
+            OpenFileDialog dialog = new OpenFileDialog();
+            if (dialog.ShowDialog() != DialogResult.OK)
+            {
+                return;
+            }
+            fileName = dialog.FileName;
+
             Task.Factory.StartNew(() => Work());
         }
 
@@ -44,13 +52,9 @@ namespace KanColeVoiceClimber
             //    ParseAGirl(name);
             //}
             //ParseAGirl("舰队Collection:Верный");
-            OpenFileDialog dialog = new OpenFileDialog();
-            if (dialog.ShowDialog() != DialogResult.OK)
-            {
-                return;
-            }
 
-            using (StreamReader reader = new StreamReader(dialog.FileName))
+
+            using (StreamReader reader = new StreamReader(fileName))
             {
                 string line = reader.ReadLine();
                 while (!string.IsNullOrEmpty(line))
@@ -74,8 +78,17 @@ namespace KanColeVoiceClimber
 
                         db.SaveChanges();
                     }
+                    AppendTxt(strs[1]);
+                    line = reader.ReadLine();
                 }
             }
+            //using (AIDatabase db = new AIDatabase())
+            //{
+            //    var query = db.KanColeGirlVoice.Where(p => p.Name == "舰队Collection:响改二" && p.Tag == "母港/详细阅览（2016梅雨限定）");
+            //    int count = query.Count();
+            //    db.KanColeGirlVoice.RemoveRange(query);
+            //    db.SaveChanges();
+            //}
 
             AppendTxt("任务结束！");
         }
