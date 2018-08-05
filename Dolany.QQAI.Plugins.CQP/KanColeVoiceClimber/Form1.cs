@@ -9,6 +9,7 @@ using System.Threading.Tasks;
 using System.Windows.Forms;
 using Dolany.Ice.Ai.DolanyAI;
 using Dolany.Ice.Ai.DolanyAI.Db;
+using System.IO;
 
 namespace KanColeVoiceClimber
 {
@@ -26,21 +27,54 @@ namespace KanColeVoiceClimber
 
         private void Work()
         {
-            HttpRequester requester = new HttpRequester();
+            //HttpRequester requester = new HttpRequester();
 
-            AppendTxt("请求列表页面中...");
-            string aimStr = $"https://zh.moegirl.org/zh-hans/%E8%88%B0%E9%98%9FCollection/%E5%9B%BE%E9%89%B4/%E8%88%B0%E5%A8%98";
-            string HtmlStr = requester.Request(aimStr);
+            //AppendTxt("请求列表页面中...");
+            //string aimStr = $"https://zh.moegirl.org/zh-hans/%E8%88%B0%E9%98%9FCollection/%E5%9B%BE%E9%89%B4/%E8%88%B0%E5%A8%98";
+            //string HtmlStr = requester.Request(aimStr);
 
-            AppendTxt("解析列表页面中...");
-            ColeGirlListPageParse parser = new ColeGirlListPageParse();
-            parser.Load(HtmlStr);
+            //AppendTxt("解析列表页面中...");
+            //ColeGirlListPageParse parser = new ColeGirlListPageParse();
+            //parser.Load(HtmlStr);
 
-            var list = parser.GirlList;
-            AppendTxt($"共找到{list.Count}个舰娘");
-            foreach (var name in list)
+            //var list = parser.GirlList;
+            //AppendTxt($"共找到{list.Count}个舰娘");
+            //foreach (var name in list)
+            //{
+            //    ParseAGirl(name);
+            //}
+            //ParseAGirl("舰队Collection:Верный");
+            OpenFileDialog dialog = new OpenFileDialog();
+            if (dialog.ShowDialog() != DialogResult.OK)
             {
-                ParseAGirl(name);
+                return;
+            }
+
+            using (StreamReader reader = new StreamReader(dialog.FileName))
+            {
+                string line = reader.ReadLine();
+                while (!string.IsNullOrEmpty(line))
+                {
+                    var strs = line.Split(new char[] { ' ' }, StringSplitOptions.RemoveEmptyEntries);
+                    if (strs.Length != 3)
+                    {
+                        throw new Exception(line);
+                    }
+
+                    using (AIDatabase db = new AIDatabase())
+                    {
+                        db.KanColeGirlVoice.Add(new KanColeGirlVoice
+                        {
+                            Id = Guid.NewGuid().ToString(),
+                            Name = "舰队Collection:响改二",
+                            VoiceUrl = strs[0],
+                            Content = strs[1],
+                            Tag = strs[2]
+                        });
+
+                        db.SaveChanges();
+                    }
+                }
             }
 
             AppendTxt("任务结束！");
@@ -79,21 +113,21 @@ namespace KanColeVoiceClimber
 
         private void SynToDb(KanColeGirlVoice voice)
         {
-            using (AIDatabase db = new AIDatabase())
-            {
-                var query = db.KanColeGirlVoice.Where(k => k.Tag == voice.Tag && k.Name == voice.Name);
-                if (query.IsNullOrEmpty())
-                {
-                    db.KanColeGirlVoice.Add(voice);
-                }
-                else
-                {
-                    var kan = query.First();
-                    kan.Content = voice.Content;
-                    kan.VoiceUrl = voice.VoiceUrl;
-                }
-                db.SaveChanges();
-            }
+            //using (AIDatabase db = new AIDatabase())
+            //{
+            //    var query = db.KanColeGirlVoice.Where(k => k.Tag == voice.Tag && k.Name == voice.Name);
+            //    if (query.IsNullOrEmpty())
+            //    {
+            //        db.KanColeGirlVoice.Add(voice);
+            //    }
+            //    else
+            //    {
+            //        var kan = query.First();
+            //        kan.Content = voice.Content;
+            //        kan.VoiceUrl = voice.VoiceUrl;
+            //    }
+            //    db.SaveChanges();
+            //}
         }
     }
 }

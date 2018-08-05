@@ -14,9 +14,9 @@ namespace KanColeVoiceClimber
         public List<KanColeGirlVoice> kanColeGirlVoices = new List<KanColeGirlVoice>();
         private string GirlName;
 
-        private string[] timeStrs = {
-            "0000"
-        };
+        //private string[] timeStrs = {
+        //    "0000"
+        //};
 
         protected override void Parse()
         {
@@ -90,10 +90,10 @@ namespace KanColeVoiceClimber
                 return;
             }
 
-            if (!timeStrs.Contains(strs[0].Trim()))
-            {
-                return;
-            }
+            //if (!timeStrs.Contains(strs[0].Trim()))
+            //{
+            //    return;
+            //}
 
             KanColeGirlVoice voice = new KanColeGirlVoice
             {
