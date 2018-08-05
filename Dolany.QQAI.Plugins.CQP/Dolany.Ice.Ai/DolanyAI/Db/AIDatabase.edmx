@@ -5,6 +5,15 @@
     <!-- SSDL content -->
     <edmx:StorageModels>
     <Schema Namespace="Dolany.Ice.Ai.Dolany.Db.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+        <EntityType Name="AIConfig">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="nvarchar" MaxLength="50" Nullable="false" />
+          <Property Name="Group" Type="nvarchar" MaxLength="50" />
+          <Property Name="Key" Type="nvarchar" MaxLength="50" />
+          <Property Name="Value" Type="nvarchar" MaxLength="50" />
+        </EntityType>
         <EntityType Name="AISeal">
           <Key>
             <PropertyRef Name="Id" />
@@ -238,6 +247,7 @@
           <Property Name="SignTime" Type="datetime" />
         </EntityType>
         <EntityContainer Name="DolanyIceAiDolanyDbStoreContainer">
+          <EntitySet Name="AIConfig" EntityType="Self.AIConfig" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="AISeal" EntityType="Self.AISeal" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="AlermClock" EntityType="Self.AlermClock" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="AlertContent" EntityType="Self.AlertContent" Schema="dbo" store:Type="Tables" />
@@ -459,6 +469,7 @@
           <EntitySet Name="TohouSign" EntityType="Dolany.Ice.Ai.Dolany.Db.TohouSign" />
           <EntitySet Name="TarotFortuneData" EntityType="Dolany.Ice.Ai.Dolany.Db.TarotFortuneData" />
           <EntitySet Name="TarotFortuneRecord" EntityType="Dolany.Ice.Ai.Dolany.Db.TarotFortuneRecord" />
+          <EntitySet Name="AIConfig" EntityType="Dolany.Ice.Ai.Dolany.Db.AIConfig" />
         </EntityContainer>
         <EntityType Name="FortuneItem">
           <Key>
@@ -524,6 +535,15 @@
           <Property Name="QQNum" Type="Int64" Nullable="false" />
           <Property Name="TarotId" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
           <Property Name="UpdateTime" Type="DateTime" Nullable="false" Precision="3" />
+        </EntityType>
+        <EntityType Name="AIConfig">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="Group" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="Key" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="Value" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
         </EntityType>
       </Schema>
     </edmx:ConceptualModels>
@@ -783,6 +803,16 @@
                 <ScalarProperty Name="UpdateTime" ColumnName="UpdateTime" />
                 <ScalarProperty Name="TarotId" ColumnName="TarotId" />
                 <ScalarProperty Name="QQNum" ColumnName="QQNum" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="AIConfig">
+            <EntityTypeMapping TypeName="Dolany.Ice.Ai.Dolany.Db.AIConfig">
+              <MappingFragment StoreEntitySet="AIConfig">
+                <ScalarProperty Name="Value" ColumnName="Value" />
+                <ScalarProperty Name="Key" ColumnName="Key" />
+                <ScalarProperty Name="Group" ColumnName="Group" />
                 <ScalarProperty Name="Id" ColumnName="Id" />
               </MappingFragment>
             </EntityTypeMapping>

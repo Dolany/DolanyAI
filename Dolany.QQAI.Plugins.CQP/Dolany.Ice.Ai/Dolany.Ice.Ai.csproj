@@ -132,6 +132,9 @@
     <Compile Include="DolanyAI\Cache\MsgReceiveCache.cs" />
     <Compile Include="DolanyAI\Common\RequestHelper.cs" />
     <Compile Include="DolanyAI\Common\VoiceConvert.cs" />
+    <Compile Include="DolanyAI\Db\AIConfig.cs">
+      <DependentUpon>AIDatabase.tt</DependentUpon>
+    </Compile>
     <Compile Include="DolanyAI\Db\AIDatabase.Context.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>

@@ -29,6 +29,7 @@
         <EntityTypeShape EntityType="Dolany.Ice.Ai.Dolany.Db.TohouSign" Width="1.5" PointX="11.375" PointY="9.75" />
         <EntityTypeShape EntityType="Dolany.Ice.Ai.Dolany.Db.TarotFortuneData" Width="1.5" PointX="3.375" PointY="12.75" />
         <EntityTypeShape EntityType="Dolany.Ice.Ai.Dolany.Db.TarotFortuneRecord" Width="1.5" PointX="11.375" PointY="12.75" />
+        <EntityTypeShape EntityType="Dolany.Ice.Ai.Dolany.Db.AIConfig" Width="1.5" PointX="13.375" PointY="0.75" />
       </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>
