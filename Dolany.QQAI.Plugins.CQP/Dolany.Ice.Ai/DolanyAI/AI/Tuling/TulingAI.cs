@@ -49,7 +49,7 @@ namespace Dolany.Ice.Ai.DolanyAI
                 return false;
             }
 
-            string voice = response.Contains("QQ:") ? string.Empty : VoiceConvert.ConvertOnline(response);
+            string voice = (response.Contains("QQ:") || response.Contains("http")) ? string.Empty : VoiceConvert.ConvertOnline(response);
             if (string.IsNullOrEmpty(voice))
             {
                 MsgSender.Instance.PushMsg(new SendMsgDTO
