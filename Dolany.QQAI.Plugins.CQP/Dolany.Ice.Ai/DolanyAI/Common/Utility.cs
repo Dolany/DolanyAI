@@ -78,33 +78,39 @@ namespace Dolany.Ice.Ai.DolanyAI
 
         public static void SetConfig(string name, string value)
         {
-            var query = DbMgr.Query<ConfigEntity>(c => c.Name == name);
-            if (query.IsNullOrEmpty())
+            using (AIDatabase db = new AIDatabase())
             {
-                DbMgr.Insert(new ConfigEntity
+                var query = db.AIConfig.Where(p => p.Key == name);
+                if (query.IsNullOrEmpty())
                 {
-                    Id = Guid.NewGuid().ToString(),
-                    Name = name,
-                    Content = value
-                });
-            }
-            else
-            {
-                var config = query.First();
-                config.Content = value;
-                DbMgr.Update(config);
+                    db.AIConfig.Add(new AIConfig
+                    {
+                        Id = Guid.NewGuid().ToString(),
+                        Key = name,
+                        Value = value
+                    });
+                }
+                else
+                {
+                    var config = query.First();
+                    config.Value = value;
+                }
+                db.SaveChanges();
             }
         }
 
         public static string GetConfig(string name)
         {
-            var query = DbMgr.Query<ConfigEntity>(c => c.Name == name);
-            if (query.IsNullOrEmpty())
+            using (AIDatabase db = new AIDatabase())
             {
-                return string.Empty;
-            }
+                var query = db.AIConfig.Where(p => p.Key == name);
+                if (query.IsNullOrEmpty())
+                {
+                    return string.Empty;
+                }
 
-            return query.First().Content;
+                return query.First().Value;
+            }
         }
 
         public static T Instance<T>() where T : class, new()

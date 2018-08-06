@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using Dolany.Ice.Ai.DolanyAI.Db;
+using System.Timers;
 
 namespace Dolany.Ice.Ai.DolanyAI
 {
@@ -15,13 +16,44 @@ namespace Dolany.Ice.Ai.DolanyAI
         )]
     public class MonitorAI : AIBase
     {
+        private Timer timer = new Timer();
+
         public MonitorAI()
             : base()
         {
         }
 
+        public int CheckFrequency
+        {
+            get
+            {
+                var c = Utility.GetConfig("CheckFrequency");
+                if (string.IsNullOrEmpty(c))
+                {
+                    return 10;
+                }
+
+                return int.Parse(c);
+            }
+        }
+
         public override void Work()
         {
+            timer.Enabled = true;
+            timer.Interval = CheckFrequency * 1000;
+            timer.AutoReset = false;
+            timer.Elapsed += TimeUp;
+
+            timer.Start();
+        }
+
+        private void TimeUp(object sender, ElapsedEventArgs e)
+        {
+            timer.Stop();
+            Utility.SetConfig("HeartBeat", DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss"));
+
+            timer.Interval = CheckFrequency * 1000;
+            timer.Start();
         }
 
         [PrivateEnterCommand(

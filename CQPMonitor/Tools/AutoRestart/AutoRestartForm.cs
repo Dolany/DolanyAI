@@ -10,6 +10,7 @@ using System.Windows.Forms;
 using System.Diagnostics;
 using System.Timers;
 using Dolany.Ice.Ai.DolanyAI;
+using Dolany.Ice.Ai.DolanyAI.Db;
 
 namespace CQPMonitor.Tools.AutoRestart
 {
@@ -28,13 +29,52 @@ namespace CQPMonitor.Tools.AutoRestart
         private string ProcessName = "Amanda";
 
         private int MissHeartCount = 0;
-        private int MaxMissLimit = 4;
-        private int CheckFrequency = 30;
+
+        private int MaxMissLimit
+        {
+            get
+            {
+                var config = Utility.GetConfig("MaxMissLimit");
+                if (string.IsNullOrEmpty(config))
+                {
+                    return 5;
+                }
+
+                return int.Parse(config);
+            }
+        }
+
+        public int CheckFrequency
+        {
+            get
+            {
+                var c = Utility.GetConfig("CheckFrequency");
+                if (string.IsNullOrEmpty(c))
+                {
+                    return 10;
+                }
+
+                return int.Parse(c);
+            }
+        }
+
+        public DateTime? HeartBeat
+        {
+            get
+            {
+                var c = Utility.GetConfig("HeartBeat");
+                if (string.IsNullOrEmpty(c))
+                {
+                    return null;
+                }
+
+                return DateTime.Parse(c);
+            }
+        }
+
         private int LogShowCount = 30;
 
         private bool IsLoaded = false;
-
-        private List<LogEntity> Logs;
 
         public AutoRestartForm()
         {
@@ -62,18 +102,6 @@ namespace CQPMonitor.Tools.AutoRestart
             radioButton1.Checked = ToolAttr.IsAutoStart;
             radioButton2.Checked = !ToolAttr.IsAutoStart;
 
-            string MaxMissLimit_Config = Utility.GetConfig("MaxMissLimit");
-            if (!string.IsNullOrEmpty(MaxMissLimit_Config))
-            {
-                MaxMissLimit = int.Parse(MaxMissLimit_Config);
-            }
-
-            string CheckFrequency_Config = Utility.GetConfig("CheckFrequency");
-            if (!string.IsNullOrEmpty(CheckFrequency_Config))
-            {
-                CheckFrequency = int.Parse(CheckFrequency_Config);
-            }
-
             string LogShowCount_Config = Utility.GetConfig("LogShowCount");
             if (!string.IsNullOrEmpty(LogShowCount_Config))
             {
@@ -85,7 +113,7 @@ namespace CQPMonitor.Tools.AutoRestart
         {
             try
             {
-                //Restart();
+                Restart();
                 //ProcessMonitor();
                 //SetRestartCount();
             }
@@ -136,28 +164,25 @@ namespace CQPMonitor.Tools.AutoRestart
             }
         }
 
-        private bool IsCQRunning()
+        private bool IsAIRunning()
         {
-            Process[] processes = Process.GetProcesses();
-            if (processes == null || processes.Length == 0)
+            if (HeartBeat == null || HeartBeat.Value.AddSeconds(CheckFrequency) < DateTime.Now)
             {
+                MissHeartCount++;
+            }
+
+            if (MissHeartCount > MaxMissLimit)
+            {
+                MissHeartCount = 0;
                 return false;
             }
 
-            foreach (var p in processes)
-            {
-                if (p.ProcessName == ProcessName)
-                {
-                    return true;
-                }
-            }
-
-            return false;
+            return true;
         }
 
         private void Restart()
         {
-            if (IsCQRunning())
+            if (IsAIRunning())
             {
                 return;
             }

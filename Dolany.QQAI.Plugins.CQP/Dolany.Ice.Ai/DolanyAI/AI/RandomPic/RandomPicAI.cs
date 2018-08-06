@@ -21,8 +21,8 @@ namespace Dolany.Ice.Ai.DolanyAI
         private string PicPath = CodeApi.ImagePath;
         private List<string> Keywords = new List<string>();
 
-        private int MaxCache = 100;
-        private int CleanFreq = 5;
+        private int MaxCache = 200;
+        private int CleanFreq = 10;
 
         private Timer timer = new Timer();
 
