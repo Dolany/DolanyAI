@@ -126,6 +126,7 @@
     <Compile Include="DolanyAI\AI\Sign\SignAI.cs" />
     <Compile Include="DolanyAI\AI\Tuling\TulingAI.cs" />
     <Compile Include="DolanyAI\AI\Tuling\XfyunRequestHelper.cs" />
+    <Compile Include="DolanyAI\AI\Voice\KancoleVoiceAI.cs" />
     <Compile Include="DolanyAI\Base\AIAttribute.cs" />
     <Compile Include="DolanyAI\Base\AIBase.cs" />
     <Compile Include="DolanyAI\Base\GroupEnterCommandAttribute.cs" />
