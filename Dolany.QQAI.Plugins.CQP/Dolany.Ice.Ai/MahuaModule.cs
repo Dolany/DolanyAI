@@ -56,6 +56,8 @@ namespace Dolany.Ice.Ai
 
                 builder.RegisterType<AIGroupMsgReceived>()
                     .As<IGroupMessageReceivedMahuaEvent>();
+                builder.RegisterType<AIPrivateMsgReceived>()
+                    .As<IPrivateMessageFromFriendReceivedMahuaEvent>();
             }
         }
 

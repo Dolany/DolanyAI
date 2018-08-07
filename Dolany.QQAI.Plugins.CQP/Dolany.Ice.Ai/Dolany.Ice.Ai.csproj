@@ -281,6 +281,7 @@
     <Compile Include="MahuaApis\CodeApi.cs" />
     <Compile Include="MahuaApis\CQ\CQCode.cs" />
     <Compile Include="MahuaEvents\AIGroupMsgReceived.cs" />
+    <Compile Include="MahuaEvents\AIPrivateMsgReceived.cs" />
     <Compile Include="MahuaModule.cs" />
     <Compile Include="MyMenuProvider.cs" />
     <Compile Include="PluginInfo.cs" />

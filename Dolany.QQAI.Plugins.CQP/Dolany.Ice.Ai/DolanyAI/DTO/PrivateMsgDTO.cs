@@ -19,5 +19,7 @@ namespace Dolany.Ice.Ai.DolanyAI
         public int Font { get; set; }
 
         public string Command { get; set; }
+
+        public string FullMsg { get; set; }
     }
 }
