@@ -19,6 +19,21 @@ namespace Dolany.Ice.Ai.DolanyAI
     {
         private DateTime LastTime = DateTime.Now;
 
+        private int PraiseLimit
+        {
+            get
+            {
+                var config = Utility.GetConfig("PraiseLimit");
+                if (string.IsNullOrEmpty(config))
+                {
+                    Utility.SetConfig("PraiseLimit", "10");
+                    return 10;
+                }
+
+                return int.Parse(config);
+            }
+        }
+
         public PraiseMeAI()
             : base()
         {
@@ -39,7 +54,7 @@ namespace Dolany.Ice.Ai.DolanyAI
             )]
         public void PraiseMe(GroupMsgDTO MsgDTO, object[] param)
         {
-            if (LastTime.AddMinutes(30) < DateTime.Now)
+            if (LastTime.AddMinutes(PraiseLimit) < DateTime.Now)
             {
                 MsgSender.Instance.PushMsg(new SendMsgDTO
                 {

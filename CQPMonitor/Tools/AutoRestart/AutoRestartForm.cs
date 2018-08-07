@@ -37,6 +37,7 @@ namespace CQPMonitor.Tools.AutoRestart
                 var config = Utility.GetConfig("MaxMissLimit");
                 if (string.IsNullOrEmpty(config))
                 {
+                    Utility.SetConfig("MaxMissLimit", "5");
                     return 5;
                 }
 
@@ -51,6 +52,7 @@ namespace CQPMonitor.Tools.AutoRestart
                 var c = Utility.GetConfig("CheckFrequency");
                 if (string.IsNullOrEmpty(c))
                 {
+                    Utility.SetConfig("CheckFrequency", "10");
                     return 10;
                 }
 
@@ -65,6 +67,7 @@ namespace CQPMonitor.Tools.AutoRestart
                 var c = Utility.GetConfig("HeartBeat");
                 if (string.IsNullOrEmpty(c))
                 {
+                    Utility.SetConfig("HeartBeat", "");
                     return null;
                 }
 

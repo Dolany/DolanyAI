@@ -30,6 +30,7 @@ namespace Dolany.Ice.Ai.DolanyAI
                 var c = Utility.GetConfig("CheckFrequency");
                 if (string.IsNullOrEmpty(c))
                 {
+                    Utility.SetConfig("CheckFrequency", "10");
                     return 10;
                 }
 

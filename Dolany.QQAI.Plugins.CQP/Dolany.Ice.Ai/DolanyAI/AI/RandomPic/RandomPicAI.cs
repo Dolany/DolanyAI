@@ -21,8 +21,35 @@ namespace Dolany.Ice.Ai.DolanyAI
         private string PicPath = CodeApi.ImagePath;
         private List<string> Keywords = new List<string>();
 
-        private int MaxCache = 200;
-        private int CleanFreq = 10;
+        private int MaxPicCache
+        {
+            get
+            {
+                string config = Utility.GetConfig("MaxPicCacheCount");
+                if (string.IsNullOrEmpty(config))
+                {
+                    Utility.SetConfig("MaxPicCacheCount", "200");
+                    return 200;
+                }
+
+                return int.Parse(config);
+            }
+        }
+
+        private int PicCleanFreq
+        {
+            get
+            {
+                string config = Utility.GetConfig("PicCleanFreq");
+                if (string.IsNullOrEmpty(config))
+                {
+                    Utility.SetConfig("PicCleanFreq", "10");
+                    return 10;
+                }
+
+                return int.Parse(config);
+            }
+        }
 
         private Timer timer = new Timer();
 
@@ -40,19 +67,7 @@ namespace Dolany.Ice.Ai.DolanyAI
 
         public void Init()
         {
-            string MaxCache_Config = Utility.GetConfig("MaxPicCacheCount");
-            if (!string.IsNullOrEmpty(MaxCache_Config))
-            {
-                MaxCache = int.Parse(MaxCache_Config);
-            }
-
-            string CleanFreq_Config = Utility.GetConfig("CleanFreq");
-            if (!string.IsNullOrEmpty(CleanFreq_Config))
-            {
-                CleanFreq = int.Parse(CleanFreq_Config);
-            }
-
-            timer.Interval = CleanFreq * 1000;
+            timer.Interval = PicCleanFreq * 1000;
             timer.AutoReset = true;
             timer.Enabled = true;
             timer.Elapsed += TimeUp;
@@ -73,7 +88,7 @@ namespace Dolany.Ice.Ai.DolanyAI
         private void CleanCache()
         {
             DirectoryInfo dir = new DirectoryInfo(PicPath);
-            int cleanCount = dir.GetFiles().Count() - MaxCache;
+            int cleanCount = dir.GetFiles().Count() - MaxPicCache;
             var cleanFiles = dir.GetFiles().OrderBy(f => f.CreationTime).Take(cleanCount);
             foreach (var f in cleanFiles)
             {
