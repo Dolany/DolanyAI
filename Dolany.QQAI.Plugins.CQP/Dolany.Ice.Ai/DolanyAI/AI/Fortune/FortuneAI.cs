@@ -29,6 +29,14 @@ namespace Dolany.Ice.Ai.DolanyAI
         }
 
         [GroupEnterCommand(
+            Command = "祈愿运势",
+            AuthorityLevel = AuthorityLevel.成员,
+            Description = "获取祈愿运势",
+            Syntax = "",
+            Tag = "运势功能",
+            SyntaxChecker = "Empty"
+            )]
+        [GroupEnterCommand(
             Command = ".luck",
             AuthorityLevel = AuthorityLevel.成员,
             Description = "获取每天运势",

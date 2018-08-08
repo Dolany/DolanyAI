@@ -17,7 +17,7 @@ namespace Dolany.Ice.Ai.DolanyAI
         )]
     public class PraiseMeAI : AIBase
     {
-        private DateTime LastTime = DateTime.Now;
+        private DateTime LastTime = DateTime.Now.AddMinutes(;
 
         private int PraiseLimit
         {
