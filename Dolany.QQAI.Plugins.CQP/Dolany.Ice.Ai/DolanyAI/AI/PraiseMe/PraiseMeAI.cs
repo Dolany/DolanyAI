@@ -54,13 +54,15 @@ namespace Dolany.Ice.Ai.DolanyAI
             )]
         public void PraiseMe(GroupMsgDTO MsgDTO, object[] param)
         {
-            if (LastTime.AddMinutes(PraiseLimit) < DateTime.Now)
+            if (LastTime.AddMinutes(PraiseLimit) >= DateTime.Now)
             {
+                int cdMinute = (LastTime.AddMinutes(PraiseLimit) - DateTime.Now).Minutes;
+                int cdSecond = (LastTime.AddMinutes(PraiseLimit) - DateTime.Now).Seconds;
                 MsgSender.Instance.PushMsg(new SendMsgDTO
                 {
                     Aim = MsgDTO.FromGroup,
                     Type = MsgType.Group,
-                    Msg = "点赞太频繁啦！"
+                    Msg = $"点赞太频繁啦！剩余冷却时间:{cdMinute}分{cdSecond}秒"
                 });
                 return;
             }
