@@ -263,6 +263,7 @@
     <Compile Include="DolanyAI\SyntaxChecker\AlermClock\DeleteClockChecker.cs" />
     <Compile Include="DolanyAI\SyntaxChecker\AlermClock\SetClockChecker.cs" />
     <Compile Include="DolanyAI\SyntaxChecker\CartoonSayings\ProcceedMsgChecker.cs" />
+    <Compile Include="DolanyAI\SyntaxChecker\Common\AtChecker.cs" />
     <Compile Include="DolanyAI\SyntaxChecker\Common\EmptyChecker.cs" />
     <Compile Include="DolanyAI\SyntaxChecker\Common\LongAndAnyChecker.cs" />
     <Compile Include="DolanyAI\SyntaxChecker\Common\LongChecker.cs" />

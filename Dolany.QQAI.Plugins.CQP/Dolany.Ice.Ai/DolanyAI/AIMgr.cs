@@ -87,10 +87,10 @@ namespace Dolany.Ice.Ai.DolanyAI
                     continue;
                 }
 
-                var ai = assembly.CreateInstance(type.FullName);
+                var ai = assembly.CreateInstance(type.FullName) as AIBase;
                 var attr = type.GetCustomAttribute(typeof(AIAttribute), false) as AIAttribute;
 
-                list.Add(new KeyValuePair<AIBase, AIAttribute>(ai as AIBase, attr));
+                list.Add(new KeyValuePair<AIBase, AIAttribute>(ai, attr));
             }
 
             AIList = list;

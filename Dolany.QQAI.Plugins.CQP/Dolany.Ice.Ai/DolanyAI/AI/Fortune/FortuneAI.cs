@@ -213,5 +213,17 @@ namespace Dolany.Ice.Ai.DolanyAI
                 return randData.Clone();
             }
         }
+
+        [GroupEnterCommand(
+            Command = "圣光祝福",
+            AuthorityLevel = AuthorityLevel.群主,
+            Description = "祝福一个成员，让其随机运势增加50%（最高100%），当日有效",
+            Syntax = "",
+            Tag = "运势功能",
+            SyntaxChecker = "At"
+            )]
+        public void HolyLight(GroupMsgDTO MsgDTO, object[] param)
+        {
+        }
     }
 }
