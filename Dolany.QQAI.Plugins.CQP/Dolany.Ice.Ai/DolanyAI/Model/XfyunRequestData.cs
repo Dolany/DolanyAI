@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace Dolany.Ice.Ai.DolanyAI
 {
-    public class XfyunRequest
+    public class XfyunRequestData
     {
         public string auf { get; set; }
         public string aue { get; set; }
