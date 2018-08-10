@@ -89,13 +89,27 @@ namespace Dolany.Ice.Ai.DolanyAI
 
         private bool AuthorityCheck(AuthorityLevel authorityLevel, int authority, long QQNum)
         {
-            if (authorityLevel == AuthorityLevel.群主
-                && authority != 0)
+            if (QQNum == Utility.DeveloperNumber)
+            {
+                return true;
+            }
+            if (authorityLevel == AuthorityLevel.开发者)
             {
                 return false;
             }
-            if (authorityLevel == AuthorityLevel.管理员
-                && (authority != 0 && authority != 1))
+            if (authority == 0)
+            {
+                return true;
+            }
+            if (authorityLevel == AuthorityLevel.群主)
+            {
+                return false;
+            }
+            if (authority == 1)
+            {
+                return true;
+            }
+            if (authorityLevel == AuthorityLevel.管理员)
             {
                 return false;
             }
