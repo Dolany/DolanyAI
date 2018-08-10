@@ -122,6 +122,14 @@
           <Property Name="LastHelloDate" Type="datetime" Nullable="false" />
           <Property Name="Content" Type="nvarchar" MaxLength="200" />
         </EntityType>
+        <EntityType Name="HolyLightBless">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="nvarchar" MaxLength="50" Nullable="false" />
+          <Property Name="QQNum" Type="bigint" Nullable="false" />
+          <Property Name="BlessDate" Type="datetime" Nullable="false" />
+        </EntityType>
         <EntityType Name="KanColeGirlVoice">
           <Key>
             <PropertyRef Name="Id" />
@@ -259,6 +267,7 @@
           <EntitySet Name="FishItem" EntityType="Self.FishItem" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="FortuneItem" EntityType="Self.FortuneItem" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Hello" EntityType="Self.Hello" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="HolyLightBless" EntityType="Self.HolyLightBless" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="KanColeGirlVoice" EntityType="Self.KanColeGirlVoice" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="MemberRoleCache" EntityType="Self.MemberRoleCache" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="MsgRecievedCache" EntityType="Self.MsgRecievedCache" Schema="dbo" store:Type="Tables" />
@@ -470,6 +479,7 @@
           <EntitySet Name="TarotFortuneData" EntityType="Dolany.Ice.Ai.Dolany.Db.TarotFortuneData" />
           <EntitySet Name="TarotFortuneRecord" EntityType="Dolany.Ice.Ai.Dolany.Db.TarotFortuneRecord" />
           <EntitySet Name="AIConfig" EntityType="Dolany.Ice.Ai.Dolany.Db.AIConfig" />
+          <EntitySet Name="HolyLightBless" EntityType="Dolany.Ice.Ai.Dolany.Db.HolyLightBless" />
         </EntityContainer>
         <EntityType Name="FortuneItem">
           <Key>
@@ -544,6 +554,14 @@
           <Property Name="Group" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
           <Property Name="Key" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
           <Property Name="Value" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+        </EntityType>
+        <EntityType Name="HolyLightBless">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="QQNum" Type="Int64" Nullable="false" />
+          <Property Name="BlessDate" Type="DateTime" Nullable="false" Precision="3" />
         </EntityType>
       </Schema>
     </edmx:ConceptualModels>
@@ -813,6 +831,15 @@
                 <ScalarProperty Name="Value" ColumnName="Value" />
                 <ScalarProperty Name="Key" ColumnName="Key" />
                 <ScalarProperty Name="Group" ColumnName="Group" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="HolyLightBless">
+            <EntityTypeMapping TypeName="Dolany.Ice.Ai.Dolany.Db.HolyLightBless">
+              <MappingFragment StoreEntitySet="HolyLightBless">
+                <ScalarProperty Name="BlessDate" ColumnName="BlessDate" />
+                <ScalarProperty Name="QQNum" ColumnName="QQNum" />
                 <ScalarProperty Name="Id" ColumnName="Id" />
               </MappingFragment>
             </EntityTypeMapping>
