@@ -57,7 +57,7 @@ namespace Dolany.Ice.Ai.DolanyAI
             }
 
             int authority = Utility.GetMemberInfo(MsgDTO).Role;
-            if (!AuthorityCheck(enterAttr.AuthorityLevel, authority))
+            if (!AuthorityCheck(enterAttr.AuthorityLevel, authority, MsgDTO.FromQQ))
             {
                 return false;
             }
@@ -87,7 +87,7 @@ namespace Dolany.Ice.Ai.DolanyAI
             }
         }
 
-        private bool AuthorityCheck(AuthorityLevel authorityLevel, int authority)
+        private bool AuthorityCheck(AuthorityLevel authorityLevel, int authority, long QQNum)
         {
             if (authorityLevel == AuthorityLevel.群主
                 && authority != 0)

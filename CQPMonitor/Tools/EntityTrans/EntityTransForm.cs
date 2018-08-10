@@ -16,7 +16,7 @@ namespace CQPMonitor.Tools
         ToolName = "Entity转换",
         Decription = "Entity转换",
         ToolIcon = "",
-        IsAutoStart = true,
+        IsAutoStart = false,
         Order = 5
         )]
     public partial class EntityTransForm : ToolBaseForm

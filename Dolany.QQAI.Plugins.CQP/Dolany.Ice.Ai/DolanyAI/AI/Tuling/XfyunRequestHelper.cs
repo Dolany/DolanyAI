@@ -69,7 +69,7 @@ namespace Dolany.Ice.Ai.DolanyAI
 
         private static string GetParams()
         {
-            XfyunRequest request = new XfyunRequest
+            XfyunRequestData request = new XfyunRequestData
             {
                 aue = "lame",
                 auf = "audio/L16;rate=16000",

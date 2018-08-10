@@ -24,7 +24,7 @@ namespace CQPMonitor.Tools.AutoRestart
     public partial class AutoRestartForm : ToolBaseForm
     {
         private System.Timers.Timer timer = new System.Timers.Timer();
-        private string AIRootPath = @"C:\Amanda\";
+        private string AIRootPath = @"C:\AmandaQQ\";
 
         private string ProcessName = "Amanda";
 

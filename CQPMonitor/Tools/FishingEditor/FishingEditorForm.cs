@@ -14,7 +14,7 @@ namespace CQPMonitor.Tools.FishingEditor
         ToolName = "钓鱼编辑器",
         Decription = "钓鱼编辑器",
         ToolIcon = "fishingeditor.ico",
-        IsAutoStart = true,
+        IsAutoStart = false,
         Order = 4
         )]
     public partial class FishingEditorForm : ToolBaseForm

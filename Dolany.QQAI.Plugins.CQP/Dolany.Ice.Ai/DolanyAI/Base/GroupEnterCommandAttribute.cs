@@ -8,9 +8,10 @@ namespace Dolany.Ice.Ai.DolanyAI
 {
     public enum AuthorityLevel
     {
+        开发者 = 0,
         群主 = 1,
         管理员 = 2,
-        成员 = 0
+        成员 = 3
     }
 
     [System.AttributeUsage(System.AttributeTargets.Method, AllowMultiple = true)]
