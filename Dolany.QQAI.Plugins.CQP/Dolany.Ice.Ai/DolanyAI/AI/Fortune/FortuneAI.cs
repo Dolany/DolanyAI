@@ -111,7 +111,13 @@ namespace Dolany.Ice.Ai.DolanyAI
         {
             string msg = string.Empty;
             Random rand = new Random();
-            if (rf.FortuneValue < 50 && rand.Next(100) <= 30)
+            if (IsBlessed(MsgDTO.FromQQ))
+            {
+                rf.FortuneValue = rf.FortuneValue + 80;
+                msg += $"恭喜你收到了圣光祝福\r";
+                msg += "你今天的运势是：" + (rf.FortuneValue > 100 ? 100 : rf.FortuneValue) + "%(80↑)\r";
+            }
+            else if (rf.FortuneValue < 50 && rand.Next(100) <= 30)
             {
                 using (AIDatabase db = new AIDatabase())
                 {
@@ -140,6 +146,26 @@ namespace Dolany.Ice.Ai.DolanyAI
                 Type = MsgType.Group,
                 Msg = msg
             });
+        }
+
+        private bool IsBlessed(long QQNum)
+        {
+            using (AIDatabase db = new AIDatabase())
+            {
+                var query = db.HolyLightBless.Where(p => p.QQNum == QQNum);
+                if (query.IsNullOrEmpty())
+                {
+                    return false;
+                }
+
+                var bless = query.First();
+                if (bless.BlessDate < DateTime.Now.Date)
+                {
+                    return false;
+                }
+
+                return true;
+            }
         }
 
         [GroupEnterCommand(
@@ -232,6 +258,33 @@ namespace Dolany.Ice.Ai.DolanyAI
             )]
         public void HolyLight(GroupMsgDTO MsgDTO, object[] param)
         {
+            long aimNum = (long)param[0];
+            using (AIDatabase db = new AIDatabase())
+            {
+                var query = db.HolyLightBless.Where(h => h.QQNum == aimNum);
+                if (query.IsNullOrEmpty())
+                {
+                    db.HolyLightBless.Add(new HolyLightBless
+                    {
+                        Id = Guid.NewGuid().ToString(),
+                        QQNum = aimNum,
+                        BlessDate = DateTime.Now.Date
+                    });
+                }
+                else
+                {
+                    var bless = query.First();
+                    bless.BlessDate = DateTime.Now.Date;
+                }
+
+                db.SaveChanges();
+                MsgSender.Instance.PushMsg(new SendMsgDTO
+                {
+                    Aim = MsgDTO.FromGroup,
+                    Type = MsgType.Group,
+                    Msg = "祝福成功！"
+                });
+            }
         }
     }
 }
