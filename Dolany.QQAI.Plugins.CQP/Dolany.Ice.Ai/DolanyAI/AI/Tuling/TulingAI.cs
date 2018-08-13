@@ -49,25 +49,31 @@ namespace Dolany.Ice.Ai.DolanyAI
                 return false;
             }
 
-            string voice = (response.Contains("QQ:") || response.Contains("http")) ? string.Empty : VoiceConvert.ConvertOnline(response);
-            if (string.IsNullOrEmpty(voice))
+            //string voice = (response.Contains("QQ:") || response.Contains("http")) ? string.Empty : VoiceConvert.ConvertOnline(response);
+            //if (string.IsNullOrEmpty(voice))
+            //{
+            //    MsgSender.Instance.PushMsg(new SendMsgDTO
+            //    {
+            //        Aim = MsgDTO.FromGroup,
+            //        Type = MsgType.Group,
+            //        Msg = $"{CodeApi.Code_At(MsgDTO.FromQQ)} {response}"
+            //    });
+            //}
+            //else
+            //{
+            //    MsgSender.Instance.PushMsg(new SendMsgDTO
+            //    {
+            //        Aim = MsgDTO.FromGroup,
+            //        Type = MsgType.Group,
+            //        Msg = $"{CodeApi.Code_Voice(voice)}"
+            //    });
+            //}
+            MsgSender.Instance.PushMsg(new SendMsgDTO
             {
-                MsgSender.Instance.PushMsg(new SendMsgDTO
-                {
-                    Aim = MsgDTO.FromGroup,
-                    Type = MsgType.Group,
-                    Msg = $"{CodeApi.Code_At(MsgDTO.FromQQ)} {response}"
-                });
-            }
-            else
-            {
-                MsgSender.Instance.PushMsg(new SendMsgDTO
-                {
-                    Aim = MsgDTO.FromGroup,
-                    Type = MsgType.Group,
-                    Msg = $"{CodeApi.Code_Voice(voice)}"
-                });
-            }
+                Aim = MsgDTO.FromGroup,
+                Type = MsgType.Group,
+                Msg = $"{CodeApi.Code_At(MsgDTO.FromQQ)} {response}"
+            });
             return true;
         }
 
