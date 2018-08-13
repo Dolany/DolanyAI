@@ -190,6 +190,7 @@ namespace CQPMonitor.Tools.AutoRestart
                 return;
             }
 
+            KillCQ();
             SetState("Restart");
             ProcessStartInfo psInfo = new ProcessStartInfo(AIRootPath + "Amanda.exe");
             Process.Start(psInfo);

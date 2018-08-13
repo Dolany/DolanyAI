@@ -113,6 +113,18 @@
     <Compile Include="Tools\FortuneItem\FortuneItemForm.Designer.cs">
       <DependentUpon>FortuneItemForm.cs</DependentUpon>
     </Compile>
+    <Compile Include="Tools\SysConfiger\ConfigForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Tools\SysConfiger\ConfigForm.Designer.cs">
+      <DependentUpon>ConfigForm.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Tools\SysConfiger\SysConfigerForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Tools\SysConfiger\SysConfigerForm.Designer.cs">
+      <DependentUpon>SysConfigerForm.cs</DependentUpon>
+    </Compile>
     <Compile Include="Tools\ToolAttribute.cs" />
     <Compile Include="Tools\ToolBaseForm.cs">
       <SubType>Form</SubType>
@@ -154,6 +166,12 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Tools\FortuneItem\FortuneItemForm.resx">
       <DependentUpon>FortuneItemForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Tools\SysConfiger\ConfigForm.resx">
+      <DependentUpon>ConfigForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Tools\SysConfiger\SysConfigerForm.resx">
+      <DependentUpon>SysConfigerForm.cs</DependentUpon>
     </EmbeddedResource>
     <None Include="packages.config" />
     <None Include="Properties\Settings.settings">
