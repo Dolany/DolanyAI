@@ -14,10 +14,6 @@ namespace KanColeVoiceClimber
         public List<KanColeGirlVoice> kanColeGirlVoices = new List<KanColeGirlVoice>();
         private string GirlName;
 
-        //private string[] timeStrs = {
-        //    "0000"
-        //};
-
         protected override void Parse()
         {
             base.Parse();
@@ -61,12 +57,12 @@ namespace KanColeVoiceClimber
             }
         }
 
-        private List<string> GetDescList(IEnumerable<HtmlNode> outerNodes)
+        private static List<string> GetDescList(IEnumerable<HtmlNode> outerNodes)
         {
-            List<string> list = new List<string>();
+            var list = new List<string>();
             foreach (var node in outerNodes)
             {
-                var tdNode = node.ChildNodes.Where(p => p.InnerText.Contains("00")).First();
+                var tdNode = node.ChildNodes.First(p => p.InnerText.Contains("00"));
                 list.Add(tdNode.InnerText.Replace("\n", ""));
             }
 
@@ -82,7 +78,7 @@ namespace KanColeVoiceClimber
 
         private void ParseInfo(HtmlNode voiceNode, string descStr)
         {
-            string[] strs = descStr.Split(new char[] { '：' }, StringSplitOptions.RemoveEmptyEntries);
+            var strs = descStr.Split(new char[] { '：' }, StringSplitOptions.RemoveEmptyEntries);
             if (strs.IsNullOrEmpty()
                 || strs.Length != 3
                 )
@@ -90,12 +86,7 @@ namespace KanColeVoiceClimber
                 return;
             }
 
-            //if (!timeStrs.Contains(strs[0].Trim()))
-            //{
-            //    return;
-            //}
-
-            KanColeGirlVoice voice = new KanColeGirlVoice
+            var voice = new KanColeGirlVoice
             {
                 Id = Guid.NewGuid().ToString(),
                 Content = strs[2].Trim(),

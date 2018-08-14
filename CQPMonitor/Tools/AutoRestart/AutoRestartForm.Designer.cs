@@ -74,7 +74,7 @@
             this.删除选中行的数据ToolStripMenuItem.Name = "删除选中行的数据ToolStripMenuItem";
             this.删除选中行的数据ToolStripMenuItem.Size = new System.Drawing.Size(172, 22);
             this.删除选中行的数据ToolStripMenuItem.Text = "删除选中行的数据";
-            this.删除选中行的数据ToolStripMenuItem.Click += new System.EventHandler(this.删除选中行的数据ToolStripMenuItem_Click);
+            this.删除选中行的数据ToolStripMenuItem.Click += new System.EventHandler(AutoRestartForm.删除选中行的数据ToolStripMenuItem_Click);
             // 
             // ShowTable
             // 
@@ -151,7 +151,7 @@
             this.RefreshTableBtn.TabIndex = 11;
             this.RefreshTableBtn.Text = "刷新";
             this.RefreshTableBtn.UseVisualStyleBackColor = true;
-            this.RefreshTableBtn.Click += new System.EventHandler(this.RefreshTableBtn_Click);
+            this.RefreshTableBtn.Click += new System.EventHandler(AutoRestartForm.RefreshTableBtn_Click);
             // 
             // groupBox2
             // 
@@ -260,7 +260,7 @@
             this.SaveBtn.TabIndex = 6;
             this.SaveBtn.Text = "保存";
             this.SaveBtn.UseVisualStyleBackColor = true;
-            this.SaveBtn.Click += new System.EventHandler(this.SaveBtn_Click);
+            this.SaveBtn.Click += new System.EventHandler(AutoRestartForm.SaveBtn_Click);
             // 
             // LogShowCountTxt
             // 

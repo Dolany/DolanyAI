@@ -51,16 +51,20 @@ namespace CQPMonitor.Tools.SysConfiger
                 return;
             }
 
-            ConfigForm cf = new ConfigForm(configs[e.RowIndex]);
-            cf.ShowDialog();
-            RefreshConfigs();
+            using (var cf = new ConfigForm(configs[e.RowIndex]))
+            {
+                cf.ShowDialog();
+                RefreshConfigs();
+            }
         }
 
         private void addBtn_Click(object sender, EventArgs e)
         {
-            ConfigForm cf = new ConfigForm(null);
-            cf.ShowDialog();
-            RefreshConfigs();
+            using (var cf = new ConfigForm(null))
+            {
+                cf.ShowDialog();
+                RefreshConfigs();
+            }
         }
 
         private void refreshBtn_Click(object sender, EventArgs e)

@@ -154,7 +154,7 @@ namespace CQPMonitor.Tools.AutoRestart
         private void KillCQ()
         {
             SetState("Kill");
-            Process[] processes = Process.GetProcesses();
+            var processes = Process.GetProcesses();
             foreach (var p in processes)
             {
                 if (p.ProcessName == ProcessName)
@@ -191,39 +191,20 @@ namespace CQPMonitor.Tools.AutoRestart
             }
 
             KillCQ();
-            SetState("Restart");
-            ProcessStartInfo psInfo = new ProcessStartInfo(AIRootPath + "Amanda.exe");
+            SetState(nameof(Restart));
+            var psInfo = new ProcessStartInfo(AIRootPath + "Amanda.exe");
             Process.Start(psInfo);
 
             RefreshTable();
             SetState("正常");
         }
 
-        private void RefreshTable()
+        private static void RefreshTable()
         {
-            //if (!IsLoaded)
-            //{
-            //    return;
-            //}
-
-            //this.Invoke(new Action(() =>
-            //{
-            //    var query = DbMgr.Query<LogEntity>(l => l.LogType == "Restart");
-            //    Logs = query.OrderByDescending(l => l.CreateTime).Take(LogShowCount).ToList();
-            //    ShowTable.DataSource = Logs;
-            //    ShowTable.Refresh();
-            //}));
         }
 
-        private void 删除选中行的数据ToolStripMenuItem_Click(object sender, EventArgs e)
+        private static void 删除选中行的数据ToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            //if (ShowTable.CurrentRow == null || ShowTable.CurrentRow.Index < 0)
-            //{
-            //    return;
-            //}
-
-            //DbMgr.Delete<LogEntity>(Logs[ShowTable.CurrentRow.Index].Id);
-            //RefreshTable();
         }
 
         private void RestartBtn_Click(object sender, EventArgs e)
@@ -232,7 +213,7 @@ namespace CQPMonitor.Tools.AutoRestart
             Restart();
         }
 
-        private void RefreshTableBtn_Click(object sender, EventArgs e)
+        private static void RefreshTableBtn_Click(object sender, EventArgs e)
         {
             //RefreshTable();
         }
@@ -240,10 +221,6 @@ namespace CQPMonitor.Tools.AutoRestart
         private void AutoRestartForm_Load(object sender, EventArgs e)
         {
             IsLoaded = true;
-
-            //RefreshTable();
-            //RefreshTxt();
-            //SetRestartCount();
         }
 
         private void RefreshTxt()
@@ -275,27 +252,8 @@ namespace CQPMonitor.Tools.AutoRestart
             }
         }
 
-        private void SaveBtn_Click(object sender, EventArgs e)
+        private static void SaveBtn_Click(object sender, EventArgs e)
         {
-            //int m, c, l;
-            //if (!int.TryParse(RefreshFreqTxt.Text, out c)
-            //    || !int.TryParse(MaxMissCountTxt.Text, out m)
-            //    || !int.TryParse(LogShowCountTxt.Text, out l))
-            //{
-            //    MessageBox.Show("输入不合法！");
-            //    return;
-            //}
-
-            //CheckFrequency = c;
-            //MaxMissLimit = m;
-            //LogShowCount = l;
-            //RefreshTxt();
-
-            //Utility.SetConfig("MaxMissLimit", MaxMissLimit.ToString());
-            //Utility.SetConfig("CheckFrequency", CheckFrequency.ToString());
-            //Utility.SetConfig("LogShowCount", LogShowCount.ToString());
-
-            //MessageBox.Show("保存成功！");
         }
     }
 }

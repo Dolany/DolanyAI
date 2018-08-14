@@ -9,7 +9,7 @@ namespace CQPMonitor.Tools
 {
     [MetadataAttribute]
     [AttributeUsage(AttributeTargets.Class)]
-    public class ToolAttribute : ExportAttribute
+    public sealed class ToolAttribute : ExportAttribute
     {
         public ToolAttribute()
             : base(typeof(ToolBaseForm))

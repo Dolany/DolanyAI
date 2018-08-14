@@ -26,7 +26,7 @@ namespace CQPMonitor.Tools.CleanPicCache
         private int MaxCache = 100;
         private int CleanFreq = 5;
 
-        private System.Timers.Timer timer = new System.Timers.Timer();
+        private readonly System.Timers.Timer timer = new System.Timers.Timer();
 
         public CleanPicCacheForm()
             : base()
@@ -38,13 +38,13 @@ namespace CQPMonitor.Tools.CleanPicCache
 
         public void Init()
         {
-            string MaxCache_Config = Utility.GetConfig("MaxPicCacheCount");
+            var MaxCache_Config = Utility.GetConfig("MaxPicCacheCount");
             if (!string.IsNullOrEmpty(MaxCache_Config))
             {
                 MaxCache = int.Parse(MaxCache_Config);
             }
 
-            string CleanFreq_Config = Utility.GetConfig("CleanFreq");
+            var CleanFreq_Config = Utility.GetConfig("CleanFreq");
             if (!string.IsNullOrEmpty(CleanFreq_Config))
             {
                 CleanFreq = int.Parse(CleanFreq_Config);
@@ -82,8 +82,8 @@ namespace CQPMonitor.Tools.CleanPicCache
 
         private void CleanCache()
         {
-            DirectoryInfo dir = new DirectoryInfo(CachePath);
-            int cleanCount = dir.GetFiles().Count() - MaxCache;
+            var dir = new DirectoryInfo(CachePath);
+            var cleanCount = dir.GetFiles().Count() - MaxCache;
             var cleanFiles = dir.GetFiles().OrderBy(f => f.CreationTime).Take(cleanCount);
             foreach (var f in cleanFiles)
             {
@@ -95,11 +95,10 @@ namespace CQPMonitor.Tools.CleanPicCache
 
         private void SaveBtn_Click(object sender, EventArgs e)
         {
-            string MaxCacheCountStr = MaxCacheCountTxt.Text;
-            string CleanFreqStr = CleanFreqTxt.Text;
+            var MaxCacheCountStr = MaxCacheCountTxt.Text;
+            var CleanFreqStr = CleanFreqTxt.Text;
 
-            int m, c;
-            if (!int.TryParse(MaxCacheCountStr, out m) || !int.TryParse(CleanFreqStr, out c))
+            if (!int.TryParse(MaxCacheCountStr, out int m) || !int.TryParse(CleanFreqStr, out int c))
             {
                 MessageBox.Show("输入不合法！");
                 return;
@@ -109,7 +108,7 @@ namespace CQPMonitor.Tools.CleanPicCache
             CleanFreq = c;
 
             Utility.SetConfig("MaxPicCacheCount", MaxCache.ToString());
-            Utility.SetConfig("CleanFreq", CleanFreq.ToString());
+            Utility.SetConfig(nameof(CleanFreq), CleanFreq.ToString());
 
             MessageBox.Show("保存成功！");
         }
@@ -149,7 +148,7 @@ namespace CQPMonitor.Tools.CleanPicCache
 
         private void RefreshCacheCount()
         {
-            DirectoryInfo dir = new DirectoryInfo(CachePath);
+            var dir = new DirectoryInfo(CachePath);
             CurCacheCountLbl.Text = dir.GetFiles().Count().ToString();
         }
     }

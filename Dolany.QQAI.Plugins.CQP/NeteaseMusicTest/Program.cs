@@ -9,9 +9,9 @@ namespace NeteaseMusicTest
 {
     internal class Program
     {
-        private static void Main(string[] args)
+        private static void Main()
         {
-            string songName = "安娜";
+            var songName = "安娜";
             var response = RequestHelper.PostData<NeteaseResponse>(new PostReq_Param
             {
                 InterfaceName = $"http://music.163.com/api/search/get/?s={Utility.UrlCharConvert(songName)}&type=1"

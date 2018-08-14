@@ -16,7 +16,7 @@ namespace CQPMonitor.Tools
         {
             get
             {
-                Type t = this.GetType();
+                var t = this.GetType();
                 return t.GetCustomAttributes(typeof(ToolAttribute), false).First() as ToolAttribute;
             }
         }
@@ -38,11 +38,9 @@ namespace CQPMonitor.Tools
             StartPosition = FormStartPosition.CenterScreen;
             MaximizeBox = false;
             MinimizeBox = false;
-            try
             {
                 Icon = new System.Drawing.Icon(ImagePath + ToolAttr.ToolIcon);
             }
-            catch { }
             Show();
         }
 

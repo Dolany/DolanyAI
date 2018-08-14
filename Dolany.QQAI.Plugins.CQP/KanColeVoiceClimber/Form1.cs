@@ -16,6 +16,7 @@ namespace KanColeVoiceClimber
     public partial class Form1 : Form
     {
         private string fileName;
+
         public Form1()
         {
             InitializeComponent();
@@ -23,40 +24,23 @@ namespace KanColeVoiceClimber
 
         private void startBtn_Click(object sender, EventArgs e)
         {
-            OpenFileDialog dialog = new OpenFileDialog();
-            if (dialog.ShowDialog() != DialogResult.OK)
+            using (var dialog = new OpenFileDialog())
             {
-                return;
-            }
-            fileName = dialog.FileName;
+                if (dialog.ShowDialog() != DialogResult.OK)
+                {
+                    return;
+                }
+                fileName = dialog.FileName;
 
-            Task.Factory.StartNew(() => Work());
+                Task.Factory.StartNew(() => Work());
+            }
         }
 
         private void Work()
         {
-            //HttpRequester requester = new HttpRequester();
-
-            //AppendTxt("请求列表页面中...");
-            //string aimStr = $"https://zh.moegirl.org/zh-hans/%E8%88%B0%E9%98%9FCollection/%E5%9B%BE%E9%89%B4/%E8%88%B0%E5%A8%98";
-            //string HtmlStr = requester.Request(aimStr);
-
-            //AppendTxt("解析列表页面中...");
-            //ColeGirlListPageParse parser = new ColeGirlListPageParse();
-            //parser.Load(HtmlStr);
-
-            //var list = parser.GirlList;
-            //AppendTxt($"共找到{list.Count}个舰娘");
-            //foreach (var name in list)
-            //{
-            //    ParseAGirl(name);
-            //}
-            //ParseAGirl("舰队Collection:Верный");
-
-
             using (StreamReader reader = new StreamReader(fileName))
             {
-                string line = reader.ReadLine();
+                var line = reader.ReadLine();
                 while (!string.IsNullOrEmpty(line))
                 {
                     var strs = line.Split(new char[] { ' ' }, StringSplitOptions.RemoveEmptyEntries);
@@ -82,13 +66,6 @@ namespace KanColeVoiceClimber
                     line = reader.ReadLine();
                 }
             }
-            //using (AIDatabase db = new AIDatabase())
-            //{
-            //    var query = db.KanColeGirlVoice.Where(p => p.Name == "舰队Collection:响改二" && p.Tag == "母港/详细阅览（2016梅雨限定）");
-            //    int count = query.Count();
-            //    db.KanColeGirlVoice.RemoveRange(query);
-            //    db.SaveChanges();
-            //}
 
             AppendTxt("任务结束！");
         }
@@ -104,15 +81,15 @@ namespace KanColeVoiceClimber
         private void ParseAGirl(string name)
         {
             AppendTxt($"正在解析{name}...");
-            HttpRequester requester = new HttpRequester();
+            var requester = new HttpRequester();
 
             AppendTxt("请求列表页面中...");
-            string aimStr = $"https://zh.moegirl.org/{Utility.UrlCharConvert(name)}";
-            string HtmlStr = requester.Request(aimStr);
+            var aimStr = $"https://zh.moegirl.org/{Utility.UrlCharConvert(name)}";
+            var HtmlStr = requester.Request(aimStr);
 
             AppendTxt("解析列表页面中...");
 
-            KanColeGirlParser parser = new KanColeGirlParser();
+            var parser = new KanColeGirlParser();
             parser.Load(HtmlStr);
 
             var list = parser.kanColeGirlVoices;
@@ -124,23 +101,8 @@ namespace KanColeVoiceClimber
             AppendTxt("同步完成！");
         }
 
-        private void SynToDb(KanColeGirlVoice voice)
+        private static void SynToDb(KanColeGirlVoice voice)
         {
-            //using (AIDatabase db = new AIDatabase())
-            //{
-            //    var query = db.KanColeGirlVoice.Where(k => k.Tag == voice.Tag && k.Name == voice.Name);
-            //    if (query.IsNullOrEmpty())
-            //    {
-            //        db.KanColeGirlVoice.Add(voice);
-            //    }
-            //    else
-            //    {
-            //        var kan = query.First();
-            //        kan.Content = voice.Content;
-            //        kan.VoiceUrl = voice.VoiceUrl;
-            //    }
-            //    db.SaveChanges();
-            //}
         }
     }
 }
