@@ -8,7 +8,7 @@
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
     <RootNamespace>AmandaSharp</RootNamespace>
-    <AssemblyName>top.ox.AmandaSharp</AssemblyName>
+    <AssemblyName>Dolany.IceAi.LightQQ</AssemblyName>
     <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <TargetFrameworkProfile />
@@ -77,10 +77,6 @@
   <ItemGroup>
     <Compile Include="API.cs" />
     <Compile Include="Event.cs" />
-    <Compile Include="GroupMemberInfoViewModel.cs" />
-    <Compile Include="GroupMemberLevelViewModel.cs" />
-    <Compile Include="GroupMemberListViewModel.cs" />
-    <Compile Include="JsonHelper.cs" />
     <Compile Include="Profiles.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="SettingForm.cs">

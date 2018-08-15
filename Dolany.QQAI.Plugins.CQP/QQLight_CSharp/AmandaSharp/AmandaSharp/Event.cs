@@ -20,11 +20,11 @@ namespace AmandaSharp
             API.AuthCode = AuthCode;
             var p = new Plugin
             {
-                ID = "top.ox.AmandaSharp",//插件的唯一ID，内部标识
-                Name = "测试SDK", //插件的名称
-                Author = "牛宝宝", //这是插件的作者
+                ID = "dolany.iceai.AmandaSharp",//插件的唯一ID，内部标识
+                Name = "DolanyAi", //插件的名称
+                Author = "Dolany", //这是插件的作者
                 Version = "1.0.0", // 插件的版本号
-                Brief = "这是一个用来测试SDK的插件",  // 插件的简介&说明
+                Brief = "Dolany Ai",  // 插件的简介&说明
                 SDK = "3",// 插件的SDK版本号，唯一值，固定不变
                 WindowsTitle = "{_TestMenu1=设置-真}"
             };
@@ -69,27 +69,6 @@ namespace AmandaSharp
         [DllExport(ExportName = nameof(Event_GetNewMsg), CallingConvention = CallingConvention.StdCall)]
         public static int Event_GetNewMsg(int type, string GroupID, string FromQQ, string Msg, string MsgID)
         {
-            /*
-            type 消息类型
-            GroupID 来源群组
-            FromQQ 来源QQ
-            Msg 消息内容
-            MsgID 消息ID
-            */
-            //API.SendLog("Info", "收到一条消息", 0xff0000);
-            //Api_SendMsg(type,GroupID,FromQQ,"这是一个演示消息，DEMO");
-            //API.SendMsg(type, GroupID, FromQQ, "机器人重复一遍消息:\n" + Msg);
-            //API.SendMsg(type, GroupID, FromQQ, API.GetGroupMemberList(GroupID));
-            var infos = JsonHelper.DeserializeJsonToObject<GroupMemberListViewModel>(API.GetGroupMemberList(GroupID));
-            try
-            {
-                API.SendMsg(type, GroupID, FromQQ, infos.mems.First(m => m.role == 0).nick);
-            }
-            catch (Exception ex)
-            {
-                API.SendMsg(type, GroupID, FromQQ, ex.Message);
-                API.SendMsg(type, GroupID, FromQQ, ex.StackTrace);
-            }
             //string s = API.GetGroupMemberList(GroupID);
             return API.MSG_CONTINUE;// 返回0 下个插件继续处理该事件，返回1 拦截此事件不让其他插件执行
         }

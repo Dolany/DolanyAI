@@ -9,19 +9,35 @@ using System.Timers;
 
 namespace Dolany.Ice.Ai.DolanyAI
 {
-    public class MsgSender
+    public class MsgSender : IDisposable
     {
         private static MsgSender instance;
 
         private Timer timer = new Timer();
-        private int MaxLength = 300;
+
+        private int SendMsgMaxLength
+        {
+            get
+            {
+                var config = Utility.GetConfig(nameof(SendMsgMaxLength));
+                if (config.IsNullOrEmpty())
+                {
+                    Utility.SetConfig(nameof(SendMsgMaxLength), "400");
+                    return 400;
+                }
+
+                return int.Parse(config);
+            }
+        }
 
         private MsgSender()
         {
-            timer = new Timer();
-            timer.Interval = 1000;
-            timer.AutoReset = false;
-            timer.Enabled = true;
+            timer = new Timer
+            {
+                Interval = 1000,
+                AutoReset = false,
+                Enabled = true
+            };
             timer.Elapsed += new ElapsedEventHandler(TimerUp);
 
             timer.Start();
@@ -59,13 +75,13 @@ namespace Dolany.Ice.Ai.DolanyAI
                 msg.Guid = Guid.NewGuid().ToString();
             }
 
-            if (msg.Msg.Length > MaxLength)
+            if (msg.Msg.Length > SendMsgMaxLength)
             {
                 PushMsg(new SendMsgDTO
                 {
                     Aim = msg.Aim,
                     Type = msg.Type,
-                    Msg = msg.Msg.Substring(0, MaxLength),
+                    Msg = msg.Msg.Substring(0, SendMsgMaxLength),
                     Guid = msg.Guid,
                     SerialNum = msg.SerialNum
                 });
@@ -74,7 +90,7 @@ namespace Dolany.Ice.Ai.DolanyAI
                 {
                     Aim = msg.Aim,
                     Type = msg.Type,
-                    Msg = msg.Msg.Substring(MaxLength, msg.Msg.Length - MaxLength),
+                    Msg = msg.Msg.Substring(SendMsgMaxLength, msg.Msg.Length - SendMsgMaxLength),
                     Guid = msg.Guid,
                     SerialNum = msg.SerialNum + 1
                 });
@@ -95,7 +111,7 @@ namespace Dolany.Ice.Ai.DolanyAI
             }
         }
 
-        private void SendAllMsgs()
+        private static void SendAllMsgs()
         {
             using (AIDatabase db = new AIDatabase())
             {
@@ -115,7 +131,7 @@ namespace Dolany.Ice.Ai.DolanyAI
             }
         }
 
-        private void SendMsg(SendMsgDTO msg)
+        private static void SendMsg(SendMsgDTO msg)
         {
             using (var robotSession = MahuaRobotManager.Instance.CreateSession())
             {
@@ -129,8 +145,16 @@ namespace Dolany.Ice.Ai.DolanyAI
                     case MsgType.Private:
                         api.SendPrivateMessage(msg.Aim.ToString(), msg.Msg);
                         break;
+
+                    default:
+                        throw new Exception("Unexpected Case");
                 }
             }
+        }
+
+        public void Dispose()
+        {
+            timer.Dispose();
         }
     }
 }
