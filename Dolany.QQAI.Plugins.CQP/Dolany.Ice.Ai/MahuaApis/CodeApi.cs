@@ -13,7 +13,7 @@ namespace Dolany.Ice.Ai.MahuaApis
 
         public static string Code_At(long qqNumber)
         {
-            string code = string.Empty;
+            var code = string.Empty;
             switch (MahuaGlobal.CurrentPlatform)
             {
                 case MahuaPlatform.Cqp:
@@ -23,6 +23,9 @@ namespace Dolany.Ice.Ai.MahuaApis
                 case MahuaPlatform.Amanda:
                     code = AmandaCode.AmandaCode_At(qqNumber);
                     break;
+
+                default:
+                    throw new Exception("Unexpected Case");
             }
 
             return code;
@@ -35,7 +38,7 @@ namespace Dolany.Ice.Ai.MahuaApis
 
         public static string Code_Image(string fileName)
         {
-            string code = string.Empty;
+            var code = string.Empty;
             switch (MahuaGlobal.CurrentPlatform)
             {
                 case MahuaPlatform.Cqp:
@@ -45,6 +48,9 @@ namespace Dolany.Ice.Ai.MahuaApis
                 case MahuaPlatform.Amanda:
                     code = AmandaCode.AmandaCode_Pic(fileName);
                     break;
+
+                default:
+                    throw new Exception("Unexpected Case");
             }
 
             return code;
@@ -52,7 +58,7 @@ namespace Dolany.Ice.Ai.MahuaApis
 
         public static string Code_Flash(string fileName)
         {
-            string code = string.Empty;
+            var code = string.Empty;
             switch (MahuaGlobal.CurrentPlatform)
             {
                 case MahuaPlatform.Cqp:
@@ -62,6 +68,9 @@ namespace Dolany.Ice.Ai.MahuaApis
                 case MahuaPlatform.Amanda:
                     code = $"[QQ:flash,pic={fileName}]";
                     break;
+
+                default:
+                    throw new Exception("Unexpected Case");
             }
 
             return code;
@@ -69,7 +78,7 @@ namespace Dolany.Ice.Ai.MahuaApis
 
         public static string Code_Voice(string filePath)
         {
-            string code = string.Empty;
+            var code = string.Empty;
             switch (MahuaGlobal.CurrentPlatform)
             {
                 case MahuaPlatform.Cqp:
@@ -79,6 +88,9 @@ namespace Dolany.Ice.Ai.MahuaApis
                 case MahuaPlatform.Amanda:
                     code = $"[QQ:voice={filePath}]";
                     break;
+
+                default:
+                    throw new Exception("Unexpected Case");
             }
 
             return code;
@@ -95,9 +107,10 @@ namespace Dolany.Ice.Ai.MahuaApis
 
                     case MahuaPlatform.Amanda:
                         return "temp/image/";
-                }
 
-                return string.Empty;
+                    default:
+                        throw new Exception("Unexpected Case");
+                }
             }
         }
 
@@ -112,9 +125,10 @@ namespace Dolany.Ice.Ai.MahuaApis
 
                     case MahuaPlatform.Amanda:
                         return ".ini";
-                }
 
-                return string.Empty;
+                    default:
+                        throw new Exception("Unexpected Case");
+                }
             }
         }
     }
