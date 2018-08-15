@@ -16,15 +16,15 @@ namespace AmandaSharp
         {
             if (inited)
                 return;
-            string path = API.GetPath() + "\\config.ini";
+            var path = API.GetPath() + "\\config.ini";
             if (!File.Exists(path))
                 File.CreateText(path).Close();
-            FileStream fs = File.OpenRead(path);
-            StreamReader sr = new StreamReader(fs);
+            var fs = File.OpenRead(path);
+            var sr = new StreamReader(fs);
             string line = null;
             while (null != (line = sr.ReadLine()))
             {
-                string[] tmp = line.Split(new char[] { '=' }, 2);
+                var tmp = line.Split(new char[] { '=' }, 2);
                 if (tmp.Length == 2)
                     dic.Add(tmp[0].Trim(), tmp[1].Trim());
             }
@@ -32,30 +32,32 @@ namespace AmandaSharp
             fs.Close();
         }
 
-        public string get(string key)
+        public static string get(string key)
         {
             return dic[key];
         }
 
-        public void set(string key, string value)
+        public static void set(string key, string value)
         {
             dic.Add(key, value);
         }
 
-        public void save()
+        public static void save()
         {
-            string path = API.GetPath() + "\\config.ini";
+            var path = API.GetPath() + "\\config.ini";
 
             if (!File.Exists(path))
                 File.CreateText(path).Close();
-            FileStream fs = File.OpenWrite(path);
-            StreamWriter sw = new StreamWriter(fs);
-            foreach (string key in dic.Keys)
+            using (var fs = File.OpenWrite(path))
             {
-                sw.WriteLine(key + "=" + dic[key]);
+                using (var sw = new StreamWriter(fs))
+                {
+                    foreach (string key in dic.Keys)
+                    {
+                        sw.WriteLine(key + "=" + dic[key]);
+                    }
+                }
             }
-            sw.Close();
-            fs.Close();
         }
     }
 }

@@ -19,7 +19,7 @@ namespace AmandaSharp
         /// <returns>json字符串</returns>
         public static string SerializeObject(object o)
         {
-            string json = JsonConvert.SerializeObject(o);
+            var json = JsonConvert.SerializeObject(o);
             return json;
         }
 
@@ -27,15 +27,18 @@ namespace AmandaSharp
         /// 解析JSON字符串生成对象实体
         /// </summary>
         /// <typeparam name="T">对象类型</typeparam>
-        /// <param name="json">json字符串(eg.{"ID":"112","Name":"石子儿"})</param>
+        /// <param name="json">json字符串</param>
         /// <returns>对象实体</returns>
         public static T DeserializeJsonToObject<T>(string json) where T : class
         {
-            JsonSerializer serializer = new JsonSerializer();
-            StringReader sr = new StringReader(json);
-            object o = serializer.Deserialize(new JsonTextReader(sr), typeof(T));
-            T t = o as T;
-            return t;
+            var serializer = new JsonSerializer();
+            var sr = new StringReader(json);
+            using (var jsonTextReader = new JsonTextReader(sr))
+            {
+                var o = serializer.Deserialize(jsonTextReader, typeof(T));
+                var t = o as T;
+                return t;
+            }
         }
 
         /// <summary>
@@ -46,11 +49,14 @@ namespace AmandaSharp
         /// <returns>对象实体集合</returns>
         public static List<T> DeserializeJsonToList<T>(string json) where T : class
         {
-            JsonSerializer serializer = new JsonSerializer();
-            StringReader sr = new StringReader(json);
-            object o = serializer.Deserialize(new JsonTextReader(sr), typeof(List<T>));
-            List<T> list = o as List<T>;
-            return list;
+            var serializer = new JsonSerializer();
+            var sr = new StringReader(json);
+            using (var jsonTextReader = new JsonTextReader(sr))
+            {
+                var o = serializer.Deserialize(jsonTextReader, typeof(List<T>));
+                var list = o as List<T>;
+                return list;
+            }
         }
 
         /// <summary>
@@ -62,7 +68,7 @@ namespace AmandaSharp
         /// <returns>匿名对象</returns>
         public static T DeserializeAnonymousType<T>(string json, T anonymousTypeObject)
         {
-            T t = JsonConvert.DeserializeAnonymousType(json, anonymousTypeObject);
+            var t = JsonConvert.DeserializeAnonymousType(json, anonymousTypeObject);
             return t;
         }
     }

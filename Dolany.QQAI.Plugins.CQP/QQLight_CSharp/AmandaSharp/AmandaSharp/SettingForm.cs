@@ -25,8 +25,8 @@ namespace AmandaSharp
 
         private void button1_Click(object sender, EventArgs e)
         {
-            profiles.set("hello", textBox1.Text);
-            profiles.save();
+            Profiles.set("hello", textBox1.Text);
+            Profiles.save();
             this.Dispose();
         }
     }
