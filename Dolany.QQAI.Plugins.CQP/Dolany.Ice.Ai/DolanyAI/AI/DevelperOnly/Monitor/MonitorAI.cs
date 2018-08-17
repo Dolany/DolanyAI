@@ -10,14 +10,15 @@ using System.Reflection;
 namespace Dolany.Ice.Ai.DolanyAI
 {
     [AI(
-        Name = "MonitorAI",
+        Name = nameof(MonitorAI),
         Description = "AI for Monitor Ais status and emitting heart beat.",
         IsAvailable = true,
         PriorityLevel = 12
         )]
-    public class MonitorAI : AIBase
+    public class MonitorAI : AIBase, IDisposable
     {
-        private Timer timer = new Timer();
+        private readonly Timer timer = new Timer();
+        private readonly Timer restartTime = new Timer();
 
         public MonitorAI()
             : base()
@@ -28,10 +29,10 @@ namespace Dolany.Ice.Ai.DolanyAI
         {
             get
             {
-                var c = Utility.GetConfig("CheckFrequency");
+                var c = Utility.GetConfig(nameof(CheckFrequency));
                 if (string.IsNullOrEmpty(c))
                 {
-                    Utility.SetConfig("CheckFrequency", "10");
+                    Utility.SetConfig(nameof(CheckFrequency), "10");
                     return 10;
                 }
 
@@ -47,6 +48,19 @@ namespace Dolany.Ice.Ai.DolanyAI
             timer.Elapsed += TimeUp;
 
             timer.Start();
+
+            restartTime.Enabled = true;
+            restartTime.Interval = (DateTime.Parse(DateTime.Now.AddDays(1).ToString("yyyy-MM-dd 03:30:30")) - DateTime.Now).TotalMilliseconds;
+            restartTime.AutoReset = false;
+            restartTime.Elapsed += RestartTimeUp;
+
+            restartTime.Start();
+        }
+
+        private void RestartTimeUp(object sender, ElapsedEventArgs e)
+        {
+            restartTime.Stop();
+            RuntimeLogger.Log("restart!");
         }
 
         private void TimeUp(object sender, ElapsedEventArgs e)
@@ -67,8 +81,8 @@ namespace Dolany.Ice.Ai.DolanyAI
             )]
         public void SealAi(PrivateMsgDTO MsgDTO, object[] param)
         {
-            long groupNum = (long)param[0];
-            string aiName = GetAiRealName(param[1] as string);
+            var groupNum = (long)param[0];
+            var aiName = GetAiRealName(param[1] as string);
             if (string.IsNullOrEmpty(aiName))
             {
                 Utility.SendMsgToDeveloper("查找ai失败！");
@@ -84,7 +98,7 @@ namespace Dolany.Ice.Ai.DolanyAI
                     return;
                 }
 
-                AISeal aiseal = new AISeal()
+                var aiseal = new AISeal
                 {
                     Id = Guid.NewGuid().ToString(),
                     GroupNum = groupNum,
@@ -96,18 +110,18 @@ namespace Dolany.Ice.Ai.DolanyAI
             Utility.SendMsgToDeveloper("ai封印成功！");
         }
 
-        private string GetAiRealName(string aiName)
+        private static string GetAiRealName(string aiName)
         {
             var list = AIMgr.Instance.AIList;
             foreach (var ai in list)
             {
-                Type t = ai.GetType();
-                object[] attributes = t.GetCustomAttributes(typeof(AIAttribute), false);
+                var t = ai.GetType();
+                var attributes = t.GetCustomAttributes(typeof(AIAttribute), false);
                 if (attributes.Length <= 0 || !(attributes[0] is AIAttribute))
                 {
                     continue;
                 }
-                AIAttribute attr = attributes[0] as AIAttribute;
+                var attr = attributes[0] as AIAttribute;
                 if (attr.Name == aiName)
                 {
                     return t.Name;
@@ -126,7 +140,7 @@ namespace Dolany.Ice.Ai.DolanyAI
             )]
         public void AddDirtyWordsDic(PrivateMsgDTO MsgDTO, object[] param)
         {
-            string dw = param[0] as string;
+            var dw = param[0] as string;
             using (AIDatabase db = new AIDatabase())
             {
                 var query = db.DirtyWord.Where(d => d.Content == dw);
@@ -156,11 +170,18 @@ namespace Dolany.Ice.Ai.DolanyAI
             )]
         public void SetConfig(PrivateMsgDTO MsgDTO, object[] param)
         {
-            string configName = param[0] as string;
-            string configValue = param[1] as string;
+            var configName = param[0] as string;
+            var configValue = param[1] as string;
 
             Utility.SetConfig(configName, configValue);
             Utility.SendMsgToDeveloper("设置完成！");
+        }
+
+        public void Dispose()
+        {
+            timer.Dispose();
+            GC.SuppressFinalize(this);
+            restartTime.Dispose();
         }
     }
 }
