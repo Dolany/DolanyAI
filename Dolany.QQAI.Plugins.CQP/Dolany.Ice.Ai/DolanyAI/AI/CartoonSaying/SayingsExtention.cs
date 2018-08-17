@@ -18,13 +18,13 @@ namespace Dolany.Ice.Ai.DolanyAI
 
             try
             {
-                string[] parts = Msg.Split(new char[] { ' ' }, StringSplitOptions.RemoveEmptyEntries);
+                var parts = Msg.Split(new char[] { ' ' }, StringSplitOptions.RemoveEmptyEntries);
                 if (parts.Length < 3)
                 {
                     return null;
                 }
 
-                Saying si = new Saying()
+                var si = new Saying
                 {
                     Id = Guid.NewGuid().ToString(),
                     Cartoon = parts[0],
@@ -38,7 +38,7 @@ namespace Dolany.Ice.Ai.DolanyAI
 
                 return null;
             }
-            catch
+            catch (Exception)
             {
                 return null;
             }

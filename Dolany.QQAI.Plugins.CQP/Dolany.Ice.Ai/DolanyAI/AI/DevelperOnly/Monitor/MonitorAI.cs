@@ -161,27 +161,11 @@ namespace Dolany.Ice.Ai.DolanyAI
             Utility.SendMsgToDeveloper("添加成功！");
         }
 
-        [PrivateEnterCommand(
-            Command = "系统设置",
-            Description = "修改系统配置",
-            Syntax = "[配置项] [值]",
-            Tag = "系统设置功能",
-            SyntaxChecker = "TwoWords"
-            )]
-        public void SetConfig(PrivateMsgDTO MsgDTO, object[] param)
-        {
-            var configName = param[0] as string;
-            var configValue = param[1] as string;
-
-            Utility.SetConfig(configName, configValue);
-            Utility.SendMsgToDeveloper("设置完成！");
-        }
-
         public void Dispose()
         {
             timer.Dispose();
-            GC.SuppressFinalize(this);
             restartTime.Dispose();
+            GC.SuppressFinalize(this);
         }
     }
 }

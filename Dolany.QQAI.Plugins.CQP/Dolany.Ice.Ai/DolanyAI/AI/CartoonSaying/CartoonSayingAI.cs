@@ -8,7 +8,7 @@ using Dolany.Ice.Ai.DolanyAI.Db;
 namespace Dolany.Ice.Ai.DolanyAI
 {
     [AI(
-        Name = "CartoonSayingAI",
+        Name = nameof(CartoonSayingAI),
         Description = "AI for Cartoon Sayings.",
         IsAvailable = true,
         PriorityLevel = 10
@@ -43,7 +43,7 @@ namespace Dolany.Ice.Ai.DolanyAI
             Description = "录入语录或者按关键字检索语录",
             Syntax = " 或者 语录 [关键字]; 语录 [出处] [人物] [内容]",
             Tag = "语录功能",
-            SyntaxChecker = "ProcceedMsg"
+            SyntaxChecker = nameof(ProcceedMsg)
             )]
         public void ProcceedMsg(GroupMsgDTO MsgDTO, object[] param)
         {
@@ -56,7 +56,7 @@ namespace Dolany.Ice.Ai.DolanyAI
             switch ((int)param[0])
             {
                 case 1:
-                    string smsg = SaveSaying(param[1] as Saying, MsgDTO.FromGroup) ? "语录录入成功！" : "语录录入失败！";
+                    var smsg = SaveSaying(param[1] as Saying, MsgDTO.FromGroup) ? "语录录入成功！" : "语录录入失败！";
                     MsgSender.Instance.PushMsg(new SendMsgDTO()
                     {
                         Aim = MsgDTO.FromGroup,
@@ -72,6 +72,9 @@ namespace Dolany.Ice.Ai.DolanyAI
                 case 3:
                     SayingRequest(MsgDTO, param[1] as string);
                     break;
+
+                default:
+                    throw new Exception("Unexpected Case");
             }
 
             RuntimeLogger.Log("AlermClockAI ProcceedMsg Completed In CartoonSayings");
@@ -79,7 +82,7 @@ namespace Dolany.Ice.Ai.DolanyAI
 
         private void SayingRequest(GroupMsgDTO MsgDTO, string keyword = null)
         {
-            string ranSaying = GetRanSaying(MsgDTO.FromGroup, keyword);
+            var ranSaying = GetRanSaying(MsgDTO.FromGroup, keyword);
             if (string.IsNullOrEmpty(ranSaying))
             {
                 return;
@@ -93,7 +96,7 @@ namespace Dolany.Ice.Ai.DolanyAI
             });
         }
 
-        private bool IsInSealing(long groupNum, long memberNum)
+        private static bool IsInSealing(long groupNum, long memberNum)
         {
             using (AIDatabase db = new AIDatabase())
             {
@@ -102,7 +105,7 @@ namespace Dolany.Ice.Ai.DolanyAI
             }
         }
 
-        private bool SaveSaying(Saying info, long fromGroup)
+        private static bool SaveSaying(Saying info, long fromGroup)
         {
             info.FromGroup = fromGroup;
             info.Id = Guid.NewGuid().ToString();
@@ -128,13 +131,13 @@ namespace Dolany.Ice.Ai.DolanyAI
             }
             list = query.ToList();
 
-            Random random = new Random();
-            int randIdx = random.Next(list.Count);
+            var random = new Random();
+            var randIdx = random.Next(list.Count);
 
             return GetShownSaying(list[randIdx]);
         }
 
-        private string GetShownSaying(Saying s)
+        private static string GetShownSaying(Saying s)
         {
             string shownSaying = $@"
     {s.Content}
