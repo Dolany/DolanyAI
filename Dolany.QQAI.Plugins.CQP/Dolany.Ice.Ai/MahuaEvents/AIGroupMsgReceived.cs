@@ -22,20 +22,15 @@ namespace Dolany.Ice.Ai.MahuaEvents
 
         public void ProcessGroupMessage(GroupMessageReceivedContext context)
         {
-            RuntimeLogger.Log($"receive group message: fromGroup:{context.FromGroup} fromQQ:{context.FromQq} msg:{context.Message} time:{DateTime.Now}");
-            // 处理群消息。
             try
             {
-                AIMgr.Instance.OnGroupMsgReceived(new GroupMsgDTO()
+                AIMgr.Instance.OnGroupMsgReceived(new GroupMsgDTO
                 {
-                    //SubType = context.,
-                    //SendTime = context.SendTime,
                     FromGroup = long.Parse(context.FromGroup),
                     FromQQ = long.Parse(context.FromQq),
                     FromAnonymous = context.FromAnonymous,
                     Msg = context.Message,
                     FullMsg = context.Message,
-                    //Font = context.f
                 });
             }
             catch (Exception ex)

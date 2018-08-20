@@ -7,6 +7,7 @@ using Newbe.Mahua;
 using Dolany.Ice.Ai.DolanyAI.Db;
 using System.IO;
 using Dolany.Ice.Ai.MahuaApis;
+using System.Runtime.ExceptionServices;
 
 namespace Dolany.Ice.Ai.DolanyAI
 {
@@ -99,17 +100,26 @@ namespace Dolany.Ice.Ai.DolanyAI
             }
         }
 
+        [HandleProcessCorruptedStateExceptions]
         public static string GetConfig(string name)
         {
-            using (AIDatabase db = new AIDatabase())
+            try
             {
-                var query = db.AIConfig.Where(p => p.Key == name);
-                if (query.IsNullOrEmpty())
+                using (AIDatabase db = new AIDatabase())
                 {
-                    return string.Empty;
-                }
+                    var query = db.AIConfig.Where(p => p.Key == name);
+                    if (query.IsNullOrEmpty())
+                    {
+                        return string.Empty;
+                    }
 
-                return query.First().Value;
+                    return query.First().Value;
+                }
+            }
+            catch (Exception ex)
+            {
+                RuntimeLogger.Log(ex.Message + '\r' + ex.StackTrace);
+                return string.Empty;
             }
         }
 
@@ -214,16 +224,19 @@ namespace Dolany.Ice.Ai.DolanyAI
         public static string UrlCharConvert(string name)
         {
             var result = string.Empty;
+            var builder = new StringBuilder();
+            builder.Append(result);
             foreach (var c in name)
             {
                 if (IsAsciiChar(c))
                 {
-                    result += c;
+                    builder.Append(c);
                     continue;
                 }
 
-                result += "%" + BitConverter.ToString(Encoding.UTF8.GetBytes(new char[] { c })).Replace("-", "%");
+                builder.Append(@"%" + BitConverter.ToString(Encoding.UTF8.GetBytes(new char[] { c })).Replace("-", "%"));
             }
+            result = builder.ToString();
 
             return result;
         }

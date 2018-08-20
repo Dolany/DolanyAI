@@ -8,15 +8,13 @@ using Dolany.Ice.Ai.DolanyAI.Db;
 
 namespace Dolany.Ice.Ai.DolanyAI
 {
-    public class MsgReceiveCache
+    public class MsgReceiveCache : IDisposable
     {
         private Timer timer = new Timer();
 
-        //private Queue<GroupMsgDTO> GroupMsgQueue = new Queue<GroupMsgDTO>();
-
         private Action<GroupMsgDTO> CallBack = null;
 
-        public void PushMsg(GroupMsgDTO MsgDTO)
+        public static void PushMsg(GroupMsgDTO MsgDTO)
         {
             using (AIDatabase db = new AIDatabase())
             {
@@ -54,20 +52,25 @@ namespace Dolany.Ice.Ai.DolanyAI
                 var msgs = db.MsgRecievedCache;
                 foreach (var msg in msgs)
                 {
-                    CallBack(new GroupMsgDTO
+                    CallBack?.Invoke(new GroupMsgDTO
                     {
                         Msg = msg.Msg,
                         Command = msg.Command,
                         FullMsg = msg.FullMsg,
                         FromGroup = msg.FromGroup,
                         FromQQ = msg.FromQQ,
-                        //SendTime = msg.Time.to
                     });
                 }
 
                 db.MsgRecievedCache.RemoveRange(msgs);
                 db.SaveChanges();
             }
+        }
+
+        public void Dispose()
+        {
+            timer.Dispose();
+            GC.SuppressFinalize(this);
         }
     }
 }
