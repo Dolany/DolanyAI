@@ -18,7 +18,7 @@ namespace Dolany.Ice.Ai.DolanyAI
     {
         private long RepeatLimit = 30;
 
-        private long CurCount = 0;
+        private long CurCount;
 
         private int SleepTime = 3000;
 
@@ -27,7 +27,6 @@ namespace Dolany.Ice.Ai.DolanyAI
         public RepeatorAI()
             : base()
         {
-            //this.ComposePartsSelf();
         }
 
         public override void Work()
@@ -42,7 +41,8 @@ namespace Dolany.Ice.Ai.DolanyAI
             {
                 return false;
             }
-            if (MsgDTO.FullMsg.Contains("CQ:at"))
+            var atChecker = new AtChecker();
+            if (atChecker.Check(MsgDTO.FullMsg, out object[] param))
             {
                 return false;
             }
@@ -110,7 +110,7 @@ namespace Dolany.Ice.Ai.DolanyAI
                 var query = db.RepeaterAvailable.Where(r => r.GroupNumber == fromGroup);
                 if (query.IsNullOrEmpty())
                 {
-                    db.RepeaterAvailable.Add(new RepeaterAvailable()
+                    db.RepeaterAvailable.Add(new RepeaterAvailable
                     {
                         Id = Guid.NewGuid().ToString(),
                         GroupNumber = fromGroup,
@@ -153,7 +153,7 @@ namespace Dolany.Ice.Ai.DolanyAI
         {
             Thread.Sleep(SleepTime);
 
-            MsgSender.Instance.PushMsg(new SendMsgDTO()
+            MsgSender.Instance.PushMsg(new SendMsgDTO
             {
                 Aim = MsgDTO.FromGroup,
                 Type = MsgType.Group,

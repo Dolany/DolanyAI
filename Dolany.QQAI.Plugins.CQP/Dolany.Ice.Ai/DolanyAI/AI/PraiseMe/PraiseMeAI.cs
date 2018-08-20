@@ -10,7 +10,7 @@ using System.Threading;
 namespace Dolany.Ice.Ai.DolanyAI
 {
     [AI(
-        Name = "PraiseMeAI",
+        Name = nameof(PraiseMeAI),
         Description = "AI for Praise someone.",
         IsAvailable = true,
         PriorityLevel = 10
@@ -23,10 +23,10 @@ namespace Dolany.Ice.Ai.DolanyAI
         {
             get
             {
-                var config = Utility.GetConfig("PraiseLimit");
+                var config = Utility.GetConfig(nameof(PraiseLimit));
                 if (string.IsNullOrEmpty(config))
                 {
-                    Utility.SetConfig("PraiseLimit", "10");
+                    Utility.SetConfig(nameof(PraiseLimit), "10");
                     return 10;
                 }
 
@@ -103,8 +103,8 @@ namespace Dolany.Ice.Ai.DolanyAI
                 return true;
             }
 
-            int cdMinute = (LastTime.AddMinutes(PraiseLimit) - DateTime.Now).Minutes;
-            int cdSecond = (LastTime.AddMinutes(PraiseLimit) - DateTime.Now).Seconds;
+            var cdMinute = (LastTime.AddMinutes(PraiseLimit) - DateTime.Now).Minutes;
+            var cdSecond = (LastTime.AddMinutes(PraiseLimit) - DateTime.Now).Seconds;
             MsgSender.Instance.PushMsg(new SendMsgDTO
             {
                 Aim = MsgDTO.FromGroup,
@@ -114,9 +114,9 @@ namespace Dolany.Ice.Ai.DolanyAI
             return false;
         }
 
-        private void Praise(GroupMsgDTO MsgDTO)
+        private static void Praise(GroupMsgDTO MsgDTO)
         {
-            int result = -1;
+            var result = -1;
             for (int i = 0; i < 10; i++)
             {
                 Thread.Sleep(100);
