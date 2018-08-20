@@ -9,7 +9,7 @@ using Dolany.Ice.Ai.MahuaApis;
 namespace Dolany.Ice.Ai.DolanyAI
 {
     [AI(
-        Name = "FortuneAI",
+        Name = nameof(FortuneAI),
         Description = "AI for Fortune.",
         IsAvailable = true,
         PriorityLevel = 10
@@ -63,7 +63,7 @@ namespace Dolany.Ice.Ai.DolanyAI
                     return;
                 }
 
-                int randFor = GetRandomFortune();
+                var randFor = GetRandomFortune();
                 var rf = new RandomFortune
                 {
                     Id = Guid.NewGuid().ToString(),
@@ -91,9 +91,9 @@ namespace Dolany.Ice.Ai.DolanyAI
             Task.Run(() => jr.Work());
         }
 
-        public void ReportCallBack(GroupMsgDTO MsgDTO, string Report)
+        public static void ReportCallBack(GroupMsgDTO MsgDTO, string Report)
         {
-            MsgSender.Instance.PushMsg(new SendMsgDTO()
+            MsgSender.Instance.PushMsg(new SendMsgDTO
             {
                 Aim = MsgDTO.FromGroup,
                 Type = MsgType.Group,
@@ -101,7 +101,7 @@ namespace Dolany.Ice.Ai.DolanyAI
             });
         }
 
-        private int GetRandomFortune()
+        private static int GetRandomFortune()
         {
             var rand = new Random();
             return rand.Next(101);
@@ -122,7 +122,7 @@ namespace Dolany.Ice.Ai.DolanyAI
                 using (AIDatabase db = new AIDatabase())
                 {
                     var query = db.FortuneItem;
-                    int idx = rand.Next(query.Count());
+                    var idx = rand.Next(query.Count());
                     var item = query.OrderBy(p => p.Id).Skip(idx).First();
                     rf.FortuneValue += item.Value;
                     rf.FortuneValue = rf.FortuneValue > 100 ? 100 : rf.FortuneValue;
@@ -134,11 +134,14 @@ namespace Dolany.Ice.Ai.DolanyAI
             {
                 msg += "你今天的运势是：" + rf.FortuneValue + "%\r";
             }
+            var builder = new StringBuilder();
+            builder.Append(msg);
 
             for (int i = 0; i < rf.FortuneValue; i++)
             {
-                msg += "|";
+                builder.Append("|");
             }
+            msg = builder.ToString();
 
             MsgSender.Instance.PushMsg(new SendMsgDTO
             {
@@ -148,7 +151,7 @@ namespace Dolany.Ice.Ai.DolanyAI
             });
         }
 
-        private bool IsBlessed(long QQNum)
+        private static bool IsBlessed(long QQNum)
         {
             using (AIDatabase db = new AIDatabase())
             {
@@ -235,7 +238,7 @@ namespace Dolany.Ice.Ai.DolanyAI
             });
         }
 
-        private TarotFortuneData GetRandTarotFortune()
+        private static TarotFortuneData GetRandTarotFortune()
         {
             using (AIDatabase db = new AIDatabase())
             {
@@ -258,7 +261,7 @@ namespace Dolany.Ice.Ai.DolanyAI
             )]
         public void HolyLight(GroupMsgDTO MsgDTO, object[] param)
         {
-            long aimNum = (long)param[0];
+            var aimNum = (long)param[0];
             using (AIDatabase db = new AIDatabase())
             {
                 var query = db.HolyLightBless.Where(h => h.QQNum == aimNum);

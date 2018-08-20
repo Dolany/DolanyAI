@@ -339,6 +339,7 @@
       <DependentUpon>AmandaLogDatabase.edmx</DependentUpon>
       <LastGenOutput>AmandaLogDatabase.cs</LastGenOutput>
     </Content>
+    <Content Include="Memo.txt" />
   </ItemGroup>
   <ItemGroup>
     <Service Include="{508349B6-6B84-4DF5-91F0-309BEEBAD82D}" />
