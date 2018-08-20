@@ -15,7 +15,7 @@ namespace Dolany.Ice.Ai.DolanyAI
     }
 
     [System.AttributeUsage(System.AttributeTargets.Method, AllowMultiple = true)]
-    public class GroupEnterCommandAttribute : Attribute
+    public sealed class GroupEnterCommandAttribute : Attribute
     {
         public string Command { get; set; }
         public AuthorityLevel AuthorityLevel { get; set; }
@@ -26,7 +26,7 @@ namespace Dolany.Ice.Ai.DolanyAI
     }
 
     [System.AttributeUsage(System.AttributeTargets.Method, AllowMultiple = true)]
-    public class PrivateEnterCommandAttribute : Attribute
+    public sealed class PrivateEnterCommandAttribute : Attribute
     {
         public string Command { get; set; }
         public bool IsDeveloperOnly { get; set; }

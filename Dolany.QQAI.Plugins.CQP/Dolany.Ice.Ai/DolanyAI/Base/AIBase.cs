@@ -12,7 +12,7 @@ namespace Dolany.Ice.Ai.DolanyAI
     {
         public abstract void Work();
 
-        public AIBase()
+        protected AIBase()
         {
         }
 
@@ -56,7 +56,7 @@ namespace Dolany.Ice.Ai.DolanyAI
                 return false;
             }
 
-            int authority = Utility.GetMemberInfo(MsgDTO).Role;
+            var authority = Utility.GetMemberInfo(MsgDTO).Role;
             if (!AuthorityCheck(enterAttr.AuthorityLevel, authority, MsgDTO.FromQQ))
             {
                 return false;
@@ -65,7 +65,7 @@ namespace Dolany.Ice.Ai.DolanyAI
             return true;
         }
 
-        private bool SyntaxCheck(string SyntaxChecker, string msg, out object[] param)
+        private static bool SyntaxCheck(string SyntaxChecker, string msg, out object[] param)
         {
             if (string.IsNullOrEmpty(SyntaxChecker))
             {
@@ -80,14 +80,14 @@ namespace Dolany.Ice.Ai.DolanyAI
                 var checker = scObj as ISyntaxChecker;
                 return checker.Check(msg, out param);
             }
-            catch
+            catch (Exception)
             {
                 param = null;
                 return false;
             }
         }
 
-        private bool AuthorityCheck(AuthorityLevel authorityLevel, int authority, long QQNum)
+        private static bool AuthorityCheck(AuthorityLevel authorityLevel, int authority, long QQNum)
         {
             if (QQNum == Utility.DeveloperNumber)
             {
@@ -142,7 +142,7 @@ namespace Dolany.Ice.Ai.DolanyAI
             }
         }
 
-        private bool PrivateCheck(PrivateEnterCommandAttribute enterAttr, PrivateMsgDTO MsgDTO, out object[] param)
+        private static bool PrivateCheck(PrivateEnterCommandAttribute enterAttr, PrivateMsgDTO MsgDTO, out object[] param)
         {
             param = null;
             if (enterAttr.Command != MsgDTO.Command)

@@ -12,10 +12,6 @@ namespace Dolany.Ice.Ai.DolanyAI
         private static string LogPath = "./RuntimeLog/";
         private static readonly object lockObj = new object();
 
-        /// <summary>
-        ///
-        /// </summary>
-        /// <param name="log"></param>
         public static void Log(string log)
         {
             lock (lockObj)
