@@ -9,7 +9,7 @@ using Dolany.Ice.Ai.MahuaApis;
 namespace Dolany.Ice.Ai.DolanyAI
 {
     [AI(
-        Name = "OrderSongAI",
+        Name = nameof(OrderSongAI),
         Description = "AI for Ordering a song by name.",
         IsAvailable = true,
         PriorityLevel = 10
@@ -49,7 +49,7 @@ namespace Dolany.Ice.Ai.DolanyAI
             });
         }
 
-        private string GetSongId(string songName)
+        private static string GetSongId(string songName)
         {
             var response = RequestHelper.PostData<NeteaseResponse>(new PostReq_Param
             {
@@ -64,7 +64,7 @@ namespace Dolany.Ice.Ai.DolanyAI
             return response.result.songs.First().id;
         }
 
-        private string GetMusicXml(string songId)
+        private static string GetMusicXml(string songId)
         {
             if (string.IsNullOrEmpty(songId))
             {

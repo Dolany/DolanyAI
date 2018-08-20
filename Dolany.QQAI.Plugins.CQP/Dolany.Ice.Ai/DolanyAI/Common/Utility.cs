@@ -49,11 +49,6 @@ namespace Dolany.Ice.Ai.DolanyAI
             return false;
         }
 
-        public static string ToDateString(this DateTime dt)
-        {
-            return dt.ToString("yyyy-MM-dd");
-        }
-
         public static (int hour, int minute)? GenTimeFromStr(string timeStr)
         {
             var strs = timeStr.Split(new char[] { ':', '：' });
@@ -62,14 +57,12 @@ namespace Dolany.Ice.Ai.DolanyAI
                 return null;
             }
 
-            int hour;
-            if (!int.TryParse(strs[0], out hour))
+            if (!int.TryParse(strs[0], out int hour))
             {
                 return null;
             }
 
-            int minute;
-            if (!int.TryParse(strs[1], out minute))
+            if (!int.TryParse(strs[1], out int minute))
             {
                 return null;
             }
@@ -182,7 +175,7 @@ namespace Dolany.Ice.Ai.DolanyAI
             {
                 var model = new ImageCacheModel();
 
-                String line;
+                string line;
                 while ((line = reader.ReadLine()) != null)
                 {
                     var strs = line.Split(new char[] { '=' }, StringSplitOptions.RemoveEmptyEntries);
@@ -209,7 +202,7 @@ namespace Dolany.Ice.Ai.DolanyAI
             return ReadImageCacheInfo(file);
         }
 
-        public static void SetPropertyValue(Object obj, string propName, string propValue)
+        public static void SetPropertyValue(object obj, string propName, string propValue)
         {
             var type = obj.GetType();
             foreach (var prop in type.GetProperties())

@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 namespace Dolany.Ice.Ai.DolanyAI
 {
     [AI(
-        Name = "HelperAI",
+        Name = nameof(HelperAI),
         Description = "AI for Getting Help Infos.",
         IsAvailable = true,
         PriorityLevel = 10
@@ -17,7 +17,6 @@ namespace Dolany.Ice.Ai.DolanyAI
         public HelperAI()
             : base()
         {
-            //this.ComposePartsSelf();
         }
 
         public override void Work()
@@ -50,14 +49,17 @@ namespace Dolany.Ice.Ai.DolanyAI
             }
         }
 
-        public void HelpSummary(GroupMsgDTO MsgDTO)
+        public static void HelpSummary(GroupMsgDTO MsgDTO)
         {
             var helpMsg = "当前的命令标签有：";
             var commandAttrs = GetCommandAttrs();
+            var builder = new StringBuilder();
+            builder.Append(helpMsg);
             foreach (var c in commandAttrs)
             {
-                helpMsg += '\r' + c.Tag;
+                builder.Append('\r' + c.Tag);
             }
+            helpMsg = builder.ToString();
 
             helpMsg += '\r' + "可以使用 帮助 [标签名] 来查询标签中的具体命令名 或者使用 帮助 [命令名] 来查询具体命令信息。";
 
@@ -69,14 +71,14 @@ namespace Dolany.Ice.Ai.DolanyAI
             });
         }
 
-        private IEnumerable<GroupEnterCommandAttribute> GetCommandAttrs()
+        private static IEnumerable<GroupEnterCommandAttribute> GetCommandAttrs()
         {
             return AIMgr.Instance.AllAvailableGroupCommands
                 .GroupBy(c => c.Tag)
                 .Select(p => p.First());
         }
 
-        public bool HelpCommand(GroupMsgDTO MsgDTO)
+        public static bool HelpCommand(GroupMsgDTO MsgDTO)
         {
             var commands = AIMgr.Instance.AllAvailableGroupCommands.Where(c => c.Command == MsgDTO.Msg);
             if (commands.IsNullOrEmpty())
@@ -100,7 +102,7 @@ namespace Dolany.Ice.Ai.DolanyAI
             return true;
         }
 
-        public bool HelpTag(GroupMsgDTO MsgDTO)
+        public static bool HelpTag(GroupMsgDTO MsgDTO)
         {
             var commands = AIMgr.Instance.AllAvailableGroupCommands.Where(c => c.Tag == MsgDTO.Msg);
             if (commands.IsNullOrEmpty())
@@ -109,13 +111,16 @@ namespace Dolany.Ice.Ai.DolanyAI
             }
 
             var helpMsg = $@"当前标签下有以下命令：";
+            var builder = new StringBuilder();
+            builder.Append(helpMsg);
             foreach (var c in commands)
             {
-                helpMsg += '\r' + c.Command;
+                builder.Append('\r' + c.Command);
             }
+            helpMsg = builder.ToString();
             helpMsg += '\r' + "可以使用 帮助 [命令名] 来查询具体命令信息。";
 
-            MsgSender.Instance.PushMsg(new SendMsgDTO()
+            MsgSender.Instance.PushMsg(new SendMsgDTO
             {
                 Aim = MsgDTO.FromGroup,
                 Type = MsgType.Group,

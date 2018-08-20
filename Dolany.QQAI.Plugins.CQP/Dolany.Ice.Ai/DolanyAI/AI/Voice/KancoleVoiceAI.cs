@@ -9,7 +9,7 @@ using Dolany.Ice.Ai.MahuaApis;
 namespace Dolany.Ice.Ai.DolanyAI
 {
     [AI(
-        Name = "KancoleVoiceAI",
+        Name = nameof(KancoleVoiceAI),
         Description = "AI for response random kancole girl voice.",
         IsAvailable = true,
         PriorityLevel = 10
@@ -58,7 +58,7 @@ namespace Dolany.Ice.Ai.DolanyAI
             });
         }
 
-        private KanColeGirlVoice GetRandVoiceInfo(string name)
+        private static KanColeGirlVoice GetRandVoiceInfo(string name)
         {
             using (AIDatabase db = new AIDatabase())
             {
@@ -68,9 +68,9 @@ namespace Dolany.Ice.Ai.DolanyAI
                     return null;
                 }
 
-                int count = query.Count();
+                var count = query.Count();
                 var random = new Random();
-                int idx = random.Next(count);
+                var idx = random.Next(count);
 
                 return query.Skip(idx).First().Clone();
             }
