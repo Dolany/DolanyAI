@@ -139,7 +139,7 @@ namespace Dolany.Ice.Ai.DolanyAI
 
         private static string GetShownSaying(Saying s)
         {
-            string shownSaying = $@"
+            var shownSaying = $@"
     {s.Content}
     ——《{s.Cartoon}》 {s.Charactor}
 ";

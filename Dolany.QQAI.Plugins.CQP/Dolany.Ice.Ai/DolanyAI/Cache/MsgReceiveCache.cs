@@ -20,7 +20,7 @@ namespace Dolany.Ice.Ai.DolanyAI
         {
             using (AIDatabase db = new AIDatabase())
             {
-                MsgRecievedCache cache = new MsgRecievedCache
+                var cache = new MsgRecievedCache
                 {
                     Id = Guid.NewGuid().ToString(),
                     FromGroup = MsgDTO.FromGroup,

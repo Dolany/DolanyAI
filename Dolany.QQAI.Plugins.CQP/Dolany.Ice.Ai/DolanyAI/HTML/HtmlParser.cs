@@ -25,7 +25,7 @@ namespace Dolany.Ice.Ai.DolanyAI
 
         protected List<HtmlNode> SearchNodes(HtmlNode root, Expression<Func<HtmlNode, bool>> express)
         {
-            List<HtmlNode> result = new List<HtmlNode>();
+            var result = new List<HtmlNode>();
             if (express.Compile()(root))
             {
                 result.Add(root);

@@ -87,7 +87,7 @@ namespace Dolany.Ice.Ai.DolanyAI
             )]
         public void StarFortune(GroupMsgDTO MsgDTO, object[] param)
         {
-            FortuneRequestor jr = new FortuneRequestor(MsgDTO, ReportCallBack);
+            var jr = new FortuneRequestor(MsgDTO, ReportCallBack);
             Task.Run(() => jr.Work());
         }
 
@@ -103,14 +103,14 @@ namespace Dolany.Ice.Ai.DolanyAI
 
         private int GetRandomFortune()
         {
-            Random rand = new Random();
+            var rand = new Random();
             return rand.Next(101);
         }
 
         private void ShowRandFortune(GroupMsgDTO MsgDTO, RandomFortune rf)
         {
-            string msg = string.Empty;
-            Random rand = new Random();
+            var msg = string.Empty;
+            var rand = new Random();
             if (IsBlessed(MsgDTO.FromQQ))
             {
                 rf.FortuneValue = rf.FortuneValue + 80;
@@ -222,7 +222,7 @@ namespace Dolany.Ice.Ai.DolanyAI
 
         private void SendTarotFortune(GroupMsgDTO MsgDTO, TarotFortuneData data)
         {
-            string msg = CodeApi.Code_Image(TarotServerPath + data.PicSrc) + '\r';
+            var msg = CodeApi.Code_Image(TarotServerPath + data.PicSrc) + '\r';
             msg += "牌名：" + data.Name + '\r';
             msg += data.IsPos ? "正位解释：" : "逆位解释：";
             msg += data.Description;
@@ -242,7 +242,7 @@ namespace Dolany.Ice.Ai.DolanyAI
                 var datas = db.TarotFortuneData.OrderBy(p => p.Id);
                 int count = datas.Count();
 
-                Random ran = new Random();
+                var ran = new Random();
                 var randData = datas.Skip(ran.Next(count)).First();
                 return randData.Clone();
             }

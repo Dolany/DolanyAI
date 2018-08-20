@@ -52,7 +52,7 @@ namespace Dolany.Ice.Ai.DolanyAI
 
         public void HelpSummary(GroupMsgDTO MsgDTO)
         {
-            string helpMsg = "当前的命令标签有：";
+            var helpMsg = "当前的命令标签有：";
             var commandAttrs = GetCommandAttrs();
             foreach (var c in commandAttrs)
             {
@@ -85,7 +85,7 @@ namespace Dolany.Ice.Ai.DolanyAI
             }
 
             var command = commands.FirstOrDefault();
-            string helpMsg = $@"命令：{command.Command}
+            var helpMsg = $@"命令：{command.Command}
 格式： {command.Command} {command.Syntax}
 描述： {command.Description}
 权限： {command.AuthorityLevel.ToString()}";
@@ -108,7 +108,7 @@ namespace Dolany.Ice.Ai.DolanyAI
                 return false;
             }
 
-            string helpMsg = $@"当前标签下有以下命令：";
+            var helpMsg = $@"当前标签下有以下命令：";
             foreach (var c in commands)
             {
                 helpMsg += '\r' + c.Command;

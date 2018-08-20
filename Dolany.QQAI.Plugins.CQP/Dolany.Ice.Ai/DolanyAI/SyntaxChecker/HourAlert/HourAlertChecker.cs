@@ -12,7 +12,7 @@ namespace Dolany.Ice.Ai.DolanyAI
         public bool Check(string msg, out object[] param)
         {
             param = null;
-            AlertContent info = AlertContentExtension.Parse(msg);
+            var info = AlertContentExtension.Parse(msg);
             if (info == null)
             {
                 return false;

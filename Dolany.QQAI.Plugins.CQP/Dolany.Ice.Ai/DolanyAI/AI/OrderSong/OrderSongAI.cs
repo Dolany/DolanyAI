@@ -36,9 +36,9 @@ namespace Dolany.Ice.Ai.DolanyAI
             )]
         public void OrderASong(GroupMsgDTO MsgDTO, object[] param)
         {
-            string songName = param[0] as string;
+            var songName = param[0] as string;
 
-            string songId = GetSongId(songName);
+            var songId = GetSongId(songName);
 
             var responseXml = GetMusicXml(songId);
             MsgSender.Instance.PushMsg(new SendMsgDTO

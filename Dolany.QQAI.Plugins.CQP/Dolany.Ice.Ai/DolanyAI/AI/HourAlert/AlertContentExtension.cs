@@ -16,7 +16,7 @@ namespace Dolany.Ice.Ai.DolanyAI
                 return null;
             }
 
-            string[] strs = msg.Split(new char[] { ' ' }, StringSplitOptions.RemoveEmptyEntries);
+            var strs = msg.Split(new char[] { ' ' }, StringSplitOptions.RemoveEmptyEntries);
             if (strs == null || strs.Length != 2)
             {
                 return null;
@@ -28,7 +28,7 @@ namespace Dolany.Ice.Ai.DolanyAI
                 return null;
             }
 
-            AlertContent info = new AlertContent()
+            var info = new AlertContent()
             {
                 Content = strs[1],
                 AimHour = aimHour

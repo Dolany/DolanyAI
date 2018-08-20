@@ -55,7 +55,7 @@ namespace Dolany.Ice.Ai.DolanyAI
 
         public static (int hour, int minute)? GenTimeFromStr(string timeStr)
         {
-            string[] strs = timeStr.Split(new char[] { ':', '：' });
+            var strs = timeStr.Split(new char[] { ':', '：' });
             if (strs == null || strs.Length != 2)
             {
                 return null;
@@ -120,7 +120,7 @@ namespace Dolany.Ice.Ai.DolanyAI
                 SinglonMap = new Dictionary<Type, object>();
             }
 
-            Type type = typeof(T);
+            var type = typeof(T);
             if (SinglonMap.Keys.Contains(type))
             {
                 return SinglonMap[type] as T;
@@ -133,8 +133,8 @@ namespace Dolany.Ice.Ai.DolanyAI
 
         public static T Clone<T>(this T obj) where T : class, new()
         {
-            Type type = obj.GetType();
-            T copyT = new T();
+            var type = obj.GetType();
+            var copyT = new T();
             foreach (var prop in type.GetProperties())
             {
                 if (prop.CanRead && prop.CanWrite)
@@ -170,7 +170,7 @@ namespace Dolany.Ice.Ai.DolanyAI
         {
             using (StreamReader reader = new StreamReader(file.FullName))
             {
-                ImageCacheModel model = new ImageCacheModel();
+                var model = new ImageCacheModel();
 
                 String line;
                 while ((line = reader.ReadLine()) != null)
@@ -190,7 +190,7 @@ namespace Dolany.Ice.Ai.DolanyAI
 
         public static ImageCacheModel ReadImageCacheInfo(string guid)
         {
-            FileInfo file = new FileInfo(CodeApi.ImagePath + guid + CodeApi.ImageExtension);
+            var file = new FileInfo(CodeApi.ImagePath + guid + CodeApi.ImageExtension);
             if (!file.Exists)
             {
                 return null;
@@ -201,7 +201,7 @@ namespace Dolany.Ice.Ai.DolanyAI
 
         public static void SetPropertyValue(Object obj, string propName, string propValue)
         {
-            Type type = obj.GetType();
+            var type = obj.GetType();
             foreach (var prop in type.GetProperties())
             {
                 if (prop.Name == propName)
@@ -213,7 +213,7 @@ namespace Dolany.Ice.Ai.DolanyAI
 
         public static string UrlCharConvert(string name)
         {
-            string result = string.Empty;
+            var result = string.Empty;
             foreach (var c in name)
             {
                 if (IsAsciiChar(c))

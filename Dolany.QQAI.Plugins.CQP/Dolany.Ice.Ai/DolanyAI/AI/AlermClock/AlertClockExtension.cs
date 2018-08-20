@@ -11,8 +11,8 @@ namespace Dolany.Ice.Ai.DolanyAI
     {
         public static AlermClock Clone(this AlermClock ac)
         {
-            AlermClock clock = new AlermClock();
-            Type type = clock.GetType();
+            var clock = new AlermClock();
+            var type = clock.GetType();
             foreach (var prop in type.GetProperties())
             {
                 prop.SetValue(clock, prop.GetValue(ac));

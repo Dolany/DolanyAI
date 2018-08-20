@@ -30,12 +30,12 @@ namespace Dolany.Ice.Ai.DolanyAI
         {
             using (WebClient wc = new WebClient())
             {
-                string CurTime = GetUtcLong().ToString();
-                string Params = GetParams();
-                string CheckSum = GetCheckSum(apiKey + CurTime + Params);
+                var CurTime = GetUtcLong().ToString();
+                var Params = GetParams();
+                var CheckSum = GetCheckSum(apiKey + CurTime + Params);
 
-                string postData = $"text={Utility.UrlCharConvert(text)}";
-                byte[] bytes = Encoding.UTF8.GetBytes(postData);
+                var postData = $"text={Utility.UrlCharConvert(text)}";
+                var bytes = Encoding.UTF8.GetBytes(postData);
 
                 wc.Headers.Add("Content-Type", "application/x-www-form-urlencoded; charset=utf-8");
                 wc.Headers.Add("X-Appid", appid);
@@ -43,14 +43,14 @@ namespace Dolany.Ice.Ai.DolanyAI
                 wc.Headers.Add("X-Param", Params);
                 wc.Headers.Add("X-CheckSum", CheckSum);
 
-                byte[] responseData = wc.UploadData(string.Format("{0}", requestUrl), "POST", bytes);
+                var responseData = wc.UploadData(string.Format("{0}", requestUrl), "POST", bytes);
                 return WriteFile(responseData);
             }
         }
 
         private static string WriteFile(byte[] response)
         {
-            string filePath = voicePath + DateTime.Now.ToString("yyyyMMddHHmmss") + ".mp3";
+            var filePath = voicePath + DateTime.Now.ToString("yyyyMMddHHmmss") + ".mp3";
             using (FileStream steam = new FileStream(filePath, FileMode.Create))
             {
                 steam.Write(response, 0, response.Length);
@@ -62,28 +62,30 @@ namespace Dolany.Ice.Ai.DolanyAI
 
         private static long GetUtcLong()
         {
-            DateTime UtcTime = new DateTime(1970, 1, 1, 0, 0, 0);
+            var UtcTime = new DateTime(1970, 1, 1, 0, 0, 0);
             var span = DateTime.Now.ToUniversalTime() - UtcTime;
             return (long)span.TotalSeconds;
         }
 
         private static string GetParams()
         {
-            XfyunRequestData request = new XfyunRequestData
+            var request = new XfyunRequestData
             {
                 aue = "lame",
                 auf = "audio/L16;rate=16000",
                 voice_name = voiceName
             };
-            string postData = JsonHelper.SerializeObject(request);
+            var postData = JsonHelper.SerializeObject(request);
             return Convert.ToBase64String(Encoding.UTF8.GetBytes(postData));
         }
 
         private static string GetCheckSum(string input)
         {
-            MD5 md5 = new MD5CryptoServiceProvider();
-            byte[] output = md5.ComputeHash(Encoding.UTF8.GetBytes(input));
-            return BitConverter.ToString(output).Replace("-", "").ToLower();
+            using (MD5 md5 = new MD5CryptoServiceProvider())
+            {
+                var output = md5.ComputeHash(Encoding.UTF8.GetBytes(input));
+                return BitConverter.ToString(output).Replace("-", "").ToLower();
+            }
         }
     }
 }

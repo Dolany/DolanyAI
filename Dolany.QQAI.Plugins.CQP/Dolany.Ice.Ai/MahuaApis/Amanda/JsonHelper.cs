@@ -20,7 +20,7 @@ namespace Dolany.Ice.Ai.MahuaApis
         /// <returns>json字符串</returns>
         public static string SerializeObject(object o)
         {
-            string json = JsonConvert.SerializeObject(o);
+            var json = JsonConvert.SerializeObject(o);
             return json;
         }
 
@@ -32,10 +32,10 @@ namespace Dolany.Ice.Ai.MahuaApis
         /// <returns>对象实体</returns>
         public static T DeserializeJsonToObject<T>(string json) where T : class
         {
-            JsonSerializer serializer = new JsonSerializer();
-            StringReader sr = new StringReader(json);
-            object o = serializer.Deserialize(new JsonTextReader(sr), typeof(T));
-            T t = o as T;
+            var serializer = new JsonSerializer();
+            var sr = new StringReader(json);
+            var o = serializer.Deserialize(new JsonTextReader(sr), typeof(T));
+            var t = o as T;
             return t;
         }
 
@@ -47,10 +47,10 @@ namespace Dolany.Ice.Ai.MahuaApis
         /// <returns>对象实体集合</returns>
         public static List<T> DeserializeJsonToList<T>(string json) where T : class
         {
-            JsonSerializer serializer = new JsonSerializer();
-            StringReader sr = new StringReader(json);
-            object o = serializer.Deserialize(new JsonTextReader(sr), typeof(List<T>));
-            List<T> list = o as List<T>;
+            var serializer = new JsonSerializer();
+            var sr = new StringReader(json);
+            var o = serializer.Deserialize(new JsonTextReader(sr), typeof(List<T>));
+            var list = o as List<T>;
             return list;
         }
 
@@ -63,7 +63,7 @@ namespace Dolany.Ice.Ai.MahuaApis
         /// <returns>匿名对象</returns>
         public static T DeserializeAnonymousType<T>(string json, T anonymousTypeObject)
         {
-            T t = JsonConvert.DeserializeAnonymousType(json, anonymousTypeObject);
+            var t = JsonConvert.DeserializeAnonymousType(json, anonymousTypeObject);
             return t;
         }
     }

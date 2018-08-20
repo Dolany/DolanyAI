@@ -11,13 +11,13 @@ namespace Dolany.Ice.Ai.DolanyAI
         public bool Check(string msg, out object[] param)
         {
             param = null;
-            string[] strs = msg.Split(new char[] { ' ' });
+            var strs = msg.Split(new char[] { ' ' });
             if (strs == null || strs.Length < 2)
             {
                 return false;
             }
 
-            (int hour, int minute)? time = Utility.GenTimeFromStr(strs[0]);
+            var time = Utility.GenTimeFromStr(strs[0]);
             if (time == null)
             {
                 return false;

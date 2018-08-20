@@ -68,7 +68,7 @@ namespace Dolany.Ice.Ai.DolanyAI
 
         private void HourAlertFunc()
         {
-            TimeSpan ts = GetNextHourSpan();
+            var ts = GetNextHourSpan();
             timer = new System.Timers.Timer(ts.TotalMilliseconds);
 
             timer.AutoReset = false;
@@ -93,7 +93,7 @@ namespace Dolany.Ice.Ai.DolanyAI
 
         private TimeSpan GetNextHourSpan()
         {
-            DateTime nextHour = DateTime.Parse(DateTime.Now.ToString("yyyy-MM-dd HH:00:00")).AddHours(1).AddSeconds(3);
+            var nextHour = DateTime.Parse(DateTime.Now.ToString("yyyy-MM-dd HH:00:00")).AddHours(1).AddSeconds(3);
             return nextHour - DateTime.Now;
         }
 
@@ -239,10 +239,10 @@ namespace Dolany.Ice.Ai.DolanyAI
         {
             using (AIDatabase db = new AIDatabase())
             {
-                string tag = HourToTag(aimHour);
+                var tag = HourToTag(aimHour);
                 var query = db.KanColeGirlVoice.Where(a => a.Tag == tag).OrderBy(a => a.Id);
 
-                Random random = new Random();
+                var random = new Random();
                 int randIdx = random.Next(query.Count());
 
                 return query.Skip(randIdx).First().Clone();
@@ -251,7 +251,7 @@ namespace Dolany.Ice.Ai.DolanyAI
 
         private string HourToTag(int aimHour)
         {
-            string tag = aimHour.ToString();
+            var tag = aimHour.ToString();
             if (aimHour < 10)
             {
                 tag = "0" + tag;
@@ -287,7 +287,7 @@ namespace Dolany.Ice.Ai.DolanyAI
         public void AllAvailabeGroups(PrivateMsgDTO MsgDTO, object[] param)
         {
             var list = AvailableGroups;
-            string msg = $"共有群组{list.Count}个";
+            var msg = $"共有群组{list.Count}个";
             foreach (var l in list)
             {
                 msg += '\r' + l.ToString();

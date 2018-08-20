@@ -79,11 +79,11 @@ namespace Dolany.Ice.Ai.DolanyAI
         {
             RuntimeLogger.Log("AlermClockAI Tryto SetClock");
 
-            (int hour, int minute)? time = param[0] as (int hour, int minute)?;
+            var time = param[0] as (int hour, int minute)?;
 
             using (AIDatabase db = new AIDatabase())
             {
-                AlermClock entity = new AlermClock()
+                var entity = new AlermClock()
                 {
                     Id = Guid.NewGuid().ToString(),
                     AimHourt = time.Value.hour,
@@ -133,7 +133,7 @@ namespace Dolany.Ice.Ai.DolanyAI
 
         private void StartClock(AlermClock entity)
         {
-            TimerEx timer = new TimerEx();
+            var timer = new TimerEx();
             timer.ClockEntity = entity;
             timer.Enabled = true;
             timer.Interval = GetNextInterval(entity.AimHourt, entity.AimMinute);
@@ -149,7 +149,7 @@ namespace Dolany.Ice.Ai.DolanyAI
             RuntimeLogger.Log("AlermClockAI TimeUp");
             lock (ClockList)
             {
-                TimerEx timer = sender as TimerEx;
+                var timer = sender as TimerEx;
                 timer.Stop();
 
                 MsgSender.Instance.PushMsg(new SendMsgDTO()
@@ -191,7 +191,7 @@ namespace Dolany.Ice.Ai.DolanyAI
                     return;
                 }
 
-                string Msg = $@"{CodeApi.Code_At(MsgDTO.FromQQ)} 你当前共设定了{allClocks.Count()}个闹钟";
+                var Msg = $@"{CodeApi.Code_At(MsgDTO.FromQQ)} 你当前共设定了{allClocks.Count()}个闹钟";
                 foreach (var clock in allClocks)
                 {
                     Msg += '\r' + $@"{clock.AimHourt.ToString("00")}:{clock.AimMinute.ToString("00")} {clock.Content}";
@@ -218,7 +218,7 @@ namespace Dolany.Ice.Ai.DolanyAI
         public void DeleteClock(GroupMsgDTO MsgDTO, object[] param)
         {
             RuntimeLogger.Log("AlermClockAI Tryto DeleteClock");
-            (int hour, int minute)? time = param[0] as (int hour, int minute)?;
+            var time = param[0] as (int hour, int minute)?;
 
             using (AIDatabase db = new AIDatabase())
             {
@@ -299,8 +299,8 @@ namespace Dolany.Ice.Ai.DolanyAI
 
         private double GetNextInterval(int hour, int minute)
         {
-            DateTime now = DateTime.Now;
-            DateTime aimTime = new DateTime(now.Year, now.Month, now.Day, hour, minute, 0);
+            var now = DateTime.Now;
+            var aimTime = new DateTime(now.Year, now.Month, now.Day, hour, minute, 0);
             if (aimTime < now)
             {
                 aimTime = aimTime.AddDays(1);

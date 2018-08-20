@@ -38,9 +38,9 @@ namespace Dolany.Ice.Ai.DolanyAI
             )]
         public void SetCharactor(GroupMsgDTO MsgDTO, object[] param)
         {
-            string charactor = param[0] as string;
-            string settingName = param[1] as string;
-            string content = param[2] as string;
+            var charactor = param[0] as string;
+            var settingName = param[1] as string;
+            var content = param[2] as string;
 
             if (!IsExistCharactor(MsgDTO.FromGroup, charactor))
             {
@@ -64,7 +64,7 @@ namespace Dolany.Ice.Ai.DolanyAI
         {
             using (AIDatabase db = new AIDatabase())
             {
-                string charactor = param[0] as string;
+                var charactor = param[0] as string;
                 var query = db.CharactorSetting.Where(c => c.GroupNumber == MsgDTO.FromGroup && c.Charactor == charactor);
                 if (query.IsNullOrEmpty())
                 {
@@ -115,7 +115,7 @@ namespace Dolany.Ice.Ai.DolanyAI
         {
             using (AIDatabase db = new AIDatabase())
             {
-                string charactor = param[0] as string;
+                var charactor = param[0] as string;
                 var query = db.CharactorSetting.Where(c => c.GroupNumber == MsgDTO.FromGroup && c.Charactor == charactor);
                 if (query.IsNullOrEmpty())
                 {
@@ -128,7 +128,7 @@ namespace Dolany.Ice.Ai.DolanyAI
                     return;
                 }
 
-                string msg = charactor + ':';
+                var msg = charactor + ':';
                 foreach (var c in query)
                 {
                     msg += '\r' + c.SettingName + ':' + c.Content;
@@ -245,7 +245,7 @@ namespace Dolany.Ice.Ai.DolanyAI
         {
             using (AIDatabase db = new AIDatabase())
             {
-                CharactorSetting cs = new CharactorSetting
+                var cs = new CharactorSetting
                 {
                     Id = Guid.NewGuid().ToString(),
                     CreateTime = DateTime.Now,

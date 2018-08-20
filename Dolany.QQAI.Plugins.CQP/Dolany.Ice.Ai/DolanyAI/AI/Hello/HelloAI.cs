@@ -35,7 +35,7 @@ namespace Dolany.Ice.Ai.DolanyAI
 
             using (AIDatabase db = new AIDatabase())
             {
-                DateTime now = DateTime.Now.Date;
+                var now = DateTime.Now.Date;
                 var query = db.Hello.Where(h => h.GroupNum == MsgDTO.FromGroup
                     && h.QQNum == MsgDTO.FromQQ
                     && now > h.LastHelloDate
@@ -70,7 +70,7 @@ namespace Dolany.Ice.Ai.DolanyAI
             )]
         public void SaveHelloContent(GroupMsgDTO MsgDTO, object[] param)
         {
-            string content = param[0] as string;
+            var content = param[0] as string;
 
             using (AIDatabase db = new AIDatabase())
             {

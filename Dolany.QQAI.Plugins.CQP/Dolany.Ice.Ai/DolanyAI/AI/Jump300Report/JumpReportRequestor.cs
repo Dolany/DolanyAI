@@ -26,8 +26,8 @@ namespace Dolany.Ice.Ai.DolanyAI
                 var allList = GetAllList(MsgDTO.Msg);
                 var allDetails = GetAllDetails(allList);
 
-                JumpReportAnalyzer analyzer = new JumpReportAnalyzer(allList, allDetails);
-                string report = analyzer.GenReport();
+                var analyzer = new JumpReportAnalyzer(allList, allDetails);
+                var report = analyzer.GenReport();
 
                 ReportCallBack(MsgDTO, report);
             }
@@ -39,16 +39,16 @@ namespace Dolany.Ice.Ai.DolanyAI
 
         private List<JumpDetailHtmlParser> GetAllDetails(List<JumpListHtmlParser> allList)
         {
-            List<JumpDetailHtmlParser> allDetails = new List<JumpDetailHtmlParser>();
+            var allDetails = new List<JumpDetailHtmlParser>();
             foreach (var list in allList)
             {
                 foreach (var match in list.Matches)
                 {
-                    string aimStr = $"http://300report.jumpw.com/match.html?id={match.DetailAddr}";
-                    HttpRequester requester = new HttpRequester();
-                    string HtmlStr = requester.Request(aimStr);
+                    var aimStr = $"http://300report.jumpw.com/match.html?id={match.DetailAddr}";
+                    var requester = new HttpRequester();
+                    var HtmlStr = requester.Request(aimStr);
 
-                    JumpDetailHtmlParser dp = new JumpDetailHtmlParser();
+                    var dp = new JumpDetailHtmlParser();
                     dp.Load(HtmlStr);
 
                     allDetails.Add(dp);
@@ -60,16 +60,16 @@ namespace Dolany.Ice.Ai.DolanyAI
 
         private List<JumpListHtmlParser> GetAllList(string name)
         {
-            List<JumpListHtmlParser> list = new List<JumpListHtmlParser>();
-            HttpRequester requester = new HttpRequester();
+            var list = new List<JumpListHtmlParser>();
+            var requester = new HttpRequester();
             int count = 0;
             int idx = 0;
 
             do
             {
-                string HtmlStr = requester.Request($"http://300report.jumpw.com/list.html?name={MsgDTO.Msg}&index={idx}");
+                var HtmlStr = requester.Request($"http://300report.jumpw.com/list.html?name={MsgDTO.Msg}&index={idx}");
 
-                JumpListHtmlParser listParser = new JumpListHtmlParser();
+                var listParser = new JumpListHtmlParser();
                 listParser.Load(HtmlStr);
 
                 count = listParser.Matches.Count;

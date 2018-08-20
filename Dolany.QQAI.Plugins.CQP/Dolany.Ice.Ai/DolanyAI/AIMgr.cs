@@ -57,7 +57,7 @@ namespace Dolany.Ice.Ai.DolanyAI
 
         private void ExtractCommands(AIBase ai)
         {
-            Type type = ai.GetType();
+            var type = ai.GetType();
             foreach (var method in type.GetMethods())
             {
                 foreach (GroupEnterCommandAttribute attr in method.GetCustomAttributes(typeof(GroupEnterCommandAttribute), false))
@@ -79,7 +79,7 @@ namespace Dolany.Ice.Ai.DolanyAI
         {
             var list = new List<KeyValuePair<AIBase, AIAttribute>>();
 
-            Assembly assembly = Assembly.GetExecutingAssembly();
+            var assembly = Assembly.GetExecutingAssembly();
             foreach (var type in assembly.GetTypes())
             {
                 if (!type.IsSubclassOf(typeof(AIBase)))
@@ -112,7 +112,7 @@ namespace Dolany.Ice.Ai.DolanyAI
                 MsgDTO.FromQQ = MsgDTO.FromQQ & 0xFFFFFFFF;
             }
 
-            string msg = MsgDTO.Msg;
+            var msg = MsgDTO.Msg;
             MsgDTO.FullMsg = msg;
             MsgDTO.Command = GenCommand(ref msg);
             MsgDTO.Msg = msg;
@@ -184,7 +184,7 @@ namespace Dolany.Ice.Ai.DolanyAI
             //    return;
             //}
 
-            string msg = MsgDTO.Msg;
+            var msg = MsgDTO.Msg;
             MsgDTO.Command = GenCommand(ref msg);
             MsgDTO.Msg = msg;
 
@@ -206,13 +206,13 @@ namespace Dolany.Ice.Ai.DolanyAI
                 return string.Empty;
             }
 
-            string[] strs = msg.Split(new char[] { ' ' });
+            var strs = msg.Split(new char[] { ' ' });
             if (strs == null || strs.Length == 0)
             {
                 return string.Empty;
             }
 
-            string command = strs[0];
+            var command = strs[0];
             msg = msg.Substring(command.Length, msg.Length - command.Length).Trim();
             return command;
         }

@@ -43,7 +43,7 @@ namespace Dolany.Ice.Ai.DolanyAI
             }
 
             MsgDTO.FullMsg = MsgDTO.FullMsg.Replace(CodeApi.Code_SelfAt(), "");
-            string response = RequestMsg(MsgDTO);
+            var response = RequestMsg(MsgDTO);
             if (string.IsNullOrEmpty(response))
             {
                 return false;
@@ -79,7 +79,7 @@ namespace Dolany.Ice.Ai.DolanyAI
 
         private string RequestMsg(GroupMsgDTO MsgDTO)
         {
-            PostReq_Param post = GetPostReq(MsgDTO);
+            var post = GetPostReq(MsgDTO);
 
             var response = RequestHelper.PostData<TulingResponseData>(post);
             if (response == null || ErroCodes.Contains(response.intent.code))
@@ -94,7 +94,7 @@ namespace Dolany.Ice.Ai.DolanyAI
         {
             perceptionData perception;
 
-            string imageInfo = ParseImgText(MsgDTO.FullMsg);
+            var imageInfo = ParseImgText(MsgDTO.FullMsg);
             if (string.IsNullOrEmpty(imageInfo))
             {
                 perception = new perceptionData
@@ -116,7 +116,7 @@ namespace Dolany.Ice.Ai.DolanyAI
                 };
             }
 
-            PostReq_Param post = new PostReq_Param
+            var post = new PostReq_Param
             {
                 InterfaceName = RequestUrl,
                 data = new TulingRequestData
@@ -138,7 +138,7 @@ namespace Dolany.Ice.Ai.DolanyAI
 
         private string ParseResponse(TulingResponseData response)
         {
-            string result = string.Empty;
+            var result = string.Empty;
             foreach (var res in response.results)
             {
                 switch (res.resultType)
@@ -175,7 +175,7 @@ namespace Dolany.Ice.Ai.DolanyAI
                 var strs1 = msg.Split(new string[] { "QQ:pic=" }, StringSplitOptions.RemoveEmptyEntries);
                 var strs2 = strs1.Last().Split(new char[] { ']' });
                 var strs3 = strs2.First().Split(new char[] { '.' });
-                string imageGuid = strs3.First();
+                var imageGuid = strs3.First();
 
                 var image = Utility.ReadImageCacheInfo(imageGuid);
                 if (image == null)

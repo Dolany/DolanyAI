@@ -37,8 +37,8 @@ namespace Dolany.Ice.Ai.DolanyAI
 
         private double GetNextInterval()
         {
-            DateTime time = DateTime.Now;
-            string timeS = string.Empty;
+            var time = DateTime.Now;
+            var timeS = string.Empty;
             if (time.Hour >= 12)
             {
                 timeS = time.AddDays(1).ToString("yyyy-MM-dd 12:05:00");
@@ -48,7 +48,7 @@ namespace Dolany.Ice.Ai.DolanyAI
                 timeS = time.ToString("yyyy-MM-dd 12:05:00");
             }
 
-            DateTime aimDate = DateTime.Parse(timeS);
+            var aimDate = DateTime.Parse(timeS);
             return (aimDate - time).TotalMilliseconds;
         }
 
@@ -69,7 +69,7 @@ namespace Dolany.Ice.Ai.DolanyAI
                 }
 
                 int Count = signs.Count();
-                Random random = new Random();
+                var random = new Random();
                 int ranIdx = random.Next(Count);
 
                 var sign = signs.Skip(ranIdx).First();

@@ -23,9 +23,9 @@ namespace Dolany.Ice.Ai.DolanyAI
 
         public void Work()
         {
-            StarFortuneParser parser = new StarFortuneParser();
+            var parser = new StarFortuneParser();
 
-            HttpRequester requester = new HttpRequester();
+            var requester = new HttpRequester();
             int code = GetStarCode(MsgDTO.Msg);
             if (code < 0)
             {
@@ -33,8 +33,8 @@ namespace Dolany.Ice.Ai.DolanyAI
                 return;
             }
 
-            string aimStr = $"http://astro.sina.cn/fortune/starent?type=day&ast={code}&vt=4";
-            string HtmlStr = requester.Request(aimStr);
+            var aimStr = $"http://astro.sina.cn/fortune/starent?type=day&ast={code}&vt=4";
+            var HtmlStr = requester.Request(aimStr);
 
             parser.Load(HtmlStr);
 

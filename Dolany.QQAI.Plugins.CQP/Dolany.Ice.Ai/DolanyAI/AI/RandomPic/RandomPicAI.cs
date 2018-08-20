@@ -25,7 +25,7 @@ namespace Dolany.Ice.Ai.DolanyAI
         {
             get
             {
-                string config = Utility.GetConfig("MaxPicCacheCount");
+                var config = Utility.GetConfig("MaxPicCacheCount");
                 if (string.IsNullOrEmpty(config))
                 {
                     Utility.SetConfig("MaxPicCacheCount", "200");
@@ -40,7 +40,7 @@ namespace Dolany.Ice.Ai.DolanyAI
         {
             get
             {
-                string config = Utility.GetConfig("PicCleanFreq");
+                var config = Utility.GetConfig("PicCleanFreq");
                 if (string.IsNullOrEmpty(config))
                 {
                     Utility.SetConfig("PicCleanFreq", "10");
@@ -87,7 +87,7 @@ namespace Dolany.Ice.Ai.DolanyAI
 
         private void CleanCache()
         {
-            DirectoryInfo dir = new DirectoryInfo(PicPath);
+            var dir = new DirectoryInfo(PicPath);
             int cleanCount = dir.GetFiles().Count() - MaxPicCache;
             var cleanFiles = dir.GetFiles().OrderBy(f => f.CreationTime).Take(cleanCount);
             foreach (var f in cleanFiles)
@@ -100,8 +100,8 @@ namespace Dolany.Ice.Ai.DolanyAI
         {
             Keywords.Clear();
 
-            DirectoryInfo dirInfo = new DirectoryInfo(PicPath);
-            DirectoryInfo[] childrenDirs = dirInfo.GetDirectories();
+            var dirInfo = new DirectoryInfo(PicPath);
+            var childrenDirs = dirInfo.GetDirectories();
             foreach (var info in childrenDirs)
             {
                 Keywords.Add(info.Name);
@@ -115,13 +115,13 @@ namespace Dolany.Ice.Ai.DolanyAI
                 return true;
             }
 
-            string key = GenKey(MsgDTO.Command + MsgDTO.Msg);
+            var key = GenKey(MsgDTO.Command + MsgDTO.Msg);
             if (string.IsNullOrEmpty(key))
             {
                 return false;
             }
 
-            string RandPic = GetRandPic(key);
+            var RandPic = GetRandPic(key);
 
             SendPic(Environment.CurrentDirectory + "/" + PicPath + key + "/" + RandPic, MsgDTO.FromGroup);
             return true;
@@ -149,7 +149,7 @@ namespace Dolany.Ice.Ai.DolanyAI
             var imageList = GetRecentImageList();
             int idx = (new Random()).Next(imageList.Count());
             var ImageCache = Utility.ReadImageCacheInfo(imageList[idx]);
-            string sendImgName = $"{ImageCache.guid}.{ImageCache.type}";
+            var sendImgName = $"{ImageCache.guid}.{ImageCache.type}";
 
             MsgSender.Instance.PushMsg(new SendMsgDTO()
             {
@@ -174,7 +174,7 @@ namespace Dolany.Ice.Ai.DolanyAI
             var imageList = GetRecentImageList();
             int idx = (new Random()).Next(imageList.Count());
             var ImageCache = Utility.ReadImageCacheInfo(imageList[idx]);
-            string sendImgName = $"{ImageCache.guid}.{ImageCache.type}";
+            var sendImgName = $"{ImageCache.guid}.{ImageCache.type}";
 
             MsgSender.Instance.PushMsg(new SendMsgDTO()
             {
@@ -187,7 +187,7 @@ namespace Dolany.Ice.Ai.DolanyAI
 
         private List<FileInfo> GetRecentImageList()
         {
-            DirectoryInfo dirInfo = new DirectoryInfo(PicPath);
+            var dirInfo = new DirectoryInfo(PicPath);
             var files = dirInfo.GetFiles();
             return files.Where(f => f.Extension == CodeApi.ImageExtension)
                         .OrderBy(f => f.CreationTime)
@@ -224,14 +224,14 @@ namespace Dolany.Ice.Ai.DolanyAI
 
         private string GetRandPic(string dirName)
         {
-            DirectoryInfo dirInfo = new DirectoryInfo(PicPath + dirName);
-            FileInfo[] fil = dirInfo.GetFiles();
+            var dirInfo = new DirectoryInfo(PicPath + dirName);
+            var fil = dirInfo.GetFiles();
             if (fil.IsNullOrEmpty())
             {
                 return string.Empty;
             }
 
-            Random random = new Random();
+            var random = new Random();
             var f = fil[random.Next(fil.Length)];
             //var ImageCache = Utility.ReadCacheInfo(f);
             return f.Name;
@@ -260,8 +260,8 @@ namespace Dolany.Ice.Ai.DolanyAI
             )]
         public void AppendSynonym(PrivateMsgDTO MsgDTO, object[] param)
         {
-            string Keyword = param[0] as string;
-            string Content = param[1] as string;
+            var Keyword = param[0] as string;
+            var Content = param[1] as string;
 
             DbMgr.Insert(new SynonymDicEntity()
             {
@@ -282,7 +282,7 @@ namespace Dolany.Ice.Ai.DolanyAI
             )]
         public void AllPicKeywords(PrivateMsgDTO MsgDTO, object[] param)
         {
-            string msg = string.Empty;
+            var msg = string.Empty;
             foreach (var k in Keywords)
             {
                 msg += k + '\r';

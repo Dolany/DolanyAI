@@ -17,7 +17,7 @@ namespace Dolany.Ice.Ai.DolanyAI
                 return false;
             }
 
-            (int hour, int minute)? time = Utility.GenTimeFromStr(msg);
+            var time = Utility.GenTimeFromStr(msg);
             if (time == null)
             {
                 return false;

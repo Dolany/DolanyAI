@@ -18,7 +18,7 @@ namespace Dolany.Ice.Ai.DolanyAI
 
         public virtual bool OnGroupMsgReceived(GroupMsgDTO MsgDTO)
         {
-            Type t = this.GetType();
+            var t = this.GetType();
             foreach (var method in t.GetMethods())
             {
                 foreach (var attr in method.GetCustomAttributes(typeof(GroupEnterCommandAttribute), false))
@@ -75,9 +75,9 @@ namespace Dolany.Ice.Ai.DolanyAI
 
             try
             {
-                Assembly assembly = Assembly.GetExecutingAssembly();
-                object scObj = assembly.CreateInstance("Dolany.Ice.Ai.DolanyAI." + SyntaxChecker + "Checker");
-                ISyntaxChecker checker = scObj as ISyntaxChecker;
+                var assembly = Assembly.GetExecutingAssembly();
+                var scObj = assembly.CreateInstance("Dolany.Ice.Ai.DolanyAI." + SyntaxChecker + "Checker");
+                var checker = scObj as ISyntaxChecker;
                 return checker.Check(msg, out param);
             }
             catch
@@ -119,7 +119,7 @@ namespace Dolany.Ice.Ai.DolanyAI
 
         public virtual void OnPrivateMsgReceived(PrivateMsgDTO MsgDTO)
         {
-            Type t = this.GetType();
+            var t = this.GetType();
             foreach (var method in t.GetMethods())
             {
                 foreach (var attr in method.GetCustomAttributes(typeof(PrivateEnterCommandAttribute), false))

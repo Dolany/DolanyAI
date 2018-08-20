@@ -36,7 +36,7 @@ namespace Dolany.Ice.Ai.DolanyAI
             )]
         public void KancoleVoice(GroupMsgDTO MsgDTO, object[] param)
         {
-            string girlName = param[0] as string;
+            var girlName = param[0] as string;
 
             var voice = GetRandVoiceInfo(girlName);
             if (voice == null)
@@ -69,7 +69,7 @@ namespace Dolany.Ice.Ai.DolanyAI
                 }
 
                 int count = query.Count();
-                Random random = new Random();
+                var random = new Random();
                 int idx = random.Next(count);
 
                 return query.Skip(idx).First().Clone();

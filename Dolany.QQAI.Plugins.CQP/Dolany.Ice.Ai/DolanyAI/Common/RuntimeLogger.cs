@@ -21,7 +21,7 @@ namespace Dolany.Ice.Ai.DolanyAI
             lock (lockObj)
             {
                 var steam = CheckFile();
-                byte[] data = new UTF8Encoding().GetBytes($"{DateTime.Now.ToString()}:{log}\r");
+                var data = new UTF8Encoding().GetBytes($"{DateTime.Now.ToString()}:{log}\r");
                 steam.Write(data, 0, data.Length);
                 //清空缓冲区、关闭流
                 steam.Flush();
@@ -31,13 +31,13 @@ namespace Dolany.Ice.Ai.DolanyAI
 
         private static FileStream CheckFile()
         {
-            DirectoryInfo dir = new DirectoryInfo(LogPath);
+            var dir = new DirectoryInfo(LogPath);
             if (!dir.Exists)
             {
                 dir.Create();
             }
 
-            FileInfo fi = new FileInfo(LogPath + DateTime.Now.ToString("yyyyMMdd") + ".log");
+            var fi = new FileInfo(LogPath + DateTime.Now.ToString("yyyyMMdd") + ".log");
             if (!fi.Exists)
             {
                 return fi.Create();

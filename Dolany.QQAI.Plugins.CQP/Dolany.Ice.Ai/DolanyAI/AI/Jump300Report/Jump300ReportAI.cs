@@ -39,7 +39,7 @@ namespace Dolany.Ice.Ai.DolanyAI
                 Type = MsgType.Group,
                 Msg = "查询中，请稍候"
             });
-            JumpReportRequestor jr = new JumpReportRequestor(MsgDTO, ReportCallBack);
+            var jr = new JumpReportRequestor(MsgDTO, ReportCallBack);
             Task.Run(() => jr.Work());
         }
 

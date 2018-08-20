@@ -10,7 +10,7 @@ using System.Threading;
 namespace Dolany.Ice.Ai.DolanyAI
 {
     [AI(
-        Name = "PlusOneAI",
+        Name = nameof(PlusOneAI),
         Description = "AI for Auto Plus One.",
         IsAvailable = true,
         PriorityLevel = 0
@@ -64,7 +64,7 @@ namespace Dolany.Ice.Ai.DolanyAI
             return true;
         }
 
-        private void Repeat(long fromGroup, string FullMsg, PlusOneCache groupCache)
+        private static void Repeat(long fromGroup, string FullMsg, PlusOneCache groupCache)
         {
             if (groupCache.MsgCache != FullMsg)
             {
@@ -127,14 +127,14 @@ namespace Dolany.Ice.Ai.DolanyAI
             });
         }
 
-        private void ForbiddenStateChange(long fromGroup, bool state)
+        private static void ForbiddenStateChange(long fromGroup, bool state)
         {
             using (AIDatabase db = new AIDatabase())
             {
                 var query = db.PlusOneAvailable.Where(r => r.GroupNumber == fromGroup);
                 if (query.IsNullOrEmpty())
                 {
-                    PlusOneAvailable pa = new PlusOneAvailable
+                    var pa = new PlusOneAvailable
                     {
                         Id = Guid.NewGuid().ToString(),
                         GroupNumber = fromGroup,
@@ -152,7 +152,7 @@ namespace Dolany.Ice.Ai.DolanyAI
             }
         }
 
-        private bool IsAvailable(long GroupNum)
+        private static bool IsAvailable(long GroupNum)
         {
             using (AIDatabase db = new AIDatabase())
             {

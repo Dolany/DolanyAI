@@ -45,12 +45,12 @@ namespace Dolany.Ice.Ai.DolanyAI
 
         private void ParseBaseInfo(string text)
         {
-            string[] strs = text.Split(new string[] { "\r\n" }, StringSplitOptions.RemoveEmptyEntries);
+            var strs = text.Split(new string[] { "\r\n" }, StringSplitOptions.RemoveEmptyEntries);
             foreach (var s in strs)
             {
-                string[] kvs = s.Split(new char[] { ':' });
-                string key = kvs[0];
-                string value = s.Substring(key.Length + 1, s.Length - key.Length - 1);
+                var kvs = s.Split(new char[] { ':' });
+                var key = kvs[0];
+                var value = s.Substring(key.Length + 1, s.Length - key.Length - 1);
 
                 BaseInfo.Add(new JumpBaseInfo()
                 {
@@ -62,17 +62,17 @@ namespace Dolany.Ice.Ai.DolanyAI
 
         private void ParseRankInfos(string text)
         {
-            string[] strs = text.Split(new char[] { '\r', '\n' }, StringSplitOptions.RemoveEmptyEntries);
+            var strs = text.Split(new char[] { '\r', '\n' }, StringSplitOptions.RemoveEmptyEntries);
             foreach (var s in strs)
             {
-                JumpServerRankInfo rankInfo = new JumpServerRankInfo();
+                var rankInfo = new JumpServerRankInfo();
 
-                string[] ps1 = s.Split(new char[] { '第', '名' }, StringSplitOptions.RemoveEmptyEntries);
+                var ps1 = s.Split(new char[] { '第', '名' }, StringSplitOptions.RemoveEmptyEntries);
                 rankInfo.RankName = ps1[0];
                 rankInfo.RankValue = int.Parse(ps1[1]);
 
-                string[] ps2 = ps1[2].Split(new char[] { '(', ')' }, StringSplitOptions.RemoveEmptyEntries);
-                string[] ps21 = ps2[1].Split(new char[] { ' ' }, StringSplitOptions.RemoveEmptyEntries);
+                var ps2 = ps1[2].Split(new char[] { '(', ')' }, StringSplitOptions.RemoveEmptyEntries);
+                var ps21 = ps2[1].Split(new char[] { ' ' }, StringSplitOptions.RemoveEmptyEntries);
                 if (ps21[0] == "↑")
                 {
                     rankInfo.ChangeValue = int.Parse(ps21[1]);
@@ -105,13 +105,13 @@ namespace Dolany.Ice.Ai.DolanyAI
 
         private void ParseMatches(string text)
         {
-            string[] strs = text.Split(new char[] { '\r', '\n' }, StringSplitOptions.RemoveEmptyEntries);
-            int[] idxes = FindEmptyIdxes(strs);
+            var strs = text.Split(new char[] { '\r', '\n' }, StringSplitOptions.RemoveEmptyEntries);
+            var idxes = FindEmptyIdxes(strs);
             foreach (var i in idxes)
             {
-                JumpMatchBriefInfo matchInfo = new JumpMatchBriefInfo();
+                var matchInfo = new JumpMatchBriefInfo();
                 matchInfo.MatchMode = strs[i + 1];
-                string[] sp = strs[i + 2].Split(new string[] { "(", ")", "Lv." }, StringSplitOptions.RemoveEmptyEntries);
+                var sp = strs[i + 2].Split(new string[] { "(", ")", "Lv." }, StringSplitOptions.RemoveEmptyEntries);
                 matchInfo.HeroName = sp[0];
                 matchInfo.Level = int.Parse(sp[1]);
                 matchInfo.Result = strs[i + 3];
@@ -123,7 +123,7 @@ namespace Dolany.Ice.Ai.DolanyAI
 
         private int[] FindEmptyIdxes(string[] strs)
         {
-            List<int> list = new List<int>();
+            var list = new List<int>();
             for (int i = 0; i < strs.Length; i++)
             {
                 if (string.IsNullOrEmpty(strs[i].Trim()))
@@ -138,12 +138,12 @@ namespace Dolany.Ice.Ai.DolanyAI
         private void AppendAddr(HtmlNode node)
         {
             var nodes = SearchNodes(node, n => n.ChildAttributes("onClick").Count() > 0);
-            List<string> addrList = new List<string>();
+            var addrList = new List<string>();
             foreach (var n in nodes)
             {
                 var attr = n.ChildAttributes("onClick").FirstOrDefault();
-                string attrValue = attr.Value;
-                string addrName = attrValue.Replace("javascript:window.open('match.html?id=", "").Replace("');", "");
+                var attrValue = attr.Value;
+                var addrName = attrValue.Replace("javascript:window.open('match.html?id=", "").Replace("');", "");
                 addrList.Add(addrName);
             }
 

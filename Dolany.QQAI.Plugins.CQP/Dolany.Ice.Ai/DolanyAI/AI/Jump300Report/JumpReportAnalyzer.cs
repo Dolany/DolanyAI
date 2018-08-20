@@ -33,7 +33,7 @@ namespace Dolany.Ice.Ai.DolanyAI
                 return "欸呀呀，战绩查询不到呀！";
             }
 
-            string report = string.Empty;
+            var report = string.Empty;
 
             var query = GetReportMethods();
             foreach (var m in query)
@@ -46,7 +46,7 @@ namespace Dolany.Ice.Ai.DolanyAI
 
         private IOrderedEnumerable<MethodInfo> GetReportMethods()
         {
-            Type t = this.GetType();
+            var t = this.GetType();
             var query = t.GetMethods()
                 .Where(m => m.CustomAttributes.Any(a => a.AttributeType == typeof(JumpAnalyzeAttribute)))
                 .OrderBy(m => (m.GetCustomAttributes(typeof(JumpAnalyzeAttribute), false).FirstOrDefault() as JumpAnalyzeAttribute).Order);
@@ -56,14 +56,14 @@ namespace Dolany.Ice.Ai.DolanyAI
 
         private string GenMethodReport(MethodInfo m)
         {
-            string Title = (m.GetCustomAttributes(typeof(JumpAnalyzeAttribute), false).FirstOrDefault() as JumpAnalyzeAttribute).Title;
-            string content = m.DeclaringType.InvokeMember(m.Name,
+            var Title = (m.GetCustomAttributes(typeof(JumpAnalyzeAttribute), false).FirstOrDefault() as JumpAnalyzeAttribute).Title;
+            var content = m.DeclaringType.InvokeMember(m.Name,
                         BindingFlags.InvokeMethod,
                         null,
                         this,
                         null
                         ) as string;
-            string report = $@"{Title} :
+            var report = $@"{Title} :
 {content}
 ";
 
@@ -78,7 +78,7 @@ namespace Dolany.Ice.Ai.DolanyAI
                 return string.Empty;
             }
 
-            string report = string.Empty;
+            var report = string.Empty;
             foreach (var r in Lists.FirstOrDefault().BaseInfo)
             {
                 report += '\r' + r.Name + ":" + r.Value;
@@ -95,9 +95,9 @@ namespace Dolany.Ice.Ai.DolanyAI
                 return string.Empty;
             }
 
-            Dictionary<string, int> dic = DicHeros();
+            var dic = DicHeros();
 
-            string FavoriteHero = dic.Keys.FirstOrDefault();
+            var FavoriteHero = dic.Keys.FirstOrDefault();
             foreach (var k in dic.Keys)
             {
                 if (dic[k] > dic[FavoriteHero])
@@ -111,7 +111,7 @@ namespace Dolany.Ice.Ai.DolanyAI
 
         private Dictionary<string, int> DicHeros()
         {
-            Dictionary<string, int> dic = new Dictionary<string, int>();
+            var dic = new Dictionary<string, int>();
             foreach (var l in Lists)
             {
                 foreach (var i in l.Matches)
@@ -135,7 +135,7 @@ namespace Dolany.Ice.Ai.DolanyAI
         {
             int gold = 0;
             int validMatch = 0;
-            string playerName = PlayerName;
+            var playerName = PlayerName;
             foreach (var detail in Details)
             {
                 var query = detail.PlayersInfo.Where(p => p.PlayerName == playerName);
@@ -159,7 +159,7 @@ namespace Dolany.Ice.Ai.DolanyAI
         [JumpAnalyze(Order = 4, Title = "平均比赛时长")]
         public string AverageMatchSpan()
         {
-            TimeSpan span = new TimeSpan(0);
+            var span = new TimeSpan(0);
             foreach (var d in Details)
             {
                 span += d.MatchBaseInfo.DuringSpan;
@@ -173,7 +173,7 @@ namespace Dolany.Ice.Ai.DolanyAI
         public string AverageGrade()
         {
             int grade = 0;
-            string playerName = PlayerName;
+            var playerName = PlayerName;
             foreach (var detail in Details)
             {
                 if (detail.MatchBaseInfo.MatchKind == "战场")

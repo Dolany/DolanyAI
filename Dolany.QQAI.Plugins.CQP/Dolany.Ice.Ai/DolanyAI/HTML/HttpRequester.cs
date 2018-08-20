@@ -18,8 +18,8 @@ namespace Dolany.Ice.Ai.DolanyAI
 
         public string Request(string url)
         {
-            Byte[] pageData = Client.DownloadData(url);
-            string pageHtml = Encoding.UTF8.GetString(pageData);
+            var pageData = Client.DownloadData(url);
+            var pageHtml = Encoding.UTF8.GetString(pageData);
 
             return pageHtml;
         }

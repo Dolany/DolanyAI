@@ -9,7 +9,7 @@ using System.Threading;
 namespace Dolany.Ice.Ai.DolanyAI
 {
     [AI(
-        Name = "RepeatorAI",
+        Name = nameof(RepeatorAI),
         Description = "AI for Repeating Random words.",
         IsAvailable = true,
         PriorityLevel = 1
@@ -103,7 +103,7 @@ namespace Dolany.Ice.Ai.DolanyAI
             });
         }
 
-        private void ForbiddenStateChange(long fromGroup, bool state)
+        private static void ForbiddenStateChange(long fromGroup, bool state)
         {
             using (AIDatabase db = new AIDatabase())
             {
@@ -127,7 +127,7 @@ namespace Dolany.Ice.Ai.DolanyAI
             }
         }
 
-        private bool IsAvailable(long GroupNum)
+        private static bool IsAvailable(long GroupNum)
         {
             using (AIDatabase db = new AIDatabase())
             {

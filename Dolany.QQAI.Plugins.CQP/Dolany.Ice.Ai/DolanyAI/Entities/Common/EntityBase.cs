@@ -23,18 +23,18 @@ namespace Dolany.Ice.Ai.DolanyAI
         {
             get
             {
-                Type t = this.GetType();
-                string typeName = t.Name;
+                var t = this.GetType();
+                var typeName = t.Name;
                 return t.Name.Contains("Entity") ? t.Name.Replace("Entity", "") : t.Name;
             }
         }
 
         public XElement ToElement()
         {
-            XElement ele = new XElement(EntityName);
+            var ele = new XElement(EntityName);
             ele.SetValue(Content);
 
-            Type t = this.GetType();
+            var t = this.GetType();
             foreach (var prop in t.GetProperties())
             {
                 if (prop.GetCustomAttributes(typeof(DataColumnAttribute), false).Length <= 0)
@@ -50,14 +50,14 @@ namespace Dolany.Ice.Ai.DolanyAI
 
         public static Entity FromElement<Entity>(XElement ele) where Entity : EntityBase, new()
         {
-            Entity entity = new Entity();
+            var entity = new Entity();
             if (entity.EntityName != ele.Name)
             {
                 return null;
             }
 
             entity.Content = ele.Value;
-            Type t = typeof(Entity);
+            var t = typeof(Entity);
             foreach (var prop in t.GetProperties())
             {
                 if (prop.GetCustomAttributes(typeof(DataColumnAttribute), false).Length <= 0)
@@ -65,7 +65,7 @@ namespace Dolany.Ice.Ai.DolanyAI
                     continue;
                 }
 
-                string attrValue = ele.Attribute(prop.Name).Value;
+                var attrValue = ele.Attribute(prop.Name).Value;
                 prop.SetValue(entity, Convert.ChangeType(attrValue, prop.PropertyType));
             }
 

@@ -12,17 +12,17 @@ namespace Dolany.Ice.Ai.DolanyAI
     {
         public static ResultType PostData<ResultType>(PostReq_Param p) where ResultType : class
         {
-            ResultType _reqRet = default(ResultType);
+            var _reqRet = default(ResultType);
             using (WebClient wc = new WebClient())
             {
                 //post
-                string postData = JsonHelper.SerializeObject(p.data);
-                byte[] bytes = Encoding.UTF8.GetBytes(postData);
+                var postData = JsonHelper.SerializeObject(p.data);
+                var bytes = Encoding.UTF8.GetBytes(postData);
                 wc.Headers.Add("Content-Type", "application/json; charset=utf-8");
                 wc.Headers.Add("ContentLength", postData.Length.ToString());
-                Encoding enc = Encoding.GetEncoding("UTF-8");
-                byte[] responseData = wc.UploadData(string.Format("{0}", p.InterfaceName), "POST", bytes);
-                string re = Encoding.UTF8.GetString(responseData);
+                var enc = Encoding.GetEncoding("UTF-8");
+                var responseData = wc.UploadData(string.Format("{0}", p.InterfaceName), "POST", bytes);
+                var re = Encoding.UTF8.GetString(responseData);
                 _reqRet = JsonHelper.DeserializeJsonToObject<ResultType>(re);
             }
             return _reqRet;

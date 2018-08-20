@@ -16,7 +16,7 @@ namespace Dolany.Ice.Ai.DolanyAI
                 return false;
             }
 
-            string[] strs = msg.Split(new char[] { ' ' }, StringSplitOptions.RemoveEmptyEntries);
+            var strs = msg.Split(new char[] { ' ' }, StringSplitOptions.RemoveEmptyEntries);
             if (strs == null || strs.Length != 2)
             {
                 return false;
