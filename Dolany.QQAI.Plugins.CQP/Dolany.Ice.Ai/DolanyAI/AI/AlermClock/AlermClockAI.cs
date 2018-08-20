@@ -15,7 +15,7 @@ namespace Dolany.Ice.Ai.DolanyAI
     }
 
     [AI(
-        Name = "AlermClockAI",
+        Name = nameof(AlermClockAI),
         Description = "AI for Alerm Clock.",
         IsAvailable = true,
         PriorityLevel = 10
@@ -65,7 +65,7 @@ namespace Dolany.Ice.Ai.DolanyAI
             Description = "设定在指定时间的闹钟，我会到时候艾特你并显示提醒内容",
             Syntax = "[目标时间] [提醒内容]",
             Tag = "闹钟与报时功能",
-            SyntaxChecker = "SetClock"
+            SyntaxChecker = nameof(SetClock)
             )]
         [GroupEnterCommand(
             Command = "设置闹钟",
@@ -192,10 +192,13 @@ namespace Dolany.Ice.Ai.DolanyAI
                 }
 
                 var Msg = $@"{CodeApi.Code_At(MsgDTO.FromQQ)} 你当前共设定了{allClocks.Count()}个闹钟";
+                var builder = new StringBuilder();
+                builder.Append(Msg);
                 foreach (var clock in allClocks)
                 {
-                    Msg += '\r' + $@"{clock.AimHourt.ToString("00")}:{clock.AimMinute.ToString("00")} {clock.Content}";
+                    builder.Append('\r' + $@"{clock.AimHourt.ToString("00")}:{clock.AimMinute.ToString("00")} {clock.Content}");
                 }
+                Msg = builder.ToString();
 
                 MsgSender.Instance.PushMsg(new SendMsgDTO()
                 {
@@ -213,7 +216,7 @@ namespace Dolany.Ice.Ai.DolanyAI
             Description = "删除指定时间的已经设置好的闹钟",
             Syntax = "[目标时间]",
             Tag = "闹钟与报时功能",
-            SyntaxChecker = "DeleteClock"
+            SyntaxChecker = nameof(DeleteClock)
             )]
         public void DeleteClock(GroupMsgDTO MsgDTO, object[] param)
         {
@@ -297,7 +300,7 @@ namespace Dolany.Ice.Ai.DolanyAI
             RuntimeLogger.Log("AlermClockAI ClearAllClock Complete");
         }
 
-        private double GetNextInterval(int hour, int minute)
+        private static double GetNextInterval(int hour, int minute)
         {
             var now = DateTime.Now;
             var aimTime = new DateTime(now.Year, now.Month, now.Day, hour, minute, 0);
