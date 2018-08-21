@@ -140,7 +140,6 @@ namespace Dolany.Ice.Ai.DolanyAI
             )]
         public void RecentPic(GroupMsgDTO MsgDTO, object[] param)
         {
-            RuntimeLogger.Log("RandomPicAI Tryto RecentPic.");
             var imageList = GetRecentImageList();
             int idx = (new Random()).Next(imageList.Count());
             var ImageCache = Utility.ReadImageCacheInfo(imageList[idx]);
@@ -152,7 +151,6 @@ namespace Dolany.Ice.Ai.DolanyAI
                 Type = MsgType.Group,
                 Msg = CodeApi.Code_Image(sendImgName)
             });
-            RuntimeLogger.Log("RandomPicAI RecentPic completed");
         }
 
         [GroupEnterCommand(
@@ -165,7 +163,6 @@ namespace Dolany.Ice.Ai.DolanyAI
             )]
         public void RecentFlash(GroupMsgDTO MsgDTO, object[] param)
         {
-            RuntimeLogger.Log("RandomPicAI Tryto RecentFlash.");
             var imageList = GetRecentImageList();
             int idx = (new Random()).Next(imageList.Count());
             var ImageCache = Utility.ReadImageCacheInfo(imageList[idx]);
@@ -177,7 +174,6 @@ namespace Dolany.Ice.Ai.DolanyAI
                 Type = MsgType.Group,
                 Msg = CodeApi.Code_Flash(sendImgName)
             });
-            RuntimeLogger.Log("RandomPicAI RecentFlash completed");
         }
 
         private List<FileInfo> GetRecentImageList()
