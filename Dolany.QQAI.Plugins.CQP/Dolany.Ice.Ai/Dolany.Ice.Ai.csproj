@@ -90,6 +90,9 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="DolanyAI\AIMgr.cs" />
+    <Compile Include="DolanyAI\AITools\CacheCleanerTool.cs" />
+    <Compile Include="DolanyAI\AITools\HeartBeatTool.cs" />
+    <Compile Include="DolanyAI\AITools\IAITool.cs" />
     <Compile Include="DolanyAI\AI\AlermClock\AlermClockAI.cs" />
     <Compile Include="DolanyAI\AI\AlermClock\AlertClockExtension.cs" />
     <Compile Include="DolanyAI\AI\CartoonSaying\CartoonSayingAI.cs" />

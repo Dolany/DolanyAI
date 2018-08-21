@@ -22,38 +22,8 @@ namespace Dolany.Ice.Ai.DolanyAI
         {
         }
 
-        public int CheckFrequency
-        {
-            get
-            {
-                var c = Utility.GetConfig(nameof(CheckFrequency));
-                if (string.IsNullOrEmpty(c))
-                {
-                    Utility.SetConfig(nameof(CheckFrequency), "10");
-                    return 10;
-                }
-
-                return int.Parse(c);
-            }
-        }
-
         public override void Work()
         {
-            JobScheduler.Instance.Add(CheckFrequency * 1000, TimeUp);
-            JobScheduler.Instance.Add((DateTime.Parse(DateTime.Now.AddDays(1).ToString("yyyy-MM-dd 03:30:30")) - DateTime.Now).TotalMilliseconds, RestartTimeUp);
-        }
-
-        private void RestartTimeUp(object sender, ElapsedEventArgs e)
-        {
-            RuntimeLogger.Log("restart!");
-        }
-
-        private void TimeUp(object sender, ElapsedEventArgs e)
-        {
-            var timer = sender as JobTimer;
-            Utility.SetConfig("HeartBeat", DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss"));
-
-            timer.Interval = CheckFrequency * 1000;
         }
 
         [PrivateEnterCommand(

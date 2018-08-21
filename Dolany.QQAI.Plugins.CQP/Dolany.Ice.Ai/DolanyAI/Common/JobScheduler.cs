@@ -12,6 +12,22 @@ namespace Dolany.Ice.Ai.DolanyAI
         public string Id { get; set; }
         public Action<object, ElapsedEventArgs> CallBack { get; set; }
         public object Data { get; set; }
+
+        public static double DairlyInterval
+        {
+            get
+            {
+                return 24 * 60 * 60 * 1000;
+            }
+        }
+
+        public static double HourlyInterval
+        {
+            get
+            {
+                return 60 * 60 * 1000;
+            }
+        }
     }
 
     public class JobScheduler

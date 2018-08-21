@@ -14,6 +14,7 @@ namespace Dolany.Ice.Ai.DolanyAI
     public class AIMgr
     {
         public IEnumerable<KeyValuePair<AIBase, AIAttribute>> AIList;
+        public List<IAITool> Tools = new List<IAITool>();
 
         public DirtyFilter Filter;
 
@@ -51,6 +52,11 @@ namespace Dolany.Ice.Ai.DolanyAI
                 ai.Key.Work();
                 ExtractCommands(ai.Key);
             }
+
+            foreach (var tool in Tools)
+            {
+                tool.Work();
+            }
         }
 
         private void ExtractCommands(AIBase ai)
@@ -68,6 +74,7 @@ namespace Dolany.Ice.Ai.DolanyAI
         private void Init()
         {
             LoadAis();
+            LoadTools();
 
             Filter = new DirtyFilter();
         }
@@ -91,6 +98,22 @@ namespace Dolany.Ice.Ai.DolanyAI
             }
 
             AIList = list;
+        }
+
+        private void LoadTools()
+        {
+            var assembly = Assembly.GetExecutingAssembly();
+            foreach (var type in assembly.GetTypes())
+            {
+                if (!type.IsSubclassOf(typeof(IAITool)))
+                {
+                    continue;
+                }
+
+                var tool = assembly.CreateInstance(type.FullName) as IAITool;
+
+                Tools.Add(tool);
+            }
         }
 
         /// <summary>
