@@ -28,7 +28,7 @@ namespace Dolany.Ice.Ai.DolanyAI
                 return null;
             }
 
-            var info = new AlertContent()
+            var info = new AlertContent
             {
                 Content = strs[1],
                 AimHour = aimHour

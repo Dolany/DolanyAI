@@ -51,7 +51,7 @@ namespace Dolany.Ice.Ai.DolanyAI
 
         private static string GetSongId(string songName)
         {
-            var response = RequestHelper.PostData<NeteaseResponse>(new PostReq_Param
+            var response = RequestHelper.PostData<NeteaseResponseModel>(new PostReq_Param
             {
                 InterfaceName = $"http://music.163.com/api/search/get/?s={Utility.UrlCharConvert(songName)}&type=1"
             });

@@ -40,7 +40,8 @@ namespace Dolany.Ice.Ai.DolanyAI
             {
                 return false;
             }
-            if (MsgDTO.FullMsg.Contains("CQ:at"))
+            var checker = new AtChecker();
+            if (checker.Check(MsgDTO.FullMsg, out object[] param))
             {
                 return false;
             }

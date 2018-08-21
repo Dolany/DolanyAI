@@ -26,10 +26,10 @@ namespace Dolany.Ice.Ai.DolanyAI
             var parser = new StarFortuneParser();
 
             var requester = new HttpRequester();
-            int code = GetStarCode(MsgDTO.Msg);
+            var code = GetStarCode(MsgDTO.Msg);
             if (code < 0)
             {
-                ReportCallBack(MsgDTO, "未查找到该星座！");
+                ReportCallBack?.Invoke(MsgDTO, "未查找到该星座！");
                 return;
             }
 
@@ -38,7 +38,7 @@ namespace Dolany.Ice.Ai.DolanyAI
 
             parser.Load(HtmlStr);
 
-            ReportCallBack(MsgDTO, parser.Content);
+            ReportCallBack?.Invoke(MsgDTO, parser.Content);
         }
 
         private int GetStarCode(string starName)

@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace Dolany.Ice.Ai.DolanyAI
 {
-    public class NeteaseResponse
+    public class NeteaseResponseModel
     {
         public NeteaseResponse_Result result { get; set; }
         public int? code { get; set; }
