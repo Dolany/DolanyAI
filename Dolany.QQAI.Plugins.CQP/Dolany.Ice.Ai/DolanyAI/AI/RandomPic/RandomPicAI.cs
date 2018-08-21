@@ -11,7 +11,7 @@ using System.Reflection;
 namespace Dolany.Ice.Ai.DolanyAI
 {
     [AI(
-        Name = "RandomPicAI",
+        Name = nameof(RandomPicAI),
         Description = "AI for Sending Random Pic By Keyword.",
         IsAvailable = true,
         PriorityLevel = 2
@@ -40,18 +40,16 @@ namespace Dolany.Ice.Ai.DolanyAI
         {
             get
             {
-                var config = Utility.GetConfig("PicCleanFreq");
+                var config = Utility.GetConfig(nameof(PicCleanFreq));
                 if (string.IsNullOrEmpty(config))
                 {
-                    Utility.SetConfig("PicCleanFreq", "10");
+                    Utility.SetConfig(nameof(PicCleanFreq), "10");
                     return 10;
                 }
 
                 return int.Parse(config);
             }
         }
-
-        private Timer timer = new Timer();
 
         public RandomPicAI()
             : base()
@@ -67,10 +65,7 @@ namespace Dolany.Ice.Ai.DolanyAI
 
         public void Init()
         {
-            timer.Interval = PicCleanFreq * 1000;
-            timer.AutoReset = true;
-            timer.Enabled = true;
-            timer.Elapsed += TimeUp;
+            JobScheduler.Instance.Add(PicCleanFreq * 1000, TimeUp);
         }
 
         private void TimeUp(object sender, ElapsedEventArgs e)
@@ -88,7 +83,7 @@ namespace Dolany.Ice.Ai.DolanyAI
         private void CleanCache()
         {
             var dir = new DirectoryInfo(PicPath);
-            int cleanCount = dir.GetFiles().Count() - MaxPicCache;
+            var cleanCount = dir.GetFiles().Count() - MaxPicCache;
             var cleanFiles = dir.GetFiles().OrderBy(f => f.CreationTime).Take(cleanCount);
             foreach (var f in cleanFiles)
             {
@@ -233,7 +228,7 @@ namespace Dolany.Ice.Ai.DolanyAI
 
             var random = new Random();
             var f = fil[random.Next(fil.Length)];
-            //var ImageCache = Utility.ReadCacheInfo(f);
+
             return f.Name;
         }
 
@@ -283,10 +278,13 @@ namespace Dolany.Ice.Ai.DolanyAI
         public void AllPicKeywords(PrivateMsgDTO MsgDTO, object[] param)
         {
             var msg = string.Empty;
+            var builder = new StringBuilder();
+            builder.Append(msg);
             foreach (var k in Keywords)
             {
-                msg += k + '\r';
+                builder.Append(k + '\r');
             }
+            msg = builder.ToString();
 
             Utility.SendMsgToDeveloper(msg);
         }

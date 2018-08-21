@@ -9,15 +9,13 @@ using Dolany.Ice.Ai.DolanyAI.Db;
 namespace Dolany.Ice.Ai.DolanyAI
 {
     [AI(
-        Name = "SignAI",
+        Name = nameof(SignAI),
         Description = "AI for Auto changing sign.",
         IsAvailable = true,
         PriorityLevel = 3
         )]
     public class SignAI : AIBase
     {
-        private Timer timer;
-
         public SignAI()
             : base()
         {
@@ -26,13 +24,7 @@ namespace Dolany.Ice.Ai.DolanyAI
 
         public override void Work()
         {
-            timer = new Timer();
-            timer.AutoReset = false;
-            timer.Interval = GetNextInterval();
-            timer.Enabled = true;
-            timer.Elapsed += TimeUp;
-
-            timer.Start();
+            JobScheduler.Instance.Add(GetNextInterval(), TimeUp);
         }
 
         private double GetNextInterval()
@@ -68,9 +60,9 @@ namespace Dolany.Ice.Ai.DolanyAI
                     return;
                 }
 
-                int Count = signs.Count();
+                var Count = signs.Count();
                 var random = new Random();
-                int ranIdx = random.Next(Count);
+                var ranIdx = random.Next(Count);
 
                 var sign = signs.Skip(ranIdx).First();
                 sign.SignTime = DateTime.Now;

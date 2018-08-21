@@ -15,11 +15,8 @@ namespace Dolany.Ice.Ai.DolanyAI
         IsAvailable = true,
         PriorityLevel = 12
         )]
-    public class MonitorAI : AIBase, IDisposable
+    public class MonitorAI : AIBase
     {
-        private readonly Timer timer = new Timer();
-        private readonly Timer restartTime = new Timer();
-
         public MonitorAI()
             : base()
         {
@@ -42,34 +39,21 @@ namespace Dolany.Ice.Ai.DolanyAI
 
         public override void Work()
         {
-            timer.Enabled = true;
-            timer.Interval = CheckFrequency * 1000;
-            timer.AutoReset = false;
-            timer.Elapsed += TimeUp;
-
-            timer.Start();
-
-            restartTime.Enabled = true;
-            restartTime.Interval = (DateTime.Parse(DateTime.Now.AddDays(1).ToString("yyyy-MM-dd 03:30:30")) - DateTime.Now).TotalMilliseconds;
-            restartTime.AutoReset = false;
-            restartTime.Elapsed += RestartTimeUp;
-
-            restartTime.Start();
+            JobScheduler.Instance.Add(CheckFrequency * 1000, TimeUp);
+            JobScheduler.Instance.Add((DateTime.Parse(DateTime.Now.AddDays(1).ToString("yyyy-MM-dd 03:30:30")) - DateTime.Now).TotalMilliseconds, RestartTimeUp);
         }
 
         private void RestartTimeUp(object sender, ElapsedEventArgs e)
         {
-            restartTime.Stop();
             RuntimeLogger.Log("restart!");
         }
 
         private void TimeUp(object sender, ElapsedEventArgs e)
         {
-            timer.Stop();
+            var timer = sender as JobTimer;
             Utility.SetConfig("HeartBeat", DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss"));
 
             timer.Interval = CheckFrequency * 1000;
-            timer.Start();
         }
 
         [PrivateEnterCommand(
@@ -159,13 +143,6 @@ namespace Dolany.Ice.Ai.DolanyAI
             }
             DirtyFilter.InitWordList();
             Utility.SendMsgToDeveloper("添加成功！");
-        }
-
-        public void Dispose()
-        {
-            timer.Dispose();
-            restartTime.Dispose();
-            GC.SuppressFinalize(this);
         }
     }
 }

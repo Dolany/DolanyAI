@@ -9,11 +9,9 @@ using System.Timers;
 
 namespace Dolany.Ice.Ai.DolanyAI
 {
-    public class MsgSender : IDisposable
+    public class MsgSender
     {
         private static MsgSender instance;
-
-        private Timer timer = new Timer();
 
         private int SendMsgMaxLength
         {
@@ -32,22 +30,12 @@ namespace Dolany.Ice.Ai.DolanyAI
 
         private MsgSender()
         {
-            timer = new Timer
-            {
-                Interval = 1000,
-                AutoReset = false,
-                Enabled = true
-            };
-            timer.Elapsed += new ElapsedEventHandler(TimerUp);
-
-            timer.Start();
+            JobScheduler.Instance.Add(1000, TimerUp);
         }
 
         private void TimerUp(object sender, ElapsedEventArgs e)
         {
-            timer.Stop();
             SendAllMsgs();
-            timer.Start();
         }
 
         public static MsgSender Instance
@@ -150,11 +138,6 @@ namespace Dolany.Ice.Ai.DolanyAI
                         throw new Exception("Unexpected Case");
                 }
             }
-        }
-
-        public void Dispose()
-        {
-            timer.Dispose();
         }
     }
 }

@@ -15,8 +15,6 @@ namespace Dolany.Ice.Ai.DolanyAI
     {
         public IEnumerable<KeyValuePair<AIBase, AIAttribute>> AIList;
 
-        public MsgReceiveCache MsgReceiveCache;
-
         public DirtyFilter Filter;
 
         private static AIMgr _instance;
@@ -71,7 +69,6 @@ namespace Dolany.Ice.Ai.DolanyAI
         {
             LoadAis();
 
-            MsgReceiveCache = new MsgReceiveCache(GroupMsgCallBack);
             Filter = new DirtyFilter();
         }
 
@@ -117,9 +114,7 @@ namespace Dolany.Ice.Ai.DolanyAI
             MsgDTO.Command = GenCommand(ref msg);
             MsgDTO.Msg = msg;
 
-            //MsgReceiveCache.PushMsg(MsgDTO);
             GroupMsgCallBack(MsgDTO);
-            //GroupMsgCallBack_Func(MsgDTO);
         }
 
         private void GroupMsgCallBack(GroupMsgDTO MsgDTO)

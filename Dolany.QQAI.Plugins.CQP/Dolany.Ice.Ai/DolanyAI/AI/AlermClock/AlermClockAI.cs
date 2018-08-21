@@ -9,11 +9,6 @@ using Dolany.Ice.Ai.MahuaApis;
 
 namespace Dolany.Ice.Ai.DolanyAI
 {
-    public class TimerEx : Timer
-    {
-        public AlermClock ClockEntity { get; set; }
-    }
-
     [AI(
         Name = nameof(AlermClockAI),
         Description = "AI for Alerm Clock.",
@@ -22,7 +17,7 @@ namespace Dolany.Ice.Ai.DolanyAI
         )]
     public class AlermClockAI : AIBase
     {
-        private List<TimerEx> ClockList = new List<TimerEx>();
+        private List<string> ClockIdList = new List<string>();
 
         public AlermClockAI()
             : base()
@@ -37,26 +32,20 @@ namespace Dolany.Ice.Ai.DolanyAI
 
         private void ReloadAllClocks()
         {
-            RuntimeLogger.Log("AlermClockAI ReloadAllClocks");
-            lock (ClockList)
+            foreach (var clockId in ClockIdList)
             {
-                foreach (var clock in ClockList)
-                {
-                    clock.Stop();
-                    clock.Enabled = false;
-                }
-                ClockList.Clear();
+                JobScheduler.Instance.Remove(clockId);
+            }
+            ClockIdList.Clear();
 
-                using (AIDatabase db = new AIDatabase())
+            using (AIDatabase db = new AIDatabase())
+            {
+                var clocks = db.AlermClock;
+                foreach (var clock in clocks)
                 {
-                    var clocks = db.AlermClock;
-                    foreach (var clock in clocks)
-                    {
-                        StartClock(clock.Clone());
-                    }
+                    StartClock(clock.Clone());
                 }
             }
-            RuntimeLogger.Log("AlermClockAI ReloadAllClocks Completed");
         }
 
         [GroupEnterCommand(
@@ -133,36 +122,22 @@ namespace Dolany.Ice.Ai.DolanyAI
 
         private void StartClock(AlermClock entity)
         {
-            var timer = new TimerEx();
-            timer.ClockEntity = entity;
-            timer.Enabled = true;
-            timer.Interval = GetNextInterval(entity.AimHourt, entity.AimMinute);
-            ClockList.Add(timer);
-            timer.Elapsed += TimeUp;
-            timer.AutoReset = false;
-
-            timer.Start();
+            JobScheduler.Instance.Add(GetNextInterval(entity.AimHourt, entity.AimMinute), TimeUp, entity);
         }
 
         private void TimeUp(object sender, ElapsedEventArgs e)
         {
-            RuntimeLogger.Log("AlermClockAI TimeUp");
-            lock (ClockList)
+            var timer = sender as JobTimer;
+            var entity = timer.Data as AlermClock;
+
+            MsgSender.Instance.PushMsg(new SendMsgDTO
             {
-                var timer = sender as TimerEx;
-                timer.Stop();
+                Aim = entity.GroupNumber,
+                Type = MsgType.Group,
+                Msg = $@"{CodeApi.Code_At(entity.Creator)} {entity.Content}"
+            });
 
-                MsgSender.Instance.PushMsg(new SendMsgDTO()
-                {
-                    Aim = timer.ClockEntity.GroupNumber,
-                    Type = MsgType.Group,
-                    Msg = $@"{CodeApi.Code_At(timer.ClockEntity.Creator)} {timer.ClockEntity.Content}"
-                });
-
-                timer.Interval = GetNextInterval(timer.ClockEntity.AimHourt, timer.ClockEntity.AimMinute);
-                timer.Start();
-            }
-            RuntimeLogger.Log("AlermClockAI TimeUp Complete");
+            timer.Interval = GetNextInterval(entity.AimHourt, entity.AimMinute);
         }
 
         [GroupEnterCommand(

@@ -16,8 +16,6 @@ namespace Dolany.Ice.Ai.DolanyAI
         )]
     public class HourAlertAI : AIBase
     {
-        private System.Timers.Timer timer;
-
         public List<AlertContent> AllAlertInfos
         {
             get
@@ -67,23 +65,15 @@ namespace Dolany.Ice.Ai.DolanyAI
         private void HourAlertFunc()
         {
             var ts = GetNextHourSpan();
-            timer = new System.Timers.Timer(ts.TotalMilliseconds)
-            {
-                AutoReset = false,
-                Enabled = true
-            };
-            timer.Elapsed += new System.Timers.ElapsedEventHandler(TimeUp);
-
-            timer.Start();
+            JobScheduler.Instance.Add(ts.TotalMilliseconds, TimeUp);
         }
 
         private void TimeUp(object sender, System.Timers.ElapsedEventArgs e)
         {
-            timer.Stop();
+            var timer = sender as JobTimer;
 
             HourAlert(DateTime.Now.Hour);
             timer.Interval = GetNextHourSpan().TotalMilliseconds;
-            timer.Start();
         }
 
         private static TimeSpan GetNextHourSpan()

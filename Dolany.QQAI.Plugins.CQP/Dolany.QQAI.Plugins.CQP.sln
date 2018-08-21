@@ -15,6 +15,10 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "VoiceCombineOnlineProj", "V
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NeteaseMusicTest", "NeteaseMusicTest\NeteaseMusicTest.csproj", "{F2474795-4A87-4B06-BF61-BD49216976B0}"
 EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "TestProj", "TestProj", "{49A5159B-E46F-460B-989C-B41750939308}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "TempProj", "TempProj", "{67D36171-15E3-43E4-910B-04D3BA1CC6A8}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -48,6 +52,11 @@ Global
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{8BE62FE4-7CCE-471A-868A-244667A04D73} = {67D36171-15E3-43E4-910B-04D3BA1CC6A8}
+		{03DB6C7F-D136-4225-831E-81379F00C86B} = {49A5159B-E46F-460B-989C-B41750939308}
+		{F2474795-4A87-4B06-BF61-BD49216976B0} = {49A5159B-E46F-460B-989C-B41750939308}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {16A16387-5510-46DA-B392-7152AF4264E7}

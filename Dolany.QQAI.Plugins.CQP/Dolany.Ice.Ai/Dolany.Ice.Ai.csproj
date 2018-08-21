@@ -90,9 +90,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="DolanyAI\AIMgr.cs" />
-    <Compile Include="DolanyAI\AI\AlermClock\AlermClockAI.cs">
-      <SubType>Component</SubType>
-    </Compile>
+    <Compile Include="DolanyAI\AI\AlermClock\AlermClockAI.cs" />
     <Compile Include="DolanyAI\AI\AlermClock\AlertClockExtension.cs" />
     <Compile Include="DolanyAI\AI\CartoonSaying\CartoonSayingAI.cs" />
     <Compile Include="DolanyAI\AI\CartoonSaying\SayingsExtention.cs" />
@@ -130,7 +128,9 @@
     <Compile Include="DolanyAI\Base\AIAttribute.cs" />
     <Compile Include="DolanyAI\Base\AIBase.cs" />
     <Compile Include="DolanyAI\Base\GroupEnterCommandAttribute.cs" />
-    <Compile Include="DolanyAI\Cache\MsgReceiveCache.cs" />
+    <Compile Include="DolanyAI\Common\JobScheduler.cs">
+      <SubType>Component</SubType>
+    </Compile>
     <Compile Include="DolanyAI\Common\RequestHelper.cs" />
     <Compile Include="DolanyAI\Common\VoiceConvert.cs" />
     <Compile Include="DolanyAI\Db\AIConfig.cs">
@@ -255,7 +255,6 @@
     <Compile Include="DolanyAI\Common\Utility.cs" />
     <Compile Include="DolanyAI\Entities\Common\EntityBase.cs" />
     <Compile Include="DolanyAI\Entities\Common\LogEntity.cs" />
-    <Compile Include="DolanyAI\Entities\Management\ConfigEntity.cs" />
     <Compile Include="DolanyAI\Entities\Management\SynonymDicEntity.cs" />
     <Compile Include="DolanyAI\HTML\HtmlParser.cs" />
     <Compile Include="DolanyAI\HTML\HttpRequester.cs" />
