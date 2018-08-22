@@ -43,7 +43,7 @@ namespace Dolany.Ice.Ai.DolanyAI
         private void GenPlayerInfo(HtmlNode tableNode)
         {
             var sp1 = tableNode.InnerText.Split(new string[] { "\r\n" }, StringSplitOptions.RemoveEmptyEntries);
-            int cycleStep = MatchBaseInfo.MatchKind == "战场" ? 8 : 10;
+            var cycleStep = MatchBaseInfo.MatchKind == "战场" ? 8 : 10;
             for (int i = 1; i + cycleStep <= sp1.Length; i += cycleStep)
             {
                 PlayersInfo.Add(ParsePlayer(sp1, i));
@@ -127,9 +127,9 @@ namespace Dolany.Ice.Ai.DolanyAI
 
         private TimeSpan GenSpan(string timeStr)
         {
-            int hour = 0;
-            int minute = 0;
-            int second = 0;
+            var hour = 0;
+            var minute = 0;
+            var second = 0;
 
             if (timeStr.Contains("小时"))
             {

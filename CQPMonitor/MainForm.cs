@@ -17,7 +17,7 @@ namespace CQPMonitor
 {
     public partial class MainForm : Form
     {
-        private string ImagePath = "./Image/";
+        private readonly string ImagePath = "./Image/";
 
         [ImportMany]
         private IEnumerable<Lazy<ToolBaseForm, IToolCapabilities>> Tools;
@@ -52,20 +52,24 @@ namespace CQPMonitor
                 {
                     LayoutTool(tool.Value);
                 }
-                catch { }
+                catch (Exception)
+                {
+                    throw;
+                }
             }
         }
 
         private void LayoutTool(ToolBaseForm tool)
         {
-            dolanyToolCon dolanyTool = new dolanyToolCon(
-                tool.ToolAttr.ToolName,
-                "",
-                tool.ToolAttr.Decription,
-                ImagePath + tool.ToolAttr.ToolIcon
-                );
-
-            dolanyTool.Parent = MainPanel;
+            var dolanyTool = new dolanyToolCon(
+       tool.ToolAttr.ToolName,
+       "",
+       tool.ToolAttr.Decription,
+       ImagePath + tool.ToolAttr.ToolIcon
+       )
+            {
+                Parent = MainPanel
+            };
             dolanyTool.Click += onTool_Click;
             tool.RelatedControl = dolanyTool;
         }
@@ -75,7 +79,7 @@ namespace CQPMonitor
             if (sender != null || sender is dolanyToolCon)
             {
                 var toolCon = sender as dolanyToolCon;
-                var tool = Tools.Where(t => t.Value.RelatedControl == toolCon).First();
+                var tool = Tools.First(t => t.Value.RelatedControl == toolCon);
                 tool.Value.ShowTool();
             }
         }

@@ -20,7 +20,7 @@ namespace Dolany.Ice.Ai.DolanyAI
 
         private long CurCount;
 
-        private int SleepTime = 3000;
+        private readonly int SleepTime = 3000;
 
         private object lockObj = new object();
 
@@ -75,7 +75,7 @@ namespace Dolany.Ice.Ai.DolanyAI
         {
             ForbiddenStateChange(MsgDTO.FromGroup, false);
 
-            MsgSender.Instance.PushMsg(new SendMsgDTO()
+            MsgSender.Instance.PushMsg(new SendMsgDTO
             {
                 Aim = MsgDTO.FromGroup,
                 Type = MsgType.Group,
@@ -95,7 +95,7 @@ namespace Dolany.Ice.Ai.DolanyAI
         {
             ForbiddenStateChange(MsgDTO.FromGroup, true);
 
-            MsgSender.Instance.PushMsg(new SendMsgDTO()
+            MsgSender.Instance.PushMsg(new SendMsgDTO
             {
                 Aim = MsgDTO.FromGroup,
                 Type = MsgType.Group,

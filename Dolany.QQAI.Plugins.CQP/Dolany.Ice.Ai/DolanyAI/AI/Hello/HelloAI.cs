@@ -9,7 +9,7 @@ using Dolany.Ice.Ai.MahuaApis;
 namespace Dolany.Ice.Ai.DolanyAI
 {
     [AI(
-        Name = "HelloAI",
+        Name = nameof(HelloAI),
         Description = "AI for Saying Hello to you at everyday you say at the first time in one group.",
         IsAvailable = true,
         PriorityLevel = 3

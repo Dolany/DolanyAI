@@ -25,7 +25,7 @@ namespace CQPMonitor.Tools.BlackList
 
         private void SaveBtn_Click(object sender, EventArgs e)
         {
-            string word = wordTxt.Text;
+            var word = wordTxt.Text;
             if (string.IsNullOrEmpty(word))
             {
                 MessageBox.Show("屏蔽词不能为空！");
@@ -43,7 +43,7 @@ namespace CQPMonitor.Tools.BlackList
                     return;
                 }
 
-                db.DirtyWord.Add(new DirtyWord()
+                db.DirtyWord.Add(new DirtyWord
                 {
                     Id = Guid.NewGuid().ToString(),
                     Content = word

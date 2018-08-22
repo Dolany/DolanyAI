@@ -29,9 +29,11 @@ namespace CQPMonitor.Tools.FortuneItem
 
         private void dataTable_CellDoubleClick(object sender, DataGridViewCellEventArgs e)
         {
-            FortuneItemEditForm fief = new FortuneItemEditForm(fortuneItems[e.RowIndex]);
-            fief.ShowDialog();
-            RefreshTable();
+            using (var fief = new FortuneItemEditForm(fortuneItems[e.RowIndex]))
+            {
+                fief.ShowDialog();
+                RefreshTable();
+            }
         }
 
         private void dataTable_RowsRemoved(object sender, DataGridViewRowsRemovedEventArgs e)
@@ -71,9 +73,11 @@ namespace CQPMonitor.Tools.FortuneItem
 
         private void AddBtn_Click(object sender, EventArgs e)
         {
-            FortuneItemEditForm fief = new FortuneItemEditForm(null);
-            fief.ShowDialog();
-            RefreshTable();
+            using (var fief = new FortuneItemEditForm(null))
+            {
+                fief.ShowDialog();
+                RefreshTable();
+            }
         }
     }
 }

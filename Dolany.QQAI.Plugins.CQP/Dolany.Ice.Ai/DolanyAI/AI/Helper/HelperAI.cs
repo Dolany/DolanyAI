@@ -63,7 +63,7 @@ namespace Dolany.Ice.Ai.DolanyAI
 
             helpMsg += '\r' + "可以使用 帮助 [标签名] 来查询标签中的具体命令名 或者使用 帮助 [命令名] 来查询具体命令信息。";
 
-            MsgSender.Instance.PushMsg(new SendMsgDTO()
+            MsgSender.Instance.PushMsg(new SendMsgDTO
             {
                 Aim = MsgDTO.FromGroup,
                 Type = MsgType.Group,
@@ -92,7 +92,7 @@ namespace Dolany.Ice.Ai.DolanyAI
 描述： {command.Description}
 权限： {command.AuthorityLevel.ToString()}";
 
-            MsgSender.Instance.PushMsg(new SendMsgDTO()
+            MsgSender.Instance.PushMsg(new SendMsgDTO
             {
                 Aim = MsgDTO.FromGroup,
                 Type = MsgType.Group,

@@ -21,7 +21,7 @@ namespace Dolany.Ice.Ai
         /// <summary>
         /// 作者名称
         /// </summary>
-        public string Author { get; set; } = "Dolany";
+        public string Author { get; set; } = nameof(Dolany);
 
         /// <summary>
         /// 插件Id，用于唯一标识插件产品的Id，至少包含 AAA.BBB.CCC 三个部分

@@ -22,14 +22,12 @@ namespace Dolany.Ice.Ai.DolanyAI
                 return false;
             }
 
-            int aimHour;
-            if (!int.TryParse(strs[0], out aimHour))
+            if (!int.TryParse(strs[0], out int aimHour))
             {
                 return false;
             }
 
-            long aimGroup;
-            if (!long.TryParse(strs[1], out aimGroup))
+            if (!long.TryParse(strs[1], out long aimGroup))
             {
                 return false;
             }

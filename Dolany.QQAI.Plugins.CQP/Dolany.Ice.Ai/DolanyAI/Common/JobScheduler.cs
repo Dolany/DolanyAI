@@ -56,7 +56,6 @@ namespace Dolany.Ice.Ai.DolanyAI
 
     public class JobScheduler
     {
-        private List<JobTimer> Timers = new List<JobTimer>();
         private static JobScheduler _instance;
 
         public JobScheduler()
@@ -75,6 +74,8 @@ namespace Dolany.Ice.Ai.DolanyAI
                 return _instance;
             }
         }
+
+        public List<JobTimer> Timers { get; set; } = new List<JobTimer>();
 
         public void Stop(string Id)
         {

@@ -11,7 +11,7 @@ namespace Dolany.Ice.Ai.DolanyAI
     {
         private static List<string> WordList;
 
-        private int MaxTolerateCount = 10;
+        private readonly int MaxTolerateCount = 10;
 
         public DirtyFilter()
         {
@@ -65,17 +65,9 @@ namespace Dolany.Ice.Ai.DolanyAI
 
         public static void InitWordList()
         {
-            try
+            using (AIDatabase db = new AIDatabase())
             {
-                using (AIDatabase db = new AIDatabase())
-                {
-                    WordList = db.DirtyWord.Select(d => d.Content).ToList();
-                }
-            }
-#pragma warning disable CS0168 // 声明了变量“ex”，但从未使用过
-            catch (Exception ex)
-#pragma warning restore CS0168 // 声明了变量“ex”，但从未使用过
-            {
+                WordList = db.DirtyWord.Select(d => d.Content).ToList();
             }
         }
 

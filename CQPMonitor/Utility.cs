@@ -15,14 +15,21 @@ namespace CQPMonitor
         {
             var catalog = new AggregateCatalog();
 
-            catalog.Catalogs.Add(new AssemblyCatalog(assembly));
-            catalog.Catalogs.Add(new DirectoryCatalog("."));
+            using (var assemblyCatalog = new AssemblyCatalog(assembly))
+            {
+                catalog.Catalogs.Add(assemblyCatalog);
+            }
+            using (var directoryCatalog = new DirectoryCatalog("."))
+            {
+                catalog.Catalogs.Add(directoryCatalog);
+            }
 
-            var _container = new CompositionContainer(catalog);
+            using (var _container = new CompositionContainer(catalog))
+            {
+                _container.ComposeParts(obj);
 
-            _container.ComposeParts(obj);
-
-            return obj;
+                return obj;
+            }
         }
 
         public static void SetConfig(string name, string value)

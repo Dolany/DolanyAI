@@ -9,7 +9,7 @@ namespace Dolany.Ice.Ai.DolanyAI
     public class JumpReportRequestor
     {
         private GroupMsgDTO MsgDTO;
-        private Action<GroupMsgDTO, string> ReportCallBack;
+        private Action<GroupMsgDTO, string> ReportCallBack { get; set; }
 
         public JumpReportRequestor(GroupMsgDTO MsgDTO, Action<GroupMsgDTO, string> ReportCallBack)
         {
@@ -29,11 +29,11 @@ namespace Dolany.Ice.Ai.DolanyAI
                 var analyzer = new JumpReportAnalyzer(allList, allDetails);
                 var report = analyzer.GenReport();
 
-                ReportCallBack(MsgDTO, report);
+                ReportCallBack?.Invoke(MsgDTO, report);
             }
             catch (Exception ex)
             {
-                ReportCallBack(MsgDTO, ex.Message + ex.StackTrace);
+                ReportCallBack?.Invoke(MsgDTO, ex.Message + ex.StackTrace);
             }
         }
 
@@ -45,13 +45,15 @@ namespace Dolany.Ice.Ai.DolanyAI
                 foreach (var match in list.Matches)
                 {
                     var aimStr = $"http://300report.jumpw.com/match.html?id={match.DetailAddr}";
-                    var requester = new HttpRequester();
-                    var HtmlStr = requester.Request(aimStr);
+                    using (var requester = new HttpRequester())
+                    {
+                        var HtmlStr = requester.Request(aimStr);
 
-                    var dp = new JumpDetailHtmlParser();
-                    dp.Load(HtmlStr);
+                        var dp = new JumpDetailHtmlParser();
+                        dp.Load(HtmlStr);
 
-                    allDetails.Add(dp);
+                        allDetails.Add(dp);
+                    }
                 }
             }
 
@@ -61,28 +63,30 @@ namespace Dolany.Ice.Ai.DolanyAI
         private List<JumpListHtmlParser> GetAllList(string name)
         {
             var list = new List<JumpListHtmlParser>();
-            var requester = new HttpRequester();
-            int count = 0;
-            int idx = 0;
-
-            do
+            using (var requester = new HttpRequester())
             {
-                var HtmlStr = requester.Request($"http://300report.jumpw.com/list.html?name={MsgDTO.Msg}&index={idx}");
+                var count = 0;
+                var idx = 0;
 
-                var listParser = new JumpListHtmlParser();
-                listParser.Load(HtmlStr);
-
-                count = listParser.Matches.Count;
-                if (count == 0)
+                do
                 {
-                    break;
-                }
+                    var HtmlStr = requester.Request($"http://300report.jumpw.com/list.html?name={MsgDTO.Msg}&index={idx}");
 
-                idx += count;
-                list.Add(listParser);
-            } while (true);
+                    var listParser = new JumpListHtmlParser();
+                    listParser.Load(HtmlStr);
 
-            return list;
+                    count = listParser.Matches.Count;
+                    if (count == 0)
+                    {
+                        break;
+                    }
+
+                    idx += count;
+                    list.Add(listParser);
+                } while (true);
+
+                return list;
+            }
         }
     }
 }

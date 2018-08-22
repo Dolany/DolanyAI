@@ -81,24 +81,25 @@ namespace KanColeVoiceClimber
         private void ParseAGirl(string name)
         {
             AppendTxt($"正在解析{name}...");
-            var requester = new HttpRequester();
-
-            AppendTxt("请求列表页面中...");
-            var aimStr = $"https://zh.moegirl.org/{Utility.UrlCharConvert(name)}";
-            var HtmlStr = requester.Request(aimStr);
-
-            AppendTxt("解析列表页面中...");
-
-            var parser = new KanColeGirlParser();
-            parser.Load(HtmlStr);
-
-            var list = parser.kanColeGirlVoices;
-            AppendTxt($"共找到{list.Count}个语音信息，正在同步到数据库...");
-            foreach (var voice in list)
+            using (var requester = new HttpRequester())
             {
-                SynToDb(voice);
+                AppendTxt("请求列表页面中...");
+                var aimStr = $"https://zh.moegirl.org/{Utility.UrlCharConvert(name)}";
+                var HtmlStr = requester.Request(aimStr);
+
+                AppendTxt("解析列表页面中...");
+
+                var parser = new KanColeGirlParser();
+                parser.Load(HtmlStr);
+
+                var list = parser.kanColeGirlVoices;
+                AppendTxt($"共找到{list.Count}个语音信息，正在同步到数据库...");
+                foreach (var voice in list)
+                {
+                    SynToDb(voice);
+                }
+                AppendTxt("同步完成！");
             }
-            AppendTxt("同步完成！");
         }
 
         private static void SynToDb(KanColeGirlVoice voice)

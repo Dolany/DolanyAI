@@ -73,10 +73,13 @@ namespace Dolany.Ice.Ai
 
                 var allais = AIMgr.Instance.AIList;
                 var msg = $"成功加载{allais.Count()}个ai \r\n";
+                var builder1 = new System.Text.StringBuilder();
+                builder1.Append(msg);
                 foreach (var ai in allais)
                 {
-                    msg += ai.Value.Name + " ";
+                    builder1.Append(ai.Value.Name + " ");
                 }
+                msg = builder1.ToString();
                 RuntimeLogger.Log(msg);
             }
         }

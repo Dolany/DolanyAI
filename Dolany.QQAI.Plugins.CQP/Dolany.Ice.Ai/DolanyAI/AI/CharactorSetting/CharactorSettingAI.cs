@@ -8,7 +8,7 @@ using Dolany.Ice.Ai.DolanyAI.Db;
 namespace Dolany.Ice.Ai.DolanyAI
 {
     [AI(
-        Name = "CharactorSettingAI",
+        Name = nameof(CharactorSettingAI),
         Description = "AI for Setting a Charactor.",
         IsAvailable = true,
         PriorityLevel = 10
@@ -129,10 +129,13 @@ namespace Dolany.Ice.Ai.DolanyAI
                 }
 
                 var msg = charactor + ':';
+                var builder = new StringBuilder();
+                builder.Append(msg);
                 foreach (var c in query)
                 {
-                    msg += '\r' + c.SettingName + ':' + c.Content;
+                    builder.Append('\r' + c.SettingName + ':' + c.Content);
                 }
+                msg = builder.ToString();
 
                 MsgSender.Instance.PushMsg(new SendMsgDTO
                 {
@@ -272,10 +275,10 @@ namespace Dolany.Ice.Ai.DolanyAI
         {
             using (AIDatabase db = new AIDatabase())
             {
-                var cs = db.CharactorSetting.Where(c => c.GroupNumber == MsgDTO.FromGroup
+                var cs = db.CharactorSetting.FirstOrDefault(c => c.GroupNumber == MsgDTO.FromGroup
                 && c.Charactor == charactor
                 && c.SettingName == settingName)
-                .FirstOrDefault();
+;
 
                 cs.Content = content;
                 db.SaveChanges();

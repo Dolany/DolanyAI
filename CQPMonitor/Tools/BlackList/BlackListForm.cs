@@ -66,10 +66,12 @@ namespace CQPMonitor.Tools.BlackList
 
         private void NewDiretyWordBtn_Click(object sender, EventArgs e)
         {
-            NewDirtyWordForm f = new NewDirtyWordForm();
-            if (f.ShowDialog() == DialogResult.OK)
+            using (var f = new NewDirtyWordForm())
             {
-                RefreshDirtyWordsTable();
+                if (f.ShowDialog() == DialogResult.OK)
+                {
+                    RefreshDirtyWordsTable();
+                }
             }
         }
 

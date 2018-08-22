@@ -57,6 +57,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="GlobalSuppressions.cs" />
     <Compile Include="MainForm.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -65,12 +66,6 @@
     </Compile>
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="Tools\AutoRestart\AutoRestartForm.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="Tools\AutoRestart\AutoRestartForm.Designer.cs">
-      <DependentUpon>AutoRestartForm.cs</DependentUpon>
-    </Compile>
     <Compile Include="Tools\BlackList\BlackListForm.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -82,12 +77,6 @@
     </Compile>
     <Compile Include="Tools\BlackList\NewDirtyWordForm.Designer.cs">
       <DependentUpon>NewDirtyWordForm.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Tools\CleanPicCache\CleanPicCacheForm.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="Tools\CleanPicCache\CleanPicCacheForm.Designer.cs">
-      <DependentUpon>CleanPicCacheForm.cs</DependentUpon>
     </Compile>
     <Compile Include="Tools\EntityTrans\EntityTransForm.cs">
       <SubType>Form</SubType>
@@ -143,17 +132,11 @@
       <DependentUpon>Resources.resx</DependentUpon>
       <DesignTime>True</DesignTime>
     </Compile>
-    <EmbeddedResource Include="Tools\AutoRestart\AutoRestartForm.resx">
-      <DependentUpon>AutoRestartForm.cs</DependentUpon>
-    </EmbeddedResource>
     <EmbeddedResource Include="Tools\BlackList\BlackListForm.resx">
       <DependentUpon>BlackListForm.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Tools\BlackList\NewDirtyWordForm.resx">
       <DependentUpon>NewDirtyWordForm.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Tools\CleanPicCache\CleanPicCacheForm.resx">
-      <DependentUpon>CleanPicCacheForm.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Tools\EntityTrans\EntityTransForm.resx">
       <DependentUpon>EntityTransForm.cs</DependentUpon>

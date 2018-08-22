@@ -9,16 +9,16 @@ using System.Text.RegularExpressions;
 namespace Dolany.Ice.Ai.DolanyAI
 {
     [AI(
-        Name = "TulingAI",
+        Name = nameof(TulingAI),
         Description = "AI for Tuling Robot.",
         IsAvailable = true,
         PriorityLevel = 8
         )]
     public class TulingAI : AIBase
     {
-        private string RequestUrl = "http://openapi.tuling123.com/openapi/api/v2";
+        private readonly string RequestUrl = "http://openapi.tuling123.com/openapi/api/v2";
         private const string ApiKey = "fbeeef973da4480bb42dc10c45ba735b";
-        private int[] ErroCodes = { 5000, 6000, 4000, 4001, 4002, 4003, 4005, 4007, 4100, 4200, 4300, 4400, 4500, 4600, 4602, 7002, 8008 };
+        private readonly int[] ErroCodes = { 5000, 6000, 4000, 4001, 4002, 4003, 4005, 4007, 4100, 4200, 4300, 4400, 4500, 4600, 4602, 7002, 8008 };
 
         public TulingAI()
             : base()
@@ -49,25 +49,6 @@ namespace Dolany.Ice.Ai.DolanyAI
                 return false;
             }
 
-            //string voice = (response.Contains("QQ:") || response.Contains("http")) ? string.Empty : VoiceConvert.ConvertOnline(response);
-            //if (string.IsNullOrEmpty(voice))
-            //{
-            //    MsgSender.Instance.PushMsg(new SendMsgDTO
-            //    {
-            //        Aim = MsgDTO.FromGroup,
-            //        Type = MsgType.Group,
-            //        Msg = $"{CodeApi.Code_At(MsgDTO.FromQQ)} {response}"
-            //    });
-            //}
-            //else
-            //{
-            //    MsgSender.Instance.PushMsg(new SendMsgDTO
-            //    {
-            //        Aim = MsgDTO.FromGroup,
-            //        Type = MsgType.Group,
-            //        Msg = $"{CodeApi.Code_Voice(voice)}"
-            //    });
-            //}
             MsgSender.Instance.PushMsg(new SendMsgDTO
             {
                 Aim = MsgDTO.FromGroup,
@@ -95,26 +76,19 @@ namespace Dolany.Ice.Ai.DolanyAI
             perceptionData perception;
 
             var imageInfo = ParseImgText(MsgDTO.FullMsg);
-            if (string.IsNullOrEmpty(imageInfo))
+            perception = string.IsNullOrEmpty(imageInfo) ? new perceptionData
             {
-                perception = new perceptionData
+                inputText = new inputTextData
                 {
-                    inputText = new inputTextData
-                    {
-                        text = MsgDTO.FullMsg
-                    }
-                };
-            }
-            else
+                    text = MsgDTO.FullMsg
+                }
+            } : new perceptionData
             {
-                perception = new perceptionData
+                inputImage = new inputImageData
                 {
-                    inputImage = new inputImageData
-                    {
-                        url = imageInfo
-                    }
-                };
-            }
+                    url = imageInfo
+                }
+            };
 
             var post = new PostReq_Param
             {
@@ -139,27 +113,33 @@ namespace Dolany.Ice.Ai.DolanyAI
         private string ParseResponse(TulingResponseData response)
         {
             var result = string.Empty;
+            var builder = new StringBuilder();
+            builder.Append(result);
             foreach (var res in response.results)
             {
                 switch (res.resultType)
                 {
                     case "text":
-                        result += res.values.text;
+                        builder.Append(res.values.text);
                         break;
 
                     case "image":
-                        result += CodeApi.Code_Image(res.values.image);
+                        builder.Append(CodeApi.Code_Image(res.values.image));
                         break;
 
                     case "voice":
-                        result += CodeApi.Code_Voice(res.values.voice);
+                        builder.Append(CodeApi.Code_Voice(res.values.voice));
                         break;
 
                     case "url":
-                        result += $" {res.values.url} ";
+                        builder.Append($" {res.values.url} ");
                         break;
+
+                    default:
+                        throw new Exception("Unexpected Case");
                 }
             }
+            result = builder.ToString();
             return result;
         }
 
@@ -185,7 +165,7 @@ namespace Dolany.Ice.Ai.DolanyAI
 
                 return image.url;
             }
-            catch
+            catch (Exception)
             {
                 return string.Empty;
             }

@@ -31,14 +31,7 @@ namespace Dolany.Ice.Ai.DolanyAI
         {
             var time = DateTime.Now;
             var timeS = string.Empty;
-            if (time.Hour >= 12)
-            {
-                timeS = time.AddDays(1).ToString("yyyy-MM-dd 12:05:00");
-            }
-            else
-            {
-                timeS = time.ToString("yyyy-MM-dd 12:05:00");
-            }
+            timeS = time.Hour >= 12 ? time.AddDays(1).ToString("yyyy-MM-dd 12:05:00") : time.ToString("yyyy-MM-dd 12:05:00");
 
             var aimDate = DateTime.Parse(timeS);
             return (aimDate - time).TotalMilliseconds;

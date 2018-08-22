@@ -52,7 +52,7 @@ namespace Dolany.Ice.Ai.DolanyAI
                 var key = kvs[0];
                 var value = s.Substring(key.Length + 1, s.Length - key.Length - 1);
 
-                BaseInfo.Add(new JumpBaseInfo()
+                BaseInfo.Add(new JumpBaseInfo
                 {
                     Name = key,
                     Value = value
@@ -82,7 +82,7 @@ namespace Dolany.Ice.Ai.DolanyAI
                     rankInfo.ChangeValue = int.Parse(ps21[1]) * -1;
                 }
 
-                int idx = NumStartIndex(ps2[2]);
+                var idx = NumStartIndex(ps2[2]);
                 rankInfo.DataName = ps2[2].Substring(0, idx);
                 rankInfo.Data = int.Parse(ps2[2].Substring(idx, ps2[2].Length - idx));
 
@@ -109,8 +109,10 @@ namespace Dolany.Ice.Ai.DolanyAI
             var idxes = FindEmptyIdxes(strs);
             foreach (var i in idxes)
             {
-                var matchInfo = new JumpMatchBriefInfo();
-                matchInfo.MatchMode = strs[i + 1];
+                var matchInfo = new JumpMatchBriefInfo
+                {
+                    MatchMode = strs[i + 1]
+                };
                 var sp = strs[i + 2].Split(new string[] { "(", ")", "Lv." }, StringSplitOptions.RemoveEmptyEntries);
                 matchInfo.HeroName = sp[0];
                 matchInfo.Level = int.Parse(sp[1]);

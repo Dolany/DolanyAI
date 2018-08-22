@@ -23,9 +23,7 @@ namespace Dolany.Ice.Ai.DolanyAI
             {
                 foreach (var attr in method.GetCustomAttributes(typeof(GroupEnterCommandAttribute), false))
                 {
-                    object[] param;
-
-                    if (!GroupCheck(attr as GroupEnterCommandAttribute, MsgDTO, out param))
+                    if (!GroupCheck(attr as GroupEnterCommandAttribute, MsgDTO, out object[] param))
                     {
                         continue;
                     }
@@ -124,9 +122,7 @@ namespace Dolany.Ice.Ai.DolanyAI
             {
                 foreach (var attr in method.GetCustomAttributes(typeof(PrivateEnterCommandAttribute), false))
                 {
-                    object[] param;
-
-                    if (!PrivateCheck(attr as PrivateEnterCommandAttribute, MsgDTO, out param))
+                    if (!PrivateCheck(attr as PrivateEnterCommandAttribute, MsgDTO, out object[] param))
                     {
                         continue;
                     }

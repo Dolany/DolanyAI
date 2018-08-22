@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 namespace Dolany.Ice.Ai.DolanyAI
 {
     [AI(
-        Name = "Jump300ReportAI",
+        Name = nameof(Jump300ReportAI),
         Description = "AI for 300 heros report.",
         IsAvailable = true,
         PriorityLevel = 10
@@ -33,7 +33,7 @@ namespace Dolany.Ice.Ai.DolanyAI
             )]
         public void JumpReport(GroupMsgDTO MsgDTO, object[] param)
         {
-            MsgSender.Instance.PushMsg(new SendMsgDTO()
+            MsgSender.Instance.PushMsg(new SendMsgDTO
             {
                 Aim = MsgDTO.FromGroup,
                 Type = MsgType.Group,
@@ -45,7 +45,7 @@ namespace Dolany.Ice.Ai.DolanyAI
 
         public void ReportCallBack(GroupMsgDTO MsgDTO, string Report)
         {
-            MsgSender.Instance.PushMsg(new SendMsgDTO()
+            MsgSender.Instance.PushMsg(new SendMsgDTO
             {
                 Aim = MsgDTO.FromGroup,
                 Type = MsgType.Group,

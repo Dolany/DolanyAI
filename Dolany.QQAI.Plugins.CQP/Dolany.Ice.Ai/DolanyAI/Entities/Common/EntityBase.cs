@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 namespace Dolany.Ice.Ai.DolanyAI
 {
     [AttributeUsage(AttributeTargets.Property)]
-    public class DataColumnAttribute : Attribute
+    public sealed class DataColumnAttribute : Attribute
     {
     }
 

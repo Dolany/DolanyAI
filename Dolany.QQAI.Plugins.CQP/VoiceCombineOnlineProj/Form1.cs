@@ -21,8 +21,8 @@ namespace VoiceCombineOnlineProj
 
         private void MakeBtn_Click(object sender, EventArgs e)
         {
-            string songName = inputTxt.Text;
-            PostReq_Param param = new PostReq_Param
+            var songName = inputTxt.Text;
+            var param = new PostReq_Param
             {
                 InterfaceName = "http://api.xfyun.cn/v1/service/v1/tts",
                 data = new XfyunRequest

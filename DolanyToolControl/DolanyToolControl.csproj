@@ -47,6 +47,7 @@
     <Compile Include="DolanyToolCon.Designer.cs">
       <DependentUpon>DolanyToolCon.cs</DependentUpon>
     </Compile>
+    <Compile Include="GlobalSuppressions.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Service Include="{94E38DFF-614B-4cbd-B67C-F211BB35CE8B}" />
   </ItemGroup>

@@ -16,7 +16,7 @@ namespace Dolany.Ice.Ai.DolanyAI
         )]
     public class FortuneAI : AIBase
     {
-        private string TarotServerPath = "https://m.sheup.com/";
+        private readonly string TarotServerPath = "https://m.sheup.com/";
 
         public FortuneAI()
             : base()
@@ -243,7 +243,7 @@ namespace Dolany.Ice.Ai.DolanyAI
             using (AIDatabase db = new AIDatabase())
             {
                 var datas = db.TarotFortuneData.OrderBy(p => p.Id);
-                int count = datas.Count();
+                var count = datas.Count();
 
                 var ran = new Random();
                 var randData = datas.Skip(ran.Next(count)).First();

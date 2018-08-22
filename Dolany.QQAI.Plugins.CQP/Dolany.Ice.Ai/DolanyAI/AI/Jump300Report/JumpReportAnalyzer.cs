@@ -16,7 +16,7 @@ namespace Dolany.Ice.Ai.DolanyAI
         {
             get
             {
-                return Lists.FirstOrDefault().BaseInfo.Where(b => b.Name == "角色名").FirstOrDefault().Value;
+                return Lists.FirstOrDefault().BaseInfo.FirstOrDefault(b => b.Name == "角色名").Value;
             }
         }
 
@@ -36,10 +36,13 @@ namespace Dolany.Ice.Ai.DolanyAI
             var report = string.Empty;
 
             var query = GetReportMethods();
+            var builder = new StringBuilder();
+            builder.Append(report);
             foreach (var m in query)
             {
-                report += GenMethodReport(m);
+                builder.Append(GenMethodReport(m));
             }
+            report = builder.ToString();
 
             return report;
         }
@@ -79,10 +82,13 @@ namespace Dolany.Ice.Ai.DolanyAI
             }
 
             var report = string.Empty;
+            var builder = new StringBuilder();
+            builder.Append(report);
             foreach (var r in Lists.FirstOrDefault().BaseInfo)
             {
-                report += '\r' + r.Name + ":" + r.Value;
+                builder.Append('\r' + r.Name + ":" + r.Value);
             }
+            report = builder.ToString();
 
             return report;
         }
@@ -133,8 +139,8 @@ namespace Dolany.Ice.Ai.DolanyAI
         [JumpAnalyze(Order = 3, Title = "平均打钱数")]
         public string AverageGoldGen()
         {
-            int gold = 0;
-            int validMatch = 0;
+            var gold = 0;
+            var validMatch = 0;
             var playerName = PlayerName;
             foreach (var detail in Details)
             {
@@ -144,7 +150,7 @@ namespace Dolany.Ice.Ai.DolanyAI
                     continue;
                 }
 
-                int g = query.FirstOrDefault().MoneyGen;
+                var g = query.FirstOrDefault().MoneyGen;
                 if (g < 0)
                 {
                     continue;
@@ -165,14 +171,14 @@ namespace Dolany.Ice.Ai.DolanyAI
                 span += d.MatchBaseInfo.DuringSpan;
             }
 
-            long avgSpan = (long)((span.TotalMilliseconds / Details.Count()) * 10000);
+            var avgSpan = (long)((span.TotalMilliseconds / Details.Count()) * 10000);
             return (new TimeSpan(avgSpan)).ToString(@"hh\:mm\:ss");
         }
 
         [JumpAnalyze(Order = 5, Title = "场均评分")]
         public string AverageGrade()
         {
-            int grade = 0;
+            var grade = 0;
             var playerName = PlayerName;
             foreach (var detail in Details)
             {

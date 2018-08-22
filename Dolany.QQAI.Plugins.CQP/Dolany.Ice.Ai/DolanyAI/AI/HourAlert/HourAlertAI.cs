@@ -93,13 +93,13 @@ namespace Dolany.Ice.Ai.DolanyAI
             foreach (var groupNum in availableList)
             {
                 var randGirl = GetRanAlertContent(groupNum, curHour);
-                MsgSender.Instance.PushMsg(new SendMsgDTO()
+                MsgSender.Instance.PushMsg(new SendMsgDTO
                 {
                     Aim = groupNum,
                     Type = MsgType.Group,
                     Msg = CodeApi.Code_Voice(randGirl.VoiceUrl)
                 });
-                MsgSender.Instance.PushMsg(new SendMsgDTO()
+                MsgSender.Instance.PushMsg(new SendMsgDTO
                 {
                     Aim = groupNum,
                     Type = MsgType.Group,
@@ -119,7 +119,7 @@ namespace Dolany.Ice.Ai.DolanyAI
         public void AlertEnable(GroupMsgDTO MsgDTO, object[] param)
         {
             AvailableStateChange(MsgDTO.FromGroup, true);
-            MsgSender.Instance.PushMsg(new SendMsgDTO()
+            MsgSender.Instance.PushMsg(new SendMsgDTO
             {
                 Aim = MsgDTO.FromGroup,
                 Type = MsgType.Group,
@@ -138,7 +138,7 @@ namespace Dolany.Ice.Ai.DolanyAI
         public void AlertDisenable(GroupMsgDTO MsgDTO, object[] param)
         {
             AvailableStateChange(MsgDTO.FromGroup, false);
-            MsgSender.Instance.PushMsg(new SendMsgDTO()
+            MsgSender.Instance.PushMsg(new SendMsgDTO
             {
                 Aim = MsgDTO.FromGroup,
                 Type = MsgType.Group,
@@ -186,7 +186,7 @@ namespace Dolany.Ice.Ai.DolanyAI
             info.FromGroup = MsgDTO.FromGroup;
 
             var Msg = SaveAlertContent(info) ? "报时内容保存成功！" : "报时内容保存失败！";
-            MsgSender.Instance.PushMsg(new SendMsgDTO()
+            MsgSender.Instance.PushMsg(new SendMsgDTO
             {
                 Aim = MsgDTO.FromGroup,
                 Type = MsgType.Group,
@@ -290,7 +290,7 @@ namespace Dolany.Ice.Ai.DolanyAI
                 db.SaveChanges();
             }
 
-            MsgSender.Instance.PushMsg(new SendMsgDTO()
+            MsgSender.Instance.PushMsg(new SendMsgDTO
             {
                 Aim = MsgDTO.FromGroup,
                 Type = MsgType.Group,

@@ -14,13 +14,9 @@ namespace Dolany.Ice.Ai.DolanyAI
     public class AIMgr
     {
         public IEnumerable<KeyValuePair<AIBase, AIAttribute>> AIList;
-        public List<IAITool> Tools = new List<IAITool>();
-
         public DirtyFilter Filter;
 
         private static AIMgr _instance;
-
-        public List<GroupEnterCommandAttribute> AllAvailableGroupCommands = new List<GroupEnterCommandAttribute>();
 
         public static AIMgr Instance
         {
@@ -34,6 +30,9 @@ namespace Dolany.Ice.Ai.DolanyAI
                 return _instance;
             }
         }
+
+        public List<IAITool> Tools { get; set; } = new List<IAITool>();
+        public List<GroupEnterCommandAttribute> AllAvailableGroupCommands { get; set; } = new List<GroupEnterCommandAttribute>();
 
         public AIMgr()
         {
@@ -196,11 +195,6 @@ namespace Dolany.Ice.Ai.DolanyAI
             {
                 return;
             }
-
-            //if (Filter.IsInBlackList(MsgDTO.FromQQ) || !Filter.Filter(MsgDTO.FromQQ, MsgDTO.Msg))
-            //{
-            //    return;
-            //}
 
             var msg = MsgDTO.Msg;
             MsgDTO.Command = GenCommand(ref msg);

@@ -7,13 +7,16 @@ using System.Threading.Tasks;
 
 namespace Dolany.Ice.Ai.DolanyAI
 {
-    public class HttpRequester
+    public class HttpRequester : IDisposable
     {
-        private WebClient Client = new WebClient();
+        private WebClient Client { get; set; }
 
         public HttpRequester()
         {
-            Client.Credentials = CredentialCache.DefaultCredentials;
+            Client = new WebClient
+            {
+                Credentials = CredentialCache.DefaultCredentials
+            };
         }
 
         public string Request(string url)
@@ -22,6 +25,12 @@ namespace Dolany.Ice.Ai.DolanyAI
             var pageHtml = Encoding.UTF8.GetString(pageData);
 
             return pageHtml;
+        }
+
+        public void Dispose()
+        {
+            ((IDisposable)Client).Dispose();
+            GC.SuppressFinalize(this);
         }
     }
 }

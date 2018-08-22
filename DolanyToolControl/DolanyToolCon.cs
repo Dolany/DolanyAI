@@ -22,16 +22,19 @@ namespace DolanyToolControl
         {
             NameLbl.Text = name;
 
-            ToolTip toolTip = new ToolTip();
-            toolTip.ShowAlways = true;
+            var toolTip = new ToolTip
+            {
+                ShowAlways = true
+            };
             toolTip.SetToolTip(panel1, description);
 
             try
             {
                 panel1.BackgroundImage = Image.FromFile(icon);
             }
-            catch
+            catch (Exception)
             {
+                throw;
             }
         }
 

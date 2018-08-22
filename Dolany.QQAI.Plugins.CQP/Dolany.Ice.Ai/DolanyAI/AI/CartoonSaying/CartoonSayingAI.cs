@@ -57,7 +57,7 @@ namespace Dolany.Ice.Ai.DolanyAI
             {
                 case 1:
                     var smsg = SaveSaying(param[1] as Saying, MsgDTO.FromGroup) ? "语录录入成功！" : "语录录入失败！";
-                    MsgSender.Instance.PushMsg(new SendMsgDTO()
+                    MsgSender.Instance.PushMsg(new SendMsgDTO
                     {
                         Aim = MsgDTO.FromGroup,
                         Type = MsgType.Group,
@@ -88,7 +88,7 @@ namespace Dolany.Ice.Ai.DolanyAI
                 return;
             }
 
-            MsgSender.Instance.PushMsg(new SendMsgDTO()
+            MsgSender.Instance.PushMsg(new SendMsgDTO
             {
                 Aim = MsgDTO.FromGroup,
                 Type = MsgType.Group,
@@ -179,7 +179,7 @@ namespace Dolany.Ice.Ai.DolanyAI
                 db.Saying.RemoveRange(query);
                 db.SaveChanges();
 
-                MsgSender.Instance.PushMsg(new SendMsgDTO()
+                MsgSender.Instance.PushMsg(new SendMsgDTO
                 {
                     Aim = MsgDTO.FromGroup,
                     Type = MsgType.Group,
@@ -200,8 +200,7 @@ namespace Dolany.Ice.Ai.DolanyAI
         public void SayingSeal(GroupMsgDTO MsgDTO, object[] param)
         {
             RuntimeLogger.Log("AlermClockAI Tryto SayingSeal");
-            long memberNum;
-            if (!long.TryParse(MsgDTO.Msg, out memberNum))
+            if (!long.TryParse(MsgDTO.Msg, out long memberNum))
             {
                 return;
             }
@@ -211,7 +210,7 @@ namespace Dolany.Ice.Ai.DolanyAI
                 var query = db.SayingSeal.Where(s => s.GroupNum == MsgDTO.FromGroup && s.SealMember == memberNum);
                 if (!query.IsNullOrEmpty())
                 {
-                    MsgSender.Instance.PushMsg(new SendMsgDTO()
+                    MsgSender.Instance.PushMsg(new SendMsgDTO
                     {
                         Aim = MsgDTO.FromGroup,
                         Type = MsgType.Group,
@@ -221,7 +220,7 @@ namespace Dolany.Ice.Ai.DolanyAI
                     return;
                 }
 
-                db.SayingSeal.Add(new SayingSeal()
+                db.SayingSeal.Add(new SayingSeal
                 {
                     Id = Guid.NewGuid().ToString(),
                     CreateTime = DateTime.Now,
@@ -232,7 +231,7 @@ namespace Dolany.Ice.Ai.DolanyAI
 
                 db.SaveChanges();
             }
-            MsgSender.Instance.PushMsg(new SendMsgDTO()
+            MsgSender.Instance.PushMsg(new SendMsgDTO
             {
                 Aim = MsgDTO.FromGroup,
                 Type = MsgType.Group,
@@ -252,8 +251,7 @@ namespace Dolany.Ice.Ai.DolanyAI
         public void SayingDeseal(GroupMsgDTO MsgDTO, object[] param)
         {
             RuntimeLogger.Log("AlermClockAI Tryto SayingDeseal");
-            long memberNum;
-            if (!long.TryParse(MsgDTO.Msg, out memberNum))
+            if (!long.TryParse(MsgDTO.Msg, out long memberNum))
             {
                 return;
             }
@@ -263,7 +261,7 @@ namespace Dolany.Ice.Ai.DolanyAI
                 var query = db.SayingSeal.Where(s => s.GroupNum == MsgDTO.FromGroup && s.SealMember == memberNum);
                 if (query.IsNullOrEmpty())
                 {
-                    MsgSender.Instance.PushMsg(new SendMsgDTO()
+                    MsgSender.Instance.PushMsg(new SendMsgDTO
                     {
                         Aim = MsgDTO.FromGroup,
                         Type = MsgType.Group,
@@ -279,7 +277,7 @@ namespace Dolany.Ice.Ai.DolanyAI
                 db.SaveChanges();
             }
 
-            MsgSender.Instance.PushMsg(new SendMsgDTO()
+            MsgSender.Instance.PushMsg(new SendMsgDTO
             {
                 Aim = MsgDTO.FromGroup,
                 Type = MsgType.Group,

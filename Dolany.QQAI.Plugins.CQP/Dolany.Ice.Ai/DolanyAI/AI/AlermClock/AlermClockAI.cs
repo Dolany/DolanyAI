@@ -17,7 +17,7 @@ namespace Dolany.Ice.Ai.DolanyAI
         )]
     public class AlermClockAI : AIBase
     {
-        private List<string> ClockIdList = new List<string>();
+        public List<string> ClockIdList { get; set; } = new List<string>();
 
         public AlermClockAI()
             : base()
@@ -62,7 +62,7 @@ namespace Dolany.Ice.Ai.DolanyAI
             Description = "功能同设定闹钟",
             Syntax = "[目标时间] [提醒内容]",
             Tag = "闹钟与报时功能",
-            SyntaxChecker = "SetClock"
+            SyntaxChecker = nameof(SetClock)
             )]
         public void SetClock(GroupMsgDTO MsgDTO, object[] param)
         {
@@ -72,7 +72,7 @@ namespace Dolany.Ice.Ai.DolanyAI
 
             using (AIDatabase db = new AIDatabase())
             {
-                var entity = new AlermClock()
+                var entity = new AlermClock
                 {
                     Id = Guid.NewGuid().ToString(),
                     AimHourt = time.Value.hour,
@@ -111,7 +111,7 @@ namespace Dolany.Ice.Ai.DolanyAI
                 db.SaveChanges();
             }
 
-            MsgSender.Instance.PushMsg(new SendMsgDTO()
+            MsgSender.Instance.PushMsg(new SendMsgDTO
             {
                 Aim = MsgDTO.FromGroup,
                 Type = MsgType.Group,
@@ -157,7 +157,7 @@ namespace Dolany.Ice.Ai.DolanyAI
                                                                 && q.Creator == MsgDTO.FromQQ);
                 if (allClocks.IsNullOrEmpty())
                 {
-                    MsgSender.Instance.PushMsg(new SendMsgDTO()
+                    MsgSender.Instance.PushMsg(new SendMsgDTO
                     {
                         Aim = MsgDTO.FromGroup,
                         Type = MsgType.Group,
@@ -175,7 +175,7 @@ namespace Dolany.Ice.Ai.DolanyAI
                 }
                 Msg = builder.ToString();
 
-                MsgSender.Instance.PushMsg(new SendMsgDTO()
+                MsgSender.Instance.PushMsg(new SendMsgDTO
                 {
                     Aim = MsgDTO.FromGroup,
                     Type = MsgType.Group,
@@ -207,7 +207,7 @@ namespace Dolany.Ice.Ai.DolanyAI
                                               );
                 if (query.IsNullOrEmpty())
                 {
-                    MsgSender.Instance.PushMsg(new SendMsgDTO()
+                    MsgSender.Instance.PushMsg(new SendMsgDTO
                     {
                         Aim = MsgDTO.FromGroup,
                         Type = MsgType.Group,
@@ -219,7 +219,7 @@ namespace Dolany.Ice.Ai.DolanyAI
                 db.AlermClock.RemoveRange(query);
 
                 db.SaveChanges();
-                MsgSender.Instance.PushMsg(new SendMsgDTO()
+                MsgSender.Instance.PushMsg(new SendMsgDTO
                 {
                     Aim = MsgDTO.FromGroup,
                     Type = MsgType.Group,
@@ -250,7 +250,7 @@ namespace Dolany.Ice.Ai.DolanyAI
                                               );
                 if (query.IsNullOrEmpty())
                 {
-                    MsgSender.Instance.PushMsg(new SendMsgDTO()
+                    MsgSender.Instance.PushMsg(new SendMsgDTO
                     {
                         Aim = MsgDTO.FromGroup,
                         Type = MsgType.Group,
@@ -263,7 +263,7 @@ namespace Dolany.Ice.Ai.DolanyAI
                 db.AlermClock.RemoveRange(query);
                 db.SaveChanges();
 
-                MsgSender.Instance.PushMsg(new SendMsgDTO()
+                MsgSender.Instance.PushMsg(new SendMsgDTO
                 {
                     Aim = MsgDTO.FromGroup,
                     Type = MsgType.Group,

@@ -18,8 +18,8 @@ namespace Dolany.Ice.Ai.DolanyAI
         )]
     public class RandomPicAI : AIBase
     {
-        private string PicPath = CodeApi.ImagePath;
-        private List<string> Keywords = new List<string>();
+        private string PicPath { get; set; } = CodeApi.ImagePath;
+        private List<string> Keywords { get; set; } = new List<string>();
 
         private int MaxPicCache
         {
@@ -131,11 +131,11 @@ namespace Dolany.Ice.Ai.DolanyAI
         public void RecentPic(GroupMsgDTO MsgDTO, object[] param)
         {
             var imageList = GetRecentImageList();
-            int idx = (new Random()).Next(imageList.Count());
+            var idx = (new Random()).Next(imageList.Count());
             var ImageCache = Utility.ReadImageCacheInfo(imageList[idx]);
             var sendImgName = $"{ImageCache.guid}.{ImageCache.type}";
 
-            MsgSender.Instance.PushMsg(new SendMsgDTO()
+            MsgSender.Instance.PushMsg(new SendMsgDTO
             {
                 Aim = MsgDTO.FromGroup,
                 Type = MsgType.Group,
@@ -154,11 +154,11 @@ namespace Dolany.Ice.Ai.DolanyAI
         public void RecentFlash(GroupMsgDTO MsgDTO, object[] param)
         {
             var imageList = GetRecentImageList();
-            int idx = (new Random()).Next(imageList.Count());
+            var idx = (new Random()).Next(imageList.Count());
             var ImageCache = Utility.ReadImageCacheInfo(imageList[idx]);
             var sendImgName = $"{ImageCache.guid}.{ImageCache.type}";
 
-            MsgSender.Instance.PushMsg(new SendMsgDTO()
+            MsgSender.Instance.PushMsg(new SendMsgDTO
             {
                 Aim = MsgDTO.FromGroup,
                 Type = MsgType.Group,
@@ -195,7 +195,7 @@ namespace Dolany.Ice.Ai.DolanyAI
 
         private void SendPic(string picPath, long group)
         {
-            MsgSender.Instance.PushMsg(new SendMsgDTO()
+            MsgSender.Instance.PushMsg(new SendMsgDTO
             {
                 Aim = group,
                 Type = MsgType.Group,
@@ -244,7 +244,7 @@ namespace Dolany.Ice.Ai.DolanyAI
             var Keyword = param[0] as string;
             var Content = param[1] as string;
 
-            DbMgr.Insert(new SynonymDicEntity()
+            DbMgr.Insert(new SynonymDicEntity
             {
                 Id = Guid.NewGuid().ToString(),
                 Keyword = Keyword,

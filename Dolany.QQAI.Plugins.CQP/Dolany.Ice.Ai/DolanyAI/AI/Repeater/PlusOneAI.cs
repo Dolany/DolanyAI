@@ -17,7 +17,7 @@ namespace Dolany.Ice.Ai.DolanyAI
         )]
     public class PlusOneAI : AIBase
     {
-        private List<PlusOneCache> Cache = new List<PlusOneCache>();
+        public List<PlusOneCache> Cache { get; set; } = new List<PlusOneCache>();
 
         public PlusOneAI()
             : base()
@@ -79,7 +79,7 @@ namespace Dolany.Ice.Ai.DolanyAI
                 return;
             }
 
-            MsgSender.Instance.PushMsg(new SendMsgDTO()
+            MsgSender.Instance.PushMsg(new SendMsgDTO
             {
                 Aim = fromGroup,
                 Type = MsgType.Group,
@@ -100,7 +100,7 @@ namespace Dolany.Ice.Ai.DolanyAI
         {
             ForbiddenStateChange(MsgDTO.FromGroup, false);
 
-            MsgSender.Instance.PushMsg(new SendMsgDTO()
+            MsgSender.Instance.PushMsg(new SendMsgDTO
             {
                 Aim = MsgDTO.FromGroup,
                 Type = MsgType.Group,
@@ -120,7 +120,7 @@ namespace Dolany.Ice.Ai.DolanyAI
         {
             ForbiddenStateChange(MsgDTO.FromGroup, true);
 
-            MsgSender.Instance.PushMsg(new SendMsgDTO()
+            MsgSender.Instance.PushMsg(new SendMsgDTO
             {
                 Aim = MsgDTO.FromGroup,
                 Type = MsgType.Group,

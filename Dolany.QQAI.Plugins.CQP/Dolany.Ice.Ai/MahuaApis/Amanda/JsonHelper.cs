@@ -34,9 +34,12 @@ namespace Dolany.Ice.Ai.MahuaApis
         {
             var serializer = new JsonSerializer();
             var sr = new StringReader(json);
-            var o = serializer.Deserialize(new JsonTextReader(sr), typeof(T));
-            var t = o as T;
-            return t;
+            using (var jsonTextReader = new JsonTextReader(sr))
+            {
+                var o = serializer.Deserialize(jsonTextReader, typeof(T));
+                var t = o as T;
+                return t;
+            }
         }
 
         /// <summary>
@@ -49,9 +52,12 @@ namespace Dolany.Ice.Ai.MahuaApis
         {
             var serializer = new JsonSerializer();
             var sr = new StringReader(json);
-            var o = serializer.Deserialize(new JsonTextReader(sr), typeof(List<T>));
-            var list = o as List<T>;
-            return list;
+            using (var jsonTextReader = new JsonTextReader(sr))
+            {
+                var o = serializer.Deserialize(jsonTextReader, typeof(List<T>));
+                var list = o as List<T>;
+                return list;
+            }
         }
 
         /// <summary>
