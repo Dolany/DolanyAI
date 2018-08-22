@@ -12,7 +12,7 @@ namespace Dolany.Ice.Ai.DolanyAI
         Name = nameof(HelloAI),
         Description = "AI for Saying Hello to you at everyday you say at the first time in one group.",
         IsAvailable = true,
-        PriorityLevel = 3
+        PriorityLevel = 12
         )]
     public class HelloAI : AIBase
     {

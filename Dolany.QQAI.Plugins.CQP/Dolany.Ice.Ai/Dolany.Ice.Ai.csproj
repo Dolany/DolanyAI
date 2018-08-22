@@ -135,7 +135,6 @@
       <SubType>Component</SubType>
     </Compile>
     <Compile Include="DolanyAI\Common\RequestHelper.cs" />
-    <Compile Include="DolanyAI\Common\VoiceConvert.cs" />
     <Compile Include="DolanyAI\Db\AIConfig.cs">
       <DependentUpon>AIDatabase.tt</DependentUpon>
     </Compile>
@@ -257,7 +256,6 @@
     <Compile Include="DolanyAI\DTO\SendMsgDTO.cs" />
     <Compile Include="DolanyAI\Common\Utility.cs" />
     <Compile Include="DolanyAI\Entities\Common\EntityBase.cs" />
-    <Compile Include="DolanyAI\Entities\Common\LogEntity.cs" />
     <Compile Include="DolanyAI\Entities\Management\SynonymDicEntity.cs" />
     <Compile Include="DolanyAI\HTML\HtmlParser.cs" />
     <Compile Include="DolanyAI\HTML\HttpRequester.cs" />
