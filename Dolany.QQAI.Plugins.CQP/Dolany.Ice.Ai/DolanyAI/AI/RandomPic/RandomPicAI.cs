@@ -21,16 +21,6 @@ namespace Dolany.Ice.Ai.DolanyAI
         private string PicPath { get; set; } = CodeApi.ImagePath;
         private List<string> Keywords { get; set; } = new List<string>();
 
-        private int MaxPicCache
-        {
-            get
-            {
-                var config = Utility.GetConfig("MaxPicCacheCount", "200");
-
-                return int.Parse(config);
-            }
-        }
-
         private int PicCleanFreq
         {
             get
@@ -49,36 +39,7 @@ namespace Dolany.Ice.Ai.DolanyAI
 
         public override void Work()
         {
-            Init();
             ReloadAllKeywords();
-        }
-
-        public void Init()
-        {
-            JobScheduler.Instance.Add(PicCleanFreq * 1000, TimeUp);
-        }
-
-        private void TimeUp(object sender, ElapsedEventArgs e)
-        {
-            try
-            {
-                CleanCache();
-            }
-            catch (Exception ex)
-            {
-                Utility.SendMsgToDeveloper(ex);
-            }
-        }
-
-        private void CleanCache()
-        {
-            var dir = new DirectoryInfo(PicPath);
-            var cleanCount = dir.GetFiles().Count() - MaxPicCache;
-            var cleanFiles = dir.GetFiles().OrderBy(f => f.CreationTime).Take(cleanCount);
-            foreach (var f in cleanFiles)
-            {
-                f.Delete();
-            }
         }
 
         public void ReloadAllKeywords()
