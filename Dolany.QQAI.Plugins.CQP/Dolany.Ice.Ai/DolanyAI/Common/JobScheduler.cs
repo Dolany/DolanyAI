@@ -13,11 +13,19 @@ namespace Dolany.Ice.Ai.DolanyAI
         public Action<object, ElapsedEventArgs> CallBack { get; set; }
         public object Data { get; set; }
 
+        public static double WeeklyInterval
+        {
+            get
+            {
+                return 7 * DairlyInterval;
+            }
+        }
+
         public static double DairlyInterval
         {
             get
             {
-                return 24 * 60 * 60 * 1000;
+                return 24 * HourlyInterval;
             }
         }
 
@@ -25,7 +33,23 @@ namespace Dolany.Ice.Ai.DolanyAI
         {
             get
             {
-                return 60 * 60 * 1000;
+                return 60 * MinutelyInterval;
+            }
+        }
+
+        public static double MinutelyInterval
+        {
+            get
+            {
+                return 60 * SecondlyInterval;
+            }
+        }
+
+        public static double SecondlyInterval
+        {
+            get
+            {
+                return 1000;
             }
         }
     }

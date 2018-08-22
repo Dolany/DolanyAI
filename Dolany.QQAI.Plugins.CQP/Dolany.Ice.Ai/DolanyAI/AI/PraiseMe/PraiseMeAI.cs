@@ -23,12 +23,7 @@ namespace Dolany.Ice.Ai.DolanyAI
         {
             get
             {
-                var config = Utility.GetConfig(nameof(PraiseLimit));
-                if (string.IsNullOrEmpty(config))
-                {
-                    Utility.SetConfig(nameof(PraiseLimit), "10");
-                    return 10;
-                }
+                var config = Utility.GetConfig(nameof(PraiseLimit), "10");
 
                 return int.Parse(config);
             }

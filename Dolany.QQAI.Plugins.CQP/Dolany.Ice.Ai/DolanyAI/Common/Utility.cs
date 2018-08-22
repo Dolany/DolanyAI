@@ -116,6 +116,18 @@ namespace Dolany.Ice.Ai.DolanyAI
             }
         }
 
+        public static string GetConfig(string name, string defaltValue)
+        {
+            var value = GetConfig(name);
+            if (!string.IsNullOrEmpty(value))
+            {
+                return value;
+            }
+
+            SetConfig(name, defaltValue);
+            return defaltValue;
+        }
+
         public static T Instance<T>() where T : class, new()
         {
             if (SinglonMap == null)
@@ -237,6 +249,11 @@ namespace Dolany.Ice.Ai.DolanyAI
         public static bool IsAsciiChar(char c)
         {
             return c >= 0x20 && c <= 0x7e;
+        }
+
+        public static string ToCommonString(this DateTime dt)
+        {
+            return dt.ToString("yyyy-MM-dd HH:mm:ss");
         }
     }
 }

@@ -22,12 +22,7 @@ namespace Dolany.Ice.Ai.DolanyAI
         {
             get
             {
-                var config = Utility.GetConfig(nameof(PicCleanFreq));
-                if (string.IsNullOrEmpty(config))
-                {
-                    Utility.SetConfig(nameof(PicCleanFreq), "10");
-                    return 10;
-                }
+                var config = Utility.GetConfig(nameof(PicCleanFreq), "10");
 
                 return int.Parse(config);
             }
@@ -37,12 +32,7 @@ namespace Dolany.Ice.Ai.DolanyAI
         {
             get
             {
-                var config = Utility.GetConfig("MaxPicCacheCount");
-                if (string.IsNullOrEmpty(config))
-                {
-                    Utility.SetConfig("MaxPicCacheCount", "200");
-                    return 200;
-                }
+                var config = Utility.GetConfig("MaxPicCacheCount", "200");
 
                 return int.Parse(config);
             }
