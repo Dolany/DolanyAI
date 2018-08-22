@@ -168,14 +168,11 @@ namespace Dolany.Ice.Ai.DolanyAI
 
         public static string GetAuthCode()
         {
-            if (string.IsNullOrEmpty(AuthCode))
+            using (AmandaLogDatabase db = new AmandaLogDatabase())
             {
-                using (AmandaLogDatabase db = new AmandaLogDatabase())
-                {
-                    var log = db.日志.Where(p => p.内容.Contains("Dolany AI(Dolany.Ice.Ai)")).OrderByDescending(p => p.时间).First();
-                    var strs = log.内容.Split(new string[] { "调用内存：" }, StringSplitOptions.RemoveEmptyEntries);
-                    AuthCode = strs[1];
-                }
+                var log = db.日志.Where(p => p.内容.Contains("Dolany AI(Dolany.Ice.Ai)")).OrderByDescending(p => p.时间).First();
+                var strs = log.内容.Split(new string[] { "调用内存：" }, StringSplitOptions.RemoveEmptyEntries);
+                AuthCode = strs[1];
             }
 
             return AuthCode;
