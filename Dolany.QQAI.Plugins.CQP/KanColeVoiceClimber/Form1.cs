@@ -54,10 +54,10 @@ namespace KanColeVoiceClimber
                         db.KanColeGirlVoice.Add(new KanColeGirlVoice
                         {
                             Id = Guid.NewGuid().ToString(),
-                            Name = "舰队Collection:响改二",
-                            VoiceUrl = strs[0],
+                            Name = "舰队Collection:长门",
+                            VoiceUrl = strs[2],
                             Content = strs[1],
-                            Tag = strs[2]
+                            Tag = strs[0]
                         });
 
                         db.SaveChanges();
