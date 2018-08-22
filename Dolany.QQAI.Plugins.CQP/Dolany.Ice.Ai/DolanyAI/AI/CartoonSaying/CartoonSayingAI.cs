@@ -47,7 +47,6 @@ namespace Dolany.Ice.Ai.DolanyAI
             )]
         public void ProcceedMsg(GroupMsgDTO MsgDTO, object[] param)
         {
-            RuntimeLogger.Log("AlermClockAI Tryto ProcceedMsg In CartoonSayings");
             if (IsInSealing(MsgDTO.FromGroup, MsgDTO.FromQQ))
             {
                 return;
@@ -76,8 +75,6 @@ namespace Dolany.Ice.Ai.DolanyAI
                 default:
                     throw new Exception("Unexpected Case");
             }
-
-            RuntimeLogger.Log("AlermClockAI ProcceedMsg Completed In CartoonSayings");
         }
 
         private void SayingRequest(GroupMsgDTO MsgDTO, string keyword = null)
@@ -169,7 +166,6 @@ namespace Dolany.Ice.Ai.DolanyAI
             )]
         public void ClearSayings(GroupMsgDTO MsgDTO, object[] param)
         {
-            RuntimeLogger.Log("AlermClockAI Tryto ClearSayings");
             using (AIDatabase db = new AIDatabase())
             {
                 var query = db.Saying.Where(s => s.FromGroup == MsgDTO.FromGroup
@@ -186,7 +182,6 @@ namespace Dolany.Ice.Ai.DolanyAI
                     Msg = $"共删除{query.Count()}条语录"
                 });
             }
-            RuntimeLogger.Log("AlermClockAI ClearSayings Complete");
         }
 
         [GroupEnterCommand(
@@ -199,7 +194,6 @@ namespace Dolany.Ice.Ai.DolanyAI
             )]
         public void SayingSeal(GroupMsgDTO MsgDTO, object[] param)
         {
-            RuntimeLogger.Log("AlermClockAI Tryto SayingSeal");
             if (!long.TryParse(MsgDTO.Msg, out long memberNum))
             {
                 return;
@@ -237,7 +231,6 @@ namespace Dolany.Ice.Ai.DolanyAI
                 Type = MsgType.Group,
                 Msg = "封禁成功！"
             });
-            RuntimeLogger.Log("AlermClockAI SayingSeal Complete");
         }
 
         [GroupEnterCommand(
@@ -250,7 +243,6 @@ namespace Dolany.Ice.Ai.DolanyAI
             )]
         public void SayingDeseal(GroupMsgDTO MsgDTO, object[] param)
         {
-            RuntimeLogger.Log("AlermClockAI Tryto SayingDeseal");
             if (!long.TryParse(MsgDTO.Msg, out long memberNum))
             {
                 return;
@@ -283,7 +275,6 @@ namespace Dolany.Ice.Ai.DolanyAI
                 Type = MsgType.Group,
                 Msg = "解封成功！"
             });
-            RuntimeLogger.Log("AlermClockAI SayingDeseal Complete");
         }
     }
 }

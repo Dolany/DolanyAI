@@ -66,8 +66,6 @@ namespace Dolany.Ice.Ai.DolanyAI
             )]
         public void SetClock(GroupMsgDTO MsgDTO, object[] param)
         {
-            RuntimeLogger.Log("AlermClockAI Tryto SetClock");
-
             var time = param[0] as (int hour, int minute)?;
 
             using (AIDatabase db = new AIDatabase())
@@ -85,12 +83,10 @@ namespace Dolany.Ice.Ai.DolanyAI
 
                 InsertClock(entity, MsgDTO);
             }
-            RuntimeLogger.Log("AlermClockAI SetClock Complete");
         }
 
         private void InsertClock(AlermClock entity, GroupMsgDTO MsgDTO)
         {
-            RuntimeLogger.Log("AlermClockAI InsertClock");
             using (AIDatabase db = new AIDatabase())
             {
                 var query = db.AlermClock.Where(q => q.GroupNumber == MsgDTO.FromGroup
@@ -117,7 +113,6 @@ namespace Dolany.Ice.Ai.DolanyAI
                 Type = MsgType.Group,
                 Msg = "闹钟设定成功！"
             });
-            RuntimeLogger.Log("AlermClockAI InsertClock Complete");
         }
 
         private void StartClock(AlermClock entity)
@@ -150,7 +145,6 @@ namespace Dolany.Ice.Ai.DolanyAI
             )]
         public void QueryClock(GroupMsgDTO MsgDTO, object[] param)
         {
-            RuntimeLogger.Log("AlermClockAI Tryto QueryClock");
             using (AIDatabase db = new AIDatabase())
             {
                 var allClocks = db.AlermClock.Where(q => q.GroupNumber == MsgDTO.FromGroup
@@ -182,7 +176,6 @@ namespace Dolany.Ice.Ai.DolanyAI
                     Msg = Msg
                 });
             }
-            RuntimeLogger.Log("AlermClockAI QueryClock Complete");
         }
 
         [GroupEnterCommand(
@@ -195,7 +188,6 @@ namespace Dolany.Ice.Ai.DolanyAI
             )]
         public void DeleteClock(GroupMsgDTO MsgDTO, object[] param)
         {
-            RuntimeLogger.Log("AlermClockAI Tryto DeleteClock");
             var time = param[0] as (int hour, int minute)?;
 
             using (AIDatabase db = new AIDatabase())
@@ -228,7 +220,6 @@ namespace Dolany.Ice.Ai.DolanyAI
             }
 
             ReloadAllClocks();
-            RuntimeLogger.Log("AlermClockAI DeleteClock Complete");
         }
 
         [GroupEnterCommand(
@@ -241,8 +232,6 @@ namespace Dolany.Ice.Ai.DolanyAI
             )]
         public void ClearAllClock(GroupMsgDTO MsgDTO, object[] param)
         {
-            RuntimeLogger.Log("AlermClockAI Tryto ClearAllClock");
-
             using (AIDatabase db = new AIDatabase())
             {
                 var query = db.AlermClock.Where(q => q.GroupNumber == MsgDTO.FromGroup
@@ -272,7 +261,6 @@ namespace Dolany.Ice.Ai.DolanyAI
             }
 
             ReloadAllClocks();
-            RuntimeLogger.Log("AlermClockAI ClearAllClock Complete");
         }
 
         private static double GetNextInterval(int hour, int minute)
