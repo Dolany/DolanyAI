@@ -17,7 +17,7 @@ namespace Dolany.Ice.Ai.DolanyAI
         {
             get
             {
-                var config = Utility.GetConfig(nameof(SendMsgMaxLength), "400");
+                var config = Utility.GetConfig(nameof(SendMsgMaxLength), "800");
 
                 return int.Parse(config);
             }
