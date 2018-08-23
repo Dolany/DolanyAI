@@ -61,6 +61,10 @@ namespace Dolany.Ice.Ai.DolanyAI
         private string RequestMsg(GroupMsgDTO MsgDTO)
         {
             var post = GetPostReq(MsgDTO);
+            if (post == null)
+            {
+                return "";
+            }
 
             var response = RequestHelper.PostData<TulingResponseData>(post);
             if (response == null || ErroCodes.Contains(response.intent.code))
@@ -90,6 +94,12 @@ namespace Dolany.Ice.Ai.DolanyAI
                 }
             };
 
+            var mi = Utility.GetMemberInfo(MsgDTO);
+            if (mi == null)
+            {
+                return null;
+            }
+
             var post = new PostReq_Param
             {
                 InterfaceName = RequestUrl,
@@ -102,7 +112,7 @@ namespace Dolany.Ice.Ai.DolanyAI
                         apiKey = ApiKey,
                         groupId = MsgDTO.FromGroup.ToString(),
                         userId = MsgDTO.FromQQ.ToString(),
-                        userIdName = Utility.GetMemberInfo(MsgDTO).Nickname
+                        userIdName = mi.Nickname
                     }
                 }
             };

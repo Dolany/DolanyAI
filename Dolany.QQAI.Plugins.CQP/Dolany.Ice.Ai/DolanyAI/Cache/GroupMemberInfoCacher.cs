@@ -19,15 +19,13 @@ namespace Dolany.Ice.Ai.DolanyAI
                                         && ic.GroupNum == MsgDTO.FromGroup);
                 if (query.IsNullOrEmpty())
                 {
-                    var info = GetNewInfo(MsgDTO);
-                    return info;
+                    return GetNewInfo(MsgDTO);
                 }
 
                 var Cache = query.First();
                 if (Cache.Datatime.AddDays(7) < DateTime.Now)
                 {
-                    var info = GetNewInfo(MsgDTO);
-                    return info;
+                    return GetNewInfo(MsgDTO);
                 }
 
                 return Cache.Clone();
@@ -39,6 +37,11 @@ namespace Dolany.Ice.Ai.DolanyAI
             using (AIDatabase db = new AIDatabase())
             {
                 var infos = AmandaAPIEx.GetMemberInfos(MsgDTO.FromGroup);
+                if (infos == null)
+                {
+                    return null;
+                }
+
                 foreach (var info in infos.mems)
                 {
                     var query = db.MemberRoleCache.Where(p => p.GroupNum == MsgDTO.FromGroup && p.QQNum == info.uin);

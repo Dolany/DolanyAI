@@ -40,6 +40,7 @@ namespace Dolany.Ice.Ai.DolanyAI
 
         public void Work()
         {
+            RuntimeLogger.Log($"{nameof(CacheCleanerTool)} started.");
             JobScheduler.Instance.Add(
                 PicCleanFreq * 1000,
                 TimeUp,

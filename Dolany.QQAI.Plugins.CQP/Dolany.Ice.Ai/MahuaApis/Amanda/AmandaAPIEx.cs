@@ -26,13 +26,26 @@ namespace Dolany.Ice.Ai.MahuaApis
 
         private static string GetGroupMemberList(string 群号)
         {
-            var AuthCode = Utility.GetAuthCode();
-            return Api_GetGroupMemberList(群号, AuthCode);
+            try
+            {
+                var AuthCode = Utility.GetAuthCode();
+                return Api_GetGroupMemberList(群号, AuthCode);
+            }
+            catch (Exception ex)
+            {
+                RuntimeLogger.Log(ex.Message + '\r' + ex.StackTrace);
+                return "";
+            }
         }
 
         public static GroupMemberListViewModel GetMemberInfos(long GroupNum)
         {
-            return JsonHelper.DeserializeJsonToObject<GroupMemberListViewModel>(GetGroupMemberList(GroupNum.ToString()));
+            var ml = GetGroupMemberList(GroupNum.ToString());
+            if (string.IsNullOrEmpty(ml))
+            {
+                return null;
+            }
+            return JsonHelper.DeserializeJsonToObject<GroupMemberListViewModel>(ml);
         }
 
         public static int SendPraise(string QQ号)

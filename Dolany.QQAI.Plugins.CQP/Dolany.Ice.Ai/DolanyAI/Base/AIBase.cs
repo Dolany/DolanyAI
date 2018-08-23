@@ -54,7 +54,13 @@ namespace Dolany.Ice.Ai.DolanyAI
                 return false;
             }
 
-            var authority = Utility.GetMemberInfo(MsgDTO).Role;
+            var mi = Utility.GetMemberInfo(MsgDTO);
+            if (mi == null)
+            {
+                return false;
+            }
+
+            var authority = mi.Role;
             if (!AuthorityCheck(enterAttr.AuthorityLevel, authority, MsgDTO.FromQQ))
             {
                 return false;

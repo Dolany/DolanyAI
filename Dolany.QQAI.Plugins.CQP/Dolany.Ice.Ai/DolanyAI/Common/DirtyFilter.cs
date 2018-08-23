@@ -46,17 +46,23 @@ namespace Dolany.Ice.Ai.DolanyAI
                     return;
                 }
 
+                var mi = Utility.GetMemberInfo(new GroupMsgDTO
+                {
+                    FromGroup = GroupNum,
+                    FromQQ = QQNum
+                });
+                if (mi == null)
+                {
+                    return;
+                }
+
                 db.BlackList.Add(new BlackList
                 {
                     Id = Guid.NewGuid().ToString(),
                     BlackCount = 1,
                     UpdateTime = DateTime.Now,
                     QQNum = QQNum,
-                    NickName = Utility.GetMemberInfo(new GroupMsgDTO
-                    {
-                        FromGroup = GroupNum,
-                        FromQQ = QQNum
-                    }).Nickname
+                    NickName = mi.Nickname
                 });
 
                 db.SaveChanges();

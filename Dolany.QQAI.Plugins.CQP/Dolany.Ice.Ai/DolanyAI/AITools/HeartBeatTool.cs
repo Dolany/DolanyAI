@@ -21,6 +21,7 @@ namespace Dolany.Ice.Ai.DolanyAI
 
         public void Work()
         {
+            RuntimeLogger.Log($"{nameof(HeartBeatTool)} started.");
             JobScheduler.Instance.Add(CheckFrequency * 1000, TimeUp);
         }
 
