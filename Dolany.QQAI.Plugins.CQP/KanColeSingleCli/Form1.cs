@@ -57,7 +57,7 @@ namespace KanColeSingleCli
 
         private void WriteToFile(List<KanColeGirlVoice> voices)
         {
-            using (var fs = new FileStream(AimTxt.Text + NameTxt.Text, FileMode.Create))
+            using (var fs = new FileStream(AimTxt.Text + NameTxt.Text + ".txt", FileMode.Create))
             {
                 using (var sw = new StreamWriter(fs))
                 {
