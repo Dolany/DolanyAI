@@ -2,3 +2,9 @@
 AdCommonInfo[Table]: Company|Product|CreateTime|Type|StartTime|EndTime|Remark|Path
 AdPublishRec[Table]: CommonInfoId|PublishTime|GroupNum
 AdIni[.ini]: Msg|BlackList|WhiteList|Pics
+
+2018-08-22 18:10
+舰娘语音补完
+枪娘语音
+广告AI
+活动募集AI
