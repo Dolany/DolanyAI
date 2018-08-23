@@ -1,16 +1,6 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Data;
-using System.Drawing;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Windows.Forms;
-using Dolany.Ice.Ai.DolanyAI.Db;
-using Dolany.Ice.Ai.DolanyAI;
 
-namespace CQPMonitor.Tools
+namespace AIMonitor.Tools
 {
     [Tool(
         ToolName = "Entity转换",

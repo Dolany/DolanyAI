@@ -1,8 +1,5 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using Dolany.Ice.Ai.DolanyAI.Db;
 using System.Threading;
 
@@ -22,13 +19,6 @@ namespace Dolany.Ice.Ai.DolanyAI
 
         private readonly int SleepTime = 3000;
 
-        private object lockObj = new object();
-
-        public RepeatorAI()
-            : base()
-        {
-        }
-
         public override void Work()
         {
         }
@@ -42,7 +32,7 @@ namespace Dolany.Ice.Ai.DolanyAI
                 return false;
             }
             var atChecker = new AtChecker();
-            if (atChecker.Check(MsgDTO.FullMsg, out object[] param))
+            if (atChecker.Check(MsgDTO.FullMsg, out _))
             {
                 return false;
             }
@@ -120,7 +110,7 @@ namespace Dolany.Ice.Ai.DolanyAI
                 else
                 {
                     var ra = query.FirstOrDefault();
-                    ra.Available = state;
+                    if (ra != null) ra.Available = state;
                 }
 
                 db.SaveChanges();

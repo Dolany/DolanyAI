@@ -1,8 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Reflection;
 using System.Xml.Linq;
 using System.Xml;
@@ -64,7 +61,7 @@ namespace Dolany.Ice.Ai.DolanyAI
             var root = XElement.Load(EntityFilePath(EntityName));
             foreach (XElement ele in root.Elements())
             {
-                if (entity.Id == ele.Attribute("Id").Value)
+                if (entity.Id == ele.Attribute("Id")?.Value)
                 {
                     ele.ReplaceWith(entity.ToElement());
                     root.Save(EntityFilePath(EntityName));
@@ -151,7 +148,7 @@ namespace Dolany.Ice.Ai.DolanyAI
             var t = typeof(Entity);
             var EntityName = t.Name.Replace("Entity", "");
             var root = XElement.Load(EntityFilePath(EntityName));
-            if (root == null || root.IsEmpty)
+            if (root.IsEmpty)
             {
                 return null;
             }

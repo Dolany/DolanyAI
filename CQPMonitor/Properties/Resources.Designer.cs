@@ -8,7 +8,7 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-namespace CQPMonitor.Properties {
+namespace AIMonitor.Properties {
     using System;
     
     

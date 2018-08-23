@@ -1,8 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Dolany.Ice.Ai.DolanyAI
 {
@@ -16,14 +12,13 @@ namespace Dolany.Ice.Ai.DolanyAI
                 return false;
             }
 
-            var strs = msg.Split(new string[] { "[QQ:at=", "]" }, StringSplitOptions.RemoveEmptyEntries);
+            var strs = msg.Split(new[] { "[QQ:at=", "]" }, StringSplitOptions.RemoveEmptyEntries);
             if (strs.IsNullOrEmpty())
             {
                 return false;
             }
 
-            long qqNum;
-            if (!long.TryParse(strs[0], out qqNum))
+            if (!long.TryParse(strs[0], out var qqNum))
             {
                 return false;
             }

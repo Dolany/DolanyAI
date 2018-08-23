@@ -1,8 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using Dolany.Ice.Ai.DolanyAI;
 using HtmlAgilityPack;
 using Dolany.Ice.Ai.DolanyAI.Db;
@@ -78,7 +76,7 @@ namespace KanColeVoiceClimber
 
         private void ParseInfo(HtmlNode voiceNode, string descStr)
         {
-            var strs = descStr.Split(new char[] { '：' }, StringSplitOptions.RemoveEmptyEntries);
+            var strs = descStr.Split(new[] { '：' }, StringSplitOptions.RemoveEmptyEntries);
             if (strs.IsNullOrEmpty()
                 || strs.Length != 3
                 )

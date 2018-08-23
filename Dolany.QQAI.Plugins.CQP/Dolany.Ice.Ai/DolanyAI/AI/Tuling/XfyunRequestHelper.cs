@@ -1,8 +1,5 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
 using System.Text;
-using System.Threading.Tasks;
 using System.Security.Cryptography;
 using System.IO;
 using System.Net;
@@ -16,13 +13,7 @@ namespace Dolany.Ice.Ai.DolanyAI
         private static string apiKey = "1250bc28769bb74ab0aa073a97434058";
         private static string requestUrl = "http://api.xfyun.cn/v1/service/v1/tts";
 
-        private static string voicePath
-        {
-            get
-            {
-                return System.Environment.CurrentDirectory + @"\VoiceCache\";
-            }
-        }
+        private static string voicePath => Environment.CurrentDirectory + @"\VoiceCache\";
 
         private static string voiceName = "xiaoyan";
 

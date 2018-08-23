@@ -1,4 +1,4 @@
-﻿namespace CQPMonitor.Tools.BlackList
+﻿namespace AIMonitor.Tools.BlackList
 {
     partial class NewDirtyWordForm
     {

@@ -1,15 +1,9 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Data;
-using System.Drawing;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows.Forms;
 using Dolany.Ice.Ai.DolanyAI.Db;
 
-namespace CQPMonitor.Tools.SysConfiger
+namespace AIMonitor.Tools.SysConfiger
 {
     public partial class ConfigForm : Form
     {
@@ -33,7 +27,7 @@ namespace CQPMonitor.Tools.SysConfiger
 
         private void cancelBtn_Click(object sender, EventArgs e)
         {
-            this.Close();
+            Close();
         }
 
         private void okBtn_Click(object sender, EventArgs e)
@@ -47,7 +41,7 @@ namespace CQPMonitor.Tools.SysConfiger
                 ModifyConfig();
             }
 
-            this.Close();
+            Close();
         }
 
         private void InsertConfig()

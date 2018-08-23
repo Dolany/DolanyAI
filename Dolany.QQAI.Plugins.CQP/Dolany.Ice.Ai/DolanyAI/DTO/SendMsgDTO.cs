@@ -1,10 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace Dolany.Ice.Ai.DolanyAI
+﻿namespace Dolany.Ice.Ai.DolanyAI
 {
     public enum MsgType
     {
@@ -16,7 +10,7 @@ namespace Dolany.Ice.Ai.DolanyAI
     {
         public string Guid { get; set; }
 
-        public int SerialNum { get; set; } = 0;
+        public int SerialNum { get; set; }
 
         public string Msg { get; set; }
 

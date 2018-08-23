@@ -1,15 +1,9 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Data;
-using System.Drawing;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows.Forms;
 using Dolany.Ice.Ai.DolanyAI.Db;
 
-namespace CQPMonitor.Tools.BlackList
+namespace AIMonitor.Tools.BlackList
 {
     public partial class NewDirtyWordForm : Form
     {
@@ -20,7 +14,7 @@ namespace CQPMonitor.Tools.BlackList
 
         private void cancelBtn_Click(object sender, EventArgs e)
         {
-            this.DialogResult = DialogResult.Cancel;
+            DialogResult = DialogResult.Cancel;
         }
 
         private void SaveBtn_Click(object sender, EventArgs e)
@@ -28,7 +22,7 @@ namespace CQPMonitor.Tools.BlackList
             var word = wordTxt.Text;
             if (string.IsNullOrEmpty(word))
             {
-                MessageBox.Show("屏蔽词不能为空！");
+                MessageBox.Show(@"屏蔽词不能为空！");
                 wordTxt.Focus();
                 return;
             }
@@ -38,7 +32,7 @@ namespace CQPMonitor.Tools.BlackList
                 var query = db.DirtyWord.Where(d => d.Content == word);
                 if (!query.IsNullOrEmpty())
                 {
-                    MessageBox.Show("屏蔽词已存在！");
+                    MessageBox.Show(@"屏蔽词已存在！");
                     wordTxt.Focus();
                     return;
                 }
@@ -50,7 +44,7 @@ namespace CQPMonitor.Tools.BlackList
                 });
                 db.SaveChanges();
             }
-            this.DialogResult = DialogResult.OK;
+            DialogResult = DialogResult.OK;
         }
     }
 }

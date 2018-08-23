@@ -9236,4 +9236,7 @@
         AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==
 </value>
   </data>
+  <data name="MainForm_Form1_FormClosing_" xml:space="preserve">
+    <value>确定要关闭程序吗？</value>
+  </data>
 </root>

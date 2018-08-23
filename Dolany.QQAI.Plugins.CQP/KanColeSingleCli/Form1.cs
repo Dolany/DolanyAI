@@ -1,11 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.ComponentModel;
-using System.Data;
-using System.Drawing;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows.Forms;
 using Dolany.Ice.Ai.DolanyAI;
 using Dolany.Ice.Ai.DolanyAI.Db;
@@ -49,7 +43,7 @@ namespace KanColeSingleCli
 
         private void AppendTxt(string text)
         {
-            this.Invoke(new Action(() =>
+            Invoke(new Action(() =>
             {
                 LogTxt.AppendText(text + "\r\n");
             }));

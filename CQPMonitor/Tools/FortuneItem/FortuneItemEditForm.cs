@@ -1,15 +1,9 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Data;
-using System.Drawing;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows.Forms;
 using Dolany.Ice.Ai.DolanyAI.Db;
 
-namespace CQPMonitor.Tools.FortuneItem
+namespace AIMonitor.Tools.FortuneItem
 {
     public partial class FortuneItemEditForm : Form
     {
@@ -40,7 +34,7 @@ namespace CQPMonitor.Tools.FortuneItem
                         Name = nameTxt.Text,
                         Description = DescriptionTxt.Text,
                         Value = int.Parse(ValueTxt.Text),
-                        Type = TypeCombo.Text == "百分比" ? 0 : 1
+                        Type = TypeCombo.Text == @"百分比" ? 0 : 1
                     };
                     db.FortuneItem.Add(fi);
                 }
@@ -50,7 +44,7 @@ namespace CQPMonitor.Tools.FortuneItem
                     fi.Name = nameTxt.Text;
                     fi.Description = DescriptionTxt.Text;
                     fi.Value = int.Parse(ValueTxt.Text);
-                    fi.Type = TypeCombo.Text == "百分比" ? 0 : 1;
+                    fi.Type = TypeCombo.Text == @"百分比" ? 0 : 1;
                 }
 
                 db.SaveChanges();

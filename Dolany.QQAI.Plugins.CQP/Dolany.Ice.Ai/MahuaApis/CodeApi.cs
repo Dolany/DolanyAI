@@ -1,8 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using Newbe.Mahua;
 
 namespace Dolany.Ice.Ai.MahuaApis
@@ -13,7 +9,7 @@ namespace Dolany.Ice.Ai.MahuaApis
 
         public static string Code_At(long qqNumber)
         {
-            var code = string.Empty;
+            string code;
             switch (MahuaGlobal.CurrentPlatform)
             {
                 case MahuaPlatform.Cqp:
@@ -38,7 +34,7 @@ namespace Dolany.Ice.Ai.MahuaApis
 
         public static string Code_Image(string fileName)
         {
-            var code = string.Empty;
+            string code;
             switch (MahuaGlobal.CurrentPlatform)
             {
                 case MahuaPlatform.Cqp:

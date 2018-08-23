@@ -1,8 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Diagnostics;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Timers;
 using System.IO;
 using Dolany.Ice.Ai.MahuaApis;
@@ -28,7 +25,7 @@ namespace Dolany.Ice.Ai.DolanyAI
             }
         }
 
-        private int MaxPicCache
+        private static int MaxPicCache
         {
             get
             {
@@ -96,15 +93,16 @@ namespace Dolany.Ice.Ai.DolanyAI
         private void TimeUp(object sender, ElapsedEventArgs e)
         {
             var timer = sender as JobTimer;
+            Debug.Assert(timer != null, nameof(timer) + " != null");
             var dto = timer.Data as CacheCleanerDTO;
 
             CleanCache(dto);
         }
 
-        private void CleanCache(CacheCleanerDTO dto)
+        private static void CleanCache(CacheCleanerDTO dto)
         {
             var dir = new DirectoryInfo(dto.Path);
-            var cleanCount = dir.GetFiles().Count() - dto.MaxCacheCount;
+            var cleanCount = dir.GetFiles().Length - dto.MaxCacheCount;
             if (cleanCount <= 0)
             {
                 return;

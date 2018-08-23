@@ -1,8 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 using System.Text;
-using System.Threading.Tasks;
 using System.Reflection;
 
 namespace Dolany.Ice.Ai.DolanyAI
@@ -16,7 +16,7 @@ namespace Dolany.Ice.Ai.DolanyAI
         {
             get
             {
-                return Lists.FirstOrDefault().BaseInfo.FirstOrDefault(b => b.Name == "角色名").Value;
+                return Lists.FirstOrDefault()?.BaseInfo.FirstOrDefault(b => b.Name == "角色名")?.Value;
             }
         }
 
@@ -49,17 +49,23 @@ namespace Dolany.Ice.Ai.DolanyAI
 
         private IOrderedEnumerable<MethodInfo> GetReportMethods()
         {
-            var t = this.GetType();
+            var t = GetType();
             var query = t.GetMethods()
                 .Where(m => m.CustomAttributes.Any(a => a.AttributeType == typeof(JumpAnalyzeAttribute)))
-                .OrderBy(m => (m.GetCustomAttributes(typeof(JumpAnalyzeAttribute), false).FirstOrDefault() as JumpAnalyzeAttribute).Order);
+                .OrderBy(m =>
+                {
+                    JumpAnalyzeAttribute jumpAnalyzeAttribute = m.GetCustomAttributes(typeof(JumpAnalyzeAttribute), false).FirstOrDefault() as JumpAnalyzeAttribute;
+                    Debug.Assert(jumpAnalyzeAttribute != null, nameof(jumpAnalyzeAttribute) + " != null");
+                    return jumpAnalyzeAttribute.Order;
+                });
 
             return query;
         }
 
         private string GenMethodReport(MethodInfo m)
         {
-            var Title = (m.GetCustomAttributes(typeof(JumpAnalyzeAttribute), false).FirstOrDefault() as JumpAnalyzeAttribute).Title;
+            var Title = (m.GetCustomAttributes(typeof(JumpAnalyzeAttribute), false).FirstOrDefault() as JumpAnalyzeAttribute)?.Title;
+            Debug.Assert(m.DeclaringType != null, "m.DeclaringType != null");
             var content = m.DeclaringType.InvokeMember(m.Name,
                         BindingFlags.InvokeMethod,
                         null,
@@ -84,10 +90,14 @@ namespace Dolany.Ice.Ai.DolanyAI
             var report = string.Empty;
             var builder = new StringBuilder();
             builder.Append(report);
-            foreach (var r in Lists.FirstOrDefault().BaseInfo)
-            {
-                builder.Append('\r' + r.Name + ":" + r.Value);
-            }
+            Debug.Assert(Lists != null, nameof(Lists) + " != null");
+            var jumpBaseInfos = Lists.FirstOrDefault()?.BaseInfo;
+            if (jumpBaseInfos != null)
+                foreach (var r in jumpBaseInfos)
+                {
+                    builder.Append('\r' + r.Name + ":" + r.Value);
+                }
+
             report = builder.ToString();
 
             return report;
@@ -106,13 +116,13 @@ namespace Dolany.Ice.Ai.DolanyAI
             var FavoriteHero = dic.Keys.FirstOrDefault();
             foreach (var k in dic.Keys)
             {
-                if (dic[k] > dic[FavoriteHero])
+                if (dic[k] > dic[FavoriteHero ?? throw new InvalidOperationException()])
                 {
                     FavoriteHero = k;
                 }
             }
 
-            return $"{FavoriteHero}   场次：{dic[FavoriteHero]}";
+            return $"{FavoriteHero}   场次：{dic[FavoriteHero ?? throw new InvalidOperationException()]}";
         }
 
         private Dictionary<string, int> DicHeros()
@@ -150,12 +160,12 @@ namespace Dolany.Ice.Ai.DolanyAI
                     continue;
                 }
 
-                var g = query.FirstOrDefault().MoneyGen;
+                var g = query.FirstOrDefault()?.MoneyGen;
                 if (g < 0)
                 {
                     continue;
                 }
-                gold += g;
+                gold += g ?? 0;
                 validMatch++;
             }
 
@@ -179,7 +189,6 @@ namespace Dolany.Ice.Ai.DolanyAI
         public string AverageGrade()
         {
             var grade = 0;
-            var playerName = PlayerName;
             foreach (var detail in Details)
             {
                 if (detail.MatchBaseInfo.MatchKind == "战场")
@@ -193,7 +202,14 @@ namespace Dolany.Ice.Ai.DolanyAI
                     continue;
                 }
 
-                grade += query.FirstOrDefault().Grade;
+                PlayerInfoInMatch first = null;
+                foreach (var match in query)
+                {
+                    first = match;
+                    break;
+                }
+
+                if (first != null) grade += first.Grade;
             }
 
             return (grade / Details.Count()).ToString();

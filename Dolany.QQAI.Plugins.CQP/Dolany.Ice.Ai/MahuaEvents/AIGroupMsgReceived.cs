@@ -1,23 +1,23 @@
 ﻿using Newbe.Mahua.MahuaEvents;
 using System;
-using Newbe.Mahua;
-
 using Dolany.Ice.Ai.DolanyAI;
+using Newbe.Mahua;
 
 namespace Dolany.Ice.Ai.MahuaEvents
 {
+    /// <inheritdoc />
     /// <summary>
     /// 群消息接收事件
     /// </summary>
     public class AIGroupMsgReceived
         : IGroupMessageReceivedMahuaEvent
     {
-        private readonly IMahuaApi _mahuaApi;
+        public IMahuaApi MahuaApi { get; }
 
         public AIGroupMsgReceived(
             IMahuaApi mahuaApi)
         {
-            _mahuaApi = mahuaApi;
+            MahuaApi = mahuaApi;
         }
 
         public void ProcessGroupMessage(GroupMessageReceivedContext context)

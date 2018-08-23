@@ -1,8 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using Dolany.Ice.Ai.DolanyAI.Db;
 
 namespace Dolany.Ice.Ai.DolanyAI
@@ -16,14 +12,13 @@ namespace Dolany.Ice.Ai.DolanyAI
                 return null;
             }
 
-            var strs = msg.Split(new char[] { ' ' }, StringSplitOptions.RemoveEmptyEntries);
-            if (strs == null || strs.Length != 2)
+            var strs = msg.Split(new[] { ' ' }, StringSplitOptions.RemoveEmptyEntries);
+            if (strs.Length != 2)
             {
                 return null;
             }
 
-            int aimHour;
-            if (!int.TryParse(strs[0], out aimHour))
+            if (!int.TryParse(strs[0], out var aimHour))
             {
                 return null;
             }

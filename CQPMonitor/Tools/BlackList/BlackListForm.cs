@@ -1,15 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.ComponentModel;
-using System.Data;
-using System.Drawing;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows.Forms;
 using Dolany.Ice.Ai.DolanyAI.Db;
 
-namespace CQPMonitor.Tools.BlackList
+namespace AIMonitor.Tools.BlackList
 {
     [Tool(
         ToolName = "黑名单管理",
@@ -57,11 +52,6 @@ namespace CQPMonitor.Tools.BlackList
         {
             RefreshBlackListTable();
             RefreshDirtyWordsTable();
-        }
-
-        private void TimeUp(object sender, System.Timers.ElapsedEventArgs e)
-        {
-            RefreshBlackListTable();
         }
 
         private void NewDiretyWordBtn_Click(object sender, EventArgs e)
@@ -129,11 +119,6 @@ namespace CQPMonitor.Tools.BlackList
                 db.SaveChanges();
             }
             RefreshDirtyWordsTable();
-        }
-
-        public override void Shutdown()
-        {
-            base.Shutdown();
         }
     }
 }

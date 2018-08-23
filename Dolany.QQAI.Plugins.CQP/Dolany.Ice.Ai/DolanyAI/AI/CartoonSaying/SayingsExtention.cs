@@ -1,8 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using Dolany.Ice.Ai.DolanyAI.Db;
 
 namespace Dolany.Ice.Ai.DolanyAI
@@ -18,7 +14,7 @@ namespace Dolany.Ice.Ai.DolanyAI
 
             try
             {
-                var parts = Msg.Split(new char[] { ' ' }, StringSplitOptions.RemoveEmptyEntries);
+                var parts = Msg.Split(new[] { ' ' }, StringSplitOptions.RemoveEmptyEntries);
                 if (parts.Length < 3)
                 {
                     return null;

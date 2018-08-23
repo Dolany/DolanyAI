@@ -1,9 +1,5 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using Newbe.Mahua;
+using System.Diagnostics;
 using System.Reflection;
 
 namespace Dolany.Ice.Ai.DolanyAI
@@ -12,13 +8,9 @@ namespace Dolany.Ice.Ai.DolanyAI
     {
         public abstract void Work();
 
-        protected AIBase()
-        {
-        }
-
         public virtual bool OnGroupMsgReceived(GroupMsgDTO MsgDTO)
         {
-            var t = this.GetType();
+            var t = GetType();
             foreach (var method in t.GetMethods())
             {
                 foreach (var attr in method.GetCustomAttributes(typeof(GroupEnterCommandAttribute), false))
@@ -82,6 +74,7 @@ namespace Dolany.Ice.Ai.DolanyAI
                 var assembly = Assembly.GetExecutingAssembly();
                 var scObj = assembly.CreateInstance("Dolany.Ice.Ai.DolanyAI." + SyntaxChecker + "Checker");
                 var checker = scObj as ISyntaxChecker;
+                Debug.Assert(checker != null, nameof(checker) + " != null");
                 return checker.Check(msg, out param);
             }
             catch (Exception)
@@ -123,7 +116,7 @@ namespace Dolany.Ice.Ai.DolanyAI
 
         public virtual void OnPrivateMsgReceived(PrivateMsgDTO MsgDTO)
         {
-            var t = this.GetType();
+            var t = GetType();
             foreach (var method in t.GetMethods())
             {
                 foreach (var attr in method.GetCustomAttributes(typeof(PrivateEnterCommandAttribute), false))

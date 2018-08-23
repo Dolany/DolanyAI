@@ -1,12 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace Dolany.Ice.Ai.MahuaApis
+﻿namespace Dolany.Ice.Ai.MahuaApis
 {
-    public class AmandaCode
+    public static class AmandaCode
     {
         /// <summary>
         /// 发送图片

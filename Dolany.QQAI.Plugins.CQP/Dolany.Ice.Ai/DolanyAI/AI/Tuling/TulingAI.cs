@@ -1,10 +1,7 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-using System.Threading.Tasks;
 using Dolany.Ice.Ai.MahuaApis;
-using System.Text.RegularExpressions;
 
 namespace Dolany.Ice.Ai.DolanyAI
 {
@@ -21,7 +18,6 @@ namespace Dolany.Ice.Ai.DolanyAI
         private readonly int[] ErroCodes = { 5000, 6000, 4000, 4001, 4002, 4003, 4005, 4007, 4100, 4200, 4300, 4400, 4500, 4600, 4602, 7002, 8008 };
 
         public TulingAI()
-            : base()
         {
             RuntimeLogger.Log("TulingAI started.");
         }
@@ -162,7 +158,7 @@ namespace Dolany.Ice.Ai.DolanyAI
 
             try
             {
-                var strs1 = msg.Split(new string[] { "QQ:pic=" }, StringSplitOptions.RemoveEmptyEntries);
+                var strs1 = msg.Split(new[] { "QQ:pic=" }, StringSplitOptions.RemoveEmptyEntries);
                 var strs2 = strs1.Last().Split(new char[] { ']' });
                 var strs3 = strs2.First().Split(new char[] { '.' });
                 var imageGuid = strs3.First();

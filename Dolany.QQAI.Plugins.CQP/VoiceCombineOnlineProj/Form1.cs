@@ -1,13 +1,5 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Data;
-using System.Drawing;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows.Forms;
-using Dolany.Ice.Ai.MahuaApis;
 using Dolany.Ice.Ai.DolanyAI;
 
 namespace VoiceCombineOnlineProj
@@ -33,7 +25,7 @@ namespace VoiceCombineOnlineProj
                 }
             };
 
-            var reponse = XfyunRequestHelper.PostData(param, new RequestBody { text = Utility.UrlCharConvert(songName) });
+            XfyunRequestHelper.PostData(param, new RequestBody { text = Utility.UrlCharConvert(songName) });
         }
     }
 }

@@ -1,8 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Dolany.Ice.Ai.DolanyAI
 {
@@ -14,7 +10,7 @@ namespace Dolany.Ice.Ai.DolanyAI
         成员 = 3
     }
 
-    [System.AttributeUsage(System.AttributeTargets.Method, AllowMultiple = true)]
+    [AttributeUsage(AttributeTargets.Method, AllowMultiple = true)]
     public sealed class GroupEnterCommandAttribute : Attribute
     {
         public string Command { get; set; }
@@ -25,7 +21,7 @@ namespace Dolany.Ice.Ai.DolanyAI
         public string SyntaxChecker { get; set; }
     }
 
-    [System.AttributeUsage(System.AttributeTargets.Method, AllowMultiple = true)]
+    [AttributeUsage(AttributeTargets.Method, AllowMultiple = true)]
     public sealed class PrivateEnterCommandAttribute : Attribute
     {
         public string Command { get; set; }

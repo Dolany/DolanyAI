@@ -1,16 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.ComponentModel;
-using System.Data;
-using System.Drawing;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows.Forms;
-using Dolany.Ice.Ai.DolanyAI;
 using Dolany.Ice.Ai.DolanyAI.Db;
 
-namespace CQPMonitor.Tools.SysConfiger
+namespace AIMonitor.Tools.SysConfiger
 {
     [Tool(
         ToolName = "系统配置",

@@ -1,4 +1,4 @@
-﻿namespace CQPMonitor
+﻿namespace AIMonitor
 {
     partial class MainForm
     {

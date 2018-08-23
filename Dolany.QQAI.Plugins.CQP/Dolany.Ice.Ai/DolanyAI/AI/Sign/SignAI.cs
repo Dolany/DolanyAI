@@ -1,8 +1,5 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Timers;
 using Dolany.Ice.Ai.DolanyAI.Db;
 
@@ -17,7 +14,6 @@ namespace Dolany.Ice.Ai.DolanyAI
     public class SignAI : AIBase
     {
         public SignAI()
-            : base()
         {
             RuntimeLogger.Log("SignAI started.");
         }
@@ -30,8 +26,7 @@ namespace Dolany.Ice.Ai.DolanyAI
         private double GetNextInterval()
         {
             var time = DateTime.Now;
-            var timeS = string.Empty;
-            timeS = time.Hour >= 12 ? time.AddDays(1).ToString("yyyy-MM-dd 12:05:00") : time.ToString("yyyy-MM-dd 12:05:00");
+            var timeS = time.Hour >= 12 ? time.AddDays(1).ToString("yyyy-MM-dd 12:05:00") : time.ToString("yyyy-MM-dd 12:05:00");
 
             var aimDate = DateTime.Parse(timeS);
             return (aimDate - time).TotalMilliseconds;
@@ -60,13 +55,13 @@ namespace Dolany.Ice.Ai.DolanyAI
                 var sign = signs.Skip(ranIdx).First();
                 sign.SignTime = DateTime.Now;
 
-                ChangeSign(sign.Content);
+                ChangeSign();
 
                 db.SaveChanges();
             }
         }
 
-        private void ChangeSign(string signContent)
+        private void ChangeSign()
         {
             // TODO
         }

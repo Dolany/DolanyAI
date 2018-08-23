@@ -1,9 +1,6 @@
 ﻿using System.IO;
 using System;
-using System.Collections.Generic;
-using System.Linq;
 using System.Text;
-using System.Threading.Tasks;
 
 namespace Dolany.Ice.Ai.DolanyAI
 {
@@ -17,7 +14,7 @@ namespace Dolany.Ice.Ai.DolanyAI
             lock (lockObj)
             {
                 var steam = CheckFile();
-                var data = new UTF8Encoding().GetBytes($"{DateTime.Now.ToString()}:{log}\r");
+                var data = new UTF8Encoding().GetBytes($"{DateTime.Now.ToCommonString()}:{log}\r");
                 steam.Write(data, 0, data.Length);
                 //清空缓冲区、关闭流
                 steam.Flush();

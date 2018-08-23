@@ -11,12 +11,12 @@ namespace Dolany.Ice.Ai.MahuaEvents
     public class AIPrivateMsgReceived
         : IPrivateMessageFromFriendReceivedMahuaEvent
     {
-        private readonly IMahuaApi _mahuaApi;
+        public IMahuaApi MahuaApi { get; }
 
         public AIPrivateMsgReceived(
             IMahuaApi mahuaApi)
         {
-            _mahuaApi = mahuaApi;
+            MahuaApi = mahuaApi;
         }
 
         public void ProcessFriendMessage(PrivateMessageFromFriendReceivedContext context)

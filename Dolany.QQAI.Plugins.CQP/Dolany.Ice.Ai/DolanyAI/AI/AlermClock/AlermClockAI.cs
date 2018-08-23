@@ -1,8 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 using System.Text;
-using System.Threading.Tasks;
 using Dolany.Ice.Ai.DolanyAI.Db;
 using System.Timers;
 using Dolany.Ice.Ai.MahuaApis;
@@ -17,10 +17,9 @@ namespace Dolany.Ice.Ai.DolanyAI
         )]
     public class AlermClockAI : AIBase
     {
-        public List<string> ClockIdList { get; set; } = new List<string>();
+        public List<string> ClockIdList => new List<string>();
 
         public AlermClockAI()
-            : base()
         {
             RuntimeLogger.Log("AlermClockAI constructed");
         }
@@ -68,8 +67,9 @@ namespace Dolany.Ice.Ai.DolanyAI
         {
             var time = param[0] as (int hour, int minute)?;
 
-            using (AIDatabase db = new AIDatabase())
+            using (new AIDatabase())
             {
+                Debug.Assert(time != null, nameof(time) + " != null");
                 var entity = new AlermClock
                 {
                     Id = Guid.NewGuid().ToString(),
@@ -96,6 +96,7 @@ namespace Dolany.Ice.Ai.DolanyAI
                 if (!query.IsNullOrEmpty())
                 {
                     var clock = query.FirstOrDefault();
+                    Debug.Assert(clock != null, nameof(clock) + " != null");
                     clock.Content = entity.Content;
                 }
                 else
@@ -123,8 +124,10 @@ namespace Dolany.Ice.Ai.DolanyAI
         private void TimeUp(object sender, ElapsedEventArgs e)
         {
             var timer = sender as JobTimer;
+            Debug.Assert(timer != null, nameof(timer) + " != null");
             var entity = timer.Data as AlermClock;
 
+            Debug.Assert(entity != null, nameof(entity) + " != null");
             MsgSender.Instance.PushMsg(new SendMsgDTO
             {
                 Aim = entity.GroupNumber,

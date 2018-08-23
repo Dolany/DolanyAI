@@ -1,4 +1,4 @@
-﻿namespace CQPMonitor.Tools.FortuneItem
+﻿namespace AIMonitor.Tools.FortuneItem
 {
     partial class FortuneItemForm
     {

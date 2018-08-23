@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
 using System.Threading.Tasks;
 using System.Reflection;
 using Dolany.Ice.Ai.DolanyAI.Db;
@@ -18,18 +17,7 @@ namespace Dolany.Ice.Ai.DolanyAI
 
         private static AIMgr _instance;
 
-        public static AIMgr Instance
-        {
-            get
-            {
-                if (_instance == null)
-                {
-                    _instance = new AIMgr();
-                }
-
-                return _instance;
-            }
-        }
+        public static AIMgr Instance => _instance ?? (_instance = new AIMgr());
 
         public List<IAITool> Tools { get; set; } = new List<IAITool>();
         public List<GroupEnterCommandAttribute> AllAvailableGroupCommands { get; set; } = new List<GroupEnterCommandAttribute>();
@@ -80,21 +68,14 @@ namespace Dolany.Ice.Ai.DolanyAI
 
         private void LoadAis()
         {
-            var list = new List<KeyValuePair<AIBase, AIAttribute>>();
-
             var assembly = Assembly.GetExecutingAssembly();
-            foreach (var type in assembly.GetTypes())
-            {
-                if (!type.IsSubclassOf(typeof(AIBase)))
-                {
-                    continue;
-                }
-
-                var ai = assembly.CreateInstance(type.FullName) as AIBase;
-                var attr = type.GetCustomAttribute(typeof(AIAttribute), false) as AIAttribute;
-
-                list.Add(new KeyValuePair<AIBase, AIAttribute>(ai, attr));
-            }
+            var list = (from type in assembly.GetTypes()
+                        where type.IsSubclassOf(typeof(AIBase))
+                        where type.FullName != null
+                        let ai = assembly.CreateInstance(type.FullName) as AIBase
+                        let attr = type.GetCustomAttribute(typeof(AIAttribute), false) as AIAttribute
+                        select new KeyValuePair<AIBase, AIAttribute>(ai, attr)
+                        ).ToList();
 
             AIList = list;
         }
@@ -109,6 +90,7 @@ namespace Dolany.Ice.Ai.DolanyAI
                     continue;
                 }
 
+                if (type.FullName == null) continue;
                 var tool = assembly.CreateInstance(type.FullName) as IAITool;
 
                 Tools.Add(tool);
@@ -221,7 +203,7 @@ namespace Dolany.Ice.Ai.DolanyAI
             }
 
             var strs = msg.Split(new char[] { ' ' });
-            if (strs == null || strs.Length == 0)
+            if (strs.Length == 0)
             {
                 return string.Empty;
             }

@@ -1,8 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using Dolany.Ice.Ai.DolanyAI;
 using HtmlAgilityPack;
 using Dolany.Ice.Ai.DolanyAI.Db;
@@ -94,12 +92,12 @@ namespace KanColeSingleCli
         {
             if (node.InnerHtml.Contains("</span><br>"))
             {
-                var strs = node.InnerHtml.Split(new string[] { "</span><br>" }, StringSplitOptions.RemoveEmptyEntries);
+                var strs = node.InnerHtml.Split(new[] { "</span><br>" }, StringSplitOptions.RemoveEmptyEntries);
                 return strs[1];
             }
             else
             {
-                var strs = node.InnerHtml.Split(new string[] { "<p>" }, StringSplitOptions.RemoveEmptyEntries);
+                var strs = node.InnerHtml.Split(new[] { "<p>" }, StringSplitOptions.RemoveEmptyEntries);
                 return strs[2].Replace("<br>", "");
             }
         }

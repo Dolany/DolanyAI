@@ -1,8 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Dolany.Ice.Ai.DolanyAI
 {
@@ -23,7 +20,7 @@ namespace Dolany.Ice.Ai.DolanyAI
         {
             try
             {
-                var allList = GetAllList(MsgDTO.Msg);
+                var allList = GetAllList();
                 var allDetails = GetAllDetails(allList);
 
                 var analyzer = new JumpReportAnalyzer(allList, allDetails);
@@ -60,12 +57,12 @@ namespace Dolany.Ice.Ai.DolanyAI
             return allDetails;
         }
 
-        private List<JumpListHtmlParser> GetAllList(string name)
+        private List<JumpListHtmlParser> GetAllList()
         {
             var list = new List<JumpListHtmlParser>();
             using (var requester = new HttpRequester())
             {
-                var count = 0;
+                int count;
                 var idx = 0;
 
                 do

@@ -1,19 +1,13 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.ComponentModel;
-using System.Data;
-using System.Drawing;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows.Forms;
-using CQPMonitor.Tools;
 using DolanyToolControl;
-using System.IO;
 using System.Reflection;
 using System.ComponentModel.Composition;
+using AIMonitor.Tools;
 
-namespace CQPMonitor
+namespace AIMonitor
 {
     public partial class MainForm : Form
     {
@@ -48,14 +42,8 @@ namespace CQPMonitor
                 {
                     continue;
                 }
-                try
-                {
-                    LayoutTool(tool.Value);
-                }
-                catch (Exception)
-                {
-                    throw;
-                }
+
+                LayoutTool(tool.Value);
             }
         }
 
@@ -63,7 +51,6 @@ namespace CQPMonitor
         {
             var dolanyTool = new dolanyToolCon(
        tool.ToolAttr.ToolName,
-       "",
        tool.ToolAttr.Decription,
        ImagePath + tool.ToolAttr.ToolIcon
        )
@@ -76,7 +63,7 @@ namespace CQPMonitor
 
         private void onTool_Click(object sender, EventArgs e)
         {
-            if (sender != null || sender is dolanyToolCon)
+            if (sender != null)
             {
                 var toolCon = sender as dolanyToolCon;
                 var tool = Tools.First(t => t.Value.RelatedControl == toolCon);
@@ -86,21 +73,21 @@ namespace CQPMonitor
 
         private void notifyIcon1_MouseDoubleClick(object sender, MouseEventArgs e)
         {
-            this.QPan_OpenFromTuoPan();
+            QPan_OpenFromTuoPan();
         }
 
         private void QPan_OpenFromTuoPan()
         {
-            this.Visible = true;
-            this.Show();
-            this.ShowInTaskbar = true;
-            this.WindowState = System.Windows.Forms.FormWindowState.Normal;
-            this.notifyIcon1.Visible = true;
+            Visible = true;
+            Show();
+            ShowInTaskbar = true;
+            WindowState = FormWindowState.Normal;
+            notifyIcon1.Visible = true;
         }
 
         private void MenuItemOpen_Click(object sender, EventArgs e)
         {
-            this.QPan_OpenFromTuoPan();
+            QPan_OpenFromTuoPan();
         }
 
         private void MenuItemClose_Click(object sender, EventArgs e)
@@ -110,17 +97,17 @@ namespace CQPMonitor
 
         private void Form1_SizeChanged(object sender, EventArgs e)
         {
-            if (this.WindowState == FormWindowState.Minimized)
+            if (WindowState == FormWindowState.Minimized)
             {
-                this.QPan_MiniMizedToTuoPan();
+                QPan_MiniMizedToTuoPan();
             }
         }
 
         private void QPan_MiniMizedToTuoPan()
         {
-            this.Hide();
-            this.ShowInTaskbar = false;
-            this.notifyIcon1.Visible = true;
+            Hide();
+            ShowInTaskbar = false;
+            notifyIcon1.Visible = true;
         }
 
         private void ppMenuItem_Click(object sender, EventArgs e)
@@ -129,7 +116,7 @@ namespace CQPMonitor
 
         private void Form1_FormClosing(object sender, FormClosingEventArgs e)
         {
-            if (MessageBox.Show("确定要关闭程序吗？", "注意", MessageBoxButtons.OKCancel) != DialogResult.OK)
+            if (MessageBox.Show(@"确定要关闭程序吗？", @"注意", MessageBoxButtons.OKCancel) != DialogResult.OK)
             {
                 e.Cancel = true;
             }

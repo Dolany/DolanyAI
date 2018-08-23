@@ -1,9 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
 using Dolany.Ice.Ai.DolanyAI.Db;
 using System.Threading;
 
@@ -20,7 +18,6 @@ namespace Dolany.Ice.Ai.DolanyAI
         public List<PlusOneCache> Cache { get; set; } = new List<PlusOneCache>();
 
         public PlusOneAI()
-            : base()
         {
             RuntimeLogger.Log("PlusOneAI started");
         }
@@ -41,7 +38,7 @@ namespace Dolany.Ice.Ai.DolanyAI
                 return false;
             }
             var checker = new AtChecker();
-            if (checker.Check(MsgDTO.FullMsg, out object[] param))
+            if (checker.Check(MsgDTO.FullMsg, out _))
             {
                 return false;
             }
@@ -146,6 +143,7 @@ namespace Dolany.Ice.Ai.DolanyAI
                 else
                 {
                     var ra = query.FirstOrDefault();
+                    Debug.Assert(ra != null, nameof(ra) + " != null");
                     ra.Available = state;
                 }
 

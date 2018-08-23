@@ -1,4 +1,4 @@
-﻿namespace CQPMonitor.Tools.FishingEditor
+﻿namespace AIMonitor.Tools.FishingEditor
 {
     partial class FishingEditorForm
     {

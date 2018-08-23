@@ -2,11 +2,8 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-using System.Threading.Tasks;
 using System.IO;
 using Dolany.Ice.Ai.MahuaApis;
-using System.Timers;
-using System.Reflection;
 
 namespace Dolany.Ice.Ai.DolanyAI
 {
@@ -21,18 +18,7 @@ namespace Dolany.Ice.Ai.DolanyAI
         private string PicPath { get; set; } = CodeApi.ImagePath;
         private List<string> Keywords { get; set; } = new List<string>();
 
-        private int PicCleanFreq
-        {
-            get
-            {
-                var config = Utility.GetConfig(nameof(PicCleanFreq), "10");
-
-                return int.Parse(config);
-            }
-        }
-
         public RandomPicAI()
-            : base()
         {
             RuntimeLogger.Log("RandomPicAI started.");
         }
@@ -151,7 +137,7 @@ namespace Dolany.Ice.Ai.DolanyAI
                 return string.Empty;
             }
 
-            return query.FirstOrDefault().Keyword;
+            return query.FirstOrDefault()?.Keyword;
         }
 
         private void SendPic(string picPath, long group)

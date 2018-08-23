@@ -1,8 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Timers;
 
 namespace Dolany.Ice.Ai.DolanyAI
@@ -13,86 +12,35 @@ namespace Dolany.Ice.Ai.DolanyAI
         public Action<object, ElapsedEventArgs> CallBack { get; set; }
         public object Data { get; set; }
 
-        public static double WeeklyInterval
-        {
-            get
-            {
-                return 7 * DairlyInterval;
-            }
-        }
+        public static double WeeklyInterval => 7 * DairlyInterval;
 
-        public static double DairlyInterval
-        {
-            get
-            {
-                return 24 * HourlyInterval;
-            }
-        }
+        public static double DairlyInterval => 24 * HourlyInterval;
 
-        public static double HourlyInterval
-        {
-            get
-            {
-                return 60 * MinutelyInterval;
-            }
-        }
+        public static double HourlyInterval => 60 * MinutelyInterval;
 
-        public static double MinutelyInterval
-        {
-            get
-            {
-                return 60 * SecondlyInterval;
-            }
-        }
+        public static double MinutelyInterval => 60 * SecondlyInterval;
 
-        public static double SecondlyInterval
-        {
-            get
-            {
-                return 1000;
-            }
-        }
+        public static double SecondlyInterval => 1000;
     }
 
     public class JobScheduler
     {
         private static JobScheduler _instance;
 
-        public JobScheduler()
-        {
-        }
-
-        public static JobScheduler Instance
-        {
-            get
-            {
-                if (_instance == null)
-                {
-                    _instance = new JobScheduler();
-                }
-
-                return _instance;
-            }
-        }
+        public static JobScheduler Instance => _instance ?? (_instance = new JobScheduler());
 
         public List<JobTimer> Timers { get; set; } = new List<JobTimer>();
 
         public void Stop(string Id)
         {
             var timer = Timers.First(p => p.Id == Id);
-            if (timer != null)
-            {
-                timer.Stop();
-            }
+            timer?.Stop();
         }
 
         public void Start(string Id)
         {
             var timer = Timers.First(p => p.Id == Id);
-            if (timer != null)
-            {
-                timer.Start();
-            }
+            timer?.Start();
         }
 
         public void Remove(string Id)
@@ -127,6 +75,7 @@ namespace Dolany.Ice.Ai.DolanyAI
         private void TimeUp(object sender, ElapsedEventArgs e)
         {
             var job = sender as JobTimer;
+            Debug.Assert(job != null, nameof(job) + " != null");
             job.Stop();
 
             job.CallBack(sender, e);

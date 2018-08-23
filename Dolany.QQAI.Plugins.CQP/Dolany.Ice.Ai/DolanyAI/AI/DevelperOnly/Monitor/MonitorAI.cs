@@ -1,11 +1,6 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using Dolany.Ice.Ai.DolanyAI.Db;
-using System.Timers;
-using System.Reflection;
 
 namespace Dolany.Ice.Ai.DolanyAI
 {
@@ -17,11 +12,6 @@ namespace Dolany.Ice.Ai.DolanyAI
         )]
     public class MonitorAI : AIBase
     {
-        public MonitorAI()
-            : base()
-        {
-        }
-
         public override void Work()
         {
         }

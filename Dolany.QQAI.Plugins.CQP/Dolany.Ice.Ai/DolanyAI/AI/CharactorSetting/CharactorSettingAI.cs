@@ -1,8 +1,6 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-using System.Threading.Tasks;
 using Dolany.Ice.Ai.DolanyAI.Db;
 
 namespace Dolany.Ice.Ai.DolanyAI
@@ -19,7 +17,6 @@ namespace Dolany.Ice.Ai.DolanyAI
         private int MaxSettingPerChar = 7;
 
         public CharactorSettingAI()
-            : base()
         {
             RuntimeLogger.Log("CharactorSettingAI constructed");
         }
@@ -280,7 +277,7 @@ namespace Dolany.Ice.Ai.DolanyAI
                 && c.SettingName == settingName)
 ;
 
-                cs.Content = content;
+                if (cs != null) cs.Content = content;
                 db.SaveChanges();
 
                 MsgSender.Instance.PushMsg(new SendMsgDTO

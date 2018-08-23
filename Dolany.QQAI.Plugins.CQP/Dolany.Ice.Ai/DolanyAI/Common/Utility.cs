@@ -1,13 +1,11 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using Newbe.Mahua;
-using Dolany.Ice.Ai.DolanyAI.Db;
 using System.IO;
-using Dolany.Ice.Ai.MahuaApis;
+using System.Linq;
 using System.Runtime.ExceptionServices;
+using System.Text;
+using Dolany.Ice.Ai.DolanyAI.Db;
+using Dolany.Ice.Ai.MahuaApis;
 
 namespace Dolany.Ice.Ai.DolanyAI
 {
@@ -16,13 +14,7 @@ namespace Dolany.Ice.Ai.DolanyAI
         private static Dictionary<Type, Object> SinglonMap;
         private static string AuthCode;
 
-        public static long DeveloperNumber
-        {
-            get
-            {
-                return 1458978159;
-            }
-        }
+        public static long DeveloperNumber => 1458978159;
 
         public static void SendMsgToDeveloper(string msg)
         {
@@ -41,18 +33,13 @@ namespace Dolany.Ice.Ai.DolanyAI
 
         public static bool IsNullOrEmpty<T>(this IEnumerable<T> objs)
         {
-            if (objs == null || objs.Count() == 0)
-            {
-                return true;
-            }
-
-            return false;
+            return objs == null || !objs.Any();
         }
 
         public static (int hour, int minute)? GenTimeFromStr(string timeStr)
         {
-            var strs = timeStr.Split(new char[] { ':', '：' });
-            if (strs == null || strs.Length != 2)
+            var strs = timeStr.Split(':', '：');
+            if (strs.Length != 2)
             {
                 return null;
             }
@@ -171,7 +158,7 @@ namespace Dolany.Ice.Ai.DolanyAI
             using (AmandaLogDatabase db = new AmandaLogDatabase())
             {
                 var log = db.日志.Where(p => p.内容.Contains("Dolany AI(Dolany.Ice.Ai)")).OrderByDescending(p => p.时间).First();
-                var strs = log.内容.Split(new string[] { "调用内存：" }, StringSplitOptions.RemoveEmptyEntries);
+                var strs = log.内容.Split(new[] { "调用内存：" }, StringSplitOptions.RemoveEmptyEntries);
                 AuthCode = strs[1];
             }
 
@@ -187,7 +174,7 @@ namespace Dolany.Ice.Ai.DolanyAI
                 string line;
                 while ((line = reader.ReadLine()) != null)
                 {
-                    var strs = line.Split(new char[] { '=' }, StringSplitOptions.RemoveEmptyEntries);
+                    var strs = line.Split(new[] { '=' }, StringSplitOptions.RemoveEmptyEntries);
                     if (strs.IsNullOrEmpty() || strs.Length < 2)
                     {
                         continue;
@@ -236,7 +223,7 @@ namespace Dolany.Ice.Ai.DolanyAI
                     continue;
                 }
 
-                builder.Append(@"%" + BitConverter.ToString(Encoding.UTF8.GetBytes(new char[] { c })).Replace("-", "%"));
+                builder.Append(@"%" + BitConverter.ToString(Encoding.UTF8.GetBytes(new[] { c })).Replace("-", "%"));
             }
             result = builder.ToString();
 

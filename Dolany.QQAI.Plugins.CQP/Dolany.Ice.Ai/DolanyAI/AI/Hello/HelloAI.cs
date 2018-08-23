@@ -1,8 +1,5 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using Dolany.Ice.Ai.DolanyAI.Db;
 using Dolany.Ice.Ai.MahuaApis;
 
@@ -17,7 +14,6 @@ namespace Dolany.Ice.Ai.DolanyAI
     public class HelloAI : AIBase
     {
         public HelloAI()
-            : base()
         {
             RuntimeLogger.Log("HelloAI started.");
         }
@@ -90,7 +86,7 @@ namespace Dolany.Ice.Ai.DolanyAI
                 else
                 {
                     var hello = query.FirstOrDefault();
-                    hello.Content = content;
+                    if (hello != null) hello.Content = content;
                 }
                 db.SaveChanges();
             }

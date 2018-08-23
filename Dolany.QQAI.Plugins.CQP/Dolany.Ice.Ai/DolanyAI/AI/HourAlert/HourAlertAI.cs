@@ -1,8 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 using System.Text;
-using System.Threading.Tasks;
 using Dolany.Ice.Ai.DolanyAI.Db;
 using Dolany.Ice.Ai.MahuaApis;
 
@@ -52,7 +52,6 @@ namespace Dolany.Ice.Ai.DolanyAI
         }
 
         public HourAlertAI()
-            : base()
         {
             RuntimeLogger.Log("HourAlertAI started");
         }
@@ -73,6 +72,7 @@ namespace Dolany.Ice.Ai.DolanyAI
             var timer = sender as JobTimer;
 
             HourAlert(DateTime.Now.Hour);
+            Debug.Assert(timer != null, nameof(timer) + " != null");
             timer.Interval = GetNextHourSpan().TotalMilliseconds;
         }
 
@@ -92,7 +92,7 @@ namespace Dolany.Ice.Ai.DolanyAI
 
             foreach (var groupNum in availableList)
             {
-                var randGirl = GetRanAlertContent(groupNum, curHour);
+                var randGirl = GetRanAlertContent(curHour);
                 MsgSender.Instance.PushMsg(new SendMsgDTO
                 {
                     Aim = groupNum,
@@ -163,6 +163,7 @@ namespace Dolany.Ice.Ai.DolanyAI
                 else
                 {
                     var arg = query.FirstOrDefault();
+                    Debug.Assert(arg != null, nameof(arg) + " != null");
                     arg.Available = state.ToString();
                 }
                 db.SaveChanges();
@@ -181,6 +182,7 @@ namespace Dolany.Ice.Ai.DolanyAI
         {
             var info = param[0] as AlertContent;
 
+            Debug.Assert(info != null, nameof(info) + " != null");
             info.CreateTime = DateTime.Now;
             info.Creator = MsgDTO.FromQQ;
             info.FromGroup = MsgDTO.FromGroup;
@@ -214,7 +216,7 @@ namespace Dolany.Ice.Ai.DolanyAI
             }
         }
 
-        private static KanColeGirlVoice GetRanAlertContent(long fromGroup, int aimHour)
+        private static KanColeGirlVoice GetRanAlertContent(int aimHour)
         {
             using (AIDatabase db = new AIDatabase())
             {

@@ -1,9 +1,5 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 using System.Xml.Linq;
-using System.Threading.Tasks;
 
 namespace Dolany.Ice.Ai.DolanyAI
 {
@@ -23,8 +19,7 @@ namespace Dolany.Ice.Ai.DolanyAI
         {
             get
             {
-                var t = this.GetType();
-                var typeName = t.Name;
+                var t = GetType();
                 return t.Name.Contains("Entity") ? t.Name.Replace("Entity", "") : t.Name;
             }
         }
@@ -34,7 +29,7 @@ namespace Dolany.Ice.Ai.DolanyAI
             var ele = new XElement(EntityName);
             ele.SetValue(Content);
 
-            var t = this.GetType();
+            var t = GetType();
             foreach (var prop in t.GetProperties())
             {
                 if (prop.GetCustomAttributes(typeof(DataColumnAttribute), false).Length <= 0)
@@ -65,7 +60,7 @@ namespace Dolany.Ice.Ai.DolanyAI
                     continue;
                 }
 
-                var attrValue = ele.Attribute(prop.Name).Value;
+                var attrValue = ele.Attribute(prop.Name)?.Value;
                 prop.SetValue(entity, Convert.ChangeType(attrValue, prop.PropertyType));
             }
 

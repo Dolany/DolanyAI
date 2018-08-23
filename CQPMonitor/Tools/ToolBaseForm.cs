@@ -1,12 +1,8 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System.Linq;
 using System.Windows.Forms;
 using DolanyToolControl;
 
-namespace CQPMonitor.Tools
+namespace AIMonitor.Tools
 {
     public class ToolBaseForm : Form
     {
@@ -16,7 +12,7 @@ namespace CQPMonitor.Tools
         {
             get
             {
-                var t = this.GetType();
+                var t = GetType();
                 return t.GetCustomAttributes(typeof(ToolAttribute), false).First() as ToolAttribute;
             }
         }
@@ -24,7 +20,6 @@ namespace CQPMonitor.Tools
         public dolanyToolCon RelatedControl { get; set; }
 
         public ToolBaseForm()
-            : base()
         {
             FormClosing += Form_FormClosing;
         }
@@ -52,7 +47,6 @@ namespace CQPMonitor.Tools
 
         public virtual void Shutdown()
         {
-            return;
         }
     }
 }

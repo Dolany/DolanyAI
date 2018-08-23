@@ -1,8 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using Dolany.Ice.Ai.DolanyAI.Db;
 
 namespace Dolany.Ice.Ai.DolanyAI
@@ -28,7 +26,6 @@ namespace Dolany.Ice.Ai.DolanyAI
         }
 
         public CartoonSayingAI()
-            : base()
         {
             RuntimeLogger.Log("CartoonSayingAI constructed");
         }

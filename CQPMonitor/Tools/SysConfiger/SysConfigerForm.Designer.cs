@@ -1,4 +1,4 @@
-﻿namespace CQPMonitor.Tools.SysConfiger
+﻿namespace AIMonitor.Tools.SysConfiger
 {
     partial class SysConfigerForm
     {

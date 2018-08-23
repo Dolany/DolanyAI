@@ -1,9 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
 using HtmlAgilityPack;
-using System.Threading.Tasks;
 
 namespace Dolany.Ice.Ai.DolanyAI
 {
@@ -42,7 +40,7 @@ namespace Dolany.Ice.Ai.DolanyAI
 
         private void GenPlayerInfo(HtmlNode tableNode)
         {
-            var sp1 = tableNode.InnerText.Split(new string[] { "\r\n" }, StringSplitOptions.RemoveEmptyEntries);
+            var sp1 = tableNode.InnerText.Split(new[] { "\r\n" }, StringSplitOptions.RemoveEmptyEntries);
             var cycleStep = MatchBaseInfo.MatchKind == "战场" ? 8 : 10;
             for (int i = 1; i + cycleStep <= sp1.Length; i += cycleStep)
             {
@@ -54,13 +52,13 @@ namespace Dolany.Ice.Ai.DolanyAI
         {
             var piim = new PlayerInfoInMatch();
 
-            var sp1 = sp[startIdx].Split(new string[] { "(", ")", "lv." }, StringSplitOptions.RemoveEmptyEntries);
+            var sp1 = sp[startIdx].Split(new[] { "(", ")", "lv." }, StringSplitOptions.RemoveEmptyEntries);
             piim.PlayerName = sp1[0];
             piim.PlayerLevel = int.Parse(sp1[1]);
             piim.HeroName = sp1[2];
             piim.HeroLevel = int.Parse(sp1[3]);
 
-            var sp2 = sp[startIdx + 1].Split(new string[] { "/" }, StringSplitOptions.RemoveEmptyEntries);
+            var sp2 = sp[startIdx + 1].Split(new[] { "/" }, StringSplitOptions.RemoveEmptyEntries);
             piim.Kill = int.Parse(sp2[0]);
             piim.Die = int.Parse(sp2[1]);
             piim.Assist = int.Parse(sp2[2]);
@@ -80,13 +78,13 @@ namespace Dolany.Ice.Ai.DolanyAI
                 piim.Grade = int.Parse(sp[startIdx + 6]);
             }
 
-            var sp3 = sp[startIdx + 7].Split(new string[] { "/" }, StringSplitOptions.RemoveEmptyEntries);
+            var sp3 = sp[startIdx + 7].Split(new[] { "/" }, StringSplitOptions.RemoveEmptyEntries);
             piim.PlayerCoin = int.Parse(sp3[0]);
             piim.PlayerExp = int.Parse(sp3[1]);
 
             piim.MoralIntegrity = int.Parse(sp[startIdx + 8]);
 
-            var sp4 = sp[startIdx + 9].Split(new string[] { "/" }, StringSplitOptions.RemoveEmptyEntries);
+            var sp4 = sp[startIdx + 9].Split(new[] { "/" }, StringSplitOptions.RemoveEmptyEntries);
             piim.TotalWin = int.Parse(sp4[0]);
             piim.TotalMatch = int.Parse(sp4[1]);
 
@@ -109,7 +107,7 @@ namespace Dolany.Ice.Ai.DolanyAI
         private void GenMatchBaseInfo(HtmlNode node)
         {
             var text = node.InnerText;
-            var sp1 = text.Split(new string[] { ">>", ":", " ", "\r\n", "/", "-" }, StringSplitOptions.RemoveEmptyEntries);
+            var sp1 = text.Split(new[] { ">>", ":", " ", "\r\n", "/", "-" }, StringSplitOptions.RemoveEmptyEntries);
 
             MatchBaseInfo.MatchKind = sp1[1];
             MatchBaseInfo.TotalKill = int.Parse(sp1[3]);
@@ -133,21 +131,21 @@ namespace Dolany.Ice.Ai.DolanyAI
 
             if (timeStr.Contains("小时"))
             {
-                var sp1 = timeStr.Split(new string[] { "小时" }, StringSplitOptions.RemoveEmptyEntries);
+                var sp1 = timeStr.Split(new[] { "小时" }, StringSplitOptions.RemoveEmptyEntries);
                 hour = int.Parse(sp1[0]);
                 timeStr = sp1[1];
             }
 
             if (timeStr.Contains("分"))
             {
-                var sp2 = timeStr.Split(new string[] { "分" }, StringSplitOptions.RemoveEmptyEntries);
+                var sp2 = timeStr.Split(new[] { "分" }, StringSplitOptions.RemoveEmptyEntries);
                 minute = int.Parse(sp2[0]);
                 timeStr = sp2[1];
             }
 
             if (timeStr.Contains("秒"))
             {
-                var sp3 = timeStr.Split(new string[] { "秒" }, StringSplitOptions.RemoveEmptyEntries);
+                var sp3 = timeStr.Split(new[] { "秒" }, StringSplitOptions.RemoveEmptyEntries);
                 second = int.Parse(sp3[0]);
             }
 

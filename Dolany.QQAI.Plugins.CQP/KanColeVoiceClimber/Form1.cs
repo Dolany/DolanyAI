@@ -1,10 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Data;
-using System.Drawing;
-using System.Linq;
-using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 using Dolany.Ice.Ai.DolanyAI;
@@ -43,7 +37,7 @@ namespace KanColeVoiceClimber
                 var line = reader.ReadLine();
                 while (!string.IsNullOrEmpty(line))
                 {
-                    var strs = line.Split(new char[] { ' ' }, StringSplitOptions.RemoveEmptyEntries);
+                    var strs = line.Split(new[] { ' ' }, StringSplitOptions.RemoveEmptyEntries);
                     if (strs.Length != 3)
                     {
                         throw new Exception(line);
@@ -72,12 +66,13 @@ namespace KanColeVoiceClimber
 
         private void AppendTxt(string text)
         {
-            this.Invoke(new Action(() =>
+            Invoke(new Action(() =>
             {
                 ShowTxt.AppendText(text + "\r\n");
             }));
         }
 
+        // ReSharper disable once UnusedMember.Local
         private void ParseAGirl(string name)
         {
             AppendTxt($"正在解析{name}...");
@@ -94,15 +89,15 @@ namespace KanColeVoiceClimber
 
                 var list = parser.kanColeGirlVoices;
                 AppendTxt($"共找到{list.Count}个语音信息，正在同步到数据库...");
-                foreach (var voice in list)
+                foreach (var _ in list)
                 {
-                    SynToDb(voice);
+                    SynToDb();
                 }
                 AppendTxt("同步完成！");
             }
         }
 
-        private static void SynToDb(KanColeGirlVoice voice)
+        private static void SynToDb()
         {
         }
     }

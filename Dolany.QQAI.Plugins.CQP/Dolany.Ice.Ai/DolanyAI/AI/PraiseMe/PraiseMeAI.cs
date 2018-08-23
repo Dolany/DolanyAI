@@ -1,11 +1,9 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using Dolany.Ice.Ai.MahuaApis;
 using Dolany.Ice.Ai.DolanyAI.Db;
 using System.Threading;
+using static Dolany.Ice.Ai.MahuaApis.AmandaAPIEx;
 
 namespace Dolany.Ice.Ai.DolanyAI
 {
@@ -30,7 +28,6 @@ namespace Dolany.Ice.Ai.DolanyAI
         }
 
         public PraiseMeAI()
-            : base()
         {
             RuntimeLogger.Log("PraiseMeAI started.");
         }
@@ -111,11 +108,10 @@ namespace Dolany.Ice.Ai.DolanyAI
 
         private static void Praise(GroupMsgDTO MsgDTO)
         {
-            var result = -1;
             for (int i = 0; i < 10; i++)
             {
                 Thread.Sleep(100);
-                result = AmandaAPIEx.SendPraise(MsgDTO.FromQQ.ToString());
+                SendPraise(MsgDTO.FromQQ.ToString());
             }
 
             MsgSender.Instance.PushMsg(new SendMsgDTO

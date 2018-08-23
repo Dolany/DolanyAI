@@ -1,4 +1,4 @@
-﻿namespace CQPMonitor.Tools
+﻿namespace AIMonitor.Tools
 {
     partial class EntityTransForm
     {

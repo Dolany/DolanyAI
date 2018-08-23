@@ -1,8 +1,5 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+using System.Diagnostics;
 using System.Timers;
 
 namespace Dolany.Ice.Ai.DolanyAI
@@ -30,6 +27,7 @@ namespace Dolany.Ice.Ai.DolanyAI
             var timer = sender as JobTimer;
             Utility.SetConfig("HeartBeat", DateTime.Now.ToCommonString());
 
+            Debug.Assert(timer != null, nameof(timer) + " != null");
             timer.Interval = CheckFrequency * 1000;
         }
     }

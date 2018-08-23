@@ -1,10 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace Dolany.Ice.Ai.DolanyAI
+﻿namespace Dolany.Ice.Ai.DolanyAI
 {
     public class SetClockChecker : ISyntaxChecker
     {
@@ -12,7 +6,7 @@ namespace Dolany.Ice.Ai.DolanyAI
         {
             param = null;
             var strs = msg.Split(new char[] { ' ' });
-            if (strs == null || strs.Length < 2)
+            if (strs.Length < 2)
             {
                 return false;
             }

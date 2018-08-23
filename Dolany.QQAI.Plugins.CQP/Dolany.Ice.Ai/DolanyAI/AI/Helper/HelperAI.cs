@@ -1,8 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-using System.Threading.Tasks;
 
 namespace Dolany.Ice.Ai.DolanyAI
 {
@@ -14,11 +12,6 @@ namespace Dolany.Ice.Ai.DolanyAI
         )]
     public class HelperAI : AIBase
     {
-        public HelperAI()
-            : base()
-        {
-        }
-
         public override void Work()
         {
         }
@@ -45,7 +38,6 @@ namespace Dolany.Ice.Ai.DolanyAI
 
             if (HelpTag(MsgDTO))
             {
-                return;
             }
         }
 
@@ -87,17 +79,20 @@ namespace Dolany.Ice.Ai.DolanyAI
             }
 
             var command = commands.FirstOrDefault();
-            var helpMsg = $@"命令：{command.Command}
+            if (command != null)
+            {
+                var helpMsg = $@"命令：{command.Command}
 格式： {command.Command} {command.Syntax}
 描述： {command.Description}
 权限： {command.AuthorityLevel.ToString()}";
 
-            MsgSender.Instance.PushMsg(new SendMsgDTO
-            {
-                Aim = MsgDTO.FromGroup,
-                Type = MsgType.Group,
-                Msg = helpMsg
-            });
+                MsgSender.Instance.PushMsg(new SendMsgDTO
+                {
+                    Aim = MsgDTO.FromGroup,
+                    Type = MsgType.Group,
+                    Msg = helpMsg
+                });
+            }
 
             return true;
         }

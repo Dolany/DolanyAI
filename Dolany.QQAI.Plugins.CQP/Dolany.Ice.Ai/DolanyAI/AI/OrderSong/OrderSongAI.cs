@@ -1,9 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using HtmlAgilityPack;
+﻿using System.Linq;
 using Dolany.Ice.Ai.MahuaApis;
 
 namespace Dolany.Ice.Ai.DolanyAI
@@ -17,7 +12,6 @@ namespace Dolany.Ice.Ai.DolanyAI
     public class OrderSongAI : AIBase
     {
         public OrderSongAI()
-            : base()
         {
             RuntimeLogger.Log("OrderSongAI started.");
         }
