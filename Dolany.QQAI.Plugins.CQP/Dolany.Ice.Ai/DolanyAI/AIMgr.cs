@@ -104,7 +104,7 @@ namespace Dolany.Ice.Ai.DolanyAI
             var assembly = Assembly.GetExecutingAssembly();
             foreach (var type in assembly.GetTypes())
             {
-                if (!type.IsClass || !type.IsAssignableFrom(typeof(IAITool)))
+                if (!type.IsClass || !typeof(IAITool).IsAssignableFrom(type))
                 {
                     continue;
                 }
