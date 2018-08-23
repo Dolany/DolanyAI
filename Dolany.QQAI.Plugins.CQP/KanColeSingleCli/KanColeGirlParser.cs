@@ -106,8 +106,13 @@ namespace KanColeSingleCli
 
         private string ParseVoiceUrl(HtmlNode node)
         {
-            // TODO
-            return "";
+            var rowNodes = SearchNodes(
+                node,
+                p => p.Name == "a"
+                && !p.ChildAttributes("data-filesrc").IsNullOrEmpty()
+                && p.ChildAttributes("data-filesrc").First().Value.Contains(".mp3")
+                );
+            return rowNodes.First().ChildAttributes("data-filesrc").First().Value;
         }
     }
 }
