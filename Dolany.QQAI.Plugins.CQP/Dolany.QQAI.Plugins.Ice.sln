@@ -5,7 +5,7 @@ VisualStudioVersion = 15.0.27703.2042
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Dolany.Ice.Ai", "Dolany.Ice.Ai\Dolany.Ice.Ai.csproj", "{5AC35A4D-8D04-4CBF-8881-EADB106D5421}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CQPMonitor", "..\CQPMonitor\CQPMonitor.csproj", "{D9F49E9B-0901-4A2A-8656-9FDA926EC93A}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AIMonitor", "..\CQPMonitor\AIMonitor.csproj", "{D9F49E9B-0901-4A2A-8656-9FDA926EC93A}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DolanyToolControl", "..\DolanyToolControl\DolanyToolControl.csproj", "{20EA6E46-2134-4CA3-AC6F-63865762E1E7}"
 EndProject
@@ -18,6 +18,8 @@ EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "TestProj", "TestProj", "{49A5159B-E46F-460B-989C-B41750939308}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "TempProj", "TempProj", "{67D36171-15E3-43E4-910B-04D3BA1CC6A8}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "KanColeSingleCli", "KanColeSingleCli\KanColeSingleCli.csproj", "{C697F50D-825D-475C-B620-61B6900F4827}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -49,6 +51,10 @@ Global
 		{F2474795-4A87-4B06-BF61-BD49216976B0}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{F2474795-4A87-4B06-BF61-BD49216976B0}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{F2474795-4A87-4B06-BF61-BD49216976B0}.Release|Any CPU.Build.0 = Release|Any CPU
+		{C697F50D-825D-475C-B620-61B6900F4827}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{C697F50D-825D-475C-B620-61B6900F4827}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{C697F50D-825D-475C-B620-61B6900F4827}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{C697F50D-825D-475C-B620-61B6900F4827}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -57,6 +63,7 @@ Global
 		{8BE62FE4-7CCE-471A-868A-244667A04D73} = {67D36171-15E3-43E4-910B-04D3BA1CC6A8}
 		{03DB6C7F-D136-4225-831E-81379F00C86B} = {49A5159B-E46F-460B-989C-B41750939308}
 		{F2474795-4A87-4B06-BF61-BD49216976B0} = {49A5159B-E46F-460B-989C-B41750939308}
+		{C697F50D-825D-475C-B620-61B6900F4827} = {67D36171-15E3-43E4-910B-04D3BA1CC6A8}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {16A16387-5510-46DA-B392-7152AF4264E7}
