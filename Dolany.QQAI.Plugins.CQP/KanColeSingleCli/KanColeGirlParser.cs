@@ -39,14 +39,14 @@ namespace KanColeSingleCli
 
                 var gnodes = SearchNodes(node, p => p.Name == "td");
 
-                var RecordedTag = "";
+                var recordedTag = "";
                 for (int i = 0; i + 3 < gnodes.Count; i += 3)
                 {
                     if (gnodes[i + 1].InnerText.Contains(".mp3"))
                     {
                         kanColeGirlVoices.Add(new KanColeGirlVoice
                         {
-                            Tag = RecordedTag,
+                            Tag = recordedTag,
                             Content = ParseContent(gnodes[i]),
                             VoiceUrl = ParseVoiceUrl(gnodes[i + 1])
                         });
@@ -61,7 +61,7 @@ namespace KanColeSingleCli
                             VoiceUrl = ParseVoiceUrl(gnodes[i + 2])
                         };
                         kanColeGirlVoices.Add(voice);
-                        RecordedTag = voice.Tag;
+                        recordedTag = voice.Tag;
                     }
                 }
             }
@@ -77,6 +77,7 @@ namespace KanColeSingleCli
                 voice.Content = voice.Content.Replace("</div>", "");
                 voice.Content = voice.Content.Replace("<br>", "");
                 voice.Content = voice.Content.Replace(" ", "");
+                voice.Content = voice.Content.Replace("\n", "");
             }
         }
 
