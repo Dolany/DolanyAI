@@ -1,5 +1,6 @@
 ﻿using System.Linq;
 using Dolany.Ice.Ai.MahuaApis;
+using System;
 
 namespace Dolany.Ice.Ai.DolanyAI
 {
@@ -55,7 +56,10 @@ namespace Dolany.Ice.Ai.DolanyAI
                 return string.Empty;
             }
 
-            return response.result.songs.First().id;
+            var songs = response.result.songs;
+            Random rand = new Random();
+            int idx = rand.Next(songs.Count());
+            return response.result.songs.ElementAt(idx).id;
         }
 
         private static string GetMusicXml(string songId)
