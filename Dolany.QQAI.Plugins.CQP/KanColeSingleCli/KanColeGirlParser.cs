@@ -99,7 +99,7 @@ namespace KanColeSingleCli
             else
             {
                 var strs = node.InnerHtml.Split(new[] { "<p>" }, StringSplitOptions.RemoveEmptyEntries);
-                return strs[2].Replace("<br>", "");
+                return strs.Last();
             }
         }
 
