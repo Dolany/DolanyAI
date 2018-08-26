@@ -26,12 +26,12 @@ namespace KanColeSingleCli
             {
                 AppendTxt("请求列表页面中...");
                 var aimStr = UrlTxt.Text;
-                var HtmlStr = requester.Request(aimStr);
+                var htmlStr = requester.Request(aimStr);
 
                 AppendTxt("解析列表页面中...");
 
                 var parser = new KanColeGirlParser();
-                parser.Load(HtmlStr);
+                parser.Load(htmlStr);
 
                 var list = parser.kanColeGirlVoices;
                 AppendTxt($"共找到{list.Count}个语音信息，正在写入文件...");
@@ -51,7 +51,7 @@ namespace KanColeSingleCli
 
         private void WriteToFile(List<KanColeGirlVoice> voices)
         {
-            using (var fs = new FileStream(AimTxt.Text + NameTxt.Text + ".txt", FileMode.Create))
+            using (var fs = new FileStream(AimTxt.Text + "舰队Collection" + NameTxt.Text + ".txt", FileMode.Create))
             {
                 using (var sw = new StreamWriter(fs))
                 {

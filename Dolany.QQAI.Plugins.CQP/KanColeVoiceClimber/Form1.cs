@@ -9,7 +9,7 @@ namespace KanColeVoiceClimber
 {
     public partial class Form1 : Form
     {
-        private string fileName;
+        private string FileName { get; set; }
 
         public Form1()
         {
@@ -24,15 +24,15 @@ namespace KanColeVoiceClimber
                 {
                     return;
                 }
-                fileName = dialog.FileName;
+                FileName = dialog.FileName;
 
-                Task.Factory.StartNew(() => Work());
+                Task.Factory.StartNew(Work);
             }
         }
 
         private void Work()
         {
-            using (StreamReader reader = new StreamReader(fileName))
+            using (var reader = new StreamReader(FileName))
             {
                 var line = reader.ReadLine();
                 while (!string.IsNullOrEmpty(line))
@@ -40,15 +40,16 @@ namespace KanColeVoiceClimber
                     var strs = line.Split(new[] { ' ' }, StringSplitOptions.RemoveEmptyEntries);
                     if (strs.Length != 3)
                     {
-                        throw new Exception(line);
+                        line = reader.ReadLine();
+                        continue;
                     }
 
-                    using (AIDatabase db = new AIDatabase())
+                    using (var db = new AIDatabase())
                     {
                         db.KanColeGirlVoice.Add(new KanColeGirlVoice
                         {
                             Id = Guid.NewGuid().ToString(),
-                            Name = "舰队Collection:长门",
+                            Name = FileName,
                             VoiceUrl = strs[2],
                             Content = strs[1],
                             Tag = strs[0]
@@ -80,12 +81,12 @@ namespace KanColeVoiceClimber
             {
                 AppendTxt("请求列表页面中...");
                 var aimStr = $"https://zh.moegirl.org/{Utility.UrlCharConvert(name)}";
-                var HtmlStr = requester.Request(aimStr);
+                var htmlStr = requester.Request(aimStr);
 
                 AppendTxt("解析列表页面中...");
 
                 var parser = new KanColeGirlParser();
-                parser.Load(HtmlStr);
+                parser.Load(htmlStr);
 
                 var list = parser.kanColeGirlVoices;
                 AppendTxt($"共找到{list.Count}个语音信息，正在同步到数据库...");

@@ -42,7 +42,9 @@ namespace KanColeSingleCli
                 var recordedTag = "";
                 for (int i = 0; i + 3 < gnodes.Count; i += 3)
                 {
-                    if (gnodes[i + 1].InnerText.Contains(".mp3"))
+                    if (gnodes[i + 1].InnerText.Contains("mp3")
+                        || gnodes[i + 1].InnerText.Contains(".oga")
+                        || gnodes[i + 1].InnerText.Contains(".ogg"))
                     {
                         kanColeGirlVoices.Add(new KanColeGirlVoice
                         {
@@ -52,16 +54,30 @@ namespace KanColeSingleCli
                         });
                         i--;
                     }
+                    else if (gnodes[i + 1].InnerText.Contains("暂缺"))
+                    {
+                        i--;
+                    }
+                    else if (gnodes[i + 2].InnerText.Contains("无") || gnodes[i + 2].InnerText == "\n")
+                    {
+                    }
                     else
                     {
-                        var voice = new KanColeGirlVoice
+                        try
                         {
-                            Tag = ParseTag(gnodes[i]),
-                            Content = ParseContent(gnodes[i + 1]),
-                            VoiceUrl = ParseVoiceUrl(gnodes[i + 2])
-                        };
-                        kanColeGirlVoices.Add(voice);
-                        recordedTag = voice.Tag;
+                            var voice = new KanColeGirlVoice
+                            {
+                                Tag = ParseTag(gnodes[i]),
+                                Content = ParseContent(gnodes[i + 1]),
+                                VoiceUrl = ParseVoiceUrl(gnodes[i + 2])
+                            };
+                            kanColeGirlVoices.Add(voice);
+                            recordedTag = voice.Tag;
+                        }
+                        catch (Exception)
+                        {
+                            // ignored
+                        }
                     }
                 }
             }
@@ -73,12 +89,36 @@ namespace KanColeSingleCli
         {
             foreach (var voice in kanColeGirlVoices)
             {
+                voice.Content = voice.Content.Replace("<p>", "");
                 voice.Content = voice.Content.Replace("</p>", "");
                 voice.Content = voice.Content.Replace("</div>", "");
                 voice.Content = voice.Content.Replace("<br>", "");
                 voice.Content = voice.Content.Replace(" ", "");
                 voice.Content = voice.Content.Replace("\n", "");
+
+                voice.Content = RemoveBetween(voice.Content, "<spanclass", "</span>");
+                voice.Content = RemoveBetween(voice.Content, "<spanlang=\"ja\"", "</span>");
+                voice.Content = RemoveBetween(voice.Content, "<del>", "</del>");
+                voice.Content = RemoveBetween(voice.Content, "<s>", "</s>");
+                voice.Content = RemoveBetween(voice.Content, "<ul>", "</ul>");
+                voice.Content = RemoveBetween(voice.Content, "<sup", "</sup>");
+                voice.Content = RemoveBetween(voice.Content, "<spanclass=\"heimu\"", "</span>");
             }
+        }
+
+        private string RemoveBetween(string content, string start, string end)
+        {
+            var sidx = content.IndexOf(start, StringComparison.Ordinal);
+            if (sidx < 0)
+            {
+                return content;
+            }
+            var eidx = content.IndexOf(end, sidx, StringComparison.Ordinal);
+            if (eidx < 0)
+            {
+                return content;
+            }
+            return content.Remove(sidx, eidx - sidx + end.Length);
         }
 
         private string ParseTag(HtmlNode node)
@@ -109,7 +149,9 @@ namespace KanColeSingleCli
                 node,
                 p => p.Name == "a"
                 && !p.ChildAttributes("data-filesrc").IsNullOrEmpty()
-                && p.ChildAttributes("data-filesrc").First().Value.Contains(".mp3")
+                && (p.ChildAttributes("data-filesrc").First().Value.Contains("mp3")
+                     || p.ChildAttributes("data-filesrc").First().Value.Contains(".oga")
+                     || p.ChildAttributes("data-filesrc").First().Value.Contains(".ogg"))
                 );
             return rowNodes.First().ChildAttributes("data-filesrc").First().Value;
         }

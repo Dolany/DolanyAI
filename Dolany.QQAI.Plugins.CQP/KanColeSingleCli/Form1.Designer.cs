@@ -70,7 +70,7 @@
             this.NameTxt.Name = "NameTxt";
             this.NameTxt.Size = new System.Drawing.Size(404, 21);
             this.NameTxt.TabIndex = 3;
-            this.NameTxt.Text = "舰队Collection陆奥";
+            this.NameTxt.Text = "陆奥";
             // 
             // LogTxt
             // 
@@ -97,7 +97,7 @@
             this.AimTxt.Name = "AimTxt";
             this.AimTxt.Size = new System.Drawing.Size(404, 21);
             this.AimTxt.TabIndex = 6;
-            this.AimTxt.Text = ".\\";
+            this.AimTxt.Text = "C:\\Users\\dolan\\Desktop\\Kancole\\";
             // 
             // StartBtn
             // 
