@@ -4,13 +4,12 @@ using System.Windows.Forms;
 using Dolany.Ice.Ai.DolanyAI;
 using Dolany.Ice.Ai.DolanyAI.Db;
 using System.IO;
+using System.Linq;
 
 namespace KanColeVoiceClimber
 {
     public partial class Form1 : Form
     {
-        private string FileName { get; set; }
-
         public Form1()
         {
             InitializeComponent();
@@ -18,20 +17,22 @@ namespace KanColeVoiceClimber
 
         private void startBtn_Click(object sender, EventArgs e)
         {
-            using (var dialog = new OpenFileDialog())
-            {
-                if (dialog.ShowDialog() != DialogResult.OK)
-                {
-                    return;
-                }
-                FileName = dialog.FileName;
+            var dir = new DirectoryInfo(@"C:\Users\Administrator\Desktop\Kancole");
+            Task.Factory.StartNew(() => Work(dir));
+        }
 
-                Task.Factory.StartNew(Work);
+        private void Work(DirectoryInfo dir)
+        {
+            foreach(var file in dir.GetFiles())
+            {
+                Work(file.FullName, file.Name);
             }
         }
 
-        private void Work()
+        private void Work(string FileName, string Name)
         {
+            var t = Name.Split('.');
+            Name = t.First();
             using (var reader = new StreamReader(FileName))
             {
                 var line = reader.ReadLine();
@@ -49,7 +50,7 @@ namespace KanColeVoiceClimber
                         db.KanColeGirlVoice.Add(new KanColeGirlVoice
                         {
                             Id = Guid.NewGuid().ToString(),
-                            Name = FileName,
+                            Name = Name,
                             VoiceUrl = strs[2],
                             Content = strs[1],
                             Tag = strs[0]
