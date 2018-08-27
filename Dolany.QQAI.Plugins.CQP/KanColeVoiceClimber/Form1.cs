@@ -23,16 +23,16 @@ namespace KanColeVoiceClimber
 
         private void Work(DirectoryInfo dir)
         {
-            foreach(var file in dir.GetFiles())
+            foreach (var file in dir.GetFiles())
             {
                 Work(file.FullName, file.Name);
             }
         }
 
-        private void Work(string FileName, string Name)
+        private void Work(string FileName, string GirlName)
         {
-            var t = Name.Split('.');
-            Name = t.First();
+            var t = GirlName.Split('.');
+            GirlName = t.First();
             using (var reader = new StreamReader(FileName))
             {
                 var line = reader.ReadLine();
@@ -50,7 +50,7 @@ namespace KanColeVoiceClimber
                         db.KanColeGirlVoice.Add(new KanColeGirlVoice
                         {
                             Id = Guid.NewGuid().ToString(),
-                            Name = Name,
+                            Name = GirlName,
                             VoiceUrl = strs[2],
                             Content = strs[1],
                             Tag = strs[0]

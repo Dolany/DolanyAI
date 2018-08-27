@@ -44,7 +44,7 @@ namespace Dolany.Ice.Ai.DolanyAI
             )]
         public void RandomFortune(GroupMsgDTO MsgDTO, object[] param)
         {
-            using (AIDatabase db = new AIDatabase())
+            using (var db = new AIDatabase())
             {
                 var query = db.RandomFortune.Where(r => r.QQNum == MsgDTO.FromQQ);
                 if (!query.IsNullOrEmpty())
@@ -109,24 +109,28 @@ namespace Dolany.Ice.Ai.DolanyAI
         {
             var msg = string.Empty;
             var rand = new Random();
-            if (IsBlessed(MsgDTO.FromQQ))
+            if (rf.BlessValue == 0 && rf.FortuneValue < 60 && rand.Next(100) <= 30)
             {
-                rf.FortuneValue = rf.FortuneValue + 80;
-                msg += $"恭喜你收到了圣光祝福\r";
-                msg += "你今天的运势是：" + (rf.FortuneValue > 100 ? 100 : rf.FortuneValue) + "%(80↑)\r";
-            }
-            else if (rf.FortuneValue < 50 && rand.Next(100) <= 30)
-            {
-                using (AIDatabase db = new AIDatabase())
+                using (var db = new AIDatabase())
                 {
                     var query = db.FortuneItem;
                     var idx = rand.Next(query.Count());
                     var item = query.OrderBy(p => p.Id).Skip(idx).First();
-                    rf.FortuneValue += item.Value;
-                    rf.FortuneValue = rf.FortuneValue > 100 ? 100 : rf.FortuneValue;
-                    msg += $"恭喜你收到了 {item.Name} 的祝福\r";
-                    msg += $"你今天的运势是：{rf.FortuneValue}%({item.Value}↑)\r";
+
+                    var fortune = db.RandomFortune.First(p => p.Id == rf.Id);
+                    fortune.BlessName = item.Name;
+                    fortune.BlessValue = item.Value;
+                    rf.BlessName = item.Name;
+                    rf.BlessValue = item.Value;
+
+                    db.SaveChanges();
                 }
+            }
+            if (rf.BlessValue > 0)
+            {
+                rf.FortuneValue = rf.FortuneValue + rf.BlessValue;
+                msg += $"恭喜你收到了 {rf.BlessName} 的祝福\r";
+                msg += $"你今天的运势是：{(rf.FortuneValue > 100 ? 100 : rf.FortuneValue)}%({rf.BlessValue}↑)\r";
             }
             else
             {
@@ -135,7 +139,7 @@ namespace Dolany.Ice.Ai.DolanyAI
             var builder = new StringBuilder();
             builder.Append(msg);
 
-            for (int i = 0; i < rf.FortuneValue; i++)
+            for (var i = 0; i < rf.FortuneValue; i++)
             {
                 builder.Append("|");
             }
@@ -147,26 +151,6 @@ namespace Dolany.Ice.Ai.DolanyAI
                 Type = MsgType.Group,
                 Msg = msg
             });
-        }
-
-        private static bool IsBlessed(long QQNum)
-        {
-            using (AIDatabase db = new AIDatabase())
-            {
-                var query = db.HolyLightBless.Where(p => p.QQNum == QQNum);
-                if (query.IsNullOrEmpty())
-                {
-                    return false;
-                }
-
-                var bless = query.First();
-                if (bless.BlessDate < DateTime.Now.Date)
-                {
-                    return false;
-                }
-
-                return true;
-            }
         }
 
         [GroupEnterCommand(
@@ -238,7 +222,7 @@ namespace Dolany.Ice.Ai.DolanyAI
 
         private static TarotFortuneData GetRandTarotFortune()
         {
-            using (AIDatabase db = new AIDatabase())
+            using (var db = new AIDatabase())
             {
                 var datas = db.TarotFortuneData.OrderBy(p => p.Id);
                 var count = datas.Count();
@@ -260,31 +244,43 @@ namespace Dolany.Ice.Ai.DolanyAI
         public void HolyLight(GroupMsgDTO MsgDTO, object[] param)
         {
             var aimNum = (long)param[0];
-            using (AIDatabase db = new AIDatabase())
+
+            Bless(aimNum, "圣光祝福", 80);
+            MsgSender.Instance.PushMsg(new SendMsgDTO
             {
-                var query = db.HolyLightBless.Where(h => h.QQNum == aimNum);
+                Aim = MsgDTO.FromGroup,
+                Type = MsgType.Group,
+                Msg = "祝福成功！"
+            });
+        }
+
+        private void Bless(long QQNum, string BlessName, int BlessValue)
+        {
+            using (var db = new AIDatabase())
+            {
+                var query = db.RandomFortune.Where(h => h.QQNum == QQNum);
                 if (query.IsNullOrEmpty())
                 {
-                    db.HolyLightBless.Add(new HolyLightBless
+                    var randFor = GetRandomFortune();
+                    var rf = new RandomFortune
                     {
                         Id = Guid.NewGuid().ToString(),
-                        QQNum = aimNum,
-                        BlessDate = DateTime.Now.Date
-                    });
+                        UpdateDate = DateTime.Now,
+                        QQNum = QQNum,
+                        FortuneValue = randFor,
+                        BlessName = BlessName,
+                        BlessValue = BlessValue
+                    };
+                    db.RandomFortune.Add(rf);
                 }
                 else
                 {
-                    var bless = query.First();
-                    bless.BlessDate = DateTime.Now.Date;
+                    var fortune = query.First();
+                    fortune.BlessName = BlessName;
+                    fortune.BlessValue = BlessValue;
                 }
 
                 db.SaveChanges();
-                MsgSender.Instance.PushMsg(new SendMsgDTO
-                {
-                    Aim = MsgDTO.FromGroup,
-                    Type = MsgType.Group,
-                    Msg = "祝福成功！"
-                });
             }
         }
     }
