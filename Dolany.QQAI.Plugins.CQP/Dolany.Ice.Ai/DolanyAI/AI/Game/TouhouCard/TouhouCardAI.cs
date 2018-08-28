@@ -1,9 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using Dolany.Ice.Ai.DolanyAI.Db;
+﻿using Dolany.Ice.Ai.DolanyAI.Db;
 
 namespace Dolany.Ice.Ai.DolanyAI
 {
@@ -34,7 +29,7 @@ namespace Dolany.Ice.Ai.DolanyAI
         )]
         public void RandomCard(GroupMsgDTO MsgDTO, object[] param)
         {
-            using (var db = new AIDatabase())
+            using (new AIDatabase())
             {
             }
         }
