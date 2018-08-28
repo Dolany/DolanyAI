@@ -29,11 +29,11 @@ namespace KanColeVoiceClimber
             }
         }
 
-        private void Work(string FileName, string GirlName)
+        private void Work(string fileName, string girlName)
         {
-            var t = GirlName.Split('.');
-            GirlName = t.First();
-            using (var reader = new StreamReader(FileName))
+            var t = girlName.Split('.');
+            girlName = t.First();
+            using (var reader = new StreamReader(fileName))
             {
                 var line = reader.ReadLine();
                 while (!string.IsNullOrEmpty(line))
@@ -50,7 +50,7 @@ namespace KanColeVoiceClimber
                         db.KanColeGirlVoice.Add(new KanColeGirlVoice
                         {
                             Id = Guid.NewGuid().ToString(),
-                            Name = GirlName,
+                            Name = girlName,
                             VoiceUrl = strs[2],
                             Content = strs[1],
                             Tag = strs[0]
