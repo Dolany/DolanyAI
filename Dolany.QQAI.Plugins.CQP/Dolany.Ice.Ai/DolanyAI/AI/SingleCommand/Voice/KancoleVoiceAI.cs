@@ -56,7 +56,7 @@ namespace Dolany.Ice.Ai.DolanyAI
 
         private static KanColeGirlVoice GetRandVoiceInfo(string name)
         {
-            using (AIDatabase db = new AIDatabase())
+            using (var db = new AIDatabase())
             {
                 var query = db.KanColeGirlVoice.Where(p => p.Name.Contains(name)).OrderBy(p => p.Id);
                 if (query.IsNullOrEmpty())

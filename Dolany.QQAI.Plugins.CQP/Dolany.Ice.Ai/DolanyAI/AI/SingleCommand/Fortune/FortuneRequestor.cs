@@ -6,10 +6,10 @@ namespace Dolany.Ice.Ai.DolanyAI
 {
     public class FortuneRequestor
     {
-        private GroupMsgDTO MsgDTO;
-        private Action<GroupMsgDTO, string> ReportCallBack;
+        private readonly GroupMsgDTO MsgDTO;
+        private readonly Action<GroupMsgDTO, string> ReportCallBack;
 
-        private Dictionary<string, int> StarMap = new Dictionary<string, int>();
+        private readonly Dictionary<string, int> StarMap = new Dictionary<string, int>();
 
         public FortuneRequestor(GroupMsgDTO MsgDTO, Action<GroupMsgDTO, string> ReportCallBack)
         {

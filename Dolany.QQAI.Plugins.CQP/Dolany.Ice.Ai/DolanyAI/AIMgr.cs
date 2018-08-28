@@ -19,7 +19,7 @@ namespace Dolany.Ice.Ai.DolanyAI
 
         public static AIMgr Instance => _instance ?? (_instance = new AIMgr());
 
-        public List<IAITool> Tools { get; set; } = new List<IAITool>();
+        public List<IAITool> Tools { get; } = new List<IAITool>();
         public List<GroupEnterCommandAttribute> AllAvailableGroupCommands { get; set; } = new List<GroupEnterCommandAttribute>();
 
         public AIMgr()
@@ -159,9 +159,9 @@ namespace Dolany.Ice.Ai.DolanyAI
             }
         }
 
-        private bool IsAiSealed(GroupMsgDTO MsgDTO, AIBase ai)
+        private static bool IsAiSealed(GroupMsgDTO MsgDTO, AIBase ai)
         {
-            using (AIDatabase db = new AIDatabase())
+            using (var db = new AIDatabase())
             {
                 var aiName = ai.GetType().Name;
                 var query = db.AISeal.Where(s => s.GroupNum == MsgDTO.FromGroup && s.AiName == aiName);
@@ -195,14 +195,14 @@ namespace Dolany.Ice.Ai.DolanyAI
         /// </summary>
         /// <param name="msg"></param>
         /// <returns></returns>
-        private string GenCommand(ref string msg)
+        private static string GenCommand(ref string msg)
         {
             if (string.IsNullOrEmpty(msg))
             {
                 return string.Empty;
             }
 
-            var strs = msg.Split(new char[] { ' ' });
+            var strs = msg.Split(' ');
             if (strs.Length == 0)
             {
                 return string.Empty;

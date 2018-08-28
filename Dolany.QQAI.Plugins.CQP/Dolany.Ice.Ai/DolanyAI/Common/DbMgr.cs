@@ -4,20 +4,21 @@ using System.Reflection;
 using System.Xml.Linq;
 using System.Xml;
 using System.IO;
+using System.Linq;
 using System.Linq.Expressions;
 
 namespace Dolany.Ice.Ai.DolanyAI
 {
     public static class DbMgr
     {
-        private static string DateFolderPath = "./DbData/";
+        private const string DateFolderPath = "./DbData/";
 
         public static void InitXmls()
         {
             var assembly = Assembly.GetExecutingAssembly();
             var typeArr = assembly.GetTypes();
 
-            foreach (Type t in typeArr)
+            foreach (var t in typeArr)
             {
                 if (t.BaseType != typeof(EntityBase))
                 {
@@ -59,14 +60,16 @@ namespace Dolany.Ice.Ai.DolanyAI
         {
             var EntityName = entity.GetType().Name.Replace("Entity", "");
             var root = XElement.Load(EntityFilePath(EntityName));
-            foreach (XElement ele in root.Elements())
+            foreach (var ele in root.Elements())
             {
-                if (entity.Id == ele.Attribute("Id")?.Value)
+                if (entity.Id != ele.Attribute("Id")?.Value)
                 {
-                    ele.ReplaceWith(entity.ToElement());
-                    root.Save(EntityFilePath(EntityName));
-                    return true;
+                    continue;
                 }
+
+                ele.ReplaceWith(entity.ToElement());
+                root.Save(EntityFilePath(EntityName));
+                return true;
             }
 
             return false;
@@ -77,19 +80,17 @@ namespace Dolany.Ice.Ai.DolanyAI
             var t = typeof(Entity);
             var EntityName = t.Name.Replace("Entity", "");
             var root = XElement.Load(EntityFilePath(EntityName));
-            foreach (XElement ele in root.Elements())
+            foreach (var ele in root.Elements())
             {
                 var entity = EntityBase.FromElement<Entity>(ele);
-                if (entity == null)
+                if (entity == null || entity.Id != Id)
                 {
                     continue;
                 }
-                if (entity.Id == Id)
-                {
-                    ele.Remove();
-                    root.Save(EntityFilePath(EntityName));
-                    return true;
-                }
+
+                ele.Remove();
+                root.Save(EntityFilePath(EntityName));
+                return true;
             }
 
             return false;
@@ -100,19 +101,11 @@ namespace Dolany.Ice.Ai.DolanyAI
             var t = typeof(Entity);
             var EntityName = t.Name.Replace("Entity", "");
             var root = XElement.Load(EntityFilePath(EntityName));
-            var list = new List<XElement>();
-            foreach (XElement ele in root.Elements())
-            {
-                var entity = EntityBase.FromElement<Entity>(ele);
-                if (entity == null)
-                {
-                    continue;
-                }
-                if (express.Compile()(entity))
-                {
-                    list.Add(ele);
-                }
-            }
+            var list = (from ele in root.Elements()
+                        let entity = EntityBase.FromElement<Entity>(ele)
+                        where entity != null
+                        where express.Compile()(entity)
+                        select ele).ToList();
             foreach (var ele in list)
             {
                 ele.Remove();
@@ -126,20 +119,8 @@ namespace Dolany.Ice.Ai.DolanyAI
             var t = typeof(Entity);
             var EntityName = t.Name.Replace("Entity", "");
             var root = XElement.Load(EntityFilePath(EntityName));
-            foreach (XElement ele in root.Elements())
-            {
-                var entity = EntityBase.FromElement<Entity>(ele);
-                if (entity == null)
-                {
-                    continue;
-                }
-                if (entity.Id == Id)
-                {
-                    return entity;
-                }
-            }
-
-            return null;
+            return root.Elements().Select(EntityBase.FromElement<Entity>).Where(entity => entity != null)
+                .FirstOrDefault(entity => entity.Id == Id);
         }
 
         public static IEnumerable<Entity> Query<Entity>(Expression<Func<Entity, bool>> express = null)
@@ -154,7 +135,7 @@ namespace Dolany.Ice.Ai.DolanyAI
             }
 
             var list = new List<Entity>();
-            foreach (XElement ele in root.Elements())
+            foreach (var ele in root.Elements())
             {
                 AppendEntity(ele, express, list);
             }

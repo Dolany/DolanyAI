@@ -2,6 +2,8 @@
 using System.Linq;
 using System.Text;
 
+// ReSharper disable All
+
 namespace Dolany.Ice.Ai.DolanyAI
 {
     [AI(
@@ -79,20 +81,22 @@ namespace Dolany.Ice.Ai.DolanyAI
             }
 
             var command = commands.FirstOrDefault();
-            if (command != null)
+            if (command == null)
             {
-                var helpMsg = $@"命令：{command.Command}
+                return true;
+            }
+
+            var helpMsg = $@"命令：{command.Command}
 格式： {command.Command} {command.Syntax}
 描述： {command.Description}
 权限： {command.AuthorityLevel.ToString()}";
 
-                MsgSender.Instance.PushMsg(new SendMsgDTO
-                {
-                    Aim = MsgDTO.FromGroup,
-                    Type = MsgType.Group,
-                    Msg = helpMsg
-                });
-            }
+            MsgSender.Instance.PushMsg(new SendMsgDTO
+            {
+                Aim = MsgDTO.FromGroup,
+                Type = MsgType.Group,
+                Msg = helpMsg
+            });
 
             return true;
         }
@@ -105,7 +109,7 @@ namespace Dolany.Ice.Ai.DolanyAI
                 return false;
             }
 
-            var helpMsg = $@"当前标签下有以下命令：";
+            var helpMsg = @"当前标签下有以下命令：";
             var builder = new StringBuilder();
             builder.Append(helpMsg);
             foreach (var c in commands)
