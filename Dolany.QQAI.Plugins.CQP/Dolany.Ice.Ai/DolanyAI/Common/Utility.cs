@@ -11,7 +11,7 @@ namespace Dolany.Ice.Ai.DolanyAI
 {
     public static class Utility
     {
-        private static Dictionary<Type, Object> SinglonMap;
+        private static Dictionary<Type, object> SinglonMap;
         private static string AuthCode;
 
         public static long DeveloperNumber => 1458978159;
@@ -59,7 +59,7 @@ namespace Dolany.Ice.Ai.DolanyAI
 
         public static void SetConfig(string name, string value)
         {
-            using (AIDatabase db = new AIDatabase())
+            using (var db = new AIDatabase())
             {
                 var query = db.AIConfig.Where(p => p.Key == name);
                 if (query.IsNullOrEmpty())
@@ -85,15 +85,10 @@ namespace Dolany.Ice.Ai.DolanyAI
         {
             try
             {
-                using (AIDatabase db = new AIDatabase())
+                using (var db = new AIDatabase())
                 {
                     var query = db.AIConfig.Where(p => p.Key == name);
-                    if (query.IsNullOrEmpty())
-                    {
-                        return string.Empty;
-                    }
-
-                    return query.First().Value;
+                    return query.IsNullOrEmpty() ? string.Empty : query.First().Value;
                 }
             }
             catch (Exception ex)
@@ -155,11 +150,36 @@ namespace Dolany.Ice.Ai.DolanyAI
 
         public static string GetAuthCode()
         {
-            using (AmandaLogDatabase db = new AmandaLogDatabase())
+            if (!AuthCode.IsNullOrEmpty())
             {
-                var log = db.日志.Where(p => p.内容.Contains("Dolany AI(Dolany.Ice.Ai)")).OrderByDescending(p => p.时间).First();
-                var strs = log.内容.Split(new[] { "调用内存：" }, StringSplitOptions.RemoveEmptyEntries);
-                AuthCode = strs[1];
+                return AuthCode;
+            }
+
+            const string logPath = "./log/";
+            var dir = new DirectoryInfo(logPath);
+
+            foreach (var file in dir.GetFiles().OrderByDescending(p => p.CreationTime))
+            {
+                var authLine = "";
+                using (var reader = new StreamReader(file.FullName))
+                {
+                    string line;
+                    while ((line = reader.ReadLine()) != null)
+                    {
+                        if (line.Contains("\"AuthCode\":"))
+                        {
+                            authLine = line;
+                        }
+                    }
+                }
+
+                if (authLine.IsNullOrEmpty())
+                {
+                    continue;
+                }
+
+                var strs = authLine.Split('\"');
+                AuthCode = strs[3];
             }
 
             return AuthCode;
@@ -167,7 +187,7 @@ namespace Dolany.Ice.Ai.DolanyAI
 
         public static ImageCacheModel ReadImageCacheInfo(FileInfo file)
         {
-            using (StreamReader reader = new StreamReader(file.FullName))
+            using (var reader = new StreamReader(file.FullName))
             {
                 var model = new ImageCacheModel();
 
@@ -190,12 +210,7 @@ namespace Dolany.Ice.Ai.DolanyAI
         public static ImageCacheModel ReadImageCacheInfo(string guid)
         {
             var file = new FileInfo(CodeApi.ImagePath + guid + CodeApi.ImageExtension);
-            if (!file.Exists)
-            {
-                return null;
-            }
-
-            return ReadImageCacheInfo(file);
+            return !file.Exists ? null : ReadImageCacheInfo(file);
         }
 
         public static void SetPropertyValue(object obj, string propName, string propValue)
