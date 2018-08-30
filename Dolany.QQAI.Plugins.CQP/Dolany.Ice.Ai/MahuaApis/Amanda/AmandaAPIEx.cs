@@ -35,17 +35,13 @@ namespace Dolany.Ice.Ai.MahuaApis
         public static GroupMemberListViewModel GetMemberInfos(long GroupNum)
         {
             var ml = GetGroupMemberList(GroupNum.ToString());
-            if (string.IsNullOrEmpty(ml))
-            {
-                return null;
-            }
-            return JsonHelper.DeserializeJsonToObject<GroupMemberListViewModel>(ml);
+            return string.IsNullOrEmpty(ml) ? null : JsonHelper.DeserializeJsonToObject<GroupMemberListViewModel>(ml);
         }
 
-        public static int SendPraise(string QQ号)
+        public static void SendPraise(string QQ号)
         {
             var AuthCode = Utility.GetAuthCode();
-            return Api_SendPraise(QQ号, AuthCode);
+            Api_SendPraise(QQ号, AuthCode);
         }
 
         // 	网易云点歌

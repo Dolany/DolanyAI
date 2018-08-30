@@ -145,7 +145,7 @@ namespace Dolany.Ice.Ai.DolanyAI
 
         public static MemberRoleCache GetMemberInfo(GroupMsgDTO MsgDTO)
         {
-            return Instance<GroupMemberInfoCacher>().GetMemberInfo(MsgDTO);
+            return GroupMemberInfoCacher.GetMemberInfo(MsgDTO);
         }
 
         public static string GetAuthCode()

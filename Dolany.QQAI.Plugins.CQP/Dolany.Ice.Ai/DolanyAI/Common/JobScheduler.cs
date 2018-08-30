@@ -46,11 +46,9 @@ namespace Dolany.Ice.Ai.DolanyAI
         public void Remove(string Id)
         {
             var timer = Timers.First(p => p.Id == Id);
-            if (timer != null)
-            {
-                timer.Stop();
-                Timers.Remove(timer);
-            }
+            if (timer == null) return;
+            timer.Stop();
+            Timers.Remove(timer);
         }
 
         public string Add(double Interval, Action<object, ElapsedEventArgs> CallBack, object Data = null)

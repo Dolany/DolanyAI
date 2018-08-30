@@ -140,7 +140,7 @@ namespace Dolany.Ice.Ai.DolanyAI
 
         private void GroupMsgCallBack_Func(GroupMsgDTO MsgDTO)
         {
-            if (Filter.IsInBlackList(MsgDTO.FromQQ) || !Filter.Filter(MsgDTO.FromGroup, MsgDTO.FromQQ, MsgDTO.Msg))
+            if (DirtyFilter.IsInBlackList(MsgDTO.FromQQ) || !DirtyFilter.Filter(MsgDTO.FromGroup, MsgDTO.FromQQ, MsgDTO.Msg))
             {
                 return;
             }

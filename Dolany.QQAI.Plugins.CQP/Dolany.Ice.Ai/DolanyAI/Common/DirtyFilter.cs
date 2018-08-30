@@ -9,7 +9,7 @@ namespace Dolany.Ice.Ai.DolanyAI
     {
         private static List<string> WordList;
 
-        private readonly int MaxTolerateCount = 10;
+        private const int MaxTolerateCount = 10;
 
         public DirtyFilter()
         {
@@ -20,19 +20,16 @@ namespace Dolany.Ice.Ai.DolanyAI
             InitWordList();
         }
 
-        public bool Filter(long GroupNum, long QQNum, string msg)
+        public static bool Filter(long GroupNum, long QQNum, string msg)
         {
-            if (IsDirtyWord(msg))
-            {
-                AddInBlackList(GroupNum, QQNum);
-                return false;
-            }
-            return true;
+            if (!IsDirtyWord(msg)) return true;
+            AddInBlackList(GroupNum, QQNum);
+            return false;
         }
 
-        private void AddInBlackList(long GroupNum, long QQNum)
+        private static void AddInBlackList(long GroupNum, long QQNum)
         {
-            using (AIDatabase db = new AIDatabase())
+            using (var db = new AIDatabase())
             {
                 var query = db.BlackList.Where(b => b.QQNum == QQNum);
                 if (!query.IsNullOrEmpty())
@@ -69,15 +66,15 @@ namespace Dolany.Ice.Ai.DolanyAI
 
         public static void InitWordList()
         {
-            using (AIDatabase db = new AIDatabase())
+            using (var db = new AIDatabase())
             {
                 WordList = db.DirtyWord.Select(d => d.Content).ToList();
             }
         }
 
-        public bool IsInBlackList(long fromQQ)
+        public static bool IsInBlackList(long fromQQ)
         {
-            using (AIDatabase db = new AIDatabase())
+            using (var db = new AIDatabase())
             {
                 var query = db.BlackList.Where(b => b.QQNum == fromQQ);
                 if (query.IsNullOrEmpty())
@@ -89,7 +86,7 @@ namespace Dolany.Ice.Ai.DolanyAI
             }
         }
 
-        private bool IsDirtyWord(string msg)
+        private static bool IsDirtyWord(string msg)
         {
             foreach (var w in WordList)
             {

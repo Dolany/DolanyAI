@@ -30,18 +30,7 @@ namespace Dolany.Ice.Ai.DolanyAI
             SendAllMsgs();
         }
 
-        public static MsgSender Instance
-        {
-            get
-            {
-                if (instance == null)
-                {
-                    instance = new MsgSender();
-                }
-
-                return instance;
-            }
-        }
+        public static MsgSender Instance => instance ?? (instance = new MsgSender());
 
         public void PushMsg(SendMsgDTO msg)
         {
@@ -78,7 +67,7 @@ namespace Dolany.Ice.Ai.DolanyAI
                 return;
             }
 
-            using (AIDatabase db = new AIDatabase())
+            using (var db = new AIDatabase())
             {
                 db.MsgSendCache.Add(new MsgSendCache
                 {
@@ -93,7 +82,7 @@ namespace Dolany.Ice.Ai.DolanyAI
 
         private static void SendAllMsgs()
         {
-            using (AIDatabase db = new AIDatabase())
+            using (var db = new AIDatabase())
             {
                 var msgs = db.MsgSendCache.OrderBy(p => p.Guid).ThenBy(p => p.SerialNum);
                 foreach (var msg in msgs)

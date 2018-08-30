@@ -7,9 +7,9 @@ namespace Dolany.Ice.Ai.DolanyAI
 {
     public class GroupMemberInfoCacher
     {
-        public MemberRoleCache GetMemberInfo(GroupMsgDTO MsgDTO)
+        public static MemberRoleCache GetMemberInfo(GroupMsgDTO MsgDTO)
         {
-            using (AIDatabase db = new AIDatabase())
+            using (var db = new AIDatabase())
             {
                 var query = db.MemberRoleCache.Where(ic => ic.QQNum == MsgDTO.FromQQ
                                         && ic.GroupNum == MsgDTO.FromGroup);
@@ -28,9 +28,9 @@ namespace Dolany.Ice.Ai.DolanyAI
             }
         }
 
-        private MemberRoleCache GetNewInfo(GroupMsgDTO MsgDTO)
+        private static MemberRoleCache GetNewInfo(GroupMsgDTO MsgDTO)
         {
-            using (AIDatabase db = new AIDatabase())
+            using (var db = new AIDatabase())
             {
                 var infos = AmandaAPIEx.GetMemberInfos(MsgDTO.FromGroup);
                 if (infos == null)
