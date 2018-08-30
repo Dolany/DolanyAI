@@ -13,11 +13,11 @@ namespace Dolany.Ice.Ai.DolanyAI
         )]
     public class CartoonSayingAI : AIBase
     {
-        private List<Saying> SayingList
+        private static List<Saying> SayingList
         {
             get
             {
-                using (AIDatabase db = new AIDatabase())
+                using (var db = new AIDatabase())
                 {
                     var query = db.Saying;
                     return query.IsNullOrEmpty() ? null : query.ToList();
@@ -92,7 +92,7 @@ namespace Dolany.Ice.Ai.DolanyAI
 
         private static bool IsInSealing(long groupNum, long memberNum)
         {
-            using (AIDatabase db = new AIDatabase())
+            using (var db = new AIDatabase())
             {
                 var query = db.SayingSeal.Where(s => s.GroupNum == groupNum && s.SealMember == memberNum);
                 return !query.IsNullOrEmpty();
@@ -104,7 +104,7 @@ namespace Dolany.Ice.Ai.DolanyAI
             info.FromGroup = fromGroup;
             info.Id = Guid.NewGuid().ToString();
 
-            using (AIDatabase db = new AIDatabase())
+            using (var db = new AIDatabase())
             {
                 db.Saying.Add(info);
                 db.SaveChanges();
@@ -112,12 +112,12 @@ namespace Dolany.Ice.Ai.DolanyAI
             return true;
         }
 
-        private string GetRanSaying(long fromGroup, string keyword = null)
+        private static string GetRanSaying(long fromGroup, string keyword = null)
         {
             var list = SayingList;
             var query = from saying in list
-                        where (string.IsNullOrEmpty(keyword) ? true : saying.Contains(keyword))
-                            && (fromGroup == 0 ? true : saying.FromGroup == fromGroup)
+                        where (string.IsNullOrEmpty(keyword) || saying.Contains(keyword))
+                            && (fromGroup == 0 || saying.FromGroup == fromGroup)
                         select saying;
             if (query.IsNullOrEmpty())
             {
@@ -163,7 +163,7 @@ namespace Dolany.Ice.Ai.DolanyAI
             )]
         public void ClearSayings(GroupMsgDTO MsgDTO, object[] param)
         {
-            using (AIDatabase db = new AIDatabase())
+            using (var db = new AIDatabase())
             {
                 var query = db.Saying.Where(s => s.FromGroup == MsgDTO.FromGroup
                                                         && (s.Content.Contains(MsgDTO.Msg)
@@ -191,12 +191,12 @@ namespace Dolany.Ice.Ai.DolanyAI
             )]
         public void SayingSeal(GroupMsgDTO MsgDTO, object[] param)
         {
-            if (!long.TryParse(MsgDTO.Msg, out long memberNum))
+            if (!long.TryParse(MsgDTO.Msg, out var memberNum))
             {
                 return;
             }
 
-            using (AIDatabase db = new AIDatabase())
+            using (var db = new AIDatabase())
             {
                 var query = db.SayingSeal.Where(s => s.GroupNum == MsgDTO.FromGroup && s.SealMember == memberNum);
                 if (!query.IsNullOrEmpty())
@@ -240,12 +240,12 @@ namespace Dolany.Ice.Ai.DolanyAI
             )]
         public void SayingDeseal(GroupMsgDTO MsgDTO, object[] param)
         {
-            if (!long.TryParse(MsgDTO.Msg, out long memberNum))
+            if (!long.TryParse(MsgDTO.Msg, out var memberNum))
             {
                 return;
             }
 
-            using (AIDatabase db = new AIDatabase())
+            using (var db = new AIDatabase())
             {
                 var query = db.SayingSeal.Where(s => s.GroupNum == MsgDTO.FromGroup && s.SealMember == memberNum);
                 if (query.IsNullOrEmpty())

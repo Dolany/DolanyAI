@@ -6,8 +6,6 @@ namespace Dolany.Ice.Ai.MahuaApis
 {
     public class AmandaAPIEx
     {
-        //public static string AuthCode = "2160";
-
         [DllImport("bin\\message.dll")]
         private static extern string Api_GetGroupMemberList(string 群号, string AuthCode);
 

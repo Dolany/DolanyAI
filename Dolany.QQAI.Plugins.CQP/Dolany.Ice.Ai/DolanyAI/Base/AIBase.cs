@@ -15,7 +15,7 @@ namespace Dolany.Ice.Ai.DolanyAI
             {
                 foreach (var attr in method.GetCustomAttributes(typeof(GroupEnterCommandAttribute), false))
                 {
-                    if (!GroupCheck(attr as GroupEnterCommandAttribute, MsgDTO, out object[] param))
+                    if (!GroupCheck(attr as GroupEnterCommandAttribute, MsgDTO, out var param))
                     {
                         continue;
                     }
@@ -33,7 +33,7 @@ namespace Dolany.Ice.Ai.DolanyAI
             return false;
         }
 
-        private bool GroupCheck(GroupEnterCommandAttribute enterAttr, GroupMsgDTO MsgDTO, out object[] param)
+        private static bool GroupCheck(GroupEnterCommandAttribute enterAttr, GroupMsgDTO MsgDTO, out object[] param)
         {
             param = null;
             if (enterAttr.Command != MsgDTO.Command)
@@ -121,7 +121,7 @@ namespace Dolany.Ice.Ai.DolanyAI
             {
                 foreach (var attr in method.GetCustomAttributes(typeof(PrivateEnterCommandAttribute), false))
                 {
-                    if (!PrivateCheck(attr as PrivateEnterCommandAttribute, MsgDTO, out object[] param))
+                    if (!PrivateCheck(attr as PrivateEnterCommandAttribute, MsgDTO, out var param))
                     {
                         continue;
                     }

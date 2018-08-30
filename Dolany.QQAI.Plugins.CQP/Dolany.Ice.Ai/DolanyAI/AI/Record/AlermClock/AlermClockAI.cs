@@ -17,7 +17,7 @@ namespace Dolany.Ice.Ai.DolanyAI
         )]
     public class AlermClockAI : AIBase
     {
-        public List<string> ClockIdList => new List<string>();
+        public static List<string> ClockIdList => new List<string>();
 
         public AlermClockAI()
         {
@@ -37,7 +37,7 @@ namespace Dolany.Ice.Ai.DolanyAI
             }
             ClockIdList.Clear();
 
-            using (AIDatabase db = new AIDatabase())
+            using (var db = new AIDatabase())
             {
                 var clocks = db.AlermClock;
                 foreach (var clock in clocks)
@@ -87,7 +87,7 @@ namespace Dolany.Ice.Ai.DolanyAI
 
         private void InsertClock(AlermClock entity, GroupMsgDTO MsgDTO)
         {
-            using (AIDatabase db = new AIDatabase())
+            using (var db = new AIDatabase())
             {
                 var query = db.AlermClock.Where(q => q.GroupNumber == MsgDTO.FromGroup
                                                     && q.Creator == MsgDTO.FromQQ
@@ -148,7 +148,7 @@ namespace Dolany.Ice.Ai.DolanyAI
             )]
         public void QueryClock(GroupMsgDTO MsgDTO, object[] param)
         {
-            using (AIDatabase db = new AIDatabase())
+            using (var db = new AIDatabase())
             {
                 var allClocks = db.AlermClock.Where(q => q.GroupNumber == MsgDTO.FromGroup
                                                                 && q.Creator == MsgDTO.FromQQ);
@@ -168,7 +168,7 @@ namespace Dolany.Ice.Ai.DolanyAI
                 builder.Append(Msg);
                 foreach (var clock in allClocks)
                 {
-                    builder.Append('\r' + $@"{clock.AimHourt.ToString("00")}:{clock.AimMinute.ToString("00")} {clock.Content}");
+                    builder.Append('\r' + $@"{clock.AimHourt:00}:{clock.AimMinute:00} {clock.Content}");
                 }
                 Msg = builder.ToString();
 
@@ -193,7 +193,7 @@ namespace Dolany.Ice.Ai.DolanyAI
         {
             var time = param[0] as (int hour, int minute)?;
 
-            using (AIDatabase db = new AIDatabase())
+            using (var db = new AIDatabase())
             {
                 var query = db.AlermClock.Where(q => q.GroupNumber == MsgDTO.FromGroup
                                                      && q.Creator == MsgDTO.FromQQ
@@ -235,7 +235,7 @@ namespace Dolany.Ice.Ai.DolanyAI
             )]
         public void ClearAllClock(GroupMsgDTO MsgDTO, object[] param)
         {
-            using (AIDatabase db = new AIDatabase())
+            using (var db = new AIDatabase())
             {
                 var query = db.AlermClock.Where(q => q.GroupNumber == MsgDTO.FromGroup
                                                      && q.Creator == MsgDTO.FromQQ
