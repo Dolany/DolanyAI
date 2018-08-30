@@ -256,6 +256,15 @@
           <Property Name="Content" Type="nvarchar" MaxLength="200" />
           <Property Name="SignTime" Type="datetime" />
         </EntityType>
+        <EntityType Name="TouhouCardRecord">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="nvarchar" MaxLength="50" Nullable="false" />
+          <Property Name="QQNum" Type="bigint" Nullable="false" />
+          <Property Name="UpdateDate" Type="datetime" Nullable="false" />
+          <Property Name="CardName" Type="nvarchar" MaxLength="50" Nullable="false" />
+        </EntityType>
         <EntityContainer Name="DolanyIceAiDolanyDbStoreContainer">
           <EntitySet Name="AIConfig" EntityType="Self.AIConfig" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="AISeal" EntityType="Self.AISeal" Schema="dbo" store:Type="Tables" />
@@ -283,6 +292,7 @@
           <EntitySet Name="TarotFortuneData" EntityType="Self.TarotFortuneData" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="TarotFortuneRecord" EntityType="Self.TarotFortuneRecord" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="TohouSign" EntityType="Self.TohouSign" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="TouhouCardRecord" EntityType="Self.TouhouCardRecord" Schema="dbo" store:Type="Tables" />
         </EntityContainer>
       </Schema></edmx:StorageModels>
     <!-- CSDL content -->
@@ -484,6 +494,7 @@
           <EntitySet Name="TarotFortuneRecord" EntityType="Dolany.Ice.Ai.Dolany.Db.TarotFortuneRecord" />
           <EntitySet Name="AIConfig" EntityType="Dolany.Ice.Ai.Dolany.Db.AIConfig" />
           <EntitySet Name="HolyLightBless" EntityType="Dolany.Ice.Ai.Dolany.Db.HolyLightBless" />
+          <EntitySet Name="TouhouCardRecord" EntityType="Dolany.Ice.Ai.Dolany.Db.TouhouCardRecord" />
         </EntityContainer>
         <EntityType Name="FortuneItem">
           <Key>
@@ -566,6 +577,15 @@
           <Property Name="Id" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
           <Property Name="QQNum" Type="Int64" Nullable="false" />
           <Property Name="BlessDate" Type="DateTime" Nullable="false" Precision="3" />
+        </EntityType>
+        <EntityType Name="TouhouCardRecord">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="QQNum" Type="Int64" Nullable="false" />
+          <Property Name="UpdateDate" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="CardName" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
         </EntityType>
       </Schema>
     </edmx:ConceptualModels>
@@ -845,6 +865,16 @@
             <EntityTypeMapping TypeName="Dolany.Ice.Ai.Dolany.Db.HolyLightBless">
               <MappingFragment StoreEntitySet="HolyLightBless">
                 <ScalarProperty Name="BlessDate" ColumnName="BlessDate" />
+                <ScalarProperty Name="QQNum" ColumnName="QQNum" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="TouhouCardRecord">
+            <EntityTypeMapping TypeName="Dolany.Ice.Ai.Dolany.Db.TouhouCardRecord">
+              <MappingFragment StoreEntitySet="TouhouCardRecord">
+                <ScalarProperty Name="CardName" ColumnName="CardName" />
+                <ScalarProperty Name="UpdateDate" ColumnName="UpdateDate" />
                 <ScalarProperty Name="QQNum" ColumnName="QQNum" />
                 <ScalarProperty Name="Id" ColumnName="Id" />
               </MappingFragment>

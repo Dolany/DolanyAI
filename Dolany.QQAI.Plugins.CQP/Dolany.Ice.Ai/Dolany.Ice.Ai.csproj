@@ -118,6 +118,9 @@
     <Compile Include="DolanyAI\AI\Game\Jump300Report\Model\PlayerInfoInMatch.cs" />
     <Compile Include="DolanyAI\AI\Game\Jump300Report\Parser\JumpDetailHtmlParser.cs" />
     <Compile Include="DolanyAI\AI\Game\Jump300Report\Parser\JumpListHtmlParser.cs" />
+    <Compile Include="DolanyAI\Db\TouhouCardRecord.cs">
+      <DependentUpon>AIDatabase.tt</DependentUpon>
+    </Compile>
     <Compile Include="DolanyAI\Entities\Recruit\RecruitEntity.cs" />
     <Compile Include="DolanyAI\Entities\Recruit\RecruitMemberEntity.cs" />
     <Compile Include="DolanyAI\Model\NeteaseResponse.cs" />
