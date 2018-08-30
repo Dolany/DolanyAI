@@ -155,7 +155,7 @@ namespace Dolany.Ice.Ai.DolanyAI
                 return AuthCode;
             }
 
-            const string logPath = "./log/";
+            const string logPath = "./logs/";
             var dir = new DirectoryInfo(logPath);
 
             foreach (var file in dir.GetFiles().OrderByDescending(p => p.CreationTime))
@@ -180,6 +180,7 @@ namespace Dolany.Ice.Ai.DolanyAI
 
                 var strs = authLine.Split('\"');
                 AuthCode = strs[3];
+                break;
             }
 
             return AuthCode;
