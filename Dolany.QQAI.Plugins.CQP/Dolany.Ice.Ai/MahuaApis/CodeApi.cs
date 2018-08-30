@@ -65,6 +65,9 @@ namespace Dolany.Ice.Ai.MahuaApis
                     code = $"[QQ:flash,pic={fileName}]";
                     break;
 
+                case MahuaPlatform.Mpq:
+                    break;
+
                 default:
                     throw new Exception("Unexpected Case");
             }

@@ -7,16 +7,16 @@ using Dolany.Ice.Ai.MahuaApis;
 namespace Dolany.Ice.Ai.DolanyAI
 {
     [AI(
-        Name = nameof(TouhouCardAI),
+        Name = nameof(TouhouCardAi),
         Description = "AI for Getting Random TouhouCard.",
         IsAvailable = true,
         PriorityLevel = 10
     )]
-    public class TouhouCardAI : AIBase
+    public class TouhouCardAi : AIBase
     {
-        private const string PicPath = "./TouhouCard/";
+        private const string PicPath = "TouhouCard/";
 
-        public TouhouCardAI()
+        public TouhouCardAi()
         {
             RuntimeLogger.Log("TouhouCardAI started");
         }
@@ -26,11 +26,19 @@ namespace Dolany.Ice.Ai.DolanyAI
         }
 
         [GroupEnterCommand(
+            Command = ".card",
+            AuthorityLevel = AuthorityLevel.成员,
+            Description = "随机获取一张DIY幻想乡卡牌",
+            Syntax = "",
+            Tag = "抽卡功能",
+            SyntaxChecker = "Empty"
+        )]
+        [GroupEnterCommand(
             Command = "幻想乡抽卡",
             AuthorityLevel = AuthorityLevel.成员,
             Description = "随机获取一张DIY幻想乡卡牌",
             Syntax = "",
-            Tag = "游戏功能",
+            Tag = "抽卡功能",
             SyntaxChecker = "Empty"
         )]
         public void RandomCard(GroupMsgDTO MsgDTO, object[] param)
@@ -75,7 +83,7 @@ namespace Dolany.Ice.Ai.DolanyAI
             {
                 Aim = MsgDTO.FromGroup,
                 Type = MsgType.Group,
-                Msg = CodeApi.Code_Image(PicPath + cardName)
+                Msg = CodeApi.Code_Image((new FileInfo(PicPath + cardName)).FullName)
             });
         }
 
