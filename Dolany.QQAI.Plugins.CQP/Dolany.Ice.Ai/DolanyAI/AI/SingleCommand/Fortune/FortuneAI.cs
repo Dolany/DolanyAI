@@ -15,7 +15,7 @@ namespace Dolany.Ice.Ai.DolanyAI
         )]
     public class FortuneAI : AIBase
     {
-        private readonly string TarotServerPath = "https://m.sheup.com/";
+        private const string TarotServerPath = "https://m.sheup.com/";
 
         public FortuneAI()
         {
@@ -253,7 +253,7 @@ namespace Dolany.Ice.Ai.DolanyAI
             });
         }
 
-        private void Bless(long QQNum, string BlessName, int BlessValue)
+        private static void Bless(long QQNum, string BlessName, int BlessValue)
         {
             using (var db = new AIDatabase())
             {

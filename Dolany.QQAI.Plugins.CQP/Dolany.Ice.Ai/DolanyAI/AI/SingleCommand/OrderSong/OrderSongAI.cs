@@ -57,19 +57,14 @@ namespace Dolany.Ice.Ai.DolanyAI
             }
 
             var songs = response.result.songs;
-            Random rand = new Random();
-            int idx = rand.Next(songs.Count());
+            var rand = new Random();
+            var idx = rand.Next(songs.Count());
             return response.result.songs.ElementAt(idx).id;
         }
 
         private static string GetMusicXml(string songId)
         {
-            if (string.IsNullOrEmpty(songId))
-            {
-                return string.Empty;
-            }
-
-            return AmandaAPIEx._163Music(songId);
+            return string.IsNullOrEmpty(songId) ? string.Empty : AmandaAPIEx._163Music(songId);
         }
     }
 }

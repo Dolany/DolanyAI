@@ -15,8 +15,8 @@ namespace Dolany.Ice.Ai.DolanyAI
         )]
     public class RandomPicAI : AIBase
     {
-        private string PicPath { get; set; } = CodeApi.ImagePath;
-        private List<string> Keywords { get; set; } = new List<string>();
+        private string PicPath { get; } = CodeApi.ImagePath;
+        private List<string> Keywords { get; } = new List<string>();
 
         public RandomPicAI()
         {
@@ -78,7 +78,7 @@ namespace Dolany.Ice.Ai.DolanyAI
         public void RecentPic(GroupMsgDTO MsgDTO, object[] param)
         {
             var imageList = GetRecentImageList();
-            var idx = (new Random()).Next(imageList.Count());
+            var idx = (new Random()).Next(imageList.Count);
             var ImageCache = Utility.ReadImageCacheInfo(imageList[idx]);
             var sendImgName = $"{ImageCache.guid}.{ImageCache.type}";
 
@@ -101,7 +101,7 @@ namespace Dolany.Ice.Ai.DolanyAI
         public void RecentFlash(GroupMsgDTO MsgDTO, object[] param)
         {
             var imageList = GetRecentImageList();
-            var idx = (new Random()).Next(imageList.Count());
+            var idx = (new Random()).Next(imageList.Count);
             var ImageCache = Utility.ReadImageCacheInfo(imageList[idx]);
             var sendImgName = $"{ImageCache.guid}.{ImageCache.type}";
 
@@ -140,7 +140,7 @@ namespace Dolany.Ice.Ai.DolanyAI
             return query.FirstOrDefault()?.Keyword;
         }
 
-        private void SendPic(string picPath, long group)
+        private static void SendPic(string picPath, long group)
         {
             MsgSender.Instance.PushMsg(new SendMsgDTO
             {
