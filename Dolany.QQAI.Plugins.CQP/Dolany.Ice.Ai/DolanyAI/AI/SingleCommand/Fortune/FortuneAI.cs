@@ -67,7 +67,9 @@ namespace Dolany.Ice.Ai.DolanyAI
                     Id = Guid.NewGuid().ToString(),
                     UpdateDate = DateTime.Now,
                     QQNum = MsgDTO.FromQQ,
-                    FortuneValue = randFor
+                    FortuneValue = randFor,
+                    BlessName = "",
+                    BlessValue = 0
                 };
                 RandBless(rf);
 
