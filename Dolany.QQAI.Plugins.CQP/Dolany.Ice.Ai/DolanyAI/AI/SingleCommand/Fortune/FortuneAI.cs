@@ -69,9 +69,25 @@ namespace Dolany.Ice.Ai.DolanyAI
                     QQNum = MsgDTO.FromQQ,
                     FortuneValue = randFor
                 };
+                RandBless(rf);
+
                 db.RandomFortune.Add(rf);
                 db.SaveChanges();
                 ShowRandFortune(MsgDTO, rf);
+            }
+        }
+
+        private static void RandBless(RandomFortune rf)
+        {
+            using (var db = new AIDatabase())
+            {
+                var rand = new Random();
+                if (rf.FortuneValue >= 50 || rand.Next(100) > 10) return;
+                var filist = db.FortuneItem;
+                var idx = rand.Next(filist.Count());
+                var item = filist.OrderBy(p => p.Id).Skip(idx).First();
+                rf.BlessName = item.Name;
+                rf.BlessValue = item.Value;
             }
         }
 
@@ -105,27 +121,10 @@ namespace Dolany.Ice.Ai.DolanyAI
             return rand.Next(101);
         }
 
-        private void ShowRandFortune(GroupMsgDTO MsgDTO, RandomFortune rf)
+        private static void ShowRandFortune(GroupMsgDTO MsgDTO, RandomFortune rf)
         {
             var msg = string.Empty;
-            var rand = new Random();
-            if (rf.BlessValue == 0 && rf.FortuneValue < 60 && rand.Next(100) <= 30)
-            {
-                using (var db = new AIDatabase())
-                {
-                    var query = db.FortuneItem;
-                    var idx = rand.Next(query.Count());
-                    var item = query.OrderBy(p => p.Id).Skip(idx).First();
 
-                    var fortune = db.RandomFortune.First(p => p.Id == rf.Id);
-                    fortune.BlessName = item.Name;
-                    fortune.BlessValue = item.Value;
-                    rf.BlessName = item.Name;
-                    rf.BlessValue = item.Value;
-
-                    db.SaveChanges();
-                }
-            }
             if (rf.BlessValue > 0)
             {
                 rf.FortuneValue = rf.FortuneValue + rf.BlessValue;
@@ -171,7 +170,7 @@ namespace Dolany.Ice.Ai.DolanyAI
             )]
         public void TarotFortune(GroupMsgDTO MsgDTO, object[] param)
         {
-            using (AIDatabase db = new AIDatabase())
+            using (var db = new AIDatabase())
             {
                 var query = db.TarotFortuneRecord.Where(t => t.QQNum == MsgDTO.FromQQ);
                 if (query.IsNullOrEmpty())
