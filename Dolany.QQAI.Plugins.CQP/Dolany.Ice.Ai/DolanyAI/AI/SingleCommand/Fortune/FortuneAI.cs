@@ -54,6 +54,10 @@ namespace Dolany.Ice.Ai.DolanyAI
                     {
                         f.FortuneValue = GetRandomFortune();
                         f.UpdateDate = DateTime.Now;
+                        f.BlessName = "";
+                        f.BlessValue = 0;
+                        RandBless(f);
+
                         db.SaveChanges();
                     }
 
