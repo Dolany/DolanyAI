@@ -121,8 +121,6 @@
     <Compile Include="DolanyAI\Db\TouhouCardRecord.cs">
       <DependentUpon>AIDatabase.tt</DependentUpon>
     </Compile>
-    <Compile Include="DolanyAI\Entities\Recruit\RecruitEntity.cs" />
-    <Compile Include="DolanyAI\Entities\Recruit\RecruitMemberEntity.cs" />
     <Compile Include="DolanyAI\Model\NeteaseResponse.cs" />
     <Compile Include="DolanyAI\AI\SingleCommand\OrderSong\OrderSongAI.cs" />
     <Compile Include="DolanyAI\AI\SingleCommand\PraiseMe\PraiseMeAI.cs" />
