@@ -1,10 +1,11 @@
 ﻿using System;
+using System.Runtime.ExceptionServices;
 using System.Runtime.InteropServices;
 using Dolany.Ice.Ai.DolanyAI;
 
 namespace Dolany.Ice.Ai.MahuaApis
 {
-    public class AmandaAPIEx
+    public static class AmandaAPIEx
     {
         [DllImport("bin\\message.dll")]
         private static extern string Api_GetGroupMemberList(string 群号, string AuthCode);
@@ -18,6 +19,7 @@ namespace Dolany.Ice.Ai.MahuaApis
         [DllImport("bin\\message.dll")]
         private static extern string Api_Restart(string AuthCode);
 
+        [HandleProcessCorruptedStateExceptions]
         private static string GetGroupMemberList(string 群号)
         {
             try

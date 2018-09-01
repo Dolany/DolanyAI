@@ -93,6 +93,7 @@
     <Compile Include="DolanyAI\AITools\CacheCleanerTool.cs" />
     <Compile Include="DolanyAI\AITools\HeartBeatTool.cs" />
     <Compile Include="DolanyAI\AITools\IAITool.cs" />
+    <Compile Include="DolanyAI\AI\Game\TableCardGame\TableCardGameAi.cs" />
     <Compile Include="DolanyAI\AI\Game\TouhouCard\TouhouCardAI.cs" />
     <Compile Include="DolanyAI\AI\Record\AlermClock\AlermClockAI.cs" />
     <Compile Include="DolanyAI\AI\Record\AlermClock\AlertClockExtension.cs" />
@@ -348,6 +349,8 @@
   <ItemGroup>
     <Service Include="{508349B6-6B84-4DF5-91F0-309BEEBAD82D}" />
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <Folder Include="DolanyAI\Entities\TableCardGame\" />
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

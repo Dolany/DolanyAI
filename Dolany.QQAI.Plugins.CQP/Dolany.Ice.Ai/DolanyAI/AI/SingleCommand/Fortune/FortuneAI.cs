@@ -111,7 +111,7 @@ namespace Dolany.Ice.Ai.DolanyAI
             Task.Run(() => jr.Work());
         }
 
-        public static void ReportCallBack(GroupMsgDTO MsgDTO, string Report)
+        private static void ReportCallBack(GroupMsgDTO MsgDTO, string Report)
         {
             MsgSender.Instance.PushMsg(new SendMsgDTO
             {
@@ -210,7 +210,7 @@ namespace Dolany.Ice.Ai.DolanyAI
             }
         }
 
-        private void SendTarotFortune(GroupMsgDTO MsgDTO, TarotFortuneData data)
+        private static void SendTarotFortune(GroupMsgDTO MsgDTO, TarotFortuneData data)
         {
             var msg = CodeApi.Code_Image(TarotServerPath + data.PicSrc) + '\r';
             msg += "牌名：" + data.Name + '\r';

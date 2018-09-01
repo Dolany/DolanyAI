@@ -44,12 +44,12 @@ namespace Dolany.Ice.Ai.DolanyAI
                 return null;
             }
 
-            if (!int.TryParse(strs[0], out int hour))
+            if (!int.TryParse(strs[0], out var hour))
             {
                 return null;
             }
 
-            if (!int.TryParse(strs[1], out int minute))
+            if (!int.TryParse(strs[1], out var minute))
             {
                 return null;
             }
@@ -214,7 +214,7 @@ namespace Dolany.Ice.Ai.DolanyAI
             return !file.Exists ? null : ReadImageCacheInfo(file);
         }
 
-        public static void SetPropertyValue(object obj, string propName, string propValue)
+        private static void SetPropertyValue(object obj, string propName, string propValue)
         {
             var type = obj.GetType();
             foreach (var prop in type.GetProperties())
@@ -246,7 +246,7 @@ namespace Dolany.Ice.Ai.DolanyAI
             return result;
         }
 
-        public static bool IsAsciiChar(char c)
+        private static bool IsAsciiChar(char c)
         {
             return c >= 0x20 && c <= 0x7e;
         }
