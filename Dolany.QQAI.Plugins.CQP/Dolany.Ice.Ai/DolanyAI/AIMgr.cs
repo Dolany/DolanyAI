@@ -23,7 +23,14 @@ namespace Dolany.Ice.Ai.DolanyAI
 
         private AIMgr()
         {
-            Init();
+            try
+            {
+                Init();
+            }
+            catch (Exception ex)
+            {
+                RuntimeLogger.Log(ex);
+            }
         }
 
         /// <summary>

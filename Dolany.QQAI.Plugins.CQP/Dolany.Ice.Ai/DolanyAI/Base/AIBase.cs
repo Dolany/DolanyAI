@@ -8,8 +8,10 @@ namespace Dolany.Ice.Ai.DolanyAI
 {
     public abstract class AIBase
     {
-        protected delegate void GroupMsgConsolerDel(GroupMsgDTO msgDTO, object[] para);
+        // ReSharper disable once MemberCanBeProtected.Global
+        public delegate void GroupMsgConsolerDel(GroupMsgDTO msgDTO, object[] para);
 
+        // ReSharper disable once MemberCanBePrivate.Global
         protected readonly Dictionary<GroupEnterCommandAttribute, GroupMsgConsolerDel> Consolers =
             new Dictionary<GroupEnterCommandAttribute, GroupMsgConsolerDel>();
 
@@ -36,14 +38,22 @@ namespace Dolany.Ice.Ai.DolanyAI
                 return false;
             }
 
-            foreach (var consoler in keyValuePairs)
+            try
             {
-                if (!GroupCheck(consoler.Key, MsgDTO, out var param))
+                foreach (var consoler in keyValuePairs)
                 {
-                    continue;
+                    if (!GroupCheck(consoler.Key, MsgDTO, out var param))
+                    {
+                        continue;
+                    }
+
+                    consoler.Value(MsgDTO, param);
+                    break;
                 }
-                consoler.Value(MsgDTO, param);
-                break;
+            }
+            catch (Exception ex)
+            {
+                RuntimeLogger.Log(ex);
             }
 
             return false;
