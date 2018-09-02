@@ -48,7 +48,7 @@ namespace Dolany.Ice.Ai.DolanyAI
                     }
 
                     consoler.Value(MsgDTO, param);
-                    break;
+                    return true;
                 }
             }
             catch (Exception ex)
