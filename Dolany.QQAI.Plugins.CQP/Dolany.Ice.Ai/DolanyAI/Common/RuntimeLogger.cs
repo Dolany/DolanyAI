@@ -6,7 +6,7 @@ namespace Dolany.Ice.Ai.DolanyAI
 {
     public static class RuntimeLogger
     {
-        private static string LogPath = "./RuntimeLog/";
+        private const string LogPath = "./RuntimeLog/";
         private static readonly object lockObj = new object();
 
         public static void Log(string log)
@@ -22,6 +22,21 @@ namespace Dolany.Ice.Ai.DolanyAI
             }
         }
 
+        public static void Log(Exception ex)
+        {
+            while (true)
+            {
+                Log(ex.Message + '\r' + ex.StackTrace);
+                if (ex.InnerException != null)
+                {
+                    ex = ex.InnerException;
+                    continue;
+                }
+
+                break;
+            }
+        }
+
         private static FileStream CheckFile()
         {
             var dir = new DirectoryInfo(LogPath);
@@ -31,12 +46,7 @@ namespace Dolany.Ice.Ai.DolanyAI
             }
 
             var fi = new FileInfo(LogPath + DateTime.Now.ToString("yyyyMMdd") + ".log");
-            if (!fi.Exists)
-            {
-                return fi.Create();
-            }
-
-            return fi.Open(FileMode.Append, FileAccess.Write);
+            return !fi.Exists ? fi.Create() : fi.Open(FileMode.Append, FileAccess.Write);
         }
     }
 }

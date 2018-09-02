@@ -31,17 +31,24 @@ namespace Dolany.Ice.Ai.DolanyAI
             )]
         public void OrderASong(GroupMsgDTO MsgDTO, object[] param)
         {
-            var songName = param[0] as string;
-
-            var songId = GetSongId(songName);
-
-            var responseXml = GetMusicXml(songId);
-            MsgSender.Instance.PushMsg(new SendMsgDTO
+            try
             {
-                Aim = MsgDTO.FromGroup,
-                Type = MsgType.Group,
-                Msg = responseXml
-            });
+                var songName = param[0] as string;
+
+                var songId = GetSongId(songName);
+
+                var responseXml = GetMusicXml(songId);
+                MsgSender.Instance.PushMsg(new SendMsgDTO
+                {
+                    Aim = MsgDTO.FromGroup,
+                    Type = MsgType.Group,
+                    Msg = responseXml
+                });
+            }
+            catch (Exception ex)
+            {
+                RuntimeLogger.Log(ex);
+            }
         }
 
         private static string GetSongId(string songName)

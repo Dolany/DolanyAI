@@ -1,4 +1,6 @@
 ﻿using System;
+using System.Linq;
+using System.Collections.Generic;
 using System.Diagnostics;
 using System.Reflection;
 
@@ -6,28 +8,42 @@ namespace Dolany.Ice.Ai.DolanyAI
 {
     public abstract class AIBase
     {
-        public abstract void Work();
+        protected delegate void GroupMsgConsolerDel(GroupMsgDTO msgDTO, object[] para);
 
-        public virtual bool OnGroupMsgReceived(GroupMsgDTO MsgDTO)
+        protected readonly Dictionary<GroupEnterCommandAttribute, GroupMsgConsolerDel> Consolers =
+            new Dictionary<GroupEnterCommandAttribute, GroupMsgConsolerDel>();
+
+        protected AIBase()
         {
             var t = GetType();
             foreach (var method in t.GetMethods())
             {
-                foreach (var attr in method.GetCustomAttributes(typeof(GroupEnterCommandAttribute), false))
+                foreach (GroupEnterCommandAttribute attr in method.GetCustomAttributes(typeof(GroupEnterCommandAttribute), false))
                 {
-                    if (!GroupCheck(attr as GroupEnterCommandAttribute, MsgDTO, out var param))
-                    {
-                        continue;
-                    }
-
-                    t.InvokeMember(method.Name,
-                            BindingFlags.InvokeMethod,
-                            null,
-                            this,
-                            new object[] { MsgDTO, param }
-                            );
-                    return true;
+                    Consolers.Add(attr, method.CreateDelegate(typeof(GroupMsgConsolerDel)) as GroupMsgConsolerDel);
                 }
+            }
+        }
+
+        public abstract void Work();
+
+        public virtual bool OnGroupMsgReceived(GroupMsgDTO MsgDTO)
+        {
+            var query = Consolers.Where(c => c.Key.Command == MsgDTO.Command);
+            var keyValuePairs = query as KeyValuePair<GroupEnterCommandAttribute, GroupMsgConsolerDel>[] ?? query.ToArray();
+            if (keyValuePairs.IsNullOrEmpty())
+            {
+                return false;
+            }
+
+            foreach (var consoler in keyValuePairs)
+            {
+                if (!GroupCheck(consoler.Key, MsgDTO, out var param))
+                {
+                    continue;
+                }
+                consoler.Value(MsgDTO, param);
+                break;
             }
 
             return false;

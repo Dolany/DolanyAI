@@ -1,4 +1,5 @@
-﻿using Autofac;
+﻿using System.Collections.Generic;
+using Autofac;
 using Newbe.Mahua;
 
 using Dolany.Ice.Ai.DolanyAI;
@@ -8,6 +9,7 @@ using System.Linq;
 
 namespace Dolany.Ice.Ai
 {
+    /// <inheritdoc />
     /// <summary>
     /// Ioc容器注册
     /// </summary>
@@ -24,6 +26,7 @@ namespace Dolany.Ice.Ai
             };
         }
 
+        /// <inheritdoc />
         /// <summary>
         /// 基本模块
         /// </summary>
@@ -43,8 +46,9 @@ namespace Dolany.Ice.Ai
             }
         }
 
+        /// <inheritdoc />
         /// <summary>
-        /// <see cref="IMahuaEvent"/> 事件处理模块
+        /// <see cref="T:Newbe.Mahua.IMahuaEvent" /> 事件处理模块
         /// </summary>
         private class MahuaEventsModule : Module
         {
@@ -71,10 +75,11 @@ namespace Dolany.Ice.Ai
                 AIMgr.Instance.StartAIs();
 
                 var allais = AIMgr.Instance.AIList;
-                var msg = $"成功加载{allais.Count()}个ai \r\n";
+                var keyValuePairs = allais as KeyValuePair<AIBase, AIAttribute>[] ?? allais.ToArray();
+                var msg = $"成功加载{keyValuePairs.Length}个ai \r\n";
                 var builder1 = new System.Text.StringBuilder();
                 builder1.Append(msg);
-                foreach (var ai in allais)
+                foreach (var ai in keyValuePairs)
                 {
                     builder1.Append(ai.Value.Name + " ");
                 }

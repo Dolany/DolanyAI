@@ -13,16 +13,15 @@ namespace Dolany.Ice.Ai.DolanyAI
     public class AIMgr
     {
         public IEnumerable<KeyValuePair<AIBase, AIAttribute>> AIList;
-        public DirtyFilter Filter;
 
         private static AIMgr _instance;
 
         public static AIMgr Instance => _instance ?? (_instance = new AIMgr());
 
-        public List<IAITool> Tools { get; } = new List<IAITool>();
-        public List<GroupEnterCommandAttribute> AllAvailableGroupCommands { get; set; } = new List<GroupEnterCommandAttribute>();
+        private List<IAITool> Tools { get; } = new List<IAITool>();
+        public List<GroupEnterCommandAttribute> AllAvailableGroupCommands { get; } = new List<GroupEnterCommandAttribute>();
 
-        public AIMgr()
+        private AIMgr()
         {
             Init();
         }
@@ -62,8 +61,6 @@ namespace Dolany.Ice.Ai.DolanyAI
         {
             LoadAis();
             LoadTools();
-
-            Filter = new DirtyFilter();
         }
 
         private void LoadAis()

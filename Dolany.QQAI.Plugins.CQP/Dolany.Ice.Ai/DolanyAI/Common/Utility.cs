@@ -93,7 +93,7 @@ namespace Dolany.Ice.Ai.DolanyAI
             }
             catch (Exception ex)
             {
-                RuntimeLogger.Log(ex.Message + '\r' + ex.StackTrace);
+                RuntimeLogger.Log(ex);
                 return string.Empty;
             }
         }
