@@ -137,17 +137,17 @@ namespace Dolany.Ice.Ai.DolanyAI
                 }
                 catch (Exception ex)
                 {
-                    Utility.SendMsgToDeveloper(ex);
+                    RuntimeLogger.Log(ex);
                 }
             });
         }
 
         private void GroupMsgCallBack_Func(GroupMsgDTO MsgDTO)
         {
-            if (DirtyFilter.IsInBlackList(MsgDTO.FromQQ) || !DirtyFilter.Filter(MsgDTO.FromGroup, MsgDTO.FromQQ, MsgDTO.Msg))
-            {
-                return;
-            }
+            //if (DirtyFilter.IsInBlackList(MsgDTO.FromQQ) || !DirtyFilter.Filter(MsgDTO.FromGroup, MsgDTO.FromQQ, MsgDTO.Msg))
+            //{
+            //    return;
+            //}
 
             foreach (var ai in AIList)
             {
