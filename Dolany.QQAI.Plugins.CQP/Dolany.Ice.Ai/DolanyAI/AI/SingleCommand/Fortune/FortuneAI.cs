@@ -134,8 +134,14 @@ namespace Dolany.Ice.Ai.DolanyAI
             if (rf.BlessValue > 0)
             {
                 rf.FortuneValue = rf.FortuneValue + rf.BlessValue;
-                msg += $"恭喜你收到了 {rf.BlessName} 的祝福\r";
+                msg += $"恭喜你受到了 {rf.BlessName} 的祝福\r";
                 msg += $"你今天的运势是：{(rf.FortuneValue > 100 ? 100 : rf.FortuneValue)}%({rf.BlessValue}↑)\r";
+            }
+            else if (rf.BlessValue < 0)
+            {
+                rf.FortuneValue = rf.FortuneValue + rf.BlessValue;
+                msg += $"哎呀呀，你受到了 {rf.BlessName} 的诅咒\r";
+                msg += $"你今天的运势是：{(rf.FortuneValue < 0 ? 0 : rf.FortuneValue)}%({Math.Abs(rf.BlessValue)}↓)\r";
             }
             else
             {
@@ -287,6 +293,27 @@ namespace Dolany.Ice.Ai.DolanyAI
 
                 db.SaveChanges();
             }
+        }
+
+        [GroupEnterCommand(
+            Command = "暗夜诅咒",
+            AuthorityLevel = AuthorityLevel.群主,
+            Description = "诅咒一个成员，让其随机运势减少若干点（最低0%），当日有效",
+            Syntax = "[@qq号码]",
+            Tag = "运势功能",
+            SyntaxChecker = "At"
+        )]
+        public void Darkness(GroupMsgDTO MsgDTO, object[] param)
+        {
+            var aimNum = (long)param[0];
+
+            Bless(aimNum, "暗夜诅咒", -GetRandomFortune());
+            MsgSender.Instance.PushMsg(new SendMsgDTO
+            {
+                Aim = MsgDTO.FromGroup,
+                Type = MsgType.Group,
+                Msg = "诅咒成功！"
+            });
         }
     }
 }
