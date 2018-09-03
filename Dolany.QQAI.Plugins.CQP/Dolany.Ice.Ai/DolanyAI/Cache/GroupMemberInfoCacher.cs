@@ -11,8 +11,8 @@ namespace Dolany.Ice.Ai.DolanyAI
         {
             using (var db = new AIDatabase())
             {
-                var query = db.MemberRoleCache.Where(ic => ic.QQNum == MsgDTO.FromQQ
-                                        && ic.GroupNum == MsgDTO.FromGroup);
+                var query = db.MemberRoleCache.Where(ic => ic.QQNum == MsgDTO.FromQQ &&
+                                                           ic.GroupNum == MsgDTO.FromGroup);
                 if (query.IsNullOrEmpty())
                 {
                     return GetNewInfo(MsgDTO);
@@ -41,7 +41,8 @@ namespace Dolany.Ice.Ai.DolanyAI
 
                 foreach (var info in infos.mems)
                 {
-                    var query = db.MemberRoleCache.Where(p => p.GroupNum == MsgDTO.FromGroup && p.QQNum == info.uin);
+                    var query = db.MemberRoleCache.Where(p => p.GroupNum == MsgDTO.FromGroup &&
+                                                              p.QQNum == info.uin);
                     if (!query.IsNullOrEmpty())
                     {
                         var cache = query.First();

@@ -72,14 +72,7 @@ namespace Dolany.Ice.Ai.DolanyAI
                 return false;
             }
 
-            var mi = Utility.GetMemberInfo(MsgDTO);
-            if (mi == null)
-            {
-                return false;
-            }
-
-            var authority = mi.Role;
-            if (!AuthorityCheck(enterAttr.AuthorityLevel, authority, MsgDTO.FromQQ))
+            if (!AuthorityCheck(enterAttr.AuthorityLevel, MsgDTO))
             {
                 return false;
             }
@@ -110,12 +103,20 @@ namespace Dolany.Ice.Ai.DolanyAI
             }
         }
 
-        private static bool AuthorityCheck(AuthorityLevel authorityLevel, int authority, long QQNum)
+        private static bool AuthorityCheck(AuthorityLevel authorityLevel, GroupMsgDTO MsgDTO)
         {
-            if (QQNum == Utility.DeveloperNumber)
+            if (MsgDTO.FromQQ == Utility.DeveloperNumber)
             {
                 return true;
             }
+
+            var mi = Utility.GetMemberInfo(MsgDTO);
+            if (mi == null)
+            {
+                return false;
+            }
+
+            var authority = mi.Role;
             if (authorityLevel == AuthorityLevel.开发者)
             {
                 return false;
