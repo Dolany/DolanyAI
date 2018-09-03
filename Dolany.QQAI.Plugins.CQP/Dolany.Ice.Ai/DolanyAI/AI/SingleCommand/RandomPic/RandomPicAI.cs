@@ -37,26 +37,24 @@ namespace Dolany.Ice.Ai.DolanyAI
             foreach (var info in childrenDirs)
             {
                 Keywords.Add(info.Name);
+                Consolers.Add(new GroupEnterCommandAttribute
+                {
+                    AuthorityLevel = AuthorityLevel.成员,
+                    SyntaxChecker = "Empty",
+                    Command = info.Name
+                }, KeywordsConsoler);
             }
         }
 
-        public override bool OnGroupMsgReceived(GroupMsgDTO MsgDTO)
+        public void KeywordsConsoler(GroupMsgDTO MsgDTO, object[] param)
         {
-            if (base.OnGroupMsgReceived(MsgDTO))
+            var RandPic = GetRandPic(MsgDTO.Command);
+            if (string.IsNullOrEmpty(RandPic))
             {
-                return true;
+                return;
             }
 
-            var key = GenKey(MsgDTO.Command + MsgDTO.Msg);
-            if (string.IsNullOrEmpty(key))
-            {
-                return false;
-            }
-
-            var RandPic = GetRandPic(key);
-
-            SendPic(Environment.CurrentDirectory + "/" + PicPath + key + "/" + RandPic, MsgDTO.FromGroup);
-            return true;
+            SendPic(Environment.CurrentDirectory + "/" + PicPath + MsgDTO.Command + "/" + RandPic, MsgDTO.FromGroup);
         }
 
         [GroupEnterCommand(
@@ -121,23 +119,6 @@ namespace Dolany.Ice.Ai.DolanyAI
                         .OrderBy(f => f.CreationTime)
                         .Skip(10)
                         .ToList();
-        }
-
-        private string GenKey(string msg)
-        {
-            var keys = Keywords.Where(k => msg == k);
-            if (!keys.IsNullOrEmpty())
-            {
-                return keys.FirstOrDefault();
-            }
-
-            var query = DbMgr.Query<SynonymDicEntity>(s => msg == s.Content);
-            if (query.IsNullOrEmpty())
-            {
-                return string.Empty;
-            }
-
-            return query.FirstOrDefault()?.Keyword;
         }
 
         private static void SendPic(string picPath, long group)
