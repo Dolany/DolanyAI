@@ -44,7 +44,6 @@
             this.UrlTxt.Name = "UrlTxt";
             this.UrlTxt.Size = new System.Drawing.Size(404, 21);
             this.UrlTxt.TabIndex = 0;
-            this.UrlTxt.Text = "https://zh.moegirl.org/%E8%88%B0%E9%98%9FCollection:%E9%99%86%E5%A5%A5";
             // 
             // label1
             // 
@@ -70,7 +69,6 @@
             this.NameTxt.Name = "NameTxt";
             this.NameTxt.Size = new System.Drawing.Size(404, 21);
             this.NameTxt.TabIndex = 3;
-            this.NameTxt.Text = "陆奥";
             // 
             // LogTxt
             // 
@@ -97,7 +95,7 @@
             this.AimTxt.Name = "AimTxt";
             this.AimTxt.Size = new System.Drawing.Size(404, 21);
             this.AimTxt.TabIndex = 6;
-            this.AimTxt.Text = "C:\\Users\\dolan\\Desktop\\Kancole\\";
+            this.AimTxt.Text = "C:\\Users\\dolan\\Desktop\\少女前线\\";
             // 
             // StartBtn
             // 

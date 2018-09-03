@@ -28,9 +28,9 @@ namespace KanColeSingleCli
             {
                 var rowNodes = SearchNodes(
                 node,
-                p => p.Name == "a"
-                && !p.ChildAttributes("data-filesrc").IsNullOrEmpty()
-                && p.ChildAttributes("data-filesrc").First().Value.Contains(".mp3")
+                p => p.Name == "a" &&
+                     !p.ChildAttributes("data-filesrc").IsNullOrEmpty() &&
+                     p.ChildAttributes("data-filesrc").First().Value.Contains(".mp3")
                 );
                 if (rowNodes.Count == 0)
                 {
@@ -40,7 +40,7 @@ namespace KanColeSingleCli
                 var gnodes = SearchNodes(node, p => p.Name == "td");
 
                 var recordedTag = "";
-                for (int i = 0; i + 3 < gnodes.Count; i += 3)
+                for (var i = 0; i + 3 < gnodes.Count; i += 3)
                 {
                     if (gnodes[i + 1].InnerText.Contains("mp3")
                         || gnodes[i + 1].InnerText.Contains(".oga")
@@ -58,7 +58,8 @@ namespace KanColeSingleCli
                     {
                         i--;
                     }
-                    else if (gnodes[i + 2].InnerText.Contains("无") || gnodes[i + 2].InnerText == "\n")
+                    else if (gnodes[i + 2].InnerText.Contains("无") ||
+                             gnodes[i + 2].InnerText == "\n")
                     {
                     }
                     else
@@ -121,7 +122,7 @@ namespace KanColeSingleCli
             return content.Remove(sidx, eidx - sidx + end.Length);
         }
 
-        private string ParseTag(HtmlNode node)
+        private static string ParseTag(HtmlNode node)
         {
             var text = node.InnerText;
             text = text.Replace("\n", "");
@@ -129,7 +130,7 @@ namespace KanColeSingleCli
             return text;
         }
 
-        private string ParseContent(HtmlNode node)
+        private static string ParseContent(HtmlNode node)
         {
             if (node.InnerHtml.Contains("</span><br>"))
             {

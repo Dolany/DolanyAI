@@ -49,9 +49,9 @@ namespace KanColeSingleCli
             }));
         }
 
-        private void WriteToFile(List<KanColeGirlVoice> voices)
+        private void WriteToFile(IEnumerable<KanColeGirlVoice> voices)
         {
-            using (var fs = new FileStream(AimTxt.Text + "舰队Collection" + NameTxt.Text + ".txt", FileMode.Create))
+            using (var fs = new FileStream(AimTxt.Text + "少女前线" + NameTxt.Text + ".txt", FileMode.Create))
             {
                 using (var sw = new StreamWriter(fs))
                 {
