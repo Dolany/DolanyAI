@@ -29,7 +29,7 @@ namespace Dolany.Ice.Ai.MahuaApis
             }
             catch (Exception ex)
             {
-                RuntimeLogger.Log(ex.Message + '\r' + ex.StackTrace);
+                RuntimeLogger.Log(ex);
                 return "";
             }
         }

@@ -35,6 +35,7 @@ namespace Dolany.Ice.Ai.DolanyAI
                 var infos = AmandaAPIEx.GetMemberInfos(MsgDTO.FromGroup);
                 if (infos == null)
                 {
+                    RuntimeLogger.Log($"Cannot get Group Member Infos:{MsgDTO.FromGroup}");
                     return null;
                 }
 
