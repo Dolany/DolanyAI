@@ -1,8 +1,8 @@
 ﻿using System;
 
-namespace Dolany.Ice.Ai.DolanyAI
+namespace Dolany.IWS2000.Ai.DolanyAI
 {
-    public class LongAndAnyChecker : ISyntaxChecker
+    public class TwoWordsChecker : ISyntaxChecker
     {
         public bool Check(string msg, out object[] param)
         {
@@ -11,18 +11,14 @@ namespace Dolany.Ice.Ai.DolanyAI
             {
                 return false;
             }
+
             var strs = msg.Split(new[] { ' ' }, StringSplitOptions.RemoveEmptyEntries);
             if (strs.Length != 2)
             {
                 return false;
             }
 
-            if (!long.TryParse(strs[0], out var groupNum))
-            {
-                return false;
-            }
-
-            param = new object[] { groupNum, strs[1] };
+            param = new object[] { strs[0], strs[1] };
             return true;
         }
     }

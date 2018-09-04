@@ -1,9 +1,9 @@
 ﻿using System;
 using System.Linq;
 using System.Text;
-using Dolany.Ice.Ai.MahuaApis;
+using Dolany.IWS2000.Ai.MahuaApis;
 
-namespace Dolany.Ice.Ai.DolanyAI
+namespace Dolany.IWS2000.Ai.DolanyAI
 {
     [AI(
         Name = nameof(TulingAI),
@@ -71,7 +71,7 @@ namespace Dolany.Ice.Ai.DolanyAI
             return ParseResponse(response);
         }
 
-        private static PostReq_Param GetPostReq(GroupMsgDTO MsgDTO)
+        private PostReq_Param GetPostReq(GroupMsgDTO MsgDTO)
         {
             var imageInfo = ParseImgText(MsgDTO.FullMsg);
             var perception = string.IsNullOrEmpty(imageInfo) ? new perceptionData
@@ -88,33 +88,35 @@ namespace Dolany.Ice.Ai.DolanyAI
                 }
             };
 
-            var mi = Utility.GetMemberInfo(MsgDTO);
-            if (mi == null)
-            {
-                return null;
-            }
+            //var mi = Utility.GetMemberInfo(MsgDTO);
+            //if (mi == null)
+            //{
+            //    return null;
+            //}
 
-            var post = new PostReq_Param
-            {
-                InterfaceName = RequestUrl,
-                data = new TulingRequestData
-                {
-                    reqType = 0,
-                    perception = perception,
-                    userInfo = new userInfoData
-                    {
-                        apiKey = ApiKey,
-                        groupId = MsgDTO.FromGroup.ToString(),
-                        userId = MsgDTO.FromQQ.ToString(),
-                        userIdName = mi.Nickname
-                    }
-                }
-            };
+            //var post = new PostReq_Param
+            //{
+            //    InterfaceName = RequestUrl,
+            //    data = new TulingRequestData
+            //    {
+            //        reqType = 0,
+            //        perception = perception,
+            //        userInfo = new userInfoData
+            //        {
+            //            apiKey = ApiKey,
+            //            groupId = MsgDTO.FromGroup.ToString(),
+            //            userId = MsgDTO.FromQQ.ToString(),
+            //            userIdName = mi.Nickname
+            //        }
+            //    }
+            //};
 
-            return post;
+            //return post;
+            // TODO
+            return null;
         }
 
-        private static string ParseResponse(TulingResponseData response)
+        private string ParseResponse(TulingResponseData response)
         {
             var result = string.Empty;
             var builder = new StringBuilder();
@@ -147,7 +149,7 @@ namespace Dolany.Ice.Ai.DolanyAI
             return result;
         }
 
-        private static string ParseImgText(string msg)
+        private string ParseImgText(string msg)
         {
             if (!msg.Contains("QQ:pic="))
             {
@@ -157,12 +159,17 @@ namespace Dolany.Ice.Ai.DolanyAI
             try
             {
                 var strs1 = msg.Split(new[] { "QQ:pic=" }, StringSplitOptions.RemoveEmptyEntries);
-                var strs2 = strs1.Last().Split(']');
-                var strs3 = strs2.First().Split('.');
+                var strs2 = strs1.Last().Split(new char[] { ']' });
+                var strs3 = strs2.First().Split(new char[] { '.' });
                 var imageGuid = strs3.First();
 
                 var image = Utility.ReadImageCacheInfo(imageGuid);
-                return image == null ? string.Empty : image.url;
+                if (image == null)
+                {
+                    return string.Empty;
+                }
+
+                return image.url;
             }
             catch (Exception)
             {

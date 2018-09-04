@@ -85,6 +85,7 @@
   <ItemGroup>
     <Compile Include="DolanyAI\AIMgr.cs" />
     <Compile Include="DolanyAI\AITools\IAITool.cs" />
+    <Compile Include="DolanyAI\AI\SingleCommand\Tuling\TulingAI.cs" />
     <Compile Include="DolanyAI\Base\AIAttribute.cs" />
     <Compile Include="DolanyAI\Base\AIBase.cs" />
     <Compile Include="DolanyAI\Base\GroupEnterCommandAttribute.cs" />
@@ -116,7 +117,18 @@
     <Compile Include="DolanyAI\DTO\SendMsgDTO.cs" />
     <Compile Include="DolanyAI\Entities\Common\EntityBase.cs" />
     <Compile Include="DolanyAI\Model\ImageCacheModel.cs" />
+    <Compile Include="DolanyAI\Model\PostReq_Param.cs" />
+    <Compile Include="DolanyAI\Model\TulingRequestData.cs" />
+    <Compile Include="DolanyAI\Model\TulingResponseData.cs" />
     <Compile Include="DolanyAI\Net\JsonHelper.cs" />
+    <Compile Include="DolanyAI\Net\RequestHelper.cs" />
+    <Compile Include="DolanyAI\SyntaxChecker\Common\AtChecker.cs" />
+    <Compile Include="DolanyAI\SyntaxChecker\Common\EmptyChecker.cs" />
+    <Compile Include="DolanyAI\SyntaxChecker\Common\LongAndAnyChecker.cs" />
+    <Compile Include="DolanyAI\SyntaxChecker\Common\LongChecker.cs" />
+    <Compile Include="DolanyAI\SyntaxChecker\Common\NotEmptyChecker.cs" />
+    <Compile Include="DolanyAI\SyntaxChecker\Common\ThreeWordsChecker.cs" />
+    <Compile Include="DolanyAI\SyntaxChecker\Common\TwoWordsChecker.cs" />
     <Compile Include="DolanyAI\SyntaxChecker\ISyntaxChecker.cs" />
     <Compile Include="MahuaApis\Amanda\AmandaAPIEx.cs" />
     <Compile Include="MahuaApis\Amanda\AmandaCode.cs" />

@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace Dolany.Ice.Ai.DolanyAI
+namespace Dolany.IWS2000.Ai.DolanyAI.SyntaxChecker.Common
 {
     public class LongAndAnyChecker : ISyntaxChecker
     {
