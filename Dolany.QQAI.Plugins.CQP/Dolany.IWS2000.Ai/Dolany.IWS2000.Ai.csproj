@@ -86,6 +86,7 @@
     <Compile Include="DolanyAI\AIMgr.cs" />
     <Compile Include="DolanyAI\AITools\IAITool.cs" />
     <Compile Include="DolanyAI\AI\SingleCommand\Tuling\TulingAI.cs" />
+    <Compile Include="DolanyAI\AI\Sys\Helper\HelperAI.cs" />
     <Compile Include="DolanyAI\Base\AIAttribute.cs" />
     <Compile Include="DolanyAI\Base\AIBase.cs" />
     <Compile Include="DolanyAI\Base\GroupEnterCommandAttribute.cs" />

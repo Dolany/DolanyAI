@@ -13,8 +13,12 @@ namespace Dolany.IWS2000.Ai.DolanyAI
         )]
     public class TulingAI : AIBase
     {
+        // ReSharper disable once UnusedMember.Local
         private const string RequestUrl = "http://openapi.tuling123.com/openapi/api/v2";
-        private const string ApiKey = "fbeeef973da4480bb42dc10c45ba735b";
+
+        // ReSharper disable once UnusedMember.Local
+        private const string ApiKey = "fbeeef973da4480bb42dc10c45ba735b"; // TODO
+
         private readonly int[] ErroCodes = { 5000, 6000, 4000, 4001, 4002, 4003, 4005, 4007, 4100, 4200, 4300, 4400, 4500, 4600, 4602, 7002, 8008 };
 
         public TulingAI()
@@ -74,6 +78,7 @@ namespace Dolany.IWS2000.Ai.DolanyAI
         private PostReq_Param GetPostReq(GroupMsgDTO MsgDTO)
         {
             var imageInfo = ParseImgText(MsgDTO.FullMsg);
+            // ReSharper disable once UnusedVariable
             var perception = string.IsNullOrEmpty(imageInfo) ? new perceptionData
             {
                 inputText = new inputTextData
