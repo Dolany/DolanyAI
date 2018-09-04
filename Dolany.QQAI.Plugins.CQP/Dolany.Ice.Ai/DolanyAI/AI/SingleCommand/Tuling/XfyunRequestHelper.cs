@@ -3,7 +3,6 @@ using System.Text;
 using System.Security.Cryptography;
 using System.IO;
 using System.Net;
-using Dolany.Ice.Ai.MahuaApis;
 
 namespace Dolany.Ice.Ai.DolanyAI
 {
@@ -19,7 +18,7 @@ namespace Dolany.Ice.Ai.DolanyAI
 
         public static string PostData(string text)
         {
-            using (WebClient wc = new WebClient())
+            using (var wc = new WebClient())
             {
                 var CurTime = GetUtcLong().ToString();
                 var Params = GetParams();
@@ -34,7 +33,7 @@ namespace Dolany.Ice.Ai.DolanyAI
                 wc.Headers.Add("X-Param", Params);
                 wc.Headers.Add("X-CheckSum", CheckSum);
 
-                var responseData = wc.UploadData(string.Format("{0}", requestUrl), "POST", bytes);
+                var responseData = wc.UploadData($"{requestUrl}", "POST", bytes);
                 return WriteFile(responseData);
             }
         }

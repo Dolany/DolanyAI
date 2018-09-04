@@ -21,6 +21,8 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "TempProj", "TempProj", "{67
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "KanColeSingleCli", "KanColeSingleCli\KanColeSingleCli.csproj", "{C697F50D-825D-475C-B620-61B6900F4827}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Dolany.IWS2000.Ai", "Dolany.IWS2000.Ai\Dolany.IWS2000.Ai.csproj", "{D9D60589-0CED-4524-93F5-FA978F3C346A}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -55,6 +57,10 @@ Global
 		{C697F50D-825D-475C-B620-61B6900F4827}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{C697F50D-825D-475C-B620-61B6900F4827}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{C697F50D-825D-475C-B620-61B6900F4827}.Release|Any CPU.Build.0 = Release|Any CPU
+		{D9D60589-0CED-4524-93F5-FA978F3C346A}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{D9D60589-0CED-4524-93F5-FA978F3C346A}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{D9D60589-0CED-4524-93F5-FA978F3C346A}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{D9D60589-0CED-4524-93F5-FA978F3C346A}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

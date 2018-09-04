@@ -35,7 +35,7 @@ namespace Dolany.Ice.Ai.MahuaEvents
             }
             catch (Exception ex)
             {
-                Utility.SendMsgToDeveloper(ex);
+                RuntimeLogger.Log(ex);
             }
         }
     }

@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Text;
 using System.Net;
-using Dolany.Ice.Ai.MahuaApis;
 using Dolany.Ice.Ai.DolanyAI;
 using System.Security.Cryptography;
 using System.IO;
@@ -12,7 +11,7 @@ namespace VoiceCombineOnlineProj
     {
         public static string PostData(PostReq_Param p, RequestBody body)
         {
-            using (WebClient wc = new WebClient())
+            using (var wc = new WebClient())
             {
                 const string appid = "5b62c9d3";
                 var CurTime = GetUtcLong().ToString();
@@ -29,15 +28,15 @@ namespace VoiceCombineOnlineProj
                 wc.Headers.Add("X-CheckSum", CheckSum);
                 //wc.Headers.Add("X-Real-Ip", "127.0.0.1");
 
-                var responseData = wc.UploadData(string.Format("{0}", p.InterfaceName), "POST", bytes);
+                var responseData = wc.UploadData($"{p.InterfaceName}", "POST", bytes);
                 return WriteFile(responseData);
             }
         }
 
         private static string WriteFile(byte[] response)
         {
-            var filePath = "./test.wav";
-            using (FileStream steam = new FileStream(filePath, FileMode.Create))
+            const string filePath = "./test.wav";
+            using (var steam = new FileStream(filePath, FileMode.Create))
             {
                 steam.Write(response, 0, response.Length);
                 steam.Flush();

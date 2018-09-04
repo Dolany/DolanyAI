@@ -285,7 +285,7 @@
     <Compile Include="GlobalSuppressions.cs" />
     <Compile Include="MahuaApis\Amanda\AmandaAPIEx.cs" />
     <Compile Include="MahuaApis\Amanda\AmandaCode.cs" />
-    <Compile Include="MahuaApis\Amanda\JsonHelper.cs" />
+    <Compile Include="DolanyAI\Net\JsonHelper.cs" />
     <Compile Include="MahuaApis\Amanda\ViewModel\GroupMemberInfoViewModel.cs" />
     <Compile Include="MahuaApis\Amanda\ViewModel\GroupMemberLevelViewModel.cs" />
     <Compile Include="MahuaApis\Amanda\ViewModel\GroupMemberListViewModel.cs" />
