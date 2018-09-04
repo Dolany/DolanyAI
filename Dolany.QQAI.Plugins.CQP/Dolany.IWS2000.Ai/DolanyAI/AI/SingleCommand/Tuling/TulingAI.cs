@@ -93,32 +93,30 @@ namespace Dolany.IWS2000.Ai.DolanyAI
                 }
             };
 
-            //var mi = Utility.GetMemberInfo(MsgDTO);
-            //if (mi == null)
-            //{
-            //    return null;
-            //}
+            var mi = Utility.GetMemberInfo(MsgDTO);
+            if (mi == null)
+            {
+                return null;
+            }
 
-            //var post = new PostReq_Param
-            //{
-            //    InterfaceName = RequestUrl,
-            //    data = new TulingRequestData
-            //    {
-            //        reqType = 0,
-            //        perception = perception,
-            //        userInfo = new userInfoData
-            //        {
-            //            apiKey = ApiKey,
-            //            groupId = MsgDTO.FromGroup.ToString(),
-            //            userId = MsgDTO.FromQQ.ToString(),
-            //            userIdName = mi.Nickname
-            //        }
-            //    }
-            //};
+            var post = new PostReq_Param
+            {
+                InterfaceName = RequestUrl,
+                data = new TulingRequestData
+                {
+                    reqType = 0,
+                    perception = perception,
+                    userInfo = new userInfoData
+                    {
+                        apiKey = ApiKey,
+                        groupId = MsgDTO.FromGroup.ToString(),
+                        userId = MsgDTO.FromQQ.ToString(),
+                        userIdName = mi.Nickname
+                    }
+                }
+            };
 
-            //return post;
-            // TODO
-            return null;
+            return post;
         }
 
         private string ParseResponse(TulingResponseData response)

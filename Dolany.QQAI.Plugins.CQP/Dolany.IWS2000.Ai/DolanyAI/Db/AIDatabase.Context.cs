@@ -25,5 +25,7 @@ namespace Dolany.IWS2000.Ai.DolanyAI.Db
             throw new UnintentionalCodeFirstException();
         }
     
+        public virtual DbSet<AIConfig> AIConfig { get; set; }
+        public virtual DbSet<MemberRoleCache> MemberRoleCache { get; set; }
     }
 }

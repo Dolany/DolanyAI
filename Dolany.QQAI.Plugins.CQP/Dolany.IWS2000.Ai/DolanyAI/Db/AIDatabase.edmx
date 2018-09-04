@@ -4,20 +4,89 @@
   <edmx:Runtime>
     <!-- SSDL content -->
     <edmx:StorageModels>
-      <Schema Namespace="IWS2000DatabaseModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
-        <EntityContainer Name="IWS2000DatabaseModelStoreContainer" />
+      <Schema Namespace="IWS2000DatabaseModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+        <EntityType Name="AIConfig">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="nvarchar" MaxLength="50" Nullable="false" />
+          <Property Name="Group" Type="nvarchar" MaxLength="50" />
+          <Property Name="Key" Type="nvarchar" MaxLength="50" />
+          <Property Name="Value" Type="nvarchar" MaxLength="50" />
+        </EntityType>
+        <EntityType Name="MemberRoleCache">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="nvarchar" MaxLength="50" Nullable="false" />
+          <Property Name="QQNum" Type="bigint" Nullable="false" />
+          <Property Name="GroupNum" Type="bigint" Nullable="false" />
+          <Property Name="Role" Type="int" Nullable="false" />
+          <Property Name="Datatime" Type="datetime" Nullable="false" />
+          <Property Name="Nickname" Type="nvarchar" MaxLength="250" />
+        </EntityType>
+        <EntityContainer Name="IWS2000DatabaseModelStoreContainer">
+          <EntitySet Name="AIConfig" EntityType="Self.AIConfig" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="MemberRoleCache" EntityType="Self.MemberRoleCache" Schema="dbo" store:Type="Tables" />
+        </EntityContainer>
       </Schema>
     </edmx:StorageModels>
     <!-- CSDL content -->
     <edmx:ConceptualModels>
       <Schema Namespace="IWS2000DatabaseModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
-        <EntityContainer Name="AIDatabase" annotation:LazyLoadingEnabled="true" />
+        <EntityType Name="AIConfig">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="Group" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="Key" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="Value" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+        </EntityType>
+        <EntityType Name="MemberRoleCache">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="QQNum" Type="Int64" Nullable="false" />
+          <Property Name="GroupNum" Type="Int64" Nullable="false" />
+          <Property Name="Role" Type="Int32" Nullable="false" />
+          <Property Name="Datatime" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="Nickname" Type="String" MaxLength="250" FixedLength="false" Unicode="true" />
+        </EntityType>
+        <EntityContainer Name="AIDatabase" annotation:LazyLoadingEnabled="true">
+          <EntitySet Name="AIConfig" EntityType="Self.AIConfig" />
+          <EntitySet Name="MemberRoleCache" EntityType="Self.MemberRoleCache" />
+        </EntityContainer>
       </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
     <edmx:Mappings>
       <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
-        <EntityContainerMapping StorageEntityContainer="IWS2000DatabaseModelStoreContainer" CdmEntityContainer="AIDatabase" />
+        <EntityContainerMapping StorageEntityContainer="IWS2000DatabaseModelStoreContainer" CdmEntityContainer="AIDatabase">
+          <EntitySetMapping Name="AIConfig">
+            <EntityTypeMapping TypeName="IWS2000DatabaseModel.AIConfig">
+              <MappingFragment StoreEntitySet="AIConfig">
+                <ScalarProperty Name="Id" ColumnName="Id" />
+                <ScalarProperty Name="Group" ColumnName="Group" />
+                <ScalarProperty Name="Key" ColumnName="Key" />
+                <ScalarProperty Name="Value" ColumnName="Value" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="MemberRoleCache">
+            <EntityTypeMapping TypeName="IWS2000DatabaseModel.MemberRoleCache">
+              <MappingFragment StoreEntitySet="MemberRoleCache">
+                <ScalarProperty Name="Id" ColumnName="Id" />
+                <ScalarProperty Name="QQNum" ColumnName="QQNum" />
+                <ScalarProperty Name="GroupNum" ColumnName="GroupNum" />
+                <ScalarProperty Name="Role" ColumnName="Role" />
+                <ScalarProperty Name="Datatime" ColumnName="Datatime" />
+                <ScalarProperty Name="Nickname" ColumnName="Nickname" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+        </EntityContainerMapping>
       </Mapping>
     </edmx:Mappings>
   </edmx:Runtime>

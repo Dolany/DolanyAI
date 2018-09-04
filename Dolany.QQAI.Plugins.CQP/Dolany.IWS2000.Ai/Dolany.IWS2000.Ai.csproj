@@ -98,6 +98,9 @@
     </Compile>
     <Compile Include="DolanyAI\Common\RuntimeLogger.cs" />
     <Compile Include="DolanyAI\Common\Utility.cs" />
+    <Compile Include="DolanyAI\Db\AIConfig.cs">
+      <DependentUpon>AIDatabase.tt</DependentUpon>
+    </Compile>
     <Compile Include="DolanyAI\Db\AIDatabase.Context.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
@@ -112,6 +115,9 @@
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
       <DependentUpon>AIDatabase.edmx</DependentUpon>
+    </Compile>
+    <Compile Include="DolanyAI\Db\MemberRoleCache.cs">
+      <DependentUpon>AIDatabase.tt</DependentUpon>
     </Compile>
     <Compile Include="DolanyAI\DTO\GroupMsgDTO.cs" />
     <Compile Include="DolanyAI\DTO\PrivateMsgDTO.cs" />

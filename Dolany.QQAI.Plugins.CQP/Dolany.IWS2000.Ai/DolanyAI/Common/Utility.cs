@@ -5,6 +5,7 @@ using System.Linq;
 using System.Runtime.ExceptionServices;
 using System.Text;
 using Dolany.IWS2000.Ai.MahuaApis;
+using Dolany.IWS2000.Ai.DolanyAI.Db;
 
 namespace Dolany.IWS2000.Ai.DolanyAI
 {
@@ -58,26 +59,25 @@ namespace Dolany.IWS2000.Ai.DolanyAI
 
         public static void SetConfig(string name, string value)
         {
-            //using (var db = new AIDatabase())
-            //{
-            //    var query = db.AIConfig.Where(p => p.Key == name);
-            //    if (query.IsNullOrEmpty())
-            //    {
-            //        db.AIConfig.Add(new AIConfig
-            //        {
-            //            Id = Guid.NewGuid().ToString(),
-            //            Key = name,
-            //            Value = value
-            //        });
-            //    }
-            //    else
-            //    {
-            //        var config = query.First();
-            //        config.Value = value;
-            //    }
-            //    db.SaveChanges();
-            //}
-            // TODO
+            using (var db = new AIDatabase())
+            {
+                var query = db.AIConfig.Where(p => p.Key == name);
+                if (query.IsNullOrEmpty())
+                {
+                    db.AIConfig.Add(new AIConfig
+                    {
+                        Id = Guid.NewGuid().ToString(),
+                        Key = name,
+                        Value = value
+                    });
+                }
+                else
+                {
+                    var config = query.First();
+                    config.Value = value;
+                }
+                db.SaveChanges();
+            }
         }
 
         [HandleProcessCorruptedStateExceptions]
@@ -85,13 +85,11 @@ namespace Dolany.IWS2000.Ai.DolanyAI
         {
             try
             {
-                //using (var db = new AIDatabase())
-                //{
-                //    var query = db.AIConfig.Where(p => p.Key == name);
-                //    return query.IsNullOrEmpty() ? string.Empty : query.First().Value;
-                //}
-                // TODO
-                return null;
+                using (var db = new AIDatabase())
+                {
+                    var query = db.AIConfig.Where(p => p.Key == name);
+                    return query.IsNullOrEmpty() ? string.Empty : query.First().Value;
+                }
             }
             catch (Exception ex)
             {
@@ -145,11 +143,10 @@ namespace Dolany.IWS2000.Ai.DolanyAI
             return copyT;
         }
 
-        //public static MemberRoleCache GetMemberInfo(GroupMsgDTO MsgDTO)
-        //{
-        //    return GroupMemberInfoCacher.GetMemberInfo(MsgDTO);
-        //}
-        // TODO
+        public static MemberRoleCache GetMemberInfo(GroupMsgDTO MsgDTO)
+        {
+            return GroupMemberInfoCacher.GetMemberInfo(MsgDTO);
+        }
 
         public static string GetAuthCode()
         {
