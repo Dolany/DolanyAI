@@ -17,7 +17,7 @@ namespace Dolany.IWS2000.Ai.DolanyAI
         private const string RequestUrl = "http://openapi.tuling123.com/openapi/api/v2";
 
         // ReSharper disable once UnusedMember.Local
-        private const string ApiKey = "fbeeef973da4480bb42dc10c45ba735b"; // TODO
+        private const string ApiKey = "217468fb38f04ed98172f15caceaf428"; // TODO
 
         private readonly int[] ErroCodes = { 5000, 6000, 4000, 4001, 4002, 4003, 4005, 4007, 4100, 4200, 4300, 4400, 4500, 4600, 4602, 7002, 8008 };
 

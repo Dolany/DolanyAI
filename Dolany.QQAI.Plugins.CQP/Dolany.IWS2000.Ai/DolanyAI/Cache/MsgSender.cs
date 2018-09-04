@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Linq;
 using System.Timers;
 using Newbe.Mahua;
 using Dolany.IWS2000.Ai.DolanyAI.Db;
