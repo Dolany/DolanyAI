@@ -27,5 +27,6 @@ namespace Dolany.IWS2000.Ai.DolanyAI.Db
     
         public virtual DbSet<AIConfig> AIConfig { get; set; }
         public virtual DbSet<MemberRoleCache> MemberRoleCache { get; set; }
+        public virtual DbSet<MsgSendCache> MsgSendCache { get; set; }
     }
 }

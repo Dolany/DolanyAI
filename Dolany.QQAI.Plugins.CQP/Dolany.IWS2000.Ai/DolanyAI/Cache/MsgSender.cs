@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Timers;
 using Newbe.Mahua;
+using Dolany.IWS2000.Ai.DolanyAI.Db;
 
 namespace Dolany.IWS2000.Ai.DolanyAI
 {
@@ -66,39 +67,37 @@ namespace Dolany.IWS2000.Ai.DolanyAI
                 return;
             }
 
-            //using (var db = new AIDatabase())
-            //{
-            //    db.MsgSendCache.Add(new MsgSendCache
-            //    {
-            //        Id = Guid.NewGuid().ToString(),
-            //        Aim = msg.Aim,
-            //        Type = msg.Type == MsgType.Group ? 0 : 1,
-            //        Msg = msg.Msg
-            //    });
-            //    db.SaveChanges();
-            //}
-            // TODO
+            using (var db = new AIDatabase())
+            {
+                db.MsgSendCache.Add(new MsgSendCache
+                {
+                    Id = Guid.NewGuid().ToString(),
+                    Aim = msg.Aim,
+                    Type = msg.Type == MsgType.Group ? 0 : 1,
+                    Msg = msg.Msg
+                });
+                db.SaveChanges();
+            }
         }
 
         private static void SendAllMsgs()
         {
-            //using (var db = new AIDatabase())
-            //{
-            //    var msgs = db.MsgSendCache.OrderBy(p => p.Guid).ThenBy(p => p.SerialNum);
-            //    foreach (var msg in msgs)
-            //    {
-            //        SendMsg(new SendMsgDTO
-            //        {
-            //            Aim = msg.Aim,
-            //            Msg = msg.Msg,
-            //            Type = msg.Type == 0 ? MsgType.Group : MsgType.Private
-            //        });
-            //    }
+            using (var db = new AIDatabase())
+            {
+                var msgs = db.MsgSendCache.OrderBy(p => p.Guid).ThenBy(p => p.SerialNum);
+                foreach (var msg in msgs)
+                {
+                    SendMsg(new SendMsgDTO
+                    {
+                        Aim = msg.Aim,
+                        Msg = msg.Msg,
+                        Type = msg.Type == 0 ? MsgType.Group : MsgType.Private
+                    });
+                }
 
-            //    db.MsgSendCache.RemoveRange(msgs);
-            //    db.SaveChanges();
-            //}
-            // TODO
+                db.MsgSendCache.RemoveRange(msgs);
+                db.SaveChanges();
+            }
         }
 
         // ReSharper disable once UnusedMember.Local

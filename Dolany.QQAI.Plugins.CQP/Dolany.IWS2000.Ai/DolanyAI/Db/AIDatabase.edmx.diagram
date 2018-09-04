@@ -7,6 +7,7 @@
       <Diagram DiagramId="4b386de3bb754617a474393743132d67" Name="Diagram1">
         <EntityTypeShape EntityType="IWS2000DatabaseModel.AIConfig" Width="1.5" PointX="0.75" PointY="0.75" IsExpanded="true" />
         <EntityTypeShape EntityType="IWS2000DatabaseModel.MemberRoleCache" Width="1.5" PointX="2.75" PointY="0.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="IWS2000DatabaseModel.MsgSendCache" Width="1.5" PointX="0.75" PointY="3.75" />
       </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>

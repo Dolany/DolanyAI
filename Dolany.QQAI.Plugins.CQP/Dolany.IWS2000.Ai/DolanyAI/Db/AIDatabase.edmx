@@ -4,7 +4,7 @@
   <edmx:Runtime>
     <!-- SSDL content -->
     <edmx:StorageModels>
-      <Schema Namespace="IWS2000DatabaseModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+    <Schema Namespace="IWS2000DatabaseModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
         <EntityType Name="AIConfig">
           <Key>
             <PropertyRef Name="Id" />
@@ -25,12 +25,23 @@
           <Property Name="Datatime" Type="datetime" Nullable="false" />
           <Property Name="Nickname" Type="nvarchar" MaxLength="250" />
         </EntityType>
+        <EntityType Name="MsgSendCache">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="nvarchar" MaxLength="50" Nullable="false" />
+          <Property Name="Aim" Type="bigint" Nullable="false" />
+          <Property Name="Type" Type="int" Nullable="false" />
+          <Property Name="Msg" Type="nvarchar" MaxLength="800" />
+          <Property Name="Guid" Type="nvarchar" MaxLength="50" />
+          <Property Name="SerialNum" Type="int" Nullable="false" />
+        </EntityType>
         <EntityContainer Name="IWS2000DatabaseModelStoreContainer">
           <EntitySet Name="AIConfig" EntityType="Self.AIConfig" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="MemberRoleCache" EntityType="Self.MemberRoleCache" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="MsgSendCache" EntityType="Self.MsgSendCache" Schema="dbo" store:Type="Tables" />
         </EntityContainer>
-      </Schema>
-    </edmx:StorageModels>
+      </Schema></edmx:StorageModels>
     <!-- CSDL content -->
     <edmx:ConceptualModels>
       <Schema Namespace="IWS2000DatabaseModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
@@ -57,7 +68,19 @@
         <EntityContainer Name="AIDatabase" annotation:LazyLoadingEnabled="true">
           <EntitySet Name="AIConfig" EntityType="Self.AIConfig" />
           <EntitySet Name="MemberRoleCache" EntityType="Self.MemberRoleCache" />
+          <EntitySet Name="MsgSendCache" EntityType="IWS2000DatabaseModel.MsgSendCache" />
         </EntityContainer>
+        <EntityType Name="MsgSendCache">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="Aim" Type="Int64" Nullable="false" />
+          <Property Name="Type" Type="Int32" Nullable="false" />
+          <Property Name="Msg" Type="String" MaxLength="800" FixedLength="false" Unicode="true" />
+          <Property Name="Guid" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="SerialNum" Type="Int32" Nullable="false" />
+        </EntityType>
       </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
@@ -83,6 +106,18 @@
                 <ScalarProperty Name="Role" ColumnName="Role" />
                 <ScalarProperty Name="Datatime" ColumnName="Datatime" />
                 <ScalarProperty Name="Nickname" ColumnName="Nickname" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="MsgSendCache">
+            <EntityTypeMapping TypeName="IWS2000DatabaseModel.MsgSendCache">
+              <MappingFragment StoreEntitySet="MsgSendCache">
+                <ScalarProperty Name="SerialNum" ColumnName="SerialNum" />
+                <ScalarProperty Name="Guid" ColumnName="Guid" />
+                <ScalarProperty Name="Msg" ColumnName="Msg" />
+                <ScalarProperty Name="Type" ColumnName="Type" />
+                <ScalarProperty Name="Aim" ColumnName="Aim" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
