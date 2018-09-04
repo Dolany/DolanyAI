@@ -149,7 +149,7 @@
           <Property Name="GroupNum" Type="bigint" Nullable="false" />
           <Property Name="Role" Type="int" Nullable="false" />
           <Property Name="Datatime" Type="datetime" Nullable="false" />
-          <Property Name="Nickname" Type="nvarchar" MaxLength="50" />
+          <Property Name="Nickname" Type="nvarchar" MaxLength="250" />
         </EntityType>
         <EntityType Name="MsgRecievedCache">
           <Key>
@@ -405,7 +405,7 @@
           <Property Name="GroupNum" Type="Int64" Nullable="false" />
           <Property Name="Role" Type="Int32" Nullable="false" />
           <Property Name="Datatime" Type="DateTime" Nullable="false" Precision="3" />
-          <Property Name="Nickname" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="Nickname" Type="String" MaxLength="250" FixedLength="false" Unicode="true" />
         </EntityType>
         <EntityType Name="MsgRecievedCache">
           <Key>
