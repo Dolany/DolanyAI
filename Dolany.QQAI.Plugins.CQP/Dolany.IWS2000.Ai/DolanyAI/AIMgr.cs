@@ -147,36 +147,13 @@ namespace Dolany.IWS2000.Ai.DolanyAI
 
         private void GroupMsgCallBack_Func(GroupMsgDTO MsgDTO)
         {
-            //if (DirtyFilter.IsInBlackList(MsgDTO.FromQQ) || !DirtyFilter.Filter(MsgDTO.FromGroup, MsgDTO.FromQQ, MsgDTO.Msg))
-            //{
-            //    return;
-            //}
-
             foreach (var ai in AIList)
             {
-                if (IsAiSealed(MsgDTO, ai.Key))
-                {
-                    continue;
-                }
-
                 if (ai.Key.OnGroupMsgReceived(MsgDTO))
                 {
                     break;
                 }
             }
-        }
-
-        // ReSharper disable once UnusedParameter.Local
-        private static bool IsAiSealed(GroupMsgDTO MsgDTO, AIBase ai)
-        {
-            //using (var db = new AIDatabase())
-            //{
-            //    var aiName = ai.GetType().Name;
-            //    var query = db.AISeal.Where(s => s.GroupNum == MsgDTO.FromGroup && s.AiName == aiName);
-            //    return !query.IsNullOrEmpty();
-            //}
-            // TODO
-            return false;
         }
 
         /// <summary>
