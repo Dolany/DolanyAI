@@ -1,22 +1,16 @@
-﻿namespace Dolany.Ice.Ai.DolanyAI
+﻿namespace Dolany.IWS2000.Ai.DolanyAI
 {
-    public class LongChecker : ISyntaxChecker
+    public class NotEmptyChecker : ISyntaxChecker
     {
         public bool Check(string msg, out object[] param)
         {
             param = null;
-
             if (string.IsNullOrEmpty(msg))
             {
                 return false;
             }
 
-            if (!long.TryParse(msg, out var memberNum))
-            {
-                return false;
-            }
-
-            param = new object[] { memberNum };
+            param = new object[] { msg };
             return true;
         }
     }

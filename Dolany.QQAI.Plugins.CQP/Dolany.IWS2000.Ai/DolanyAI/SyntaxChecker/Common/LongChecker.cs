@@ -1,4 +1,4 @@
-﻿namespace Dolany.Ice.Ai.DolanyAI
+﻿namespace Dolany.IWS2000.Ai.DolanyAI
 {
     public class LongChecker : ISyntaxChecker
     {

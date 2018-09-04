@@ -2,7 +2,7 @@
 using System.Linq;
 using System.Text;
 
-namespace Dolany.Ice.Ai.DolanyAI
+namespace Dolany.IWS2000.Ai.DolanyAI
 {
     [AI(
         Name = nameof(HelperAI),
