@@ -160,8 +160,8 @@
     <Content Include="buildTools\nuget.exe" />
     <Content Include="DolanyAI\Db\AIDatabase.Context.tt">
       <Generator>TextTemplatingFileGenerator</Generator>
-      <LastGenOutput>AIDatabase.Context.cs</LastGenOutput>
       <DependentUpon>AIDatabase.edmx</DependentUpon>
+      <LastGenOutput>AIDatabase.Context.cs</LastGenOutput>
     </Content>
     <Content Include="DolanyAI\Db\AIDatabase.tt">
       <Generator>TextTemplatingFileGenerator</Generator>
