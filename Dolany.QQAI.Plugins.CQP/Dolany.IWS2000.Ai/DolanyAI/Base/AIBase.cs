@@ -111,34 +111,33 @@ namespace Dolany.IWS2000.Ai.DolanyAI
                 return true;
             }
 
-            //var mi = Utility.GetMemberInfo(MsgDTO);
-            //if (mi == null)
-            //{
-            //    return false;
-            //}
+            var mi = Utility.GetMemberInfo(MsgDTO);
+            if (mi == null)
+            {
+                return false;
+            }
 
-            //var authority = mi.Role;
-            //if (authorityLevel == AuthorityLevel.开发者)
-            //{
-            //    return false;
-            //}
-            //if (authority == 0)
-            //{
-            //    return true;
-            //}
-            //if (authorityLevel == AuthorityLevel.群主)
-            //{
-            //    return false;
-            //}
-            //if (authority == 1)
-            //{
-            //    return true;
-            //}
-            //if (authorityLevel == AuthorityLevel.管理员)
-            //{
-            //    return false;
-            //}
-            // TODO
+            var authority = mi.Role;
+            if (authorityLevel == AuthorityLevel.开发者)
+            {
+                return false;
+            }
+            if (authority == 0)
+            {
+                return true;
+            }
+            if (authorityLevel == AuthorityLevel.群主)
+            {
+                return false;
+            }
+            if (authority == 1)
+            {
+                return true;
+            }
+            if (authorityLevel == AuthorityLevel.管理员)
+            {
+                return false;
+            }
 
             return true;
         }
