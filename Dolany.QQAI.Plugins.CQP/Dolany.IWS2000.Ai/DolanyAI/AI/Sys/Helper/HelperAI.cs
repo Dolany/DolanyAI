@@ -19,8 +19,9 @@ namespace Dolany.IWS2000.Ai.DolanyAI
         [GroupEnterCommand(
             Command = "帮助",
             AuthorityLevel = AuthorityLevel.成员,
-            Description = "获取帮助信息",
-            Syntax = " 或者 帮助 [命令名]",
+            Description = "获取帮助列表",
+            Syntax = "",
+            SyntaxChecker = "Empty",
             Tag = "帮助功能"
             )]
         public void HelpMe(GroupMsgDTO MsgDTO, object[] param)
@@ -31,6 +32,26 @@ namespace Dolany.IWS2000.Ai.DolanyAI
                 return;
             }
 
+            if (HelpCommand(MsgDTO))
+            {
+                return;
+            }
+
+            if (HelpTag(MsgDTO))
+            {
+            }
+        }
+
+        [GroupEnterCommand(
+            Command = "帮助",
+            AuthorityLevel = AuthorityLevel.成员,
+            Description = "获取特定命令的帮助信息",
+            Syntax = "[命令名]",
+            SyntaxChecker = "NotEmpty",
+            Tag = "帮助功能"
+        )]
+        public void HelpMe_Command(GroupMsgDTO MsgDTO, object[] param)
+        {
             if (HelpCommand(MsgDTO))
             {
                 return;
@@ -78,23 +99,20 @@ namespace Dolany.IWS2000.Ai.DolanyAI
                 return false;
             }
 
-            var command = commands.FirstOrDefault();
-            if (command == null)
+            foreach (var command in commands)
             {
-                return true;
-            }
-
-            var helpMsg = $@"命令：{command.Command}
+                var helpMsg = $@"命令：{command.Command}
 格式： {command.Command} {command.Syntax}
 描述： {command.Description}
 权限： {command.AuthorityLevel.ToString()}";
 
-            MsgSender.Instance.PushMsg(new SendMsgDTO
-            {
-                Aim = MsgDTO.FromGroup,
-                Type = MsgType.Group,
-                Msg = helpMsg
-            });
+                MsgSender.Instance.PushMsg(new SendMsgDTO
+                {
+                    Aim = MsgDTO.FromGroup,
+                    Type = MsgType.Group,
+                    Msg = helpMsg
+                });
+            }
 
             return true;
         }

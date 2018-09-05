@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Linq;
 using Dolany.Ice.Ai.DolanyAI.Db;
 
@@ -13,18 +12,6 @@ namespace Dolany.Ice.Ai.DolanyAI
         )]
     public class CartoonSayingAI : AIBase
     {
-        private static List<Saying> SayingList
-        {
-            get
-            {
-                using (var db = new AIDatabase())
-                {
-                    var query = db.Saying;
-                    return query.IsNullOrEmpty() ? null : query.ToList();
-                }
-            }
-        }
-
         public CartoonSayingAI()
         {
             RuntimeLogger.Log("CartoonSayingAI constructed");
@@ -37,10 +24,10 @@ namespace Dolany.Ice.Ai.DolanyAI
         [GroupEnterCommand(
             Command = "语录",
             AuthorityLevel = AuthorityLevel.成员,
-            Description = "录入语录或者按关键字检索语录",
-            Syntax = " 或者 语录 [关键字]; 语录 [出处] [人物] [内容]",
+            Description = "录入一条语录",
+            Syntax = "[出处] [人物] [内容]",
             Tag = "语录功能",
-            SyntaxChecker = nameof(ProcceedMsg)
+            SyntaxChecker = "ThreeWords"
             )]
         public void ProcceedMsg(GroupMsgDTO MsgDTO, object[] param)
         {
@@ -49,32 +36,65 @@ namespace Dolany.Ice.Ai.DolanyAI
                 return;
             }
 
-            switch ((int)param[0])
+            var saying = new Saying
             {
-                case 1:
-                    var smsg = SaveSaying(param[1] as Saying, MsgDTO.FromGroup) ? "语录录入成功！" : "语录录入失败！";
-                    MsgSender.Instance.PushMsg(new SendMsgDTO
-                    {
-                        Aim = MsgDTO.FromGroup,
-                        Type = MsgType.Group,
-                        Msg = smsg
-                    });
-                    break;
-
-                case 2:
-                    SayingRequest(MsgDTO);
-                    break;
-
-                case 3:
-                    SayingRequest(MsgDTO, param[1] as string);
-                    break;
-
-                default:
-                    throw new Exception("Unexpected Case");
+                Id = Guid.NewGuid().ToString(),
+                Cartoon = param[0] as string,
+                Charactor = param[1] as string,
+                Content = param[2] as string,
+                FromGroup = MsgDTO.FromGroup
+            };
+            using (var db = new AIDatabase())
+            {
+                db.Saying.Add(saying);
+                db.SaveChanges();
             }
+
+            MsgSender.Instance.PushMsg(new SendMsgDTO
+            {
+                Aim = MsgDTO.FromGroup,
+                Type = MsgType.Group,
+                Msg = "语录录入成功！"
+            });
         }
 
-        private void SayingRequest(GroupMsgDTO MsgDTO, string keyword = null)
+        [GroupEnterCommand(
+            Command = "语录",
+            AuthorityLevel = AuthorityLevel.成员,
+            Description = "返回一条随机语录",
+            Syntax = "",
+            Tag = "语录功能",
+            SyntaxChecker = "Empty"
+        )]
+        public void Sayings(GroupMsgDTO MsgDTO, object[] param)
+        {
+            if (IsInSealing(MsgDTO.FromGroup, MsgDTO.FromQQ))
+            {
+                return;
+            }
+
+            SayingRequest(MsgDTO);
+        }
+
+        [GroupEnterCommand(
+            Command = "语录",
+            AuthorityLevel = AuthorityLevel.成员,
+            Description = "按关键字检索语录",
+            Syntax = "[关键字]",
+            Tag = "语录功能",
+            SyntaxChecker = "NotEmpty"
+        )]
+        public void Sayings_Query(GroupMsgDTO MsgDTO, object[] param)
+        {
+            if (IsInSealing(MsgDTO.FromGroup, MsgDTO.FromQQ))
+            {
+                return;
+            }
+
+            SayingRequest(MsgDTO, param[0] as string);
+        }
+
+        private static void SayingRequest(GroupMsgDTO MsgDTO, string keyword = null)
         {
             var ranSaying = GetRanSaying(MsgDTO.FromGroup, keyword);
             if (string.IsNullOrEmpty(ranSaying))
@@ -99,36 +119,29 @@ namespace Dolany.Ice.Ai.DolanyAI
             }
         }
 
-        private static bool SaveSaying(Saying info, long fromGroup)
-        {
-            info.FromGroup = fromGroup;
-            info.Id = Guid.NewGuid().ToString();
-
-            using (var db = new AIDatabase())
-            {
-                db.Saying.Add(info);
-                db.SaveChanges();
-            }
-            return true;
-        }
-
         private static string GetRanSaying(long fromGroup, string keyword = null)
         {
-            var list = SayingList;
-            var query = from saying in list
-                        where (string.IsNullOrEmpty(keyword) || saying.Contains(keyword))
-                            && (fromGroup == 0 || saying.FromGroup == fromGroup)
-                        select saying;
-            if (query.IsNullOrEmpty())
+            using (var db = new AIDatabase())
             {
-                return string.Empty;
+                var query = db.Saying.Where(p => p.FromGroup == fromGroup);
+                if (keyword != null)
+                {
+                    query = query.Where(p => p.Cartoon.Contains(keyword) ||
+                                             p.Charactor.Contains(keyword) ||
+                                             p.Content.Contains(keyword))
+                                 .OrderBy(p => p.Id);
+                }
+
+                if (query.IsNullOrEmpty())
+                {
+                    return string.Empty;
+                }
+
+                var random = new Random();
+                var randIdx = random.Next(query.Count());
+                var saying = query.Skip(randIdx).FirstOrDefault();
+                return GetShownSaying(saying);
             }
-            list = query.ToList();
-
-            var random = new Random();
-            var randIdx = random.Next(list.Count);
-
-            return GetShownSaying(list[randIdx]);
         }
 
         private static string GetShownSaying(Saying s)
@@ -139,18 +152,6 @@ namespace Dolany.Ice.Ai.DolanyAI
 ";
 
             return shownSaying;
-        }
-
-        [PrivateEnterCommand(
-            Command = "语录总数",
-            Description = "查询录入的所有语录的总数",
-            Syntax = "",
-            Tag = "语录功能",
-            SyntaxChecker = "Empty"
-            )]
-        public void SayingTotalCount(PrivateMsgDTO MsgDTO, object[] param)
-        {
-            Utility.SendMsgToDeveloper($@"共有语录 {SayingList.Count}条");
         }
 
         [GroupEnterCommand(
@@ -191,10 +192,7 @@ namespace Dolany.Ice.Ai.DolanyAI
             )]
         public void SayingSeal(GroupMsgDTO MsgDTO, object[] param)
         {
-            if (!long.TryParse(MsgDTO.Msg, out var memberNum))
-            {
-                return;
-            }
+            var memberNum = (long)param[0];
 
             using (var db = new AIDatabase())
             {
@@ -240,10 +238,7 @@ namespace Dolany.Ice.Ai.DolanyAI
             )]
         public void SayingDeseal(GroupMsgDTO MsgDTO, object[] param)
         {
-            if (!long.TryParse(MsgDTO.Msg, out var memberNum))
-            {
-                return;
-            }
+            var memberNum = (long)param[0];
 
             using (var db = new AIDatabase())
             {
