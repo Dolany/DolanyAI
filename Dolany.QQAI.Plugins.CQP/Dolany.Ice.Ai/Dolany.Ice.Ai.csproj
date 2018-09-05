@@ -123,6 +123,7 @@
     <Compile Include="DolanyAI\Db\TouhouCardRecord.cs">
       <DependentUpon>AIDatabase.tt</DependentUpon>
     </Compile>
+    <Compile Include="DolanyAI\Entities\Dice\DiceSettingRecordEntity.cs" />
     <Compile Include="DolanyAI\Model\NeteaseResponse.cs" />
     <Compile Include="DolanyAI\AI\SingleCommand\OrderSong\OrderSongAI.cs" />
     <Compile Include="DolanyAI\AI\SingleCommand\PraiseMe\PraiseMeAI.cs" />
@@ -350,8 +351,6 @@
   <ItemGroup>
     <Service Include="{508349B6-6B84-4DF5-91F0-309BEEBAD82D}" />
   </ItemGroup>
-  <ItemGroup>
-    <Folder Include="DolanyAI\Entities\TableCardGame\" />
-  </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>
