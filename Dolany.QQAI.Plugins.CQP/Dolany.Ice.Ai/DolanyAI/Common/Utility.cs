@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Runtime.ExceptionServices;
+using System.Security.Cryptography;
 using System.Text;
 using Dolany.Ice.Ai.DolanyAI.Db;
 using Dolany.Ice.Ai.MahuaApis;
@@ -15,6 +16,8 @@ namespace Dolany.Ice.Ai.DolanyAI
         private static string AuthCode;
 
         public static long DeveloperNumber => 1458978159;
+
+        private static readonly RNGCryptoServiceProvider RngCsp = new RNGCryptoServiceProvider();
 
         public static void SendMsgToDeveloper(string msg)
         {
@@ -254,6 +257,15 @@ namespace Dolany.Ice.Ai.DolanyAI
         public static string ToCommonString(this DateTime dt)
         {
             return dt.ToString("yyyy-MM-dd HH:mm:ss");
+        }
+
+        public static int RandInt(int MaxValue)
+        {
+            const decimal _base = int.MaxValue;
+            var bytes = new byte[4];
+            RngCsp.GetBytes(bytes);
+
+            return (int)(Math.Abs(BitConverter.ToInt64(bytes, 0)) / _base * MaxValue);
         }
     }
 }
