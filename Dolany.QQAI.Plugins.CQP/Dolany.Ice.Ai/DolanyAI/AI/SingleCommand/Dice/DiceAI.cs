@@ -31,8 +31,7 @@ namespace Dolany.Ice.Ai.DolanyAI
 
             var query = DbMgr.Query<DiceSettingRecordEntity>(p => p.Content == MsgDTO.Command &&
                                                                   p.FromGroup == MsgDTO.FromGroup);
-            var entities = query as DiceSettingRecordEntity[] ?? query.ToArray();
-            var format = entities.IsNullOrEmpty() ? MsgDTO.Command : entities.First().SourceFormat;
+            var format = query.IsNullOrEmpty() ? MsgDTO.Command : query.First().SourceFormat;
 
             var model = ParseDice(format);
             if (model == null)
@@ -64,7 +63,7 @@ namespace Dolany.Ice.Ai.DolanyAI
                 return msg;
             }
 
-            var strs1 = msg.Split('+');
+            var strs1 = msg.Split(new[] { '+' }, StringSplitOptions.RemoveEmptyEntries);
             if (strs1.Length != 2)
             {
                 return msg;
@@ -85,7 +84,7 @@ namespace Dolany.Ice.Ai.DolanyAI
                 return null;
             }
 
-            var strs = msg.Split('d');
+            var strs = msg.Split(new[] { 'd' }, StringSplitOptions.RemoveEmptyEntries);
             if (strs.Length != 1 && strs.Length != 2)
             {
                 return null;
@@ -180,10 +179,9 @@ namespace Dolany.Ice.Ai.DolanyAI
                 return;
             }
 
-            var query = DbMgr.Query<DiceSettingRecordEntity>(p => p.SourceFormat == sourceFormat &&
+            var query = DbMgr.Query<DiceSettingRecordEntity>(p => p.Content == savedFormat &&
                                                                   p.FromGroup == MsgDTO.FromGroup);
-            var entities = query as DiceSettingRecordEntity[] ?? query.ToArray();
-            if (entities.IsNullOrEmpty())
+            if (query.IsNullOrEmpty())
             {
                 DbMgr.Insert(new DiceSettingRecordEntity
                 {
@@ -196,8 +194,8 @@ namespace Dolany.Ice.Ai.DolanyAI
             }
             else
             {
-                var setting = entities.First();
-                setting.Content = savedFormat;
+                var setting = query.First();
+                setting.SourceFormat = sourceFormat;
                 setting.UpdateTime = DateTime.Now;
 
                 DbMgr.Update(setting);

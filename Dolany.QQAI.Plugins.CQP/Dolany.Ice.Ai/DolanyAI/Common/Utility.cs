@@ -265,7 +265,7 @@ namespace Dolany.Ice.Ai.DolanyAI
             var bytes = new byte[4];
             RngCsp.GetBytes(bytes);
 
-            return (int)(Math.Abs(BitConverter.ToInt64(bytes, 0)) / _base * MaxValue);
+            return (int)(Math.Abs(BitConverter.ToInt32(bytes, 0)) / _base * MaxValue);
         }
     }
 }
