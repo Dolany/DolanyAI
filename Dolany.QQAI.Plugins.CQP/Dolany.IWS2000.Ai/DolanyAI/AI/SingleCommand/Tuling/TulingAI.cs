@@ -75,10 +75,9 @@ namespace Dolany.IWS2000.Ai.DolanyAI
             return ParseResponse(response);
         }
 
-        private PostReq_Param GetPostReq(GroupMsgDTO MsgDTO)
+        private static PostReq_Param GetPostReq(GroupMsgDTO MsgDTO)
         {
             var imageInfo = ParseImgText(MsgDTO.FullMsg);
-            // ReSharper disable once UnusedVariable
             var perception = string.IsNullOrEmpty(imageInfo) ? new perceptionData
             {
                 inputText = new inputTextData
@@ -119,7 +118,7 @@ namespace Dolany.IWS2000.Ai.DolanyAI
             return post;
         }
 
-        private string ParseResponse(TulingResponseData response)
+        private static string ParseResponse(TulingResponseData response)
         {
             var result = string.Empty;
             var builder = new StringBuilder();
@@ -152,7 +151,7 @@ namespace Dolany.IWS2000.Ai.DolanyAI
             return result;
         }
 
-        private string ParseImgText(string msg)
+        private static string ParseImgText(string msg)
         {
             if (!msg.Contains("QQ:pic="))
             {
@@ -162,8 +161,8 @@ namespace Dolany.IWS2000.Ai.DolanyAI
             try
             {
                 var strs1 = msg.Split(new[] { "QQ:pic=" }, StringSplitOptions.RemoveEmptyEntries);
-                var strs2 = strs1.Last().Split(new char[] { ']' });
-                var strs3 = strs2.First().Split(new char[] { '.' });
+                var strs2 = strs1.Last().Split(']');
+                var strs3 = strs2.First().Split('.');
                 var imageGuid = strs3.First();
 
                 var image = Utility.ReadImageCacheInfo(imageGuid);
