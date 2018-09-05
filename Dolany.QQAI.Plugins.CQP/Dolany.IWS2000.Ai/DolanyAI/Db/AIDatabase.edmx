@@ -36,10 +36,20 @@
           <Property Name="Guid" Type="nvarchar" MaxLength="50" />
           <Property Name="SerialNum" Type="int" Nullable="false" />
         </EntityType>
+        <EntityType Name="VoicesData">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="nvarchar" MaxLength="50" Nullable="false" />
+          <Property Name="VoiceUrl" Type="nvarchar" MaxLength="200" />
+          <Property Name="Content" Type="nvarchar" MaxLength="400" />
+          <Property Name="Tag" Type="nvarchar" MaxLength="50" />
+        </EntityType>
         <EntityContainer Name="IWS2000DatabaseModelStoreContainer">
           <EntitySet Name="AIConfig" EntityType="Self.AIConfig" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="MemberRoleCache" EntityType="Self.MemberRoleCache" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="MsgSendCache" EntityType="Self.MsgSendCache" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="VoicesData" EntityType="Self.VoicesData" Schema="dbo" store:Type="Tables" />
         </EntityContainer>
       </Schema></edmx:StorageModels>
     <!-- CSDL content -->
@@ -69,6 +79,7 @@
           <EntitySet Name="AIConfig" EntityType="Self.AIConfig" />
           <EntitySet Name="MemberRoleCache" EntityType="Self.MemberRoleCache" />
           <EntitySet Name="MsgSendCache" EntityType="IWS2000DatabaseModel.MsgSendCache" />
+          <EntitySet Name="VoicesData" EntityType="IWS2000DatabaseModel.VoicesData" />
         </EntityContainer>
         <EntityType Name="MsgSendCache">
           <Key>
@@ -80,6 +91,15 @@
           <Property Name="Msg" Type="String" MaxLength="800" FixedLength="false" Unicode="true" />
           <Property Name="Guid" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
           <Property Name="SerialNum" Type="Int32" Nullable="false" />
+        </EntityType>
+        <EntityType Name="VoicesData">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="VoiceUrl" Type="String" MaxLength="200" FixedLength="false" Unicode="true" />
+          <Property Name="Content" Type="String" MaxLength="400" FixedLength="false" Unicode="true" />
+          <Property Name="Tag" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
         </EntityType>
       </Schema>
     </edmx:ConceptualModels>
@@ -117,6 +137,16 @@
                 <ScalarProperty Name="Msg" ColumnName="Msg" />
                 <ScalarProperty Name="Type" ColumnName="Type" />
                 <ScalarProperty Name="Aim" ColumnName="Aim" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="VoicesData">
+            <EntityTypeMapping TypeName="IWS2000DatabaseModel.VoicesData">
+              <MappingFragment StoreEntitySet="VoicesData">
+                <ScalarProperty Name="Tag" ColumnName="Tag" />
+                <ScalarProperty Name="Content" ColumnName="Content" />
+                <ScalarProperty Name="VoiceUrl" ColumnName="VoiceUrl" />
                 <ScalarProperty Name="Id" ColumnName="Id" />
               </MappingFragment>
             </EntityTypeMapping>

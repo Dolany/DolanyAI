@@ -123,6 +123,9 @@
     <Compile Include="DolanyAI\Db\MsgSendCache.cs">
       <DependentUpon>AIDatabase.tt</DependentUpon>
     </Compile>
+    <Compile Include="DolanyAI\Db\VoicesData.cs">
+      <DependentUpon>AIDatabase.tt</DependentUpon>
+    </Compile>
     <Compile Include="DolanyAI\DTO\GroupMsgDTO.cs" />
     <Compile Include="DolanyAI\DTO\PrivateMsgDTO.cs" />
     <Compile Include="DolanyAI\DTO\SendMsgDTO.cs" />
