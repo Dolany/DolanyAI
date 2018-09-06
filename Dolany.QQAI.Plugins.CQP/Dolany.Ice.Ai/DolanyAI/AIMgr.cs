@@ -19,7 +19,7 @@ namespace Dolany.Ice.Ai.DolanyAI
         public static AIMgr Instance => _instance ?? (_instance = new AIMgr());
 
         private List<IAITool> Tools { get; } = new List<IAITool>();
-        public List<GroupEnterCommandAttribute> AllAvailableGroupCommands { get; } = new List<GroupEnterCommandAttribute>();
+        public List<EnterCommandAttribute> AllAvailableGroupCommands { get; } = new List<EnterCommandAttribute>();
 
         private AIMgr()
         {
@@ -57,7 +57,7 @@ namespace Dolany.Ice.Ai.DolanyAI
             var type = ai.GetType();
             foreach (var method in type.GetMethods())
             {
-                foreach (GroupEnterCommandAttribute attr in method.GetCustomAttributes(typeof(GroupEnterCommandAttribute), false))
+                foreach (EnterCommandAttribute attr in method.GetCustomAttributes(typeof(EnterCommandAttribute), false))
                 {
                     AllAvailableGroupCommands.Add(attr);
                 }
@@ -107,7 +107,7 @@ namespace Dolany.Ice.Ai.DolanyAI
         /// 处理群组消息收到事件
         /// </summary>
         /// <param name="MsgDTO"></param>
-        public void OnGroupMsgReceived(ReceivedMsgDTO MsgDTO)
+        public void OnMsgReceived(ReceivedMsgDTO MsgDTO)
         {
             if (AIList.IsNullOrEmpty())
             {
@@ -156,7 +156,7 @@ namespace Dolany.Ice.Ai.DolanyAI
                     continue;
                 }
 
-                if (ai.Key.OnGroupMsgReceived(MsgDTO))
+                if (ai.Key.OnMsgReceived(MsgDTO))
                 {
                     break;
                 }
@@ -170,27 +170,6 @@ namespace Dolany.Ice.Ai.DolanyAI
                 var aiName = ai.GetType().Name;
                 var query = db.AISeal.Where(s => s.GroupNum == MsgDTO.FromGroup && s.AiName == aiName);
                 return !query.IsNullOrEmpty();
-            }
-        }
-
-        /// <summary>
-        /// 处理私聊消息收到事件
-        /// </summary>
-        /// <param name="MsgDTO"></param>
-        public void OnPrivateMsgReceived(ReceivedMsgDTO MsgDTO)
-        {
-            if (AIList.IsNullOrEmpty())
-            {
-                return;
-            }
-
-            var msg = MsgDTO.Msg;
-            MsgDTO.Command = GenCommand(ref msg);
-            MsgDTO.Msg = msg;
-
-            foreach (var ai in AIList)
-            {
-                ai.Key.OnPrivateMsgReceived(MsgDTO);
             }
         }
 

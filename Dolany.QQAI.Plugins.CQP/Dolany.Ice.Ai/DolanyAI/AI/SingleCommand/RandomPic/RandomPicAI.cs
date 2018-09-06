@@ -37,7 +37,7 @@ namespace Dolany.Ice.Ai.DolanyAI
             foreach (var info in childrenDirs)
             {
                 Keywords.Add(info.Name);
-                Consolers.Add(new GroupEnterCommandAttribute
+                Consolers.Add(new EnterCommandAttribute
                 {
                     AuthorityLevel = AuthorityLevel.成员,
                     SyntaxChecker = "Empty",
@@ -57,7 +57,7 @@ namespace Dolany.Ice.Ai.DolanyAI
             SendPic(Environment.CurrentDirectory + "/" + PicPath + MsgDTO.Command + "/" + RandPic, MsgDTO.FromGroup);
         }
 
-        [GroupEnterCommand(
+        [EnterCommand(
             Command = "随机图片",
             AuthorityLevel = AuthorityLevel.成员,
             Description = "随机发送近期内所有群组内发过的图片",
@@ -65,7 +65,7 @@ namespace Dolany.Ice.Ai.DolanyAI
             Tag = "图片功能",
             SyntaxChecker = "Empty"
             )]
-        [GroupEnterCommand(
+        [EnterCommand(
             Command = "一键盗图",
             AuthorityLevel = AuthorityLevel.成员,
             Description = "随机发送近期内所有群组内发过的图片",
@@ -88,7 +88,7 @@ namespace Dolany.Ice.Ai.DolanyAI
             });
         }
 
-        [GroupEnterCommand(
+        [EnterCommand(
             Command = "随机闪照",
             AuthorityLevel = AuthorityLevel.成员,
             Description = "随机发送近期内所有群组内发过的图片（以闪照的形式）",
@@ -146,7 +146,7 @@ namespace Dolany.Ice.Ai.DolanyAI
             return f.Name;
         }
 
-        [PrivateEnterCommand(
+        [EnterCommand(
             Command = "重新加载图片",
             Description = "重新加载图片列表，刷新搜索关键字",
             Syntax = "",
@@ -161,7 +161,7 @@ namespace Dolany.Ice.Ai.DolanyAI
             Utility.SendMsgToDeveloper($"共加载了{Keywords.Count}个图片组");
         }
 
-        [PrivateEnterCommand(
+        [EnterCommand(
             Command = "添加同义词",
             Description = "添加图片检索时的关键字",
             Syntax = "[目标词] [同义词]",
@@ -184,7 +184,7 @@ namespace Dolany.Ice.Ai.DolanyAI
             Utility.SendMsgToDeveloper("添加成功！");
         }
 
-        [PrivateEnterCommand(
+        [EnterCommand(
             Command = "所有图片关键词",
             Description = "获取所有图片关键字（不包括同义词）",
             Syntax = "",

@@ -24,7 +24,7 @@ namespace Dolany.Ice.Ai.MahuaEvents
         {
             try
             {
-                AIMgr.Instance.OnPrivateMsgReceived(new ReceivedMsgDTO
+                AIMgr.Instance.OnMsgReceived(new ReceivedMsgDTO
                 {
                     //SubType = context.,
                     //SendTime = context.SendTime,

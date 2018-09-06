@@ -26,9 +26,9 @@ namespace Dolany.Ice.Ai.DolanyAI
         {
         }
 
-        public override bool OnGroupMsgReceived(ReceivedMsgDTO MsgDTO)
+        public override bool OnMsgReceived(ReceivedMsgDTO MsgDTO)
         {
-            if (base.OnGroupMsgReceived(MsgDTO))
+            if (base.OnMsgReceived(MsgDTO))
             {
                 return true;
             }

@@ -16,7 +16,7 @@ namespace Dolany.Ice.Ai.DolanyAI
         {
         }
 
-        [GroupEnterCommand(
+        [EnterCommand(
             Command = "帮助",
             AuthorityLevel = AuthorityLevel.成员,
             Description = "获取帮助列表",
@@ -29,7 +29,7 @@ namespace Dolany.Ice.Ai.DolanyAI
             HelpSummary(MsgDTO);
         }
 
-        [GroupEnterCommand(
+        [EnterCommand(
             Command = "帮助",
             AuthorityLevel = AuthorityLevel.成员,
             Description = "获取特定命令或标签的帮助信息",
@@ -69,7 +69,7 @@ namespace Dolany.Ice.Ai.DolanyAI
             });
         }
 
-        private static IEnumerable<GroupEnterCommandAttribute> GetCommandAttrs()
+        private static IEnumerable<EnterCommandAttribute> GetCommandAttrs()
         {
             return AIMgr.Instance.AllAvailableGroupCommands
                 .GroupBy(c => c.Tag)

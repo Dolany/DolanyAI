@@ -26,9 +26,9 @@ namespace Dolany.Ice.Ai.DolanyAI
         {
         }
 
-        public override bool OnGroupMsgReceived(ReceivedMsgDTO MsgDTO)
+        public override bool OnMsgReceived(ReceivedMsgDTO MsgDTO)
         {
-            if (base.OnGroupMsgReceived(MsgDTO))
+            if (base.OnMsgReceived(MsgDTO))
             {
                 return true;
             }
@@ -85,7 +85,7 @@ namespace Dolany.Ice.Ai.DolanyAI
             groupCache.IsAlreadyRepeated = true;
         }
 
-        [GroupEnterCommand(
+        [EnterCommand(
             Command = "+1复读禁用",
             AuthorityLevel = AuthorityLevel.群主,
             Description = "禁用+1复读功能，禁用后将不会在本群进行+1复读",
@@ -105,7 +105,7 @@ namespace Dolany.Ice.Ai.DolanyAI
             });
         }
 
-        [GroupEnterCommand(
+        [EnterCommand(
             Command = "+1复读启用",
             AuthorityLevel = AuthorityLevel.群主,
             Description = "重新启用+1复读功能",

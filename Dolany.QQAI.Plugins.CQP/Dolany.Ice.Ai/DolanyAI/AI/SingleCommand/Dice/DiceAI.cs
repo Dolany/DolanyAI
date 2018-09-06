@@ -22,9 +22,9 @@ namespace Dolany.Ice.Ai.DolanyAI
         {
         }
 
-        public override bool OnGroupMsgReceived(ReceivedMsgDTO MsgDTO)
+        public override bool OnMsgReceived(ReceivedMsgDTO MsgDTO)
         {
-            if (base.OnGroupMsgReceived(MsgDTO))
+            if (base.OnMsgReceived(MsgDTO))
             {
                 return true;
             }
@@ -155,7 +155,7 @@ namespace Dolany.Ice.Ai.DolanyAI
             });
         }
 
-        [GroupEnterCommand(
+        [EnterCommand(
             Command = "save",
             AuthorityLevel = AuthorityLevel.管理员,
             Description = "保存自定义骰子格式",

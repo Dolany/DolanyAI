@@ -108,7 +108,7 @@ namespace Dolany.Ice.Ai.DolanyAI
             }
         }
 
-        [GroupEnterCommand(
+        [EnterCommand(
             Command = "报时开启",
             AuthorityLevel = AuthorityLevel.管理员,
             Description = "设置报时功能开启",
@@ -127,7 +127,7 @@ namespace Dolany.Ice.Ai.DolanyAI
             });
         }
 
-        [GroupEnterCommand(
+        [EnterCommand(
             Command = "报时关闭",
             AuthorityLevel = AuthorityLevel.管理员,
             Description = "设置报时功能关闭",
@@ -170,7 +170,7 @@ namespace Dolany.Ice.Ai.DolanyAI
             }
         }
 
-        [GroupEnterCommand(
+        [EnterCommand(
             Command = "报时",
             AuthorityLevel = AuthorityLevel.成员,
             Description = "设定指定小时的报时内容",
@@ -242,12 +242,13 @@ namespace Dolany.Ice.Ai.DolanyAI
             return tag;
         }
 
-        [PrivateEnterCommand(
+        [EnterCommand(
             Command = "所有报时开启群组",
             Description = "获取所有报时开启群组的列表",
             Syntax = "",
             Tag = "闹钟与报时功能",
-            SyntaxChecker = "Empty"
+            SyntaxChecker = "Empty",
+            IsDeveloperOnly = true
             )]
         public void AllAvailabeGroups(ReceivedMsgDTO MsgDTO, object[] param)
         {
@@ -264,7 +265,7 @@ namespace Dolany.Ice.Ai.DolanyAI
             Utility.SendMsgToDeveloper(msg);
         }
 
-        [GroupEnterCommand(
+        [EnterCommand(
             Command = "清空报时",
             AuthorityLevel = AuthorityLevel.群主,
             Description = "清空指定小时的所有报时内容",
@@ -300,7 +301,7 @@ namespace Dolany.Ice.Ai.DolanyAI
             });
         }
 
-        [PrivateEnterCommand(
+        [EnterCommand(
             Command = "所有报时数目",
             Description = "获取所有的报时数目",
             Syntax = "",

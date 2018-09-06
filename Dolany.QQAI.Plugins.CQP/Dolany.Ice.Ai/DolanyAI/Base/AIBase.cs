@@ -9,30 +9,30 @@ namespace Dolany.Ice.Ai.DolanyAI
     public abstract class AIBase
     {
         // ReSharper disable once MemberCanBeProtected.Global
-        public delegate void GroupMsgConsolerDel(ReceivedMsgDTO msgDTO, object[] para);
+        public delegate void MsgConsolerDel(ReceivedMsgDTO msgDTO, object[] para);
 
         // ReSharper disable once MemberCanBePrivate.Global
-        protected readonly Dictionary<GroupEnterCommandAttribute, GroupMsgConsolerDel> Consolers =
-            new Dictionary<GroupEnterCommandAttribute, GroupMsgConsolerDel>();
+        protected readonly Dictionary<EnterCommandAttribute, MsgConsolerDel> Consolers =
+            new Dictionary<EnterCommandAttribute, MsgConsolerDel>();
 
         protected AIBase()
         {
             var t = GetType();
             foreach (var method in t.GetMethods())
             {
-                foreach (GroupEnterCommandAttribute attr in method.GetCustomAttributes(typeof(GroupEnterCommandAttribute), false))
+                foreach (EnterCommandAttribute attr in method.GetCustomAttributes(typeof(EnterCommandAttribute), false))
                 {
-                    Consolers.Add(attr, method.CreateDelegate(typeof(GroupMsgConsolerDel), this) as GroupMsgConsolerDel);
+                    Consolers.Add(attr, method.CreateDelegate(typeof(MsgConsolerDel), this) as MsgConsolerDel);
                 }
             }
         }
 
         public abstract void Work();
 
-        public virtual bool OnGroupMsgReceived(ReceivedMsgDTO MsgDTO)
+        public virtual bool OnMsgReceived(ReceivedMsgDTO MsgDTO)
         {
             var query = Consolers.Where(c => c.Key.Command == MsgDTO.Command);
-            var keyValuePairs = query as KeyValuePair<GroupEnterCommandAttribute, GroupMsgConsolerDel>[] ?? query.ToArray();
+            var keyValuePairs = query as KeyValuePair<EnterCommandAttribute, MsgConsolerDel>[] ?? query.ToArray();
             if (keyValuePairs.IsNullOrEmpty())
             {
                 return false;
@@ -42,7 +42,7 @@ namespace Dolany.Ice.Ai.DolanyAI
             {
                 foreach (var consoler in keyValuePairs)
                 {
-                    if (!GroupCheck(consoler.Key, MsgDTO, out var param))
+                    if (!Check(consoler.Key, MsgDTO, out var param))
                     {
                         continue;
                     }
@@ -59,7 +59,7 @@ namespace Dolany.Ice.Ai.DolanyAI
             return false;
         }
 
-        private static bool GroupCheck(GroupEnterCommandAttribute enterAttr, ReceivedMsgDTO MsgDTO, out object[] param)
+        private static bool Check(EnterCommandAttribute enterAttr, ReceivedMsgDTO MsgDTO, out object[] param)
         {
             param = null;
             if (enterAttr.Command != MsgDTO.Command)
@@ -72,7 +72,7 @@ namespace Dolany.Ice.Ai.DolanyAI
                 return false;
             }
 
-            if (!AuthorityCheck(enterAttr.AuthorityLevel, MsgDTO))
+            if (!AuthorityCheck(enterAttr.AuthorityLevel, enterAttr, MsgDTO))
             {
                 return false;
             }
@@ -103,13 +103,25 @@ namespace Dolany.Ice.Ai.DolanyAI
             }
         }
 
-        private static bool AuthorityCheck(AuthorityLevel authorityLevel, ReceivedMsgDTO MsgDTO)
+        private static bool AuthorityCheck(AuthorityLevel authorityLevel, EnterCommandAttribute enterAttr, ReceivedMsgDTO MsgDTO)
         {
             if (MsgDTO.FromQQ == Utility.DeveloperNumber)
             {
                 return true;
             }
 
+            if (MsgDTO.MsgType == MsgType.Group)
+            {
+                return GroupCheck(authorityLevel, MsgDTO);
+            }
+            else
+            {
+                return PrivateCheck(enterAttr);
+            }
+        }
+
+        private static bool GroupCheck(AuthorityLevel authorityLevel, ReceivedMsgDTO MsgDTO)
+        {
             var mi = Utility.GetMemberInfo(MsgDTO);
             if (mi == null)
             {
@@ -141,43 +153,9 @@ namespace Dolany.Ice.Ai.DolanyAI
             return true;
         }
 
-        public virtual void OnPrivateMsgReceived(ReceivedMsgDTO MsgDTO)
+        private static bool PrivateCheck(EnterCommandAttribute enterAttr)
         {
-            var t = GetType();
-            foreach (var method in t.GetMethods())
-            {
-                foreach (var attr in method.GetCustomAttributes(typeof(PrivateEnterCommandAttribute), false))
-                {
-                    if (!PrivateCheck(attr as PrivateEnterCommandAttribute, MsgDTO, out var param))
-                    {
-                        continue;
-                    }
-
-                    t.InvokeMember(method.Name,
-                            BindingFlags.InvokeMethod,
-                            null,
-                            this,
-                            new object[] { MsgDTO, param }
-                            );
-                    return;
-                }
-            }
-        }
-
-        private static bool PrivateCheck(PrivateEnterCommandAttribute enterAttr, ReceivedMsgDTO MsgDTO, out object[] param)
-        {
-            param = null;
-            if (enterAttr.Command != MsgDTO.Command)
-            {
-                return false;
-            }
-
-            if (enterAttr.IsDeveloperOnly && MsgDTO.FromQQ != Utility.DeveloperNumber)
-            {
-                return false;
-            }
-
-            if (!SyntaxCheck(enterAttr.SyntaxChecker, MsgDTO.Msg, out param))
+            if (!enterAttr.IsPrivateAvailabe)
             {
                 return false;
             }

@@ -14,7 +14,7 @@ namespace Dolany.Ice.Ai.DolanyAI
         {
         }
 
-        [GroupEnterCommand(
+        [EnterCommand(
             Command = "战绩查询",
             AuthorityLevel = AuthorityLevel.成员,
             Description = "查询300英雄战绩信息",

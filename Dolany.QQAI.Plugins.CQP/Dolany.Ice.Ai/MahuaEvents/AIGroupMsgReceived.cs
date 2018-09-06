@@ -24,7 +24,7 @@ namespace Dolany.Ice.Ai.MahuaEvents
         {
             try
             {
-                AIMgr.Instance.OnGroupMsgReceived(new ReceivedMsgDTO
+                AIMgr.Instance.OnMsgReceived(new ReceivedMsgDTO
                 {
                     FromGroup = long.Parse(context.FromGroup),
                     FromQQ = long.Parse(context.FromQq),

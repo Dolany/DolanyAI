@@ -22,7 +22,7 @@ namespace Dolany.Ice.Ai.DolanyAI
         {
         }
 
-        [GroupEnterCommand(
+        [EnterCommand(
             Command = "舰娘语音",
             AuthorityLevel = AuthorityLevel.成员,
             Description = "获取随机舰娘语音",

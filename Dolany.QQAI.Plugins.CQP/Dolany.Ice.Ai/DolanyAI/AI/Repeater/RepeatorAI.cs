@@ -23,9 +23,9 @@ namespace Dolany.Ice.Ai.DolanyAI
         {
         }
 
-        public override bool OnGroupMsgReceived(ReceivedMsgDTO MsgDTO)
+        public override bool OnMsgReceived(ReceivedMsgDTO MsgDTO)
         {
-            base.OnGroupMsgReceived(MsgDTO);
+            base.OnMsgReceived(MsgDTO);
 
             if (!IsAvailable(MsgDTO.FromGroup))
             {
@@ -53,7 +53,7 @@ namespace Dolany.Ice.Ai.DolanyAI
             return false;
         }
 
-        [GroupEnterCommand(
+        [EnterCommand(
             Command = "复读机禁用",
             AuthorityLevel = AuthorityLevel.群主,
             Description = "禁用复读机功能，禁用后将不会在本群产生计数和进行复读",
@@ -73,7 +73,7 @@ namespace Dolany.Ice.Ai.DolanyAI
             });
         }
 
-        [GroupEnterCommand(
+        [EnterCommand(
             Command = "复读机启用",
             AuthorityLevel = AuthorityLevel.群主,
             Description = "重新启用复读机功能",

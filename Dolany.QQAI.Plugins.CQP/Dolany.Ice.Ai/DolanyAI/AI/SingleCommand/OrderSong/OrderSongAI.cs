@@ -21,7 +21,7 @@ namespace Dolany.Ice.Ai.DolanyAI
         {
         }
 
-        [GroupEnterCommand(
+        [EnterCommand(
             Command = "点歌",
             AuthorityLevel = AuthorityLevel.成员,
             Description = "根据歌名点歌",

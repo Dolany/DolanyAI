@@ -47,7 +47,7 @@ namespace Dolany.Ice.Ai.DolanyAI
             }
         }
 
-        [GroupEnterCommand(
+        [EnterCommand(
             Command = "设定闹钟",
             AuthorityLevel = AuthorityLevel.成员,
             Description = "设定在指定时间的闹钟，我会到时候艾特你并显示提醒内容",
@@ -55,7 +55,7 @@ namespace Dolany.Ice.Ai.DolanyAI
             Tag = "闹钟与报时功能",
             SyntaxChecker = nameof(SetClock)
             )]
-        [GroupEnterCommand(
+        [EnterCommand(
             Command = "设置闹钟",
             AuthorityLevel = AuthorityLevel.成员,
             Description = "功能同设定闹钟",
@@ -138,7 +138,7 @@ namespace Dolany.Ice.Ai.DolanyAI
             timer.Interval = GetNextInterval(entity.AimHourt, entity.AimMinute);
         }
 
-        [GroupEnterCommand(
+        [EnterCommand(
             Command = "我的闹钟",
             AuthorityLevel = AuthorityLevel.成员,
             Description = "查询你当前设置的闹钟",
@@ -181,7 +181,7 @@ namespace Dolany.Ice.Ai.DolanyAI
             }
         }
 
-        [GroupEnterCommand(
+        [EnterCommand(
             Command = "删除闹钟",
             AuthorityLevel = AuthorityLevel.成员,
             Description = "删除指定时间的已经设置好的闹钟",
@@ -225,7 +225,7 @@ namespace Dolany.Ice.Ai.DolanyAI
             ReloadAllClocks();
         }
 
-        [GroupEnterCommand(
+        [EnterCommand(
             Command = "清空闹钟",
             AuthorityLevel = AuthorityLevel.成员,
             Description = "清空设置过的所有闹钟",

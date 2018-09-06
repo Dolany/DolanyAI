@@ -26,7 +26,7 @@ namespace Dolany.Ice.Ai.DolanyAI
         {
         }
 
-        [GroupEnterCommand(
+        [EnterCommand(
             Command = "祈愿运势",
             AuthorityLevel = AuthorityLevel.成员,
             Description = "获取祈愿运势",
@@ -34,7 +34,7 @@ namespace Dolany.Ice.Ai.DolanyAI
             Tag = "运势功能",
             SyntaxChecker = "Empty"
             )]
-        [GroupEnterCommand(
+        [EnterCommand(
             Command = ".luck",
             AuthorityLevel = AuthorityLevel.成员,
             Description = "获取每天运势",
@@ -97,7 +97,7 @@ namespace Dolany.Ice.Ai.DolanyAI
             }
         }
 
-        [GroupEnterCommand(
+        [EnterCommand(
             Command = "星座运势",
             AuthorityLevel = AuthorityLevel.成员,
             Description = "获取星座运势",
@@ -164,7 +164,7 @@ namespace Dolany.Ice.Ai.DolanyAI
             });
         }
 
-        [GroupEnterCommand(
+        [EnterCommand(
             Command = "塔罗牌占卜",
             AuthorityLevel = AuthorityLevel.成员,
             Description = "获取每日塔罗牌占卜",
@@ -172,7 +172,7 @@ namespace Dolany.Ice.Ai.DolanyAI
             Tag = "运势功能",
             SyntaxChecker = "Empty"
             )]
-        [GroupEnterCommand(
+        [EnterCommand(
             Command = ".zhan",
             AuthorityLevel = AuthorityLevel.成员,
             Description = "获取每日塔罗牌占卜",
@@ -244,7 +244,7 @@ namespace Dolany.Ice.Ai.DolanyAI
             }
         }
 
-        [GroupEnterCommand(
+        [EnterCommand(
             Command = "圣光祝福",
             AuthorityLevel = AuthorityLevel.群主,
             Description = "祝福一个成员，让其随机运势增加80%（最高100%），当日有效",
@@ -295,7 +295,7 @@ namespace Dolany.Ice.Ai.DolanyAI
             }
         }
 
-        [GroupEnterCommand(
+        [EnterCommand(
             Command = "暗夜诅咒",
             AuthorityLevel = AuthorityLevel.群主,
             Description = "诅咒一个成员，让其随机运势减少若干点（最低0%），当日有效",

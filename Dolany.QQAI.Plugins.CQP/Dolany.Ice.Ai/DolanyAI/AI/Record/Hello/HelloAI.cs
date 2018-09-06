@@ -22,9 +22,9 @@ namespace Dolany.Ice.Ai.DolanyAI
         {
         }
 
-        public override bool OnGroupMsgReceived(ReceivedMsgDTO MsgDTO)
+        public override bool OnMsgReceived(ReceivedMsgDTO MsgDTO)
         {
-            if (base.OnGroupMsgReceived(MsgDTO))
+            if (base.OnMsgReceived(MsgDTO))
             {
                 return true;
             }
@@ -56,7 +56,7 @@ namespace Dolany.Ice.Ai.DolanyAI
             return false;
         }
 
-        [GroupEnterCommand(
+        [EnterCommand(
             Command = "打招呼设定",
             AuthorityLevel = AuthorityLevel.成员,
             Description = "设定每天打招呼的内容",
@@ -99,7 +99,7 @@ namespace Dolany.Ice.Ai.DolanyAI
             });
         }
 
-        [GroupEnterCommand(
+        [EnterCommand(
             Command = "打招呼",
             AuthorityLevel = AuthorityLevel.成员,
             Description = "发送打招呼的内容",
@@ -133,7 +133,7 @@ namespace Dolany.Ice.Ai.DolanyAI
             }
         }
 
-        [GroupEnterCommand(
+        [EnterCommand(
             Command = "打招呼删除",
             AuthorityLevel = AuthorityLevel.成员,
             Description = "删除打招呼的内容",

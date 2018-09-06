@@ -16,7 +16,7 @@ namespace Dolany.Ice.Ai.DolanyAI
         {
         }
 
-        [PrivateEnterCommand(
+        [EnterCommand(
             Command = "功能封印",
             Description = "封印一个群的某个ai功能",
             Syntax = "[群组号] [需要封印的ai名]",

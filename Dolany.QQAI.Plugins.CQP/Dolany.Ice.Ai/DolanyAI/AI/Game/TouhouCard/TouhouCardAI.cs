@@ -25,7 +25,7 @@ namespace Dolany.Ice.Ai.DolanyAI
         {
         }
 
-        [GroupEnterCommand(
+        [EnterCommand(
             Command = ".card",
             AuthorityLevel = AuthorityLevel.成员,
             Description = "随机获取一张DIY幻想乡卡牌",
@@ -33,7 +33,7 @@ namespace Dolany.Ice.Ai.DolanyAI
             Tag = "抽卡功能",
             SyntaxChecker = "Empty"
         )]
-        [GroupEnterCommand(
+        [EnterCommand(
             Command = "幻想乡抽卡",
             AuthorityLevel = AuthorityLevel.成员,
             Description = "随机获取一张DIY幻想乡卡牌",

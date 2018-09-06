@@ -21,7 +21,7 @@ namespace Dolany.Ice.Ai.DolanyAI
         {
         }
 
-        [GroupEnterCommand(
+        [EnterCommand(
             Command = "语录",
             AuthorityLevel = AuthorityLevel.成员,
             Description = "录入一条语录",
@@ -58,7 +58,7 @@ namespace Dolany.Ice.Ai.DolanyAI
             });
         }
 
-        [GroupEnterCommand(
+        [EnterCommand(
             Command = "语录",
             AuthorityLevel = AuthorityLevel.成员,
             Description = "返回一条随机语录",
@@ -76,7 +76,7 @@ namespace Dolany.Ice.Ai.DolanyAI
             SayingRequest(MsgDTO);
         }
 
-        [GroupEnterCommand(
+        [EnterCommand(
             Command = "语录",
             AuthorityLevel = AuthorityLevel.成员,
             Description = "按关键字检索语录",
@@ -154,7 +154,7 @@ namespace Dolany.Ice.Ai.DolanyAI
             return shownSaying;
         }
 
-        [GroupEnterCommand(
+        [EnterCommand(
             Command = "删除语录",
             AuthorityLevel = AuthorityLevel.群主,
             Description = "按关键字删除语录",
@@ -182,7 +182,7 @@ namespace Dolany.Ice.Ai.DolanyAI
             }
         }
 
-        [GroupEnterCommand(
+        [EnterCommand(
             Command = "语录封禁",
             AuthorityLevel = AuthorityLevel.群主,
             Description = "封禁一个群员，让他无法使用语录功能",
@@ -228,7 +228,7 @@ namespace Dolany.Ice.Ai.DolanyAI
             });
         }
 
-        [GroupEnterCommand(
+        [EnterCommand(
             Command = "语录解封",
             AuthorityLevel = AuthorityLevel.群主,
             Description = "解封一个群员，让他可以继续使用语录功能",

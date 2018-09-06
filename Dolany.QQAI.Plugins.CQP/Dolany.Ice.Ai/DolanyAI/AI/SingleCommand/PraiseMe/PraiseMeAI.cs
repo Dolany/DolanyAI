@@ -37,7 +37,7 @@ namespace Dolany.Ice.Ai.DolanyAI
             LastTime = DateTime.Now.AddMinutes(-PraiseLimit);
         }
 
-        [GroupEnterCommand(
+        [EnterCommand(
             Command = "赞我",
             AuthorityLevel = AuthorityLevel.成员,
             Description = "发送十个赞",
