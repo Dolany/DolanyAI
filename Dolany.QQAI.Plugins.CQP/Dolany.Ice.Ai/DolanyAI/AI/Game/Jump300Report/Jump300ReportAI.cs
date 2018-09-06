@@ -20,7 +20,9 @@ namespace Dolany.Ice.Ai.DolanyAI
             Description = "查询300英雄战绩信息",
             Syntax = " [角色名]",
             Tag = "战绩查询功能",
-            SyntaxChecker = "NotEmpty"
+            SyntaxChecker = "NotEmpty",
+            IsDeveloperOnly = false,
+            IsPrivateAvailabe = true
             )]
         public void JumpReport(ReceivedMsgDTO MsgDTO, object[] param)
         {
@@ -34,7 +36,7 @@ namespace Dolany.Ice.Ai.DolanyAI
             Task.Run(() => jr.Work());
         }
 
-        public void ReportCallBack(ReceivedMsgDTO MsgDTO, string Report)
+        private static void ReportCallBack(ReceivedMsgDTO MsgDTO, string Report)
         {
             MsgSender.Instance.PushMsg(new SendMsgDTO
             {

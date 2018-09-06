@@ -17,7 +17,7 @@ namespace Dolany.Ice.Ai.DolanyAI
         )]
     public class AlermClockAI : AIBase
     {
-        public static List<string> ClockIdList => new List<string>();
+        private static List<string> ClockIdList => new List<string>();
 
         public AlermClockAI()
         {
@@ -53,7 +53,9 @@ namespace Dolany.Ice.Ai.DolanyAI
             Description = "设定在指定时间的闹钟，我会到时候艾特你并显示提醒内容",
             Syntax = "[目标时间] [提醒内容]",
             Tag = "闹钟与报时功能",
-            SyntaxChecker = nameof(SetClock)
+            SyntaxChecker = nameof(SetClock),
+            IsDeveloperOnly = false,
+            IsPrivateAvailabe = false
             )]
         [EnterCommand(
             Command = "设置闹钟",
@@ -61,7 +63,9 @@ namespace Dolany.Ice.Ai.DolanyAI
             Description = "功能同设定闹钟",
             Syntax = "[目标时间] [提醒内容]",
             Tag = "闹钟与报时功能",
-            SyntaxChecker = nameof(SetClock)
+            SyntaxChecker = nameof(SetClock),
+            IsDeveloperOnly = false,
+            IsPrivateAvailabe = false
             )]
         public void SetClock(ReceivedMsgDTO MsgDTO, object[] param)
         {
@@ -144,7 +148,9 @@ namespace Dolany.Ice.Ai.DolanyAI
             Description = "查询你当前设置的闹钟",
             Syntax = "",
             Tag = "闹钟与报时功能",
-            SyntaxChecker = "Empty"
+            SyntaxChecker = "Empty",
+            IsDeveloperOnly = false,
+            IsPrivateAvailabe = false
             )]
         public void QueryClock(ReceivedMsgDTO MsgDTO, object[] param)
         {
@@ -187,7 +193,9 @@ namespace Dolany.Ice.Ai.DolanyAI
             Description = "删除指定时间的已经设置好的闹钟",
             Syntax = "[目标时间]",
             Tag = "闹钟与报时功能",
-            SyntaxChecker = nameof(DeleteClock)
+            SyntaxChecker = nameof(DeleteClock),
+            IsDeveloperOnly = false,
+            IsPrivateAvailabe = false
             )]
         public void DeleteClock(ReceivedMsgDTO MsgDTO, object[] param)
         {
@@ -231,7 +239,9 @@ namespace Dolany.Ice.Ai.DolanyAI
             Description = "清空设置过的所有闹钟",
             Syntax = "",
             Tag = "闹钟与报时功能",
-            SyntaxChecker = "Empty"
+            SyntaxChecker = "Empty",
+            IsDeveloperOnly = false,
+            IsPrivateAvailabe = false
             )]
         public void ClearAllClock(ReceivedMsgDTO MsgDTO, object[] param)
         {

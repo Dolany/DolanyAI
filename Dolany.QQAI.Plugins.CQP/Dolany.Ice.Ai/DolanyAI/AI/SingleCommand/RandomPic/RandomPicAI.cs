@@ -28,7 +28,7 @@ namespace Dolany.Ice.Ai.DolanyAI
             ReloadAllKeywords();
         }
 
-        public void ReloadAllKeywords()
+        private void ReloadAllKeywords()
         {
             Keywords.Clear();
 
@@ -46,7 +46,7 @@ namespace Dolany.Ice.Ai.DolanyAI
             }
         }
 
-        public void KeywordsConsoler(ReceivedMsgDTO MsgDTO, object[] param)
+        private void KeywordsConsoler(ReceivedMsgDTO MsgDTO, object[] param)
         {
             var RandPic = GetRandPic(MsgDTO.Command);
             if (string.IsNullOrEmpty(RandPic))
@@ -63,7 +63,9 @@ namespace Dolany.Ice.Ai.DolanyAI
             Description = "随机发送近期内所有群组内发过的图片",
             Syntax = "",
             Tag = "图片功能",
-            SyntaxChecker = "Empty"
+            SyntaxChecker = "Empty",
+            IsDeveloperOnly = false,
+            IsPrivateAvailabe = true
             )]
         [EnterCommand(
             Command = "一键盗图",
@@ -71,7 +73,9 @@ namespace Dolany.Ice.Ai.DolanyAI
             Description = "随机发送近期内所有群组内发过的图片",
             Syntax = "",
             Tag = "图片功能",
-            SyntaxChecker = "Empty"
+            SyntaxChecker = "Empty",
+            IsDeveloperOnly = false,
+            IsPrivateAvailabe = true
             )]
         public void RecentPic(ReceivedMsgDTO MsgDTO, object[] param)
         {
@@ -80,12 +84,7 @@ namespace Dolany.Ice.Ai.DolanyAI
             var ImageCache = Utility.ReadImageCacheInfo(imageList[idx]);
             var sendImgName = $"{ImageCache.guid}.{ImageCache.type}";
 
-            MsgSender.Instance.PushMsg(new SendMsgDTO
-            {
-                Aim = MsgDTO.FromGroup,
-                Type = MsgType.Group,
-                Msg = CodeApi.Code_Image(sendImgName)
-            });
+            MsgSender.Instance.PushMsg(MsgDTO, CodeApi.Code_Image(sendImgName));
         }
 
         [EnterCommand(
@@ -94,7 +93,9 @@ namespace Dolany.Ice.Ai.DolanyAI
             Description = "随机发送近期内所有群组内发过的图片（以闪照的形式）",
             Syntax = "",
             Tag = "图片功能",
-            SyntaxChecker = "Empty"
+            SyntaxChecker = "Empty",
+            IsDeveloperOnly = false,
+            IsPrivateAvailabe = true
             )]
         public void RecentFlash(ReceivedMsgDTO MsgDTO, object[] param)
         {
@@ -103,12 +104,7 @@ namespace Dolany.Ice.Ai.DolanyAI
             var ImageCache = Utility.ReadImageCacheInfo(imageList[idx]);
             var sendImgName = $"{ImageCache.guid}.{ImageCache.type}";
 
-            MsgSender.Instance.PushMsg(new SendMsgDTO
-            {
-                Aim = MsgDTO.FromGroup,
-                Type = MsgType.Group,
-                Msg = CodeApi.Code_Flash(sendImgName)
-            });
+            MsgSender.Instance.PushMsg(MsgDTO, CodeApi.Code_Flash(sendImgName));
         }
 
         private List<FileInfo> GetRecentImageList()
@@ -152,7 +148,8 @@ namespace Dolany.Ice.Ai.DolanyAI
             Syntax = "",
             Tag = "图片功能",
             SyntaxChecker = "Empty",
-            IsDeveloperOnly = true
+            IsDeveloperOnly = true,
+            IsPrivateAvailabe = true
             )]
         public void RefreshKeywords(ReceivedMsgDTO MsgDTO, object[] param)
         {

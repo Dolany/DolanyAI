@@ -43,14 +43,10 @@ namespace Dolany.Ice.Ai.DolanyAI
             }
 
             CurCount++;
-            if (CurCount >= RepeatLimit)
-            {
-                CurCount %= RepeatLimit;
-                Repeat(MsgDTO);
-                return true;
-            }
-
-            return false;
+            if (CurCount < RepeatLimit) return false;
+            CurCount %= RepeatLimit;
+            Repeat(MsgDTO);
+            return true;
         }
 
         [EnterCommand(
@@ -59,7 +55,9 @@ namespace Dolany.Ice.Ai.DolanyAI
             Description = "禁用复读机功能，禁用后将不会在本群产生计数和进行复读",
             Syntax = "",
             Tag = "复读机功能",
-            SyntaxChecker = "Empty"
+            SyntaxChecker = "Empty",
+            IsDeveloperOnly = false,
+            IsPrivateAvailabe = false
             )]
         public void Forbidden(ReceivedMsgDTO MsgDTO, object[] param)
         {
@@ -79,7 +77,9 @@ namespace Dolany.Ice.Ai.DolanyAI
             Description = "重新启用复读机功能",
             Syntax = "",
             Tag = "复读机功能",
-            SyntaxChecker = "Empty"
+            SyntaxChecker = "Empty",
+            IsDeveloperOnly = false,
+            IsPrivateAvailabe = false
             )]
         public void Unforbidden(ReceivedMsgDTO MsgDTO, object[] param)
         {
@@ -127,15 +127,8 @@ namespace Dolany.Ice.Ai.DolanyAI
                     return true;
                 }
 
-                foreach (var r in query)
-                {
-                    if (r.GroupNumber == GroupNum && !r.Available)
-                    {
-                        return false;
-                    }
-                }
-
-                return true;
+                return Enumerable.All(query, r => r.GroupNumber != GroupNum ||
+                                                  r.Available);
             }
         }
 

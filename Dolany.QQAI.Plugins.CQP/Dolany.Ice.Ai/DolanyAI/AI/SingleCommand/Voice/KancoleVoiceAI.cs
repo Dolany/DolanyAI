@@ -28,7 +28,9 @@ namespace Dolany.Ice.Ai.DolanyAI
             Description = "获取随机舰娘语音",
             Syntax = "[舰娘名称]",
             Tag = "语音功能",
-            SyntaxChecker = "NotEmpty"
+            SyntaxChecker = "NotEmpty",
+            IsDeveloperOnly = false,
+            IsPrivateAvailabe = true
             )]
         public void KancoleVoice(ReceivedMsgDTO MsgDTO, object[] param)
         {
@@ -40,18 +42,8 @@ namespace Dolany.Ice.Ai.DolanyAI
                 return;
             }
 
-            MsgSender.Instance.PushMsg(new SendMsgDTO
-            {
-                Aim = MsgDTO.FromGroup,
-                Type = MsgType.Group,
-                Msg = CodeApi.Code_Voice(voice.VoiceUrl)
-            });
-            MsgSender.Instance.PushMsg(new SendMsgDTO
-            {
-                Aim = MsgDTO.FromGroup,
-                Type = MsgType.Group,
-                Msg = voice.Content
-            });
+            MsgSender.Instance.PushMsg(MsgDTO, CodeApi.Code_Voice(voice.VoiceUrl));
+            MsgSender.Instance.PushMsg(MsgDTO, voice.Content);
         }
 
         private static KanColeGirlVoice GetRandVoiceInfo(string name)

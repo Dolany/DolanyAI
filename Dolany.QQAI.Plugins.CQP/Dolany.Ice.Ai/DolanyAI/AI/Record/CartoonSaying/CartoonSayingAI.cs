@@ -27,7 +27,9 @@ namespace Dolany.Ice.Ai.DolanyAI
             Description = "录入一条语录",
             Syntax = "[出处] [人物] [内容]",
             Tag = "语录功能",
-            SyntaxChecker = "ThreeWords"
+            SyntaxChecker = "ThreeWords",
+            IsDeveloperOnly = false,
+            IsPrivateAvailabe = false
             )]
         public void ProcceedMsg(ReceivedMsgDTO MsgDTO, object[] param)
         {
@@ -64,7 +66,9 @@ namespace Dolany.Ice.Ai.DolanyAI
             Description = "返回一条随机语录",
             Syntax = "",
             Tag = "语录功能",
-            SyntaxChecker = "Empty"
+            SyntaxChecker = "Empty",
+            IsDeveloperOnly = false,
+            IsPrivateAvailabe = false
         )]
         public void Sayings(ReceivedMsgDTO MsgDTO, object[] param)
         {
@@ -82,7 +86,9 @@ namespace Dolany.Ice.Ai.DolanyAI
             Description = "按关键字检索语录",
             Syntax = "[关键字]",
             Tag = "语录功能",
-            SyntaxChecker = "NotEmpty"
+            SyntaxChecker = "NotEmpty",
+            IsDeveloperOnly = false,
+            IsPrivateAvailabe = false
         )]
         public void Sayings_Query(ReceivedMsgDTO MsgDTO, object[] param)
         {
@@ -160,7 +166,9 @@ namespace Dolany.Ice.Ai.DolanyAI
             Description = "按关键字删除语录",
             Syntax = "[关键字]",
             Tag = "语录功能",
-            SyntaxChecker = "NotEmpty"
+            SyntaxChecker = "NotEmpty",
+            IsDeveloperOnly = false,
+            IsPrivateAvailabe = false
             )]
         public void ClearSayings(ReceivedMsgDTO MsgDTO, object[] param)
         {
@@ -186,9 +194,11 @@ namespace Dolany.Ice.Ai.DolanyAI
             Command = "语录封禁",
             AuthorityLevel = AuthorityLevel.群主,
             Description = "封禁一个群员，让他无法使用语录功能",
-            Syntax = "[qq号码]",
+            Syntax = "[@qq号码]",
             Tag = "语录功能",
-            SyntaxChecker = "Long"
+            SyntaxChecker = "At",
+            IsDeveloperOnly = false,
+            IsPrivateAvailabe = false
             )]
         public void SayingSeal(ReceivedMsgDTO MsgDTO, object[] param)
         {
@@ -232,9 +242,11 @@ namespace Dolany.Ice.Ai.DolanyAI
             Command = "语录解封",
             AuthorityLevel = AuthorityLevel.群主,
             Description = "解封一个群员，让他可以继续使用语录功能",
-            Syntax = "[qq号码]",
+            Syntax = "[@qq号码]",
             Tag = "语录功能",
-            SyntaxChecker = "Long"
+            SyntaxChecker = "At",
+            IsDeveloperOnly = false,
+            IsPrivateAvailabe = false
             )]
         public void SayingDeseal(ReceivedMsgDTO MsgDTO, object[] param)
         {

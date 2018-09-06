@@ -43,7 +43,9 @@ namespace Dolany.Ice.Ai.DolanyAI
             Description = "发送十个赞",
             Syntax = "",
             Tag = "点赞功能",
-            SyntaxChecker = "Empty"
+            SyntaxChecker = "Empty",
+            IsDeveloperOnly = false,
+            IsPrivateAvailabe = false
             )]
         public void PraiseMe(ReceivedMsgDTO MsgDTO, object[] param)
         {
@@ -108,7 +110,7 @@ namespace Dolany.Ice.Ai.DolanyAI
 
         private static void Praise(ReceivedMsgDTO MsgDTO)
         {
-            for (int i = 0; i < 10; i++)
+            for (var i = 0; i < 10; i++)
             {
                 Thread.Sleep(100);
                 SendPraise(MsgDTO.FromQQ.ToString());

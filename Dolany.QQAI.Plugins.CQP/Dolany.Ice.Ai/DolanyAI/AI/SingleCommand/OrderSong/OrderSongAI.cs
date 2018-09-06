@@ -27,7 +27,9 @@ namespace Dolany.Ice.Ai.DolanyAI
             Description = "根据歌名点歌",
             Syntax = "[歌名]",
             Tag = "点歌功能",
-            SyntaxChecker = "NotEmpty"
+            SyntaxChecker = "NotEmpty",
+            IsDeveloperOnly = false,
+            IsPrivateAvailabe = true
             )]
         public void OrderASong(ReceivedMsgDTO MsgDTO, object[] param)
         {
@@ -38,12 +40,7 @@ namespace Dolany.Ice.Ai.DolanyAI
                 var songId = GetSongId(songName);
 
                 var responseXml = GetMusicXml(songId);
-                MsgSender.Instance.PushMsg(new SendMsgDTO
-                {
-                    Aim = MsgDTO.FromGroup,
-                    Type = MsgType.Group,
-                    Msg = responseXml
-                });
+                MsgSender.Instance.PushMsg(MsgDTO, responseXml);
             }
             catch (Exception ex)
             {

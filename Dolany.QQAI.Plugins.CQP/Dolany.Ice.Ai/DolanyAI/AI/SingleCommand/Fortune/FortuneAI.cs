@@ -32,7 +32,9 @@ namespace Dolany.Ice.Ai.DolanyAI
             Description = "获取祈愿运势",
             Syntax = "",
             Tag = "运势功能",
-            SyntaxChecker = "Empty"
+            SyntaxChecker = "Empty",
+            IsPrivateAvailabe = true,
+            IsDeveloperOnly = false
             )]
         [EnterCommand(
             Command = ".luck",
@@ -40,7 +42,9 @@ namespace Dolany.Ice.Ai.DolanyAI
             Description = "获取每天运势",
             Syntax = "",
             Tag = "运势功能",
-            SyntaxChecker = "Empty"
+            SyntaxChecker = "Empty",
+            IsPrivateAvailabe = true,
+            IsDeveloperOnly = false
             )]
         public void RandomFortune(ReceivedMsgDTO MsgDTO, object[] param)
         {
@@ -104,7 +108,8 @@ namespace Dolany.Ice.Ai.DolanyAI
             Syntax = "[星座名]",
             Tag = "运势功能",
             SyntaxChecker = "NotEmpty",
-            IsPrivateAvailabe = true
+            IsPrivateAvailabe = true,
+            IsDeveloperOnly = false
             )]
         public void StarFortune(ReceivedMsgDTO MsgDTO, object[] param)
         {
@@ -166,7 +171,9 @@ namespace Dolany.Ice.Ai.DolanyAI
             Description = "获取每日塔罗牌占卜",
             Syntax = "",
             Tag = "运势功能",
-            SyntaxChecker = "Empty"
+            SyntaxChecker = "Empty",
+            IsDeveloperOnly = false,
+            IsPrivateAvailabe = true
             )]
         [EnterCommand(
             Command = ".zhan",
@@ -174,7 +181,9 @@ namespace Dolany.Ice.Ai.DolanyAI
             Description = "获取每日塔罗牌占卜",
             Syntax = "",
             Tag = "运势功能",
-            SyntaxChecker = "Empty"
+            SyntaxChecker = "Empty",
+            IsDeveloperOnly = false,
+            IsPrivateAvailabe = true
             )]
         public void TarotFortune(ReceivedMsgDTO MsgDTO, object[] param)
         {
@@ -219,12 +228,7 @@ namespace Dolany.Ice.Ai.DolanyAI
             msg += data.IsPos ? "正位解释：" : "逆位解释：";
             msg += data.Description;
 
-            MsgSender.Instance.PushMsg(new SendMsgDTO
-            {
-                Aim = MsgDTO.FromGroup,
-                Type = MsgType.Group,
-                Msg = msg
-            });
+            MsgSender.Instance.PushMsg(MsgDTO, msg);
         }
 
         private static TarotFortuneData GetRandTarotFortune()
@@ -246,7 +250,9 @@ namespace Dolany.Ice.Ai.DolanyAI
             Description = "祝福一个成员，让其随机运势增加80%（最高100%），当日有效",
             Syntax = "[@qq号码]",
             Tag = "运势功能",
-            SyntaxChecker = "At"
+            SyntaxChecker = "At",
+            IsDeveloperOnly = false,
+            IsPrivateAvailabe = false
             )]
         public void HolyLight(ReceivedMsgDTO MsgDTO, object[] param)
         {
@@ -297,7 +303,9 @@ namespace Dolany.Ice.Ai.DolanyAI
             Description = "诅咒一个成员，让其随机运势减少若干点（最低0%），当日有效",
             Syntax = "[@qq号码]",
             Tag = "运势功能",
-            SyntaxChecker = "At"
+            SyntaxChecker = "At",
+            IsDeveloperOnly = false,
+            IsPrivateAvailabe = false
         )]
         public void Darkness(ReceivedMsgDTO MsgDTO, object[] param)
         {

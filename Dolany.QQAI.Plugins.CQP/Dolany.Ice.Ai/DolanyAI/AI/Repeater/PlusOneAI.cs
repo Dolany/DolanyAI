@@ -15,7 +15,7 @@ namespace Dolany.Ice.Ai.DolanyAI
         )]
     public class PlusOneAI : AIBase
     {
-        public List<PlusOneCache> Cache { get; set; } = new List<PlusOneCache>();
+        private List<PlusOneCache> Cache { get; } = new List<PlusOneCache>();
 
         public PlusOneAI()
         {
@@ -91,7 +91,9 @@ namespace Dolany.Ice.Ai.DolanyAI
             Description = "禁用+1复读功能，禁用后将不会在本群进行+1复读",
             Syntax = "",
             Tag = "复读机功能",
-            SyntaxChecker = "Empty"
+            SyntaxChecker = "Empty",
+            IsDeveloperOnly = false,
+            IsPrivateAvailabe = false
             )]
         public void Forbidden(ReceivedMsgDTO MsgDTO, object[] param)
         {
@@ -111,7 +113,9 @@ namespace Dolany.Ice.Ai.DolanyAI
             Description = "重新启用+1复读功能",
             Syntax = "",
             Tag = "复读机功能",
-            SyntaxChecker = "Empty"
+            SyntaxChecker = "Empty",
+            IsDeveloperOnly = false,
+            IsPrivateAvailabe = false
             )]
         public void Unforbidden(ReceivedMsgDTO MsgDTO, object[] param)
         {
@@ -127,7 +131,7 @@ namespace Dolany.Ice.Ai.DolanyAI
 
         private static void ForbiddenStateChange(long fromGroup, bool state)
         {
-            using (AIDatabase db = new AIDatabase())
+            using (var db = new AIDatabase())
             {
                 var query = db.PlusOneAvailable.Where(r => r.GroupNumber == fromGroup);
                 if (query.IsNullOrEmpty())
@@ -153,7 +157,7 @@ namespace Dolany.Ice.Ai.DolanyAI
 
         private static bool IsAvailable(long GroupNum)
         {
-            using (AIDatabase db = new AIDatabase())
+            using (var db = new AIDatabase())
             {
                 var query = db.PlusOneAvailable.Where(r => r.GroupNumber == GroupNum && !r.Available);
                 return query.IsNullOrEmpty();

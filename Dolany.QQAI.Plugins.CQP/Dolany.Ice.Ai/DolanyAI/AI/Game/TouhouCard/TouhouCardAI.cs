@@ -31,7 +31,9 @@ namespace Dolany.Ice.Ai.DolanyAI
             Description = "随机获取一张DIY幻想乡卡牌",
             Syntax = "",
             Tag = "抽卡功能",
-            SyntaxChecker = "Empty"
+            SyntaxChecker = "Empty",
+            IsDeveloperOnly = false,
+            IsPrivateAvailabe = true
         )]
         [EnterCommand(
             Command = "幻想乡抽卡",
@@ -39,7 +41,9 @@ namespace Dolany.Ice.Ai.DolanyAI
             Description = "随机获取一张DIY幻想乡卡牌",
             Syntax = "",
             Tag = "抽卡功能",
-            SyntaxChecker = "Empty"
+            SyntaxChecker = "Empty",
+            IsDeveloperOnly = false,
+            IsPrivateAvailabe = true
         )]
         public void RandomCard(ReceivedMsgDTO MsgDTO, object[] param)
         {

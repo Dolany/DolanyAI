@@ -62,7 +62,9 @@ namespace Dolany.Ice.Ai.DolanyAI
             Description = "设定每天打招呼的内容",
             Syntax = "[设定内容]",
             Tag = "打招呼功能",
-            SyntaxChecker = "NotEmpty"
+            SyntaxChecker = "NotEmpty",
+            IsDeveloperOnly = false,
+            IsPrivateAvailabe = false
             )]
         public void SaveHelloContent(ReceivedMsgDTO MsgDTO, object[] param)
         {
@@ -105,7 +107,9 @@ namespace Dolany.Ice.Ai.DolanyAI
             Description = "发送打招呼的内容",
             Syntax = "",
             Tag = "打招呼功能",
-            SyntaxChecker = "Empty"
+            SyntaxChecker = "Empty",
+            IsDeveloperOnly = false,
+            IsPrivateAvailabe = false
             )]
         public void SayHello(ReceivedMsgDTO MsgDTO, object[] param)
         {
@@ -139,7 +143,9 @@ namespace Dolany.Ice.Ai.DolanyAI
             Description = "删除打招呼的内容",
             Syntax = "",
             Tag = "打招呼功能",
-            SyntaxChecker = "Empty"
+            SyntaxChecker = "Empty",
+            IsDeveloperOnly = false,
+            IsPrivateAvailabe = false
             )]
         public void DeleteHello(ReceivedMsgDTO MsgDTO, object[] param)
         {
