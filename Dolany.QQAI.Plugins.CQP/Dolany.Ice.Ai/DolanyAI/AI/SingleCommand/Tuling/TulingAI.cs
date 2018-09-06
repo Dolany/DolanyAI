@@ -9,7 +9,7 @@ namespace Dolany.Ice.Ai.DolanyAI
         Name = nameof(TulingAI),
         Description = "AI for Tuling Robot.",
         IsAvailable = true,
-        PriorityLevel = 8
+        PriorityLevel = 2
         )]
     public class TulingAI : AIBase
     {
@@ -26,7 +26,7 @@ namespace Dolany.Ice.Ai.DolanyAI
         {
         }
 
-        public override bool OnGroupMsgReceived(GroupMsgDTO MsgDTO)
+        public override bool OnGroupMsgReceived(ReceivedMsgDTO MsgDTO)
         {
             if (base.OnGroupMsgReceived(MsgDTO))
             {
@@ -54,7 +54,7 @@ namespace Dolany.Ice.Ai.DolanyAI
             return true;
         }
 
-        private string RequestMsg(GroupMsgDTO MsgDTO)
+        private string RequestMsg(ReceivedMsgDTO MsgDTO)
         {
             var post = GetPostReq(MsgDTO);
             if (post == null)
@@ -71,7 +71,7 @@ namespace Dolany.Ice.Ai.DolanyAI
             return ParseResponse(response);
         }
 
-        private static PostReq_Param GetPostReq(GroupMsgDTO MsgDTO)
+        private static PostReq_Param GetPostReq(ReceivedMsgDTO MsgDTO)
         {
             var imageInfo = ParseImgText(MsgDTO.FullMsg);
             var perception = string.IsNullOrEmpty(imageInfo) ? new perceptionData

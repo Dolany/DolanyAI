@@ -22,7 +22,7 @@ namespace Dolany.Ice.Ai.DolanyAI
         {
         }
 
-        public override bool OnGroupMsgReceived(GroupMsgDTO MsgDTO)
+        public override bool OnGroupMsgReceived(ReceivedMsgDTO MsgDTO)
         {
             if (base.OnGroupMsgReceived(MsgDTO))
             {
@@ -134,7 +134,7 @@ namespace Dolany.Ice.Ai.DolanyAI
             return result;
         }
 
-        private static void SendResult(GroupMsgDTO MsgDTO, DiceResultModel ResultModel)
+        private static void SendResult(ReceivedMsgDTO MsgDTO, DiceResultModel ResultModel)
         {
             var sum = ResultModel.result.Sum(p => p);
             var sb = string.Join("+", ResultModel.result.Select(p => p.ToString()));
@@ -163,7 +163,7 @@ namespace Dolany.Ice.Ai.DolanyAI
             Tag = "骰子功能",
             SyntaxChecker = "TwoWords"
         )]
-        public void SaveFormatAs(GroupMsgDTO MsgDTO, object[] param)
+        public void SaveFormatAs(ReceivedMsgDTO MsgDTO, object[] param)
         {
             var sourceFormat = param[0] as string;
             var savedFormat = param[1] as string;

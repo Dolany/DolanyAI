@@ -30,7 +30,7 @@ namespace Dolany.Ice.Ai.DolanyAI
             Tag = "语音功能",
             SyntaxChecker = "NotEmpty"
             )]
-        public void KancoleVoice(GroupMsgDTO MsgDTO, object[] param)
+        public void KancoleVoice(ReceivedMsgDTO MsgDTO, object[] param)
         {
             var girlName = param[0] as string;
 

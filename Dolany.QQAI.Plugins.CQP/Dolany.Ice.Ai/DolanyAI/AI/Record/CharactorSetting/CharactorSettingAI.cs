@@ -33,7 +33,7 @@ namespace Dolany.Ice.Ai.DolanyAI
             Tag = "设定功能",
             SyntaxChecker = "ThreeWords"
             )]
-        public void SetCharactor(GroupMsgDTO MsgDTO, object[] param)
+        public void SetCharactor(ReceivedMsgDTO MsgDTO, object[] param)
         {
             var charactor = param[0] as string;
             var settingName = param[1] as string;
@@ -57,7 +57,7 @@ namespace Dolany.Ice.Ai.DolanyAI
             Tag = "设定功能",
             SyntaxChecker = "NotEmpty"
             )]
-        public void DeleteCharactor(GroupMsgDTO MsgDTO, object[] param)
+        public void DeleteCharactor(ReceivedMsgDTO MsgDTO, object[] param)
         {
             using (AIDatabase db = new AIDatabase())
             {
@@ -108,7 +108,7 @@ namespace Dolany.Ice.Ai.DolanyAI
             Tag = "设定功能",
             SyntaxChecker = "NotEmpty"
             )]
-        public void ViewCharactor(GroupMsgDTO MsgDTO, object[] param)
+        public void ViewCharactor(ReceivedMsgDTO MsgDTO, object[] param)
         {
             using (AIDatabase db = new AIDatabase())
             {
@@ -143,7 +143,7 @@ namespace Dolany.Ice.Ai.DolanyAI
             }
         }
 
-        private void TryToInsertChar(GroupMsgDTO MsgDTO, string charactor, string settingName, string content)
+        private void TryToInsertChar(ReceivedMsgDTO MsgDTO, string charactor, string settingName, string content)
         {
             if (IsQQFullChar(MsgDTO))
             {
@@ -160,7 +160,7 @@ namespace Dolany.Ice.Ai.DolanyAI
             }
         }
 
-        private void TryToUpdateChar(GroupMsgDTO MsgDTO, string charactor, string settingName, string content)
+        private void TryToUpdateChar(ReceivedMsgDTO MsgDTO, string charactor, string settingName, string content)
         {
             if (!IsCharactorCreator(MsgDTO, charactor))
             {
@@ -194,7 +194,7 @@ namespace Dolany.Ice.Ai.DolanyAI
             }
         }
 
-        private bool IsCharactorCreator(GroupMsgDTO MsgDTO, string charactor)
+        private bool IsCharactorCreator(ReceivedMsgDTO MsgDTO, string charactor)
         {
             using (AIDatabase db = new AIDatabase())
             {
@@ -215,7 +215,7 @@ namespace Dolany.Ice.Ai.DolanyAI
             }
         }
 
-        private bool IsQQFullChar(GroupMsgDTO MsgDTO)
+        private bool IsQQFullChar(ReceivedMsgDTO MsgDTO)
         {
             using (AIDatabase db = new AIDatabase())
             {
@@ -241,7 +241,7 @@ namespace Dolany.Ice.Ai.DolanyAI
             }
         }
 
-        private void InsertSetting(GroupMsgDTO MsgDTO, string charactor, string settingName, string content)
+        private void InsertSetting(ReceivedMsgDTO MsgDTO, string charactor, string settingName, string content)
         {
             using (AIDatabase db = new AIDatabase())
             {
@@ -268,7 +268,7 @@ namespace Dolany.Ice.Ai.DolanyAI
             }
         }
 
-        private void ModifySetting(GroupMsgDTO MsgDTO, string charactor, string settingName, string content)
+        private void ModifySetting(ReceivedMsgDTO MsgDTO, string charactor, string settingName, string content)
         {
             using (AIDatabase db = new AIDatabase())
             {

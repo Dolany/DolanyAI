@@ -41,7 +41,7 @@ namespace Dolany.Ice.Ai.DolanyAI
                     return;
                 }
 
-                var mi = Utility.GetMemberInfo(new GroupMsgDTO
+                var mi = Utility.GetMemberInfo(new ReceivedMsgDTO
                 {
                     FromGroup = GroupNum,
                     FromQQ = QQNum

@@ -42,7 +42,7 @@ namespace Dolany.Ice.Ai.DolanyAI
             Tag = "运势功能",
             SyntaxChecker = "Empty"
             )]
-        public void RandomFortune(GroupMsgDTO MsgDTO, object[] param)
+        public void RandomFortune(ReceivedMsgDTO MsgDTO, object[] param)
         {
             using (var db = new AIDatabase())
             {
@@ -105,13 +105,13 @@ namespace Dolany.Ice.Ai.DolanyAI
             Tag = "运势功能",
             SyntaxChecker = "NotEmpty"
             )]
-        public void StarFortune(GroupMsgDTO MsgDTO, object[] param)
+        public void StarFortune(ReceivedMsgDTO MsgDTO, object[] param)
         {
             var jr = new FortuneRequestor(MsgDTO, ReportCallBack);
             Task.Run(() => jr.Work());
         }
 
-        private static void ReportCallBack(GroupMsgDTO MsgDTO, string Report)
+        private static void ReportCallBack(ReceivedMsgDTO MsgDTO, string Report)
         {
             MsgSender.Instance.PushMsg(new SendMsgDTO
             {
@@ -127,7 +127,7 @@ namespace Dolany.Ice.Ai.DolanyAI
             return rand.Next(101);
         }
 
-        private static void ShowRandFortune(GroupMsgDTO MsgDTO, RandomFortune rf)
+        private static void ShowRandFortune(ReceivedMsgDTO MsgDTO, RandomFortune rf)
         {
             var msg = string.Empty;
 
@@ -180,7 +180,7 @@ namespace Dolany.Ice.Ai.DolanyAI
             Tag = "运势功能",
             SyntaxChecker = "Empty"
             )]
-        public void TarotFortune(GroupMsgDTO MsgDTO, object[] param)
+        public void TarotFortune(ReceivedMsgDTO MsgDTO, object[] param)
         {
             using (var db = new AIDatabase())
             {
@@ -216,7 +216,7 @@ namespace Dolany.Ice.Ai.DolanyAI
             }
         }
 
-        private static void SendTarotFortune(GroupMsgDTO MsgDTO, TarotFortuneData data)
+        private static void SendTarotFortune(ReceivedMsgDTO MsgDTO, TarotFortuneData data)
         {
             var msg = CodeApi.Code_Image(TarotServerPath + data.PicSrc) + '\r';
             msg += "牌名：" + data.Name + '\r';
@@ -252,7 +252,7 @@ namespace Dolany.Ice.Ai.DolanyAI
             Tag = "运势功能",
             SyntaxChecker = "At"
             )]
-        public void HolyLight(GroupMsgDTO MsgDTO, object[] param)
+        public void HolyLight(ReceivedMsgDTO MsgDTO, object[] param)
         {
             var aimNum = (long)param[0];
 
@@ -303,7 +303,7 @@ namespace Dolany.Ice.Ai.DolanyAI
             Tag = "运势功能",
             SyntaxChecker = "At"
         )]
-        public void Darkness(GroupMsgDTO MsgDTO, object[] param)
+        public void Darkness(ReceivedMsgDTO MsgDTO, object[] param)
         {
             var aimNum = (long)param[0];
 

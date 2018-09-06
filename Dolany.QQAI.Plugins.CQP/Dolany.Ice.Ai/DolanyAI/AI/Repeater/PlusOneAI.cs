@@ -26,7 +26,7 @@ namespace Dolany.Ice.Ai.DolanyAI
         {
         }
 
-        public override bool OnGroupMsgReceived(GroupMsgDTO MsgDTO)
+        public override bool OnGroupMsgReceived(ReceivedMsgDTO MsgDTO)
         {
             if (base.OnGroupMsgReceived(MsgDTO))
             {
@@ -93,7 +93,7 @@ namespace Dolany.Ice.Ai.DolanyAI
             Tag = "复读机功能",
             SyntaxChecker = "Empty"
             )]
-        public void Forbidden(GroupMsgDTO MsgDTO, object[] param)
+        public void Forbidden(ReceivedMsgDTO MsgDTO, object[] param)
         {
             ForbiddenStateChange(MsgDTO.FromGroup, false);
 
@@ -113,7 +113,7 @@ namespace Dolany.Ice.Ai.DolanyAI
             Tag = "复读机功能",
             SyntaxChecker = "Empty"
             )]
-        public void Unforbidden(GroupMsgDTO MsgDTO, object[] param)
+        public void Unforbidden(ReceivedMsgDTO MsgDTO, object[] param)
         {
             ForbiddenStateChange(MsgDTO.FromGroup, true);
 

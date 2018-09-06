@@ -5,6 +5,7 @@ using Dolany.Ice.Ai.DolanyAI;
 
 namespace Dolany.Ice.Ai.MahuaEvents
 {
+    /// <inheritdoc />
     /// <summary>
     /// 来自好友的私聊消息接收事件
     /// </summary>
@@ -23,7 +24,7 @@ namespace Dolany.Ice.Ai.MahuaEvents
         {
             try
             {
-                AIMgr.Instance.OnPrivateMsgReceived(new PrivateMsgDTO
+                AIMgr.Instance.OnPrivateMsgReceived(new ReceivedMsgDTO
                 {
                     //SubType = context.,
                     //SendTime = context.SendTime,
@@ -32,6 +33,7 @@ namespace Dolany.Ice.Ai.MahuaEvents
                     //FromAnonymous = context.FromAnonymous,
                     Msg = context.Message,
                     FullMsg = context.Message,
+                    MsgType = MsgType.Private
                     //Font = context.f
                 });
             }

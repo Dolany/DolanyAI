@@ -5,10 +5,10 @@ namespace Dolany.Ice.Ai.DolanyAI
 {
     public class JumpReportRequestor
     {
-        private GroupMsgDTO MsgDTO;
-        private Action<GroupMsgDTO, string> ReportCallBack { get; set; }
+        private ReceivedMsgDTO MsgDTO;
+        private Action<ReceivedMsgDTO, string> ReportCallBack { get; set; }
 
-        public JumpReportRequestor(GroupMsgDTO MsgDTO, Action<GroupMsgDTO, string> ReportCallBack)
+        public JumpReportRequestor(ReceivedMsgDTO MsgDTO, Action<ReceivedMsgDTO, string> ReportCallBack)
         {
             this.MsgDTO = MsgDTO;
             this.ReportCallBack = ReportCallBack;

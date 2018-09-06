@@ -24,13 +24,14 @@ namespace Dolany.Ice.Ai.MahuaEvents
         {
             try
             {
-                AIMgr.Instance.OnGroupMsgReceived(new GroupMsgDTO
+                AIMgr.Instance.OnGroupMsgReceived(new ReceivedMsgDTO
                 {
                     FromGroup = long.Parse(context.FromGroup),
                     FromQQ = long.Parse(context.FromQq),
                     FromAnonymous = context.FromAnonymous,
                     Msg = context.Message,
                     FullMsg = context.Message,
+                    MsgType = MsgType.Group
                 });
             }
             catch (Exception ex)

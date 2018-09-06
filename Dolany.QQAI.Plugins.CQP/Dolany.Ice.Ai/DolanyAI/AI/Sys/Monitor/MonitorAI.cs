@@ -20,10 +20,11 @@ namespace Dolany.Ice.Ai.DolanyAI
             Command = "功能封印",
             Description = "封印一个群的某个ai功能",
             Syntax = "[群组号] [需要封印的ai名]",
-            Tag = "ai封印功能",
-            SyntaxChecker = "LongAndAny"
+            Tag = "封印功能",
+            SyntaxChecker = "LongAndAny",
+            IsDeveloperOnly = true
             )]
-        public void SealAi(PrivateMsgDTO MsgDTO, object[] param)
+        public void SealAi(ReceivedMsgDTO MsgDTO, object[] param)
         {
             var groupNum = (long)param[0];
             var aiName = GetAiRealName(param[1] as string);
@@ -33,7 +34,7 @@ namespace Dolany.Ice.Ai.DolanyAI
                 return;
             }
 
-            using (AIDatabase db = new AIDatabase())
+            using (var db = new AIDatabase())
             {
                 var query = db.AISeal.Where(a => a.GroupNum == groupNum && a.AiName == aiName);
                 if (!query.IsNullOrEmpty())
@@ -65,7 +66,7 @@ namespace Dolany.Ice.Ai.DolanyAI
                 {
                     continue;
                 }
-                var attr = attributes[0] as AIAttribute;
+                var attr = (AIAttribute)attributes[0];
                 if (attr.Name == aiName)
                 {
                     return t.Name;
@@ -73,36 +74,6 @@ namespace Dolany.Ice.Ai.DolanyAI
             }
 
             return string.Empty;
-        }
-
-        [PrivateEnterCommand(
-            Command = "增加屏蔽词",
-            Description = "增加需要屏蔽的词汇",
-            Syntax = "[屏蔽词]",
-            Tag = "屏蔽词",
-            SyntaxChecker = "NotEmpty"
-            )]
-        public void AddDirtyWordsDic(PrivateMsgDTO MsgDTO, object[] param)
-        {
-            var dw = param[0] as string;
-            using (AIDatabase db = new AIDatabase())
-            {
-                var query = db.DirtyWord.Where(d => d.Content == dw);
-                if (!query.IsNullOrEmpty())
-                {
-                    Utility.SendMsgToDeveloper("该词已在屏蔽列表中！");
-                    return;
-                }
-
-                db.DirtyWord.Add(new DirtyWord
-                {
-                    Id = Guid.NewGuid().ToString(),
-                    Content = dw
-                });
-                db.SaveChanges();
-            }
-            DirtyFilter.InitWordList();
-            Utility.SendMsgToDeveloper("添加成功！");
         }
     }
 }

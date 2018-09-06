@@ -22,7 +22,7 @@ namespace Dolany.Ice.Ai.DolanyAI
         {
         }
 
-        public override bool OnGroupMsgReceived(GroupMsgDTO MsgDTO)
+        public override bool OnGroupMsgReceived(ReceivedMsgDTO MsgDTO)
         {
             if (base.OnGroupMsgReceived(MsgDTO))
             {
@@ -64,7 +64,7 @@ namespace Dolany.Ice.Ai.DolanyAI
             Tag = "打招呼功能",
             SyntaxChecker = "NotEmpty"
             )]
-        public void SaveHelloContent(GroupMsgDTO MsgDTO, object[] param)
+        public void SaveHelloContent(ReceivedMsgDTO MsgDTO, object[] param)
         {
             var content = param[0] as string;
 
@@ -107,7 +107,7 @@ namespace Dolany.Ice.Ai.DolanyAI
             Tag = "打招呼功能",
             SyntaxChecker = "Empty"
             )]
-        public void SayHello(GroupMsgDTO MsgDTO, object[] param)
+        public void SayHello(ReceivedMsgDTO MsgDTO, object[] param)
         {
             using (AIDatabase db = new AIDatabase())
             {
@@ -141,7 +141,7 @@ namespace Dolany.Ice.Ai.DolanyAI
             Tag = "打招呼功能",
             SyntaxChecker = "Empty"
             )]
-        public void DeleteHello(GroupMsgDTO MsgDTO, object[] param)
+        public void DeleteHello(ReceivedMsgDTO MsgDTO, object[] param)
         {
             using (AIDatabase db = new AIDatabase())
             {

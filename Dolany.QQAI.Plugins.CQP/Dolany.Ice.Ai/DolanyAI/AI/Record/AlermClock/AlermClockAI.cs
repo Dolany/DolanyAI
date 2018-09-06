@@ -63,7 +63,7 @@ namespace Dolany.Ice.Ai.DolanyAI
             Tag = "闹钟与报时功能",
             SyntaxChecker = nameof(SetClock)
             )]
-        public void SetClock(GroupMsgDTO MsgDTO, object[] param)
+        public void SetClock(ReceivedMsgDTO MsgDTO, object[] param)
         {
             var time = param[0] as (int hour, int minute)?;
 
@@ -85,7 +85,7 @@ namespace Dolany.Ice.Ai.DolanyAI
             }
         }
 
-        private void InsertClock(AlermClock entity, GroupMsgDTO MsgDTO)
+        private void InsertClock(AlermClock entity, ReceivedMsgDTO MsgDTO)
         {
             using (var db = new AIDatabase())
             {
@@ -146,7 +146,7 @@ namespace Dolany.Ice.Ai.DolanyAI
             Tag = "闹钟与报时功能",
             SyntaxChecker = "Empty"
             )]
-        public void QueryClock(GroupMsgDTO MsgDTO, object[] param)
+        public void QueryClock(ReceivedMsgDTO MsgDTO, object[] param)
         {
             using (var db = new AIDatabase())
             {
@@ -189,7 +189,7 @@ namespace Dolany.Ice.Ai.DolanyAI
             Tag = "闹钟与报时功能",
             SyntaxChecker = nameof(DeleteClock)
             )]
-        public void DeleteClock(GroupMsgDTO MsgDTO, object[] param)
+        public void DeleteClock(ReceivedMsgDTO MsgDTO, object[] param)
         {
             var time = param[0] as (int hour, int minute)?;
 
@@ -233,7 +233,7 @@ namespace Dolany.Ice.Ai.DolanyAI
             Tag = "闹钟与报时功能",
             SyntaxChecker = "Empty"
             )]
-        public void ClearAllClock(GroupMsgDTO MsgDTO, object[] param)
+        public void ClearAllClock(ReceivedMsgDTO MsgDTO, object[] param)
         {
             using (var db = new AIDatabase())
             {

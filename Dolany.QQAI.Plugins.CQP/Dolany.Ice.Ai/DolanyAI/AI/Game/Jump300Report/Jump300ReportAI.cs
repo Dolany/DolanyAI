@@ -22,7 +22,7 @@ namespace Dolany.Ice.Ai.DolanyAI
             Tag = "战绩查询功能",
             SyntaxChecker = "NotEmpty"
             )]
-        public void JumpReport(GroupMsgDTO MsgDTO, object[] param)
+        public void JumpReport(ReceivedMsgDTO MsgDTO, object[] param)
         {
             MsgSender.Instance.PushMsg(new SendMsgDTO
             {
@@ -34,7 +34,7 @@ namespace Dolany.Ice.Ai.DolanyAI
             Task.Run(() => jr.Work());
         }
 
-        public void ReportCallBack(GroupMsgDTO MsgDTO, string Report)
+        public void ReportCallBack(ReceivedMsgDTO MsgDTO, string Report)
         {
             MsgSender.Instance.PushMsg(new SendMsgDTO
             {

@@ -41,7 +41,7 @@ namespace Dolany.Ice.Ai.DolanyAI
             Tag = "抽卡功能",
             SyntaxChecker = "Empty"
         )]
-        public void RandomCard(GroupMsgDTO MsgDTO, object[] param)
+        public void RandomCard(ReceivedMsgDTO MsgDTO, object[] param)
         {
             using (var db = new AIDatabase())
             {
@@ -77,7 +77,7 @@ namespace Dolany.Ice.Ai.DolanyAI
             }
         }
 
-        private static void ReturnCard(GroupMsgDTO MsgDTO, string cardName)
+        private static void ReturnCard(ReceivedMsgDTO MsgDTO, string cardName)
         {
             MsgSender.Instance.PushMsg(new SendMsgDTO
             {

@@ -32,51 +32,65 @@ namespace Dolany.Ice.Ai.DolanyAI
 
         public static MsgSender Instance => instance ?? (instance = new MsgSender());
 
+        public void PushMsg(ReceivedMsgDTO MsgDTO, string MsgContent)
+        {
+            PushMsg(new SendMsgDTO
+            {
+                Aim = MsgDTO.MsgType == MsgType.Group ? MsgDTO.FromGroup : MsgDTO.FromQQ,
+                Msg = MsgContent,
+                Type = MsgDTO.MsgType
+            });
+        }
+
         public void PushMsg(SendMsgDTO msg)
         {
-            if (string.IsNullOrEmpty(msg.Msg))
+            while (true)
             {
-                return;
-            }
-
-            if (msg.Guid.IsNullOrEmpty())
-            {
-                msg.Guid = Guid.NewGuid().ToString();
-            }
-
-            if (msg.Msg.Length > SendMsgMaxLength)
-            {
-                PushMsg(new SendMsgDTO
+                if (string.IsNullOrEmpty(msg.Msg))
                 {
-                    Aim = msg.Aim,
-                    Type = msg.Type,
-                    Msg = msg.Msg.Substring(0, SendMsgMaxLength),
-                    Guid = msg.Guid,
-                    SerialNum = msg.SerialNum
-                });
+                    return;
+                }
 
-                PushMsg(new SendMsgDTO
+                if (msg.Guid.IsNullOrEmpty())
                 {
-                    Aim = msg.Aim,
-                    Type = msg.Type,
-                    Msg = msg.Msg.Substring(SendMsgMaxLength, msg.Msg.Length - SendMsgMaxLength),
-                    Guid = msg.Guid,
-                    SerialNum = msg.SerialNum + 1
-                });
+                    msg.Guid = Guid.NewGuid().ToString();
+                }
 
-                return;
-            }
-
-            using (var db = new AIDatabase())
-            {
-                db.MsgSendCache.Add(new MsgSendCache
+                if (msg.Msg.Length > SendMsgMaxLength)
                 {
-                    Id = Guid.NewGuid().ToString(),
-                    Aim = msg.Aim,
-                    Type = msg.Type == MsgType.Group ? 0 : 1,
-                    Msg = msg.Msg
-                });
-                db.SaveChanges();
+                    PushMsg(new SendMsgDTO
+                    {
+                        Aim = msg.Aim,
+                        Type = msg.Type,
+                        Msg = msg.Msg.Substring(0, SendMsgMaxLength),
+                        Guid = msg.Guid,
+                        SerialNum = msg.SerialNum
+                    });
+
+                    msg = new SendMsgDTO
+                    {
+                        Aim = msg.Aim,
+                        Type = msg.Type,
+                        Msg = msg.Msg.Substring(SendMsgMaxLength, msg.Msg.Length - SendMsgMaxLength),
+                        Guid = msg.Guid,
+                        SerialNum = msg.SerialNum + 1
+                    };
+                    continue;
+                }
+
+                using (var db = new AIDatabase())
+                {
+                    db.MsgSendCache.Add(new MsgSendCache
+                    {
+                        Id = Guid.NewGuid().ToString(),
+                        Aim = msg.Aim,
+                        Type = msg.Type == MsgType.Group ? 0 : 1,
+                        Msg = msg.Msg
+                    });
+                    db.SaveChanges();
+                }
+
+                break;
             }
         }
 

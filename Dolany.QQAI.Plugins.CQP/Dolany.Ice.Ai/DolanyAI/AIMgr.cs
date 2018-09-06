@@ -107,7 +107,7 @@ namespace Dolany.Ice.Ai.DolanyAI
         /// 处理群组消息收到事件
         /// </summary>
         /// <param name="MsgDTO"></param>
-        public void OnGroupMsgReceived(GroupMsgDTO MsgDTO)
+        public void OnGroupMsgReceived(ReceivedMsgDTO MsgDTO)
         {
             if (AIList.IsNullOrEmpty())
             {
@@ -127,7 +127,7 @@ namespace Dolany.Ice.Ai.DolanyAI
             GroupMsgCallBack(MsgDTO);
         }
 
-        private void GroupMsgCallBack(GroupMsgDTO MsgDTO)
+        private void GroupMsgCallBack(ReceivedMsgDTO MsgDTO)
         {
             Task.Factory.StartNew(() =>
             {
@@ -142,7 +142,7 @@ namespace Dolany.Ice.Ai.DolanyAI
             });
         }
 
-        private void GroupMsgCallBack_Func(GroupMsgDTO MsgDTO)
+        private void GroupMsgCallBack_Func(ReceivedMsgDTO MsgDTO)
         {
             //if (DirtyFilter.IsInBlackList(MsgDTO.FromQQ) || !DirtyFilter.Filter(MsgDTO.FromGroup, MsgDTO.FromQQ, MsgDTO.Msg))
             //{
@@ -163,7 +163,7 @@ namespace Dolany.Ice.Ai.DolanyAI
             }
         }
 
-        private static bool IsAiSealed(GroupMsgDTO MsgDTO, AIBase ai)
+        private static bool IsAiSealed(ReceivedMsgDTO MsgDTO, AIBase ai)
         {
             using (var db = new AIDatabase())
             {
@@ -177,7 +177,7 @@ namespace Dolany.Ice.Ai.DolanyAI
         /// 处理私聊消息收到事件
         /// </summary>
         /// <param name="MsgDTO"></param>
-        public void OnPrivateMsgReceived(PrivateMsgDTO MsgDTO)
+        public void OnPrivateMsgReceived(ReceivedMsgDTO MsgDTO)
         {
             if (AIList.IsNullOrEmpty())
             {

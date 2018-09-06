@@ -34,7 +34,7 @@ namespace Dolany.Ice.Ai.DolanyAI
 
         public override void Work()
         {
-            LastTime = DateTime.Now.AddMinutes(PraiseLimit);
+            LastTime = DateTime.Now.AddMinutes(-PraiseLimit);
         }
 
         [GroupEnterCommand(
@@ -45,14 +45,14 @@ namespace Dolany.Ice.Ai.DolanyAI
             Tag = "点赞功能",
             SyntaxChecker = "Empty"
             )]
-        public void PraiseMe(GroupMsgDTO MsgDTO, object[] param)
+        public void PraiseMe(ReceivedMsgDTO MsgDTO, object[] param)
         {
             if (!CheckLimit(MsgDTO))
             {
                 return;
             }
 
-            using (AIDatabase db = new AIDatabase())
+            using (var db = new AIDatabase())
             {
                 var query = db.PraiseRec.Where(p => p.QQNum == MsgDTO.FromQQ);
                 if (query.IsNullOrEmpty())
@@ -88,7 +88,7 @@ namespace Dolany.Ice.Ai.DolanyAI
             }
         }
 
-        private bool CheckLimit(GroupMsgDTO MsgDTO)
+        private bool CheckLimit(ReceivedMsgDTO MsgDTO)
         {
             if (LastTime.AddMinutes(PraiseLimit) < DateTime.Now)
             {
@@ -106,7 +106,7 @@ namespace Dolany.Ice.Ai.DolanyAI
             return false;
         }
 
-        private static void Praise(GroupMsgDTO MsgDTO)
+        private static void Praise(ReceivedMsgDTO MsgDTO)
         {
             for (int i = 0; i < 10; i++)
             {

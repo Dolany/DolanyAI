@@ -13,17 +13,17 @@ namespace Dolany.Ice.Ai.DolanyAI
         )]
     public class RepeatorAI : AIBase
     {
-        private long RepeatLimit = 30;
+        private const long RepeatLimit = 30;
 
         private long CurCount;
 
-        private readonly int SleepTime = 3000;
+        private const int SleepTime = 3000;
 
         public override void Work()
         {
         }
 
-        public override bool OnGroupMsgReceived(GroupMsgDTO MsgDTO)
+        public override bool OnGroupMsgReceived(ReceivedMsgDTO MsgDTO)
         {
             base.OnGroupMsgReceived(MsgDTO);
 
@@ -61,7 +61,7 @@ namespace Dolany.Ice.Ai.DolanyAI
             Tag = "复读机功能",
             SyntaxChecker = "Empty"
             )]
-        public void Forbidden(GroupMsgDTO MsgDTO, object[] param)
+        public void Forbidden(ReceivedMsgDTO MsgDTO, object[] param)
         {
             ForbiddenStateChange(MsgDTO.FromGroup, false);
 
@@ -81,7 +81,7 @@ namespace Dolany.Ice.Ai.DolanyAI
             Tag = "复读机功能",
             SyntaxChecker = "Empty"
             )]
-        public void Unforbidden(GroupMsgDTO MsgDTO, object[] param)
+        public void Unforbidden(ReceivedMsgDTO MsgDTO, object[] param)
         {
             ForbiddenStateChange(MsgDTO.FromGroup, true);
 
@@ -95,7 +95,7 @@ namespace Dolany.Ice.Ai.DolanyAI
 
         private static void ForbiddenStateChange(long fromGroup, bool state)
         {
-            using (AIDatabase db = new AIDatabase())
+            using (var db = new AIDatabase())
             {
                 var query = db.RepeaterAvailable.Where(r => r.GroupNumber == fromGroup);
                 if (query.IsNullOrEmpty())
@@ -119,7 +119,7 @@ namespace Dolany.Ice.Ai.DolanyAI
 
         private static bool IsAvailable(long GroupNum)
         {
-            using (AIDatabase db = new AIDatabase())
+            using (var db = new AIDatabase())
             {
                 var query = db.RepeaterAvailable;
                 if (query.IsNullOrEmpty())
@@ -139,7 +139,7 @@ namespace Dolany.Ice.Ai.DolanyAI
             }
         }
 
-        private void Repeat(GroupMsgDTO MsgDTO)
+        private static void Repeat(ReceivedMsgDTO MsgDTO)
         {
             Thread.Sleep(SleepTime);
 
@@ -149,18 +149,6 @@ namespace Dolany.Ice.Ai.DolanyAI
                 Type = MsgType.Group,
                 Msg = MsgDTO.FullMsg
             });
-        }
-
-        [PrivateEnterCommand(
-            Command = "设定复读频率",
-            Description = "设定复读功能的频率，即多少次计数后进行复读",
-            Syntax = "[复读频率]",
-            Tag = "复读机功能",
-            SyntaxChecker = "Long"
-            )]
-        public void SetRepeatLimit(PrivateMsgDTO MsgDTO, object[] param)
-        {
-            RepeatLimit = (long)param[0];
         }
     }
 }

@@ -9,7 +9,7 @@ namespace Dolany.Ice.Ai.DolanyAI
     public abstract class AIBase
     {
         // ReSharper disable once MemberCanBeProtected.Global
-        public delegate void GroupMsgConsolerDel(GroupMsgDTO msgDTO, object[] para);
+        public delegate void GroupMsgConsolerDel(ReceivedMsgDTO msgDTO, object[] para);
 
         // ReSharper disable once MemberCanBePrivate.Global
         protected readonly Dictionary<GroupEnterCommandAttribute, GroupMsgConsolerDel> Consolers =
@@ -29,7 +29,7 @@ namespace Dolany.Ice.Ai.DolanyAI
 
         public abstract void Work();
 
-        public virtual bool OnGroupMsgReceived(GroupMsgDTO MsgDTO)
+        public virtual bool OnGroupMsgReceived(ReceivedMsgDTO MsgDTO)
         {
             var query = Consolers.Where(c => c.Key.Command == MsgDTO.Command);
             var keyValuePairs = query as KeyValuePair<GroupEnterCommandAttribute, GroupMsgConsolerDel>[] ?? query.ToArray();
@@ -59,7 +59,7 @@ namespace Dolany.Ice.Ai.DolanyAI
             return false;
         }
 
-        private static bool GroupCheck(GroupEnterCommandAttribute enterAttr, GroupMsgDTO MsgDTO, out object[] param)
+        private static bool GroupCheck(GroupEnterCommandAttribute enterAttr, ReceivedMsgDTO MsgDTO, out object[] param)
         {
             param = null;
             if (enterAttr.Command != MsgDTO.Command)
@@ -103,7 +103,7 @@ namespace Dolany.Ice.Ai.DolanyAI
             }
         }
 
-        private static bool AuthorityCheck(AuthorityLevel authorityLevel, GroupMsgDTO MsgDTO)
+        private static bool AuthorityCheck(AuthorityLevel authorityLevel, ReceivedMsgDTO MsgDTO)
         {
             if (MsgDTO.FromQQ == Utility.DeveloperNumber)
             {
@@ -141,7 +141,7 @@ namespace Dolany.Ice.Ai.DolanyAI
             return true;
         }
 
-        public virtual void OnPrivateMsgReceived(PrivateMsgDTO MsgDTO)
+        public virtual void OnPrivateMsgReceived(ReceivedMsgDTO MsgDTO)
         {
             var t = GetType();
             foreach (var method in t.GetMethods())
@@ -164,7 +164,7 @@ namespace Dolany.Ice.Ai.DolanyAI
             }
         }
 
-        private static bool PrivateCheck(PrivateEnterCommandAttribute enterAttr, PrivateMsgDTO MsgDTO, out object[] param)
+        private static bool PrivateCheck(PrivateEnterCommandAttribute enterAttr, ReceivedMsgDTO MsgDTO, out object[] param)
         {
             param = null;
             if (enterAttr.Command != MsgDTO.Command)

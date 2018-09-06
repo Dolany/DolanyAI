@@ -24,7 +24,7 @@ namespace Dolany.Ice.Ai.DolanyAI
             SyntaxChecker = "Empty",
             Tag = "帮助功能"
             )]
-        public void HelpMe(GroupMsgDTO MsgDTO, object[] param)
+        public void HelpMe(ReceivedMsgDTO MsgDTO, object[] param)
         {
             HelpSummary(MsgDTO);
         }
@@ -37,7 +37,7 @@ namespace Dolany.Ice.Ai.DolanyAI
             SyntaxChecker = "NotEmpty",
             Tag = "帮助功能"
         )]
-        public void HelpMe_Command(GroupMsgDTO MsgDTO, object[] param)
+        public void HelpMe_Command(ReceivedMsgDTO MsgDTO, object[] param)
         {
             if (HelpCommand(MsgDTO))
             {
@@ -47,7 +47,7 @@ namespace Dolany.Ice.Ai.DolanyAI
             HelpTag(MsgDTO);
         }
 
-        public static void HelpSummary(GroupMsgDTO MsgDTO)
+        public static void HelpSummary(ReceivedMsgDTO MsgDTO)
         {
             var helpMsg = "当前的命令标签有：";
             var commandAttrs = GetCommandAttrs();
@@ -76,7 +76,7 @@ namespace Dolany.Ice.Ai.DolanyAI
                 .Select(p => p.First());
         }
 
-        public static bool HelpCommand(GroupMsgDTO MsgDTO)
+        public static bool HelpCommand(ReceivedMsgDTO MsgDTO)
         {
             var commands = AIMgr.Instance.AllAvailableGroupCommands.Where(c => c.Command == MsgDTO.Msg);
             if (commands.IsNullOrEmpty())
@@ -102,7 +102,7 @@ namespace Dolany.Ice.Ai.DolanyAI
             return true;
         }
 
-        public static bool HelpTag(GroupMsgDTO MsgDTO)
+        public static bool HelpTag(ReceivedMsgDTO MsgDTO)
         {
             var commands = AIMgr.Instance.AllAvailableGroupCommands.Where(c => c.Tag == MsgDTO.Msg)
                                                                    .GroupBy(p => p.Command)

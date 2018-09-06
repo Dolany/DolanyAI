@@ -1,6 +1,6 @@
 ﻿namespace Dolany.Ice.Ai.DolanyAI
 {
-    public class GroupMsgDTO
+    public class ReceivedMsgDTO
     {
         public int SubType { get; set; }
 
@@ -19,5 +19,7 @@
         public string Command { get; set; }
 
         public string FullMsg { get; set; }
+
+        public MsgType MsgType { get; set; }
     }
 }

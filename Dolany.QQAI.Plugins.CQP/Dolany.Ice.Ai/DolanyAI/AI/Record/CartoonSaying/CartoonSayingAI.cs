@@ -29,7 +29,7 @@ namespace Dolany.Ice.Ai.DolanyAI
             Tag = "语录功能",
             SyntaxChecker = "ThreeWords"
             )]
-        public void ProcceedMsg(GroupMsgDTO MsgDTO, object[] param)
+        public void ProcceedMsg(ReceivedMsgDTO MsgDTO, object[] param)
         {
             if (IsInSealing(MsgDTO.FromGroup, MsgDTO.FromQQ))
             {
@@ -66,7 +66,7 @@ namespace Dolany.Ice.Ai.DolanyAI
             Tag = "语录功能",
             SyntaxChecker = "Empty"
         )]
-        public void Sayings(GroupMsgDTO MsgDTO, object[] param)
+        public void Sayings(ReceivedMsgDTO MsgDTO, object[] param)
         {
             if (IsInSealing(MsgDTO.FromGroup, MsgDTO.FromQQ))
             {
@@ -84,7 +84,7 @@ namespace Dolany.Ice.Ai.DolanyAI
             Tag = "语录功能",
             SyntaxChecker = "NotEmpty"
         )]
-        public void Sayings_Query(GroupMsgDTO MsgDTO, object[] param)
+        public void Sayings_Query(ReceivedMsgDTO MsgDTO, object[] param)
         {
             if (IsInSealing(MsgDTO.FromGroup, MsgDTO.FromQQ))
             {
@@ -94,7 +94,7 @@ namespace Dolany.Ice.Ai.DolanyAI
             SayingRequest(MsgDTO, param[0] as string);
         }
 
-        private static void SayingRequest(GroupMsgDTO MsgDTO, string keyword = null)
+        private static void SayingRequest(ReceivedMsgDTO MsgDTO, string keyword = null)
         {
             var ranSaying = GetRanSaying(MsgDTO.FromGroup, keyword);
             if (string.IsNullOrEmpty(ranSaying))
@@ -162,7 +162,7 @@ namespace Dolany.Ice.Ai.DolanyAI
             Tag = "语录功能",
             SyntaxChecker = "NotEmpty"
             )]
-        public void ClearSayings(GroupMsgDTO MsgDTO, object[] param)
+        public void ClearSayings(ReceivedMsgDTO MsgDTO, object[] param)
         {
             using (var db = new AIDatabase())
             {
@@ -190,7 +190,7 @@ namespace Dolany.Ice.Ai.DolanyAI
             Tag = "语录功能",
             SyntaxChecker = "Long"
             )]
-        public void SayingSeal(GroupMsgDTO MsgDTO, object[] param)
+        public void SayingSeal(ReceivedMsgDTO MsgDTO, object[] param)
         {
             var memberNum = (long)param[0];
 
@@ -236,7 +236,7 @@ namespace Dolany.Ice.Ai.DolanyAI
             Tag = "语录功能",
             SyntaxChecker = "Long"
             )]
-        public void SayingDeseal(GroupMsgDTO MsgDTO, object[] param)
+        public void SayingDeseal(ReceivedMsgDTO MsgDTO, object[] param)
         {
             var memberNum = (long)param[0];
 

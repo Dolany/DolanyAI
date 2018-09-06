@@ -29,7 +29,7 @@ namespace Dolany.Ice.Ai.DolanyAI
             Tag = "点歌功能",
             SyntaxChecker = "NotEmpty"
             )]
-        public void OrderASong(GroupMsgDTO MsgDTO, object[] param)
+        public void OrderASong(ReceivedMsgDTO MsgDTO, object[] param)
         {
             try
             {

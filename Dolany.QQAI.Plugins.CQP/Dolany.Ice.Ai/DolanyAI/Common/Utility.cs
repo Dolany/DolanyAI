@@ -146,7 +146,7 @@ namespace Dolany.Ice.Ai.DolanyAI
             return copyT;
         }
 
-        public static MemberRoleCache GetMemberInfo(GroupMsgDTO MsgDTO)
+        public static MemberRoleCache GetMemberInfo(ReceivedMsgDTO MsgDTO)
         {
             return GroupMemberInfoCacher.GetMemberInfo(MsgDTO);
         }

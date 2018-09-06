@@ -14,7 +14,7 @@ namespace Dolany.Ice.Ai.DolanyAI
             lock (lockObj)
             {
                 var steam = CheckFile();
-                var data = new UTF8Encoding().GetBytes($"{DateTime.Now.ToCommonString()}:{log}\r");
+                var data = new UTF8Encoding().GetBytes($"{DateTime.Now.ToCommonString()}:{log}\r\n");
                 steam.Write(data, 0, data.Length);
                 //清空缓冲区、关闭流
                 steam.Flush();
@@ -26,7 +26,7 @@ namespace Dolany.Ice.Ai.DolanyAI
         {
             while (true)
             {
-                Log(ex.Message + '\r' + ex.StackTrace);
+                Log(ex.Message + "\r\n" + ex.StackTrace);
                 if (ex.InnerException != null)
                 {
                     ex = ex.InnerException;

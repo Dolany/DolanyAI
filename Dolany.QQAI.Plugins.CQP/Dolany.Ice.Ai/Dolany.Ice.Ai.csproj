@@ -253,8 +253,7 @@
     <Compile Include="DolanyAI\Db\日志.cs">
       <DependentUpon>AmandaLogDatabase.tt</DependentUpon>
     </Compile>
-    <Compile Include="DolanyAI\DTO\GroupMsgDTO.cs" />
-    <Compile Include="DolanyAI\DTO\PrivateMsgDTO.cs" />
+    <Compile Include="DolanyAI\DTO\ReceivedMsgDTO.cs" />
     <Compile Include="DolanyAI\Common\DbMgr.cs" />
     <Compile Include="DolanyAI\Common\DirtyFilter.cs" />
     <Compile Include="DolanyAI\Cache\GroupMemberInfoCacher.cs" />

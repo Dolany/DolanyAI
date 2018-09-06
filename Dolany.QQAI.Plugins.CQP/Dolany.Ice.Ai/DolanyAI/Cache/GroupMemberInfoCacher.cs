@@ -7,7 +7,7 @@ namespace Dolany.Ice.Ai.DolanyAI
 {
     public class GroupMemberInfoCacher
     {
-        public static MemberRoleCache GetMemberInfo(GroupMsgDTO MsgDTO)
+        public static MemberRoleCache GetMemberInfo(ReceivedMsgDTO MsgDTO)
         {
             using (var db = new AIDatabase())
             {
@@ -28,7 +28,7 @@ namespace Dolany.Ice.Ai.DolanyAI
             }
         }
 
-        private static MemberRoleCache GetNewInfo(GroupMsgDTO MsgDTO)
+        private static MemberRoleCache GetNewInfo(ReceivedMsgDTO MsgDTO)
         {
             using (var db = new AIDatabase())
             {

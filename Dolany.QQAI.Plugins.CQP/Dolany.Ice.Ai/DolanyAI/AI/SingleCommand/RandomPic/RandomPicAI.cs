@@ -46,7 +46,7 @@ namespace Dolany.Ice.Ai.DolanyAI
             }
         }
 
-        public void KeywordsConsoler(GroupMsgDTO MsgDTO, object[] param)
+        public void KeywordsConsoler(ReceivedMsgDTO MsgDTO, object[] param)
         {
             var RandPic = GetRandPic(MsgDTO.Command);
             if (string.IsNullOrEmpty(RandPic))
@@ -73,10 +73,10 @@ namespace Dolany.Ice.Ai.DolanyAI
             Tag = "图片功能",
             SyntaxChecker = "Empty"
             )]
-        public void RecentPic(GroupMsgDTO MsgDTO, object[] param)
+        public void RecentPic(ReceivedMsgDTO MsgDTO, object[] param)
         {
             var imageList = GetRecentImageList();
-            var idx = (new Random()).Next(imageList.Count);
+            var idx = new Random().Next(imageList.Count);
             var ImageCache = Utility.ReadImageCacheInfo(imageList[idx]);
             var sendImgName = $"{ImageCache.guid}.{ImageCache.type}";
 
@@ -96,10 +96,10 @@ namespace Dolany.Ice.Ai.DolanyAI
             Tag = "图片功能",
             SyntaxChecker = "Empty"
             )]
-        public void RecentFlash(GroupMsgDTO MsgDTO, object[] param)
+        public void RecentFlash(ReceivedMsgDTO MsgDTO, object[] param)
         {
             var imageList = GetRecentImageList();
-            var idx = (new Random()).Next(imageList.Count);
+            var idx = new Random().Next(imageList.Count);
             var ImageCache = Utility.ReadImageCacheInfo(imageList[idx]);
             var sendImgName = $"{ImageCache.guid}.{ImageCache.type}";
 
@@ -151,9 +151,10 @@ namespace Dolany.Ice.Ai.DolanyAI
             Description = "重新加载图片列表，刷新搜索关键字",
             Syntax = "",
             Tag = "图片功能",
-            SyntaxChecker = "Empty"
+            SyntaxChecker = "Empty",
+            IsDeveloperOnly = true
             )]
-        public void RefreshKeywords(PrivateMsgDTO MsgDTO, object[] param)
+        public void RefreshKeywords(ReceivedMsgDTO MsgDTO, object[] param)
         {
             ReloadAllKeywords();
 
@@ -165,9 +166,10 @@ namespace Dolany.Ice.Ai.DolanyAI
             Description = "添加图片检索时的关键字",
             Syntax = "[目标词] [同义词]",
             Tag = "图片功能",
-            SyntaxChecker = "TwoWords"
+            SyntaxChecker = "TwoWords",
+            IsDeveloperOnly = true
             )]
-        public void AppendSynonym(PrivateMsgDTO MsgDTO, object[] param)
+        public void AppendSynonym(ReceivedMsgDTO MsgDTO, object[] param)
         {
             var Keyword = param[0] as string;
             var Content = param[1] as string;
@@ -187,9 +189,10 @@ namespace Dolany.Ice.Ai.DolanyAI
             Description = "获取所有图片关键字（不包括同义词）",
             Syntax = "",
             Tag = "图片功能",
-            SyntaxChecker = "Empty"
+            SyntaxChecker = "Empty",
+            IsDeveloperOnly = true
             )]
-        public void AllPicKeywords(PrivateMsgDTO MsgDTO, object[] param)
+        public void AllPicKeywords(ReceivedMsgDTO MsgDTO, object[] param)
         {
             var msg = string.Empty;
             var builder = new StringBuilder();

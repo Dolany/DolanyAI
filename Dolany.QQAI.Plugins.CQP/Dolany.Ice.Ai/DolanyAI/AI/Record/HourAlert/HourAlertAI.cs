@@ -20,7 +20,7 @@ namespace Dolany.Ice.Ai.DolanyAI
         {
             get
             {
-                using (AIDatabase db = new AIDatabase())
+                using (var db = new AIDatabase())
                 {
                     var query = db.AlertContent;
                     return query?.ToList();
@@ -32,7 +32,7 @@ namespace Dolany.Ice.Ai.DolanyAI
         {
             get
             {
-                using (AIDatabase db = new AIDatabase())
+                using (var db = new AIDatabase())
                 {
                     try
                     {
@@ -116,7 +116,7 @@ namespace Dolany.Ice.Ai.DolanyAI
             Tag = "闹钟与报时功能",
             SyntaxChecker = "Empty"
             )]
-        public void AlertEnable(GroupMsgDTO MsgDTO, object[] param)
+        public void AlertEnable(ReceivedMsgDTO MsgDTO, object[] param)
         {
             AvailableStateChange(MsgDTO.FromGroup, true);
             MsgSender.Instance.PushMsg(new SendMsgDTO
@@ -135,7 +135,7 @@ namespace Dolany.Ice.Ai.DolanyAI
             Tag = "闹钟与报时功能",
             SyntaxChecker = "Empty"
             )]
-        public void AlertDisenable(GroupMsgDTO MsgDTO, object[] param)
+        public void AlertDisenable(ReceivedMsgDTO MsgDTO, object[] param)
         {
             AvailableStateChange(MsgDTO.FromGroup, false);
             MsgSender.Instance.PushMsg(new SendMsgDTO
@@ -148,7 +148,7 @@ namespace Dolany.Ice.Ai.DolanyAI
 
         private static void AvailableStateChange(long groupNumber, bool state)
         {
-            using (AIDatabase db = new AIDatabase())
+            using (var db = new AIDatabase())
             {
                 var query = db.AlertRegistedGroup.Where(a => a.GroupNum == groupNumber);
                 if (query.IsNullOrEmpty())
@@ -178,7 +178,7 @@ namespace Dolany.Ice.Ai.DolanyAI
             Tag = "闹钟与报时功能",
             SyntaxChecker = nameof(HourAlert)
             )]
-        public void AlertSet(GroupMsgDTO MsgDTO, object[] param)
+        public void AlertSet(ReceivedMsgDTO MsgDTO, object[] param)
         {
             var info = param[0] as AlertContent;
 
@@ -200,7 +200,7 @@ namespace Dolany.Ice.Ai.DolanyAI
         {
             try
             {
-                using (AIDatabase db = new AIDatabase())
+                using (var db = new AIDatabase())
                 {
                     info.Id = Guid.NewGuid().ToString();
                     db.AlertContent.Add(info);
@@ -218,7 +218,7 @@ namespace Dolany.Ice.Ai.DolanyAI
 
         private static KanColeGirlVoice GetRanAlertContent(int aimHour)
         {
-            using (AIDatabase db = new AIDatabase())
+            using (var db = new AIDatabase())
             {
                 var tag = HourToTag(aimHour);
                 var query = db.KanColeGirlVoice.Where(a => a.Tag == tag).OrderBy(a => a.Id);
@@ -249,7 +249,7 @@ namespace Dolany.Ice.Ai.DolanyAI
             Tag = "闹钟与报时功能",
             SyntaxChecker = "Empty"
             )]
-        public void AllAvailabeGroups(PrivateMsgDTO MsgDTO, object[] param)
+        public void AllAvailabeGroups(ReceivedMsgDTO MsgDTO, object[] param)
         {
             var list = AvailableGroups;
             var msg = $"共有群组{list.Count}个";
@@ -272,11 +272,11 @@ namespace Dolany.Ice.Ai.DolanyAI
             Tag = "闹钟与报时功能",
             SyntaxChecker = "Long"
             )]
-        public void ClearAlert(GroupMsgDTO MsgDTO, object[] param)
+        public void ClearAlert(ReceivedMsgDTO MsgDTO, object[] param)
         {
             var num = (long)param[0];
 
-            using (AIDatabase db = new AIDatabase())
+            using (var db = new AIDatabase())
             {
                 if (num <= 24)
                 {
@@ -305,11 +305,12 @@ namespace Dolany.Ice.Ai.DolanyAI
             Description = "获取所有的报时数目",
             Syntax = "",
             Tag = "闹钟与报时功能",
-            SyntaxChecker = "Empty"
+            SyntaxChecker = "Empty",
+            IsDeveloperOnly = true
             )]
-        public void TotalAlertCount(PrivateMsgDTO MsgDTO, object[] param)
+        public void TotalAlertCount(ReceivedMsgDTO MsgDTO, object[] param)
         {
-            Utility.SendMsgToDeveloper(AllAlertInfos.Count().ToString());
+            Utility.SendMsgToDeveloper(AllAlertInfos.Count.ToString());
         }
     }
 }
