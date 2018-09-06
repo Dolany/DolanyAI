@@ -214,7 +214,7 @@ namespace Dolany.Ice.Ai.DolanyAI
     {
         public int count { get; set; }
         public int size { get; set; }
-        public int modify { get; set; } = 0;
+        public int modify { get; set; }
     }
 
     public class DiceResultModel

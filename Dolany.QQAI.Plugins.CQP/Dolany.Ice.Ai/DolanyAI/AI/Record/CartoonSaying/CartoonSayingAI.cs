@@ -128,8 +128,7 @@ namespace Dolany.Ice.Ai.DolanyAI
                 {
                     query = query.Where(p => p.Cartoon.Contains(keyword) ||
                                              p.Charactor.Contains(keyword) ||
-                                             p.Content.Contains(keyword))
-                                 .OrderBy(p => p.Id);
+                                             p.Content.Contains(keyword));
                 }
 
                 if (query.IsNullOrEmpty())
@@ -137,6 +136,7 @@ namespace Dolany.Ice.Ai.DolanyAI
                     return string.Empty;
                 }
 
+                query = query.OrderBy(p => p.Id);
                 var random = new Random();
                 var randIdx = random.Next(query.Count());
                 var saying = query.Skip(randIdx).FirstOrDefault();

@@ -26,27 +26,14 @@ namespace Dolany.Ice.Ai.DolanyAI
             )]
         public void HelpMe(GroupMsgDTO MsgDTO, object[] param)
         {
-            if (string.IsNullOrEmpty(MsgDTO.Msg))
-            {
-                HelpSummary(MsgDTO);
-                return;
-            }
-
-            if (HelpCommand(MsgDTO))
-            {
-                return;
-            }
-
-            if (HelpTag(MsgDTO))
-            {
-            }
+            HelpSummary(MsgDTO);
         }
 
         [GroupEnterCommand(
             Command = "帮助",
             AuthorityLevel = AuthorityLevel.成员,
-            Description = "获取特定命令的帮助信息",
-            Syntax = "[命令名]",
+            Description = "获取特定命令或标签的帮助信息",
+            Syntax = "[命令名/标签名]",
             SyntaxChecker = "NotEmpty",
             Tag = "帮助功能"
         )]
@@ -57,9 +44,7 @@ namespace Dolany.Ice.Ai.DolanyAI
                 return;
             }
 
-            if (HelpTag(MsgDTO))
-            {
-            }
+            HelpTag(MsgDTO);
         }
 
         public static void HelpSummary(GroupMsgDTO MsgDTO)
@@ -119,7 +104,9 @@ namespace Dolany.Ice.Ai.DolanyAI
 
         public static bool HelpTag(GroupMsgDTO MsgDTO)
         {
-            var commands = AIMgr.Instance.AllAvailableGroupCommands.Where(c => c.Tag == MsgDTO.Msg);
+            var commands = AIMgr.Instance.AllAvailableGroupCommands.Where(c => c.Tag == MsgDTO.Msg)
+                                                                   .GroupBy(p => p.Command)
+                                                                   .Select(p => p.First());
             if (commands.IsNullOrEmpty())
             {
                 return false;
