@@ -29,7 +29,7 @@ namespace Dolany.Ice.Ai.DolanyAI
                 return true;
             }
 
-            using (AIDatabase db = new AIDatabase())
+            using (var db = new AIDatabase())
             {
                 var now = DateTime.Now.Date;
                 var query = db.Hello.Where(h => h.GroupNum == MsgDTO.FromGroup
@@ -68,7 +68,7 @@ namespace Dolany.Ice.Ai.DolanyAI
         {
             var content = param[0] as string;
 
-            using (AIDatabase db = new AIDatabase())
+            using (var db = new AIDatabase())
             {
                 var query = db.Hello.Where(h => h.GroupNum == MsgDTO.FromGroup
                     && h.QQNum == MsgDTO.FromQQ);
@@ -109,7 +109,7 @@ namespace Dolany.Ice.Ai.DolanyAI
             )]
         public void SayHello(ReceivedMsgDTO MsgDTO, object[] param)
         {
-            using (AIDatabase db = new AIDatabase())
+            using (var db = new AIDatabase())
             {
                 var query = db.Hello.Where(h => h.GroupNum == MsgDTO.FromGroup
                     && h.QQNum == MsgDTO.FromQQ);
@@ -143,7 +143,7 @@ namespace Dolany.Ice.Ai.DolanyAI
             )]
         public void DeleteHello(ReceivedMsgDTO MsgDTO, object[] param)
         {
-            using (AIDatabase db = new AIDatabase())
+            using (var db = new AIDatabase())
             {
                 var query = db.Hello.Where(h => h.GroupNum == MsgDTO.FromGroup
                     && h.QQNum == MsgDTO.FromQQ);

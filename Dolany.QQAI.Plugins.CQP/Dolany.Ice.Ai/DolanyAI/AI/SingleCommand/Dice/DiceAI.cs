@@ -29,9 +29,17 @@ namespace Dolany.Ice.Ai.DolanyAI
                 return true;
             }
 
-            var query = DbMgr.Query<DiceSettingRecordEntity>(p => p.Content == MsgDTO.Command &&
-                                                                  p.FromGroup == MsgDTO.FromGroup);
-            var format = query.IsNullOrEmpty() ? MsgDTO.Command : query.First().SourceFormat;
+            string format;
+            if (MsgDTO.MsgType == MsgType.Group)
+            {
+                var query = DbMgr.Query<DiceSettingRecordEntity>(p => p.Content == MsgDTO.Command &&
+                                                                      p.FromGroup == MsgDTO.FromGroup);
+                format = query.IsNullOrEmpty() ? MsgDTO.Command : query.First().SourceFormat;
+            }
+            else
+            {
+                format = MsgDTO.Command;
+            }
 
             var model = ParseDice(format);
             if (model == null)
@@ -147,12 +155,24 @@ namespace Dolany.Ice.Ai.DolanyAI
 
             sb += $"={sum}";
 
-            MsgSender.Instance.PushMsg(new SendMsgDTO
+            if (MsgDTO.MsgType == MsgType.Group)
             {
-                Aim = MsgDTO.FromGroup,
-                Type = MsgType.Group,
-                Msg = $"{CodeApi.Code_At(MsgDTO.FromQQ)} {sb}"
-            });
+                MsgSender.Instance.PushMsg(new SendMsgDTO
+                {
+                    Aim = MsgDTO.FromGroup,
+                    Type = MsgType.Group,
+                    Msg = $"{CodeApi.Code_At(MsgDTO.FromQQ)} {sb}"
+                });
+            }
+            else
+            {
+                MsgSender.Instance.PushMsg(new SendMsgDTO
+                {
+                    Aim = MsgDTO.FromQQ,
+                    Type = MsgType.Private,
+                    Msg = $"{sb}"
+                });
+            }
         }
 
         [EnterCommand(

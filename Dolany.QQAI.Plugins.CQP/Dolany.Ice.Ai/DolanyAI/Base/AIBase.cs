@@ -32,15 +32,14 @@ namespace Dolany.Ice.Ai.DolanyAI
         public virtual bool OnMsgReceived(ReceivedMsgDTO MsgDTO)
         {
             var query = Consolers.Where(c => c.Key.Command == MsgDTO.Command);
-            var keyValuePairs = query as KeyValuePair<EnterCommandAttribute, MsgConsolerDel>[] ?? query.ToArray();
-            if (keyValuePairs.IsNullOrEmpty())
+            if (query.IsNullOrEmpty())
             {
                 return false;
             }
 
             try
             {
-                foreach (var consoler in keyValuePairs)
+                foreach (var consoler in query)
                 {
                     if (!Check(consoler.Key, MsgDTO, out var param))
                     {
@@ -114,10 +113,8 @@ namespace Dolany.Ice.Ai.DolanyAI
             {
                 return GroupCheck(authorityLevel, MsgDTO);
             }
-            else
-            {
-                return PrivateCheck(enterAttr);
-            }
+
+            return PrivateCheck(enterAttr);
         }
 
         private static bool GroupCheck(AuthorityLevel authorityLevel, ReceivedMsgDTO MsgDTO)
