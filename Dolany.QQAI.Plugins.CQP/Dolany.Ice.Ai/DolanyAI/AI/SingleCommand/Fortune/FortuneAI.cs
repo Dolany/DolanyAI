@@ -103,7 +103,8 @@ namespace Dolany.Ice.Ai.DolanyAI
             Description = "获取星座运势",
             Syntax = "[星座名]",
             Tag = "运势功能",
-            SyntaxChecker = "NotEmpty"
+            SyntaxChecker = "NotEmpty",
+            IsPrivateAvailabe = true
             )]
         public void StarFortune(ReceivedMsgDTO MsgDTO, object[] param)
         {
@@ -113,12 +114,7 @@ namespace Dolany.Ice.Ai.DolanyAI
 
         private static void ReportCallBack(ReceivedMsgDTO MsgDTO, string Report)
         {
-            MsgSender.Instance.PushMsg(new SendMsgDTO
-            {
-                Aim = MsgDTO.FromGroup,
-                Type = MsgType.Group,
-                Msg = Report
-            });
+            MsgSender.Instance.PushMsg(MsgDTO, Report);
         }
 
         private static int GetRandomFortune()

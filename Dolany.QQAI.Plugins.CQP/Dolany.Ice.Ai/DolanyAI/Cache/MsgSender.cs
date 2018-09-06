@@ -3,6 +3,7 @@ using System.Linq;
 using Newbe.Mahua;
 using Dolany.Ice.Ai.DolanyAI.Db;
 using System.Timers;
+using static Dolany.Ice.Ai.MahuaApis.CodeApi;
 
 namespace Dolany.Ice.Ai.DolanyAI
 {
@@ -32,12 +33,16 @@ namespace Dolany.Ice.Ai.DolanyAI
 
         public static MsgSender Instance => instance ?? (instance = new MsgSender());
 
-        public void PushMsg(ReceivedMsgDTO MsgDTO, string MsgContent)
+        public void PushMsg(ReceivedMsgDTO MsgDTO, string MsgContent, bool IsNeedAt = false)
         {
+            var aim = MsgDTO.MsgType == MsgType.Group ? MsgDTO.FromGroup : MsgDTO.FromQQ;
+            var msg = (MsgDTO.MsgType == MsgType.Group && IsNeedAt)
+                ? $"{Code_At(MsgDTO.FromQQ)} {MsgContent}"
+                : MsgContent;
             PushMsg(new SendMsgDTO
             {
-                Aim = MsgDTO.MsgType == MsgType.Group ? MsgDTO.FromGroup : MsgDTO.FromQQ,
-                Msg = MsgContent,
+                Aim = aim,
+                Msg = msg,
                 Type = MsgDTO.MsgType
             });
         }

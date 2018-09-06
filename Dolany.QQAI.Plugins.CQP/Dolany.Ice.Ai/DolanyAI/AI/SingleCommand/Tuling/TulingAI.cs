@@ -33,7 +33,8 @@ namespace Dolany.Ice.Ai.DolanyAI
                 return true;
             }
 
-            if (!MsgDTO.FullMsg.Contains(CodeApi.Code_SelfAt()))
+            if (MsgDTO.MsgType == MsgType.Group &&
+                !MsgDTO.FullMsg.Contains(CodeApi.Code_SelfAt()))
             {
                 return false;
             }
@@ -45,12 +46,7 @@ namespace Dolany.Ice.Ai.DolanyAI
                 return false;
             }
 
-            MsgSender.Instance.PushMsg(new SendMsgDTO
-            {
-                Aim = MsgDTO.FromGroup,
-                Type = MsgType.Group,
-                Msg = $"{CodeApi.Code_At(MsgDTO.FromQQ)} {response}"
-            });
+            MsgSender.Instance.PushMsg(MsgDTO, response);
             return true;
         }
 
