@@ -46,7 +46,7 @@ namespace Dolany.Ice.Ai.DolanyAI
                 return false;
             }
 
-            MsgSender.Instance.PushMsg(MsgDTO, response);
+            MsgSender.Instance.PushMsg(MsgDTO, response, true);
             return true;
         }
 
@@ -84,12 +84,6 @@ namespace Dolany.Ice.Ai.DolanyAI
                 }
             };
 
-            var mi = Utility.GetMemberInfo(MsgDTO);
-            if (mi == null)
-            {
-                return null;
-            }
-
             var post = new PostReq_Param
             {
                 InterfaceName = RequestUrl,
@@ -100,9 +94,7 @@ namespace Dolany.Ice.Ai.DolanyAI
                     userInfo = new userInfoData
                     {
                         apiKey = ApiKey,
-                        groupId = MsgDTO.FromGroup.ToString(),
-                        userId = MsgDTO.FromQQ.ToString(),
-                        userIdName = mi.Nickname
+                        userId = MsgDTO.FromQQ.ToString()
                     }
                 }
             };
