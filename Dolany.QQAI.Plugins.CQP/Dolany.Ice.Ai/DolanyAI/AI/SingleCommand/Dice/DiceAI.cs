@@ -13,6 +13,8 @@ namespace Dolany.Ice.Ai.DolanyAI
     )]
     public class DiceAI : AIBase
     {
+        private const int MaxLimit = 200;
+
         public DiceAI()
         {
             RuntimeLogger.Log("DiceAI started.");
@@ -42,7 +44,7 @@ namespace Dolany.Ice.Ai.DolanyAI
             }
 
             var model = ParseDice(format);
-            if (model == null)
+            if (model == null || model.count > MaxLimit)
             {
                 return false;
             }
