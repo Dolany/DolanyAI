@@ -80,7 +80,7 @@ namespace Dolany.Ice.Ai.DolanyAI
         public void RecentPic(ReceivedMsgDTO MsgDTO, object[] param)
         {
             var imageList = GetRecentImageList();
-            var idx = new Random().Next(imageList.Count);
+            var idx = Utility.RandInt(imageList.Count);
             var ImageCache = Utility.ReadImageCacheInfo(imageList[idx]);
             var sendImgName = $"{ImageCache.guid}.{ImageCache.type}";
 
@@ -100,7 +100,7 @@ namespace Dolany.Ice.Ai.DolanyAI
         public void RecentFlash(ReceivedMsgDTO MsgDTO, object[] param)
         {
             var imageList = GetRecentImageList();
-            var idx = new Random().Next(imageList.Count);
+            var idx = Utility.RandInt(imageList.Count);
             var ImageCache = Utility.ReadImageCacheInfo(imageList[idx]);
             var sendImgName = $"{ImageCache.guid}.{ImageCache.type}";
 
@@ -136,9 +136,7 @@ namespace Dolany.Ice.Ai.DolanyAI
                 return string.Empty;
             }
 
-            var random = new Random();
-            var f = fil[random.Next(fil.Length)];
-
+            var f = fil[Utility.RandInt(fil.Length)];
             return f.Name;
         }
 

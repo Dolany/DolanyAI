@@ -49,8 +49,7 @@ namespace Dolany.Ice.Ai.DolanyAI
                 }
 
                 var Count = signs.Count();
-                var random = new Random();
-                var ranIdx = random.Next(Count);
+                var ranIdx = Utility.RandInt(Count);
 
                 var sign = signs.Skip(ranIdx).First();
                 sign.SignTime = DateTime.Now;

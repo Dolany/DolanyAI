@@ -229,8 +229,7 @@ namespace Dolany.Ice.Ai.DolanyAI
                 var tag = HourToTag(aimHour);
                 var query = db.KanColeGirlVoice.Where(a => a.Tag == tag).OrderBy(a => a.Id);
 
-                var random = new Random();
-                var randIdx = random.Next(query.Count());
+                var randIdx = Utility.RandInt(query.Count());
 
                 return query.Skip(randIdx).First().Clone();
             }

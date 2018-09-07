@@ -57,8 +57,7 @@ namespace Dolany.Ice.Ai.DolanyAI
                 }
 
                 var count = query.Count();
-                var random = new Random();
-                var idx = random.Next(count);
+                var idx = Utility.RandInt(count);
 
                 return query.Skip(idx).First().Clone();
             }

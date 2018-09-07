@@ -95,8 +95,7 @@ namespace Dolany.Ice.Ai.DolanyAI
         {
             var dir = new DirectoryInfo(PicPath);
             var files = dir.GetFiles();
-            var rand = new Random();
-            var rIdx = rand.Next(files.Length);
+            var rIdx = Utility.RandInt(files.Length);
             return files.ElementAt(rIdx).Name;
         }
     }

@@ -61,8 +61,7 @@ namespace Dolany.Ice.Ai.DolanyAI
             }
 
             var songs = response.result.songs;
-            var rand = new Random();
-            var idx = rand.Next(songs.Count());
+            var idx = Utility.RandInt(songs.Count());
             return response.result.songs.ElementAt(idx).id;
         }
 

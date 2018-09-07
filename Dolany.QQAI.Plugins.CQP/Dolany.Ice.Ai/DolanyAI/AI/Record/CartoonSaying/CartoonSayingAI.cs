@@ -143,8 +143,7 @@ namespace Dolany.Ice.Ai.DolanyAI
                 }
 
                 query = query.OrderBy(p => p.Id);
-                var random = new Random();
-                var randIdx = random.Next(query.Count());
+                var randIdx = Utility.RandInt(query.Count());
                 var saying = query.Skip(randIdx).FirstOrDefault();
                 return GetShownSaying(saying);
             }
