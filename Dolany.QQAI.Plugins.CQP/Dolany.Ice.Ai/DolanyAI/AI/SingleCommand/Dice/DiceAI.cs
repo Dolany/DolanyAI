@@ -157,24 +157,7 @@ namespace Dolany.Ice.Ai.DolanyAI
 
             sb += $"={sum}";
 
-            if (MsgDTO.MsgType == MsgType.Group)
-            {
-                MsgSender.Instance.PushMsg(new SendMsgDTO
-                {
-                    Aim = MsgDTO.FromGroup,
-                    Type = MsgType.Group,
-                    Msg = $"{CodeApi.Code_At(MsgDTO.FromQQ)} {sb}"
-                });
-            }
-            else
-            {
-                MsgSender.Instance.PushMsg(new SendMsgDTO
-                {
-                    Aim = MsgDTO.FromQQ,
-                    Type = MsgType.Private,
-                    Msg = $"{sb}"
-                });
-            }
+            MsgSender.Instance.PushMsg(MsgDTO, sb, true);
         }
 
         [EnterCommand(

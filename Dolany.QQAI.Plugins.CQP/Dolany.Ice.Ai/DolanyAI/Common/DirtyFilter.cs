@@ -5,24 +5,18 @@ using Dolany.Ice.Ai.DolanyAI.Db;
 
 namespace Dolany.Ice.Ai.DolanyAI
 {
-    public class DirtyFilter
+    public static class DirtyFilter
     {
         private static List<string> WordList;
 
         private const int MaxTolerateCount = 10;
 
-        public DirtyFilter()
-        {
-            if (WordList == null)
-            {
-                WordList = new List<string>();
-            }
-            InitWordList();
-        }
-
         public static bool Filter(long GroupNum, long QQNum, string msg)
         {
-            if (!IsDirtyWord(msg)) return true;
+            if (!IsDirtyWord(msg))
+            {
+                return true;
+            }
             AddInBlackList(GroupNum, QQNum);
             return false;
         }
@@ -41,15 +35,13 @@ namespace Dolany.Ice.Ai.DolanyAI
                     return;
                 }
 
-                var mi = Utility.GetMemberInfo(new ReceivedMsgDTO
-                {
-                    FromGroup = GroupNum,
-                    FromQQ = QQNum
-                });
-                if (mi == null)
-                {
-                    return;
-                }
+                var mi = GroupNum == 0
+                    ? null
+                    : Utility.GetMemberInfo(new ReceivedMsgDTO
+                    {
+                        FromGroup = GroupNum,
+                        FromQQ = QQNum
+                    });
 
                 db.BlackList.Add(new BlackList
                 {
@@ -57,14 +49,14 @@ namespace Dolany.Ice.Ai.DolanyAI
                     BlackCount = 1,
                     UpdateTime = DateTime.Now,
                     QQNum = QQNum,
-                    NickName = mi.Nickname
+                    NickName = mi == null ? "" : mi.Nickname
                 });
 
                 db.SaveChanges();
             }
         }
 
-        public static void InitWordList()
+        private static void InitWordList()
         {
             using (var db = new AIDatabase())
             {
@@ -74,6 +66,11 @@ namespace Dolany.Ice.Ai.DolanyAI
 
         public static bool IsInBlackList(long fromQQ)
         {
+            if (WordList == null)
+            {
+                InitWordList();
+            }
+
             using (var db = new AIDatabase())
             {
                 var query = db.BlackList.Where(b => b.QQNum == fromQQ);

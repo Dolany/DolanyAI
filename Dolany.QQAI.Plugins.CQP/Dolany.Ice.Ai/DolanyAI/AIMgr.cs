@@ -124,16 +124,16 @@ namespace Dolany.Ice.Ai.DolanyAI
             MsgDTO.Command = GenCommand(ref msg);
             MsgDTO.Msg = msg;
 
-            GroupMsgCallBack(MsgDTO);
+            MsgCallBack(MsgDTO);
         }
 
-        private void GroupMsgCallBack(ReceivedMsgDTO MsgDTO)
+        private void MsgCallBack(ReceivedMsgDTO MsgDTO)
         {
             Task.Factory.StartNew(() =>
             {
                 try
                 {
-                    GroupMsgCallBack_Func(MsgDTO);
+                    MsgCallBack_Func(MsgDTO);
                 }
                 catch (Exception ex)
                 {
@@ -142,12 +142,13 @@ namespace Dolany.Ice.Ai.DolanyAI
             });
         }
 
-        private void GroupMsgCallBack_Func(ReceivedMsgDTO MsgDTO)
+        private void MsgCallBack_Func(ReceivedMsgDTO MsgDTO)
         {
-            //if (DirtyFilter.IsInBlackList(MsgDTO.FromQQ) || !DirtyFilter.Filter(MsgDTO.FromGroup, MsgDTO.FromQQ, MsgDTO.Msg))
-            //{
-            //    return;
-            //}
+            if (DirtyFilter.IsInBlackList(MsgDTO.FromQQ) ||
+                !DirtyFilter.Filter(MsgDTO.FromGroup, MsgDTO.FromQQ, MsgDTO.Msg))
+            {
+                return;
+            }
 
             foreach (var ai in AIList)
             {

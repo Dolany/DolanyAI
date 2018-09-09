@@ -3,9 +3,9 @@ using Newbe.Mahua;
 
 namespace Dolany.Ice.Ai.MahuaApis
 {
-    public class CodeApi
+    public static class CodeApi
     {
-        public static long SelfQQNum = 2105668527;
+        public const long SelfQQNum = 2105668527;
 
         public static string Code_At(long qqNumber)
         {
