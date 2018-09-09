@@ -54,7 +54,7 @@ namespace Dolany.IWS2000.Ai
                 // 将需要监听的事件注册，若缺少此注册，则不会调用相关的实现类
 
                 builder.RegisterType<GroupMsgReceived>()
-                    .As<IPrivateMessageFromFriendReceivedMahuaEvent>();
+                    .As<IGroupMessageReceivedMahuaEvent>();
             }
         }
 
