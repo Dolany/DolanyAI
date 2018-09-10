@@ -84,8 +84,7 @@ namespace Dolany.IWS2000.Ai.DolanyAI
                 Aim = MsgDTO.FromGroup,
                 Msg = voice.Content,
                 Type = MsgType.Group
-            });
-            MsgSender.Instance.PushMsg(new SendMsgDTO
+            }, new SendMsgDTO
             {
                 Aim = MsgDTO.FromGroup,
                 Msg = CodeApi.Code_Voice(voice.VoiceUrl),

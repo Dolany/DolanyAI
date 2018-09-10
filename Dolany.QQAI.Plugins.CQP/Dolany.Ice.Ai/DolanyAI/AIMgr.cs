@@ -109,22 +109,29 @@ namespace Dolany.Ice.Ai.DolanyAI
         /// <param name="MsgDTO"></param>
         public void OnMsgReceived(ReceivedMsgDTO MsgDTO)
         {
-            if (AIList.IsNullOrEmpty())
+            try
             {
-                return;
-            }
+                if (AIList.IsNullOrEmpty())
+                {
+                    return;
+                }
 
-            if (MsgDTO.FromQQ < 0)
+                if (MsgDTO.FromQQ < 0)
+                {
+                    MsgDTO.FromQQ = MsgDTO.FromQQ & 0xFFFFFFFF;
+                }
+
+                var msg = MsgDTO.Msg;
+                MsgDTO.FullMsg = msg;
+                MsgDTO.Command = GenCommand(ref msg);
+                MsgDTO.Msg = msg;
+
+                MsgCallBack(MsgDTO);
+            }
+            catch (StackOverflowException ex)
             {
-                MsgDTO.FromQQ = MsgDTO.FromQQ & 0xFFFFFFFF;
+                RuntimeLogger.Log(ex);
             }
-
-            var msg = MsgDTO.Msg;
-            MsgDTO.FullMsg = msg;
-            MsgDTO.Command = GenCommand(ref msg);
-            MsgDTO.Msg = msg;
-
-            MsgCallBack(MsgDTO);
         }
 
         private void MsgCallBack(ReceivedMsgDTO MsgDTO)

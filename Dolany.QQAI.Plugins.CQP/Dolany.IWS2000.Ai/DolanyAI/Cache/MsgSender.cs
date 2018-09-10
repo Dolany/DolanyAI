@@ -25,60 +25,64 @@ namespace Dolany.IWS2000.Ai.DolanyAI
             JobScheduler.Instance.Add(1000, TimerUp);
         }
 
-        private void TimerUp(object sender, ElapsedEventArgs e)
+        private static void TimerUp(object sender, ElapsedEventArgs e)
         {
             SendAllMsgs();
         }
 
         public static MsgSender Instance => instance ?? (instance = new MsgSender());
 
-        public void PushMsg(SendMsgDTO msg)
+        public void PushMsg(params SendMsgDTO[] msgs)
         {
-            if (string.IsNullOrEmpty(msg.Msg))
+            foreach (var msg in msgs)
             {
-                return;
-            }
-
-            if (msg.Guid.IsNullOrEmpty())
-            {
-                msg.Guid = Guid.NewGuid().ToString();
-            }
-
-            if (msg.Msg.Length > SendMsgMaxLength)
-            {
-                PushMsg(new SendMsgDTO
+                if (string.IsNullOrEmpty(msg.Msg))
                 {
-                    Aim = msg.Aim,
-                    Type = msg.Type,
-                    Msg = msg.Msg.Substring(0, SendMsgMaxLength),
-                    Guid = msg.Guid,
-                    SerialNum = msg.SerialNum
-                });
+                    return;
+                }
 
-                PushMsg(new SendMsgDTO
+                if (msg.Guid.IsNullOrEmpty())
                 {
-                    Aim = msg.Aim,
-                    Type = msg.Type,
-                    Msg = msg.Msg.Substring(SendMsgMaxLength, msg.Msg.Length - SendMsgMaxLength),
-                    Guid = msg.Guid,
-                    SerialNum = msg.SerialNum + 1
-                });
+                    msg.Guid = Guid.NewGuid().ToString();
+                }
 
-                // ReSharper disable once RedundantJumpStatement
-                return;
+                if (msg.Msg.Length > SendMsgMaxLength)
+                {
+                    PieceMsg(msg);
+                    return;
+                }
+
+                using (var db = new AIDatabase())
+                {
+                    db.MsgSendCache.Add(new MsgSendCache
+                    {
+                        Id = Guid.NewGuid().ToString(),
+                        Aim = msg.Aim,
+                        Type = msg.Type == MsgType.Group ? 0 : 1,
+                        Msg = msg.Msg
+                    });
+                    db.SaveChanges();
+                }
             }
+        }
 
-            using (var db = new AIDatabase())
+        private void PieceMsg(SendMsgDTO msg)
+        {
+            PushMsg(new SendMsgDTO
             {
-                db.MsgSendCache.Add(new MsgSendCache
-                {
-                    Id = Guid.NewGuid().ToString(),
-                    Aim = msg.Aim,
-                    Type = msg.Type == MsgType.Group ? 0 : 1,
-                    Msg = msg.Msg
-                });
-                db.SaveChanges();
-            }
+                Aim = msg.Aim,
+                Type = msg.Type,
+                Msg = msg.Msg.Substring(0, SendMsgMaxLength),
+                Guid = msg.Guid,
+                SerialNum = msg.SerialNum
+            }, new SendMsgDTO
+            {
+                Aim = msg.Aim,
+                Type = msg.Type,
+                Msg = msg.Msg.Substring(SendMsgMaxLength, msg.Msg.Length - SendMsgMaxLength),
+                Guid = msg.Guid,
+                SerialNum = msg.SerialNum + 1
+            });
         }
 
         private static void SendAllMsgs()
