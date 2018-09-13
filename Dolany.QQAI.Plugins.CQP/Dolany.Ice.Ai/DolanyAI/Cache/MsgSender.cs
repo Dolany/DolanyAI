@@ -36,7 +36,7 @@ namespace Dolany.Ice.Ai.DolanyAI
         public void PushMsg(ReceivedMsgDTO MsgDTO, string MsgContent, bool IsNeedAt = false)
         {
             var aim = MsgDTO.MsgType == MsgType.Group ? MsgDTO.FromGroup : MsgDTO.FromQQ;
-            var msg = (MsgDTO.MsgType == MsgType.Group && IsNeedAt)
+            var msg = MsgDTO.MsgType == MsgType.Group && IsNeedAt
                 ? $"{Code_At(MsgDTO.FromQQ)} {MsgContent}"
                 : MsgContent;
             PushMsg(new SendMsgDTO
@@ -103,8 +103,8 @@ namespace Dolany.Ice.Ai.DolanyAI
         {
             using (var db = new AIDatabase())
             {
-                var msgs = db.MsgSendCache.OrderBy(p => p.Guid)
-                                          .ThenBy(p => p.SerialNum);
+                var msgs = db.MsgSendCache.OrderByDescending(p => p.Guid)
+                                          .ThenByDescending(p => p.SerialNum);
                 foreach (var msg in msgs)
                 {
                     SendMsg(new SendMsgDTO

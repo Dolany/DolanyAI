@@ -94,7 +94,10 @@ namespace Dolany.Ice.Ai.DolanyAI
                     continue;
                 }
 
-                if (type.FullName == null) continue;
+                if (type.FullName == null)
+                {
+                    continue;
+                }
                 var tool = assembly.CreateInstance(type.FullName) as IAITool;
 
                 Tools.Add(tool);

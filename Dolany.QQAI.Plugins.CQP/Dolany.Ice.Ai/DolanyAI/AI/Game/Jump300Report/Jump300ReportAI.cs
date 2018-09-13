@@ -26,24 +26,14 @@ namespace Dolany.Ice.Ai.DolanyAI
             )]
         public void JumpReport(ReceivedMsgDTO MsgDTO, object[] param)
         {
-            MsgSender.Instance.PushMsg(new SendMsgDTO
-            {
-                Aim = MsgDTO.FromGroup,
-                Type = MsgType.Group,
-                Msg = "查询中，请稍候"
-            });
+            MsgSender.Instance.PushMsg(MsgDTO, "查询中，请稍候");
             var jr = new JumpReportRequestor(MsgDTO, ReportCallBack);
             Task.Run(() => jr.Work());
         }
 
         private static void ReportCallBack(ReceivedMsgDTO MsgDTO, string Report)
         {
-            MsgSender.Instance.PushMsg(new SendMsgDTO
-            {
-                Aim = MsgDTO.FromGroup,
-                Type = MsgType.Group,
-                Msg = Report
-            });
+            MsgSender.Instance.PushMsg(MsgDTO, Report);
         }
     }
 }

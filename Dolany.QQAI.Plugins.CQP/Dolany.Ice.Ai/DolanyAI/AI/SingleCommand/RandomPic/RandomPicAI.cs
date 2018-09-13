@@ -54,7 +54,8 @@ namespace Dolany.Ice.Ai.DolanyAI
                 return;
             }
 
-            SendPic(Environment.CurrentDirectory + "/" + PicPath + MsgDTO.Command + "/" + RandPic, MsgDTO.FromGroup);
+            var pic = Environment.CurrentDirectory + "/" + PicPath + MsgDTO.Command + "/" + RandPic;
+            MsgSender.Instance.PushMsg(MsgDTO, pic);
         }
 
         [EnterCommand(
@@ -117,16 +118,6 @@ namespace Dolany.Ice.Ai.DolanyAI
                         .ToList();
         }
 
-        private static void SendPic(string picPath, long group)
-        {
-            MsgSender.Instance.PushMsg(new SendMsgDTO
-            {
-                Aim = group,
-                Type = MsgType.Group,
-                Msg = CodeApi.Code_Image(picPath)
-            });
-        }
-
         private string GetRandPic(string dirName)
         {
             var dirInfo = new DirectoryInfo(PicPath + dirName);
@@ -143,6 +134,7 @@ namespace Dolany.Ice.Ai.DolanyAI
         [EnterCommand(
             Command = "重新加载图片",
             Description = "重新加载图片列表，刷新搜索关键字",
+            AuthorityLevel = AuthorityLevel.开发者,
             Syntax = "",
             Tag = "图片功能",
             SyntaxChecker = "Empty",
@@ -159,10 +151,12 @@ namespace Dolany.Ice.Ai.DolanyAI
         [EnterCommand(
             Command = "添加同义词",
             Description = "添加图片检索时的关键字",
+            AuthorityLevel = AuthorityLevel.开发者,
             Syntax = "[目标词] [同义词]",
             Tag = "图片功能",
             SyntaxChecker = "TwoWords",
-            IsDeveloperOnly = true
+            IsDeveloperOnly = true,
+            IsPrivateAvailabe = true
             )]
         public void AppendSynonym(ReceivedMsgDTO MsgDTO, object[] param)
         {
@@ -182,10 +176,12 @@ namespace Dolany.Ice.Ai.DolanyAI
         [EnterCommand(
             Command = "所有图片关键词",
             Description = "获取所有图片关键字（不包括同义词）",
+            AuthorityLevel = AuthorityLevel.开发者,
             Syntax = "",
             Tag = "图片功能",
             SyntaxChecker = "Empty",
-            IsDeveloperOnly = true
+            IsDeveloperOnly = true,
+            IsPrivateAvailabe = true
             )]
         public void AllPicKeywords(ReceivedMsgDTO MsgDTO, object[] param)
         {

@@ -52,12 +52,7 @@ namespace Dolany.Ice.Ai.DolanyAI
                 db.SaveChanges();
             }
 
-            MsgSender.Instance.PushMsg(new SendMsgDTO
-            {
-                Aim = MsgDTO.FromGroup,
-                Type = MsgType.Group,
-                Msg = "语录录入成功！"
-            });
+            MsgSender.Instance.PushMsg(MsgDTO, "语录录入成功！");
         }
 
         [EnterCommand(
@@ -108,19 +103,15 @@ namespace Dolany.Ice.Ai.DolanyAI
                 return;
             }
 
-            MsgSender.Instance.PushMsg(new SendMsgDTO
-            {
-                Aim = MsgDTO.FromGroup,
-                Type = MsgType.Group,
-                Msg = ranSaying
-            });
+            MsgSender.Instance.PushMsg(MsgDTO, ranSaying);
         }
 
         private static bool IsInSealing(long groupNum, long memberNum)
         {
             using (var db = new AIDatabase())
             {
-                var query = db.SayingSeal.Where(s => s.GroupNum == groupNum && s.SealMember == memberNum);
+                var query = db.SayingSeal.Where(s => s.GroupNum == groupNum &&
+                                                     s.SealMember == memberNum);
                 return !query.IsNullOrEmpty();
             }
         }
@@ -180,12 +171,7 @@ namespace Dolany.Ice.Ai.DolanyAI
                 db.Saying.RemoveRange(query);
                 db.SaveChanges();
 
-                MsgSender.Instance.PushMsg(new SendMsgDTO
-                {
-                    Aim = MsgDTO.FromGroup,
-                    Type = MsgType.Group,
-                    Msg = $"共删除{query.Count()}条语录"
-                });
+                MsgSender.Instance.PushMsg(MsgDTO, $"共删除{query.Count()}条语录");
             }
         }
 
@@ -209,12 +195,7 @@ namespace Dolany.Ice.Ai.DolanyAI
                                                      s.SealMember == memberNum);
                 if (!query.IsNullOrEmpty())
                 {
-                    MsgSender.Instance.PushMsg(new SendMsgDTO
-                    {
-                        Aim = MsgDTO.FromGroup,
-                        Type = MsgType.Group,
-                        Msg = "此成员正在封禁中！"
-                    });
+                    MsgSender.Instance.PushMsg(MsgDTO, "此成员正在封禁中！");
 
                     return;
                 }
@@ -230,12 +211,7 @@ namespace Dolany.Ice.Ai.DolanyAI
 
                 db.SaveChanges();
             }
-            MsgSender.Instance.PushMsg(new SendMsgDTO
-            {
-                Aim = MsgDTO.FromGroup,
-                Type = MsgType.Group,
-                Msg = "封禁成功！"
-            });
+            MsgSender.Instance.PushMsg(MsgDTO, "封禁成功！");
         }
 
         [EnterCommand(
@@ -258,12 +234,7 @@ namespace Dolany.Ice.Ai.DolanyAI
                                                      s.SealMember == memberNum);
                 if (query.IsNullOrEmpty())
                 {
-                    MsgSender.Instance.PushMsg(new SendMsgDTO
-                    {
-                        Aim = MsgDTO.FromGroup,
-                        Type = MsgType.Group,
-                        Msg = "此成员尚未被封禁！"
-                    });
+                    MsgSender.Instance.PushMsg(MsgDTO, "此成员尚未被封禁！");
 
                     return;
                 }
@@ -274,12 +245,7 @@ namespace Dolany.Ice.Ai.DolanyAI
                 db.SaveChanges();
             }
 
-            MsgSender.Instance.PushMsg(new SendMsgDTO
-            {
-                Aim = MsgDTO.FromGroup,
-                Type = MsgType.Group,
-                Msg = "解封成功！"
-            });
+            MsgSender.Instance.PushMsg(MsgDTO, "解封成功！");
         }
     }
 }

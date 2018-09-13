@@ -93,10 +93,10 @@ namespace Dolany.Ice.Ai.DolanyAI
         {
             using (var db = new AIDatabase())
             {
-                var query = db.AlermClock.Where(q => q.GroupNumber == MsgDTO.FromGroup
-                                                    && q.Creator == MsgDTO.FromQQ
-                                                    && q.AimHourt == entity.AimHourt
-                                                    && q.AimMinute == entity.AimMinute);
+                var query = db.AlermClock.Where(q => q.GroupNumber == MsgDTO.FromGroup &&
+                                                     q.Creator == MsgDTO.FromQQ &&
+                                                     q.AimHourt == entity.AimHourt &&
+                                                     q.AimMinute == entity.AimMinute);
                 if (!query.IsNullOrEmpty())
                 {
                     var clock = query.FirstOrDefault();
@@ -112,12 +112,7 @@ namespace Dolany.Ice.Ai.DolanyAI
                 db.SaveChanges();
             }
 
-            MsgSender.Instance.PushMsg(new SendMsgDTO
-            {
-                Aim = MsgDTO.FromGroup,
-                Type = MsgType.Group,
-                Msg = "闹钟设定成功！"
-            });
+            MsgSender.Instance.PushMsg(MsgDTO, "闹钟设定成功！");
         }
 
         private void StartClock(AlermClock entity)
@@ -156,16 +151,11 @@ namespace Dolany.Ice.Ai.DolanyAI
         {
             using (var db = new AIDatabase())
             {
-                var allClocks = db.AlermClock.Where(q => q.GroupNumber == MsgDTO.FromGroup
-                                                                && q.Creator == MsgDTO.FromQQ);
+                var allClocks = db.AlermClock.Where(q => q.GroupNumber == MsgDTO.FromGroup &&
+                                                         q.Creator == MsgDTO.FromQQ);
                 if (allClocks.IsNullOrEmpty())
                 {
-                    MsgSender.Instance.PushMsg(new SendMsgDTO
-                    {
-                        Aim = MsgDTO.FromGroup,
-                        Type = MsgType.Group,
-                        Msg = $@"{CodeApi.Code_At(MsgDTO.FromQQ)} 你还没有设定闹钟呢！"
-                    });
+                    MsgSender.Instance.PushMsg(MsgDTO, $@"{CodeApi.Code_At(MsgDTO.FromQQ)} 你还没有设定闹钟呢！");
                     return;
                 }
 
@@ -178,12 +168,7 @@ namespace Dolany.Ice.Ai.DolanyAI
                 }
                 Msg = builder.ToString();
 
-                MsgSender.Instance.PushMsg(new SendMsgDTO
-                {
-                    Aim = MsgDTO.FromGroup,
-                    Type = MsgType.Group,
-                    Msg = Msg
-                });
+                MsgSender.Instance.PushMsg(MsgDTO, Msg);
             }
         }
 
@@ -203,31 +188,20 @@ namespace Dolany.Ice.Ai.DolanyAI
 
             using (var db = new AIDatabase())
             {
-                var query = db.AlermClock.Where(q => q.GroupNumber == MsgDTO.FromGroup
-                                                     && q.Creator == MsgDTO.FromQQ
-                                                     && q.AimHourt == time.Value.hour
-                                                     && q.AimMinute == time.Value.minute
-                                              );
+                var query = db.AlermClock.Where(q => q.GroupNumber == MsgDTO.FromGroup &&
+                                                     q.Creator == MsgDTO.FromQQ &&
+                                                     q.AimHourt == time.Value.hour &&
+                                                     q.AimMinute == time.Value.minute);
                 if (query.IsNullOrEmpty())
                 {
-                    MsgSender.Instance.PushMsg(new SendMsgDTO
-                    {
-                        Aim = MsgDTO.FromGroup,
-                        Type = MsgType.Group,
-                        Msg = "八嘎！你还没有在这个时间点设置过闹钟呢！"
-                    });
+                    MsgSender.Instance.PushMsg(MsgDTO, "八嘎！你还没有在这个时间点设置过闹钟呢！");
                     return;
                 }
 
                 db.AlermClock.RemoveRange(query);
 
                 db.SaveChanges();
-                MsgSender.Instance.PushMsg(new SendMsgDTO
-                {
-                    Aim = MsgDTO.FromGroup,
-                    Type = MsgType.Group,
-                    Msg = "删除闹钟成功！"
-                });
+                MsgSender.Instance.PushMsg(MsgDTO, "删除闹钟成功！");
             }
 
             ReloadAllClocks();
@@ -247,17 +221,11 @@ namespace Dolany.Ice.Ai.DolanyAI
         {
             using (var db = new AIDatabase())
             {
-                var query = db.AlermClock.Where(q => q.GroupNumber == MsgDTO.FromGroup
-                                                     && q.Creator == MsgDTO.FromQQ
-                                              );
+                var query = db.AlermClock.Where(q => q.GroupNumber == MsgDTO.FromGroup &&
+                                                     q.Creator == MsgDTO.FromQQ);
                 if (query.IsNullOrEmpty())
                 {
-                    MsgSender.Instance.PushMsg(new SendMsgDTO
-                    {
-                        Aim = MsgDTO.FromGroup,
-                        Type = MsgType.Group,
-                        Msg = "八嘎！你还没有设置过闹钟呢！"
-                    });
+                    MsgSender.Instance.PushMsg(MsgDTO, "八嘎！你还没有设置过闹钟呢！");
 
                     return;
                 }
@@ -265,12 +233,7 @@ namespace Dolany.Ice.Ai.DolanyAI
                 db.AlermClock.RemoveRange(query);
                 db.SaveChanges();
 
-                MsgSender.Instance.PushMsg(new SendMsgDTO
-                {
-                    Aim = MsgDTO.FromGroup,
-                    Type = MsgType.Group,
-                    Msg = "清空闹钟成功！"
-                });
+                MsgSender.Instance.PushMsg(MsgDTO, "清空闹钟成功！");
             }
 
             ReloadAllClocks();

@@ -45,7 +45,7 @@ namespace Dolany.Ice.Ai.DolanyAI
             Tag = "点赞功能",
             SyntaxChecker = "Empty",
             IsDeveloperOnly = false,
-            IsPrivateAvailabe = false
+            IsPrivateAvailabe = true
             )]
         public void PraiseMe(ReceivedMsgDTO MsgDTO, object[] param)
         {
@@ -71,12 +71,7 @@ namespace Dolany.Ice.Ai.DolanyAI
                 }
                 else if (query.First().LastDate >= DateTime.Now.Date)
                 {
-                    MsgSender.Instance.PushMsg(new SendMsgDTO
-                    {
-                        Aim = MsgDTO.FromGroup,
-                        Type = MsgType.Group,
-                        Msg = "今天已经赞过十次啦！"
-                    });
+                    MsgSender.Instance.PushMsg(MsgDTO, "今天已经赞过十次啦！");
                 }
                 else
                 {
@@ -99,12 +94,7 @@ namespace Dolany.Ice.Ai.DolanyAI
 
             var cdMinute = (LastTime.AddMinutes(PraiseLimit) - DateTime.Now).Minutes;
             var cdSecond = (LastTime.AddMinutes(PraiseLimit) - DateTime.Now).Seconds;
-            MsgSender.Instance.PushMsg(new SendMsgDTO
-            {
-                Aim = MsgDTO.FromGroup,
-                Type = MsgType.Group,
-                Msg = $"点赞太频繁啦！剩余冷却时间:{cdMinute}分{cdSecond}秒"
-            });
+            MsgSender.Instance.PushMsg(MsgDTO, $"点赞太频繁啦！剩余冷却时间:{cdMinute}分{cdSecond}秒");
             return false;
         }
 
@@ -116,12 +106,7 @@ namespace Dolany.Ice.Ai.DolanyAI
                 SendPraise(MsgDTO.FromQQ.ToString());
             }
 
-            MsgSender.Instance.PushMsg(new SendMsgDTO
-            {
-                Type = MsgType.Group,
-                Aim = MsgDTO.FromGroup,
-                Msg = $"{CodeApi.Code_At(MsgDTO.FromQQ)} 已赞十次！"
-            });
+            MsgSender.Instance.PushMsg(MsgDTO, $"{CodeApi.Code_At(MsgDTO.FromQQ)} 已赞十次！");
         }
     }
 }

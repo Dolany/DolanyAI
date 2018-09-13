@@ -58,15 +58,15 @@ namespace Dolany.Ice.Ai.DolanyAI
 
             Thread.Sleep(2000);
             var groupCache = query.FirstOrDefault();
-            Repeat(MsgDTO.FromGroup, MsgDTO.FullMsg, groupCache);
+            Repeat(MsgDTO, groupCache);
             return true;
         }
 
-        private static void Repeat(long fromGroup, string FullMsg, PlusOneCache groupCache)
+        private static void Repeat(ReceivedMsgDTO MsgDTO, PlusOneCache groupCache)
         {
-            if (groupCache.MsgCache != FullMsg)
+            if (groupCache.MsgCache != MsgDTO.FullMsg)
             {
-                groupCache.MsgCache = FullMsg;
+                groupCache.MsgCache = MsgDTO.FullMsg;
                 groupCache.IsAlreadyRepeated = false;
 
                 return;
@@ -76,12 +76,7 @@ namespace Dolany.Ice.Ai.DolanyAI
                 return;
             }
 
-            MsgSender.Instance.PushMsg(new SendMsgDTO
-            {
-                Aim = fromGroup,
-                Type = MsgType.Group,
-                Msg = FullMsg
-            });
+            MsgSender.Instance.PushMsg(MsgDTO, MsgDTO.FullMsg);
             groupCache.IsAlreadyRepeated = true;
         }
 
@@ -99,12 +94,7 @@ namespace Dolany.Ice.Ai.DolanyAI
         {
             ForbiddenStateChange(MsgDTO.FromGroup, false);
 
-            MsgSender.Instance.PushMsg(new SendMsgDTO
-            {
-                Aim = MsgDTO.FromGroup,
-                Type = MsgType.Group,
-                Msg = "+1复读禁用成功！"
-            });
+            MsgSender.Instance.PushMsg(MsgDTO, "+1复读禁用成功！");
         }
 
         [EnterCommand(
@@ -121,12 +111,7 @@ namespace Dolany.Ice.Ai.DolanyAI
         {
             ForbiddenStateChange(MsgDTO.FromGroup, true);
 
-            MsgSender.Instance.PushMsg(new SendMsgDTO
-            {
-                Aim = MsgDTO.FromGroup,
-                Type = MsgType.Group,
-                Msg = "+1复读启用成功！"
-            });
+            MsgSender.Instance.PushMsg(MsgDTO, "+1复读启用成功！");
         }
 
         private static void ForbiddenStateChange(long fromGroup, bool state)

@@ -63,12 +63,7 @@ namespace Dolany.Ice.Ai.DolanyAI
         {
             ForbiddenStateChange(MsgDTO.FromGroup, false);
 
-            MsgSender.Instance.PushMsg(new SendMsgDTO
-            {
-                Aim = MsgDTO.FromGroup,
-                Type = MsgType.Group,
-                Msg = "复读机禁用成功！"
-            });
+            MsgSender.Instance.PushMsg(MsgDTO, "复读机禁用成功！");
         }
 
         [EnterCommand(
@@ -85,12 +80,7 @@ namespace Dolany.Ice.Ai.DolanyAI
         {
             ForbiddenStateChange(MsgDTO.FromGroup, true);
 
-            MsgSender.Instance.PushMsg(new SendMsgDTO
-            {
-                Aim = MsgDTO.FromGroup,
-                Type = MsgType.Group,
-                Msg = "复读机启用成功！"
-            });
+            MsgSender.Instance.PushMsg(MsgDTO, "复读机启用成功！");
         }
 
         private static void ForbiddenStateChange(long fromGroup, bool state)
@@ -110,7 +100,10 @@ namespace Dolany.Ice.Ai.DolanyAI
                 else
                 {
                     var ra = query.FirstOrDefault();
-                    if (ra != null) ra.Available = state;
+                    if (ra != null)
+                    {
+                        ra.Available = state;
+                    }
                 }
 
                 db.SaveChanges();
@@ -136,12 +129,7 @@ namespace Dolany.Ice.Ai.DolanyAI
         {
             Thread.Sleep(SleepTime);
 
-            MsgSender.Instance.PushMsg(new SendMsgDTO
-            {
-                Aim = MsgDTO.FromGroup,
-                Type = MsgType.Group,
-                Msg = MsgDTO.FullMsg
-            });
+            MsgSender.Instance.PushMsg(MsgDTO, MsgDTO.FullMsg);
         }
     }
 }

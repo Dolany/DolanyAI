@@ -121,12 +121,7 @@ namespace Dolany.Ice.Ai.DolanyAI
         public void AlertEnable(ReceivedMsgDTO MsgDTO, object[] param)
         {
             AvailableStateChange(MsgDTO.FromGroup, true);
-            MsgSender.Instance.PushMsg(new SendMsgDTO
-            {
-                Aim = MsgDTO.FromGroup,
-                Type = MsgType.Group,
-                Msg = "报时功能已开启！"
-            });
+            MsgSender.Instance.PushMsg(MsgDTO, "报时功能已开启！");
         }
 
         [EnterCommand(
@@ -142,12 +137,7 @@ namespace Dolany.Ice.Ai.DolanyAI
         public void AlertDisenable(ReceivedMsgDTO MsgDTO, object[] param)
         {
             AvailableStateChange(MsgDTO.FromGroup, false);
-            MsgSender.Instance.PushMsg(new SendMsgDTO
-            {
-                Aim = MsgDTO.FromGroup,
-                Type = MsgType.Group,
-                Msg = "报时功能已关闭！"
-            });
+            MsgSender.Instance.PushMsg(MsgDTO, "报时功能已关闭！");
         }
 
         private static void AvailableStateChange(long groupNumber, bool state)
@@ -194,12 +184,7 @@ namespace Dolany.Ice.Ai.DolanyAI
             info.FromGroup = MsgDTO.FromGroup;
 
             var Msg = SaveAlertContent(info) ? "报时内容保存成功！" : "报时内容保存失败！";
-            MsgSender.Instance.PushMsg(new SendMsgDTO
-            {
-                Aim = MsgDTO.FromGroup,
-                Type = MsgType.Group,
-                Msg = Msg
-            });
+            MsgSender.Instance.PushMsg(MsgDTO, Msg);
         }
 
         private static bool SaveAlertContent(AlertContent info)
@@ -227,11 +212,14 @@ namespace Dolany.Ice.Ai.DolanyAI
             using (var db = new AIDatabase())
             {
                 var tag = HourToTag(aimHour);
-                var query = db.KanColeGirlVoice.Where(a => a.Tag == tag).OrderBy(a => a.Id);
+                var query = db.KanColeGirlVoice.Where(a => a.Tag == tag)
+                                               .OrderBy(a => a.Id);
 
                 var randIdx = Utility.RandInt(query.Count());
 
-                return query.Skip(randIdx).First().Clone();
+                return query.Skip(randIdx)
+                            .First()
+                            .Clone();
             }
         }
 
@@ -300,12 +288,7 @@ namespace Dolany.Ice.Ai.DolanyAI
                 db.SaveChanges();
             }
 
-            MsgSender.Instance.PushMsg(new SendMsgDTO
-            {
-                Aim = MsgDTO.FromGroup,
-                Type = MsgType.Group,
-                Msg = "删除成功！"
-            });
+            MsgSender.Instance.PushMsg(MsgDTO, "删除成功！");
         }
 
         [EnterCommand(

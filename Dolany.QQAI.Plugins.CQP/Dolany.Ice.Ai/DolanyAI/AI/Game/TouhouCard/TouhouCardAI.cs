@@ -83,12 +83,7 @@ namespace Dolany.Ice.Ai.DolanyAI
 
         private static void ReturnCard(ReceivedMsgDTO MsgDTO, string cardName)
         {
-            MsgSender.Instance.PushMsg(new SendMsgDTO
-            {
-                Aim = MsgDTO.FromGroup,
-                Type = MsgType.Group,
-                Msg = CodeApi.Code_Image((new FileInfo(PicPath + cardName)).FullName)
-            });
+            MsgSender.Instance.PushMsg(MsgDTO, CodeApi.Code_Image(new FileInfo(PicPath + cardName).FullName));
         }
 
         private static string GetRandCard()

@@ -64,29 +64,20 @@ namespace Dolany.Ice.Ai.DolanyAI
             )]
         public void DeleteCharactor(ReceivedMsgDTO MsgDTO, object[] param)
         {
-            using (AIDatabase db = new AIDatabase())
+            using (var db = new AIDatabase())
             {
                 var charactor = param[0] as string;
-                var query = db.CharactorSetting.Where(c => c.GroupNumber == MsgDTO.FromGroup && c.Charactor == charactor);
+                var query = db.CharactorSetting.Where(c => c.GroupNumber == MsgDTO.FromGroup &&
+                                                           c.Charactor == charactor);
                 if (query.IsNullOrEmpty())
                 {
-                    MsgSender.Instance.PushMsg(new SendMsgDTO
-                    {
-                        Aim = MsgDTO.FromGroup,
-                        Type = MsgType.Group,
-                        Msg = "这个人物还没有被创建呢！"
-                    });
+                    MsgSender.Instance.PushMsg(MsgDTO, "这个人物还没有被创建呢！");
                     return;
                 }
 
                 if (query.First().Creator != MsgDTO.FromQQ)
                 {
-                    MsgSender.Instance.PushMsg(new SendMsgDTO
-                    {
-                        Aim = MsgDTO.FromGroup,
-                        Type = MsgType.Group,
-                        Msg = "你只能删除自己创建的人物噢！"
-                    });
+                    MsgSender.Instance.PushMsg(MsgDTO, "你只能删除自己创建的人物噢！");
                     return;
                 }
 
@@ -96,12 +87,7 @@ namespace Dolany.Ice.Ai.DolanyAI
                 }
                 db.SaveChanges();
 
-                MsgSender.Instance.PushMsg(new SendMsgDTO
-                {
-                    Aim = MsgDTO.FromGroup,
-                    Type = MsgType.Group,
-                    Msg = "删除成功！"
-                });
+                MsgSender.Instance.PushMsg(MsgDTO, "删除成功！");
             }
         }
 
@@ -120,15 +106,11 @@ namespace Dolany.Ice.Ai.DolanyAI
             using (var db = new AIDatabase())
             {
                 var charactor = param[0] as string;
-                var query = db.CharactorSetting.Where(c => c.GroupNumber == MsgDTO.FromGroup && c.Charactor == charactor);
+                var query = db.CharactorSetting.Where(c => c.GroupNumber == MsgDTO.FromGroup &&
+                                                           c.Charactor == charactor);
                 if (query.IsNullOrEmpty())
                 {
-                    MsgSender.Instance.PushMsg(new SendMsgDTO
-                    {
-                        Aim = MsgDTO.FromGroup,
-                        Type = MsgType.Group,
-                        Msg = "这个人物还没有创建哦~"
-                    });
+                    MsgSender.Instance.PushMsg(MsgDTO, "这个人物还没有创建哦~");
                     return;
                 }
 
@@ -141,25 +123,15 @@ namespace Dolany.Ice.Ai.DolanyAI
                 }
                 msg = builder.ToString();
 
-                MsgSender.Instance.PushMsg(new SendMsgDTO
-                {
-                    Aim = MsgDTO.FromGroup,
-                    Type = MsgType.Group,
-                    Msg = msg
-                });
+                MsgSender.Instance.PushMsg(MsgDTO, msg);
             }
         }
 
-        private void TryToInsertChar(ReceivedMsgDTO MsgDTO, string charactor, string settingName, string content)
+        private static void TryToInsertChar(ReceivedMsgDTO MsgDTO, string charactor, string settingName, string content)
         {
             if (IsQQFullChar(MsgDTO))
             {
-                MsgSender.Instance.PushMsg(new SendMsgDTO
-                {
-                    Aim = MsgDTO.FromGroup,
-                    Type = MsgType.Group,
-                    Msg = $"每个QQ号只能设定{MaxCharNumPerQQ}个人物哦~"
-                });
+                MsgSender.Instance.PushMsg(MsgDTO, $"每个QQ号只能设定{MaxCharNumPerQQ}个人物哦~");
             }
             else
             {
@@ -167,27 +139,17 @@ namespace Dolany.Ice.Ai.DolanyAI
             }
         }
 
-        private void TryToUpdateChar(ReceivedMsgDTO MsgDTO, string charactor, string settingName, string content)
+        private static void TryToUpdateChar(ReceivedMsgDTO MsgDTO, string charactor, string settingName, string content)
         {
             if (!IsCharactorCreator(MsgDTO, charactor))
             {
-                MsgSender.Instance.PushMsg(new SendMsgDTO
-                {
-                    Aim = MsgDTO.FromGroup,
-                    Type = MsgType.Group,
-                    Msg = "只能修改自己创建的人物哦~"
-                });
+                MsgSender.Instance.PushMsg(MsgDTO, "只能修改自己创建的人物哦~");
                 return;
             }
 
             if (IsSettingFull(MsgDTO.FromGroup, charactor, settingName))
             {
-                MsgSender.Instance.PushMsg(new SendMsgDTO
-                {
-                    Aim = MsgDTO.FromGroup,
-                    Type = MsgType.Group,
-                    Msg = $"每个人物只能设定{MaxSettingPerChar}个属性哦~"
-                });
+                MsgSender.Instance.PushMsg(MsgDTO, $"每个人物只能设定{MaxSettingPerChar}个属性哦~");
                 return;
             }
 
@@ -205,7 +167,8 @@ namespace Dolany.Ice.Ai.DolanyAI
         {
             using (var db = new AIDatabase())
             {
-                var query = db.CharactorSetting.Where(cs => cs.GroupNumber == MsgDTO.FromGroup && cs.Charactor == charactor);
+                var query = db.CharactorSetting.Where(cs => cs.GroupNumber == MsgDTO.FromGroup &&
+                                                            cs.Charactor == charactor);
                 return query.First().Creator == MsgDTO.FromQQ;
             }
         }
@@ -214,37 +177,39 @@ namespace Dolany.Ice.Ai.DolanyAI
         {
             using (var db = new AIDatabase())
             {
-                var query = db.CharactorSetting.Where(cs => cs.GroupNumber == fromGroup
-                                                            && cs.Charactor == charactor
-                                                            && cs.SettingName == settingName
-                                                     );
+                var query = db.CharactorSetting.Where(cs => cs.GroupNumber == fromGroup &&
+                                                            cs.Charactor == charactor &&
+                                                            cs.SettingName == settingName);
                 return !query.IsNullOrEmpty();
             }
         }
 
-        private bool IsQQFullChar(ReceivedMsgDTO MsgDTO)
+        private static bool IsQQFullChar(ReceivedMsgDTO MsgDTO)
         {
             using (var db = new AIDatabase())
             {
-                var query = db.CharactorSetting.Where(cs => cs.GroupNumber == MsgDTO.FromGroup && cs.Creator == MsgDTO.FromQQ);
+                var query = db.CharactorSetting.Where(cs => cs.GroupNumber == MsgDTO.FromGroup &&
+                                                            cs.Creator == MsgDTO.FromQQ);
                 if (query.IsNullOrEmpty())
                 {
                     return false;
                 }
-                query = query.GroupBy(p => p.Charactor).Select(p => p.First());
-                return !query.IsNullOrEmpty() && query.Count() > MaxCharNumPerQQ;
+                query = query.GroupBy(p => p.Charactor)
+                             .Select(p => p.First());
+                return !query.IsNullOrEmpty() &&
+                       query.Count() > MaxCharNumPerQQ;
             }
         }
 
-        private bool IsSettingFull(long fromGroup, string charactor, string settingName)
+        private static bool IsSettingFull(long fromGroup, string charactor, string settingName)
         {
             using (var db = new AIDatabase())
             {
-                var query = db.CharactorSetting.Where(cs => cs.GroupNumber == fromGroup
-                                                            && cs.Charactor == charactor
-                                                            && cs.SettingName != settingName
-                                                     );
-                return !query.IsNullOrEmpty() && query.Count() > MaxSettingPerChar;
+                var query = db.CharactorSetting.Where(cs => cs.GroupNumber == fromGroup &&
+                                                            cs.Charactor == charactor &&
+                                                            cs.SettingName != settingName);
+                return !query.IsNullOrEmpty() &&
+                       query.Count() > MaxSettingPerChar;
             }
         }
 
@@ -266,12 +231,7 @@ namespace Dolany.Ice.Ai.DolanyAI
                 db.CharactorSetting.Add(cs);
                 db.SaveChanges();
 
-                MsgSender.Instance.PushMsg(new SendMsgDTO
-                {
-                    Aim = MsgDTO.FromGroup,
-                    Type = MsgType.Group,
-                    Msg = "设定成功！"
-                });
+                MsgSender.Instance.PushMsg(MsgDTO, "设定成功！");
             }
         }
 
@@ -279,20 +239,17 @@ namespace Dolany.Ice.Ai.DolanyAI
         {
             using (var db = new AIDatabase())
             {
-                var cs = db.CharactorSetting.FirstOrDefault(c => c.GroupNumber == MsgDTO.FromGroup
-                && c.Charactor == charactor
-                && c.SettingName == settingName)
-;
+                var cs = db.CharactorSetting.FirstOrDefault(c => c.GroupNumber == MsgDTO.FromGroup &&
+                                                                 c.Charactor == charactor &&
+                                                                 c.SettingName == settingName);
 
-                if (cs != null) cs.Content = content;
+                if (cs != null)
+                {
+                    cs.Content = content;
+                }
                 db.SaveChanges();
 
-                MsgSender.Instance.PushMsg(new SendMsgDTO
-                {
-                    Aim = MsgDTO.FromGroup,
-                    Type = MsgType.Group,
-                    Msg = "修改设定成功！"
-                });
+                MsgSender.Instance.PushMsg(MsgDTO, "修改设定成功！");
             }
         }
 
@@ -300,7 +257,8 @@ namespace Dolany.Ice.Ai.DolanyAI
         {
             using (var db = new AIDatabase())
             {
-                var query = db.CharactorSetting.Where(cs => cs.GroupNumber == groupNumber && cs.Charactor == charactor);
+                var query = db.CharactorSetting.Where(cs => cs.GroupNumber == groupNumber &&
+                                                            cs.Charactor == charactor);
                 return !query.IsNullOrEmpty();
             }
         }

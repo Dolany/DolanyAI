@@ -176,12 +176,7 @@ namespace Dolany.Ice.Ai.DolanyAI
 
             if (ParseDice(sourceFormat) == null)
             {
-                MsgSender.Instance.PushMsg(new SendMsgDTO
-                {
-                    Aim = MsgDTO.FromGroup,
-                    Type = MsgType.Group,
-                    Msg = "源格式错误，请使用类似3d20[+][3]的格式！"
-                });
+                MsgSender.Instance.PushMsg(MsgDTO, "源格式错误，请使用类似3d20[+][3]的格式！");
                 return;
             }
 
@@ -207,12 +202,7 @@ namespace Dolany.Ice.Ai.DolanyAI
                 DbMgr.Update(setting);
             }
 
-            MsgSender.Instance.PushMsg(new SendMsgDTO
-            {
-                Aim = MsgDTO.FromGroup,
-                Type = MsgType.Group,
-                Msg = "保存成功！"
-            });
+            MsgSender.Instance.PushMsg(MsgDTO, "保存成功！");
         }
     }
 

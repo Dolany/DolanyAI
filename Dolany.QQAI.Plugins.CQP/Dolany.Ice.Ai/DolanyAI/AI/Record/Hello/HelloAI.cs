@@ -32,22 +32,16 @@ namespace Dolany.Ice.Ai.DolanyAI
             using (var db = new AIDatabase())
             {
                 var now = DateTime.Now.Date;
-                var query = db.Hello.Where(h => h.GroupNum == MsgDTO.FromGroup
-                    && h.QQNum == MsgDTO.FromQQ
-                    && now > h.LastHelloDate
-                    );
+                var query = db.Hello.Where(h => h.GroupNum == MsgDTO.FromGroup &&
+                                                h.QQNum == MsgDTO.FromQQ &&
+                                                now > h.LastHelloDate);
                 if (query.IsNullOrEmpty())
                 {
                     return false;
                 }
 
                 var hello = query.First();
-                MsgSender.Instance.PushMsg(new SendMsgDTO
-                {
-                    Aim = MsgDTO.FromGroup,
-                    Type = MsgType.Group,
-                    Msg = $"{CodeApi.Code_At(MsgDTO.FromQQ)} {hello.Content}"
-                });
+                MsgSender.Instance.PushMsg(MsgDTO, $"{CodeApi.Code_At(MsgDTO.FromQQ)} {hello.Content}");
 
                 hello.LastHelloDate = DateTime.Now.Date;
                 db.SaveChanges();
@@ -72,8 +66,8 @@ namespace Dolany.Ice.Ai.DolanyAI
 
             using (var db = new AIDatabase())
             {
-                var query = db.Hello.Where(h => h.GroupNum == MsgDTO.FromGroup
-                    && h.QQNum == MsgDTO.FromQQ);
+                var query = db.Hello.Where(h => h.GroupNum == MsgDTO.FromGroup &&
+                                                h.QQNum == MsgDTO.FromQQ);
                 if (query.IsNullOrEmpty())
                 {
                     db.Hello.Add(new Hello
@@ -88,17 +82,15 @@ namespace Dolany.Ice.Ai.DolanyAI
                 else
                 {
                     var hello = query.FirstOrDefault();
-                    if (hello != null) hello.Content = content;
+                    if (hello != null)
+                    {
+                        hello.Content = content;
+                    }
                 }
                 db.SaveChanges();
             }
 
-            MsgSender.Instance.PushMsg(new SendMsgDTO
-            {
-                Aim = MsgDTO.FromGroup,
-                Type = MsgType.Group,
-                Msg = "招呼内容设定成功"
-            });
+            MsgSender.Instance.PushMsg(MsgDTO, "招呼内容设定成功");
         }
 
         [EnterCommand(
@@ -115,25 +107,15 @@ namespace Dolany.Ice.Ai.DolanyAI
         {
             using (var db = new AIDatabase())
             {
-                var query = db.Hello.Where(h => h.GroupNum == MsgDTO.FromGroup
-                    && h.QQNum == MsgDTO.FromQQ);
+                var query = db.Hello.Where(h => h.GroupNum == MsgDTO.FromGroup &&
+                                                h.QQNum == MsgDTO.FromQQ);
                 if (query.IsNullOrEmpty())
                 {
-                    MsgSender.Instance.PushMsg(new SendMsgDTO
-                    {
-                        Aim = MsgDTO.FromGroup,
-                        Type = MsgType.Group,
-                        Msg = "你还没有设定过招呼内容哦~"
-                    });
+                    MsgSender.Instance.PushMsg(MsgDTO, "你还没有设定过招呼内容哦~");
                     return;
                 }
 
-                MsgSender.Instance.PushMsg(new SendMsgDTO
-                {
-                    Aim = MsgDTO.FromGroup,
-                    Type = MsgType.Group,
-                    Msg = $"{CodeApi.Code_At(MsgDTO.FromQQ)} {query.First().Content}"
-                });
+                MsgSender.Instance.PushMsg(MsgDTO, $"{CodeApi.Code_At(MsgDTO.FromQQ)} {query.First().Content}");
             }
         }
 
@@ -151,28 +133,18 @@ namespace Dolany.Ice.Ai.DolanyAI
         {
             using (var db = new AIDatabase())
             {
-                var query = db.Hello.Where(h => h.GroupNum == MsgDTO.FromGroup
-                    && h.QQNum == MsgDTO.FromQQ);
+                var query = db.Hello.Where(h => h.GroupNum == MsgDTO.FromGroup &&
+                                                h.QQNum == MsgDTO.FromQQ);
                 if (query.IsNullOrEmpty())
                 {
-                    MsgSender.Instance.PushMsg(new SendMsgDTO
-                    {
-                        Aim = MsgDTO.FromGroup,
-                        Type = MsgType.Group,
-                        Msg = "你还没有设定过招呼内容哦~"
-                    });
+                    MsgSender.Instance.PushMsg(MsgDTO, "你还没有设定过招呼内容哦~");
                     return;
                 }
 
                 db.Hello.RemoveRange(query);
             }
 
-            MsgSender.Instance.PushMsg(new SendMsgDTO
-            {
-                Aim = MsgDTO.FromGroup,
-                Type = MsgType.Group,
-                Msg = "删除成功！"
-            });
+            MsgSender.Instance.PushMsg(MsgDTO, "删除成功！");
         }
     }
 }
