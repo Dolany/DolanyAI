@@ -73,13 +73,12 @@ namespace Dolany.Ice.Ai.DolanyAI
         private void LoadAis()
         {
             var assembly = Assembly.GetExecutingAssembly();
-            var list = (from type in assembly.GetTypes()
-                        where type.IsSubclassOf(typeof(AIBase))
-                        where type.FullName != null
-                        let ai = assembly.CreateInstance(type.FullName) as AIBase
-                        let attr = type.GetCustomAttribute(typeof(AIAttribute), false) as AIAttribute
-                        select new KeyValuePair<AIBase, AIAttribute>(ai, attr)
-                        ).ToList();
+            var list = from type in assembly.GetTypes()
+                       where type.IsSubclassOf(typeof(AIBase))
+                       where type.FullName != null
+                       let ai = assembly.CreateInstance(type.FullName) as AIBase
+                       let attr = type.GetCustomAttribute(typeof(AIAttribute), false) as AIAttribute
+                       select new KeyValuePair<AIBase, AIAttribute>(ai, attr);
 
             AIList = list;
         }
@@ -89,7 +88,8 @@ namespace Dolany.Ice.Ai.DolanyAI
             var assembly = Assembly.GetExecutingAssembly();
             foreach (var type in assembly.GetTypes())
             {
-                if (!type.IsClass || !typeof(IAITool).IsAssignableFrom(type))
+                if (!type.IsClass ||
+                    !typeof(IAITool).IsAssignableFrom(type))
                 {
                     continue;
                 }
