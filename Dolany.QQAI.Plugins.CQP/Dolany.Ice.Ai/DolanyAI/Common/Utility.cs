@@ -16,6 +16,7 @@ namespace Dolany.Ice.Ai.DolanyAI
         private static string AuthCode;
 
         public static long DeveloperNumber => 1458978159;
+        public static long SysMsgNumber => 10000;
 
         private static readonly RNGCryptoServiceProvider RngCsp = new RNGCryptoServiceProvider();
 
