@@ -30,11 +30,6 @@ namespace AIMonitor
             }
         }
 
-        public static void SetConfig(string name, string value)
-        {
-            Dolany.Ice.Ai.DolanyAI.Utility.SetConfig(name, value);
-        }
-
         public static string GetConfig(string name)
         {
             return Dolany.Ice.Ai.DolanyAI.Utility.GetConfig(name);

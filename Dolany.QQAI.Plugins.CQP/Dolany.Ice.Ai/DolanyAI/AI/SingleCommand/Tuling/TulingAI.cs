@@ -13,8 +13,8 @@ namespace Dolany.Ice.Ai.DolanyAI
         )]
     public class TulingAI : AIBase
     {
-        private const string RequestUrl = "http://openapi.tuling123.com/openapi/api/v2";
-        private const string ApiKey = "fbeeef973da4480bb42dc10c45ba735b";
+        private readonly string RequestUrl = Utility.GetConfig("TulingRequestUrl");
+        private readonly string ApiKey = Utility.GetConfig("TulingApiKey");
         private readonly int[] ErroCodes = { 5000, 6000, 4000, 4001, 4002, 4003, 4005, 4007, 4100, 4200, 4300, 4400, 4500, 4600, 4602, 7002, 8008 };
 
         public TulingAI()
@@ -67,7 +67,7 @@ namespace Dolany.Ice.Ai.DolanyAI
             return ParseResponse(response);
         }
 
-        private static PostReq_Param GetPostReq(ReceivedMsgDTO MsgDTO)
+        private PostReq_Param GetPostReq(ReceivedMsgDTO MsgDTO)
         {
             var imageInfo = ParseImgText(MsgDTO.FullMsg);
             var perception = string.IsNullOrEmpty(imageInfo) ? new perceptionData

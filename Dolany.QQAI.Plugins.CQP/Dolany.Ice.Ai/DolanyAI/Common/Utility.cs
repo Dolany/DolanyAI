@@ -15,9 +15,11 @@ namespace Dolany.Ice.Ai.DolanyAI
         private static Dictionary<Type, object> SinglonMap;
         private static string AuthCode;
 
-        public static long DeveloperNumber => 1458978159;
-        public static long SysMsgNumber => 10000;
-        public static long SelfQQNum => 2105668527;
+        public static long DeveloperNumber => long.Parse(GetConfig(nameof(DeveloperNumber)));
+        public static long SysMsgNumber => long.Parse(GetConfig(nameof(SysMsgNumber)));
+        public static long SelfQQNum => long.Parse(GetConfig(nameof(SelfQQNum)));
+
+        private static Dictionary<string, string> AIConfig;
 
         private static readonly RNGCryptoServiceProvider RngCsp = new RNGCryptoServiceProvider();
 
@@ -62,39 +64,17 @@ namespace Dolany.Ice.Ai.DolanyAI
             return (hour, minute);
         }
 
-        public static void SetConfig(string name, string value)
-        {
-            using (var db = new AIDatabase())
-            {
-                var query = db.AIConfig.Where(p => p.Key == name);
-                if (query.IsNullOrEmpty())
-                {
-                    db.AIConfig.Add(new AIConfig
-                    {
-                        Id = Guid.NewGuid().ToString(),
-                        Key = name,
-                        Value = value
-                    });
-                }
-                else
-                {
-                    var config = query.First();
-                    config.Value = value;
-                }
-                db.SaveChanges();
-            }
-        }
-
         [HandleProcessCorruptedStateExceptions]
         public static string GetConfig(string name)
         {
             try
             {
-                using (var db = new AIDatabase())
+                if (AIConfig == null)
                 {
-                    var query = db.AIConfig.Where(p => p.Key == name);
-                    return query.IsNullOrEmpty() ? string.Empty : query.First().Value;
+                    AIConfig = GetConfigDic();
                 }
+
+                return AIConfig.Keys.Contains(name) ? AIConfig[name] : "";
             }
             catch (Exception ex)
             {
@@ -106,13 +86,30 @@ namespace Dolany.Ice.Ai.DolanyAI
         public static string GetConfig(string name, string defaltValue)
         {
             var value = GetConfig(name);
-            if (!string.IsNullOrEmpty(value))
-            {
-                return value;
-            }
+            return !string.IsNullOrEmpty(value) ? value : defaltValue;
+        }
 
-            SetConfig(name, defaltValue);
-            return defaltValue;
+        private static Dictionary<string, string> GetConfigDic()
+        {
+            var configFile = new FileInfo("AIConfig.ini");
+            var dic = new Dictionary<string, string>();
+            using (var reader = new StreamReader(configFile.FullName))
+            {
+                string line;
+                while ((line = reader.ReadLine()) != null)
+                {
+                    var strs = line.Split(new[] { '=' }, StringSplitOptions.RemoveEmptyEntries);
+                    if (strs.IsNullOrEmpty() ||
+                        strs.Length != 2)
+                    {
+                        continue;
+                    }
+
+                    dic.Add(strs[0], strs[1]);
+                }
+
+                return dic;
+            }
         }
 
         public static T Instance<T>() where T : class, new()
