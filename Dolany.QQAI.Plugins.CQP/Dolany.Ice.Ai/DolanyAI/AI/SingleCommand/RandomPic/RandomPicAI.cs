@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.IO;
-using Dolany.Ice.Ai.MahuaApis;
+using static Dolany.Ice.Ai.MahuaApis.CodeApi;
 
 namespace Dolany.Ice.Ai.DolanyAI
 {
@@ -15,7 +15,7 @@ namespace Dolany.Ice.Ai.DolanyAI
         )]
     public class RandomPicAI : AIBase
     {
-        private string PicPath { get; } = CodeApi.ImagePath;
+        private string PicPath { get; } = ImagePath;
         private List<string> Keywords { get; } = new List<string>();
 
         public RandomPicAI()
@@ -85,7 +85,7 @@ namespace Dolany.Ice.Ai.DolanyAI
             var ImageCache = Utility.ReadImageCacheInfo(imageList[idx]);
             var sendImgName = $"{ImageCache.guid}.{ImageCache.type}";
 
-            MsgSender.Instance.PushMsg(MsgDTO, CodeApi.Code_Image(sendImgName));
+            MsgSender.Instance.PushMsg(MsgDTO, Code_Image(sendImgName));
         }
 
         [EnterCommand(
@@ -105,14 +105,14 @@ namespace Dolany.Ice.Ai.DolanyAI
             var ImageCache = Utility.ReadImageCacheInfo(imageList[idx]);
             var sendImgName = $"{ImageCache.guid}.{ImageCache.type}";
 
-            MsgSender.Instance.PushMsg(MsgDTO, CodeApi.Code_Flash(sendImgName));
+            MsgSender.Instance.PushMsg(MsgDTO, Code_Flash(sendImgName));
         }
 
         private List<FileInfo> GetRecentImageList()
         {
             var dirInfo = new DirectoryInfo(PicPath);
             var files = dirInfo.GetFiles();
-            return files.Where(f => f.Extension == CodeApi.ImageExtension)
+            return files.Where(f => f.Extension == ImageExtension)
                         .OrderBy(f => f.CreationTime)
                         .Skip(10)
                         .ToList();

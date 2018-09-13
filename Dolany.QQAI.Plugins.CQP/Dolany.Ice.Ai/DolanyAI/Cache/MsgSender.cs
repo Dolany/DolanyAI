@@ -26,7 +26,7 @@ namespace Dolany.Ice.Ai.DolanyAI
             JobScheduler.Instance.Add(1000, TimerUp);
         }
 
-        private void TimerUp(object sender, ElapsedEventArgs e)
+        private static void TimerUp(object sender, ElapsedEventArgs e)
         {
             SendAllMsgs();
         }

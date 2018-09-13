@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Linq;
 using Dolany.Ice.Ai.DolanyAI.Db;
-using Dolany.Ice.Ai.MahuaApis;
+using static Dolany.Ice.Ai.MahuaApis.CodeApi;
 
 namespace Dolany.Ice.Ai.DolanyAI
 {
@@ -41,7 +41,7 @@ namespace Dolany.Ice.Ai.DolanyAI
                 }
 
                 var hello = query.First();
-                MsgSender.Instance.PushMsg(MsgDTO, $"{CodeApi.Code_At(MsgDTO.FromQQ)} {hello.Content}");
+                MsgSender.Instance.PushMsg(MsgDTO, $"{Code_At(MsgDTO.FromQQ)} {hello.Content}");
 
                 hello.LastHelloDate = DateTime.Now.Date;
                 db.SaveChanges();
@@ -115,7 +115,7 @@ namespace Dolany.Ice.Ai.DolanyAI
                     return;
                 }
 
-                MsgSender.Instance.PushMsg(MsgDTO, $"{CodeApi.Code_At(MsgDTO.FromQQ)} {query.First().Content}");
+                MsgSender.Instance.PushMsg(MsgDTO, $"{Code_At(MsgDTO.FromQQ)} {query.First().Content}");
             }
         }
 

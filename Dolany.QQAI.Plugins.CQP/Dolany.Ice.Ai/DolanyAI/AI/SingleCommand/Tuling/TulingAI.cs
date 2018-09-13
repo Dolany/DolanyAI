@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Linq;
 using System.Text;
-using Dolany.Ice.Ai.MahuaApis;
+using static Dolany.Ice.Ai.MahuaApis.CodeApi;
 
 namespace Dolany.Ice.Ai.DolanyAI
 {
@@ -34,12 +34,12 @@ namespace Dolany.Ice.Ai.DolanyAI
             }
 
             if (MsgDTO.MsgType == MsgType.Group &&
-                !MsgDTO.FullMsg.Contains(CodeApi.Code_SelfAt()))
+                !MsgDTO.FullMsg.Contains(Code_SelfAt()))
             {
                 return false;
             }
 
-            MsgDTO.FullMsg = MsgDTO.FullMsg.Replace(CodeApi.Code_SelfAt(), "");
+            MsgDTO.FullMsg = MsgDTO.FullMsg.Replace(Code_SelfAt(), "");
             var response = RequestMsg(MsgDTO);
             if (string.IsNullOrEmpty(response))
             {
@@ -116,11 +116,11 @@ namespace Dolany.Ice.Ai.DolanyAI
                         break;
 
                     case "image":
-                        builder.Append(CodeApi.Code_Image(res.values.image));
+                        builder.Append(Code_Image(res.values.image));
                         break;
 
                     case "voice":
-                        builder.Append(CodeApi.Code_Voice(res.values.voice));
+                        builder.Append(Code_Voice(res.values.voice));
                         break;
 
                     case "url":

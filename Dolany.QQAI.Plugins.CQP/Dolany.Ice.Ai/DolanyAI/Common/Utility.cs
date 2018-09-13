@@ -6,7 +6,7 @@ using System.Runtime.ExceptionServices;
 using System.Security.Cryptography;
 using System.Text;
 using Dolany.Ice.Ai.DolanyAI.Db;
-using Dolany.Ice.Ai.MahuaApis;
+using static Dolany.Ice.Ai.MahuaApis.CodeApi;
 
 namespace Dolany.Ice.Ai.DolanyAI
 {
@@ -216,7 +216,7 @@ namespace Dolany.Ice.Ai.DolanyAI
 
         public static ImageCacheModel ReadImageCacheInfo(string guid)
         {
-            var file = new FileInfo(CodeApi.ImagePath + guid + CodeApi.ImageExtension);
+            var file = new FileInfo(ImagePath + guid + ImageExtension);
             return !file.Exists ? null : ReadImageCacheInfo(file);
         }
 

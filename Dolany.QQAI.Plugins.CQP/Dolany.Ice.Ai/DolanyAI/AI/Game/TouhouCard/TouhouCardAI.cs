@@ -2,7 +2,7 @@
 using System.IO;
 using Dolany.Ice.Ai.DolanyAI.Db;
 using System.Linq;
-using Dolany.Ice.Ai.MahuaApis;
+using static Dolany.Ice.Ai.MahuaApis.CodeApi;
 
 namespace Dolany.Ice.Ai.DolanyAI
 {
@@ -83,7 +83,7 @@ namespace Dolany.Ice.Ai.DolanyAI
 
         private static void ReturnCard(ReceivedMsgDTO MsgDTO, string cardName)
         {
-            MsgSender.Instance.PushMsg(MsgDTO, CodeApi.Code_Image(new FileInfo(PicPath + cardName).FullName));
+            MsgSender.Instance.PushMsg(MsgDTO, Code_Image(new FileInfo(PicPath + cardName).FullName));
         }
 
         private static string GetRandCard()

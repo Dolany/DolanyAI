@@ -5,7 +5,7 @@ using System.Linq;
 using System.Text;
 using Dolany.Ice.Ai.DolanyAI.Db;
 using System.Timers;
-using Dolany.Ice.Ai.MahuaApis;
+using static Dolany.Ice.Ai.MahuaApis.CodeApi;
 
 namespace Dolany.Ice.Ai.DolanyAI
 {
@@ -131,7 +131,7 @@ namespace Dolany.Ice.Ai.DolanyAI
             {
                 Aim = entity.GroupNumber,
                 Type = MsgType.Group,
-                Msg = $@"{CodeApi.Code_At(entity.Creator)} {entity.Content}"
+                Msg = $@"{Code_At(entity.Creator)} {entity.Content}"
             });
 
             timer.Interval = GetNextInterval(entity.AimHourt, entity.AimMinute);
@@ -155,11 +155,11 @@ namespace Dolany.Ice.Ai.DolanyAI
                                                          q.Creator == MsgDTO.FromQQ);
                 if (allClocks.IsNullOrEmpty())
                 {
-                    MsgSender.Instance.PushMsg(MsgDTO, $@"{CodeApi.Code_At(MsgDTO.FromQQ)} 你还没有设定闹钟呢！");
+                    MsgSender.Instance.PushMsg(MsgDTO, $@"{Code_At(MsgDTO.FromQQ)} 你还没有设定闹钟呢！");
                     return;
                 }
 
-                var Msg = $@"{CodeApi.Code_At(MsgDTO.FromQQ)} 你当前共设定了{allClocks.Count()}个闹钟";
+                var Msg = $@"{Code_At(MsgDTO.FromQQ)} 你当前共设定了{allClocks.Count()}个闹钟";
                 var builder = new StringBuilder();
                 builder.Append(Msg);
                 foreach (var clock in allClocks)

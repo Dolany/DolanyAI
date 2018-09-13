@@ -91,13 +91,15 @@ namespace Dolany.Ice.Ai.DolanyAI
         {
             using (var db = new AIDatabase())
             {
-                if (rf.FortuneValue >= 50 || Utility.RandInt(100) > 10)
+                if (rf.FortuneValue >= 50 ||
+                    Utility.RandInt(100) > 10)
                 {
                     return;
                 }
                 var filist = db.FortuneItem;
                 var idx = Utility.RandInt(filist.Count());
-                var item = filist.OrderBy(p => p.Id).Skip(idx)
+                var item = filist.OrderBy(p => p.Id)
+                                 .Skip(idx)
                                  .First();
                 rf.BlessName = item.Name;
                 rf.BlessValue = item.Value;
@@ -235,7 +237,8 @@ namespace Dolany.Ice.Ai.DolanyAI
                 var datas = db.TarotFortuneData.OrderBy(p => p.Id);
                 var count = datas.Count();
 
-                var randData = datas.Skip(Utility.RandInt(count)).First();
+                var randData = datas.Skip(Utility.RandInt(count))
+                                    .First();
                 return randData.Clone();
             }
         }
