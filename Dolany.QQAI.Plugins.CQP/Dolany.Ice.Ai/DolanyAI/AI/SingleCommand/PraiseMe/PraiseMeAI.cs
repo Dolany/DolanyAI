@@ -1,9 +1,9 @@
 ﻿using System;
 using System.Linq;
-using Dolany.Ice.Ai.MahuaApis;
 using Dolany.Ice.Ai.DolanyAI.Db;
 using System.Threading;
 using static Dolany.Ice.Ai.MahuaApis.AmandaAPIEx;
+using static Dolany.Ice.Ai.MahuaApis.CodeApi;
 
 namespace Dolany.Ice.Ai.DolanyAI
 {
@@ -106,7 +106,7 @@ namespace Dolany.Ice.Ai.DolanyAI
                 SendPraise(MsgDTO.FromQQ.ToString());
             }
 
-            MsgSender.Instance.PushMsg(MsgDTO, $"{CodeApi.Code_At(MsgDTO.FromQQ)} 已赞十次！");
+            MsgSender.Instance.PushMsg(MsgDTO, $"{Code_At(MsgDTO.FromQQ)} 已赞十次！");
         }
     }
 }

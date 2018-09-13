@@ -4,7 +4,7 @@ using System.Diagnostics;
 using System.Linq;
 using System.Text;
 using Dolany.Ice.Ai.DolanyAI.Db;
-using Dolany.Ice.Ai.MahuaApis;
+using static Dolany.Ice.Ai.MahuaApis.CodeApi;
 
 namespace Dolany.Ice.Ai.DolanyAI
 {
@@ -97,7 +97,7 @@ namespace Dolany.Ice.Ai.DolanyAI
                 {
                     Aim = groupNum,
                     Type = MsgType.Group,
-                    Msg = CodeApi.Code_Voice(randGirl.VoiceUrl)
+                    Msg = Code_Voice(randGirl.VoiceUrl)
                 });
                 MsgSender.Instance.PushMsg(new SendMsgDTO
                 {

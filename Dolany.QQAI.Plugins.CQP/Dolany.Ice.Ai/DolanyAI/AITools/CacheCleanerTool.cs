@@ -2,7 +2,7 @@
 using System.Linq;
 using System.Timers;
 using System.IO;
-using Dolany.Ice.Ai.MahuaApis;
+using static Dolany.Ice.Ai.MahuaApis.CodeApi;
 
 namespace Dolany.Ice.Ai.DolanyAI
 {
@@ -43,7 +43,7 @@ namespace Dolany.Ice.Ai.DolanyAI
                 TimeUp,
                 new CacheCleanerDTO
                 {
-                    Path = CodeApi.ImagePath,
+                    Path = ImagePath,
                     IsCascading = false,
                     MaxCacheCount = MaxPicCache
                 }
@@ -108,7 +108,8 @@ namespace Dolany.Ice.Ai.DolanyAI
                 return;
             }
 
-            var cleanFiles = dir.GetFiles().OrderBy(f => f.CreationTime).Take(cleanCount);
+            var cleanFiles = dir.GetFiles().OrderBy(f => f.CreationTime)
+                                           .Take(cleanCount);
             foreach (var f in cleanFiles)
             {
                 f.Delete();

@@ -3,7 +3,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using Dolany.Ice.Ai.DolanyAI.Db;
-using Dolany.Ice.Ai.MahuaApis;
+using static Dolany.Ice.Ai.MahuaApis.CodeApi;
 
 namespace Dolany.Ice.Ai.DolanyAI
 {
@@ -222,7 +222,7 @@ namespace Dolany.Ice.Ai.DolanyAI
 
         private static void SendTarotFortune(ReceivedMsgDTO MsgDTO, TarotFortuneData data)
         {
-            var msg = CodeApi.Code_Image(TarotServerPath + data.PicSrc) + '\r';
+            var msg = Code_Image(TarotServerPath + data.PicSrc) + '\r';
             msg += "牌名：" + data.Name + '\r';
             msg += data.IsPos ? "正位解释：" : "逆位解释：";
             msg += data.Description;

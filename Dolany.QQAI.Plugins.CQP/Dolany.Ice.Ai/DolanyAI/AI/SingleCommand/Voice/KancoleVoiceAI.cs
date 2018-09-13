@@ -1,6 +1,6 @@
 ﻿using System.Linq;
 using Dolany.Ice.Ai.DolanyAI.Db;
-using Dolany.Ice.Ai.MahuaApis;
+using static Dolany.Ice.Ai.MahuaApis.CodeApi;
 
 namespace Dolany.Ice.Ai.DolanyAI
 {
@@ -41,7 +41,7 @@ namespace Dolany.Ice.Ai.DolanyAI
                 return;
             }
 
-            MsgSender.Instance.PushMsg(MsgDTO, CodeApi.Code_Voice(voice.VoiceUrl));
+            MsgSender.Instance.PushMsg(MsgDTO, Code_Voice(voice.VoiceUrl));
             MsgSender.Instance.PushMsg(MsgDTO, voice.Content);
         }
 
@@ -49,7 +49,8 @@ namespace Dolany.Ice.Ai.DolanyAI
         {
             using (var db = new AIDatabase())
             {
-                var query = db.KanColeGirlVoice.Where(p => p.Name.Contains(name)).OrderBy(p => p.Id);
+                var query = db.KanColeGirlVoice.Where(p => p.Name.Contains(name))
+                                               .OrderBy(p => p.Id);
                 if (query.IsNullOrEmpty())
                 {
                     return null;
