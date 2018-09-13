@@ -47,10 +47,19 @@ namespace Dolany.Ice.Ai.MahuaApis
         }
 
         // 	网易云点歌
+        [HandleProcessCorruptedStateExceptions]
         public static string _163Music(string 歌曲ID)
         {
-            var AuthCode = Utility.GetAuthCode();
-            return Api_163Music(歌曲ID, AuthCode);
+            try
+            {
+                var AuthCode = Utility.GetAuthCode();
+                return Api_163Music(歌曲ID, AuthCode);
+            }
+            catch (Exception ex)
+            {
+                RuntimeLogger.Log(ex);
+                return "";
+            }
         }
 
         public static string Restart()

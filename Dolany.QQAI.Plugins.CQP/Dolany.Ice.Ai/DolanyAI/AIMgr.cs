@@ -176,7 +176,8 @@ namespace Dolany.Ice.Ai.DolanyAI
             using (var db = new AIDatabase())
             {
                 var aiName = ai.GetType().Name;
-                var query = db.AISeal.Where(s => s.GroupNum == MsgDTO.FromGroup && s.AiName == aiName);
+                var query = db.AISeal.Where(s => s.GroupNum == MsgDTO.FromGroup &&
+                                                 s.AiName == aiName);
                 return !query.IsNullOrEmpty();
             }
         }

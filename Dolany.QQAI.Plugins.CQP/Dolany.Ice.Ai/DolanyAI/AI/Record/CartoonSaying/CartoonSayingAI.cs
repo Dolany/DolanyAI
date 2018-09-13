@@ -173,10 +173,10 @@ namespace Dolany.Ice.Ai.DolanyAI
         {
             using (var db = new AIDatabase())
             {
-                var query = db.Saying.Where(s => s.FromGroup == MsgDTO.FromGroup
-                                                        && (s.Content.Contains(MsgDTO.Msg)
-                                                        || s.Charactor.Contains(MsgDTO.Msg)
-                                                        || s.Cartoon.Contains(MsgDTO.Msg)));
+                var query = db.Saying.Where(s => s.FromGroup == MsgDTO.FromGroup &&
+                                                 (s.Content.Contains(MsgDTO.Msg) ||
+                                                  s.Charactor.Contains(MsgDTO.Msg) ||
+                                                  s.Cartoon.Contains(MsgDTO.Msg)));
                 db.Saying.RemoveRange(query);
                 db.SaveChanges();
 
@@ -205,7 +205,8 @@ namespace Dolany.Ice.Ai.DolanyAI
 
             using (var db = new AIDatabase())
             {
-                var query = db.SayingSeal.Where(s => s.GroupNum == MsgDTO.FromGroup && s.SealMember == memberNum);
+                var query = db.SayingSeal.Where(s => s.GroupNum == MsgDTO.FromGroup &&
+                                                     s.SealMember == memberNum);
                 if (!query.IsNullOrEmpty())
                 {
                     MsgSender.Instance.PushMsg(new SendMsgDTO
@@ -253,7 +254,8 @@ namespace Dolany.Ice.Ai.DolanyAI
 
             using (var db = new AIDatabase())
             {
-                var query = db.SayingSeal.Where(s => s.GroupNum == MsgDTO.FromGroup && s.SealMember == memberNum);
+                var query = db.SayingSeal.Where(s => s.GroupNum == MsgDTO.FromGroup &&
+                                                     s.SealMember == memberNum);
                 if (query.IsNullOrEmpty())
                 {
                     MsgSender.Instance.PushMsg(new SendMsgDTO
