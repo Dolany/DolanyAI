@@ -103,7 +103,8 @@ namespace Dolany.Ice.Ai.DolanyAI
         {
             using (var db = new AIDatabase())
             {
-                var msgs = db.MsgSendCache.OrderBy(p => p.Guid).ThenBy(p => p.SerialNum);
+                var msgs = db.MsgSendCache.OrderBy(p => p.Guid)
+                                          .ThenBy(p => p.SerialNum);
                 foreach (var msg in msgs)
                 {
                     SendMsg(new SendMsgDTO

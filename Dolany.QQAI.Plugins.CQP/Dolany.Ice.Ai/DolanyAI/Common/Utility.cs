@@ -17,6 +17,7 @@ namespace Dolany.Ice.Ai.DolanyAI
 
         public static long DeveloperNumber => 1458978159;
         public static long SysMsgNumber => 10000;
+        public static long SelfQQNum => 2105668527;
 
         private static readonly RNGCryptoServiceProvider RngCsp = new RNGCryptoServiceProvider();
 
@@ -200,7 +201,8 @@ namespace Dolany.Ice.Ai.DolanyAI
                 while ((line = reader.ReadLine()) != null)
                 {
                     var strs = line.Split(new[] { '=' }, StringSplitOptions.RemoveEmptyEntries);
-                    if (strs.IsNullOrEmpty() || strs.Length < 2)
+                    if (strs.IsNullOrEmpty() ||
+                        strs.Length < 2)
                     {
                         continue;
                     }

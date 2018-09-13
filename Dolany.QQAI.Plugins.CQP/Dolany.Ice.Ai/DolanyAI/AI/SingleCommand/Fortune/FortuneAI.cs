@@ -91,10 +91,14 @@ namespace Dolany.Ice.Ai.DolanyAI
         {
             using (var db = new AIDatabase())
             {
-                if (rf.FortuneValue >= 50 || Utility.RandInt(100) > 10) return;
+                if (rf.FortuneValue >= 50 || Utility.RandInt(100) > 10)
+                {
+                    return;
+                }
                 var filist = db.FortuneItem;
                 var idx = Utility.RandInt(filist.Count());
-                var item = filist.OrderBy(p => p.Id).Skip(idx).First();
+                var item = filist.OrderBy(p => p.Id).Skip(idx)
+                                 .First();
                 rf.BlessName = item.Name;
                 rf.BlessValue = item.Value;
             }
@@ -155,12 +159,7 @@ namespace Dolany.Ice.Ai.DolanyAI
             }
             msg = builder.ToString();
 
-            MsgSender.Instance.PushMsg(new SendMsgDTO
-            {
-                Aim = MsgDTO.FromGroup,
-                Type = MsgType.Group,
-                Msg = msg
-            });
+            MsgSender.Instance.PushMsg(MsgDTO, msg);
         }
 
         [EnterCommand(
@@ -256,12 +255,7 @@ namespace Dolany.Ice.Ai.DolanyAI
             var aimNum = (long)param[0];
 
             Bless(aimNum, "圣光祝福", 80);
-            MsgSender.Instance.PushMsg(new SendMsgDTO
-            {
-                Aim = MsgDTO.FromGroup,
-                Type = MsgType.Group,
-                Msg = "祝福成功！"
-            });
+            MsgSender.Instance.PushMsg(MsgDTO, "祝福成功！");
         }
 
         private static void Bless(long QQNum, string BlessName, int BlessValue)
@@ -309,12 +303,7 @@ namespace Dolany.Ice.Ai.DolanyAI
             var aimNum = (long)param[0];
 
             Bless(aimNum, "暗夜诅咒", -GetRandomFortune());
-            MsgSender.Instance.PushMsg(new SendMsgDTO
-            {
-                Aim = MsgDTO.FromGroup,
-                Type = MsgType.Group,
-                Msg = "诅咒成功！"
-            });
+            MsgSender.Instance.PushMsg(MsgDTO, "诅咒成功！");
         }
     }
 }

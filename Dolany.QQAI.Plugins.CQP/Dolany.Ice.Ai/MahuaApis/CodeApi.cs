@@ -1,12 +1,11 @@
 ﻿using System;
 using Newbe.Mahua;
+using Dolany.Ice.Ai.DolanyAI;
 
 namespace Dolany.Ice.Ai.MahuaApis
 {
     public static class CodeApi
     {
-        public const long SelfQQNum = 2105668527;
-
         public static string Code_At(long qqNumber)
         {
             string code;
@@ -29,7 +28,7 @@ namespace Dolany.Ice.Ai.MahuaApis
 
         public static string Code_SelfAt()
         {
-            return Code_At(SelfQQNum);
+            return Code_At(Utility.SelfQQNum);
         }
 
         public static string Code_Image(string fileName)
