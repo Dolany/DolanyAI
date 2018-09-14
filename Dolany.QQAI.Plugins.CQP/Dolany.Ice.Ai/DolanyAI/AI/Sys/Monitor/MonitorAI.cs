@@ -78,5 +78,37 @@ namespace Dolany.Ice.Ai.DolanyAI
 
             return string.Empty;
         }
+
+        [EnterCommand(
+            Command = "poweron",
+            Description = "机器人开机",
+            Syntax = "",
+            Tag = "开关机功能",
+            SyntaxChecker = "Empty",
+            AuthorityLevel = AuthorityLevel.开发者,
+            IsPrivateAvailabe = true
+        )]
+        public void PowerOn(ReceivedMsgDTO MsgDTO, object[] param)
+        {
+            AIMgr.Instance.IsActive = true;
+
+            MsgSender.Instance.PushMsg(MsgDTO, "机器人开机成功！");
+        }
+
+        [EnterCommand(
+            Command = "poweroff",
+            Description = "机器人关机",
+            Syntax = "",
+            Tag = "开关机功能",
+            SyntaxChecker = "Empty",
+            AuthorityLevel = AuthorityLevel.开发者,
+            IsPrivateAvailabe = true
+        )]
+        public void PowerOff(ReceivedMsgDTO MsgDTO, object[] param)
+        {
+            AIMgr.Instance.IsActive = false;
+
+            MsgSender.Instance.PushMsg(MsgDTO, "机器人关机成功！");
+        }
     }
 }

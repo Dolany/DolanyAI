@@ -21,6 +21,8 @@ namespace Dolany.Ice.Ai.DolanyAI
         private List<IAITool> Tools { get; } = new List<IAITool>();
         public List<EnterCommandAttribute> AllAvailableGroupCommands { get; } = new List<EnterCommandAttribute>();
 
+        public bool IsActive = true;
+
         private AIMgr()
         {
             try
@@ -119,6 +121,11 @@ namespace Dolany.Ice.Ai.DolanyAI
         {
             try
             {
+                if (!IsActive)
+                {
+                    return;
+                }
+
                 if (AIList.IsNullOrEmpty())
                 {
                     return;
