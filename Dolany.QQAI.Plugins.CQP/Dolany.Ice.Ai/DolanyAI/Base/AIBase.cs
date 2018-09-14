@@ -65,7 +65,7 @@ namespace Dolany.Ice.Ai.DolanyAI
         private static bool Check(EnterCommandAttribute enterAttr, ReceivedMsgDTO MsgDTO, out object[] param)
         {
             param = null;
-            if (enterAttr.Command != MsgDTO.Command)
+            if (!enterAttr.CommandsList.Contains(MsgDTO.Command))
             {
                 return false;
             }

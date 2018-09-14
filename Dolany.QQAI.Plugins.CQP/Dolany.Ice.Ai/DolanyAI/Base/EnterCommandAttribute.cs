@@ -23,6 +23,8 @@ namespace Dolany.Ice.Ai.DolanyAI
         public bool IsDeveloperOnly { get; set; }
         public bool IsPrivateAvailabe { get; set; }
 
-        public IEnumerable<string> CommandsList => Command.Split(' ');
+        private IEnumerable<string> _CommandsList;
+
+        public IEnumerable<string> CommandsList => _CommandsList ?? (_CommandsList = Command.Split(' '));
     }
 }
