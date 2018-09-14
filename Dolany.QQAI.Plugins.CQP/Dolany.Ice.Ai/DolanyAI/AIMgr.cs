@@ -172,6 +172,7 @@ namespace Dolany.Ice.Ai.DolanyAI
                     continue;
                 }
 
+                RecentCommandCache.Cache(DateTime.Now);
                 if (ai.Key.OnMsgReceived(MsgDTO))
                 {
                     break;

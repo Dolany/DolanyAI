@@ -121,6 +121,7 @@
     <Compile Include="DolanyAI\AI\Game\Jump300Report\Parser\JumpDetailHtmlParser.cs" />
     <Compile Include="DolanyAI\AI\Game\Jump300Report\Parser\JumpListHtmlParser.cs" />
     <Compile Include="DolanyAI\AI\Sys\SysMsg\SysMsgAI.cs" />
+    <Compile Include="DolanyAI\Cache\RecentCommandCache.cs" />
     <Compile Include="DolanyAI\Db\TouhouCardRecord.cs">
       <DependentUpon>AIDatabase.tt</DependentUpon>
     </Compile>

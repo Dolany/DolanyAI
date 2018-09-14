@@ -51,6 +51,11 @@ namespace Dolany.Ice.Ai.DolanyAI
                         continue;
                     }
 
+                    if (RecentCommandCache.IsTooFreq())
+                    {
+                        MsgSender.Instance.PushMsg(MsgDTO, "哇哇哇~~，AI过热中......");
+                        return false;
+                    }
                     consoler.Value(MsgDTO, param);
                     return true;
                 }
