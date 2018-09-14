@@ -61,8 +61,9 @@ namespace Dolany.Ice.Ai.DolanyAI
                 {
                     foreach (var command in attr.CommandsList)
                     {
-                        attr.Command = command;
-                        AllAvailableGroupCommands.Add(attr);
+                        var attrClone = attr.Clone();
+                        attrClone.Command = command;
+                        AllAvailableGroupCommands.Add(attrClone);
                     }
                 }
             }

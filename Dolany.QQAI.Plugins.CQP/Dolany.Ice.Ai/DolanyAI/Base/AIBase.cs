@@ -24,8 +24,9 @@ namespace Dolany.Ice.Ai.DolanyAI
                 {
                     foreach (var command in attr.CommandsList)
                     {
-                        attr.Command = command;
-                        Consolers.Add(attr, method.CreateDelegate(typeof(MsgConsolerDel), this) as MsgConsolerDel);
+                        var attrClone = attr.Clone();
+                        attrClone.Command = command;
+                        Consolers.Add(attrClone, method.CreateDelegate(typeof(MsgConsolerDel), this) as MsgConsolerDel);
                     }
                 }
             }
