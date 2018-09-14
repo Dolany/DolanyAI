@@ -90,7 +90,10 @@ namespace Dolany.Ice.Ai.DolanyAI
                         Id = Guid.NewGuid().ToString(),
                         Aim = msg.Aim,
                         Type = msg.Type == MsgType.Group ? 0 : 1,
-                        Msg = msg.Msg
+                        Msg = msg.Msg,
+                        AINum = Utility.SelfQQNum,
+                        Guid = msg.Guid,
+                        SerialNum = msg.SerialNum
                     });
                     db.SaveChanges();
                 }
@@ -103,8 +106,10 @@ namespace Dolany.Ice.Ai.DolanyAI
         {
             using (var db = new AIDatabase())
             {
-                var msgs = db.MsgSendCache.OrderByDescending(p => p.Guid)
-                                          .ThenByDescending(p => p.SerialNum);
+                var aiNum = Utility.SelfQQNum;
+                var msgs = db.MsgSendCache.Where(p => p.AINum == aiNum)
+                                          .OrderBy(p => p.Guid)
+                                          .ThenBy(p => p.SerialNum);
                 foreach (var msg in msgs)
                 {
                     SendMsg(new SendMsgDTO

@@ -176,21 +176,6 @@
     <Compile Include="DolanyAI\Db\AlertRegistedGroup.cs">
       <DependentUpon>AIDatabase.tt</DependentUpon>
     </Compile>
-    <Compile Include="DolanyAI\Db\AmandaLogDatabase.Context.cs">
-      <AutoGen>True</AutoGen>
-      <DesignTime>True</DesignTime>
-      <DependentUpon>AmandaLogDatabase.Context.tt</DependentUpon>
-    </Compile>
-    <Compile Include="DolanyAI\Db\AmandaLogDatabase.cs">
-      <AutoGen>True</AutoGen>
-      <DesignTime>True</DesignTime>
-      <DependentUpon>AmandaLogDatabase.tt</DependentUpon>
-    </Compile>
-    <Compile Include="DolanyAI\Db\AmandaLogDatabase.Designer.cs">
-      <AutoGen>True</AutoGen>
-      <DesignTime>True</DesignTime>
-      <DependentUpon>AmandaLogDatabase.edmx</DependentUpon>
-    </Compile>
     <Compile Include="DolanyAI\Db\BlackList.cs">
       <DependentUpon>AIDatabase.tt</DependentUpon>
     </Compile>
@@ -254,9 +239,6 @@
     <Compile Include="DolanyAI\Db\TohouSign.cs">
       <DependentUpon>AIDatabase.tt</DependentUpon>
     </Compile>
-    <Compile Include="DolanyAI\Db\日志.cs">
-      <DependentUpon>AmandaLogDatabase.tt</DependentUpon>
-    </Compile>
     <Compile Include="DolanyAI\DTO\ReceivedMsgDTO.cs" />
     <Compile Include="DolanyAI\Common\DbMgr.cs" />
     <Compile Include="DolanyAI\Common\DirtyFilter.cs" />
@@ -314,13 +296,6 @@
     <None Include="DolanyAI\Db\AIDatabase.edmx.diagram">
       <DependentUpon>AIDatabase.edmx</DependentUpon>
     </None>
-    <EntityDeploy Include="DolanyAI\Db\AmandaLogDatabase.edmx">
-      <Generator>EntityModelCodeGenerator</Generator>
-      <LastGenOutput>AmandaLogDatabase.Designer.cs</LastGenOutput>
-    </EntityDeploy>
-    <None Include="DolanyAI\Db\AmandaLogDatabase.edmx.diagram">
-      <DependentUpon>AmandaLogDatabase.edmx</DependentUpon>
-    </None>
     <None Include="MahuaApis\readme.md" />
     <None Include="MahuaEvents\readme.md" />
     <None Include="packages.config" />
@@ -337,16 +312,6 @@
       <Generator>TextTemplatingFileGenerator</Generator>
       <DependentUpon>AIDatabase.edmx</DependentUpon>
       <LastGenOutput>AIDatabase.cs</LastGenOutput>
-    </Content>
-    <Content Include="DolanyAI\Db\AmandaLogDatabase.Context.tt">
-      <Generator>TextTemplatingFileGenerator</Generator>
-      <DependentUpon>AmandaLogDatabase.edmx</DependentUpon>
-      <LastGenOutput>AmandaLogDatabase.Context.cs</LastGenOutput>
-    </Content>
-    <Content Include="DolanyAI\Db\AmandaLogDatabase.tt">
-      <Generator>TextTemplatingFileGenerator</Generator>
-      <DependentUpon>AmandaLogDatabase.edmx</DependentUpon>
-      <LastGenOutput>AmandaLogDatabase.cs</LastGenOutput>
     </Content>
     <Content Include="Memo.txt" />
   </ItemGroup>

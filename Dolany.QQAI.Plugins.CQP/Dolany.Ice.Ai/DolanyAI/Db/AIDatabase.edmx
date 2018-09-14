@@ -176,6 +176,7 @@
           <Property Name="Msg" Type="nvarchar" MaxLength="800" />
           <Property Name="Guid" Type="nvarchar" MaxLength="50" />
           <Property Name="SerialNum" Type="int" Nullable="false" />
+          <Property Name="AINum" Type="bigint" Nullable="false" />
         </EntityType>
         <EntityType Name="PlusOneAvailable">
           <Key>
@@ -435,6 +436,7 @@
           <Property Name="Msg" Type="String" MaxLength="800" FixedLength="false" Unicode="true" />
           <Property Name="Guid" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
           <Property Name="SerialNum" Type="Int32" Nullable="false" />
+          <Property Name="AINum" Type="Int64" Nullable="false" />
         </EntityType>
         <EntityType Name="PlusOneAvailable">
           <Key>
@@ -738,6 +740,7 @@
           <EntitySetMapping Name="MsgSendCache">
             <EntityTypeMapping TypeName="Dolany.Ice.Ai.Dolany.Db.MsgSendCache">
               <MappingFragment StoreEntitySet="MsgSendCache">
+                <ScalarProperty Name="AINum" ColumnName="AINum" />
                 <ScalarProperty Name="SerialNum" ColumnName="SerialNum" />
                 <ScalarProperty Name="Guid" ColumnName="Guid" />
                 <ScalarProperty Name="Id" ColumnName="Id" />

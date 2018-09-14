@@ -20,5 +20,6 @@ namespace Dolany.Ice.Ai.DolanyAI.Db
         public string Msg { get; set; }
         public string Guid { get; set; }
         public int SerialNum { get; set; }
+        public long AINum { get; set; }
     }
 }
