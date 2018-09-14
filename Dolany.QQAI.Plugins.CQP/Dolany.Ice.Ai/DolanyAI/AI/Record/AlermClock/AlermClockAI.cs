@@ -39,7 +39,8 @@ namespace Dolany.Ice.Ai.DolanyAI
 
             using (var db = new AIDatabase())
             {
-                var clocks = db.AlermClock;
+                var selfNum = Utility.SelfNum;
+                var clocks = db.AlermClock.Where(p => p.AINum == selfNum);
                 foreach (var clock in clocks)
                 {
                     StartClock(clock.Clone());
@@ -71,7 +72,8 @@ namespace Dolany.Ice.Ai.DolanyAI
                     Content = param[1] as string,
                     Creator = MsgDTO.FromQQ,
                     GroupNumber = MsgDTO.FromGroup,
-                    CreateTime = DateTime.Now
+                    CreateTime = DateTime.Now,
+                    AINum = Utility.SelfNum
                 };
 
                 InsertClock(entity, MsgDTO);

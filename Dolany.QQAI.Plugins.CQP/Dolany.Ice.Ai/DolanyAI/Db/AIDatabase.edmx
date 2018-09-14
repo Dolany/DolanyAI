@@ -33,6 +33,7 @@
           <Property Name="AimHourt" Type="int" Nullable="false" />
           <Property Name="AimMinute" Type="int" Nullable="false" />
           <Property Name="Content" Type="nvarchar" MaxLength="100" />
+          <Property Name="AINum" Type="bigint" Nullable="false" />
         </EntityType>
         <EntityType Name="AlertContent">
           <Key>
@@ -44,6 +45,7 @@
           <Property Name="CreateTime" Type="datetime" Nullable="false" />
           <Property Name="AimHour" Type="int" Nullable="false" />
           <Property Name="Content" Type="nvarchar" MaxLength="100" />
+          <Property Name="AINum" Type="bigint" Nullable="false" />
         </EntityType>
         <EntityType Name="AlertRegistedGroup">
           <Key>
@@ -52,6 +54,7 @@
           <Property Name="Id" Type="nvarchar" MaxLength="50" Nullable="false" />
           <Property Name="Available" Type="nvarchar" MaxLength="50" />
           <Property Name="GroupNum" Type="bigint" Nullable="false" />
+          <Property Name="AINum" Type="bigint" Nullable="false" />
         </EntityType>
         <EntityType Name="BlackList">
           <Key>
@@ -317,6 +320,7 @@
           <Property Name="AimHourt" Type="Int32" Nullable="false" />
           <Property Name="AimMinute" Type="Int32" Nullable="false" />
           <Property Name="Content" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
+          <Property Name="AINum" Type="Int64" Nullable="false" />
         </EntityType>
         <EntityType Name="AlertContent">
           <Key>
@@ -328,6 +332,7 @@
           <Property Name="CreateTime" Type="DateTime" Nullable="false" Precision="3" />
           <Property Name="AimHour" Type="Int32" Nullable="false" />
           <Property Name="Content" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
+          <Property Name="AINum" Type="Int64" Nullable="false" />
         </EntityType>
         <EntityType Name="AlertRegistedGroup">
           <Key>
@@ -336,6 +341,7 @@
           <Property Name="Id" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
           <Property Name="Available" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
           <Property Name="GroupNum" Type="Int64" Nullable="false" />
+          <Property Name="AINum" Type="Int64" Nullable="false" />
         </EntityType>
         <EntityType Name="BlackList">
           <Key>
@@ -605,6 +611,7 @@
           <EntitySetMapping Name="AlermClock">
             <EntityTypeMapping TypeName="Dolany.Ice.Ai.Dolany.Db.AlermClock">
               <MappingFragment StoreEntitySet="AlermClock">
+                <ScalarProperty Name="AINum" ColumnName="AINum" />
                 <ScalarProperty Name="Id" ColumnName="Id" />
                 <ScalarProperty Name="GroupNumber" ColumnName="GroupNumber" />
                 <ScalarProperty Name="Creator" ColumnName="Creator" />
@@ -618,6 +625,7 @@
           <EntitySetMapping Name="AlertContent">
             <EntityTypeMapping TypeName="Dolany.Ice.Ai.Dolany.Db.AlertContent">
               <MappingFragment StoreEntitySet="AlertContent">
+                <ScalarProperty Name="AINum" ColumnName="AINum" />
                 <ScalarProperty Name="Id" ColumnName="Id" />
                 <ScalarProperty Name="FromGroup" ColumnName="FromGroup" />
                 <ScalarProperty Name="Creator" ColumnName="Creator" />
@@ -630,6 +638,7 @@
           <EntitySetMapping Name="AlertRegistedGroup">
             <EntityTypeMapping TypeName="Dolany.Ice.Ai.Dolany.Db.AlertRegistedGroup">
               <MappingFragment StoreEntitySet="AlertRegistedGroup">
+                <ScalarProperty Name="AINum" ColumnName="AINum" />
                 <ScalarProperty Name="Id" ColumnName="Id" />
                 <ScalarProperty Name="Available" ColumnName="Available" />
                 <ScalarProperty Name="GroupNum" ColumnName="GroupNum" />

@@ -20,5 +20,6 @@ namespace Dolany.Ice.Ai.DolanyAI.Db
         public System.DateTime CreateTime { get; set; }
         public int AimHour { get; set; }
         public string Content { get; set; }
+        public long AINum { get; set; }
     }
 }

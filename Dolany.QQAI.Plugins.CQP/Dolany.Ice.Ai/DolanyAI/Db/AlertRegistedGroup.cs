@@ -17,5 +17,6 @@ namespace Dolany.Ice.Ai.DolanyAI.Db
         public string Id { get; set; }
         public string Available { get; set; }
         public long GroupNum { get; set; }
+        public long AINum { get; set; }
     }
 }

@@ -36,7 +36,9 @@ namespace Dolany.Ice.Ai.DolanyAI
                 {
                     try
                     {
-                        var query = db.AlertRegistedGroup.Where(a => a.Available.ToLower() == "true");
+                        var selfNum = Utility.SelfNum;
+                        var query = db.AlertRegistedGroup.Where(a => a.Available.ToLower() == "true" &&
+                                                                     a.AINum == selfNum);
                         if (query.IsNullOrEmpty())
                         {
                             return null;
@@ -149,7 +151,8 @@ namespace Dolany.Ice.Ai.DolanyAI
                     {
                         Id = Guid.NewGuid().ToString(),
                         GroupNum = groupNumber,
-                        Available = state.ToString()
+                        Available = state.ToString(),
+                        AINum = Utility.SelfNum
                     });
                 }
                 else
@@ -179,6 +182,7 @@ namespace Dolany.Ice.Ai.DolanyAI
             info.CreateTime = DateTime.Now;
             info.Creator = MsgDTO.FromQQ;
             info.FromGroup = MsgDTO.FromGroup;
+            info.AINum = Utility.SelfNum;
 
             var Msg = SaveAlertContent(info) ? "报时内容保存成功！" : "报时内容保存失败！";
             MsgSender.Instance.PushMsg(MsgDTO, Msg);
@@ -273,7 +277,8 @@ namespace Dolany.Ice.Ai.DolanyAI
             {
                 if (num <= 24)
                 {
-                    var query = db.AlertContent.Where(a => a.AimHour == (int)num);
+                    var query = db.AlertContent.Where(a => a.AimHour == (int)num &&
+                                                           a.FromGroup == MsgDTO.FromGroup);
                     db.AlertContent.RemoveRange(query);
                 }
                 else
