@@ -8,10 +8,12 @@ namespace Dolany.Ice.Ai.DolanyAI
         Name = nameof(MonitorAI),
         Description = "AI for Monitor Ais status and emitting heart beat.",
         IsAvailable = true,
-        PriorityLevel = 12
+        PriorityLevel = 100
         )]
     public class MonitorAI : AIBase
     {
+        private bool IsActive = true;
+
         public override void Work()
         {
         }
@@ -79,36 +81,23 @@ namespace Dolany.Ice.Ai.DolanyAI
             return string.Empty;
         }
 
-        [EnterCommand(
-            Command = "poweron",
-            Description = "机器人开机",
-            Syntax = "",
-            Tag = "开关机功能",
-            SyntaxChecker = "Empty",
-            AuthorityLevel = AuthorityLevel.开发者,
-            IsPrivateAvailabe = true
-        )]
-        public void PowerOn(ReceivedMsgDTO MsgDTO, object[] param)
+        public override bool OnMsgReceived(ReceivedMsgDTO MsgDTO)
         {
-            AIMgr.Instance.IsActive = true;
+            if (IsActive && MsgDTO.FullMsg == "PowerOff" && MsgDTO.FromQQ == Utility.DeveloperNumber)
+            {
+                IsActive = false;
+                MsgSender.Instance.PushMsg(MsgDTO, "机器人关机成功！");
+                return true;
+            }
 
-            MsgSender.Instance.PushMsg(MsgDTO, "机器人开机成功！");
-        }
+            if (!IsActive && MsgDTO.FullMsg == "PowerOn" && MsgDTO.FromQQ == Utility.DeveloperNumber)
+            {
+                IsActive = true;
+                MsgSender.Instance.PushMsg(MsgDTO, "机器人开机成功！");
+                return true;
+            }
 
-        [EnterCommand(
-            Command = "poweroff",
-            Description = "机器人关机",
-            Syntax = "",
-            Tag = "开关机功能",
-            SyntaxChecker = "Empty",
-            AuthorityLevel = AuthorityLevel.开发者,
-            IsPrivateAvailabe = true
-        )]
-        public void PowerOff(ReceivedMsgDTO MsgDTO, object[] param)
-        {
-            AIMgr.Instance.IsActive = false;
-
-            MsgSender.Instance.PushMsg(MsgDTO, "机器人关机成功！");
+            return !IsActive;
         }
     }
 }

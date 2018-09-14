@@ -23,8 +23,6 @@ namespace Dolany.Ice.Ai.DolanyAI
 
         private static readonly RNGCryptoServiceProvider RngCsp = new RNGCryptoServiceProvider();
 
-        public static long SelfNum => long.Parse(GetConfig("SelfQQNum"));
-
         public static void SendMsgToDeveloper(string msg)
         {
             MsgSender.Instance.PushMsg(new SendMsgDTO
