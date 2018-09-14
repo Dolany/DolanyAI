@@ -22,7 +22,11 @@ namespace Dolany.Ice.Ai.DolanyAI
             {
                 foreach (EnterCommandAttribute attr in method.GetCustomAttributes(typeof(EnterCommandAttribute), false))
                 {
-                    Consolers.Add(attr, method.CreateDelegate(typeof(MsgConsolerDel), this) as MsgConsolerDel);
+                    foreach (var command in attr.CommandsList)
+                    {
+                        attr.Command = command;
+                        Consolers.Add(attr, method.CreateDelegate(typeof(MsgConsolerDel), this) as MsgConsolerDel);
+                    }
                 }
             }
         }

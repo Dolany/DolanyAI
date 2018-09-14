@@ -12,7 +12,8 @@ namespace Dolany.Ice.Ai.DolanyAI
     )]
     public class DiceAI : AIBase
     {
-        private const int MaxLimit = 200;
+        private readonly int DiceCountMaxLimit = int.Parse(Utility.GetConfig(nameof(DiceCountMaxLimit)));
+        private readonly int DiceSizeMaxLimit = int.Parse(Utility.GetConfig(nameof(DiceSizeMaxLimit)));
 
         public DiceAI()
         {
@@ -43,7 +44,9 @@ namespace Dolany.Ice.Ai.DolanyAI
             }
 
             var model = ParseDice(format);
-            if (model == null || model.count > MaxLimit)
+            if (model == null ||
+                model.count > DiceCountMaxLimit ||
+                model.size > DiceSizeMaxLimit)
             {
                 return false;
             }
@@ -78,7 +81,8 @@ namespace Dolany.Ice.Ai.DolanyAI
                 return msg;
             }
 
-            if (!int.TryParse(strs1[1], out var modify) || modify <= 0)
+            if (!int.TryParse(strs1[1], out var modify) ||
+                modify <= 0)
             {
                 return msg;
             }
@@ -101,7 +105,8 @@ namespace Dolany.Ice.Ai.DolanyAI
 
             if (strs.Length == 1)
             {
-                if (!int.TryParse(strs[0], out var size) || size <= 0)
+                if (!int.TryParse(strs[0], out var size) ||
+                    size <= 0)
                 {
                     return null;
                 }

@@ -59,17 +59,7 @@ namespace Dolany.Ice.Ai.DolanyAI
         }
 
         [EnterCommand(
-            Command = "随机图片",
-            AuthorityLevel = AuthorityLevel.成员,
-            Description = "随机发送近期内所有群组内发过的图片",
-            Syntax = "",
-            Tag = "图片功能",
-            SyntaxChecker = "Empty",
-            IsDeveloperOnly = false,
-            IsPrivateAvailabe = true
-            )]
-        [EnterCommand(
-            Command = "一键盗图",
+            Command = "随机图片 一键盗图",
             AuthorityLevel = AuthorityLevel.成员,
             Description = "随机发送近期内所有群组内发过的图片",
             Syntax = "",

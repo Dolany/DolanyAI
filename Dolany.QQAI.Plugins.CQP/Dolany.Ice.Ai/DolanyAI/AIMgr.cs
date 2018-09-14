@@ -59,7 +59,11 @@ namespace Dolany.Ice.Ai.DolanyAI
             {
                 foreach (EnterCommandAttribute attr in method.GetCustomAttributes(typeof(EnterCommandAttribute), false))
                 {
-                    AllAvailableGroupCommands.Add(attr);
+                    foreach (var command in attr.CommandsList)
+                    {
+                        attr.Command = command;
+                        AllAvailableGroupCommands.Add(attr);
+                    }
                 }
             }
         }

@@ -27,17 +27,7 @@ namespace Dolany.Ice.Ai.DolanyAI
         }
 
         [EnterCommand(
-            Command = "祈愿运势",
-            AuthorityLevel = AuthorityLevel.成员,
-            Description = "获取祈愿运势",
-            Syntax = "",
-            Tag = "运势功能",
-            SyntaxChecker = "Empty",
-            IsPrivateAvailabe = true,
-            IsDeveloperOnly = false
-            )]
-        [EnterCommand(
-            Command = ".luck",
+            Command = ".luck 祈愿运势",
             AuthorityLevel = AuthorityLevel.成员,
             Description = "获取每天运势",
             Syntax = "",
@@ -165,17 +155,7 @@ namespace Dolany.Ice.Ai.DolanyAI
         }
 
         [EnterCommand(
-            Command = "塔罗牌占卜",
-            AuthorityLevel = AuthorityLevel.成员,
-            Description = "获取每日塔罗牌占卜",
-            Syntax = "",
-            Tag = "运势功能",
-            SyntaxChecker = "Empty",
-            IsDeveloperOnly = false,
-            IsPrivateAvailabe = true
-            )]
-        [EnterCommand(
-            Command = ".zhan",
+            Command = ".zhan 塔罗牌占卜",
             AuthorityLevel = AuthorityLevel.成员,
             Description = "获取每日塔罗牌占卜",
             Syntax = "",

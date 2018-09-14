@@ -48,19 +48,9 @@ namespace Dolany.Ice.Ai.DolanyAI
         }
 
         [EnterCommand(
-            Command = "设定闹钟",
+            Command = "设定闹钟 设置闹钟",
             AuthorityLevel = AuthorityLevel.成员,
             Description = "设定在指定时间的闹钟，我会到时候艾特你并显示提醒内容",
-            Syntax = "[目标时间] [提醒内容]",
-            Tag = "闹钟与报时功能",
-            SyntaxChecker = nameof(SetClock),
-            IsDeveloperOnly = false,
-            IsPrivateAvailabe = false
-            )]
-        [EnterCommand(
-            Command = "设置闹钟",
-            AuthorityLevel = AuthorityLevel.成员,
-            Description = "功能同设定闹钟",
             Syntax = "[目标时间] [提醒内容]",
             Tag = "闹钟与报时功能",
             SyntaxChecker = nameof(SetClock),

@@ -34,7 +34,7 @@ namespace Dolany.Ice.Ai.DolanyAI
 
         private void TimeUp(object sender, ElapsedEventArgs e)
         {
-            using (AIDatabase db = new AIDatabase())
+            using (var db = new AIDatabase())
             {
                 var lastTime = db.TohouSign.Where(p => p.SignTime != null).Max(p => p.SignTime);
                 if (lastTime != null && (DateTime.Now - lastTime.Value).Days < 7)

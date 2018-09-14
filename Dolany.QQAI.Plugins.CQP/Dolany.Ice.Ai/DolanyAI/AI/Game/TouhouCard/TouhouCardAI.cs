@@ -26,17 +26,7 @@ namespace Dolany.Ice.Ai.DolanyAI
         }
 
         [EnterCommand(
-            Command = ".card",
-            AuthorityLevel = AuthorityLevel.成员,
-            Description = "随机获取一张DIY幻想乡卡牌",
-            Syntax = "",
-            Tag = "抽卡功能",
-            SyntaxChecker = "Empty",
-            IsDeveloperOnly = false,
-            IsPrivateAvailabe = true
-        )]
-        [EnterCommand(
-            Command = "幻想乡抽卡",
+            Command = ".card 幻想乡抽卡",
             AuthorityLevel = AuthorityLevel.成员,
             Description = "随机获取一张DIY幻想乡卡牌",
             Syntax = "",

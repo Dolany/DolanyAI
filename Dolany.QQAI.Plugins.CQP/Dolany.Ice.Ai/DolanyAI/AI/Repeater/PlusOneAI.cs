@@ -144,7 +144,8 @@ namespace Dolany.Ice.Ai.DolanyAI
         {
             using (var db = new AIDatabase())
             {
-                var query = db.PlusOneAvailable.Where(r => r.GroupNumber == GroupNum && !r.Available);
+                var query = db.PlusOneAvailable.Where(r => r.GroupNumber == GroupNum &&
+                                                           !r.Available);
                 return query.IsNullOrEmpty();
             }
         }
