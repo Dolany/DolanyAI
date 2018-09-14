@@ -142,6 +142,8 @@
     <Compile Include="DolanyAI\Common\JobScheduler.cs">
       <SubType>Component</SubType>
     </Compile>
+    <Compile Include="DolanyAI\Model\Tuling\TulingImportRequestData.cs" />
+    <Compile Include="DolanyAI\Model\Tuling\TulingImportResponseData.cs" />
     <Compile Include="DolanyAI\Net\RequestHelper.cs" />
     <Compile Include="DolanyAI\Db\AIConfig.cs">
       <DependentUpon>AIDatabase.tt</DependentUpon>
@@ -268,8 +270,8 @@
     <Compile Include="DolanyAI\Net\HttpRequester.cs" />
     <Compile Include="DolanyAI\Model\ImageCacheModel.cs" />
     <Compile Include="DolanyAI\Model\RequestDataModel.cs" />
-    <Compile Include="DolanyAI\Model\TulingRequestData.cs" />
-    <Compile Include="DolanyAI\Model\TulingResponseData.cs" />
+    <Compile Include="DolanyAI\Model\Tuling\TulingRequestData.cs" />
+    <Compile Include="DolanyAI\Model\Tuling\TulingResponseData.cs" />
     <Compile Include="DolanyAI\SyntaxChecker\AlermClock\DeleteClockChecker.cs" />
     <Compile Include="DolanyAI\SyntaxChecker\AlermClock\SetClockChecker.cs" />
     <Compile Include="DolanyAI\SyntaxChecker\CartoonSayings\ProcceedMsgChecker.cs" />

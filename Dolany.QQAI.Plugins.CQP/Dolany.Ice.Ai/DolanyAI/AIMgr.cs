@@ -85,7 +85,7 @@ namespace Dolany.Ice.Ai.DolanyAI
                        let attr = type.GetCustomAttribute(typeof(AIAttribute), false) as AIAttribute
                        select new KeyValuePair<AIBase, AIAttribute>(ai, attr);
 
-            AIList = list;
+            AIList = list.ToList();
         }
 
         private void LoadTools()

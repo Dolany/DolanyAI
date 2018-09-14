@@ -10,12 +10,16 @@ namespace Dolany.Ice.Ai.DolanyAI
         Description = "AI for Tuling Robot.",
         IsAvailable = true,
         PriorityLevel = 2
-        )]
+    )]
     public class TulingAI : AIBase
     {
         private readonly string RequestUrl = Utility.GetConfig("TulingRequestUrl");
         private readonly string ApiKey = Utility.GetConfig("TulingApiKey");
-        private readonly int[] ErroCodes = { 5000, 6000, 4000, 4001, 4002, 4003, 4005, 4007, 4100, 4200, 4300, 4400, 4500, 4600, 4602, 7002, 8008 };
+
+        private readonly int[] ErroCodes =
+            {5000, 6000, 4000, 4001, 4002, 4003, 4005, 4007, 4100, 4200, 4300, 4400, 4500, 4600, 4602, 7002, 8008};
+
+        private readonly string TulingImportUrl = Utility.GetConfig(nameof(TulingImportUrl));
 
         public TulingAI()
         {
@@ -59,7 +63,8 @@ namespace Dolany.Ice.Ai.DolanyAI
             }
 
             var response = RequestHelper.PostData<TulingResponseData>(post);
-            if (response == null || ErroCodes.Contains(response.intent.code))
+            if (response == null ||
+                ErroCodes.Contains(response.intent.code))
             {
                 return string.Empty;
             }
@@ -70,19 +75,21 @@ namespace Dolany.Ice.Ai.DolanyAI
         private PostReq_Param GetPostReq(ReceivedMsgDTO MsgDTO)
         {
             var imageInfo = ParseImgText(MsgDTO.FullMsg);
-            var perception = string.IsNullOrEmpty(imageInfo) ? new perceptionData
-            {
-                inputText = new inputTextData
+            var perception = string.IsNullOrEmpty(imageInfo)
+                ? new perceptionData
                 {
-                    text = MsgDTO.FullMsg
+                    inputText = new inputTextData
+                    {
+                        text = MsgDTO.FullMsg
+                    }
                 }
-            } : new perceptionData
-            {
-                inputImage = new inputImageData
+                : new perceptionData
                 {
-                    url = imageInfo
-                }
-            };
+                    inputImage = new inputImageData
+                    {
+                        url = imageInfo
+                    }
+                };
 
             var post = new PostReq_Param
             {
@@ -131,6 +138,7 @@ namespace Dolany.Ice.Ai.DolanyAI
                         throw new Exception("Unexpected Case");
                 }
             }
+
             result = builder.ToString();
             return result;
         }
@@ -156,6 +164,51 @@ namespace Dolany.Ice.Ai.DolanyAI
             {
                 return string.Empty;
             }
+        }
+
+        [EnterCommand(
+            Command = "新增语料",
+            AuthorityLevel = AuthorityLevel.开发者,
+            Description = "新增私有语料",
+            Syntax = "[问题] [答案]",
+            Tag = "图灵功能",
+            SyntaxChecker = "TwoWords",
+            IsPrivateAvailabe = true,
+            IsDeveloperOnly = true
+        )]
+        public void AddPrivateQA(ReceivedMsgDTO MsgDTO, object[] param)
+        {
+            var question = param[0] as string;
+            var answer = param[1] as string;
+
+            var post = new PostReq_Param
+            {
+                InterfaceName = TulingImportUrl,
+                data = new TulingImportRequestData
+                {
+                    apikey = ApiKey,
+                    data = new TulingImportRequestDataData
+                    {
+                        list = new[]
+                        {
+                            new TulingImportRequestDataQA
+                            {
+                                question = question,
+                                answer = answer
+                            }
+                        }
+                    }
+                }
+            };
+
+            var response = RequestHelper.PostData<TulingImportResponseData>(post);
+            if (response == null ||
+                response.code != 0)
+            {
+                MsgSender.Instance.PushMsg(MsgDTO, "新增失败！");
+            }
+
+            MsgSender.Instance.PushMsg(MsgDTO, "新增成功！");
         }
     }
 }

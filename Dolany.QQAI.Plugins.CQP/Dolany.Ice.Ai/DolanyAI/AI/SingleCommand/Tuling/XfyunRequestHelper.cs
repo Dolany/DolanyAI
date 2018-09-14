@@ -41,7 +41,7 @@ namespace Dolany.Ice.Ai.DolanyAI
         private static string WriteFile(byte[] response)
         {
             var filePath = voicePath + DateTime.Now.ToString("yyyyMMddHHmmss") + ".mp3";
-            using (FileStream steam = new FileStream(filePath, FileMode.Create))
+            using (var steam = new FileStream(filePath, FileMode.Create))
             {
                 steam.Write(response, 0, response.Length);
                 steam.Flush();
