@@ -28,7 +28,6 @@ namespace Dolany.Ice.Ai.DolanyAI
             Syntax = "[歌名]",
             Tag = "点歌功能",
             SyntaxChecker = "NotEmpty",
-            IsDeveloperOnly = false,
             IsPrivateAvailabe = true
             )]
         public void OrderASong(ReceivedMsgDTO MsgDTO, object[] param)

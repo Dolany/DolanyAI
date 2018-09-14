@@ -44,7 +44,6 @@ namespace Dolany.Ice.Ai.DolanyAI
             Syntax = "",
             Tag = "点赞功能",
             SyntaxChecker = "Empty",
-            IsDeveloperOnly = false,
             IsPrivateAvailabe = true
             )]
         public void PraiseMe(ReceivedMsgDTO MsgDTO, object[] param)

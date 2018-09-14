@@ -32,7 +32,6 @@ namespace Dolany.Ice.Ai.DolanyAI
             Syntax = "",
             Tag = "抽卡功能",
             SyntaxChecker = "Empty",
-            IsDeveloperOnly = false,
             IsPrivateAvailabe = true
         )]
         public void RandomCard(ReceivedMsgDTO MsgDTO, object[] param)

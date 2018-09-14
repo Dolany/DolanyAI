@@ -115,7 +115,6 @@ namespace Dolany.Ice.Ai.DolanyAI
             Syntax = "",
             Tag = "闹钟与报时功能",
             SyntaxChecker = "Empty",
-            IsDeveloperOnly = false,
             IsPrivateAvailabe = false
             )]
         public void AlertEnable(ReceivedMsgDTO MsgDTO, object[] param)
@@ -131,7 +130,6 @@ namespace Dolany.Ice.Ai.DolanyAI
             Syntax = "",
             Tag = "闹钟与报时功能",
             SyntaxChecker = "Empty",
-            IsDeveloperOnly = false,
             IsPrivateAvailabe = false
             )]
         public void AlertDisenable(ReceivedMsgDTO MsgDTO, object[] param)
@@ -171,7 +169,6 @@ namespace Dolany.Ice.Ai.DolanyAI
             Syntax = " [目标小时] [报时内容]",
             Tag = "闹钟与报时功能",
             SyntaxChecker = nameof(HourAlert),
-            IsDeveloperOnly = false,
             IsPrivateAvailabe = false
             )]
         public void AlertSet(ReceivedMsgDTO MsgDTO, object[] param)
@@ -241,7 +238,8 @@ namespace Dolany.Ice.Ai.DolanyAI
             Syntax = "",
             Tag = "闹钟与报时功能",
             SyntaxChecker = "Empty",
-            IsDeveloperOnly = true
+            AuthorityLevel = AuthorityLevel.开发者,
+            IsPrivateAvailabe = true
             )]
         public void AllAvailabeGroups(ReceivedMsgDTO MsgDTO, object[] param)
         {
@@ -265,7 +263,6 @@ namespace Dolany.Ice.Ai.DolanyAI
             Syntax = "[目标小时]",
             Tag = "闹钟与报时功能",
             SyntaxChecker = "Long",
-            IsDeveloperOnly = false,
             IsPrivateAvailabe = false
             )]
         public void ClearAlert(ReceivedMsgDTO MsgDTO, object[] param)
@@ -297,7 +294,8 @@ namespace Dolany.Ice.Ai.DolanyAI
             Syntax = "",
             Tag = "闹钟与报时功能",
             SyntaxChecker = "Empty",
-            IsDeveloperOnly = true
+            AuthorityLevel = AuthorityLevel.开发者,
+            IsPrivateAvailabe = true
             )]
         public void TotalAlertCount(ReceivedMsgDTO MsgDTO, object[] param)
         {

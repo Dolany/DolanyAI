@@ -21,7 +21,6 @@ namespace Dolany.Ice.Ai.DolanyAI
             Syntax = " [角色名]",
             Tag = "战绩查询功能",
             SyntaxChecker = "NotEmpty",
-            IsDeveloperOnly = false,
             IsPrivateAvailabe = true
             )]
         public void JumpReport(ReceivedMsgDTO MsgDTO, object[] param)

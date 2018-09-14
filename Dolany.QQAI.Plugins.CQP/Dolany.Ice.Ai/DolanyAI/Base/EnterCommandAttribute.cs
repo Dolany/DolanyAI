@@ -20,7 +20,6 @@ namespace Dolany.Ice.Ai.DolanyAI
         public string Syntax { get; set; }
         public string Tag { get; set; }
         public string SyntaxChecker { get; set; }
-        public bool IsDeveloperOnly { get; set; }
         public bool IsPrivateAvailabe { get; set; }
 
         private IEnumerable<string> _CommandsList;

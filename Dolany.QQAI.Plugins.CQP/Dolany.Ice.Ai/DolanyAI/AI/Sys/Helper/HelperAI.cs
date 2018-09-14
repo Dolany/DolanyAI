@@ -22,7 +22,6 @@ namespace Dolany.Ice.Ai.DolanyAI
             Syntax = "",
             SyntaxChecker = "Empty",
             Tag = "帮助功能",
-            IsDeveloperOnly = false,
             IsPrivateAvailabe = true
             )]
         public void HelpMe(ReceivedMsgDTO MsgDTO, object[] param)
@@ -37,7 +36,6 @@ namespace Dolany.Ice.Ai.DolanyAI
             Syntax = "[命令名/标签名]",
             SyntaxChecker = "NotEmpty",
             Tag = "帮助功能",
-            IsDeveloperOnly = false,
             IsPrivateAvailabe = true
         )]
         public void HelpMe_Command(ReceivedMsgDTO MsgDTO, object[] param)

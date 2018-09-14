@@ -54,7 +54,6 @@ namespace Dolany.Ice.Ai.DolanyAI
             Syntax = "[目标时间] [提醒内容]",
             Tag = "闹钟与报时功能",
             SyntaxChecker = nameof(SetClock),
-            IsDeveloperOnly = false,
             IsPrivateAvailabe = false
             )]
         public void SetClock(ReceivedMsgDTO MsgDTO, object[] param)
@@ -134,7 +133,6 @@ namespace Dolany.Ice.Ai.DolanyAI
             Syntax = "",
             Tag = "闹钟与报时功能",
             SyntaxChecker = "Empty",
-            IsDeveloperOnly = false,
             IsPrivateAvailabe = false
             )]
         public void QueryClock(ReceivedMsgDTO MsgDTO, object[] param)
@@ -169,7 +167,6 @@ namespace Dolany.Ice.Ai.DolanyAI
             Syntax = "[目标时间]",
             Tag = "闹钟与报时功能",
             SyntaxChecker = nameof(DeleteClock),
-            IsDeveloperOnly = false,
             IsPrivateAvailabe = false
             )]
         public void DeleteClock(ReceivedMsgDTO MsgDTO, object[] param)
@@ -204,7 +201,6 @@ namespace Dolany.Ice.Ai.DolanyAI
             Syntax = "",
             Tag = "闹钟与报时功能",
             SyntaxChecker = "Empty",
-            IsDeveloperOnly = false,
             IsPrivateAvailabe = false
             )]
         public void ClearAllClock(ReceivedMsgDTO MsgDTO, object[] param)

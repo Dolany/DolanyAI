@@ -171,7 +171,6 @@ namespace Dolany.Ice.Ai.DolanyAI
             Syntax = "[标准格式] [自定义命令名称]",
             Tag = "骰子功能",
             SyntaxChecker = "TwoWords",
-            IsDeveloperOnly = false,
             IsPrivateAvailabe = false
         )]
         public void SaveFormatAs(ReceivedMsgDTO MsgDTO, object[] param)

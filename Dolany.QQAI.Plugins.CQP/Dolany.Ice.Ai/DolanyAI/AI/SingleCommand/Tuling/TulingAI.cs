@@ -173,42 +173,42 @@ namespace Dolany.Ice.Ai.DolanyAI
             Syntax = "[问题] [答案]",
             Tag = "图灵功能",
             SyntaxChecker = "TwoWords",
-            IsPrivateAvailabe = true,
-            IsDeveloperOnly = true
+            IsPrivateAvailabe = true
         )]
         public void AddPrivateQA(ReceivedMsgDTO MsgDTO, object[] param)
         {
-            var question = param[0] as string;
-            var answer = param[1] as string;
+            MsgSender.Instance.PushMsg(MsgDTO, "暂未开放！");
+            //var question = param[0] as string;
+            //var answer = param[1] as string;
 
-            var post = new PostReq_Param
-            {
-                InterfaceName = TulingImportUrl,
-                data = new TulingImportRequestData
-                {
-                    apikey = ApiKey,
-                    data = new TulingImportRequestDataData
-                    {
-                        list = new[]
-                        {
-                            new TulingImportRequestDataQA
-                            {
-                                question = question,
-                                answer = answer
-                            }
-                        }
-                    }
-                }
-            };
+            //var post = new PostReq_Param
+            //{
+            //    InterfaceName = TulingImportUrl,
+            //    data = new TulingImportRequestData
+            //    {
+            //        apikey = ApiKey,
+            //        data = new TulingImportRequestDataData
+            //        {
+            //            list = new[]
+            //            {
+            //                new TulingImportRequestDataQA
+            //                {
+            //                    question = question,
+            //                    answer = answer
+            //                }
+            //            }
+            //        }
+            //    }
+            //};
 
-            var response = RequestHelper.PostData<TulingImportResponseData>(post);
-            if (response == null ||
-                response.code != 0)
-            {
-                MsgSender.Instance.PushMsg(MsgDTO, "新增失败！");
-            }
+            //var response = RequestHelper.PostData<TulingImportResponseData>(post);
+            //if (response == null ||
+            //    response.code != 0)
+            //{
+            //    MsgSender.Instance.PushMsg(MsgDTO, "新增失败！");
+            //}
 
-            MsgSender.Instance.PushMsg(MsgDTO, "新增成功！");
+            //MsgSender.Instance.PushMsg(MsgDTO, "新增成功！");
         }
     }
 }

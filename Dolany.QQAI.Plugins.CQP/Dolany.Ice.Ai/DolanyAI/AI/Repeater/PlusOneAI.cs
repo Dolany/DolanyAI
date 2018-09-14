@@ -87,7 +87,6 @@ namespace Dolany.Ice.Ai.DolanyAI
             Syntax = "",
             Tag = "复读机功能",
             SyntaxChecker = "Empty",
-            IsDeveloperOnly = false,
             IsPrivateAvailabe = false
             )]
         public void Forbidden(ReceivedMsgDTO MsgDTO, object[] param)
@@ -104,7 +103,6 @@ namespace Dolany.Ice.Ai.DolanyAI
             Syntax = "",
             Tag = "复读机功能",
             SyntaxChecker = "Empty",
-            IsDeveloperOnly = false,
             IsPrivateAvailabe = false
             )]
         public void Unforbidden(ReceivedMsgDTO MsgDTO, object[] param)

@@ -32,9 +32,7 @@ namespace Dolany.Ice.Ai.DolanyAI
             Syntax = "[人物名] [设定项] [设定内容]",
             Tag = "设定功能",
             SyntaxChecker = "ThreeWords",
-            IsDeveloperOnly = false,
             IsPrivateAvailabe = false
-
             )]
         public void SetCharactor(ReceivedMsgDTO MsgDTO, object[] param)
         {
@@ -59,7 +57,6 @@ namespace Dolany.Ice.Ai.DolanyAI
             Syntax = "[人物名]",
             Tag = "设定功能",
             SyntaxChecker = "NotEmpty",
-            IsDeveloperOnly = false,
             IsPrivateAvailabe = false
             )]
         public void DeleteCharactor(ReceivedMsgDTO MsgDTO, object[] param)
@@ -98,7 +95,6 @@ namespace Dolany.Ice.Ai.DolanyAI
             Syntax = "[人物名]",
             Tag = "设定功能",
             SyntaxChecker = "NotEmpty",
-            IsDeveloperOnly = false,
             IsPrivateAvailabe = false
             )]
         public void ViewCharactor(ReceivedMsgDTO MsgDTO, object[] param)

@@ -28,7 +28,6 @@ namespace Dolany.Ice.Ai.DolanyAI
             Syntax = "[出处] [人物] [内容]",
             Tag = "语录功能",
             SyntaxChecker = "ThreeWords",
-            IsDeveloperOnly = false,
             IsPrivateAvailabe = false
             )]
         public void ProcceedMsg(ReceivedMsgDTO MsgDTO, object[] param)
@@ -62,7 +61,6 @@ namespace Dolany.Ice.Ai.DolanyAI
             Syntax = "",
             Tag = "语录功能",
             SyntaxChecker = "Empty",
-            IsDeveloperOnly = false,
             IsPrivateAvailabe = false
         )]
         public void Sayings(ReceivedMsgDTO MsgDTO, object[] param)
@@ -82,7 +80,6 @@ namespace Dolany.Ice.Ai.DolanyAI
             Syntax = "[关键字]",
             Tag = "语录功能",
             SyntaxChecker = "NotEmpty",
-            IsDeveloperOnly = false,
             IsPrivateAvailabe = false
         )]
         public void Sayings_Query(ReceivedMsgDTO MsgDTO, object[] param)
@@ -157,7 +154,6 @@ namespace Dolany.Ice.Ai.DolanyAI
             Syntax = "[关键字]",
             Tag = "语录功能",
             SyntaxChecker = "NotEmpty",
-            IsDeveloperOnly = false,
             IsPrivateAvailabe = false
             )]
         public void ClearSayings(ReceivedMsgDTO MsgDTO, object[] param)
@@ -182,7 +178,6 @@ namespace Dolany.Ice.Ai.DolanyAI
             Syntax = "[@qq号码]",
             Tag = "语录功能",
             SyntaxChecker = "At",
-            IsDeveloperOnly = false,
             IsPrivateAvailabe = false
             )]
         public void SayingSeal(ReceivedMsgDTO MsgDTO, object[] param)
@@ -221,7 +216,6 @@ namespace Dolany.Ice.Ai.DolanyAI
             Syntax = "[@qq号码]",
             Tag = "语录功能",
             SyntaxChecker = "At",
-            IsDeveloperOnly = false,
             IsPrivateAvailabe = false
             )]
         public void SayingDeseal(ReceivedMsgDTO MsgDTO, object[] param)

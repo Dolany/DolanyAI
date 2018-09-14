@@ -33,8 +33,7 @@ namespace Dolany.Ice.Ai.DolanyAI
             Syntax = "",
             Tag = "运势功能",
             SyntaxChecker = "Empty",
-            IsPrivateAvailabe = true,
-            IsDeveloperOnly = false
+            IsPrivateAvailabe = true
             )]
         public void RandomFortune(ReceivedMsgDTO MsgDTO, object[] param)
         {
@@ -103,8 +102,7 @@ namespace Dolany.Ice.Ai.DolanyAI
             Syntax = "[星座名]",
             Tag = "运势功能",
             SyntaxChecker = "NotEmpty",
-            IsPrivateAvailabe = true,
-            IsDeveloperOnly = false
+            IsPrivateAvailabe = true
             )]
         public void StarFortune(ReceivedMsgDTO MsgDTO, object[] param)
         {
@@ -161,7 +159,6 @@ namespace Dolany.Ice.Ai.DolanyAI
             Syntax = "",
             Tag = "运势功能",
             SyntaxChecker = "Empty",
-            IsDeveloperOnly = false,
             IsPrivateAvailabe = true
             )]
         public void TarotFortune(ReceivedMsgDTO MsgDTO, object[] param)
@@ -230,7 +227,6 @@ namespace Dolany.Ice.Ai.DolanyAI
             Syntax = "[@qq号码]",
             Tag = "运势功能",
             SyntaxChecker = "At",
-            IsDeveloperOnly = false,
             IsPrivateAvailabe = false
             )]
         public void HolyLight(ReceivedMsgDTO MsgDTO, object[] param)
@@ -278,7 +274,6 @@ namespace Dolany.Ice.Ai.DolanyAI
             Syntax = "[@qq号码]",
             Tag = "运势功能",
             SyntaxChecker = "At",
-            IsDeveloperOnly = false,
             IsPrivateAvailabe = false
         )]
         public void Darkness(ReceivedMsgDTO MsgDTO, object[] param)

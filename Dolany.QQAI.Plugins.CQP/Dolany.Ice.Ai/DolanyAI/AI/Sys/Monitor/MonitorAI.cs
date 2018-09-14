@@ -22,7 +22,8 @@ namespace Dolany.Ice.Ai.DolanyAI
             Syntax = "[群组号] [需要封印的ai名]",
             Tag = "封印功能",
             SyntaxChecker = "LongAndAny",
-            IsDeveloperOnly = true
+            AuthorityLevel = AuthorityLevel.开发者,
+            IsPrivateAvailabe = true
             )]
         public void SealAi(ReceivedMsgDTO MsgDTO, object[] param)
         {
@@ -36,7 +37,8 @@ namespace Dolany.Ice.Ai.DolanyAI
 
             using (var db = new AIDatabase())
             {
-                var query = db.AISeal.Where(a => a.GroupNum == groupNum && a.AiName == aiName);
+                var query = db.AISeal.Where(a => a.GroupNum == groupNum &&
+                                                 a.AiName == aiName);
                 if (!query.IsNullOrEmpty())
                 {
                     Utility.SendMsgToDeveloper("ai功能已经在封印中！");
@@ -62,7 +64,8 @@ namespace Dolany.Ice.Ai.DolanyAI
             {
                 var t = ai.GetType();
                 var attributes = t.GetCustomAttributes(typeof(AIAttribute), false);
-                if (attributes.Length <= 0 || !(attributes[0] is AIAttribute))
+                if (attributes.Length <= 0 ||
+                    !(attributes[0] is AIAttribute))
                 {
                     continue;
                 }

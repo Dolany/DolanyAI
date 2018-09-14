@@ -65,7 +65,6 @@ namespace Dolany.Ice.Ai.DolanyAI
             Syntax = "",
             Tag = "图片功能",
             SyntaxChecker = "Empty",
-            IsDeveloperOnly = false,
             IsPrivateAvailabe = true
             )]
         public void RecentPic(ReceivedMsgDTO MsgDTO, object[] param)
@@ -85,7 +84,6 @@ namespace Dolany.Ice.Ai.DolanyAI
             Syntax = "",
             Tag = "图片功能",
             SyntaxChecker = "Empty",
-            IsDeveloperOnly = false,
             IsPrivateAvailabe = true
             )]
         public void RecentFlash(ReceivedMsgDTO MsgDTO, object[] param)
@@ -128,7 +126,6 @@ namespace Dolany.Ice.Ai.DolanyAI
             Syntax = "",
             Tag = "图片功能",
             SyntaxChecker = "Empty",
-            IsDeveloperOnly = true,
             IsPrivateAvailabe = true
             )]
         public void RefreshKeywords(ReceivedMsgDTO MsgDTO, object[] param)
@@ -145,7 +142,6 @@ namespace Dolany.Ice.Ai.DolanyAI
             Syntax = "[目标词] [同义词]",
             Tag = "图片功能",
             SyntaxChecker = "TwoWords",
-            IsDeveloperOnly = true,
             IsPrivateAvailabe = true
             )]
         public void AppendSynonym(ReceivedMsgDTO MsgDTO, object[] param)
@@ -170,7 +166,6 @@ namespace Dolany.Ice.Ai.DolanyAI
             Syntax = "",
             Tag = "图片功能",
             SyntaxChecker = "Empty",
-            IsDeveloperOnly = true,
             IsPrivateAvailabe = true
             )]
         public void AllPicKeywords(ReceivedMsgDTO MsgDTO, object[] param)
