@@ -1,4 +1,6 @@
-﻿namespace Dolany.Ice.Ai.DolanyAI
+﻿using System;
+
+namespace Dolany.Ice.Ai.DolanyAI
 {
     [AI(
         Name = nameof(SysMsgAI),
@@ -29,8 +31,24 @@
                 return false;
             }
 
-            // TODO
+            ParseRollBack(MsgDTO);
             return true;
+        }
+
+        private static void ParseRollBack(ReceivedMsgDTO MsgDTO)
+        {
+            if (!MsgDTO.FullMsg.Contains("撤回"))
+            {
+                return;
+            }
+
+            var picName = Utility.ParsePicName(MsgDTO.FullMsg);
+            if (string.IsNullOrEmpty(picName))
+            {
+                return;
+            }
+
+            Utility.RemovePicCache(picName);
         }
     }
 }

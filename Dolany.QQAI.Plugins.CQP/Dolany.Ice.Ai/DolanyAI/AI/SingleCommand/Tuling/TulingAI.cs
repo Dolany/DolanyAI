@@ -19,7 +19,7 @@ namespace Dolany.Ice.Ai.DolanyAI
         private readonly int[] ErroCodes =
             {5000, 6000, 4000, 4001, 4002, 4003, 4005, 4007, 4100, 4200, 4300, 4400, 4500, 4600, 4602, 7002, 8008};
 
-        private readonly string TulingImportUrl = Utility.GetConfig(nameof(TulingImportUrl));
+        //private readonly string TulingImportUrl = Utility.GetConfig(nameof(TulingImportUrl));
 
         public TulingAI()
         {

@@ -267,5 +267,33 @@ namespace Dolany.Ice.Ai.DolanyAI
 
             return (int)(Math.Abs(BitConverter.ToInt32(bytes, 0)) / _base * MaxValue);
         }
+
+        public static string ParsePicName(string msg)
+        {
+            var picIdx = msg.IndexOf("[QQ:pic=", StringComparison.Ordinal);
+            if (picIdx < 0)
+            {
+                return "";
+            }
+
+            var startIdx = picIdx + "[QQ:pic=".Length;
+            var endIdx = msg.IndexOf("]", startIdx, StringComparison.Ordinal);
+            var picName = msg.Substring(startIdx, endIdx - startIdx);
+
+            return picName;
+        }
+
+        public static void RemovePicCache(string picName)
+        {
+            var picShortName = picName.Split('.').First();
+            var dir = new DirectoryInfo(ImagePath);
+            foreach (var file in dir.GetFiles())
+            {
+                if (file.Name.Contains(picShortName))
+                {
+                    file.Delete();
+                }
+            }
+        }
     }
 }
