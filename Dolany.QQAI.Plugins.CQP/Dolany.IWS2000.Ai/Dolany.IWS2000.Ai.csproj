@@ -87,6 +87,7 @@
     <Compile Include="DolanyAI\AITools\IAITool.cs" />
     <Compile Include="DolanyAI\AI\SingleCommand\AutoVoice\AutoVoiceAI.cs" />
     <Compile Include="DolanyAI\AI\SingleCommand\Tuling\TulingAI.cs" />
+    <Compile Include="DolanyAI\AI\SingleCommand\XmlCard\XmlCardAi.cs" />
     <Compile Include="DolanyAI\AI\Sys\Helper\HelperAI.cs" />
     <Compile Include="DolanyAI\Base\AIAttribute.cs" />
     <Compile Include="DolanyAI\Base\AIBase.cs" />
