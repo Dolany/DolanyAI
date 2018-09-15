@@ -52,5 +52,6 @@ namespace Dolany.Ice.Ai.DolanyAI.Db
         public virtual DbSet<AIConfig> AIConfig { get; set; }
         public virtual DbSet<HolyLightBless> HolyLightBless { get; set; }
         public virtual DbSet<TouhouCardRecord> TouhouCardRecord { get; set; }
+        public virtual DbSet<ActiveOffGroups> ActiveOffGroups { get; set; }
     }
 }
