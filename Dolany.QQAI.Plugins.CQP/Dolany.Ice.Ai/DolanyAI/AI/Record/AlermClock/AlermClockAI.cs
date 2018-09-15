@@ -43,6 +43,11 @@ namespace Dolany.Ice.Ai.DolanyAI
                 var clocks = db.AlermClock.Where(p => p.AINum == selfNum);
                 foreach (var clock in clocks)
                 {
+                    var isActiveOff = db.ActiveOffGroups.Any(p => p.GroupNum == clock.GroupNumber);
+                    if (isActiveOff)
+                    {
+                        continue;
+                    }
                     StartClock(clock.Clone());
                 }
             }
@@ -108,7 +113,9 @@ namespace Dolany.Ice.Ai.DolanyAI
 
         private void StartClock(AlermClock entity)
         {
-            JobScheduler.Instance.Add(GetNextInterval(entity.AimHourt, entity.AimMinute), TimeUp, entity);
+            var interval = GetNextInterval(entity.AimHourt, entity.AimMinute);
+            var clockId = JobScheduler.Instance.Add(interval, TimeUp, entity);
+            ClockIdList.Add(clockId);
         }
 
         private void TimeUp(object sender, ElapsedEventArgs e)
@@ -237,6 +244,13 @@ namespace Dolany.Ice.Ai.DolanyAI
             }
 
             return (aimTime - now).TotalMilliseconds;
+        }
+
+        public override void OnActiveStateChange(bool state, long GroupNum)
+        {
+            base.OnActiveStateChange(state, GroupNum);
+
+            ReloadAllClocks();
         }
     }
 }

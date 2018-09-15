@@ -213,5 +213,13 @@ namespace Dolany.Ice.Ai.DolanyAI
             msg = msg.Substring(command.Length, msg.Length - command.Length).Trim();
             return command;
         }
+
+        public void OnActiveStateChange(bool state, long GroupNum)
+        {
+            foreach (var ai in AIList)
+            {
+                ai.Key.OnActiveStateChange(state, GroupNum);
+            }
+        }
     }
 }

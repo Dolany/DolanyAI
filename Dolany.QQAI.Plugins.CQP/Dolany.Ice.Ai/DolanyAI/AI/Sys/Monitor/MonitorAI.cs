@@ -12,8 +12,6 @@ namespace Dolany.Ice.Ai.DolanyAI
         )]
     public class MonitorAI : AIBase
     {
-        private bool IsActive = true;
-
         public override void Work()
         {
         }
@@ -83,21 +81,84 @@ namespace Dolany.Ice.Ai.DolanyAI
 
         public override bool OnMsgReceived(ReceivedMsgDTO MsgDTO)
         {
-            if (IsActive && MsgDTO.FullMsg == "PowerOff" && MsgDTO.FromQQ == Utility.DeveloperNumber)
+            if (base.OnMsgReceived(MsgDTO))
             {
-                IsActive = false;
-                MsgSender.Instance.PushMsg(MsgDTO, "机器人关机成功！");
                 return true;
             }
 
-            if (!IsActive && MsgDTO.FullMsg == "PowerOn" && MsgDTO.FromQQ == Utility.DeveloperNumber)
+            using (var db = new AIDatabase())
             {
-                IsActive = true;
-                MsgSender.Instance.PushMsg(MsgDTO, "机器人开机成功！");
-                return true;
+                var selfNum = Utility.SelfQQNum;
+                var query = db.ActiveOffGroups.Where(p => p.AINum == selfNum &&
+                                                          p.GroupNum == MsgDTO.FromGroup);
+                return !query.IsNullOrEmpty();
+            }
+        }
+
+        [EnterCommand(
+            Command = "关机 PowerOff",
+            Description = "让机器人休眠",
+            Syntax = "",
+            Tag = "开关机功能",
+            SyntaxChecker = "Empty",
+            AuthorityLevel = AuthorityLevel.管理员,
+            IsPrivateAvailabe = false
+        )]
+        public void PowerOff(ReceivedMsgDTO MsgDTO, object[] param)
+        {
+            using (var db = new AIDatabase())
+            {
+                var selfNum = Utility.SelfQQNum;
+                var query = db.ActiveOffGroups.Where(p => p.AINum == selfNum &&
+                                                          p.GroupNum == MsgDTO.FromGroup);
+                if (!query.IsNullOrEmpty())
+                {
+                    return;
+                }
+
+                db.ActiveOffGroups.Add(new ActiveOffGroups
+                {
+                    Id = Guid.NewGuid().ToString(),
+                    AINum = selfNum,
+                    GroupNum = MsgDTO.FromGroup,
+                    UpdateTime = DateTime.Now
+                });
+
+                db.SaveChanges();
+                MsgSender.Instance.PushMsg(MsgDTO, "关机成功！");
             }
 
-            return !IsActive;
+            AIMgr.Instance.OnActiveStateChange(false, MsgDTO.FromGroup);
+        }
+
+        [EnterCommand(
+            Command = "开机 PowerOn",
+            Description = "唤醒机器人",
+            Syntax = "",
+            Tag = "开关机功能",
+            SyntaxChecker = "Empty",
+            AuthorityLevel = AuthorityLevel.管理员,
+            IsPrivateAvailabe = false
+        )]
+        public void PowerOn(ReceivedMsgDTO MsgDTO, object[] param)
+        {
+            using (var db = new AIDatabase())
+            {
+                var selfNum = Utility.SelfQQNum;
+                var query = db.ActiveOffGroups.Where(p => p.AINum == selfNum &&
+                                                          p.GroupNum == MsgDTO.FromGroup);
+                if (query.IsNullOrEmpty())
+                {
+                    return;
+                }
+
+                db.ActiveOffGroups.RemoveRange(query);
+
+                db.SaveChanges();
+                MsgSender.Instance.PushMsg(MsgDTO, "开机成功！");
+            }
+
+            AIMgr.Instance.OnActiveStateChange(true, MsgDTO.FromGroup);
         }
     }
 }

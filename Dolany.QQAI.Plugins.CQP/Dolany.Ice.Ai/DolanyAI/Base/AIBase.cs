@@ -169,5 +169,9 @@ namespace Dolany.Ice.Ai.DolanyAI
 
             return true;
         }
+
+        public virtual void OnActiveStateChange(bool state, long GroupNum)
+        {
+        }
     }
 }

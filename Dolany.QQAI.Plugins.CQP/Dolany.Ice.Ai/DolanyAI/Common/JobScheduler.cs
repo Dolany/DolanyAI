@@ -46,7 +46,10 @@ namespace Dolany.Ice.Ai.DolanyAI
         public void Remove(string Id)
         {
             var timer = Timers.First(p => p.Id == Id);
-            if (timer == null) return;
+            if (timer == null)
+            {
+                return;
+            }
             timer.Stop();
             Timers.Remove(timer);
         }
