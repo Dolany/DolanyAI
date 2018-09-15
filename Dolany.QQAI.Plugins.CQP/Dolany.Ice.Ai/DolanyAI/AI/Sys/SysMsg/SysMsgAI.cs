@@ -1,6 +1,4 @@
-﻿using System;
-
-namespace Dolany.Ice.Ai.DolanyAI
+﻿namespace Dolany.Ice.Ai.DolanyAI
 {
     [AI(
         Name = nameof(SysMsgAI),

@@ -237,6 +237,23 @@ namespace Dolany.Ice.Ai.DolanyAI
             MsgSender.Instance.PushMsg(MsgDTO, "祝福成功！");
         }
 
+        [EnterCommand(
+            Command = "创世神祝福",
+            AuthorityLevel = AuthorityLevel.群主,
+            Description = "祝福一个成员，让其随机运势增加100%，当日有效",
+            Syntax = "[@qq号码]",
+            Tag = "运势功能",
+            SyntaxChecker = "At",
+            IsPrivateAvailabe = false
+        )]
+        public void CreatorBless(ReceivedMsgDTO MsgDTO, object[] param)
+        {
+            var aimNum = (long)param[0];
+
+            Bless(aimNum, "创世神", 100);
+            MsgSender.Instance.PushMsg(MsgDTO, "祝福成功！");
+        }
+
         private static void Bless(long QQNum, string BlessName, int BlessValue)
         {
             using (var db = new AIDatabase())

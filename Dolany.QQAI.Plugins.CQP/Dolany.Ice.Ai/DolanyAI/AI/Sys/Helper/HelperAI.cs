@@ -51,8 +51,7 @@ namespace Dolany.Ice.Ai.DolanyAI
         private static void HelpSummary(ReceivedMsgDTO MsgDTO)
         {
             var helpMsg = "当前的命令标签有：";
-            var commandAttrs = AIMgr.Instance.AllAvailableGroupCommands.Where(p => !p.IsPrivateAvailabe)
-                                                                       .GroupBy(c => c.Tag)
+            var commandAttrs = AIMgr.Instance.AllAvailableGroupCommands.GroupBy(c => c.Tag)
                                                                        .Select(p => p.First());
             var builder = new StringBuilder();
             builder.Append(helpMsg);
@@ -69,8 +68,7 @@ namespace Dolany.Ice.Ai.DolanyAI
 
         private static bool HelpCommand(ReceivedMsgDTO MsgDTO)
         {
-            var commands = AIMgr.Instance.AllAvailableGroupCommands.Where(c => c.Command == MsgDTO.Msg &&
-                                                                               !c.IsPrivateAvailabe);
+            var commands = AIMgr.Instance.AllAvailableGroupCommands.Where(c => c.Command == MsgDTO.Msg);
             if (commands.IsNullOrEmpty())
             {
                 return false;
@@ -94,8 +92,7 @@ namespace Dolany.Ice.Ai.DolanyAI
 
         private static void HelpTag(ReceivedMsgDTO MsgDTO)
         {
-            var commands = AIMgr.Instance.AllAvailableGroupCommands.Where(c => c.Tag == MsgDTO.Msg &&
-                                                                               !c.IsPrivateAvailabe)
+            var commands = AIMgr.Instance.AllAvailableGroupCommands.Where(c => c.Tag == MsgDTO.Msg)
                                                                    .GroupBy(p => p.Command)
                                                                    .Select(p => p.First());
             if (commands.IsNullOrEmpty())
