@@ -208,6 +208,29 @@ namespace Dolany.IWS2000.Ai.DolanyAI
             }
         }
 
+        public static Dictionary<int, string> LoadFortuneImagesConfig()
+        {
+            var dic = new Dictionary<int, string>();
+            var configFile = new FileInfo("FortuneImagesConfig.ini");
+            using (var reader = new StreamReader(configFile.FullName))
+            {
+                string line;
+                while ((line = reader.ReadLine()) != null)
+                {
+                    var strs = line.Split(new[] { '=' }, StringSplitOptions.RemoveEmptyEntries);
+                    if (strs.IsNullOrEmpty() ||
+                        strs.Length != 2)
+                    {
+                        continue;
+                    }
+
+                    dic.Add(int.Parse(strs[0]), strs[1]);
+                }
+
+                return dic;
+            }
+        }
+
         public static ImageCacheModel ReadImageCacheInfo(string guid)
         {
             var file = new FileInfo(CodeApi.ImagePath + guid + CodeApi.ImageExtension);
