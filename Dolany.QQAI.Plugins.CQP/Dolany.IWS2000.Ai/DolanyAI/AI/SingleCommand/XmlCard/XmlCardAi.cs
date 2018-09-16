@@ -33,17 +33,17 @@ namespace Dolany.IWS2000.Ai.DolanyAI
         )]
         public void Xml(GroupMsgDTO MsgDTO, object[] param)
         {
-            var content = $@"<?xml version=""1.0"" encoding=""utf - 8""?>
-                <msg serviceID = ""1"" brief = ""新消息"" templateID = """" action = ""新消息"" sourceMsgId = ""0"" url = """" flag = ""1"" adverSign = ""0"" multiMsgFlag = ""0"">
-                     <item layout = ""0"">
-                          <title color = ""#ff0000"" size = ""50""> 改成你自己的内容1 </title>
-                       </item>
-                       <item layout = ""0"">
-                            <title color = ""#ff0000"" size = ""50""> 改成你自己的内容2 </title>
-                         </item>
-                     </msg>";
-            var strs = content.Split(new[] { '\r', '\n' });
-            content = string.Join("", strs);
+            var content = $@"<?xml version=""1.0"" encoding=""UTF-8"" standalone=""yes""?>
+                <msg serviceID = ""1"">
+                    <item layout = ""2"">
+                        <title>今日运势</title>
+                        <summary>你今天的运势是：26%
+||||||||||||||||||||||||||</summary>
+                        <picture cover = ""https://s15.postimg.cc/41wr57fh7/image.jpg"" />
+                    </item>
+                </msg>";
+            var strs = content.Split('\r', '\n');
+            content = string.Join("", strs.Select(p => p.Trim()));
 
             MsgSender.Instance.PushMsg(new SendMsgDTO
             {
