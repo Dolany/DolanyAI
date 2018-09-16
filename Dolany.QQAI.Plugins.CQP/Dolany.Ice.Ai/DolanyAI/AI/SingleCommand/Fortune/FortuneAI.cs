@@ -128,34 +128,43 @@ namespace Dolany.Ice.Ai.DolanyAI
             if (rf.BlessValue > 0)
             {
                 rf.FortuneValue = rf.FortuneValue + rf.BlessValue;
-                msg += $"恭喜你受到了 {rf.BlessName} 的祝福\r";
+                var blessStr = $"恭喜你受到了 {rf.BlessName} 的祝福\r";
                 var fortuneValue = rf.FortuneValue > 100 ? 100 : rf.FortuneValue;
-                msg += $"你今天的运势是：{fortuneValue}%({rf.BlessValue}↑)\r";
-                msg = XmlMsgBuilder(fortuneValue, msg);
+                msg += $"你今天的运势是：\r\n{fortuneValue}%({rf.BlessValue}↑)\r";
+                msg = XmlMsgBuilder(fortuneValue, msg, blessStr);
             }
             else if (rf.BlessValue < 0)
             {
                 rf.FortuneValue = rf.FortuneValue + rf.BlessValue;
-                msg += $"哎呀呀，你受到了 {rf.BlessName} 的诅咒\r";
+                var blessStr = $"哎呀呀，你受到了 {rf.BlessName} 的诅咒\r";
                 var fortuneValue = rf.FortuneValue < 0 ? 0 : rf.FortuneValue;
-                msg += $"你今天的运势是：{fortuneValue}%({Math.Abs(rf.BlessValue)}↓)\r";
-                msg = XmlMsgBuilder(fortuneValue, msg);
+                msg += $"你今天的运势是：\r\n{fortuneValue}%({Math.Abs(rf.BlessValue)}↓)\r";
+                msg = XmlMsgBuilder(fortuneValue, msg, blessStr);
             }
             else
             {
-                msg += "你今天的运势是：" + rf.FortuneValue + "%\r";
-                msg = XmlMsgBuilder(rf.FortuneValue, msg);
+                msg += "你今天的运势是：\r\n" + rf.FortuneValue + "%\r";
+                msg = XmlMsgBuilder(rf.FortuneValue, msg, "");
             }
 
             MsgSender.Instance.PushMsg(MsgDTO, msg);
         }
 
-        private string XmlMsgBuilder(int fortune, string msg)
+        private string XmlMsgBuilder(int fortune, string msg, string blessStr)
         {
+            var blessXml = string.IsNullOrEmpty(blessStr)
+                ? ""
+                : $@"<item>
+                        <summary>{blessStr}</summary>
+                    </item>";
+
             var content = $@"<?xml version=""1.0"" encoding=""UTF-8"" standalone=""yes""?>
                 <msg serviceID = ""1"">
-                    <item layout=""2"">
+                    <item>
                         <title>今日运势</title>
+                    </item>
+                    {blessXml}
+                    <item layout=""2"">
                         <summary>{msg}</summary>
                         <picture cover = ""{ConfigDic[AlignFortune(fortune)]}"" />
                     </item>
