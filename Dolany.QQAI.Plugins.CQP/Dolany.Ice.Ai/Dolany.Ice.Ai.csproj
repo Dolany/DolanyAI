@@ -136,7 +136,6 @@
     <Compile Include="DolanyAI\AI\Repeater\PlusOneAI.cs" />
     <Compile Include="DolanyAI\AI\Repeater\PlusOneCache.cs" />
     <Compile Include="DolanyAI\AI\Repeater\RepeatorAI.cs" />
-    <Compile Include="DolanyAI\AI\Sys\Sign\SignAI.cs" />
     <Compile Include="DolanyAI\AI\SingleCommand\Tuling\TulingAI.cs" />
     <Compile Include="DolanyAI\AI\SingleCommand\Tuling\XfyunRequestHelper.cs" />
     <Compile Include="DolanyAI\AI\SingleCommand\Voice\KancoleVoiceAI.cs" />

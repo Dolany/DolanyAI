@@ -20,7 +20,7 @@ namespace Dolany.Ice.Ai.DolanyAI
             Command = "功能封印",
             Description = "封印一个群的某个ai功能",
             Syntax = "[群组号] [需要封印的ai名]",
-            Tag = "封印功能",
+            Tag = "系统命令",
             SyntaxChecker = "LongAndAny",
             AuthorityLevel = AuthorityLevel.开发者,
             IsPrivateAvailabe = true
@@ -99,7 +99,7 @@ namespace Dolany.Ice.Ai.DolanyAI
             Command = "关机 PowerOff",
             Description = "让机器人休眠",
             Syntax = "",
-            Tag = "开关机功能",
+            Tag = "系统命令",
             SyntaxChecker = "Empty",
             AuthorityLevel = AuthorityLevel.管理员,
             IsPrivateAvailabe = false
@@ -135,7 +135,7 @@ namespace Dolany.Ice.Ai.DolanyAI
             Command = "开机 PowerOn",
             Description = "唤醒机器人",
             Syntax = "",
-            Tag = "开关机功能",
+            Tag = "系统命令",
             SyntaxChecker = "Empty",
             AuthorityLevel = AuthorityLevel.管理员,
             IsPrivateAvailabe = false

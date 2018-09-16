@@ -165,18 +165,10 @@ namespace Dolany.Ice.Ai.DolanyAI
                 return;
             }
 
-            foreach (var ai in AIList)
+            if (AIList.Where(ai => !IsAiSealed(MsgDTO, ai.Key))
+                      .Any(ai => ai.Key.OnMsgReceived(MsgDTO)))
             {
-                if (IsAiSealed(MsgDTO, ai.Key))
-                {
-                    continue;
-                }
-
                 RecentCommandCache.Cache(DateTime.Now);
-                if (ai.Key.OnMsgReceived(MsgDTO))
-                {
-                    break;
-                }
             }
         }
 

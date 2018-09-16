@@ -2,7 +2,9 @@
 using System.Linq;
 using System.Collections.Generic;
 using System.Diagnostics;
+using System.IO;
 using System.Reflection;
+using static Dolany.Ice.Ai.MahuaApis.CodeApi;
 
 namespace Dolany.Ice.Ai.DolanyAI
 {
@@ -54,7 +56,8 @@ namespace Dolany.Ice.Ai.DolanyAI
                     if (RecentCommandCache.IsTooFreq())
                     {
                         MsgSender.Instance.PushMsg(MsgDTO, "哇哇哇~~，AI过热中......");
-                        return false;
+                        MsgSender.Instance.PushMsg(MsgDTO, Code_Image(new FileInfo("images/过热.jpg").FullName));
+                        return true;
                     }
                     consoler.Value(MsgDTO, param);
                     return true;

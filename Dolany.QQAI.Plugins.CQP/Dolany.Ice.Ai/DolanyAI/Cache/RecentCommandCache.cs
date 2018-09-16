@@ -19,6 +19,7 @@ namespace Dolany.Ice.Ai.DolanyAI
             }
 
             Debug.Assert(TimeCache != null, nameof(TimeCache) + " != null");
+            TimeCache.Add(time);
             if (TimeCache.Count > MaxRecentCommandCacheCount)
             {
                 TimeCache.RemoveAt(0);
@@ -44,7 +45,8 @@ namespace Dolany.Ice.Ai.DolanyAI
                 return false;
             }
 
-            if (TimeCache.First().AddMinutes(1) < TimeCache.Last())
+            if (TimeCache.Count >= MaxRecentCommandCacheCount &&
+                TimeCache.First().AddMinutes(1) > DateTime.Now)
             {
                 return true;
             }

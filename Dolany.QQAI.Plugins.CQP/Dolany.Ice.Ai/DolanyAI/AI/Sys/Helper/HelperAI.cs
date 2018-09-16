@@ -21,7 +21,7 @@ namespace Dolany.Ice.Ai.DolanyAI
             Description = "获取帮助列表",
             Syntax = "",
             SyntaxChecker = "Empty",
-            Tag = "帮助功能",
+            Tag = "系统命令",
             IsPrivateAvailabe = true
             )]
         public void HelpMe(ReceivedMsgDTO MsgDTO, object[] param)
@@ -35,7 +35,7 @@ namespace Dolany.Ice.Ai.DolanyAI
             Description = "获取特定命令或标签的帮助信息",
             Syntax = "[命令名/标签名]",
             SyntaxChecker = "NotEmpty",
-            Tag = "帮助功能",
+            Tag = "系统命令",
             IsPrivateAvailabe = true
         )]
         public void HelpMe_Command(ReceivedMsgDTO MsgDTO, object[] param)
@@ -51,7 +51,8 @@ namespace Dolany.Ice.Ai.DolanyAI
         private static void HelpSummary(ReceivedMsgDTO MsgDTO)
         {
             var helpMsg = "当前的命令标签有：";
-            var commandAttrs = AIMgr.Instance.AllAvailableGroupCommands.GroupBy(c => c.Tag)
+            var commandAttrs = AIMgr.Instance.AllAvailableGroupCommands.Where(p => p.AuthorityLevel != AuthorityLevel.开发者)
+                                                                       .GroupBy(c => c.Tag)
                                                                        .Select(p => p.First());
             var builder = new StringBuilder();
             builder.Append(helpMsg);
@@ -92,7 +93,8 @@ namespace Dolany.Ice.Ai.DolanyAI
 
         private static void HelpTag(ReceivedMsgDTO MsgDTO)
         {
-            var commands = AIMgr.Instance.AllAvailableGroupCommands.Where(c => c.Tag == MsgDTO.Msg)
+            var commands = AIMgr.Instance.AllAvailableGroupCommands.Where(c => c.Tag == MsgDTO.Msg &&
+                                                                               c.AuthorityLevel != AuthorityLevel.开发者)
                                                                    .GroupBy(p => p.Command)
                                                                    .Select(p => p.First());
             if (commands.IsNullOrEmpty())
