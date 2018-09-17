@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
 using System.IO;
 using static Dolany.Ice.Ai.MahuaApis.CodeApi;
 
@@ -16,7 +15,7 @@ namespace Dolany.Ice.Ai.DolanyAI
     public class RandomPicAI : AIBase
     {
         private string PicPath { get; } = ImagePath;
-        private List<string> Keywords { get; } = new List<string>();
+        private static List<string> Keywords => new List<string>();
 
         public RandomPicAI()
         {
@@ -54,7 +53,7 @@ namespace Dolany.Ice.Ai.DolanyAI
                 return;
             }
 
-            var pic = Environment.CurrentDirectory + "/" + PicPath + MsgDTO.Command + "/" + RandPic;
+            var pic = new FileInfo(PicPath + MsgDTO.Command + "\\" + RandPic).FullName;
             MsgSender.Instance.PushMsg(MsgDTO, pic);
         }
 
@@ -120,22 +119,6 @@ namespace Dolany.Ice.Ai.DolanyAI
         }
 
         [EnterCommand(
-            Command = "重新加载图片",
-            Description = "重新加载图片列表，刷新搜索关键字",
-            AuthorityLevel = AuthorityLevel.开发者,
-            Syntax = "",
-            Tag = "图片功能",
-            SyntaxChecker = "Empty",
-            IsPrivateAvailabe = true
-            )]
-        public void RefreshKeywords(ReceivedMsgDTO MsgDTO, object[] param)
-        {
-            ReloadAllKeywords();
-
-            Utility.SendMsgToDeveloper($"共加载了{Keywords.Count}个图片组");
-        }
-
-        [EnterCommand(
             Command = "添加同义词",
             Description = "添加图片检索时的关键字",
             AuthorityLevel = AuthorityLevel.开发者,
@@ -157,29 +140,6 @@ namespace Dolany.Ice.Ai.DolanyAI
             });
 
             Utility.SendMsgToDeveloper("添加成功！");
-        }
-
-        [EnterCommand(
-            Command = "所有图片关键词",
-            Description = "获取所有图片关键字（不包括同义词）",
-            AuthorityLevel = AuthorityLevel.开发者,
-            Syntax = "",
-            Tag = "图片功能",
-            SyntaxChecker = "Empty",
-            IsPrivateAvailabe = true
-            )]
-        public void AllPicKeywords(ReceivedMsgDTO MsgDTO, object[] param)
-        {
-            var msg = string.Empty;
-            var builder = new StringBuilder();
-            builder.Append(msg);
-            foreach (var k in Keywords)
-            {
-                builder.Append(k + '\r');
-            }
-            msg = builder.ToString();
-
-            Utility.SendMsgToDeveloper(msg);
         }
     }
 }

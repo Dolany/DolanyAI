@@ -12,7 +12,6 @@ namespace Dolany.Ice.Ai.DolanyAI
 {
     public static class Utility
     {
-        private static Dictionary<Type, object> SinglonMap;
         private static string AuthCode;
 
         public static long DeveloperNumber => long.Parse(GetConfig(nameof(DeveloperNumber)));
@@ -133,24 +132,6 @@ namespace Dolany.Ice.Ai.DolanyAI
 
                 return dic;
             }
-        }
-
-        public static T Instance<T>() where T : class, new()
-        {
-            if (SinglonMap == null)
-            {
-                SinglonMap = new Dictionary<Type, object>();
-            }
-
-            var type = typeof(T);
-            if (SinglonMap.Keys.Contains(type))
-            {
-                return SinglonMap[type] as T;
-            }
-
-            var value = new T();
-            SinglonMap.Add(type, value);
-            return value;
         }
 
         public static T Clone<T>(this T obj) where T : class, new()

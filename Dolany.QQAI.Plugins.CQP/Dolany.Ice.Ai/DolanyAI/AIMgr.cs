@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using System.Reflection;
+using System.Runtime.ExceptionServices;
 using Dolany.Ice.Ai.DolanyAI.Db;
 
 namespace Dolany.Ice.Ai.DolanyAI
@@ -31,6 +32,20 @@ namespace Dolany.Ice.Ai.DolanyAI
             {
                 RuntimeLogger.Log(ex);
             }
+        }
+
+        public void Load()
+        {
+            RuntimeLogger.Log("start up");
+            DbMgr.InitXmls();
+            RuntimeLogger.Log("加载所有可用AI");
+
+            StartAIs();
+
+            var allais = AIList;
+            var keyValuePairs = allais as KeyValuePair<AIBase, AIAttribute>[] ?? allais.ToArray();
+            var msg = $"成功加载{keyValuePairs.Length}个ai \r\n";
+            RuntimeLogger.Log(msg);
         }
 
         /// <summary>
@@ -115,6 +130,7 @@ namespace Dolany.Ice.Ai.DolanyAI
         /// 处理群组消息收到事件
         /// </summary>
         /// <param name="MsgDTO"></param>
+        [HandleProcessCorruptedStateExceptions]
         public void OnMsgReceived(ReceivedMsgDTO MsgDTO)
         {
             try
@@ -136,12 +152,13 @@ namespace Dolany.Ice.Ai.DolanyAI
 
                 MsgCallBack(MsgDTO);
             }
-            catch (StackOverflowException ex)
+            catch (Exception ex)
             {
                 RuntimeLogger.Log(ex);
             }
         }
 
+        [HandleProcessCorruptedStateExceptions]
         private void MsgCallBack(ReceivedMsgDTO MsgDTO)
         {
             Task.Factory.StartNew(() =>

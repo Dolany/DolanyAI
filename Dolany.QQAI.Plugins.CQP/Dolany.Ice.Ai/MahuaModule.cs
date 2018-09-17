@@ -1,11 +1,8 @@
-﻿using System.Collections.Generic;
-using Autofac;
+﻿using Autofac;
 using Newbe.Mahua;
-
 using Dolany.Ice.Ai.DolanyAI;
 using Newbe.Mahua.MahuaEvents;
 using Dolany.Ice.Ai.MahuaEvents;
-using System.Linq;
 
 namespace Dolany.Ice.Ai
 {
@@ -68,23 +65,7 @@ namespace Dolany.Ice.Ai
         {
             protected override void Load(ContainerBuilder builder)
             {
-                RuntimeLogger.Log("start up");
-                DbMgr.InitXmls();
-                RuntimeLogger.Log("加载所有可用AI");
-
-                AIMgr.Instance.StartAIs();
-
-                var allais = AIMgr.Instance.AIList;
-                var keyValuePairs = allais as KeyValuePair<AIBase, AIAttribute>[] ?? allais.ToArray();
-                var msg = $"成功加载{keyValuePairs.Length}个ai \r\n";
-                var builder1 = new System.Text.StringBuilder();
-                builder1.Append(msg);
-                foreach (var ai in keyValuePairs)
-                {
-                    builder1.Append(ai.Value.Name + " ");
-                }
-                msg = builder1.ToString();
-                RuntimeLogger.Log(msg);
+                AIMgr.Instance.Load();
             }
         }
     }
