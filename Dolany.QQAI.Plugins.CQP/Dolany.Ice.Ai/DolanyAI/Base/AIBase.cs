@@ -97,7 +97,7 @@ namespace Dolany.Ice.Ai.DolanyAI
             param = null;
             if (string.IsNullOrEmpty(SyntaxChecker))
             {
-                return true;
+                return false;
             }
 
             try
@@ -106,7 +106,7 @@ namespace Dolany.Ice.Ai.DolanyAI
                 var paramStrs = msg.Split(' ');
                 if (checkers.Length != paramStrs.Length)
                 {
-                    return true;
+                    return false;
                 }
 
                 var list = new List<object>();
@@ -116,9 +116,12 @@ namespace Dolany.Ice.Ai.DolanyAI
                     Debug.Assert(checker != null, nameof(checker) + " != null");
                     if (!checker.Check(paramStrs[i], out var p))
                     {
-                        return true;
+                        return false;
                     }
-                    list.AddRange(p);
+                    if(p != null)
+                    {
+                        list.AddRange(p);
+                    }
                 }
 
                 param = list.ToArray();
