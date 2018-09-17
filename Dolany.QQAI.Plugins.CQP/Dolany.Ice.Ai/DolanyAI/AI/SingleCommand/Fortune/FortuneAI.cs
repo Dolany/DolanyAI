@@ -1,6 +1,6 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Linq;
+using System.Text;
 using System.Threading.Tasks;
 using Dolany.Ice.Ai.DolanyAI.Db;
 using static Dolany.Ice.Ai.MahuaApis.CodeApi;
@@ -16,7 +16,6 @@ namespace Dolany.Ice.Ai.DolanyAI
     public class FortuneAI : AIBase
     {
         private const string TarotServerPath = "https://m.sheup.com/";
-        private readonly Dictionary<int, string> ConfigDic = Utility.LoadFortuneImagesConfig();
 
         public FortuneAI()
         {
@@ -121,57 +120,36 @@ namespace Dolany.Ice.Ai.DolanyAI
             return Utility.RandInt(101);
         }
 
-        private void ShowRandFortune(ReceivedMsgDTO MsgDTO, RandomFortune rf)
+        private static void ShowRandFortune(ReceivedMsgDTO MsgDTO, RandomFortune rf)
         {
             var msg = string.Empty;
 
             if (rf.BlessValue > 0)
             {
                 rf.FortuneValue = rf.FortuneValue + rf.BlessValue;
-                var blessStr = $"恭喜你受到了 {rf.BlessName} 的祝福\r";
-                var fortuneValue = rf.FortuneValue > 100 ? 100 : rf.FortuneValue;
-                msg += $"你今天的运势是：\r\n{fortuneValue}%({rf.BlessValue}↑)\r";
-                msg = XmlMsgBuilder(fortuneValue, msg, blessStr);
+                msg += $"恭喜你受到了 {rf.BlessName} 的祝福\r";
+                msg += $"你今天的运势是：{(rf.FortuneValue > 100 ? 100 : rf.FortuneValue)}%({rf.BlessValue}↑)\r";
             }
             else if (rf.BlessValue < 0)
             {
                 rf.FortuneValue = rf.FortuneValue + rf.BlessValue;
-                var blessStr = $"哎呀呀，你受到了 {rf.BlessName} 的诅咒\r";
-                var fortuneValue = rf.FortuneValue < 0 ? 0 : rf.FortuneValue;
-                msg += $"你今天的运势是：\r\n{fortuneValue}%({Math.Abs(rf.BlessValue)}↓)\r";
-                msg = XmlMsgBuilder(fortuneValue, msg, blessStr);
+                msg += $"哎呀呀，你受到了 {rf.BlessName} 的诅咒\r";
+                msg += $"你今天的运势是：{(rf.FortuneValue < 0 ? 0 : rf.FortuneValue)}%({Math.Abs(rf.BlessValue)}↓)\r";
             }
             else
             {
-                msg += "你今天的运势是：\r\n" + rf.FortuneValue + "%\r";
-                msg = XmlMsgBuilder(rf.FortuneValue, msg, "");
+                msg += "你今天的运势是：" + rf.FortuneValue + "%\r";
             }
+            var builder = new StringBuilder();
+            builder.Append(msg);
+
+            for (var i = 0; i < rf.FortuneValue; i++)
+            {
+                builder.Append("|");
+            }
+            msg = builder.ToString();
 
             MsgSender.Instance.PushMsg(MsgDTO, msg);
-        }
-
-        private string XmlMsgBuilder(int fortune, string msg, string blessStr)
-        {
-            var blessXml = string.IsNullOrEmpty(blessStr)
-                ? ""
-                : $@"<item>
-                        <summary>{blessStr}</summary>
-                    </item>";
-
-            var content = $@"<?xml version=""1.0"" encoding=""UTF-8"" standalone=""yes""?>
-                <msg serviceID = ""1"">
-                    <item>
-                        <title>今日运势</title>
-                    </item>
-                    {blessXml}
-                    <item layout=""2"">
-                        <summary>{msg}</summary>
-                        <picture cover = ""{ConfigDic[AlignFortune(fortune)]}"" />
-                    </item>
-                    <source name=""冰冰认证消息"" icon=""https://qzs.qq.com/ac/qzone_v5/client/auth_icon.png"" action="""" appid="" -1"" />
-                </msg>";
-
-            return content;
         }
 
         [EnterCommand(
@@ -321,60 +299,6 @@ namespace Dolany.Ice.Ai.DolanyAI
 
             Bless(aimNum, "暗夜诅咒", -GetRandomFortune());
             MsgSender.Instance.PushMsg(MsgDTO, "诅咒成功！");
-        }
-
-        private static int AlignFortune(int fortune)
-        {
-            if (fortune >= 100)
-            {
-                return 100;
-            }
-
-            if (fortune > 90)
-            {
-                return 90;
-            }
-
-            if (fortune > 80)
-            {
-                return 80;
-            }
-
-            if (fortune > 70)
-            {
-                return 70;
-            }
-
-            if (fortune > 60)
-            {
-                return 60;
-            }
-
-            if (fortune > 50)
-            {
-                return 50;
-            }
-
-            if (fortune > 40)
-            {
-                return 40;
-            }
-
-            if (fortune > 30)
-            {
-                return 30;
-            }
-
-            if (fortune > 20)
-            {
-                return 20;
-            }
-
-            if (fortune > 10)
-            {
-                return 10;
-            }
-            return 0;
         }
     }
 }
