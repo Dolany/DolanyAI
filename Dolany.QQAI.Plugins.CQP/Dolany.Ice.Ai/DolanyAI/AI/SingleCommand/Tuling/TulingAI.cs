@@ -172,7 +172,7 @@ namespace Dolany.Ice.Ai.DolanyAI
             Description = "新增私有语料",
             Syntax = "[问题] [答案]",
             Tag = "图灵功能",
-            SyntaxChecker = "TwoWords",
+            SyntaxChecker = "Word Word",
             IsPrivateAvailabe = true
         )]
         public void AddPrivateQA(ReceivedMsgDTO MsgDTO, object[] param)

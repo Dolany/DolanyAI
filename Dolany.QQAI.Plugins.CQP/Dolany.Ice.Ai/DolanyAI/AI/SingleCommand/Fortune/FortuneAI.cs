@@ -102,7 +102,7 @@ namespace Dolany.Ice.Ai.DolanyAI
             Description = "获取星座运势",
             Syntax = "[星座名]",
             Tag = "运势功能",
-            SyntaxChecker = "NotEmpty",
+            SyntaxChecker = "Word",
             IsPrivateAvailabe = true
             )]
         public void StarFortune(ReceivedMsgDTO MsgDTO, object[] param)

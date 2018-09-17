@@ -21,7 +21,7 @@ namespace Dolany.Ice.Ai.DolanyAI
             Description = "封印一个群的某个ai功能",
             Syntax = "[群组号] [需要封印的ai名]",
             Tag = "系统命令",
-            SyntaxChecker = "LongAndAny",
+            SyntaxChecker = "Long Word",
             AuthorityLevel = AuthorityLevel.开发者,
             IsPrivateAvailabe = true
             )]

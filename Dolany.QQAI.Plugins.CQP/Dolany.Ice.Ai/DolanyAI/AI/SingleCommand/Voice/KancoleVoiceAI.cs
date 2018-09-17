@@ -27,7 +27,7 @@ namespace Dolany.Ice.Ai.DolanyAI
             Description = "获取随机舰娘语音",
             Syntax = "[舰娘名称]",
             Tag = "语音功能",
-            SyntaxChecker = "NotEmpty",
+            SyntaxChecker = "Word",
             IsPrivateAvailabe = true
             )]
         public void KancoleVoice(ReceivedMsgDTO MsgDTO, object[] param)

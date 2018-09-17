@@ -124,7 +124,7 @@ namespace Dolany.Ice.Ai.DolanyAI
             AuthorityLevel = AuthorityLevel.开发者,
             Syntax = "[目标词] [同义词]",
             Tag = "图片功能",
-            SyntaxChecker = "TwoWords",
+            SyntaxChecker = "Word Word",
             IsPrivateAvailabe = true
             )]
         public void AppendSynonym(ReceivedMsgDTO MsgDTO, object[] param)

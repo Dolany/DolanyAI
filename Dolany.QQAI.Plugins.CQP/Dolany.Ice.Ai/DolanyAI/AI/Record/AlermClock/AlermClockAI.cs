@@ -59,7 +59,7 @@ namespace Dolany.Ice.Ai.DolanyAI
             Description = "设定在指定时间的闹钟，我会到时候艾特你并显示提醒内容",
             Syntax = "[目标时间] [提醒内容]",
             Tag = "闹钟与报时功能",
-            SyntaxChecker = nameof(SetClock),
+            SyntaxChecker = "HourMinute Word",
             IsPrivateAvailabe = false
             )]
         public void SetClock(ReceivedMsgDTO MsgDTO, object[] param)
@@ -175,7 +175,7 @@ namespace Dolany.Ice.Ai.DolanyAI
             Description = "删除指定时间的已经设置好的闹钟",
             Syntax = "[目标时间]",
             Tag = "闹钟与报时功能",
-            SyntaxChecker = nameof(DeleteClock),
+            SyntaxChecker = "HourMinute",
             IsPrivateAvailabe = false
             )]
         public void DeleteClock(ReceivedMsgDTO MsgDTO, object[] param)

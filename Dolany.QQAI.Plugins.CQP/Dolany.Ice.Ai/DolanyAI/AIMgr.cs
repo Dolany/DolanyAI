@@ -22,6 +22,8 @@ namespace Dolany.Ice.Ai.DolanyAI
         private List<IAITool> Tools { get; } = new List<IAITool>();
         public List<EnterCommandAttribute> AllAvailableGroupCommands { get; } = new List<EnterCommandAttribute>();
 
+        public IEnumerable<KeyValuePair<string, ISyntaxChecker>> Checkers;
+
         private AIMgr()
         {
             try
@@ -88,6 +90,20 @@ namespace Dolany.Ice.Ai.DolanyAI
         {
             LoadAis();
             LoadTools();
+            LoadCheckers();
+        }
+
+        private void LoadCheckers()
+        {
+            var assembly = Assembly.GetExecutingAssembly();
+            var list = from type in assembly.GetTypes()
+                       where typeof(ISyntaxChecker).IsAssignableFrom(type) && type.IsClass
+                       where type.FullName != null
+                       let checker = assembly.CreateInstance(type.FullName) as ISyntaxChecker
+                       let name = type.Name
+                       select new KeyValuePair<string, ISyntaxChecker>(name, checker);
+
+            Checkers = list.ToList();
         }
 
         private void LoadAis()

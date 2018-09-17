@@ -34,7 +34,7 @@ namespace Dolany.Ice.Ai.DolanyAI
             AuthorityLevel = AuthorityLevel.成员,
             Description = "获取特定命令或标签的帮助信息",
             Syntax = "[命令名/标签名]",
-            SyntaxChecker = "NotEmpty",
+            SyntaxChecker = "Word",
             Tag = "系统命令",
             IsPrivateAvailabe = true
         )]

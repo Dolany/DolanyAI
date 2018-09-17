@@ -27,7 +27,7 @@ namespace Dolany.Ice.Ai.DolanyAI
             Description = "录入一条语录",
             Syntax = "[出处] [人物] [内容]",
             Tag = "语录功能",
-            SyntaxChecker = "ThreeWords",
+            SyntaxChecker = "Word Word Word",
             IsPrivateAvailabe = false
             )]
         public void ProcceedMsg(ReceivedMsgDTO MsgDTO, object[] param)
@@ -79,7 +79,7 @@ namespace Dolany.Ice.Ai.DolanyAI
             Description = "按关键字检索语录",
             Syntax = "[关键字]",
             Tag = "语录功能",
-            SyntaxChecker = "NotEmpty",
+            SyntaxChecker = "Word",
             IsPrivateAvailabe = false
         )]
         public void Sayings_Query(ReceivedMsgDTO MsgDTO, object[] param)
@@ -153,7 +153,7 @@ namespace Dolany.Ice.Ai.DolanyAI
             Description = "按关键字删除语录",
             Syntax = "[关键字]",
             Tag = "语录功能",
-            SyntaxChecker = "NotEmpty",
+            SyntaxChecker = "Word",
             IsPrivateAvailabe = false
             )]
         public void ClearSayings(ReceivedMsgDTO MsgDTO, object[] param)

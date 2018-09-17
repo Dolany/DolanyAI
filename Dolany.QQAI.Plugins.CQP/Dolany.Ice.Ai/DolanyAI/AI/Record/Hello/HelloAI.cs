@@ -56,7 +56,7 @@ namespace Dolany.Ice.Ai.DolanyAI
             Description = "设定每天打招呼的内容",
             Syntax = "[设定内容]",
             Tag = "打招呼功能",
-            SyntaxChecker = "NotEmpty",
+            SyntaxChecker = "Word",
             IsPrivateAvailabe = false
             )]
         public void SaveHelloContent(ReceivedMsgDTO MsgDTO, object[] param)

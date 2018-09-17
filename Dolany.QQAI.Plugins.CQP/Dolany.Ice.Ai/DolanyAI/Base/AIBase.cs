@@ -94,23 +94,38 @@ namespace Dolany.Ice.Ai.DolanyAI
 
         private static bool SyntaxCheck(string SyntaxChecker, string msg, out object[] param)
         {
+            param = null;
             if (string.IsNullOrEmpty(SyntaxChecker))
             {
-                param = null;
                 return true;
             }
 
             try
             {
-                var assembly = Assembly.GetExecutingAssembly();
-                var scObj = assembly.CreateInstance("Dolany.Ice.Ai.DolanyAI." + SyntaxChecker + "Checker");
-                var checker = scObj as ISyntaxChecker;
-                Debug.Assert(checker != null, nameof(checker) + " != null");
-                return checker.Check(msg, out param);
+                var checkers = SyntaxChecker.Split(' ');
+                var paramStrs = msg.Split(' ');
+                if (checkers.Length != paramStrs.Length)
+                {
+                    return true;
+                }
+
+                var list = new List<object>();
+                for (var i = 0; i < checkers.Length; i++)
+                {
+                    var checker = AIMgr.Instance.Checkers.First(c => c.Key == checkers[i] + "Checker").Value;
+                    Debug.Assert(checker != null, nameof(checker) + " != null");
+                    if (!checker.Check(paramStrs[i], out var p))
+                    {
+                        return true;
+                    }
+                    list.AddRange(p);
+                }
+
+                param = list.ToArray();
+                return true;
             }
             catch (Exception)
             {
-                param = null;
                 return false;
             }
         }
