@@ -3,7 +3,6 @@ using System.Linq;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.IO;
-using System.Reflection;
 using static Dolany.Ice.Ai.MahuaApis.CodeApi;
 
 namespace Dolany.Ice.Ai.DolanyAI
@@ -118,7 +117,7 @@ namespace Dolany.Ice.Ai.DolanyAI
                     {
                         return false;
                     }
-                    if(p != null)
+                    if (p != null)
                     {
                         list.AddRange(p);
                     }
