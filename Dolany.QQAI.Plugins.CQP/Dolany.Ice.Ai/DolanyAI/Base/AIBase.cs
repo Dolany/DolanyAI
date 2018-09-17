@@ -124,8 +124,9 @@ namespace Dolany.Ice.Ai.DolanyAI
                 param = list.ToArray();
                 return true;
             }
-            catch (Exception)
+            catch (Exception ex)
             {
+                RuntimeLogger.Log(ex);
                 return false;
             }
         }
