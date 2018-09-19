@@ -5,7 +5,7 @@ using Dolany.Ice.Ai.DolanyAI.Db;
 
 namespace Dolany.Ice.Ai.DolanyAI
 {
-    public class GroupMemberInfoCacher
+    public static class GroupMemberInfoCacher
     {
         public static MemberRoleCache GetMemberInfo(ReceivedMsgDTO MsgDTO)
         {
@@ -65,7 +65,8 @@ namespace Dolany.Ice.Ai.DolanyAI
                 }
                 db.SaveChanges();
 
-                return db.MemberRoleCache.First(i => i.QQNum == MsgDTO.FromQQ).Clone();
+                return db.MemberRoleCache.First(i => i.QQNum == MsgDTO.FromQQ)
+                                         .Clone();
             }
         }
     }

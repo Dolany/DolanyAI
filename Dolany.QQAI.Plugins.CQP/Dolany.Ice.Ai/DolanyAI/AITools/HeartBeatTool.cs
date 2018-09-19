@@ -25,7 +25,6 @@ namespace Dolany.Ice.Ai.DolanyAI
         private void TimeUp(object sender, ElapsedEventArgs e)
         {
             var timer = sender as JobTimer;
-            //Utility.SetConfig("HeartBeat", DateTime.Now.ToCommonString());
 
             Debug.Assert(timer != null, nameof(timer) + " != null");
             timer.Interval = CheckFrequency * 1000;

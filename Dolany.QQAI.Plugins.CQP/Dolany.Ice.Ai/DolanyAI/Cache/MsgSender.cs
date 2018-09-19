@@ -9,8 +9,6 @@ namespace Dolany.Ice.Ai.DolanyAI
 {
     public class MsgSender
     {
-        private static MsgSender instance;
-
         private int SendMsgMaxLength
         {
             get
@@ -31,7 +29,7 @@ namespace Dolany.Ice.Ai.DolanyAI
             SendAllMsgs();
         }
 
-        public static MsgSender Instance => instance ?? (instance = new MsgSender());
+        public static MsgSender Instance { get; } = new MsgSender();
 
         public void PushMsg(ReceivedMsgDTO MsgDTO, string MsgContent, bool IsNeedAt = false)
         {

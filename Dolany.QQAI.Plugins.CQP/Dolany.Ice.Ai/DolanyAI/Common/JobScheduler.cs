@@ -1,6 +1,6 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Diagnostics;
+using System.Collections.Immutable;
 using System.Linq;
 using System.Timers;
 
@@ -23,13 +23,11 @@ namespace Dolany.Ice.Ai.DolanyAI
         public static double SecondlyInterval => 1000;
     }
 
-    public class JobScheduler
+    public sealed class JobScheduler
     {
-        private static JobScheduler _instance;
+        public static JobScheduler Instance { get; } = new JobScheduler();
 
-        public static JobScheduler Instance => _instance ?? (_instance = new JobScheduler());
-
-        public List<JobTimer> Timers { get; set; } = new List<JobTimer>();
+        private ImmutableList<JobTimer> Timers { get; } = ImmutableList.Create<JobTimer>();
 
         public void Stop(string Id)
         {

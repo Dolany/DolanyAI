@@ -164,10 +164,11 @@ namespace Dolany.Ice.Ai.DolanyAI
                                                  (s.Content.Contains(MsgDTO.Msg) ||
                                                   s.Charactor.Contains(MsgDTO.Msg) ||
                                                   s.Cartoon.Contains(MsgDTO.Msg)));
+                var count = query.Count();
                 db.Saying.RemoveRange(query);
                 db.SaveChanges();
 
-                MsgSender.Instance.PushMsg(MsgDTO, $"共删除{query.Count()}条语录");
+                MsgSender.Instance.PushMsg(MsgDTO, $"共删除{count}条语录");
             }
         }
 
@@ -191,7 +192,6 @@ namespace Dolany.Ice.Ai.DolanyAI
                 if (!query.IsNullOrEmpty())
                 {
                     MsgSender.Instance.PushMsg(MsgDTO, "此成员正在封禁中！");
-
                     return;
                 }
 
@@ -229,7 +229,6 @@ namespace Dolany.Ice.Ai.DolanyAI
                 if (query.IsNullOrEmpty())
                 {
                     MsgSender.Instance.PushMsg(MsgDTO, "此成员尚未被封禁！");
-
                     return;
                 }
                 foreach (var s in query)

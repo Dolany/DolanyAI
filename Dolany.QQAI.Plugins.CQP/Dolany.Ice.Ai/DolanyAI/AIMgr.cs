@@ -15,9 +15,7 @@ namespace Dolany.Ice.Ai.DolanyAI
     {
         public IEnumerable<KeyValuePair<AIBase, AIAttribute>> AIList;
 
-        private static AIMgr _instance;
-
-        public static AIMgr Instance => _instance ?? (_instance = new AIMgr());
+        public static AIMgr Instance { get; } = new AIMgr();
 
         private List<IAITool> Tools { get; } = new List<IAITool>();
         public List<EnterCommandAttribute> AllAvailableGroupCommands { get; } = new List<EnterCommandAttribute>();
@@ -44,16 +42,14 @@ namespace Dolany.Ice.Ai.DolanyAI
 
             StartAIs();
 
-            var allais = AIList;
-            var keyValuePairs = allais as KeyValuePair<AIBase, AIAttribute>[] ?? allais.ToArray();
-            var msg = $"成功加载{keyValuePairs.Length}个ai \r\n";
+            var msg = $"成功加载{AIList.Count()}个ai \r\n";
             RuntimeLogger.Log(msg);
         }
 
         /// <summary>
         /// 加载AI
         /// </summary>
-        public void StartAIs()
+        private void StartAIs()
         {
             AIList = AIList.Where(a => a.Value.IsAvailable)
                            .OrderByDescending(a => a.Value.PriorityLevel);
