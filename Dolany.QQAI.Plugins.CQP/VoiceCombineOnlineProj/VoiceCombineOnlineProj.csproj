@@ -83,6 +83,10 @@
     <None Include="App.config" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\Dolany.Ice.Ai.DolanyAI.Utils\Dolany.Ice.Ai.DolanyAI.Utils.csproj">
+      <Project>{083919df-5af0-48c7-82f0-82d01b38414c}</Project>
+      <Name>Dolany.Ice.Ai.DolanyAI.Utils</Name>
+    </ProjectReference>
     <ProjectReference Include="..\Dolany.Ice.Ai\Dolany.Ice.Ai.csproj">
       <Project>{5ac35a4d-8d04-4cbf-8881-eadb106d5421}</Project>
       <Name>Dolany.Ice.Ai</Name>

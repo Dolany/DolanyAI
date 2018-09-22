@@ -2,8 +2,10 @@
 using System.Linq;
 using Dolany.Ice.Ai.DolanyAI.Db;
 using System.Threading;
-using static Dolany.Ice.Ai.MahuaApis.AmandaAPIEx;
-using static Dolany.Ice.Ai.MahuaApis.CodeApi;
+using Dolany.Ice.Ai.DolanyAI.Utils;
+using static Dolany.Ice.Ai.DolanyAI.Utils.Utility;
+using static Dolany.Ice.Ai.DolanyAI.Utils.CodeApi;
+using static Dolany.Ice.Ai.DolanyAI.Utils.AmandaAPIEx;
 
 namespace Dolany.Ice.Ai.DolanyAI
 {
@@ -21,7 +23,7 @@ namespace Dolany.Ice.Ai.DolanyAI
         {
             get
             {
-                var config = Utility.GetConfig(nameof(PraiseLimit), "10");
+                var config = GetConfig(nameof(PraiseLimit), "10");
 
                 return int.Parse(config);
             }

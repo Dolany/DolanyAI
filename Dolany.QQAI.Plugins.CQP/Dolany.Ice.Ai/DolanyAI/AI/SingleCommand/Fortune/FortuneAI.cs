@@ -3,7 +3,8 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using Dolany.Ice.Ai.DolanyAI.Db;
-using static Dolany.Ice.Ai.MahuaApis.CodeApi;
+using Dolany.Ice.Ai.DolanyAI.Utils;
+using static Dolany.Ice.Ai.DolanyAI.Utils.CodeApi;
 
 namespace Dolany.Ice.Ai.DolanyAI
 {

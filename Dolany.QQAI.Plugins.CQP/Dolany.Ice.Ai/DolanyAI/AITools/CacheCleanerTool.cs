@@ -2,7 +2,9 @@
 using System.Linq;
 using System.Timers;
 using System.IO;
-using static Dolany.Ice.Ai.MahuaApis.CodeApi;
+using Dolany.Ice.Ai.DolanyAI.Utils;
+using static Dolany.Ice.Ai.DolanyAI.Utils.Utility;
+using static Dolany.Ice.Ai.DolanyAI.Utils.CodeApi;
 
 namespace Dolany.Ice.Ai.DolanyAI
 {
@@ -19,7 +21,7 @@ namespace Dolany.Ice.Ai.DolanyAI
         {
             get
             {
-                var config = Utility.GetConfig(nameof(PicCleanFreq), "10");
+                var config = GetConfig(nameof(PicCleanFreq), "10");
 
                 return int.Parse(config);
             }
@@ -29,7 +31,7 @@ namespace Dolany.Ice.Ai.DolanyAI
         {
             get
             {
-                var config = Utility.GetConfig("MaxPicCacheCount", "200");
+                var config = GetConfig("MaxPicCacheCount", "200");
 
                 return int.Parse(config);
             }

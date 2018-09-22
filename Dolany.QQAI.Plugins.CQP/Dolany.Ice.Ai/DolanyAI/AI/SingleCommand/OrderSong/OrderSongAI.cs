@@ -1,6 +1,7 @@
 ﻿using System.Linq;
-using Dolany.Ice.Ai.MahuaApis;
 using System;
+using Dolany.Ice.Ai.DolanyAI.Utils;
+using static Dolany.Ice.Ai.DolanyAI.Utils.Utility;
 
 namespace Dolany.Ice.Ai.DolanyAI
 {
@@ -51,7 +52,7 @@ namespace Dolany.Ice.Ai.DolanyAI
         {
             var response = RequestHelper.PostData<NeteaseResponseModel>(new PostReq_Param
             {
-                InterfaceName = $"http://music.163.com/api/search/get/?s={Utility.UrlCharConvert(songName)}&type=1"
+                InterfaceName = $"http://music.163.com/api/search/get/?s={UrlCharConvert(songName)}&type=1"
             });
 
             if (response == null)

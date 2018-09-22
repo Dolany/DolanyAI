@@ -1,4 +1,5 @@
 ﻿using Dolany.Ice.Ai.DolanyAI;
+using static Dolany.Ice.Ai.DolanyAI.Utils.Utility;
 
 namespace NeteaseMusicTest
 {
@@ -9,7 +10,7 @@ namespace NeteaseMusicTest
             var songName = "安娜";
             RequestHelper.PostData<NeteaseResponse>(new PostReq_Param
             {
-                InterfaceName = $"http://music.163.com/api/search/get/?s={Utility.UrlCharConvert(songName)}&type=1"
+                InterfaceName = $"http://music.163.com/api/search/get/?s={UrlCharConvert(songName)}&type=1"
             });
         }
     }

@@ -2,7 +2,8 @@
 using System.IO;
 using Dolany.Ice.Ai.DolanyAI.Db;
 using System.Linq;
-using static Dolany.Ice.Ai.MahuaApis.CodeApi;
+using Dolany.Ice.Ai.DolanyAI.Utils;
+using static Dolany.Ice.Ai.DolanyAI.Utils.CodeApi;
 
 namespace Dolany.Ice.Ai.DolanyAI
 {
@@ -14,8 +15,6 @@ namespace Dolany.Ice.Ai.DolanyAI
     )]
     public class TouhouCardAi : AIBase
     {
-        private const string PicPath = "TouhouCard/";
-
         public TouhouCardAi()
         {
             RuntimeLogger.Log("TouhouCardAI started");
@@ -36,51 +35,8 @@ namespace Dolany.Ice.Ai.DolanyAI
         )]
         public void RandomCard(ReceivedMsgDTO MsgDTO, object[] param)
         {
-            using (var db = new AIDatabase())
-            {
-                var query = db.TouhouCardRecord.Where(p => p.QQNum == MsgDTO.FromQQ);
-                if (query.IsNullOrEmpty())
-                {
-                    var tcr = new TouhouCardRecord
-                    {
-                        Id = Guid.NewGuid().ToString(),
-                        UpdateDate = DateTime.Now.Date,
-                        CardName = GetRandCard(),
-                        QQNum = MsgDTO.FromQQ
-                    };
-                    db.TouhouCardRecord.Add(tcr);
-                    db.SaveChanges();
-                    ReturnCard(MsgDTO, tcr.CardName);
-
-                    return;
-                }
-
-                var rec = query.First();
-                if (rec.UpdateDate < DateTime.Now.Date)
-                {
-                    rec.CardName = GetRandCard();
-                    rec.UpdateDate = DateTime.Now.Date;
-                    db.SaveChanges();
-                    ReturnCard(MsgDTO, rec.CardName);
-
-                    return;
-                }
-
-                ReturnCard(MsgDTO, rec.CardName);
-            }
-        }
-
-        private static void ReturnCard(ReceivedMsgDTO MsgDTO, string cardName)
-        {
-            MsgSender.Instance.PushMsg(MsgDTO, Code_Image(new FileInfo(PicPath + cardName).FullName));
-        }
-
-        private static string GetRandCard()
-        {
-            var dir = new DirectoryInfo(PicPath);
-            var files = dir.GetFiles();
-            var rIdx = Utility.RandInt(files.Length);
-            return files.ElementAt(rIdx).Name;
+            var cardName = TouhouCardRecordBLL.RandomCard(MsgDTO.FromQQ);
+            MsgSender.Instance.PushMsg(MsgDTO, Code_Image(new FileInfo(cardName).FullName));
         }
     }
 }

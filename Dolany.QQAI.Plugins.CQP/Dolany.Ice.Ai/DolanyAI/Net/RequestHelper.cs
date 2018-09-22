@@ -1,9 +1,10 @@
 ﻿using System.Text;
 using System.Net;
+using Dolany.Ice.Ai.DolanyAI.Utils;
 
 namespace Dolany.Ice.Ai.DolanyAI
 {
-    public class RequestHelper
+    public static class RequestHelper
     {
         public static ResultType PostData<ResultType>(PostReq_Param p) where ResultType : class
         {

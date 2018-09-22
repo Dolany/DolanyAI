@@ -4,12 +4,13 @@ using System.Linq;
 using Dolany.Ice.Ai.DolanyAI;
 using HtmlAgilityPack;
 using Dolany.Ice.Ai.DolanyAI.Db;
+using Dolany.Ice.Ai.DolanyAI.Utils;
 
 namespace KanColeSingleCli
 {
     public class KanColeGirlParser : HtmlParser
     {
-        public List<KanColeGirlVoice> kanColeGirlVoices = new List<KanColeGirlVoice>();
+        public readonly List<KanColeGirlVoice> kanColeGirlVoices = new List<KanColeGirlVoice>();
 
         protected override void Parse()
         {

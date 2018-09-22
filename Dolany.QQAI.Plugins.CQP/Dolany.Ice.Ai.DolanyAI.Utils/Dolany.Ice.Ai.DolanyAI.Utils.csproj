@@ -4,16 +4,16 @@
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProjectGuid>{F2474795-4A87-4B06-BF61-BD49216976B0}</ProjectGuid>
-    <OutputType>Exe</OutputType>
-    <RootNamespace>NeteaseMusicTest</RootNamespace>
-    <AssemblyName>NeteaseMusicTest</AssemblyName>
+    <ProjectGuid>{083919DF-5AF0-48C7-82F0-82D01B38414C}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>Dolany.Ice.Ai.DolanyAI.Utils</RootNamespace>
+    <AssemblyName>Dolany.Ice.Ai.DolanyAI.Utils</AssemblyName>
     <TargetFrameworkVersion>v4.7.2</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
-    <AutoGenerateBindingRedirects>true</AutoGenerateBindingRedirects>
+    <Deterministic>true</Deterministic>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
-    <PlatformTarget>AnyCPU</PlatformTarget>
     <DebugSymbols>true</DebugSymbols>
     <DebugType>full</DebugType>
     <Optimize>false</Optimize>
@@ -23,7 +23,6 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
-    <PlatformTarget>AnyCPU</PlatformTarget>
     <DebugType>pdbonly</DebugType>
     <Optimize>true</Optimize>
     <OutputPath>bin\Release\</OutputPath>
@@ -32,6 +31,9 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="Newtonsoft.Json, Version=11.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
+      <HintPath>..\packages\Newtonsoft.Json.11.0.2\lib\net45\Newtonsoft.Json.dll</HintPath>
+    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
     <Reference Include="System.Xml.Linq" />
@@ -42,22 +44,22 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="NeteaseResponse.cs" />
-    <Compile Include="Program.cs" />
+    <Compile Include="DTO\ReceivedMsgDTO.cs" />
+    <Compile Include="DTO\SendMsgDTO.cs" />
+    <Compile Include="Apis\Amanda\AmandaAPIEx.cs" />
+    <Compile Include="Apis\Amanda\AmandaCode.cs" />
+    <Compile Include="Apis\Amanda\ViewModel\GroupMemberInfoViewModel.cs" />
+    <Compile Include="Apis\Amanda\ViewModel\GroupMemberLevelViewModel.cs" />
+    <Compile Include="Apis\Amanda\ViewModel\GroupMemberListViewModel.cs" />
+    <Compile Include="Apis\CodeApi.cs" />
+    <Compile Include="JsonHelper.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="RuntimeLogger.cs" />
+    <Compile Include="Utility.cs" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="App.config" />
-  </ItemGroup>
-  <ItemGroup>
-    <ProjectReference Include="..\Dolany.Ice.Ai.DolanyAI.Utils\Dolany.Ice.Ai.DolanyAI.Utils.csproj">
-      <Project>{083919df-5af0-48c7-82f0-82d01b38414c}</Project>
-      <Name>Dolany.Ice.Ai.DolanyAI.Utils</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\Dolany.Ice.Ai\Dolany.Ice.Ai.csproj">
-      <Project>{5ac35a4d-8d04-4cbf-8881-eadb106d5421}</Project>
-      <Name>Dolany.Ice.Ai</Name>
-    </ProjectReference>
+    <None Include="Apis\readme.md" />
+    <None Include="packages.config" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

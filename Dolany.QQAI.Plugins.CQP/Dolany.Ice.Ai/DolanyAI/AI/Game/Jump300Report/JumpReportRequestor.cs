@@ -1,11 +1,13 @@
 ﻿using System;
 using System.Collections.Generic;
+using Dolany.Ice.Ai.DolanyAI.Utils;
+using static Dolany.Ice.Ai.DolanyAI.Utils.Utility;
 
 namespace Dolany.Ice.Ai.DolanyAI
 {
     public class JumpReportRequestor
     {
-        private ReceivedMsgDTO MsgDTO;
+        private readonly ReceivedMsgDTO MsgDTO;
         private Action<ReceivedMsgDTO, string> ReportCallBack { get; set; }
 
         public JumpReportRequestor(ReceivedMsgDTO MsgDTO, Action<ReceivedMsgDTO, string> ReportCallBack)
@@ -13,7 +15,7 @@ namespace Dolany.Ice.Ai.DolanyAI
             this.MsgDTO = MsgDTO;
             this.ReportCallBack = ReportCallBack;
 
-            this.MsgDTO.Msg = Utility.UrlCharConvert(this.MsgDTO.Msg);
+            this.MsgDTO.Msg = UrlCharConvert(this.MsgDTO.Msg);
         }
 
         public void Work()

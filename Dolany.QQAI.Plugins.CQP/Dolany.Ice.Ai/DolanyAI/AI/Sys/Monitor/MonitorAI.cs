@@ -1,6 +1,8 @@
 ﻿using System;
 using System.Linq;
 using Dolany.Ice.Ai.DolanyAI.Db;
+using Dolany.Ice.Ai.DolanyAI.Utils;
+using static Dolany.Ice.Ai.DolanyAI.Utils.Utility;
 
 namespace Dolany.Ice.Ai.DolanyAI
 {
@@ -88,7 +90,7 @@ namespace Dolany.Ice.Ai.DolanyAI
 
             using (var db = new AIDatabase())
             {
-                var selfNum = Utility.SelfQQNum;
+                var selfNum = SelfQQNum;
                 var query = db.ActiveOffGroups.Where(p => p.AINum == selfNum &&
                                                           p.GroupNum == MsgDTO.FromGroup);
                 return !query.IsNullOrEmpty();
@@ -108,7 +110,7 @@ namespace Dolany.Ice.Ai.DolanyAI
         {
             using (var db = new AIDatabase())
             {
-                var selfNum = Utility.SelfQQNum;
+                var selfNum = SelfQQNum;
                 var query = db.ActiveOffGroups.Where(p => p.AINum == selfNum &&
                                                           p.GroupNum == MsgDTO.FromGroup);
                 if (!query.IsNullOrEmpty())
@@ -144,7 +146,7 @@ namespace Dolany.Ice.Ai.DolanyAI
         {
             using (var db = new AIDatabase())
             {
-                var selfNum = Utility.SelfQQNum;
+                var selfNum = SelfQQNum;
                 var query = db.ActiveOffGroups.Where(p => p.AINum == selfNum &&
                                                           p.GroupNum == MsgDTO.FromGroup);
                 if (query.IsNullOrEmpty())

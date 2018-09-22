@@ -4,7 +4,9 @@ using System.Diagnostics;
 using System.Linq;
 using System.Text;
 using Dolany.Ice.Ai.DolanyAI.Db;
-using static Dolany.Ice.Ai.MahuaApis.CodeApi;
+using Dolany.Ice.Ai.DolanyAI.Utils;
+using static Dolany.Ice.Ai.DolanyAI.Utils.Utility;
+using static Dolany.Ice.Ai.DolanyAI.Utils.CodeApi;
 
 namespace Dolany.Ice.Ai.DolanyAI
 {
@@ -22,7 +24,7 @@ namespace Dolany.Ice.Ai.DolanyAI
             {
                 using (var db = new AIDatabase())
                 {
-                    var selfNum = Utility.SelfQQNum;
+                    var selfNum = SelfQQNum;
                     var query = db.AlertRegistedGroup.Where(a => a.Available.ToLower() == "true" &&
                                                                  a.AINum == selfNum);
                     return query.IsNullOrEmpty() ? null : query.Select(q => q.GroupNum).ToList();
@@ -143,7 +145,7 @@ namespace Dolany.Ice.Ai.DolanyAI
                         Id = Guid.NewGuid().ToString(),
                         GroupNum = groupNumber,
                         Available = state.ToString(),
-                        AINum = Utility.SelfQQNum
+                        AINum = SelfQQNum
                     });
                 }
                 else

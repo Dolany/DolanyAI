@@ -5,6 +5,7 @@ using Dolany.Ice.Ai.DolanyAI;
 using Dolany.Ice.Ai.DolanyAI.Db;
 using System.IO;
 using System.Linq;
+using static Dolany.Ice.Ai.DolanyAI.Utils.Utility;
 
 namespace KanColeVoiceClimber
 {
@@ -81,7 +82,7 @@ namespace KanColeVoiceClimber
             using (var requester = new HttpRequester())
             {
                 AppendTxt("请求列表页面中...");
-                var aimStr = $"https://zh.moegirl.org/{Utility.UrlCharConvert(name)}";
+                var aimStr = $"https://zh.moegirl.org/{UrlCharConvert(name)}";
                 var htmlStr = requester.Request(aimStr);
 
                 AppendTxt("解析列表页面中...");

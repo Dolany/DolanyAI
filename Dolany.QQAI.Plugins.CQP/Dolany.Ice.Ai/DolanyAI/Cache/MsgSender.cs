@@ -3,7 +3,9 @@ using System.Linq;
 using Newbe.Mahua;
 using Dolany.Ice.Ai.DolanyAI.Db;
 using System.Timers;
-using static Dolany.Ice.Ai.MahuaApis.CodeApi;
+using Dolany.Ice.Ai.DolanyAI.Utils;
+using static Dolany.Ice.Ai.DolanyAI.Utils.Utility;
+using static Dolany.Ice.Ai.DolanyAI.Utils.CodeApi;
 
 namespace Dolany.Ice.Ai.DolanyAI
 {
@@ -13,7 +15,7 @@ namespace Dolany.Ice.Ai.DolanyAI
         {
             get
             {
-                var config = Utility.GetConfig(nameof(SendMsgMaxLength), "800");
+                var config = GetConfig(nameof(SendMsgMaxLength), "800");
 
                 return int.Parse(config);
             }
@@ -89,7 +91,7 @@ namespace Dolany.Ice.Ai.DolanyAI
                         Aim = msg.Aim,
                         Type = msg.Type == MsgType.Group ? 0 : 1,
                         Msg = msg.Msg,
-                        AINum = Utility.SelfQQNum,
+                        AINum = SelfQQNum,
                         Guid = msg.Guid,
                         SerialNum = msg.SerialNum
                     });
@@ -104,7 +106,7 @@ namespace Dolany.Ice.Ai.DolanyAI
         {
             using (var db = new AIDatabase())
             {
-                var aiNum = Utility.SelfQQNum;
+                var aiNum = SelfQQNum;
                 var msgs = db.MsgSendCache.Where(p => p.AINum == aiNum)
                                           .OrderBy(p => p.Guid)
                                           .ThenBy(p => p.SerialNum);

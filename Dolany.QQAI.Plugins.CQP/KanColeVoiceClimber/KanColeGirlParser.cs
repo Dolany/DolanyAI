@@ -4,6 +4,7 @@ using System.Linq;
 using Dolany.Ice.Ai.DolanyAI;
 using HtmlAgilityPack;
 using Dolany.Ice.Ai.DolanyAI.Db;
+using Dolany.Ice.Ai.DolanyAI.Utils;
 
 namespace KanColeVoiceClimber
 {

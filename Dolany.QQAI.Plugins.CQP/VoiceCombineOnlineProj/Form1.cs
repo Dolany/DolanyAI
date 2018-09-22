@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Windows.Forms;
 using Dolany.Ice.Ai.DolanyAI;
+using static Dolany.Ice.Ai.DolanyAI.Utils.Utility;
 
 namespace VoiceCombineOnlineProj
 {
@@ -25,7 +26,7 @@ namespace VoiceCombineOnlineProj
                 }
             };
 
-            XfyunRequestHelper.PostData(param, new RequestBody { text = Utility.UrlCharConvert(songName) });
+            XfyunRequestHelper.PostData(param, new RequestBody { text = UrlCharConvert(songName) });
         }
     }
 }

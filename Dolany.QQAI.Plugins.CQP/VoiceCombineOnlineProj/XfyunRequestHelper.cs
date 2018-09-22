@@ -4,6 +4,8 @@ using System.Net;
 using Dolany.Ice.Ai.DolanyAI;
 using System.Security.Cryptography;
 using System.IO;
+using Dolany.Ice.Ai.DolanyAI.Utils;
+using static Dolany.Ice.Ai.DolanyAI.Utils.Utility;
 
 namespace VoiceCombineOnlineProj
 {
@@ -18,7 +20,7 @@ namespace VoiceCombineOnlineProj
                 var Params = GetParams(p.data as XfyunRequest);
                 var CheckSum = GetCheckSum("1250bc28769bb74ab0aa073a97434058" + CurTime + Params);
 
-                var postData = $"text={Utility.UrlCharConvert(body.text)}";
+                var postData = $"text={UrlCharConvert(body.text)}";
                 var bytes = Encoding.UTF8.GetBytes(postData);
 
                 wc.Headers.Add("Content-Type", "application/x-www-form-urlencoded; charset=utf-8");

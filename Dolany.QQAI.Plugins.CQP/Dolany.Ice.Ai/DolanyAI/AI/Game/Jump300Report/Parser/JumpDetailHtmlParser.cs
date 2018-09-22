@@ -1,14 +1,15 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using Dolany.Ice.Ai.DolanyAI.Utils;
 using HtmlAgilityPack;
 
 namespace Dolany.Ice.Ai.DolanyAI
 {
     public class JumpDetailHtmlParser : HtmlParser
     {
-        public JumpMatchBaseInfo MatchBaseInfo { get; set; }
-        public List<PlayerInfoInMatch> PlayersInfo { get; set; }
+        public JumpMatchBaseInfo MatchBaseInfo { get; }
+        public List<PlayerInfoInMatch> PlayersInfo { get; }
 
         public JumpDetailHtmlParser()
         {

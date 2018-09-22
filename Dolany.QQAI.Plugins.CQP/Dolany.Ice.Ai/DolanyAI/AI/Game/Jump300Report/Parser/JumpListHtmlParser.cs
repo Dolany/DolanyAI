@@ -1,15 +1,16 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using Dolany.Ice.Ai.DolanyAI.Utils;
 using HtmlAgilityPack;
 
 namespace Dolany.Ice.Ai.DolanyAI
 {
     public class JumpListHtmlParser : HtmlParser
     {
-        public List<JumpBaseInfo> BaseInfo { get; private set; }
+        public List<JumpBaseInfo> BaseInfo { get; }
 
-        public List<JumpMatchBriefInfo> Matches { get; private set; }
+        public List<JumpMatchBriefInfo> Matches { get; }
 
         public JumpListHtmlParser()
         {
@@ -27,7 +28,7 @@ namespace Dolany.Ice.Ai.DolanyAI
                 return;
             }
             ParseBaseInfo(nodes[0].InnerText);
-            if (nodes.Count() == 2)
+            if (nodes.Count == 2)
             {
                 ParseMatches(nodes[1].InnerText);
                 AppendAddr(nodes[1]);
@@ -45,7 +46,7 @@ namespace Dolany.Ice.Ai.DolanyAI
             var strs = text.Split(new[] { "\r\n" }, StringSplitOptions.RemoveEmptyEntries);
             foreach (var s in strs)
             {
-                var kvs = s.Split(new char[] { ':' });
+                var kvs = s.Split(':');
                 var key = kvs[0];
                 var value = s.Substring(key.Length + 1, s.Length - key.Length - 1);
 

@@ -32,7 +32,7 @@ namespace AIMonitor
 
         public static string GetConfig(string name)
         {
-            return Dolany.Ice.Ai.DolanyAI.Utility.GetConfig(name);
+            return Dolany.Ice.Ai.DolanyAI.Utils.Utility.GetConfig(name);
         }
 
         public static void SendMsgToDeveloper(string msg)
@@ -47,12 +47,7 @@ namespace AIMonitor
 
         public static bool IsNullOrEmpty<T>(this IEnumerable<T> objs)
         {
-            if (objs == null || objs.Count() == 0)
-            {
-                return true;
-            }
-
-            return false;
+            return objs == null || !objs.Any();
         }
     }
 }

@@ -1,6 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using Dolany.Ice.Ai.DolanyAI.Utils;
+using static Dolany.Ice.Ai.DolanyAI.Utils.Utility;
 
 namespace Dolany.Ice.Ai.DolanyAI
 {
@@ -12,8 +14,8 @@ namespace Dolany.Ice.Ai.DolanyAI
     )]
     public class DiceAI : AIBase
     {
-        private readonly int DiceCountMaxLimit = int.Parse(Utility.GetConfig(nameof(DiceCountMaxLimit)));
-        private readonly int DiceSizeMaxLimit = int.Parse(Utility.GetConfig(nameof(DiceSizeMaxLimit)));
+        private readonly int DiceCountMaxLimit = int.Parse(GetConfig(nameof(DiceCountMaxLimit)));
+        private readonly int DiceSizeMaxLimit = int.Parse(GetConfig(nameof(DiceSizeMaxLimit)));
 
         public DiceAI()
         {

@@ -3,7 +3,9 @@ using System.Linq;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.IO;
-using static Dolany.Ice.Ai.MahuaApis.CodeApi;
+using Dolany.Ice.Ai.DolanyAI.Utils;
+using static Dolany.Ice.Ai.DolanyAI.Utils.CodeApi;
+using static Dolany.Ice.Ai.DolanyAI.Utils.Utility;
 
 namespace Dolany.Ice.Ai.DolanyAI
 {
@@ -135,7 +137,7 @@ namespace Dolany.Ice.Ai.DolanyAI
 
         private static bool AuthorityCheck(AuthorityLevel authorityLevel, EnterCommandAttribute enterAttr, ReceivedMsgDTO MsgDTO)
         {
-            if (MsgDTO.FromQQ == Utility.DeveloperNumber)
+            if (MsgDTO.FromQQ == DeveloperNumber)
             {
                 return true;
             }

@@ -3,6 +3,8 @@ using System.Text;
 using System.Security.Cryptography;
 using System.IO;
 using System.Net;
+using Dolany.Ice.Ai.DolanyAI.Utils;
+using static Dolany.Ice.Ai.DolanyAI.Utils.Utility;
 
 namespace Dolany.Ice.Ai.DolanyAI
 {
@@ -24,7 +26,7 @@ namespace Dolany.Ice.Ai.DolanyAI
                 var Params = GetParams();
                 var CheckSum = GetCheckSum(apiKey + CurTime + Params);
 
-                var postData = $"text={Utility.UrlCharConvert(text)}";
+                var postData = $"text={UrlCharConvert(text)}";
                 var bytes = Encoding.UTF8.GetBytes(postData);
 
                 wc.Headers.Add("Content-Type", "application/x-www-form-urlencoded; charset=utf-8");

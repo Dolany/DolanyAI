@@ -4,15 +4,16 @@ using System.Diagnostics;
 using System.Linq;
 using System.Text;
 using System.Reflection;
+using Dolany.Ice.Ai.DolanyAI.Utils;
 
 namespace Dolany.Ice.Ai.DolanyAI
 {
     public class JumpReportAnalyzer
     {
-        public List<JumpListHtmlParser> Lists { get; set; }
-        public List<JumpDetailHtmlParser> Details { get; set; }
+        private List<JumpListHtmlParser> Lists { get; }
+        private List<JumpDetailHtmlParser> Details { get; }
 
-        public string PlayerName
+        private string PlayerName
         {
             get
             {
@@ -181,7 +182,7 @@ namespace Dolany.Ice.Ai.DolanyAI
                 span += d.MatchBaseInfo.DuringSpan;
             }
 
-            var avgSpan = (long)((span.TotalMilliseconds / Details.Count()) * 10000);
+            var avgSpan = (long)(span.TotalMilliseconds / Details.Count * 10000);
             return (new TimeSpan(avgSpan)).ToString(@"hh\:mm\:ss");
         }
 
@@ -212,7 +213,7 @@ namespace Dolany.Ice.Ai.DolanyAI
                 if (first != null) grade += first.Grade;
             }
 
-            return (grade / Details.Count()).ToString();
+            return (grade / Details.Count).ToString();
         }
     }
 }

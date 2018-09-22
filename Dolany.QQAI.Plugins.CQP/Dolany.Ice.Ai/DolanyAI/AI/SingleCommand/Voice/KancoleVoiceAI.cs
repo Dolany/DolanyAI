@@ -1,6 +1,7 @@
 ﻿using System.Linq;
 using Dolany.Ice.Ai.DolanyAI.Db;
-using static Dolany.Ice.Ai.MahuaApis.CodeApi;
+using Dolany.Ice.Ai.DolanyAI.Utils;
+using static Dolany.Ice.Ai.DolanyAI.Utils.CodeApi;
 
 namespace Dolany.Ice.Ai.DolanyAI
 {

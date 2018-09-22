@@ -38,9 +38,6 @@
     <Reference Include="Autofac, Version=4.8.1.0, Culture=neutral, PublicKeyToken=17863af14b0044da, processorArchitecture=MSIL">
       <HintPath>..\packages\Autofac.4.8.1\lib\net45\Autofac.dll</HintPath>
     </Reference>
-    <Reference Include="Devart.Data, Version=5.0.1982.0, Culture=neutral, PublicKeyToken=09af7300eec23701, processorArchitecture=MSIL" />
-    <Reference Include="Devart.Data.SQLite, Version=5.11.1190.0, Culture=neutral, PublicKeyToken=09af7300eec23701, processorArchitecture=MSIL" />
-    <Reference Include="Devart.Data.SQLite.Entity.EF6, Version=5.11.1190.0, Culture=neutral, PublicKeyToken=09af7300eec23701, processorArchitecture=MSIL" />
     <Reference Include="EntityFramework, Version=6.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089, processorArchitecture=MSIL">
       <HintPath>..\packages\EntityFramework.6.2.0\lib\net45\EntityFramework.dll</HintPath>
     </Reference>
@@ -127,12 +124,7 @@
     <Compile Include="DolanyAI\AI\Game\Jump300Report\Parser\JumpListHtmlParser.cs" />
     <Compile Include="DolanyAI\AI\Sys\SysMsg\SysMsgAI.cs" />
     <Compile Include="DolanyAI\Cache\RecentCommandCache.cs" />
-    <Compile Include="DolanyAI\Db\ActiveOffGroups.cs">
-      <DependentUpon>AIDatabase.tt</DependentUpon>
-    </Compile>
-    <Compile Include="DolanyAI\Db\TouhouCardRecord.cs">
-      <DependentUpon>AIDatabase.tt</DependentUpon>
-    </Compile>
+    <Compile Include="DolanyAI\Common\Utility.cs" />
     <Compile Include="DolanyAI\Entities\Dice\DiceSettingRecordEntity.cs" />
     <Compile Include="DolanyAI\Model\NeteaseResponse.cs" />
     <Compile Include="DolanyAI\AI\SingleCommand\OrderSong\OrderSongAI.cs" />
@@ -153,107 +145,10 @@
     <Compile Include="DolanyAI\Model\Tuling\TulingImportRequestData.cs" />
     <Compile Include="DolanyAI\Model\Tuling\TulingImportResponseData.cs" />
     <Compile Include="DolanyAI\Net\RequestHelper.cs" />
-    <Compile Include="DolanyAI\Db\AIConfig.cs">
-      <DependentUpon>AIDatabase.tt</DependentUpon>
-    </Compile>
-    <Compile Include="DolanyAI\Db\AIDatabase.Context.cs">
-      <AutoGen>True</AutoGen>
-      <DesignTime>True</DesignTime>
-      <DependentUpon>AIDatabase.Context.tt</DependentUpon>
-    </Compile>
-    <Compile Include="DolanyAI\Db\AIDatabase.cs">
-      <AutoGen>True</AutoGen>
-      <DesignTime>True</DesignTime>
-      <DependentUpon>AIDatabase.tt</DependentUpon>
-    </Compile>
-    <Compile Include="DolanyAI\Db\AIDatabase.Designer.cs">
-      <AutoGen>True</AutoGen>
-      <DesignTime>True</DesignTime>
-      <DependentUpon>AIDatabase.edmx</DependentUpon>
-    </Compile>
-    <Compile Include="DolanyAI\Db\AISeal.cs">
-      <DependentUpon>AIDatabase.tt</DependentUpon>
-    </Compile>
-    <Compile Include="DolanyAI\Db\AlermClock.cs">
-      <DependentUpon>AIDatabase.tt</DependentUpon>
-    </Compile>
-    <Compile Include="DolanyAI\Db\AlertContent.cs">
-      <DependentUpon>AIDatabase.tt</DependentUpon>
-    </Compile>
-    <Compile Include="DolanyAI\Db\AlertRegistedGroup.cs">
-      <DependentUpon>AIDatabase.tt</DependentUpon>
-    </Compile>
-    <Compile Include="DolanyAI\Db\BlackList.cs">
-      <DependentUpon>AIDatabase.tt</DependentUpon>
-    </Compile>
-    <Compile Include="DolanyAI\Db\CharactorSetting.cs">
-      <DependentUpon>AIDatabase.tt</DependentUpon>
-    </Compile>
-    <Compile Include="DolanyAI\Db\DirtyWord.cs">
-      <DependentUpon>AIDatabase.tt</DependentUpon>
-    </Compile>
-    <Compile Include="DolanyAI\Db\FishingRecord.cs">
-      <DependentUpon>AIDatabase.tt</DependentUpon>
-    </Compile>
-    <Compile Include="DolanyAI\Db\FishItem.cs">
-      <DependentUpon>AIDatabase.tt</DependentUpon>
-    </Compile>
-    <Compile Include="DolanyAI\Db\FortuneItem.cs">
-      <DependentUpon>AIDatabase.tt</DependentUpon>
-    </Compile>
-    <Compile Include="DolanyAI\Db\Hello.cs">
-      <DependentUpon>AIDatabase.tt</DependentUpon>
-    </Compile>
-    <Compile Include="DolanyAI\Db\HolyLightBless.cs">
-      <DependentUpon>AIDatabase.tt</DependentUpon>
-    </Compile>
-    <Compile Include="DolanyAI\Db\KanColeGirlVoice.cs">
-      <DependentUpon>AIDatabase.tt</DependentUpon>
-    </Compile>
-    <Compile Include="DolanyAI\Db\MemberRoleCache.cs">
-      <DependentUpon>AIDatabase.tt</DependentUpon>
-    </Compile>
-    <Compile Include="DolanyAI\Db\MsgRecievedCache.cs">
-      <DependentUpon>AIDatabase.tt</DependentUpon>
-    </Compile>
-    <Compile Include="DolanyAI\Db\MsgSendCache.cs">
-      <DependentUpon>AIDatabase.tt</DependentUpon>
-    </Compile>
-    <Compile Include="DolanyAI\Db\PlusOneAvailable.cs">
-      <DependentUpon>AIDatabase.tt</DependentUpon>
-    </Compile>
-    <Compile Include="DolanyAI\Db\PraiseRec.cs">
-      <DependentUpon>AIDatabase.tt</DependentUpon>
-    </Compile>
-    <Compile Include="DolanyAI\Db\RandomFortune.cs">
-      <DependentUpon>AIDatabase.tt</DependentUpon>
-    </Compile>
-    <Compile Include="DolanyAI\Db\RepeaterAvailable.cs">
-      <DependentUpon>AIDatabase.tt</DependentUpon>
-    </Compile>
-    <Compile Include="DolanyAI\Db\Saying.cs">
-      <DependentUpon>AIDatabase.tt</DependentUpon>
-    </Compile>
-    <Compile Include="DolanyAI\Db\SayingSeal.cs">
-      <DependentUpon>AIDatabase.tt</DependentUpon>
-    </Compile>
-    <Compile Include="DolanyAI\Db\TarotFortuneData.cs">
-      <DependentUpon>AIDatabase.tt</DependentUpon>
-    </Compile>
-    <Compile Include="DolanyAI\Db\TarotFortuneRecord.cs">
-      <DependentUpon>AIDatabase.tt</DependentUpon>
-    </Compile>
-    <Compile Include="DolanyAI\Db\TohouSign.cs">
-      <DependentUpon>AIDatabase.tt</DependentUpon>
-    </Compile>
-    <Compile Include="DolanyAI\DTO\ReceivedMsgDTO.cs" />
     <Compile Include="DolanyAI\Common\DbMgr.cs" />
     <Compile Include="DolanyAI\Common\DirtyFilter.cs" />
     <Compile Include="DolanyAI\Cache\GroupMemberInfoCacher.cs" />
     <Compile Include="DolanyAI\Cache\MsgSender.cs" />
-    <Compile Include="DolanyAI\Common\RuntimeLogger.cs" />
-    <Compile Include="DolanyAI\DTO\SendMsgDTO.cs" />
-    <Compile Include="DolanyAI\Common\Utility.cs" />
     <Compile Include="DolanyAI\Entities\Common\EntityBase.cs" />
     <Compile Include="DolanyAI\Entities\Management\SynonymDicEntity.cs" />
     <Compile Include="DolanyAI\Net\HtmlParser.cs" />
@@ -269,14 +164,6 @@
     <Compile Include="DolanyAI\SyntaxChecker\WordChecker.cs" />
     <Compile Include="DolanyAI\SyntaxChecker\ISyntaxChecker.cs" />
     <Compile Include="DolanyAI\Model\XfyunRequestData.cs" />
-    <Compile Include="MahuaApis\Amanda\AmandaAPIEx.cs" />
-    <Compile Include="MahuaApis\Amanda\AmandaCode.cs" />
-    <Compile Include="DolanyAI\Net\JsonHelper.cs" />
-    <Compile Include="MahuaApis\Amanda\ViewModel\GroupMemberInfoViewModel.cs" />
-    <Compile Include="MahuaApis\Amanda\ViewModel\GroupMemberLevelViewModel.cs" />
-    <Compile Include="MahuaApis\Amanda\ViewModel\GroupMemberListViewModel.cs" />
-    <Compile Include="MahuaApis\CodeApi.cs" />
-    <Compile Include="MahuaApis\CQ\CQCode.cs" />
     <Compile Include="MahuaEvents\AIGroupMsgReceived.cs" />
     <Compile Include="MahuaEvents\AIPrivateMsgReceived.cs" />
     <Compile Include="MahuaModule.cs" />
@@ -289,34 +176,25 @@
     <None Include="build.bat" />
     <None Include="build.ps1" />
     <None Include="buildTools\packages.config" />
-    <EntityDeploy Include="DolanyAI\Db\AIDatabase.edmx">
-      <Generator>EntityModelCodeGenerator</Generator>
-      <LastGenOutput>AIDatabase.Designer.cs</LastGenOutput>
-    </EntityDeploy>
-    <None Include="DolanyAI\Db\AIDatabase.edmx.diagram">
-      <DependentUpon>AIDatabase.edmx</DependentUpon>
-    </None>
-    <None Include="MahuaApis\readme.md" />
     <None Include="MahuaEvents\readme.md" />
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="buildTools\7z.exe" />
     <Content Include="buildTools\nuget.exe" />
-    <Content Include="DolanyAI\Db\AIDatabase.Context.tt">
-      <Generator>TextTemplatingFileGenerator</Generator>
-      <DependentUpon>AIDatabase.edmx</DependentUpon>
-      <LastGenOutput>AIDatabase.Context.cs</LastGenOutput>
-    </Content>
-    <Content Include="DolanyAI\Db\AIDatabase.tt">
-      <Generator>TextTemplatingFileGenerator</Generator>
-      <DependentUpon>AIDatabase.edmx</DependentUpon>
-      <LastGenOutput>AIDatabase.cs</LastGenOutput>
-    </Content>
   </ItemGroup>
   <ItemGroup>
     <Service Include="{508349B6-6B84-4DF5-91F0-309BEEBAD82D}" />
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <ProjectReference Include="..\Dolany.Ice.Ai.DolanyAI.Db\Dolany.Ice.Ai.DolanyAI.Db.csproj">
+      <Project>{72361177-a52a-49f9-9dca-2789277e3730}</Project>
+      <Name>Dolany.Ice.Ai.DolanyAI.Db</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Dolany.Ice.Ai.DolanyAI.Utils\Dolany.Ice.Ai.DolanyAI.Utils.csproj">
+      <Project>{083919df-5af0-48c7-82f0-82d01b38414c}</Project>
+      <Name>Dolany.Ice.Ai.DolanyAI.Utils</Name>
+    </ProjectReference>
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

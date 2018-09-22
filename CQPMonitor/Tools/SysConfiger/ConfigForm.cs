@@ -18,11 +18,9 @@ namespace AIMonitor.Tools.SysConfiger
 
         private void ConfigForm_Load(object sender, EventArgs e)
         {
-            if (config != null)
-            {
-                keyTxt.Text = config.Key;
-                valueTxt.Text = config.Value;
-            }
+            if (config == null) return;
+            keyTxt.Text = config.Key;
+            valueTxt.Text = config.Value;
         }
 
         private void cancelBtn_Click(object sender, EventArgs e)

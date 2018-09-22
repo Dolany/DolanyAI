@@ -1,24 +1,17 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.IO;
 using System.Linq;
-using System.Runtime.ExceptionServices;
 using System.Security.Cryptography;
-using System.Text;
 using Dolany.Ice.Ai.DolanyAI.Db;
-using static Dolany.Ice.Ai.MahuaApis.CodeApi;
+using Dolany.Ice.Ai.DolanyAI.Utils;
+using static Dolany.Ice.Ai.DolanyAI.Utils.Utility;
+using static Dolany.Ice.Ai.DolanyAI.Utils.CodeApi;
 
 namespace Dolany.Ice.Ai.DolanyAI
 {
     public static class Utility
     {
         private static string AuthCode;
-
-        public static long DeveloperNumber => long.Parse(GetConfig(nameof(DeveloperNumber)));
-        public static long SysMsgNumber => long.Parse(GetConfig(nameof(SysMsgNumber)));
-        public static long SelfQQNum => long.Parse(GetConfig(nameof(SelfQQNum)));
-
-        private static Dictionary<string, string> AIConfig;
 
         private static readonly RNGCryptoServiceProvider RngCsp = new RNGCryptoServiceProvider();
 
@@ -35,11 +28,6 @@ namespace Dolany.Ice.Ai.DolanyAI
         public static void SendMsgToDeveloper(Exception ex)
         {
             SendMsgToDeveloper(ex.Message + '\r' + ex.StackTrace);
-        }
-
-        public static bool IsNullOrEmpty<T>(this IEnumerable<T> objs)
-        {
-            return objs == null || !objs.Any();
         }
 
         public static (int hour, int minute)? GenTimeFromStr(string timeStr)
@@ -61,77 +49,6 @@ namespace Dolany.Ice.Ai.DolanyAI
             }
 
             return (hour, minute);
-        }
-
-        [HandleProcessCorruptedStateExceptions]
-        public static string GetConfig(string name)
-        {
-            try
-            {
-                if (AIConfig == null)
-                {
-                    AIConfig = GetConfigDic();
-                }
-
-                return AIConfig.Keys.Contains(name) ? AIConfig[name] : "";
-            }
-            catch (Exception ex)
-            {
-                RuntimeLogger.Log(ex);
-                return string.Empty;
-            }
-        }
-
-        public static string GetConfig(string name, string defaltValue)
-        {
-            var value = GetConfig(name);
-            return !string.IsNullOrEmpty(value) ? value : defaltValue;
-        }
-
-        private static Dictionary<string, string> GetConfigDic()
-        {
-            var configFile = new FileInfo("AIConfig.ini");
-            var dic = new Dictionary<string, string>();
-            using (var reader = new StreamReader(configFile.FullName))
-            {
-                string line;
-                while ((line = reader.ReadLine()) != null)
-                {
-                    var strs = line.Split(new[] { '=' }, StringSplitOptions.RemoveEmptyEntries);
-                    if (strs.IsNullOrEmpty() ||
-                        strs.Length != 2)
-                    {
-                        continue;
-                    }
-
-                    dic.Add(strs[0], strs[1]);
-                }
-
-                return dic;
-            }
-        }
-
-        public static Dictionary<int, string> LoadFortuneImagesConfig()
-        {
-            var dic = new Dictionary<int, string>();
-            var configFile = new FileInfo("FortuneImagesConfig.ini");
-            using (var reader = new StreamReader(configFile.FullName))
-            {
-                string line;
-                while ((line = reader.ReadLine()) != null)
-                {
-                    var strs = line.Split(new[] { '=' }, StringSplitOptions.RemoveEmptyEntries);
-                    if (strs.IsNullOrEmpty() ||
-                        strs.Length != 2)
-                    {
-                        continue;
-                    }
-
-                    dic.Add(int.Parse(strs[0]), strs[1]);
-                }
-
-                return dic;
-            }
         }
 
         public static T Clone<T>(this T obj) where T : class, new()
@@ -231,31 +148,6 @@ namespace Dolany.Ice.Ai.DolanyAI
                     prop.SetValue(obj, Convert.ChangeType(propValue, prop.PropertyType));
                 }
             }
-        }
-
-        public static string UrlCharConvert(string name)
-        {
-            var result = string.Empty;
-            var builder = new StringBuilder();
-            builder.Append(result);
-            foreach (var c in name)
-            {
-                if (IsAsciiChar(c))
-                {
-                    builder.Append(c);
-                    continue;
-                }
-
-                builder.Append(@"%" + BitConverter.ToString(Encoding.UTF8.GetBytes(new[] { c })).Replace("-", "%"));
-            }
-            result = builder.ToString();
-
-            return result;
-        }
-
-        private static bool IsAsciiChar(char c)
-        {
-            return c >= 0x20 && c <= 0x7e;
         }
 
         public static string ToCommonString(this DateTime dt)

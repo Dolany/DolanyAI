@@ -1,4 +1,7 @@
-﻿namespace Dolany.Ice.Ai.DolanyAI
+﻿using Dolany.Ice.Ai.DolanyAI.Utils;
+using static Dolany.Ice.Ai.DolanyAI.Utils.Utility;
+
+namespace Dolany.Ice.Ai.DolanyAI
 {
     [AI(
         Name = nameof(SysMsgAI),
@@ -24,7 +27,7 @@
                 return true;
             }
 
-            if (MsgDTO.FromQQ != Utility.SysMsgNumber)
+            if (MsgDTO.FromQQ != SysMsgNumber)
             {
                 return false;
             }

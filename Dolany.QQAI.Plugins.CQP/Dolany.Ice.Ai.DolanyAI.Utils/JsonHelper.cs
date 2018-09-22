@@ -2,7 +2,7 @@
 using Newtonsoft.Json;
 using System.IO;
 
-namespace Dolany.Ice.Ai.DolanyAI
+namespace Dolany.Ice.Ai.DolanyAI.Utils
 {
     /// <summary>
     /// Json帮助类

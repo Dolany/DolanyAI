@@ -1,4 +1,4 @@
-﻿namespace Dolany.Ice.Ai.MahuaApis
+﻿namespace Dolany.Ice.Ai.DolanyAI.Utils
 {
     public class GroupMemberLevelViewModel
     {

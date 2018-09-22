@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
+using static Dolany.Ice.Ai.DolanyAI.Utils.Utility;
 
 namespace Dolany.Ice.Ai.DolanyAI
 {
@@ -29,7 +30,7 @@ namespace Dolany.Ice.Ai.DolanyAI
         private static void Init()
         {
             TimeCache = new List<DateTime>();
-            MaxRecentCommandCacheCount = int.Parse(Utility.GetConfig(nameof(MaxRecentCommandCacheCount)));
+            MaxRecentCommandCacheCount = int.Parse(GetConfig(nameof(MaxRecentCommandCacheCount)));
         }
 
         public static bool IsTooFreq()

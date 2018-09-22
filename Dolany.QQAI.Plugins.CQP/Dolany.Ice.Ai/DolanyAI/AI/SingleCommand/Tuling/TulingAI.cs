@@ -1,7 +1,9 @@
 ﻿using System;
 using System.Linq;
 using System.Text;
-using static Dolany.Ice.Ai.MahuaApis.CodeApi;
+using Dolany.Ice.Ai.DolanyAI.Utils;
+using static Dolany.Ice.Ai.DolanyAI.Utils.Utility;
+using static Dolany.Ice.Ai.DolanyAI.Utils.CodeApi;
 
 namespace Dolany.Ice.Ai.DolanyAI
 {
@@ -13,8 +15,8 @@ namespace Dolany.Ice.Ai.DolanyAI
     )]
     public class TulingAI : AIBase
     {
-        private readonly string RequestUrl = Utility.GetConfig("TulingRequestUrl");
-        private readonly string ApiKey = Utility.GetConfig("TulingApiKey");
+        private readonly string RequestUrl = GetConfig("TulingRequestUrl");
+        private readonly string ApiKey = GetConfig("TulingApiKey");
 
         private readonly int[] ErroCodes =
             {5000, 6000, 4000, 4001, 4002, 4003, 4005, 4007, 4100, 4200, 4300, 4400, 4500, 4600, 4602, 7002, 8008};

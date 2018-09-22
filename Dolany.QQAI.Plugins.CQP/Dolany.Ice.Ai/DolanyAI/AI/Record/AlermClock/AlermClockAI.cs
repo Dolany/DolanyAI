@@ -5,7 +5,9 @@ using System.Linq;
 using System.Text;
 using Dolany.Ice.Ai.DolanyAI.Db;
 using System.Timers;
-using static Dolany.Ice.Ai.MahuaApis.CodeApi;
+using Dolany.Ice.Ai.DolanyAI.Utils;
+using static Dolany.Ice.Ai.DolanyAI.Utils.Utility;
+using static Dolany.Ice.Ai.DolanyAI.Utils.CodeApi;
 
 namespace Dolany.Ice.Ai.DolanyAI
 {
@@ -39,7 +41,7 @@ namespace Dolany.Ice.Ai.DolanyAI
 
             using (var db = new AIDatabase())
             {
-                var selfNum = Utility.SelfQQNum;
+                var selfNum = SelfQQNum;
                 var clocks = db.AlermClock.Where(p => p.AINum == selfNum);
                 foreach (var clock in clocks)
                 {
@@ -78,7 +80,7 @@ namespace Dolany.Ice.Ai.DolanyAI
                     Creator = MsgDTO.FromQQ,
                     GroupNumber = MsgDTO.FromGroup,
                     CreateTime = DateTime.Now,
-                    AINum = Utility.SelfQQNum
+                    AINum = SelfQQNum
                 };
 
                 InsertClock(entity, MsgDTO);

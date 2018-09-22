@@ -1,9 +1,8 @@
 ﻿using System;
 using System.Runtime.ExceptionServices;
 using System.Runtime.InteropServices;
-using Dolany.Ice.Ai.DolanyAI;
 
-namespace Dolany.Ice.Ai.MahuaApis
+namespace Dolany.Ice.Ai.DolanyAI.Utils
 {
     public static class AmandaAPIEx
     {

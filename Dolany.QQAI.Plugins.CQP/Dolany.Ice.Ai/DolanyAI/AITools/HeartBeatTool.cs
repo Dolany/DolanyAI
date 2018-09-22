@@ -1,6 +1,7 @@
-﻿using System;
-using System.Diagnostics;
+﻿using System.Diagnostics;
 using System.Timers;
+using Dolany.Ice.Ai.DolanyAI.Utils;
+using static Dolany.Ice.Ai.DolanyAI.Utils.Utility;
 
 namespace Dolany.Ice.Ai.DolanyAI
 {
@@ -10,7 +11,7 @@ namespace Dolany.Ice.Ai.DolanyAI
         {
             get
             {
-                var c = Utility.GetConfig(nameof(CheckFrequency), "10");
+                var c = GetConfig(nameof(CheckFrequency), "10");
 
                 return int.Parse(c);
             }
