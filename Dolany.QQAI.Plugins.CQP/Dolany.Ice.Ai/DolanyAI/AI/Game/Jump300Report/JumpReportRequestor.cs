@@ -64,7 +64,6 @@ namespace Dolany.Ice.Ai.DolanyAI
             var list = new List<JumpListHtmlParser>();
             using (var requester = new HttpRequester())
             {
-                int count;
                 var idx = 0;
 
                 do
@@ -74,7 +73,7 @@ namespace Dolany.Ice.Ai.DolanyAI
                     var listParser = new JumpListHtmlParser();
                     listParser.Load(HtmlStr);
 
-                    count = listParser.Matches.Count;
+                    var count = listParser.Matches.Count;
                     if (count == 0)
                     {
                         break;
