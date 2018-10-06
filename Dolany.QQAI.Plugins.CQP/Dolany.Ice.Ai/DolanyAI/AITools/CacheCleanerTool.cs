@@ -31,7 +31,7 @@ namespace Dolany.Ice.Ai.DolanyAI
         {
             get
             {
-                var config = GetConfig("MaxPicCacheCount", "200");
+                var config = GetConfig("MaxOriginPicCache", "200");
 
                 return int.Parse(config);
             }

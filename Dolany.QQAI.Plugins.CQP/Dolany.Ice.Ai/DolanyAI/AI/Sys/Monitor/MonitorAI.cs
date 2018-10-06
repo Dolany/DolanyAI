@@ -88,12 +88,46 @@ namespace Dolany.Ice.Ai.DolanyAI
                 return true;
             }
 
+            FiltPicMsg(MsgDTO);
+
             using (var db = new AIDatabase())
             {
                 var selfNum = SelfQQNum;
                 var query = db.ActiveOffGroups.Where(p => p.AINum == selfNum &&
                                                           p.GroupNum == MsgDTO.FromGroup);
                 return !query.IsNullOrEmpty();
+            }
+        }
+
+        private static void FiltPicMsg(ReceivedMsgDTO MsgDTO)
+        {
+            var guid = Utility.ParsePicGuid(MsgDTO.FullMsg);
+            var cacheInfo = Utility.ReadImageCacheInfo(guid);
+            if (cacheInfo == null)
+            {
+                return;
+            }
+            DbMgr.Insert(new PicCacheEntity
+            {
+                Id = Guid.NewGuid().ToString(),
+                FromGroup = MsgDTO.FromGroup,
+                FromQQ = MsgDTO.FromQQ,
+                Content = cacheInfo.url,
+                SendTime = DateTime.Now
+            });
+
+            var MaxPicCacheCount = int.Parse(GetConfig("MaxPicCacheCount"));
+            var pics = DbMgr.Query<PicCacheEntity>();
+            var count = pics.Count();
+            if (count <= MaxPicCacheCount)
+            {
+                return;
+            }
+
+            var redundantPics = pics.OrderBy(p => p.SendTime).Take(count - MaxPicCacheCount);
+            foreach (var pic in redundantPics)
+            {
+                DbMgr.Delete<PicCacheEntity>(pic.Id);
             }
         }
 

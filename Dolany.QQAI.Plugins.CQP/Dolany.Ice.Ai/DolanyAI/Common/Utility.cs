@@ -191,5 +191,19 @@ namespace Dolany.Ice.Ai.DolanyAI
                 }
             }
         }
+
+        public static string ParsePicGuid(string msg)
+        {
+            if (!msg.Contains("QQ:pic="))
+            {
+                return string.Empty;
+            }
+            var strs1 = msg.Split(new[] { "QQ:pic=" }, StringSplitOptions.RemoveEmptyEntries);
+            var strs2 = strs1.Last().Split(']');
+            var strs3 = strs2.First().Split('.');
+            var imageGuid = strs3.First();
+
+            return imageGuid;
+        }
     }
 }

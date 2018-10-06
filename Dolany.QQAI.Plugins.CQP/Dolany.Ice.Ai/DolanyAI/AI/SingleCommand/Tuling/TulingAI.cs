@@ -147,17 +147,9 @@ namespace Dolany.Ice.Ai.DolanyAI
 
         private static string ParseImgText(string msg)
         {
-            if (!msg.Contains("QQ:pic="))
-            {
-                return string.Empty;
-            }
-
             try
             {
-                var strs1 = msg.Split(new[] { "QQ:pic=" }, StringSplitOptions.RemoveEmptyEntries);
-                var strs2 = strs1.Last().Split(']');
-                var strs3 = strs2.First().Split('.');
-                var imageGuid = strs3.First();
+                var imageGuid = Utility.ParsePicGuid(msg);
 
                 var image = Utility.ReadImageCacheInfo(imageGuid);
                 return image == null ? string.Empty : image.url;

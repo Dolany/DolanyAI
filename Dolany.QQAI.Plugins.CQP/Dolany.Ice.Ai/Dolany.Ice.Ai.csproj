@@ -126,6 +126,7 @@
     <Compile Include="DolanyAI\Cache\RecentCommandCache.cs" />
     <Compile Include="DolanyAI\Common\Utility.cs" />
     <Compile Include="DolanyAI\Entities\Dice\DiceSettingRecordEntity.cs" />
+    <Compile Include="DolanyAI\Entities\PicCache\PicCacheEntity.cs" />
     <Compile Include="DolanyAI\Model\NeteaseResponse.cs" />
     <Compile Include="DolanyAI\AI\SingleCommand\OrderSong\OrderSongAI.cs" />
     <Compile Include="DolanyAI\AI\SingleCommand\PraiseMe\PraiseMeAI.cs" />

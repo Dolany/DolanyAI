@@ -84,11 +84,10 @@ namespace Dolany.Ice.Ai.DolanyAI
         public void RecentPic(ReceivedMsgDTO MsgDTO, object[] param)
         {
             var imageList = GetRecentImageList();
-            var idx = Utility.RandInt(imageList.Count);
-            var ImageCache = Utility.ReadImageCacheInfo(imageList[idx]);
-            var sendImgName = $"{ImageCache.guid}.{ImageCache.type}";
+            var idx = Utility.RandInt(imageList.Count());
+            var picUrl = imageList.ElementAt(idx).Content;
 
-            MsgSender.Instance.PushMsg(MsgDTO, Code_Image(sendImgName));
+            MsgSender.Instance.PushMsg(MsgDTO, Code_Image(picUrl));
         }
 
         [EnterCommand(
@@ -103,21 +102,16 @@ namespace Dolany.Ice.Ai.DolanyAI
         public void RecentFlash(ReceivedMsgDTO MsgDTO, object[] param)
         {
             var imageList = GetRecentImageList();
-            var idx = Utility.RandInt(imageList.Count);
-            var ImageCache = Utility.ReadImageCacheInfo(imageList[idx]);
-            var sendImgName = $"{ImageCache.guid}.{ImageCache.type}";
+            var idx = Utility.RandInt(imageList.Count());
+            var picUrl = imageList.ElementAt(idx).Content;
 
-            MsgSender.Instance.PushMsg(MsgDTO, Code_Flash(sendImgName));
+            MsgSender.Instance.PushMsg(MsgDTO, Code_Flash(picUrl));
         }
 
-        private List<FileInfo> GetRecentImageList()
+        private static IEnumerable<PicCacheEntity> GetRecentImageList()
         {
-            var dirInfo = new DirectoryInfo(PicPath);
-            var files = dirInfo.GetFiles();
-            return files.Where(f => f.Extension == ImageExtension)
-                        .OrderBy(f => f.CreationTime)
-                        .Skip(10)
-                        .ToList();
+            var pics = DbMgr.Query<PicCacheEntity>();
+            return pics;
         }
 
         private string GetRandPic(string dirName)
