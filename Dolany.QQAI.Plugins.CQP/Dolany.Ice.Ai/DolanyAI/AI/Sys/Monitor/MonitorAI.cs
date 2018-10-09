@@ -124,7 +124,8 @@ namespace Dolany.Ice.Ai.DolanyAI
                 return;
             }
 
-            var redundantPics = pics.OrderBy(p => p.SendTime).Take(count - MaxPicCacheCount);
+            var redundantPics = pics.OrderBy(p => p.SendTime)
+                                    .Take(count - MaxPicCacheCount);
             foreach (var pic in redundantPics)
             {
                 DbMgr.Delete<PicCacheEntity>(pic.Id);
