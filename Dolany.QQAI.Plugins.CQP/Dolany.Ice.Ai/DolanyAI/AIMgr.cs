@@ -23,6 +23,8 @@ namespace Dolany.Ice.Ai.DolanyAI
 
         public IEnumerable<KeyValuePair<string, ISyntaxChecker>> Checkers;
 
+        private int CommandCount { get; set; } = 0;
+
         private AIMgr()
         {
             try
@@ -45,6 +47,29 @@ namespace Dolany.Ice.Ai.DolanyAI
 
             var msg = $"成功加载{AIList.Count()}个ai \r\n";
             RuntimeLogger.Log(msg);
+
+            RecordStarttime();
+            RecordCommandCount();
+        }
+
+        private static void RecordStarttime()
+        {
+            var query = DbMgr.Query<SysStatusEntity>(p => p.Key == "StartTime");
+            if (query.IsNullOrEmpty())
+            {
+                DbMgr.Insert(new SysStatusEntity
+                {
+                    Id = Guid.NewGuid().ToString(),
+                    Key = "StartTime",
+                    Content = DateTime.Now.ToCommonString()
+                });
+            }
+            else
+            {
+                var status = query.First();
+                status.Content = DateTime.Now.ToCommonString();
+                DbMgr.Update(status);
+            }
         }
 
         /// <summary>
@@ -195,10 +220,33 @@ namespace Dolany.Ice.Ai.DolanyAI
                 return;
             }
 
-            if (AIList.Where(ai => !IsAiSealed(MsgDTO, ai.Key))
-                      .Any(ai => ai.Key.OnMsgReceived(MsgDTO)))
+            if (!AIList.Where(ai => !IsAiSealed(MsgDTO, ai.Key))
+                .Any(ai => ai.Key.OnMsgReceived(MsgDTO)))
             {
-                RecentCommandCache.Cache(DateTime.Now);
+                return;
+            }
+            RecentCommandCache.Cache(DateTime.Now);
+            CommandCount++;
+            RecordCommandCount();
+        }
+
+        private void RecordCommandCount()
+        {
+            var query = DbMgr.Query<SysStatusEntity>(p => p.Key == "Count");
+            if (query.IsNullOrEmpty())
+            {
+                DbMgr.Insert(new SysStatusEntity
+                {
+                    Id = Guid.NewGuid().ToString(),
+                    Key = "Count",
+                    Content = CommandCount.ToString()
+                });
+            }
+            else
+            {
+                var status = query.First();
+                status.Content = CommandCount.ToString();
+                DbMgr.Update(status);
             }
         }
 

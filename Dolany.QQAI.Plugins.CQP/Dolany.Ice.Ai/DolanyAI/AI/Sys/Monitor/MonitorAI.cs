@@ -197,5 +197,27 @@ namespace Dolany.Ice.Ai.DolanyAI
 
             AIMgr.Instance.OnActiveStateChange(true, MsgDTO.FromGroup);
         }
+
+        [EnterCommand(
+            Command = "系统状态 .State",
+            Description = "获取机器人当前状态",
+            Syntax = "",
+            Tag = "系统命令",
+            SyntaxChecker = "Empty",
+            AuthorityLevel = AuthorityLevel.开发者,
+            IsPrivateAvailabe = false
+        )]
+        public void Status(ReceivedMsgDTO MsgDTO, object[] param)
+        {
+            var timeStatus = DbMgr.Query<SysStatusEntity>(p => p.Key == "StartTime");
+            var startTime = DateTime.Parse(timeStatus.First().Content);
+            var span = DateTime.Now - startTime;
+            var timeStr = span.ToString(@"dd天HH小时mm分ss秒");
+
+            var countStatus = DbMgr.Query<SysStatusEntity>(p => p.Key == "Count");
+            var count = int.Parse(countStatus.First().Content);
+
+            MsgSender.Instance.PushMsg(MsgDTO, $@"系统已成功运行{timeStr}, 共处理{count}条指令");
+        }
     }
 }
