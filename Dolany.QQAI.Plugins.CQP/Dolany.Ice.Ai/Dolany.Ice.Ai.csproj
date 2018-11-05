@@ -106,7 +106,6 @@
     <Compile Include="DolanyAI\AI\Record\CartoonSaying\SayingsExtention.cs" />
     <Compile Include="DolanyAI\AI\Record\CharactorSetting\CharactorSettingAI.cs" />
     <Compile Include="DolanyAI\AI\SingleCommand\Dice\DiceAI.cs" />
-    <Compile Include="DolanyAI\AI\SingleCommand\QRGen\QRGenAI.cs" />
     <Compile Include="DolanyAI\AI\Sys\Monitor\MonitorAI.cs" />
     <Compile Include="DolanyAI\AI\SingleCommand\Fortune\FortuneAI.cs" />
     <Compile Include="DolanyAI\AI\SingleCommand\Fortune\FortuneRequestor.cs" />
