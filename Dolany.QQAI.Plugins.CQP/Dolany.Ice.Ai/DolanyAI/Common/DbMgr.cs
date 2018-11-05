@@ -83,8 +83,7 @@ namespace Dolany.Ice.Ai.DolanyAI
             foreach (var ele in root.Elements())
             {
                 var entity = EntityBase.FromElement<Entity>(ele);
-                if (entity == null ||
-                    entity.Id != Id)
+                if (entity == null || entity.Id != Id)
                 {
                     continue;
                 }
@@ -120,8 +119,7 @@ namespace Dolany.Ice.Ai.DolanyAI
             var t = typeof(Entity);
             var EntityName = t.Name.Replace("Entity", "");
             var root = XElement.Load(EntityFilePath(EntityName));
-            return root.Elements().Select(EntityBase.FromElement<Entity>)
-                .Where(entity => entity != null)
+            return root.Elements().Select(EntityBase.FromElement<Entity>).Where(entity => entity != null)
                 .FirstOrDefault(entity => entity.Id == Id);
         }
 
@@ -145,7 +143,7 @@ namespace Dolany.Ice.Ai.DolanyAI
             return list.Count == 0 ? null : list;
         }
 
-        private static void AppendEntity<Entity>(XElement ele, Expression<Func<Entity, bool>> express, ICollection<Entity> list)
+        private static void AppendEntity<Entity>(XElement ele, Expression<Func<Entity, bool>> express, List<Entity> list)
             where Entity : EntityBase, new()
         {
             var entity = EntityBase.FromElement<Entity>(ele);
@@ -153,8 +151,7 @@ namespace Dolany.Ice.Ai.DolanyAI
             {
                 return;
             }
-            if (express == null ||
-                express.Compile()(entity))
+            if (express == null || express.Compile()(entity))
             {
                 list.Add(entity);
             }
