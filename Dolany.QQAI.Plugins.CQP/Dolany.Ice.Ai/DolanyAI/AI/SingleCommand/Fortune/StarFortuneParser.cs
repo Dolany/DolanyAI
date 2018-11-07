@@ -12,8 +12,8 @@ namespace Dolany.Ice.Ai.DolanyAI
             var root = document.DocumentNode;
 
             var query = SearchNodes(root,
-                (n) => n.Name == "div"
-                && n.ChildAttributes("class").Any((p) => p.Value == "xz_cont"));
+                n => n.Name == "div" && 
+                     n.ChildAttributes("class").Any(p => p.Value == "xz_cont"));
             if (query.IsNullOrEmpty())
             {
                 return;

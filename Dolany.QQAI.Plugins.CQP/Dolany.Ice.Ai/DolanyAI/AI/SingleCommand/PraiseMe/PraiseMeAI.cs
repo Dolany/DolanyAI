@@ -4,6 +4,7 @@ using Dolany.Ice.Ai.DolanyAI.Db;
 using System.Threading;
 using Dolany.Ice.Ai.DolanyAI.Utils;
 using static Dolany.Ice.Ai.DolanyAI.Utils.Utility;
+using static Dolany.Ice.Ai.DolanyAI.Utils.CodeApi;
 using static Dolany.Ice.Ai.DolanyAI.Utils.AmandaAPIEx;
 
 namespace Dolany.Ice.Ai.DolanyAI
@@ -92,8 +93,9 @@ namespace Dolany.Ice.Ai.DolanyAI
                 return true;
             }
 
-            var cdTime = LastTime.AddMinutes(PraiseLimit) - DateTime.Now;
-            MsgSender.Instance.PushMsg(MsgDTO, $"点赞太频繁啦！剩余冷却时间:{cdTime.Minutes}分{cdTime.Seconds}秒");
+            var cdMinute = (LastTime.AddMinutes(PraiseLimit) - DateTime.Now).Minutes;
+            var cdSecond = (LastTime.AddMinutes(PraiseLimit) - DateTime.Now).Seconds;
+            MsgSender.Instance.PushMsg(MsgDTO, $"点赞太频繁啦！剩余冷却时间:{cdMinute}分{cdSecond}秒");
             return false;
         }
 
@@ -105,7 +107,7 @@ namespace Dolany.Ice.Ai.DolanyAI
                 SendPraise(MsgDTO.FromQQ.ToString());
             }
 
-            MsgSender.Instance.PushMsg(MsgDTO, "已赞十次！", true);
+            MsgSender.Instance.PushMsg(MsgDTO, $"{Code_At(MsgDTO.FromQQ)} 已赞十次！");
         }
     }
 }

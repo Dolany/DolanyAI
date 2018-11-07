@@ -17,7 +17,6 @@ namespace Dolany.Ice.Ai.DolanyAI
     {
         private string PicPath { get; } = ImagePath;
         private static List<string> Keywords => new List<string>();
-        private static IEnumerable<SynonymDicEntity> Synonym;
 
         public RandomPicAI()
         {
@@ -45,30 +44,17 @@ namespace Dolany.Ice.Ai.DolanyAI
                     Command = info.Name
                 }, KeywordsConsoler);
             }
-
-            Synonym = DbMgr.Query<SynonymDicEntity>();
-            foreach (var syn in Synonym)
-            {
-                Consolers.Add(new EnterCommandAttribute
-                {
-                    AuthorityLevel = AuthorityLevel.成员,
-                    SyntaxChecker = "Empty",
-                    Command = syn.Content,
-                }, KeywordsConsoler);
-            }
         }
 
         private void KeywordsConsoler(ReceivedMsgDTO MsgDTO, object[] param)
         {
-            var RandPic = Keywords.Contains(MsgDTO.Command) ?
-                GetRandPic(MsgDTO.Command) :
-                GetRandPic(Synonym.First(p => p.Content == MsgDTO.Command).Keyword);
+            var RandPic = GetRandPic(MsgDTO.Command);
             if (string.IsNullOrEmpty(RandPic))
             {
                 return;
             }
 
-            var pic = new FileInfo($"{PicPath}{MsgDTO.Command}\\{RandPic}").FullName;
+            var pic = new FileInfo(PicPath + MsgDTO.Command + "\\" + RandPic).FullName;
             MsgSender.Instance.PushMsg(MsgDTO, pic);
         }
 
