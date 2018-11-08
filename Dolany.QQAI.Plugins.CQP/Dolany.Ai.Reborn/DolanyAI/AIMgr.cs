@@ -276,13 +276,13 @@ namespace Dolany.Ai.Reborn.DolanyAI
         {
             if (string.IsNullOrEmpty(msg))
             {
-                return string.Empty;
+                return "";
             }
 
             var strs = msg.Split(' ');
             if (strs.Length == 0)
             {
-                return string.Empty;
+                return "";
             }
 
             var command = strs[0];

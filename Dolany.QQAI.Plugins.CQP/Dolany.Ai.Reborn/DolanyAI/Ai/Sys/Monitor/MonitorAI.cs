@@ -215,12 +215,16 @@ namespace Dolany.Ai.Reborn.DolanyAI.Ai.Sys.Monitor
             var timeStatus = DbMgr.Query<SysStatusEntity>(p => p.Key == "StartTime");
             var startTime = DateTime.Parse(timeStatus.First().Content);
             var span = DateTime.Now - startTime;
-            var timeStr = span.ToString(@"dd天HH小时mm分ss秒");
+            var timeStr = span.ToString(@"dd\.hh\:mm\:ss");
 
             var countStatus = DbMgr.Query<SysStatusEntity>(p => p.Key == "Count");
             var count = int.Parse(countStatus.First().Content);
 
-            MsgSender.Instance.PushMsg(MsgDTO, $@"系统已成功运行{timeStr}, 共处理{count}条指令");
+            var msg = $@"系统已成功运行{timeStr}
+共处理{count}条指令
+遇到{RuntimeLogger.ErrorCount}个错误";
+
+            MsgSender.Instance.PushMsg(MsgDTO, msg);
         }
     }
 }

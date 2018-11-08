@@ -8,6 +8,7 @@ namespace Dolany.Ai.Reborn.DolanyAI.Common
     {
         private const string LogPath = "./RuntimeLog/";
         private static readonly object lockObj = new object();
+        public static int ErrorCount;
 
         public static void Log(string log)
         {
@@ -24,6 +25,7 @@ namespace Dolany.Ai.Reborn.DolanyAI.Common
 
         public static void Log(Exception ex)
         {
+            ErrorCount++;
             while (true)
             {
                 Log(ex.Message + "\r\n" + ex.StackTrace);
