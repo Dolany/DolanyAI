@@ -1,8 +1,12 @@
 ﻿using Autofac;
+using Dolany.Ai.Reborn.DolanyAI;
+using Dolany.Ai.Reborn.MahuaEvents;
 using Newbe.Mahua;
+using Newbe.Mahua.MahuaEvents;
 
 namespace Dolany.Ai.Reborn
 {
+    /// <inheritdoc />
     /// <summary>
     /// Ioc容器注册
     /// </summary>
@@ -15,9 +19,11 @@ namespace Dolany.Ai.Reborn
             {
                 new PluginModule(),
                 new MahuaEventsModule(),
+                new AIModule()
             };
         }
 
+        /// <inheritdoc />
         /// <summary>
         /// 基本模块
         /// </summary>
@@ -37,8 +43,9 @@ namespace Dolany.Ai.Reborn
             }
         }
 
+        /// <inheritdoc />
         /// <summary>
-        /// <see cref="IMahuaEvent"/> 事件处理模块
+        /// <see cref="T:Newbe.Mahua.IMahuaEvent" /> 事件处理模块
         /// </summary>
         private class MahuaEventsModule : Module
         {
@@ -46,6 +53,19 @@ namespace Dolany.Ai.Reborn
             {
                 base.Load(builder);
                 // 将需要监听的事件注册，若缺少此注册，则不会调用相关的实现类
+
+                builder.RegisterType<AIGroupMsgReceived>()
+                    .As<IGroupMessageReceivedMahuaEvent>();
+                builder.RegisterType<AIPrivateMsgReceived>()
+                    .As<IPrivateMessageFromFriendReceivedMahuaEvent>();
+            }
+        }
+
+        private class AIModule : Module
+        {
+            protected override void Load(ContainerBuilder builder)
+            {
+                AIMgr.Instance.Load();
             }
         }
     }

@@ -8,10 +8,11 @@
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
     <RootNamespace>Dolany.Ai.Reborn</RootNamespace>
-    <AssemblyName>Dolany.Ai.Reborn</AssemblyName>
-    <TargetFrameworkVersion>v4.5.2</TargetFrameworkVersion>
+    <AssemblyName>Dolany.Ice.Ai</AssemblyName>
+    <TargetFrameworkVersion>v4.7.2</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <Deterministic>true</Deterministic>
+    <TargetFrameworkProfile />
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>
@@ -83,6 +84,59 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="DolanyAI\AIMgr.cs" />
+    <Compile Include="DolanyAI\AITools\CacheCleanerTool.cs" />
+    <Compile Include="DolanyAI\AITools\HeartBeatTool.cs" />
+    <Compile Include="DolanyAI\AITools\IAITool.cs" />
+    <Compile Include="DolanyAI\Ai\Game\Jump300Report\Jump300ReportAI.cs" />
+    <Compile Include="DolanyAI\Ai\Game\Jump300Report\JumpAnalyzeAttribute.cs" />
+    <Compile Include="DolanyAI\Ai\Game\Jump300Report\JumpReportAnalyzer.cs" />
+    <Compile Include="DolanyAI\Ai\Game\Jump300Report\JumpReportRequestor.cs" />
+    <Compile Include="DolanyAI\Ai\Game\Jump300Report\Model\JumpBaseInfo.cs" />
+    <Compile Include="DolanyAI\Ai\Game\Jump300Report\Model\JumpMatchBaseInfo.cs" />
+    <Compile Include="DolanyAI\Ai\Game\Jump300Report\Model\JumpMatchBriefInfo.cs" />
+    <Compile Include="DolanyAI\Ai\Game\Jump300Report\Model\JumpServerRankInfo.cs" />
+    <Compile Include="DolanyAI\Ai\Game\Jump300Report\Model\PlayerInfoInMatch.cs" />
+    <Compile Include="DolanyAI\Ai\Game\Jump300Report\Parser\JumpDetailHtmlParser.cs" />
+    <Compile Include="DolanyAI\Ai\Game\Jump300Report\Parser\JumpListHtmlParser.cs" />
+    <Compile Include="DolanyAI\Ai\Game\TouhouCard\TouhouCardAi.cs" />
+    <Compile Include="DolanyAI\Ai\Record\AlermClock\AlermClockAI.cs" />
+    <Compile Include="DolanyAI\Ai\Record\AlermClock\AlertClockExtension.cs" />
+    <Compile Include="DolanyAI\Ai\Record\CartoonSaying\CartoonSayingAI.cs" />
+    <Compile Include="DolanyAI\Ai\Record\CartoonSaying\SayingsExtention.cs" />
+    <Compile Include="DolanyAI\Ai\Record\CharactorSetting\CharactorSettingAI.cs" />
+    <Compile Include="DolanyAI\Ai\Record\Hello\HelloAI.cs" />
+    <Compile Include="DolanyAI\Ai\Record\HourAlert\AlertContentExtension.cs" />
+    <Compile Include="DolanyAI\Ai\Record\HourAlert\HourAlertAI.cs" />
+    <Compile Include="DolanyAI\Ai\Repeater\PlusOneAI.cs" />
+    <Compile Include="DolanyAI\Ai\Repeater\PlusOneCache.cs" />
+    <Compile Include="DolanyAI\Ai\Repeater\RepeatorAI.cs" />
+    <Compile Include="DolanyAI\Ai\SingleCommand\Dice\DiceAI.cs" />
+    <Compile Include="DolanyAI\Ai\SingleCommand\Fortune\FortuneAI.cs" />
+    <Compile Include="DolanyAI\Ai\SingleCommand\Fortune\FortuneRequestor.cs" />
+    <Compile Include="DolanyAI\Ai\SingleCommand\Fortune\StarFortuneParser.cs" />
+    <Compile Include="DolanyAI\Ai\SingleCommand\OrderSong\OrderSongAI.cs" />
+    <Compile Include="DolanyAI\Ai\SingleCommand\PraiseMe\PraiseMeAI.cs" />
+    <Compile Include="DolanyAI\Ai\SingleCommand\RandomPic\RandomPicAI.cs" />
+    <Compile Include="DolanyAI\Ai\SingleCommand\Tuling\TulingAI.cs" />
+    <Compile Include="DolanyAI\Ai\SingleCommand\Tuling\XfyunRequestHelper.cs" />
+    <Compile Include="DolanyAI\Ai\SingleCommand\Voice\KancoleVoiceAI.cs" />
+    <Compile Include="DolanyAI\Ai\Sys\Helper\HelperAI.cs" />
+    <Compile Include="DolanyAI\Ai\Sys\Monitor\MonitorAI.cs" />
+    <Compile Include="DolanyAI\Ai\Sys\SysMsg\SysMsgAI.cs" />
+    <Compile Include="DolanyAI\Base\AIAttribute.cs" />
+    <Compile Include="DolanyAI\Base\AIBase.cs" />
+    <Compile Include="DolanyAI\Base\EnterCommandAttribute.cs" />
+    <Compile Include="DolanyAI\Cache\GroupMemberInfoCacher.cs" />
+    <Compile Include="DolanyAI\Cache\MsgSender.cs" />
+    <Compile Include="DolanyAI\Cache\RecentCommandCache.cs" />
+    <Compile Include="DolanyAI\Common\DbMgr.cs" />
+    <Compile Include="DolanyAI\Common\DirtyFilter.cs" />
+    <Compile Include="DolanyAI\Common\JobScheduler.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="DolanyAI\Common\RuntimeLogger.cs" />
+    <Compile Include="DolanyAI\Common\Utility.cs" />
     <Compile Include="DolanyAI\Db\ActiveOffGroups.cs">
       <DependentUpon>AIDatabase.tt</DependentUpon>
     </Compile>
@@ -182,6 +236,39 @@
     <Compile Include="DolanyAI\Db\TouhouCardRecord.cs">
       <DependentUpon>AIDatabase.tt</DependentUpon>
     </Compile>
+    <Compile Include="DolanyAI\DTO\ReceivedMsgDTO.cs" />
+    <Compile Include="DolanyAI\DTO\SendMsgDTO.cs" />
+    <Compile Include="DolanyAI\Entities\DiceSettingRecordEntity.cs" />
+    <Compile Include="DolanyAI\Entities\EntityBase.cs" />
+    <Compile Include="DolanyAI\Entities\PicCacheEntity.cs" />
+    <Compile Include="DolanyAI\Entities\SynonymDicEntity.cs" />
+    <Compile Include="DolanyAI\Entities\SysStatusEntity.cs" />
+    <Compile Include="DolanyAI\Model\ImageCacheModel.cs" />
+    <Compile Include="DolanyAI\Model\NeteaseResponse.cs" />
+    <Compile Include="DolanyAI\Model\RequestDataModel.cs" />
+    <Compile Include="DolanyAI\Model\Tuling\TulingImportRequestData.cs" />
+    <Compile Include="DolanyAI\Model\Tuling\TulingImportResponseData.cs" />
+    <Compile Include="DolanyAI\Model\Tuling\TulingRequestData.cs" />
+    <Compile Include="DolanyAI\Model\Tuling\TulingResponseData.cs" />
+    <Compile Include="DolanyAI\Model\XfyunRequestData.cs" />
+    <Compile Include="DolanyAI\Net\HtmlParser.cs" />
+    <Compile Include="DolanyAI\Net\HttpRequester.cs" />
+    <Compile Include="DolanyAI\Net\JsonHelper.cs" />
+    <Compile Include="DolanyAI\Net\RequestHelper.cs" />
+    <Compile Include="DolanyAI\SyntaxChecker\AtChecker.cs" />
+    <Compile Include="DolanyAI\SyntaxChecker\EmptyChecker.cs" />
+    <Compile Include="DolanyAI\SyntaxChecker\HourMinuteChecker.cs" />
+    <Compile Include="DolanyAI\SyntaxChecker\ISyntaxChecker.cs" />
+    <Compile Include="DolanyAI\SyntaxChecker\LongChecker.cs" />
+    <Compile Include="DolanyAI\SyntaxChecker\WordChecker.cs" />
+    <Compile Include="MahuaApis\AmandaAPIEx.cs" />
+    <Compile Include="MahuaApis\AmandaCode.cs" />
+    <Compile Include="MahuaApis\CodeApi.cs" />
+    <Compile Include="MahuaApis\ViewModel\GroupMemberInfoViewModel.cs" />
+    <Compile Include="MahuaApis\ViewModel\GroupMemberLevelViewModel.cs" />
+    <Compile Include="MahuaApis\ViewModel\GroupMemberListViewModel.cs" />
+    <Compile Include="MahuaEvents\AIGroupMsgReceived.cs" />
+    <Compile Include="MahuaEvents\AIPrivateMsgReceived.cs" />
     <Compile Include="MahuaModule.cs" />
     <Compile Include="MyMenuProvider.cs" />
     <Compile Include="PluginInfo.cs" />
