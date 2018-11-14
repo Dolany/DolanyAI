@@ -207,18 +207,18 @@ namespace Dolany.Ai.Reborn.DolanyAI.Ai.Sys.Monitor
             Syntax = "",
             Tag = "系统命令",
             SyntaxChecker = "Empty",
-            AuthorityLevel = AuthorityLevel.开发者,
+            AuthorityLevel = AuthorityLevel.成员,
             IsPrivateAvailabe = false
         )]
         public void Status(ReceivedMsgDTO MsgDTO, object[] param)
         {
-            var timeStatus = DbMgr.Query<SysStatusEntity>(p => p.Key == "StartTime");
+            var timeStatus = DbMgr.Query<SysStatusEntity>(p => p.Key == SysStatus.StartTime.ToString());
             var startTime = DateTime.Parse(timeStatus.First().Content);
             var span = DateTime.Now - startTime;
             var timeStr = span.ToString(@"dd\.hh\:mm\:ss");
 
-            var countStatus = DbMgr.Query<SysStatusEntity>(p => p.Key == "Count");
-            var count = int.Parse(countStatus.First().Content);
+            var countStatus = DbMgr.Query<SysStatusEntity>(p => p.Key == SysStatus.Count.ToString());
+            var count = countStatus.IsNullOrEmpty() ? 0 : int.Parse(countStatus.First().Content);
 
             var msg = $@"系统已成功运行{timeStr}
 共处理{count}条指令

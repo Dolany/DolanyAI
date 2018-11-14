@@ -60,13 +60,13 @@ namespace Dolany.Ai.Reborn.DolanyAI
 
         private static void RecordStarttime()
         {
-            var query = DbMgr.Query<SysStatusEntity>(p => p.Key == "StartTime");
+            var query = DbMgr.Query<SysStatusEntity>(p => p.Key == SysStatus.StartTime.ToString());
             if (query.IsNullOrEmpty())
             {
                 DbMgr.Insert(new SysStatusEntity
                 {
                     Id = Guid.NewGuid().ToString(),
-                    Key = "StartTime",
+                    Key = SysStatus.StartTime.ToString(),
                     Content = DateTime.Now.ToCommonString()
                 });
             }
@@ -238,13 +238,13 @@ namespace Dolany.Ai.Reborn.DolanyAI
 
         private void RecordCommandCount()
         {
-            var query = DbMgr.Query<SysStatusEntity>(p => p.Key == "Count");
+            var query = DbMgr.Query<SysStatusEntity>(p => p.Key == SysStatus.Count.ToString());
             if (query.IsNullOrEmpty())
             {
                 DbMgr.Insert(new SysStatusEntity
                 {
                     Id = Guid.NewGuid().ToString(),
-                    Key = "Count",
+                    Key = SysStatus.Count.ToString(),
                     Content = CommandCount.ToString()
                 });
             }

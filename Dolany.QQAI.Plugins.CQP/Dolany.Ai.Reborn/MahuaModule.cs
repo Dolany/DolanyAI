@@ -1,5 +1,8 @@
 ﻿using Autofac;
+using Autofac.Extras.DynamicProxy;
 using Dolany.Ai.Reborn.DolanyAI;
+using Dolany.Ai.Reborn.DolanyAI.Base;
+using Dolany.Ai.Reborn.DolanyAI.Common;
 using Dolany.Ai.Reborn.MahuaEvents;
 using Newbe.Mahua;
 using Newbe.Mahua.MahuaEvents;
@@ -65,6 +68,16 @@ namespace Dolany.Ai.Reborn
         {
             protected override void Load(ContainerBuilder builder)
             {
+                var assembly = typeof(AIModule).Assembly;
+                builder.RegisterAssemblyTypes(assembly).AsImplementedInterfaces();
+
+                var IAiType = typeof(AIBase);
+                builder.RegisterAssemblyTypes(assembly).Where(t =>
+                    IAiType.IsAssignableFrom(t) && t != IAiType).PropertiesAutowired();
+
+                builder.RegisterAssemblyTypes(assembly).AsImplementedInterfaces().EnableInterfaceInterceptors()
+                    .InterceptedBy(typeof(Interceptor));
+
                 AIMgr.Instance.Load();
             }
         }
