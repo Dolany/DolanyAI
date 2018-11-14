@@ -29,6 +29,11 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Dolany.Ice.Ai.DolanyAI.Util
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Dolany.Ai.Reborn", "Dolany.Ai.Reborn\Dolany.Ai.Reborn.csproj", "{D58118CD-E778-4A16-A5C0-A14236C509E6}"
 EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{A5AC21A1-91DE-42C1-9B3B-46EA0FE8C913}"
+	ProjectSection(SolutionItems) = preProject
+		Memo.txt = Memo.txt
+	EndProjectSection
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
