@@ -1,7 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
-using Dolany.Ice.Ai.DolanyAI;
-using Dolany.Ice.Ai.DolanyAI.Utils;
+using Dolany.Ai.Reborn.DolanyAI.Common;
+using Dolany.Ai.Reborn.DolanyAI.Net;
 using HtmlAgilityPack;
 
 namespace KanColeVoiceClimber

@@ -1,15 +1,15 @@
 ﻿using System;
 using System.Linq;
 using System.Windows.Forms;
-using Dolany.Ice.Ai.DolanyAI.Db;
+using Dolany.Ai.Reborn.DolanyAI.Db;
 
 namespace AIMonitor.Tools.FortuneItem
 {
     public partial class FortuneItemEditForm : Form
     {
-        private Dolany.Ice.Ai.DolanyAI.Db.FortuneItem fi;
+        private Dolany.Ai.Reborn.DolanyAI.Db.FortuneItem fi;
 
-        public FortuneItemEditForm(Dolany.Ice.Ai.DolanyAI.Db.FortuneItem fi)
+        public FortuneItemEditForm(Dolany.Ai.Reborn.DolanyAI.Db.FortuneItem fi)
         {
             this.fi = fi;
 
@@ -28,7 +28,7 @@ namespace AIMonitor.Tools.FortuneItem
             {
                 if (fi == null)
                 {
-                    fi = new Dolany.Ice.Ai.DolanyAI.Db.FortuneItem
+                    fi = new Dolany.Ai.Reborn.DolanyAI.Db.FortuneItem
                     {
                         Id = Guid.NewGuid().ToString(),
                         Name = nameTxt.Text,

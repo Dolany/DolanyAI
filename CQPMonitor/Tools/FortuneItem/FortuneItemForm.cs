@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Windows.Forms;
-using Dolany.Ice.Ai.DolanyAI.Db;
+using Dolany.Ai.Reborn.DolanyAI.Db;
 
 namespace AIMonitor.Tools.FortuneItem
 {
@@ -15,7 +15,7 @@ namespace AIMonitor.Tools.FortuneItem
         )]
     public partial class FortuneItemForm : ToolBaseForm
     {
-        private List<Dolany.Ice.Ai.DolanyAI.Db.FortuneItem> fortuneItems;
+        private List<Dolany.Ai.Reborn.DolanyAI.Db.FortuneItem> fortuneItems;
 
         public FortuneItemForm()
         {

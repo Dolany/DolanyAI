@@ -32,17 +32,17 @@ namespace AIMonitor
 
         public static string GetConfig(string name)
         {
-            return Dolany.Ice.Ai.DolanyAI.Utils.Utility.GetConfig(name);
+            return GetConfig(name);
         }
 
         public static void SendMsgToDeveloper(string msg)
         {
-            Dolany.Ice.Ai.DolanyAI.Utility.SendMsgToDeveloper(msg);
+            SendMsgToDeveloper(msg);
         }
 
         public static void SendMsgToDeveloper(Exception ex)
         {
-            Dolany.Ice.Ai.DolanyAI.Utility.SendMsgToDeveloper(ex);
+            SendMsgToDeveloper(ex);
         }
 
         public static bool IsNullOrEmpty<T>(this IEnumerable<T> objs)

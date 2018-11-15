@@ -1,11 +1,11 @@
 ﻿using System;
 using System.Text;
 using System.Net;
-using Dolany.Ice.Ai.DolanyAI;
 using System.Security.Cryptography;
 using System.IO;
-using Dolany.Ice.Ai.DolanyAI.Utils;
-using static Dolany.Ice.Ai.DolanyAI.Utils.Utility;
+using Dolany.Ai.Reborn.DolanyAI.Model;
+using Dolany.Ai.Reborn.DolanyAI.Net;
+using static Dolany.Ai.Reborn.DolanyAI.Common.Utility;
 
 namespace VoiceCombineOnlineProj
 {

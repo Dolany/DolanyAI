@@ -3,8 +3,6 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 15
 VisualStudioVersion = 15.0.27703.2042
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Dolany.Ice.Ai", "Dolany.Ice.Ai\Dolany.Ice.Ai.csproj", "{5AC35A4D-8D04-4CBF-8881-EADB106D5421}"
-EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AIMonitor", "..\CQPMonitor\AIMonitor.csproj", "{D9F49E9B-0901-4A2A-8656-9FDA926EC93A}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DolanyToolControl", "..\DolanyToolControl\DolanyToolControl.csproj", "{20EA6E46-2134-4CA3-AC6F-63865762E1E7}"
@@ -23,10 +21,6 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "KanColeSingleCli", "KanCole
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Dolany.IWS2000.Ai", "Dolany.IWS2000.Ai\Dolany.IWS2000.Ai.csproj", "{D9D60589-0CED-4524-93F5-FA978F3C346A}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Dolany.Ice.Ai.DolanyAI.Db", "Dolany.Ice.Ai.DolanyAI.Db\Dolany.Ice.Ai.DolanyAI.Db.csproj", "{72361177-A52A-49F9-9DCA-2789277E3730}"
-EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Dolany.Ice.Ai.DolanyAI.Utils", "Dolany.Ice.Ai.DolanyAI.Utils\Dolany.Ice.Ai.DolanyAI.Utils.csproj", "{083919DF-5AF0-48C7-82F0-82D01B38414C}"
-EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Dolany.Ai.Reborn", "Dolany.Ai.Reborn\Dolany.Ai.Reborn.csproj", "{D58118CD-E778-4A16-A5C0-A14236C509E6}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{A5AC21A1-91DE-42C1-9B3B-46EA0FE8C913}"
@@ -40,10 +34,6 @@ Global
 		Release|Any CPU = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
-		{5AC35A4D-8D04-4CBF-8881-EADB106D5421}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{5AC35A4D-8D04-4CBF-8881-EADB106D5421}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{5AC35A4D-8D04-4CBF-8881-EADB106D5421}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{5AC35A4D-8D04-4CBF-8881-EADB106D5421}.Release|Any CPU.Build.0 = Release|Any CPU
 		{D9F49E9B-0901-4A2A-8656-9FDA926EC93A}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{D9F49E9B-0901-4A2A-8656-9FDA926EC93A}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{D9F49E9B-0901-4A2A-8656-9FDA926EC93A}.Release|Any CPU.ActiveCfg = Release|Any CPU
@@ -72,14 +62,6 @@ Global
 		{D9D60589-0CED-4524-93F5-FA978F3C346A}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{D9D60589-0CED-4524-93F5-FA978F3C346A}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{D9D60589-0CED-4524-93F5-FA978F3C346A}.Release|Any CPU.Build.0 = Release|Any CPU
-		{72361177-A52A-49F9-9DCA-2789277E3730}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{72361177-A52A-49F9-9DCA-2789277E3730}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{72361177-A52A-49F9-9DCA-2789277E3730}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{72361177-A52A-49F9-9DCA-2789277E3730}.Release|Any CPU.Build.0 = Release|Any CPU
-		{083919DF-5AF0-48C7-82F0-82D01B38414C}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{083919DF-5AF0-48C7-82F0-82D01B38414C}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{083919DF-5AF0-48C7-82F0-82D01B38414C}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{083919DF-5AF0-48C7-82F0-82D01B38414C}.Release|Any CPU.Build.0 = Release|Any CPU
 		{D58118CD-E778-4A16-A5C0-A14236C509E6}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{D58118CD-E778-4A16-A5C0-A14236C509E6}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{D58118CD-E778-4A16-A5C0-A14236C509E6}.Release|Any CPU.ActiveCfg = Release|Any CPU

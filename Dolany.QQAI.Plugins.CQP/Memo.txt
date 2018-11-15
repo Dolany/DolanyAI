@@ -1,4 +1,5 @@
 2018-11-14 18:34
-1.self boom(ForFunAI)
+1.self boom(ForFunAI)(session)
 2.Count tiangle(session)
 3.aop log and exception capture
+4.service

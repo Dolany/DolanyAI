@@ -83,26 +83,18 @@
     <None Include="App.config" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\Dolany.Ice.Ai.DolanyAI.Db\Dolany.Ice.Ai.DolanyAI.Db.csproj">
-      <Project>{72361177-a52a-49f9-9dca-2789277e3730}</Project>
-      <Name>Dolany.Ice.Ai.DolanyAI.Db</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\Dolany.Ice.Ai.DolanyAI.Utils\Dolany.Ice.Ai.DolanyAI.Utils.csproj">
-      <Project>{083919df-5af0-48c7-82f0-82d01b38414c}</Project>
-      <Name>Dolany.Ice.Ai.DolanyAI.Utils</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\Dolany.Ice.Ai\Dolany.Ice.Ai.csproj">
-      <Project>{5ac35a4d-8d04-4cbf-8881-eadb106d5421}</Project>
-      <Name>Dolany.Ice.Ai</Name>
-    </ProjectReference>
-  </ItemGroup>
-  <ItemGroup>
     <PackageReference Include="EntityFramework">
       <Version>6.2.0</Version>
     </PackageReference>
     <PackageReference Include="HtmlAgilityPack">
       <Version>1.8.9</Version>
     </PackageReference>
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\Dolany.Ai.Reborn\Dolany.Ai.Reborn.csproj">
+      <Project>{d58118cd-e778-4a16-a5c0-a14236c509e6}</Project>
+      <Name>Dolany.Ai.Reborn</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

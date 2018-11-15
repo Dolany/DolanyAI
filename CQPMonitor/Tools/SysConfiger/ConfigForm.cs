@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Linq;
 using System.Windows.Forms;
-using Dolany.Ice.Ai.DolanyAI.Db;
+using Dolany.Ai.Reborn.DolanyAI.Db;
 
 namespace AIMonitor.Tools.SysConfiger
 {

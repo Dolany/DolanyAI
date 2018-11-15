@@ -1,11 +1,11 @@
 ﻿using System;
 using System.Threading.Tasks;
 using System.Windows.Forms;
-using Dolany.Ice.Ai.DolanyAI;
-using Dolany.Ice.Ai.DolanyAI.Db;
 using System.IO;
 using System.Linq;
-using static Dolany.Ice.Ai.DolanyAI.Utils.Utility;
+using Dolany.Ai.Reborn.DolanyAI.Db;
+using Dolany.Ai.Reborn.DolanyAI.Net;
+using static Dolany.Ai.Reborn.DolanyAI.Common.Utility;
 
 namespace KanColeVoiceClimber
 {

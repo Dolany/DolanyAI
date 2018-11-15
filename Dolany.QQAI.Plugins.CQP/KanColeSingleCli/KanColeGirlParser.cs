@@ -1,10 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using Dolany.Ice.Ai.DolanyAI;
+using Dolany.Ai.Reborn.DolanyAI.Common;
+using Dolany.Ai.Reborn.DolanyAI.Db;
+using Dolany.Ai.Reborn.DolanyAI.Net;
 using HtmlAgilityPack;
-using Dolany.Ice.Ai.DolanyAI.Db;
-using Dolany.Ice.Ai.DolanyAI.Utils;
 
 namespace KanColeSingleCli
 {

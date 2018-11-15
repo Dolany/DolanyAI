@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Windows.Forms;
-using Dolany.Ice.Ai.DolanyAI;
-using static Dolany.Ice.Ai.DolanyAI.Utils.Utility;
+using Dolany.Ai.Reborn.DolanyAI.Model;
+using static Dolany.Ai.Reborn.DolanyAI.Common.Utility;
 
 namespace VoiceCombineOnlineProj
 {

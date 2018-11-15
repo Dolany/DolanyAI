@@ -1,9 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Windows.Forms;
-using Dolany.Ice.Ai.DolanyAI;
-using Dolany.Ice.Ai.DolanyAI.Db;
 using System.IO;
+using Dolany.Ai.Reborn.DolanyAI.Db;
+using Dolany.Ai.Reborn.DolanyAI.Net;
 
 namespace KanColeSingleCli
 {

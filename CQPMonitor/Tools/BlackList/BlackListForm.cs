@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Windows.Forms;
-using Dolany.Ice.Ai.DolanyAI.Db;
+using Dolany.Ai.Reborn.DolanyAI.Db;
 
 namespace AIMonitor.Tools.BlackList
 {
@@ -15,7 +15,7 @@ namespace AIMonitor.Tools.BlackList
         )]
     public partial class BlackListForm : ToolBaseForm
     {
-        private List<Dolany.Ice.Ai.DolanyAI.Db.BlackList> BlackListList;
+        private List<Dolany.Ai.Reborn.DolanyAI.Db.BlackList> BlackListList;
         private List<DirtyWord> DirtyWordList;
 
         public BlackListForm()
