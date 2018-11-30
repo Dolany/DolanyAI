@@ -50,7 +50,7 @@ namespace Dolany.Ai.Reborn.DolanyAI.Common
                     BlackCount = 1,
                     UpdateTime = DateTime.Now,
                     QQNum = QQNum,
-                    NickName = mi == null ? "" : mi.Nickname
+                    NickName = mi == null ? string.Empty : mi.Nickname
                 });
 
                 db.SaveChanges();

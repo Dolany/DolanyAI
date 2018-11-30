@@ -262,6 +262,7 @@
     <Compile Include="DolanyAI\Entities\PicCacheEntity.cs" />
     <Compile Include="DolanyAI\Entities\SynonymDicEntity.cs" />
     <Compile Include="DolanyAI\Entities\SysStatusEntity.cs" />
+    <Compile Include="DolanyAI\Model\HourMinuteModel.cs" />
     <Compile Include="DolanyAI\Model\ImageCacheModel.cs" />
     <Compile Include="DolanyAI\Model\NeteaseResponse.cs" />
     <Compile Include="DolanyAI\Model\RequestDataModel.cs" />

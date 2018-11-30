@@ -121,8 +121,8 @@ namespace Dolany.Ai.Reborn.DolanyAI.Ai.Sys.Monitor
             });
 
             var MaxPicCacheCount = int.Parse(GetConfig("MaxPicCacheCount"));
-            var pics = DbMgr.Query<PicCacheEntity>();
-            var count = pics.Count();
+            var pics = DbMgr.Query<PicCacheEntity>().ToList();
+            var count = pics.Count;
             if (count <= MaxPicCacheCount)
             {
                 return;
@@ -142,8 +142,7 @@ namespace Dolany.Ai.Reborn.DolanyAI.Ai.Sys.Monitor
             Tag = "系统命令",
             SyntaxChecker = "Empty",
             AuthorityLevel = AuthorityLevel.管理员,
-            IsPrivateAvailabe = false
-        )]
+            IsPrivateAvailabe = false)]
         public void PowerOff(ReceivedMsgDTO MsgDTO, object[] param)
         {
             using (var db = new AIDatabase())
@@ -178,8 +177,7 @@ namespace Dolany.Ai.Reborn.DolanyAI.Ai.Sys.Monitor
             Tag = "系统命令",
             SyntaxChecker = "Empty",
             AuthorityLevel = AuthorityLevel.管理员,
-            IsPrivateAvailabe = false
-        )]
+            IsPrivateAvailabe = false)]
         public void PowerOn(ReceivedMsgDTO MsgDTO, object[] param)
         {
             using (var db = new AIDatabase())

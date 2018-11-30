@@ -17,8 +17,7 @@ namespace Dolany.Ai.Reborn.DolanyAI.Ai.Record.HourAlert
         Name = nameof(HourAlertAI),
         Description = "AI for Hour Alert.",
         IsAvailable = true,
-        PriorityLevel = 10
-        )]
+        PriorityLevel = 10)]
     public class HourAlertAI : AIBase
     {
         private static List<long> AvailableGroups
@@ -113,8 +112,7 @@ namespace Dolany.Ai.Reborn.DolanyAI.Ai.Record.HourAlert
             Syntax = "",
             Tag = "闹钟与报时功能",
             SyntaxChecker = "Empty",
-            IsPrivateAvailabe = false
-            )]
+            IsPrivateAvailabe = false)]
         public void AlertEnable(ReceivedMsgDTO MsgDTO, object[] param)
         {
             AvailableStateChange(MsgDTO.FromGroup, true);
@@ -128,8 +126,7 @@ namespace Dolany.Ai.Reborn.DolanyAI.Ai.Record.HourAlert
             Syntax = "",
             Tag = "闹钟与报时功能",
             SyntaxChecker = "Empty",
-            IsPrivateAvailabe = false
-            )]
+            IsPrivateAvailabe = false)]
         public void AlertDisenable(ReceivedMsgDTO MsgDTO, object[] param)
         {
             AvailableStateChange(MsgDTO.FromGroup, false);
@@ -196,8 +193,7 @@ namespace Dolany.Ai.Reborn.DolanyAI.Ai.Record.HourAlert
             Tag = "闹钟与报时功能",
             SyntaxChecker = "Empty",
             AuthorityLevel = AuthorityLevel.开发者,
-            IsPrivateAvailabe = true
-            )]
+            IsPrivateAvailabe = true)]
         public void AllAvailabeGroups(ReceivedMsgDTO MsgDTO, object[] param)
         {
             var list = AvailableGroups;
