@@ -17,6 +17,8 @@ namespace Dolany.Ai.Reborn.DolanyAI
 {
     using System.ComponentModel.Composition;
 
+    using JetBrains.Annotations;
+
     /// <summary>
     /// AI管理类
     /// </summary>
@@ -27,12 +29,12 @@ namespace Dolany.Ai.Reborn.DolanyAI
         public static AIMgr Instance { get; } = new AIMgr();
 
         [ImportMany(typeof(IAITool))]
-        private Lazy<IEnumerable<IAITool>> Tools { get; set; }
+        private Lazy<IEnumerable<IAITool>> Tools { get; [UsedImplicitly] set; }
 
         public List<EnterCommandAttribute> AllAvailableGroupCommands { get; } = new List<EnterCommandAttribute>();
 
         [ImportMany(typeof(ISyntaxChecker))]
-        public Lazy<IEnumerable<ISyntaxChecker>> Checkers { get; set; }
+        public Lazy<IEnumerable<ISyntaxChecker>> Checkers { get; [UsedImplicitly] set; }
 
         private int CommandCount { get; set; }
 
@@ -65,7 +67,7 @@ namespace Dolany.Ai.Reborn.DolanyAI
 
         private static void RecordStarttime()
         {
-            var query = DbMgr.Query<SysStatusEntity>(p => p.Key == SysStatus.StartTime.ToString());
+            var query = DbMgr.Query<SysStatusEntity>(p => p.Key == SysStatus.StartTime.ToString()).ToList();
             if (query.IsNullOrEmpty())
             {
                 DbMgr.Insert(new SysStatusEntity
@@ -206,7 +208,7 @@ namespace Dolany.Ai.Reborn.DolanyAI
 
         private void RecordCommandCount()
         {
-            var query = DbMgr.Query<SysStatusEntity>(p => p.Key == SysStatus.Count.ToString());
+            var query = DbMgr.Query<SysStatusEntity>(p => p.Key == SysStatus.Count.ToString()).ToList();
             if (query.IsNullOrEmpty())
             {
                 DbMgr.Insert(new SysStatusEntity
@@ -244,13 +246,13 @@ namespace Dolany.Ai.Reborn.DolanyAI
         {
             if (string.IsNullOrEmpty(msg))
             {
-                return "";
+                return string.Empty;
             }
 
             var strs = msg.Split(' ');
             if (strs.Length == 0)
             {
-                return "";
+                return string.Empty;
             }
 
             var command = strs[0];

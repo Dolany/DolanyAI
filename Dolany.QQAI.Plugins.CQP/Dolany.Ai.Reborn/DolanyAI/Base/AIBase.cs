@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Diagnostics;
 using System.IO;
 using System.Linq;
 using Dolany.Ai.Reborn.DolanyAI.Cache;
@@ -41,7 +40,7 @@ namespace Dolany.Ai.Reborn.DolanyAI.Base
 
         public virtual bool OnMsgReceived(ReceivedMsgDTO MsgDTO)
         {
-            var query = Consolers.Where(c => c.Key.Command == MsgDTO.Command);
+            var query = Consolers.Where(c => c.Key.Command == MsgDTO.Command).ToList();
             if (query.IsNullOrEmpty())
             {
                 return false;
@@ -117,14 +116,12 @@ namespace Dolany.Ai.Reborn.DolanyAI.Base
                 {
                     var i1 = i;
                     var checker = AIMgr.Instance.Checkers.Value.FirstOrDefault(c => c.Name == checkers[i1]);
-                    if (checker == null)
+                    if (checker == null ||
+                        !checker.Check(paramStrs[i], out var p))
                     {
                         return false;
                     }
-                    if (!checker.Check(paramStrs[i], out var p))
-                    {
-                        return false;
-                    }
+
                     if (p != null)
                     {
                         list.AddRange(p);
