@@ -15,6 +15,8 @@ using Dolany.Ai.Reborn.DolanyAI.SyntaxChecker;
 
 namespace Dolany.Ai.Reborn.DolanyAI
 {
+    using System.ComponentModel.Composition;
+
     /// <summary>
     /// AI管理类
     /// </summary>
@@ -24,10 +26,13 @@ namespace Dolany.Ai.Reborn.DolanyAI
 
         public static AIMgr Instance { get; } = new AIMgr();
 
-        private List<IAITool> Tools { get; } = new List<IAITool>();
+        [ImportMany(typeof(IAITool))]
+        private Lazy<IEnumerable<IAITool>> Tools { get; set; }
+
         public List<EnterCommandAttribute> AllAvailableGroupCommands { get; } = new List<EnterCommandAttribute>();
 
-        public IEnumerable<KeyValuePair<string, ISyntaxChecker>> Checkers;
+        [ImportMany(typeof(ISyntaxChecker))]
+        public Lazy<IEnumerable<ISyntaxChecker>> Checkers { get; set; }
 
         private int CommandCount { get; set; }
 
@@ -91,7 +96,7 @@ namespace Dolany.Ai.Reborn.DolanyAI
                 ExtractCommands(ai.Key);
             }
 
-            foreach (var tool in Tools)
+            foreach (var tool in Tools.Value)
             {
                 tool.Work();
             }
@@ -117,21 +122,6 @@ namespace Dolany.Ai.Reborn.DolanyAI
         private void Init()
         {
             LoadAis();
-            LoadTools();
-            LoadCheckers();
-        }
-
-        private void LoadCheckers()
-        {
-            var assembly = Assembly.GetExecutingAssembly();
-            var list = from type in assembly.GetTypes()
-                       where typeof(ISyntaxChecker).IsAssignableFrom(type) && type.IsClass
-                       where type.FullName != null
-                       let checker = assembly.CreateInstance(type.FullName) as ISyntaxChecker
-                       let name = type.Name
-                       select new KeyValuePair<string, ISyntaxChecker>(name, checker);
-
-            Checkers = list.ToList();
         }
 
         private void LoadAis()
@@ -145,29 +135,6 @@ namespace Dolany.Ai.Reborn.DolanyAI
                        select new KeyValuePair<AIBase, AIAttribute>(ai, attr);
 
             AIList = list.ToList();
-        }
-
-        private void LoadTools()
-        {
-            var assembly = Assembly.GetExecutingAssembly();
-            foreach (var type in assembly.GetTypes())
-            {
-                if (!type.IsClass ||
-                    !typeof(IAITool).IsAssignableFrom(type))
-                {
-                    continue;
-                }
-
-                if (type.FullName == null)
-                {
-                    continue;
-                }
-                var tool = assembly.CreateInstance(type.FullName) as IAITool;
-
-                Tools.Add(tool);
-            }
-
-            RuntimeLogger.Log($"{Tools.Count} tools created.");
         }
 
         /// <summary>
@@ -231,6 +198,7 @@ namespace Dolany.Ai.Reborn.DolanyAI
             {
                 return;
             }
+
             RecentCommandCache.Cache(DateTime.Now);
             CommandCount++;
             RecordCommandCount();

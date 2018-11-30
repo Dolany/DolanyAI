@@ -1,7 +1,12 @@
 ﻿namespace Dolany.Ai.Reborn.DolanyAI.SyntaxChecker
 {
+    using System.ComponentModel.Composition;
+
+    [Export(typeof(ISyntaxChecker))]
     public class WordChecker : ISyntaxChecker
     {
+        public string Name { get; } = "Word";
+
         public bool Check(string msg, out object[] param)
         {
             param = null;

@@ -3,14 +3,14 @@
     using System.ComponentModel.Composition;
 
     [Export(typeof(ISyntaxChecker))]
-    public class EmptyChecker : ISyntaxChecker
+    public class AnyChecker : ISyntaxChecker
     {
-        public string Name { get; } = "Empty";
+        public string Name { get; } = "Any";
 
         public bool Check(string msg, out object[] param)
         {
-            param = null;
-            return string.IsNullOrEmpty(msg);
+            param = new object[] { msg };
+            return true;
         }
     }
 }

@@ -5,6 +5,9 @@ using static Dolany.Ai.Reborn.DolanyAI.Common.Utility;
 
 namespace Dolany.Ai.Reborn.DolanyAI.AITools
 {
+    using System.ComponentModel.Composition;
+
+    [Export(typeof(IAITool))]
     public class HeartBeatTool : IAITool
     {
         private int CheckFrequency

@@ -115,8 +115,12 @@ namespace Dolany.Ai.Reborn.DolanyAI.Base
                 var list = new List<object>();
                 for (var i = 0; i < checkers.Length; i++)
                 {
-                    var checker = AIMgr.Instance.Checkers.First(c => c.Key == checkers[i] + "Checker").Value;
-                    Debug.Assert(checker != null, nameof(checker) + " != null");
+                    var i1 = i;
+                    var checker = AIMgr.Instance.Checkers.Value.FirstOrDefault(c => c.Name == checkers[i1]);
+                    if (checker == null)
+                    {
+                        return false;
+                    }
                     if (!checker.Check(paramStrs[i], out var p))
                     {
                         return false;
@@ -144,8 +148,8 @@ namespace Dolany.Ai.Reborn.DolanyAI.Base
                 return true;
             }
 
-            return MsgDTO.MsgType == MsgType.Group ? 
-                GroupCheck(authorityLevel, MsgDTO) : 
+            return MsgDTO.MsgType == MsgType.Group ?
+                GroupCheck(authorityLevel, MsgDTO) :
                 PrivateCheck(enterAttr);
         }
 

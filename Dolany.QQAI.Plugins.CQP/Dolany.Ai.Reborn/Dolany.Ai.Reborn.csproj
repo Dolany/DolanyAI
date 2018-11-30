@@ -72,6 +72,7 @@
     <Reference Include="System.Collections.Immutable, Version=1.2.3.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
       <HintPath>..\packages\System.Collections.Immutable.1.5.0\lib\portable-net45+win8+wp8+wpa81\System.Collections.Immutable.dll</HintPath>
     </Reference>
+    <Reference Include="System.ComponentModel.Composition" />
     <Reference Include="System.ComponentModel.DataAnnotations" />
     <Reference Include="System.Configuration" />
     <Reference Include="System.Core" />
@@ -270,6 +271,7 @@
     <Compile Include="DolanyAI\Net\HttpRequester.cs" />
     <Compile Include="DolanyAI\Net\JsonHelper.cs" />
     <Compile Include="DolanyAI\Net\RequestHelper.cs" />
+    <Compile Include="DolanyAI\SyntaxChecker\AnyChecker.cs" />
     <Compile Include="DolanyAI\SyntaxChecker\AtChecker.cs" />
     <Compile Include="DolanyAI\SyntaxChecker\EmptyChecker.cs" />
     <Compile Include="DolanyAI\SyntaxChecker\HourMinuteChecker.cs" />
