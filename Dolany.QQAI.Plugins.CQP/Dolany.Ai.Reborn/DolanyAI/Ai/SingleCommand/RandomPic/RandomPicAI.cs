@@ -1,25 +1,27 @@
-﻿using System;
-using System.Collections.Generic;
-using System.IO;
-using System.Linq;
-using Dolany.Ai.Reborn.DolanyAI.Base;
-using Dolany.Ai.Reborn.DolanyAI.Cache;
-using Dolany.Ai.Reborn.DolanyAI.Common;
-using Dolany.Ai.Reborn.DolanyAI.DTO;
-using Dolany.Ai.Reborn.DolanyAI.Entities;
-using static Dolany.Ai.Reborn.MahuaApis.CodeApi;
-
-namespace Dolany.Ai.Reborn.DolanyAI.Ai.SingleCommand.RandomPic
+﻿namespace Dolany.Ai.Reborn.DolanyAI.Ai.SingleCommand.RandomPic
 {
+    using System;
+    using System.Collections.Generic;
+    using System.IO;
+    using System.Linq;
+
+    using Dolany.Ai.Reborn.DolanyAI.Base;
+    using Dolany.Ai.Reborn.DolanyAI.Cache;
+    using Dolany.Ai.Reborn.DolanyAI.Common;
+    using Dolany.Ai.Reborn.DolanyAI.DTO;
+    using Dolany.Ai.Reborn.DolanyAI.Entities;
+
+    using static Dolany.Ai.Reborn.MahuaApis.CodeApi;
+
     [AI(
         Name = nameof(RandomPicAI),
         Description = "AI for Sending Random Pic By Keyword.",
         IsAvailable = true,
-        PriorityLevel = 2
-        )]
+        PriorityLevel = 2)]
     public class RandomPicAI : AIBase
     {
         private string PicPath { get; } = ImagePath;
+
         private static List<string> Keywords => new List<string>();
 
         public RandomPicAI()
@@ -41,12 +43,14 @@ namespace Dolany.Ai.Reborn.DolanyAI.Ai.SingleCommand.RandomPic
             foreach (var info in childrenDirs)
             {
                 Keywords.Add(info.Name);
-                Consolers.Add(new EnterCommandAttribute
-                {
-                    AuthorityLevel = AuthorityLevel.成员,
-                    SyntaxChecker = "Empty",
-                    Command = info.Name
-                }, KeywordsConsoler);
+                Consolers.Add(
+                    new EnterCommandAttribute
+                        {
+                            AuthorityLevel = AuthorityLevel.成员,
+                            SyntaxChecker = "Empty",
+                            Command = info.Name
+                        },
+                    KeywordsConsoler);
             }
         }
 
@@ -69,8 +73,7 @@ namespace Dolany.Ai.Reborn.DolanyAI.Ai.SingleCommand.RandomPic
             Syntax = "",
             Tag = "图片功能",
             SyntaxChecker = "Empty",
-            IsPrivateAvailabe = true
-            )]
+            IsPrivateAvailabe = true)]
         public void RecentPic(ReceivedMsgDTO MsgDTO, object[] param)
         {
             var imageList = GetRecentImageList();
@@ -87,8 +90,7 @@ namespace Dolany.Ai.Reborn.DolanyAI.Ai.SingleCommand.RandomPic
             Syntax = "",
             Tag = "图片功能",
             SyntaxChecker = "Empty",
-            IsPrivateAvailabe = true
-            )]
+            IsPrivateAvailabe = true)]
         public void RecentFlash(ReceivedMsgDTO MsgDTO, object[] param)
         {
             var imageList = GetRecentImageList();
@@ -124,8 +126,7 @@ namespace Dolany.Ai.Reborn.DolanyAI.Ai.SingleCommand.RandomPic
             Syntax = "[目标词] [同义词]",
             Tag = "图片功能",
             SyntaxChecker = "Word Word",
-            IsPrivateAvailabe = true
-            )]
+            IsPrivateAvailabe = true)]
         public void AppendSynonym(ReceivedMsgDTO MsgDTO, object[] param)
         {
             var Keyword = param[0] as string;

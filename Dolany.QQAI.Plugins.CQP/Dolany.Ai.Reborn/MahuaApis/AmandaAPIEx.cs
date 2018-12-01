@@ -1,12 +1,13 @@
-﻿using System;
-using System.Runtime.ExceptionServices;
-using System.Runtime.InteropServices;
-using Dolany.Ai.Reborn.DolanyAI.Common;
-using Dolany.Ai.Reborn.DolanyAI.Net;
-using Dolany.Ai.Reborn.MahuaApis.ViewModel;
-
-namespace Dolany.Ai.Reborn.MahuaApis
+﻿namespace Dolany.Ai.Reborn.MahuaApis
 {
+    using System;
+    using System.Runtime.ExceptionServices;
+    using System.Runtime.InteropServices;
+
+    using Dolany.Ai.Reborn.DolanyAI.Common;
+    using Dolany.Ai.Reborn.DolanyAI.Net;
+    using Dolany.Ai.Reborn.MahuaApis.ViewModel;
+
     public static class AmandaAPIEx
     {
         [DllImport("bin\\message.dll")]
@@ -32,7 +33,7 @@ namespace Dolany.Ai.Reborn.MahuaApis
             catch (Exception ex)
             {
                 RuntimeLogger.Log(ex);
-                return "";
+                return string.Empty;
             }
         }
 
@@ -60,7 +61,7 @@ namespace Dolany.Ai.Reborn.MahuaApis
             catch (Exception ex)
             {
                 RuntimeLogger.Log(ex);
-                return "";
+                return string.Empty;
             }
         }
 

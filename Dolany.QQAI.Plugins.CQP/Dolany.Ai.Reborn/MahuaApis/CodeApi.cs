@@ -1,7 +1,7 @@
-﻿using Dolany.Ai.Reborn.DolanyAI.Common;
-
-namespace Dolany.Ai.Reborn.MahuaApis
+﻿namespace Dolany.Ai.Reborn.MahuaApis
 {
+    using Dolany.Ai.Reborn.DolanyAI.Common;
+
     public static class CodeApi
     {
         public static string Code_At(long qqNumber)
