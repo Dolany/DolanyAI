@@ -17,8 +17,6 @@ namespace Dolany.Ai.Reborn.DolanyAI
 {
     using System.ComponentModel.Composition;
 
-    using JetBrains.Annotations;
-
     /// <summary>
     /// AI管理类
     /// </summary>
