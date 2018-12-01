@@ -8,6 +8,8 @@ namespace Dolany.Ai.MQ
     using System.Text;
 
     using Newbe.Mahua;
+    using Dolany.Ai.MQ.MahuaEvents;
+    using Newbe.Mahua.MahuaEvents;
 
     /// <summary>
     /// Ioc容器注册
@@ -51,6 +53,7 @@ namespace Dolany.Ai.MQ
             {
                 base.Load(builder);
                 // 将需要监听的事件注册，若缺少此注册，则不会调用相关的实现类
+                builder.RegisterType<GroupMsgReceive>().As<IGroupMessageReceivedMahuaEvent>();
             }
         }
 
