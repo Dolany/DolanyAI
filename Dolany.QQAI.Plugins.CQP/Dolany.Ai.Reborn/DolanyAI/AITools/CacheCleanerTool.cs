@@ -8,6 +8,8 @@ using static Dolany.Ai.Reborn.MahuaApis.CodeApi;
 
 namespace Dolany.Ai.Reborn.DolanyAI.AITools
 {
+    using System.ComponentModel.Composition;
+
     public class CacheCleanerDTO
     {
         public string Path { get; set; }
@@ -15,6 +17,7 @@ namespace Dolany.Ai.Reborn.DolanyAI.AITools
         public int MaxCacheCount { get; set; }
     }
 
+    [Export(typeof(IAITool))]
     public class CacheCleanerTool : IAITool
     {
         private int PicCleanFreq

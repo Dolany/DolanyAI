@@ -50,6 +50,9 @@
     <Reference Include="HtmlAgilityPack, Version=1.8.9.0, Culture=neutral, PublicKeyToken=bd319b19eaf3b43a, processorArchitecture=MSIL">
       <HintPath>..\packages\HtmlAgilityPack.1.8.9\lib\Net45\HtmlAgilityPack.dll</HintPath>
     </Reference>
+    <Reference Include="JetBrains.Annotations, Version=2018.2.1.0, Culture=neutral, PublicKeyToken=1010a0d8d6380325, processorArchitecture=MSIL">
+      <HintPath>..\packages\JetBrains.Annotations.2018.2.1\lib\net20\JetBrains.Annotations.dll</HintPath>
+    </Reference>
     <Reference Include="MediatR, Version=3.0.1.0, Culture=neutral, processorArchitecture=MSIL">
       <HintPath>..\packages\MediatR.3.0.1\lib\net45\MediatR.dll</HintPath>
     </Reference>
@@ -72,6 +75,7 @@
     <Reference Include="System.Collections.Immutable, Version=1.2.3.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
       <HintPath>..\packages\System.Collections.Immutable.1.5.0\lib\portable-net45+win8+wp8+wpa81\System.Collections.Immutable.dll</HintPath>
     </Reference>
+    <Reference Include="System.ComponentModel.Composition" />
     <Reference Include="System.ComponentModel.DataAnnotations" />
     <Reference Include="System.Configuration" />
     <Reference Include="System.Core" />
@@ -258,6 +262,7 @@
     <Compile Include="DolanyAI\Entities\PicCacheEntity.cs" />
     <Compile Include="DolanyAI\Entities\SynonymDicEntity.cs" />
     <Compile Include="DolanyAI\Entities\SysStatusEntity.cs" />
+    <Compile Include="DolanyAI\Model\HourMinuteModel.cs" />
     <Compile Include="DolanyAI\Model\ImageCacheModel.cs" />
     <Compile Include="DolanyAI\Model\NeteaseResponse.cs" />
     <Compile Include="DolanyAI\Model\RequestDataModel.cs" />
@@ -270,6 +275,7 @@
     <Compile Include="DolanyAI\Net\HttpRequester.cs" />
     <Compile Include="DolanyAI\Net\JsonHelper.cs" />
     <Compile Include="DolanyAI\Net\RequestHelper.cs" />
+    <Compile Include="DolanyAI\SyntaxChecker\AnyChecker.cs" />
     <Compile Include="DolanyAI\SyntaxChecker\AtChecker.cs" />
     <Compile Include="DolanyAI\SyntaxChecker\EmptyChecker.cs" />
     <Compile Include="DolanyAI\SyntaxChecker\HourMinuteChecker.cs" />

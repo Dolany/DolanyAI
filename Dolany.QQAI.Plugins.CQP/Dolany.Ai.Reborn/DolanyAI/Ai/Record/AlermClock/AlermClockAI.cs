@@ -14,12 +14,13 @@ using static Dolany.Ai.Reborn.MahuaApis.CodeApi;
 
 namespace Dolany.Ai.Reborn.DolanyAI.Ai.Record.AlermClock
 {
+    using Dolany.Ai.Reborn.DolanyAI.Model;
+
     [AI(
         Name = nameof(AlermClockAI),
         Description = "AI for Alerm Clock.",
         IsAvailable = true,
-        PriorityLevel = 10
-        )]
+        PriorityLevel = 10)]
     public class AlermClockAI : AIBase
     {
         private static List<string> ClockIdList => new List<string>();
@@ -56,14 +57,16 @@ namespace Dolany.Ai.Reborn.DolanyAI.Ai.Record.AlermClock
             )]
         public void SetClock(ReceivedMsgDTO MsgDTO, object[] param)
         {
-            var time = param[0] as (int hour, int minute)?;
+            if (!(param[0] is HourMinuteModel time))
+            {
+                return;
+            }
 
-            Debug.Assert(time != null, nameof(time) + " != null");
             var entity = new Db.AlermClock
             {
                 Id = Guid.NewGuid().ToString(),
-                AimHourt = time.Value.hour,
-                AimMinute = time.Value.minute,
+                AimHourt = time.Hour,
+                AimMinute = time.Minute,
                 Content = param[1] as string,
                 Creator = MsgDTO.FromQQ,
                 GroupNumber = MsgDTO.FromGroup,
@@ -131,7 +134,10 @@ namespace Dolany.Ai.Reborn.DolanyAI.Ai.Record.AlermClock
             )]
         public void DeleteClock(ReceivedMsgDTO MsgDTO, object[] param)
         {
-            var time = param[0] as (int hour, int minute)?;
+            if (!(param[0] is HourMinuteModel time))
+            {
+                return;
+            }
 
             var Msg = DeleteClock(time, MsgDTO);
             MsgSender.Instance.PushMsg(MsgDTO, Msg);
@@ -234,14 +240,14 @@ namespace Dolany.Ai.Reborn.DolanyAI.Ai.Record.AlermClock
             }
         }
 
-        private static string DeleteClock((int hour, int minute)? time, ReceivedMsgDTO MsgDTO)
+        private static string DeleteClock(HourMinuteModel time, ReceivedMsgDTO MsgDTO)
         {
             using (var db = new AIDatabase())
             {
                 var query = db.AlermClock.Where(q => q.GroupNumber == MsgDTO.FromGroup &&
                                                      q.Creator == MsgDTO.FromQQ &&
-                                                     q.AimHourt == time.Value.hour &&
-                                                     q.AimMinute == time.Value.minute);
+                                                     q.AimHourt == time.Hour &&
+                                                     q.AimMinute == time.Minute);
                 if (query.IsNullOrEmpty())
                 {
                     return "八嘎！你还没有在这个时间点设置过闹钟呢！";

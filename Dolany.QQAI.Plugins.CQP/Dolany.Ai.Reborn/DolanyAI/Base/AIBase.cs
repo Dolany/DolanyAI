@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Diagnostics;
 using System.IO;
 using System.Linq;
 using Dolany.Ai.Reborn.DolanyAI.Cache;
@@ -41,7 +40,7 @@ namespace Dolany.Ai.Reborn.DolanyAI.Base
 
         public virtual bool OnMsgReceived(ReceivedMsgDTO MsgDTO)
         {
-            var query = Consolers.Where(c => c.Key.Command == MsgDTO.Command);
+            var query = Consolers.Where(c => c.Key.Command == MsgDTO.Command).ToList();
             if (query.IsNullOrEmpty())
             {
                 return false;
@@ -115,12 +114,14 @@ namespace Dolany.Ai.Reborn.DolanyAI.Base
                 var list = new List<object>();
                 for (var i = 0; i < checkers.Length; i++)
                 {
-                    var checker = AIMgr.Instance.Checkers.First(c => c.Key == checkers[i] + "Checker").Value;
-                    Debug.Assert(checker != null, nameof(checker) + " != null");
-                    if (!checker.Check(paramStrs[i], out var p))
+                    var i1 = i;
+                    var checker = AIMgr.Instance.Checkers.Value.FirstOrDefault(c => c.Name == checkers[i1]);
+                    if (checker == null ||
+                        !checker.Check(paramStrs[i], out var p))
                     {
                         return false;
                     }
+
                     if (p != null)
                     {
                         list.AddRange(p);
@@ -144,8 +145,8 @@ namespace Dolany.Ai.Reborn.DolanyAI.Base
                 return true;
             }
 
-            return MsgDTO.MsgType == MsgType.Group ? 
-                GroupCheck(authorityLevel, MsgDTO) : 
+            return MsgDTO.MsgType == MsgType.Group ?
+                GroupCheck(authorityLevel, MsgDTO) :
                 PrivateCheck(enterAttr);
         }
 

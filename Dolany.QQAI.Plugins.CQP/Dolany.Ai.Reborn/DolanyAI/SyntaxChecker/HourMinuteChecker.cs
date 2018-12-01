@@ -2,8 +2,13 @@
 
 namespace Dolany.Ai.Reborn.DolanyAI.SyntaxChecker
 {
+    using System.ComponentModel.Composition;
+
+    [Export(typeof(ISyntaxChecker))]
     public class HourMinuteChecker : ISyntaxChecker
     {
+        public string Name { get; } = "HourMinute";
+
         public bool Check(string msg, out object[] param)
         {
             param = null;

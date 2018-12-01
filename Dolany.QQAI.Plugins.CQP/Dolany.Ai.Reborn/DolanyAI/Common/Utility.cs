@@ -141,7 +141,7 @@ namespace Dolany.Ai.Reborn.DolanyAI.Common
             SendMsgToDeveloper(ex.Message + '\r' + ex.StackTrace);
         }
 
-        public static (int hour, int minute)? GenTimeFromStr(string timeStr)
+        public static HourMinuteModel GenTimeFromStr(string timeStr)
         {
             var strs = timeStr.Split(':', '：');
             if (strs.Length != 2)
@@ -159,7 +159,7 @@ namespace Dolany.Ai.Reborn.DolanyAI.Common
                 return null;
             }
 
-            return (hour, minute);
+            return new HourMinuteModel { Hour = hour, Minute = minute };
         }
 
         public static T Clone<T>(this T obj) where T : class, new()
@@ -252,12 +252,11 @@ namespace Dolany.Ai.Reborn.DolanyAI.Common
         private static void SetPropertyValue(object obj, string propName, string propValue)
         {
             var type = obj.GetType();
-            foreach (var prop in type.GetProperties())
+
+            var prop = type.GetProperties().FirstOrDefault(p => p.Name == propName && p.CanWrite);
+            if (prop != null)
             {
-                if (prop.Name == propName)
-                {
-                    prop.SetValue(obj, Convert.ChangeType(propValue, prop.PropertyType));
-                }
+                prop.SetValue(obj, Convert.ChangeType(propValue, prop.PropertyType));
             }
         }
 

@@ -3,8 +3,13 @@ using Dolany.Ai.Reborn.DolanyAI.Common;
 
 namespace Dolany.Ai.Reborn.DolanyAI.SyntaxChecker
 {
+    using System.ComponentModel.Composition;
+
+    [Export(typeof(ISyntaxChecker))]
     public class AtChecker : ISyntaxChecker
     {
+        public string Name { get; } = "At";
+
         public bool Check(string msg, out object[] param)
         {
             param = null;
