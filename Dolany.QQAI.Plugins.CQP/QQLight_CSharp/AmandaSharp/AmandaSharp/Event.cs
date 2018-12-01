@@ -1,18 +1,15 @@
 ﻿using System.Runtime.InteropServices;
-using System.Windows.Forms;
-using System.Linq;
-using System;
 
 namespace AmandaSharp
 {
+    using System;
+    using System.Messaging;
+    using System.Text;
+
     public class Event
     {
         private static string Path;
         private static Profiles profiles;
-
-        public Event()
-        {
-        }
 
         [DllExport(ExportName = nameof(Information), CallingConvention = CallingConvention.StdCall)]
         public static string Information(string AuthCode)
@@ -20,7 +17,7 @@ namespace AmandaSharp
             API.AuthCode = AuthCode;
             var p = new Plugin
             {
-                ID = "dolany.iceai.AmandaSharp",//插件的唯一ID，内部标识
+                ID = "dolany.iceai.AmandaSharp.plugin",//插件的唯一ID，内部标识
                 Name = "DolanyAi", //插件的名称
                 Author = "Dolany", //这是插件的作者
                 Version = "1.0.0", // 插件的版本号
@@ -40,7 +37,38 @@ namespace AmandaSharp
         {
             Path = API.GetPath();
             //框架为插件所创建的一个目录，希望作者们把当前插件的所有数据都写入到此目录下面，以免跟其他插件混淆
+            SendMessage("mq test", "private$\\CommandMQ");
+            
             return 0;
+        }
+
+        private static void SendMessage<T>(T target, string queuePath, MessageQueueTransaction tran = null)
+        {
+            try
+            {
+                //连接到本地的队列
+                var myQueue = new MessageQueue(queuePath);
+                var myMessage = new Message
+                                                         {
+                                                             Body = target,
+                                                             Formatter = new XmlMessageFormatter(
+                                                                 new[] { typeof(T) })
+                                                         };
+                //发送消息到队列中
+                if (tran == null)
+                {
+                    myQueue.Send(myMessage);
+                }
+                else
+                {
+                    myQueue.Send(myMessage, tran);
+                }
+                Console.WriteLine(@"消息已成功发送到" + queuePath + @"队列！");
+            }
+            catch (ArgumentException e)
+            {
+                Console.WriteLine(e.Message);
+            }
         }
 
         //插件被启用事件
@@ -180,7 +208,7 @@ namespace AmandaSharp
 
             using (var form = new SettingForm(profiles))
             {
-                var dr = form.ShowDialog();
+                form.ShowDialog();
                 //API.Api_SendLog("DialogResult: ", dr + "", 0xcccccc);
                 return 0;
             }

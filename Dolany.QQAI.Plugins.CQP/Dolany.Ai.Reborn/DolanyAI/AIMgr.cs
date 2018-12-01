@@ -29,12 +29,12 @@ namespace Dolany.Ai.Reborn.DolanyAI
         public static AIMgr Instance { get; } = new AIMgr();
 
         [ImportMany(typeof(IAITool))]
-        private Lazy<IEnumerable<IAITool>> Tools { get; [UsedImplicitly] set; }
+        private Lazy<IEnumerable<IAITool>> Tools { get; set; }
 
         public List<EnterCommandAttribute> AllAvailableGroupCommands { get; } = new List<EnterCommandAttribute>();
 
         [ImportMany(typeof(ISyntaxChecker))]
-        public Lazy<IEnumerable<ISyntaxChecker>> Checkers { get; [UsedImplicitly] set; }
+        public Lazy<IEnumerable<ISyntaxChecker>> Checkers { get; set; }
 
         private int CommandCount { get; set; }
 
