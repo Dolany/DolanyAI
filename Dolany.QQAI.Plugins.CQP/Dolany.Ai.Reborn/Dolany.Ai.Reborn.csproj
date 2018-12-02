@@ -219,6 +219,12 @@
     <Compile Include="DolanyAI\Db\MemberRoleCache.cs">
       <DependentUpon>AIDatabase.tt</DependentUpon>
     </Compile>
+    <Compile Include="DolanyAI\Db\MsgCommand.cs">
+      <DependentUpon>AIDatabase.tt</DependentUpon>
+    </Compile>
+    <Compile Include="DolanyAI\Db\MsgInformation.cs">
+      <DependentUpon>AIDatabase.tt</DependentUpon>
+    </Compile>
     <Compile Include="DolanyAI\Db\MsgRecievedCache.cs">
       <DependentUpon>AIDatabase.tt</DependentUpon>
     </Compile>

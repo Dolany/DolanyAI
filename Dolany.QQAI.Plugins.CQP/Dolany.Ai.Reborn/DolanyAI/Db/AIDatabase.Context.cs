@@ -53,5 +53,7 @@ namespace Dolany.Ai.Reborn.DolanyAI.Db
         public virtual DbSet<TarotFortuneRecord> TarotFortuneRecord { get; set; }
         public virtual DbSet<TohouSign> TohouSign { get; set; }
         public virtual DbSet<TouhouCardRecord> TouhouCardRecord { get; set; }
+        public virtual DbSet<MsgCommand> MsgCommand { get; set; }
+        public virtual DbSet<MsgInformation> MsgInformation { get; set; }
     }
 }

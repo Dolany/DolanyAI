@@ -4,7 +4,7 @@
   <edmx:Runtime>
     <!-- SSDL content -->
     <edmx:StorageModels>
-      <Schema Namespace="Dolany.Ai.Reborn.Db.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+    <Schema Namespace="Dolany.Ai.Reborn.Db.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
         <EntityType Name="ActiveOffGroups">
           <Key>
             <PropertyRef Name="Id" />
@@ -94,26 +94,6 @@
           <Property Name="Id" Type="nvarchar" MaxLength="50" Nullable="false" />
           <Property Name="Content" Type="nvarchar" MaxLength="50" />
         </EntityType>
-        <EntityType Name="FishingRecord">
-          <Key>
-            <PropertyRef Name="Id" />
-          </Key>
-          <Property Name="Id" Type="nvarchar" MaxLength="50" Nullable="false" />
-          <Property Name="GroupNum" Type="bigint" Nullable="false" />
-          <Property Name="QQNum" Type="bigint" Nullable="false" />
-          <Property Name="ItemId" Type="nvarchar" MaxLength="50" />
-          <Property Name="FishingTime" Type="datetime" Nullable="false" />
-        </EntityType>
-        <EntityType Name="FishItem">
-          <Key>
-            <PropertyRef Name="Id" />
-          </Key>
-          <Property Name="Id" Type="nvarchar" MaxLength="50" Nullable="false" />
-          <Property Name="Name" Type="nvarchar" MaxLength="50" Nullable="false" />
-          <Property Name="Description" Type="nvarchar" MaxLength="50" />
-          <Property Name="RareRate" Type="int" Nullable="false" />
-          <Property Name="Icon" Type="nvarchar" MaxLength="50" />
-        </EntityType>
         <EntityType Name="FortuneItem">
           <Key>
             <PropertyRef Name="Id" />
@@ -162,6 +142,28 @@
           <Property Name="Role" Type="int" Nullable="false" />
           <Property Name="Datatime" Type="datetime" Nullable="false" />
           <Property Name="Nickname" Type="nvarchar" MaxLength="250" />
+        </EntityType>
+        <EntityType Name="MsgCommand">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="nvarchar" MaxLength="50" Nullable="false" />
+          <Property Name="Msg" Type="nvarchar(max)" />
+          <Property Name="Time" Type="datetime" Nullable="false" />
+          <Property Name="Command" Type="nvarchar" MaxLength="50" Nullable="false" />
+          <Property Name="ToQQ" Type="bigint" Nullable="false" />
+          <Property Name="ToGroup" Type="bigint" Nullable="false" />
+        </EntityType>
+        <EntityType Name="MsgInformation">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="nvarchar" MaxLength="50" Nullable="false" />
+          <Property Name="Msg" Type="nvarchar(max)" />
+          <Property Name="RelationId" Type="nvarchar" MaxLength="50" />
+          <Property Name="Time" Type="datetime" Nullable="false" />
+          <Property Name="FromGroup" Type="bigint" Nullable="false" />
+          <Property Name="FromQQ" Type="bigint" Nullable="false" />
         </EntityType>
         <EntityType Name="MsgRecievedCache">
           <Key>
@@ -288,13 +290,13 @@
           <EntitySet Name="BlackList" EntityType="Self.BlackList" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="CharactorSetting" EntityType="Self.CharactorSetting" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="DirtyWord" EntityType="Self.DirtyWord" Schema="dbo" store:Type="Tables" />
-          <EntitySet Name="FishingRecord" EntityType="Self.FishingRecord" Schema="dbo" store:Type="Tables" />
-          <EntitySet Name="FishItem" EntityType="Self.FishItem" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="FortuneItem" EntityType="Self.FortuneItem" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Hello" EntityType="Self.Hello" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="HolyLightBless" EntityType="Self.HolyLightBless" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="KanColeGirlVoice" EntityType="Self.KanColeGirlVoice" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="MemberRoleCache" EntityType="Self.MemberRoleCache" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="MsgCommand" EntityType="Self.MsgCommand" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="MsgInformation" EntityType="Self.MsgInformation" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="MsgRecievedCache" EntityType="Self.MsgRecievedCache" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="MsgSendCache" EntityType="Self.MsgSendCache" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="PlusOneAvailable" EntityType="Self.PlusOneAvailable" Schema="dbo" store:Type="Tables" />
@@ -308,8 +310,7 @@
           <EntitySet Name="TohouSign" EntityType="Self.TohouSign" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="TouhouCardRecord" EntityType="Self.TouhouCardRecord" Schema="dbo" store:Type="Tables" />
         </EntityContainer>
-      </Schema>
-    </edmx:StorageModels>
+      </Schema></edmx:StorageModels>
     <!-- CSDL content -->
     <edmx:ConceptualModels>
       <Schema Namespace="Dolany.Ai.Reborn.Db" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
@@ -615,7 +616,31 @@
           <EntitySet Name="TarotFortuneRecord" EntityType="Self.TarotFortuneRecord" />
           <EntitySet Name="TohouSign" EntityType="Self.TohouSign" />
           <EntitySet Name="TouhouCardRecord" EntityType="Self.TouhouCardRecord" />
+          <EntitySet Name="MsgCommand" EntityType="Dolany.Ai.Reborn.Db.MsgCommand" />
+          <EntitySet Name="MsgInformation" EntityType="Dolany.Ai.Reborn.Db.MsgInformation" />
         </EntityContainer>
+        <EntityType Name="MsgCommand">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="Msg" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="Time" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="Command" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="ToQQ" Type="Int64" Nullable="false" />
+          <Property Name="ToGroup" Type="Int64" Nullable="false" />
+        </EntityType>
+        <EntityType Name="MsgInformation">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="Msg" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="RelationId" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="Time" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="FromGroup" Type="Int64" Nullable="false" />
+          <Property Name="FromQQ" Type="Int64" Nullable="false" />
+        </EntityType>
       </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
@@ -717,28 +742,6 @@
               <MappingFragment StoreEntitySet="DirtyWord">
                 <ScalarProperty Name="Id" ColumnName="Id" />
                 <ScalarProperty Name="Content" ColumnName="Content" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
-          <EntitySetMapping Name="FishingRecord">
-            <EntityTypeMapping TypeName="Dolany.Ai.Reborn.Db.FishingRecord">
-              <MappingFragment StoreEntitySet="FishingRecord">
-                <ScalarProperty Name="Id" ColumnName="Id" />
-                <ScalarProperty Name="GroupNum" ColumnName="GroupNum" />
-                <ScalarProperty Name="QQNum" ColumnName="QQNum" />
-                <ScalarProperty Name="ItemId" ColumnName="ItemId" />
-                <ScalarProperty Name="FishingTime" ColumnName="FishingTime" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
-          <EntitySetMapping Name="FishItem">
-            <EntityTypeMapping TypeName="Dolany.Ai.Reborn.Db.FishItem">
-              <MappingFragment StoreEntitySet="FishItem">
-                <ScalarProperty Name="Id" ColumnName="Id" />
-                <ScalarProperty Name="Name" ColumnName="Name" />
-                <ScalarProperty Name="Description" ColumnName="Description" />
-                <ScalarProperty Name="RareRate" ColumnName="RareRate" />
-                <ScalarProperty Name="Icon" ColumnName="Icon" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
@@ -920,6 +923,30 @@
                 <ScalarProperty Name="QQNum" ColumnName="QQNum" />
                 <ScalarProperty Name="UpdateDate" ColumnName="UpdateDate" />
                 <ScalarProperty Name="CardName" ColumnName="CardName" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="MsgCommand">
+            <EntityTypeMapping TypeName="Dolany.Ai.Reborn.Db.MsgCommand">
+              <MappingFragment StoreEntitySet="MsgCommand">
+                <ScalarProperty Name="ToGroup" ColumnName="ToGroup" />
+                <ScalarProperty Name="ToQQ" ColumnName="ToQQ" />
+                <ScalarProperty Name="Command" ColumnName="Command" />
+                <ScalarProperty Name="Time" ColumnName="Time" />
+                <ScalarProperty Name="Msg" ColumnName="Msg" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="MsgInformation">
+            <EntityTypeMapping TypeName="Dolany.Ai.Reborn.Db.MsgInformation">
+              <MappingFragment StoreEntitySet="MsgInformation">
+                <ScalarProperty Name="FromQQ" ColumnName="FromQQ" />
+                <ScalarProperty Name="FromGroup" ColumnName="FromGroup" />
+                <ScalarProperty Name="Time" ColumnName="Time" />
+                <ScalarProperty Name="RelationId" ColumnName="RelationId" />
+                <ScalarProperty Name="Msg" ColumnName="Msg" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
