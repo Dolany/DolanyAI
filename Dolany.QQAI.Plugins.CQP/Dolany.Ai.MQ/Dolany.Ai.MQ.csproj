@@ -93,12 +93,16 @@
     <Compile Include="Db\MsgInformation.cs">
       <DependentUpon>AIDatabase.tt</DependentUpon>
     </Compile>
+    <Compile Include="MahuaApis\APIEx.cs" />
     <Compile Include="MahuaEvents\GroupMsgReceive.cs" />
+    <Compile Include="MahuaEvents\InitializationMahuaEvent.cs" />
+    <Compile Include="MahuaEvents\PrivateMsgReceived.cs" />
     <Compile Include="MahuaModule.cs" />
     <Compile Include="MyMenuProvider.cs" />
     <Compile Include="PluginInfo.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Resolver\Listenser.cs" />
+    <Compile Include="Utility.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="App.Config" />
@@ -112,8 +116,6 @@
     <None Include="Db\AIDatabase.edmx.diagram">
       <DependentUpon>AIDatabase.edmx</DependentUpon>
     </None>
-    <None Include="MahuaApis\readme.md" />
-    <None Include="MahuaEvents\readme.md" />
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
@@ -139,5 +141,6 @@
       <Name>Dolany.Ai.Util</Name>
     </ProjectReference>
   </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

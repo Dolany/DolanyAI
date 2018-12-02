@@ -10,6 +10,8 @@ using Dolany.Ai.Util;
 
 namespace Dolany.Ai.MQ.Resolver
 {
+    using Dolany.Ai.MQ.MahuaApis;
+
     public class Listenser
     {
         private Timer Ltimer = new Timer();
@@ -66,6 +68,62 @@ namespace Dolany.Ai.MQ.Resolver
                 case AiCommand.SendPrivate:
                     SendMsg(command);
                     break;
+                case AiCommand.Get163Music:
+                    ReturnBackMusic(command.Msg, command.Id);
+                    break;
+                case AiCommand.GetGroupMemberInfo:
+                    ReturnGroupMemberInfo(command.Msg, command.Id);
+                    break;
+            }
+        }
+
+        private void ReturnGroupMemberInfo(string groupNum, string relationId)
+        {
+            var info = APIEx.GetGroupMemberList(groupNum);
+            if (string.IsNullOrEmpty(info))
+            {
+                return;
+            }
+
+            using (var db = new AIDatabaseEntities())
+            {
+                db.MsgInformation.Add(
+                    new MsgInformation
+                        {
+                            Id = Guid.NewGuid().ToString(),
+                            FromGroup = 0,
+                            FromQQ = 0,
+                            Msg = info,
+                            RelationId = relationId,
+                            Time = DateTime.Now
+                        });
+
+                db.SaveChanges();
+            }
+        }
+
+        private void ReturnBackMusic(string musicId, string relationId)
+        {
+            var music = APIEx._163Music(musicId);
+            if (string.IsNullOrEmpty(music))
+            {
+                return;
+            }
+
+            using (var db = new AIDatabaseEntities())
+            {
+                db.MsgInformation.Add(
+                    new MsgInformation
+                        {
+                            Id = Guid.NewGuid().ToString(),
+                            FromGroup = 0,
+                            FromQQ = 0,
+                            Msg = music,
+                            RelationId = relationId,
+                            Time = DateTime.Now
+                        });
+
+                db.SaveChanges();
             }
         }
 

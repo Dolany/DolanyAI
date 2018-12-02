@@ -22,10 +22,6 @@ namespace Dolany.Ai.MQ.MahuaEvents
 
         public void ProcessGroupMessage(GroupMessageReceivedContext context)
         {
-            // todo 填充处理逻辑
-            //throw new NotImplementedException();
-
-            // 不要忘记在MahuaModule中注册
             using (var db = new AIDatabaseEntities())
             {
                 db.MsgInformation.Add(new MsgInformation
