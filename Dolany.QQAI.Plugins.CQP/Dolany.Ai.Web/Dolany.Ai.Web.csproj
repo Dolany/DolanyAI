@@ -10,4 +10,8 @@
     <PackageReference Include="System.Collections.Immutable" Version="1.5.0" />
   </ItemGroup>
 
+  <ItemGroup>
+    <ProjectReference Include="..\Dolany.Ai.Reborn\Dolany.Ai.Reborn.csproj" />
+  </ItemGroup>
+
 </Project>

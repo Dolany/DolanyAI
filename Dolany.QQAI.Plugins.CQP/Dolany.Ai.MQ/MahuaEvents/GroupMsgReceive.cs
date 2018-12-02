@@ -1,10 +1,10 @@
 ﻿using Newbe.Mahua.MahuaEvents;
-using System.Messaging;
-using System;
 
 namespace Dolany.Ai.MQ.MahuaEvents
 {
     using Newbe.Mahua;
+    using Dolany.Ai.MQ.Db;
+    using System;
 
     /// <summary>
     /// 群消息接收事件
@@ -26,35 +26,19 @@ namespace Dolany.Ai.MQ.MahuaEvents
             //throw new NotImplementedException();
 
             // 不要忘记在MahuaModule中注册
-            SendMessage("send msg test", ".\\private$\\InformationMq");
-        }
-
-        private static void SendMessage<T>(T target, string queuePath, MessageQueueTransaction tran = null)
-        {
-            try
+            using (var db = new AIDatabaseEntities())
             {
-                //连接到本地的队列
-                var myQueue = new MessageQueue(queuePath);
-                var myMessage = new Message
+                db.MsgInformation.Add(new MsgInformation
                 {
-                    Body = target,
-                    Formatter = new XmlMessageFormatter(new[] { typeof(T) })
-                };
-                //发送消息到队列中
-                if (tran == null)
-                {
-                    myQueue.Send(myMessage);
-                }
-                else
-                {
-                    myQueue.Send(myMessage, tran);
-                }
+                    Id = Guid.NewGuid().ToString(),
+                    FromGroup = long.Parse(context.FromGroup),
+                    FromQQ = long.Parse(context.FromQq),
+                    RelationId = string.Empty,
+                    Time = DateTime.Now,
+                    Msg = context.Message
+                });
 
-                Console.WriteLine("消息已成功发送到" + queuePath + "队列！");
-            }
-            catch (Exception e)
-            {
-                MahuaModule.RuntimeLogger.Log(e);
+                db.SaveChanges();
             }
         }
     }
