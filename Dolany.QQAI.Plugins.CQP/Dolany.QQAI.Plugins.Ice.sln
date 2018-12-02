@@ -34,8 +34,6 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Dolany.Ai.MQ", "Dolany.Ai.M
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Dolany.Ai.Web", "Dolany.Ai.Web\Dolany.Ai.Web.csproj", "{B6FBEC66-E75A-495B-A720-15013280701F}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MQLib", "MQLib\MQLib.csproj", "{D4A0995D-4B5F-4970-8021-07D90C355B28}"
-EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -86,10 +84,6 @@ Global
 		{B6FBEC66-E75A-495B-A720-15013280701F}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{B6FBEC66-E75A-495B-A720-15013280701F}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{B6FBEC66-E75A-495B-A720-15013280701F}.Release|Any CPU.Build.0 = Release|Any CPU
-		{D4A0995D-4B5F-4970-8021-07D90C355B28}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{D4A0995D-4B5F-4970-8021-07D90C355B28}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{D4A0995D-4B5F-4970-8021-07D90C355B28}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{D4A0995D-4B5F-4970-8021-07D90C355B28}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
