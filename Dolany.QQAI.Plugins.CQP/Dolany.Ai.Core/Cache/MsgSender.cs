@@ -4,10 +4,13 @@ using System.Text;
 
 namespace Dolany.Ai.Core.Cache
 {
+    using System.Linq;
     using System.Timers;
 
     using Dolany.Ai.Core.Common;
+    using Dolany.Ai.Core.Db;
     using Dolany.Ai.Core.DTO;
+    using Dolany.Ai.Util;
     using static Dolany.Ai.Core.Common.Utility;
     using static Dolany.Ai.Core.API.CodeApi;
 
@@ -58,7 +61,7 @@ namespace Dolany.Ai.Core.Cache
                     return;
                 }
 
-                if (msg.Guid.IsNullOrEmpty())
+                if (string.IsNullOrEmpty(msg.Guid))
                 {
                     msg.Guid = Guid.NewGuid().ToString();
                 }
@@ -129,22 +132,38 @@ namespace Dolany.Ai.Core.Cache
 
         private static void SendMsg(SendMsgDTO msg)
         {
-            using (var robotSession = MahuaRobotManager.Instance.CreateSession())
+            using (var db = new AIDatabase())
             {
-                var api = robotSession.MahuaApi;
                 switch (msg.Type)
                 {
                     case MsgType.Group:
-                        api.SendGroupMessage(msg.Aim.ToString(), msg.Msg);
+                        db.MsgCommand.Add(
+                            new MsgCommand
+                                {
+                                    Id = Guid.NewGuid().ToString(),
+                                    Command = AiCommand.SendGroup,
+                                    Msg = msg.Msg,
+                                    Time = DateTime.Now,
+                                    ToGroup = msg.Aim,
+                                    ToQQ = 0
+                                });
                         break;
 
                     case MsgType.Private:
-                        api.SendPrivateMessage(msg.Aim.ToString(), msg.Msg);
+                        db.MsgCommand.Add(
+                            new MsgCommand
+                                {
+                                    Id = Guid.NewGuid().ToString(),
+                                    Command = AiCommand.SendPrivate,
+                                    Msg = msg.Msg,
+                                    Time = DateTime.Now,
+                                    ToGroup = 0,
+                                    ToQQ = msg.Aim
+                            });
                         break;
-
-                    default:
-                        throw new Exception("Unexpected Case");
                 }
+
+                db.SaveChanges();
             }
         }
     }
