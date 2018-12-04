@@ -15,7 +15,6 @@ namespace Dolany.Ai.Core.Common
     using Dolany.Ai.Core.Model;
 
     using static Dolany.Ai.Core.API.CodeApi;
-    using static Dolany.Ai.Util.UtTools;
 
     public static class Utility
     {
@@ -26,6 +25,11 @@ namespace Dolany.Ai.Core.Common
         private static Dictionary<string, string> AIConfig;
 
         private static readonly RNGCryptoServiceProvider RngCsp = new RNGCryptoServiceProvider();
+
+        public static bool IsNullOrEmpty<T>(this IEnumerable<T> objs)
+        {
+            return objs == null || !objs.Any();
+        }
 
         [HandleProcessCorruptedStateExceptions]
         public static string GetConfig(string name)

@@ -1,15 +1,13 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Text;
 
 namespace Dolany.Ai.Core.Cache
 {
     using System.Linq;
 
+    using Dolany.Ai.Core.API;
     using Dolany.Ai.Core.Common;
     using Dolany.Ai.Core.Db;
     using Dolany.Ai.Core.DTO;
-    using static Dolany.Ai.Util.UtTools;
 
     public static class GroupMemberInfoCacher
     {
@@ -38,7 +36,7 @@ namespace Dolany.Ai.Core.Cache
         {
             using (var db = new AIDatabase())
             {
-                var infos = AmandaAPIEx.GetMemberInfos(MsgDTO.FromGroup);
+                var infos = APIEx.GetMemberInfos(MsgDTO.FromGroup);
                 if (infos == null)
                 {
                     RuntimeLogger.Log($"Cannot get Group Member Infos:{MsgDTO.FromGroup}");
