@@ -7,11 +7,10 @@ namespace Dolany.Ai.Core.Cache
     using Dolany.Ai.Core.API;
     using Dolany.Ai.Core.Common;
     using Dolany.Ai.Core.Db;
-    using Dolany.Ai.Core.DTO;
 
     public static class GroupMemberInfoCacher
     {
-        public static MemberRoleCache GetMemberInfo(ReceivedMsgDTO MsgDTO)
+        public static MemberRoleCache GetMemberInfo(MsgInformationEx MsgDTO)
         {
             using (var db = new AIDatabase())
             {
@@ -32,7 +31,7 @@ namespace Dolany.Ai.Core.Cache
             }
         }
 
-        private static MemberRoleCache GetNewInfo(ReceivedMsgDTO MsgDTO)
+        private static MemberRoleCache GetNewInfo(MsgInformationEx MsgDTO)
         {
             using (var db = new AIDatabase())
             {

@@ -4,6 +4,8 @@ namespace Dolany.Ai.Core.SyntaxChecker
 {
     using System.ComponentModel.Composition;
 
+    using Dolany.Ai.Core.Common;
+
     [Export(typeof(ISyntaxChecker))]
     public class AtChecker : ISyntaxChecker
     {

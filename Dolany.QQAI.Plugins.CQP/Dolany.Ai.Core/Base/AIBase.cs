@@ -9,14 +9,14 @@ namespace Dolany.Ai.Core.Base
 
     using Dolany.Ai.Core.Cache;
     using Dolany.Ai.Core.Common;
-    using Dolany.Ai.Core.DTO;
+    using Dolany.Ai.Core.Db;
     using static Dolany.Ai.Core.API.CodeApi;
     using static Dolany.Ai.Core.Common.Utility;
 
     public abstract class AIBase
     {
         // ReSharper disable once MemberCanBeProtected.Global
-        public delegate void MsgConsolerDel(ReceivedMsgDTO msgDTO, object[] para);
+        public delegate void MsgConsolerDel(MsgInformationEx msgDTO, object[] para);
 
         // ReSharper disable once MemberCanBePrivate.Global
         protected readonly Dictionary<EnterCommandAttribute, MsgConsolerDel> Consolers =
@@ -41,7 +41,7 @@ namespace Dolany.Ai.Core.Base
 
         public abstract void Work();
 
-        public virtual bool OnMsgReceived(ReceivedMsgDTO MsgDTO)
+        public virtual bool OnMsgReceived(MsgInformationEx MsgDTO)
         {
             var query = Consolers.Where(c => c.Key.Command == MsgDTO.Command).ToList();
             if (query.IsNullOrEmpty())
@@ -76,7 +76,7 @@ namespace Dolany.Ai.Core.Base
             return false;
         }
 
-        private static bool Check(EnterCommandAttribute enterAttr, ReceivedMsgDTO MsgDTO, out object[] param)
+        private static bool Check(EnterCommandAttribute enterAttr, MsgInformationEx MsgDTO, out object[] param)
         {
             param = null;
             if (!enterAttr.CommandsList.Contains(MsgDTO.Command))
@@ -141,19 +141,19 @@ namespace Dolany.Ai.Core.Base
             }
         }
 
-        private static bool AuthorityCheck(AuthorityLevel authorityLevel, EnterCommandAttribute enterAttr, ReceivedMsgDTO MsgDTO)
+        private static bool AuthorityCheck(AuthorityLevel authorityLevel, EnterCommandAttribute enterAttr, MsgInformationEx MsgDTO)
         {
             if (MsgDTO.FromQQ == DeveloperNumber)
             {
                 return true;
             }
 
-            return MsgDTO.MsgType == MsgType.Group ?
+            return MsgDTO.Type == MsgType.Group ?
                 GroupCheck(authorityLevel, MsgDTO) :
                 PrivateCheck(enterAttr);
         }
 
-        private static bool GroupCheck(AuthorityLevel authorityLevel, ReceivedMsgDTO MsgDTO)
+        private static bool GroupCheck(AuthorityLevel authorityLevel, MsgInformationEx MsgDTO)
         {
             var mi = GetMemberInfo(MsgDTO);
             if (mi == null)

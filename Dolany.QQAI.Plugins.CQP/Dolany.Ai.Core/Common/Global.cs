@@ -14,6 +14,12 @@ namespace Dolany.Ai.Core.Common
         StartTime
     }
 
+    public enum MsgType
+    {
+        Private = 1,
+        Group = 0
+    }
+
     public enum Config
     {
 

@@ -14,7 +14,6 @@ namespace Dolany.Ai.Core
     using Dolany.Ai.Core.Cache;
     using Dolany.Ai.Core.Common;
     using Dolany.Ai.Core.Db;
-    using Dolany.Ai.Core.DTO;
     using Dolany.Ai.Core.Entities;
     using Dolany.Ai.Core.SyntaxChecker;
 
@@ -123,6 +122,7 @@ namespace Dolany.Ai.Core
         private void Init()
         {
             LoadAis();
+            Waiter.Instance.Listen();
         }
 
         private void LoadAis()
@@ -143,7 +143,7 @@ namespace Dolany.Ai.Core
         /// </summary>
         /// <param name="MsgDTO"></param>
         [HandleProcessCorruptedStateExceptions]
-        public void OnMsgReceived(ReceivedMsgDTO MsgDTO)
+        public void OnMsgReceived(MsgInformation MsgDTO)
         {
             try
             {
@@ -152,17 +152,27 @@ namespace Dolany.Ai.Core
                     return;
                 }
 
-                if (MsgDTO.FromQQ < 0)
+                var MsgEx = new MsgInformationEx
+                                {
+                                    Id = MsgDTO.Id,
+                                    Msg = MsgDTO.Msg,
+                                    RelationId = MsgDTO.RelationId,
+                                    Time = MsgDTO.Time,
+                                    FromGroup = MsgDTO.FromGroup,
+                                    FromQQ = MsgDTO.FromQQ
+                                };
+                if (MsgEx.FromQQ < 0)
                 {
-                    MsgDTO.FromQQ = MsgDTO.FromQQ & 0xFFFFFFFF;
+                    MsgEx.FromQQ = MsgEx.FromQQ & 0xFFFFFFFF;
                 }
 
-                var msg = MsgDTO.Msg;
-                MsgDTO.FullMsg = msg;
-                MsgDTO.Command = GenCommand(ref msg);
-                MsgDTO.Msg = msg;
+                var msg = MsgEx.Msg;
+                MsgEx.FullMsg = msg;
+                MsgEx.Command = GenCommand(ref msg);
+                MsgEx.Msg = msg;
+                MsgEx.Type = MsgEx.FromGroup == 0 ? MsgType.Private : MsgType.Group;
 
-                MsgCallBack(MsgDTO);
+                MsgCallBack(MsgEx);
             }
             catch (Exception ex)
             {
@@ -171,7 +181,7 @@ namespace Dolany.Ai.Core
         }
 
         [HandleProcessCorruptedStateExceptions]
-        private void MsgCallBack(ReceivedMsgDTO MsgDTO)
+        private void MsgCallBack(MsgInformationEx MsgDTO)
         {
             Task.Factory.StartNew(() =>
             {
@@ -186,7 +196,7 @@ namespace Dolany.Ai.Core
             });
         }
 
-        private void MsgCallBack_Func(ReceivedMsgDTO MsgDTO)
+        private void MsgCallBack_Func(MsgInformationEx MsgDTO)
         {
             if (DirtyFilter.IsInBlackList(MsgDTO.FromQQ) ||
                 !DirtyFilter.Filter(MsgDTO.FromGroup, MsgDTO.FromQQ, MsgDTO.Msg))
@@ -225,7 +235,7 @@ namespace Dolany.Ai.Core
             }
         }
 
-        private static bool IsAiSealed(ReceivedMsgDTO MsgDTO, AIBase ai)
+        private static bool IsAiSealed(MsgInformationEx MsgDTO, AIBase ai)
         {
             using (var db = new AIDatabase())
             {

@@ -7,7 +7,6 @@ namespace Dolany.Ai.Core.Common
     using System.Linq;
 
     using Dolany.Ai.Core.Db;
-    using Dolany.Ai.Core.DTO;
 
     public static class DirtyFilter
     {
@@ -41,7 +40,7 @@ namespace Dolany.Ai.Core.Common
 
                 var mi = GroupNum == 0
                     ? null
-                    : Utility.GetMemberInfo(new ReceivedMsgDTO
+                    : Utility.GetMemberInfo(new MsgInformationEx
                     {
                         FromGroup = GroupNum,
                         FromQQ = QQNum

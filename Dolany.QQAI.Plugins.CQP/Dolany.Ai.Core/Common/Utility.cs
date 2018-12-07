@@ -11,7 +11,6 @@ namespace Dolany.Ai.Core.Common
 
     using Dolany.Ai.Core.Cache;
     using Dolany.Ai.Core.Db;
-    using Dolany.Ai.Core.DTO;
     using Dolany.Ai.Core.Model;
 
     using static Dolany.Ai.Core.API.CodeApi;
@@ -129,12 +128,14 @@ namespace Dolany.Ai.Core.Common
 
         public static void SendMsgToDeveloper(string msg)
         {
-            MsgSender.Instance.PushMsg(new SendMsgDTO
-            {
-                Aim = DeveloperNumber,
-                Type = MsgType.Private,
-                Msg = msg
-            });
+            MsgSender.Instance.PushMsg(
+                new MsgCommand
+                    {
+                        Id = Guid.NewGuid().ToString(),
+                        Command = AiCommand.SendPrivate,
+                        Msg = msg,
+                        ToQQ = DeveloperNumber
+                    });
         }
 
         public static void SendMsgToDeveloper(Exception ex)
@@ -178,7 +179,7 @@ namespace Dolany.Ai.Core.Common
             return copyT;
         }
 
-        public static MemberRoleCache GetMemberInfo(ReceivedMsgDTO MsgDTO)
+        public static MemberRoleCache GetMemberInfo(MsgInformationEx MsgDTO)
         {
             return GroupMemberInfoCacher.GetMemberInfo(MsgDTO);
         }
