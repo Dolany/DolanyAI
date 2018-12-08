@@ -2,7 +2,6 @@
 {
     using System;
     using System.Collections.Generic;
-    using System.ComponentModel.Composition;
     using System.Linq;
     using System.Reflection;
     using System.Runtime.ExceptionServices;
@@ -25,13 +24,11 @@
 
         public static AIMgr Instance { get; } = new AIMgr();
 
-        [ImportMany(typeof(IAITool))]
-        private Lazy<IEnumerable<IAITool>> Tools => null;
+        private List<IAITool> Tools { get; set; } = new List<IAITool>();
 
         public List<EnterCommandAttribute> AllAvailableGroupCommands { get; } = new List<EnterCommandAttribute>();
 
-        [ImportMany(typeof(ISyntaxChecker))]
-        public Lazy<IEnumerable<ISyntaxChecker>> Checkers => null;
+        public List<ISyntaxChecker> Checkers { get; set; } = new List<ISyntaxChecker>();
 
         private int CommandCount { get; set; }
 
@@ -94,8 +91,8 @@
                 ai.Key.Work();
                 ExtractCommands(ai.Key);
             }
-
-            foreach (var tool in Tools.Value)
+            
+            foreach (var tool in this.Tools)
             {
                 tool.Work();
             }
@@ -121,7 +118,44 @@
         private void Init()
         {
             LoadAis();
+            LoadTools();
+            LoadCheckers();
             Waiter.Instance.Listen();
+        }
+
+        private void LoadCheckers()
+        {
+            var assembly = Assembly.GetExecutingAssembly();
+            var list = from type in assembly.GetTypes()
+                       where typeof(ISyntaxChecker).IsAssignableFrom(type) && type.IsClass
+                       where type.FullName != null
+                       let checker = assembly.CreateInstance(type.FullName) as ISyntaxChecker
+                       select checker;
+
+            Checkers = list.ToList();
+        }
+
+        private void LoadTools()
+        {
+            var assembly = Assembly.GetExecutingAssembly();
+            foreach (var type in assembly.GetTypes())
+            {
+                if (!type.IsClass ||
+                    !typeof(IAITool).IsAssignableFrom(type))
+                {
+                    continue;
+                }
+
+                if (type.FullName == null)
+                {
+                    continue;
+                }
+                var tool = assembly.CreateInstance(type.FullName) as IAITool;
+
+                Tools.Add(tool);
+            }
+
+            RuntimeLogger.Log($"{Tools.Count} tools created.");
         }
 
         private void LoadAis()

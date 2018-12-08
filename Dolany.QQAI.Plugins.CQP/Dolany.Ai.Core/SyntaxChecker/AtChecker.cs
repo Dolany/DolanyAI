@@ -1,12 +1,9 @@
-﻿using System;
-
-namespace Dolany.Ai.Core.SyntaxChecker
+﻿namespace Dolany.Ai.Core.SyntaxChecker
 {
-    using System.ComponentModel.Composition;
+    using System;
 
     using Dolany.Ai.Core.Common;
 
-    [Export(typeof(ISyntaxChecker))]
     public class AtChecker : ISyntaxChecker
     {
         public string Name { get; } = "At";

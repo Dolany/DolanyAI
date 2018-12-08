@@ -41,7 +41,7 @@ namespace Dolany.Ai.Core.Ai.SingleCommand.Dice
             if (MsgDTO.Type == MsgType.Group)
             {
                 var query = DbMgr.Query<DiceSettingRecordEntity>(p => p.Content == MsgDTO.Command &&
-                                                                      p.FromGroup == MsgDTO.FromGroup).ToList();
+                                                                      p.FromGroup == MsgDTO.FromGroup);
                 format = query.IsNullOrEmpty() ? MsgDTO.Command : query.First().SourceFormat;
             }
             else

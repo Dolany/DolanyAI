@@ -1,10 +1,7 @@
 ﻿namespace Dolany.Ai.Core.SyntaxChecker
 {
-    using System.ComponentModel.Composition;
-
     using Dolany.Ai.Core.Common;
 
-    [Export(typeof(ISyntaxChecker))]
     public class HourMinuteChecker : ISyntaxChecker
     {
         public string Name { get; } = "HourMinute";

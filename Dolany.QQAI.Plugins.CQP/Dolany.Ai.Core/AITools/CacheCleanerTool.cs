@@ -1,6 +1,5 @@
 ﻿namespace Dolany.Ai.Core.AITools
 {
-    using System.ComponentModel.Composition;
     using System.Diagnostics;
     using System.IO;
     using System.Linq;
@@ -20,7 +19,6 @@
         public int MaxCacheCount { get; set; }
     }
 
-    [Export(typeof(IAITool))]
     public class CacheCleanerTool : IAITool
     {
         private int PicCleanFreq

@@ -1,17 +1,14 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-
-namespace Dolany.Ai.Core.Db
+﻿namespace Dolany.Ai.Core.Db
 {
     using Microsoft.EntityFrameworkCore;
     using static Dolany.Ai.Core.Common.Utility;
 
     public sealed partial class AIDatabase : DbContext
     {
+        private const string ConnectionString = @"Server=172_16_0_2\SQLEXPRESS;Database=C:\AIDB\AIDATABASE.MDF;Trusted_Connection=True;uid=sa;pwd=2160727;";
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
-            optionsBuilder.UseSqlServer(GetConfig("ConnectionString"));
+            optionsBuilder.UseSqlServer(ConnectionString);
         }
 
         public DbSet<ActiveOffGroups> ActiveOffGroups { get; set; }

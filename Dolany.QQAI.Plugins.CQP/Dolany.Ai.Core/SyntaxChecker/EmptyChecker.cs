@@ -1,8 +1,5 @@
 ﻿namespace Dolany.Ai.Core.SyntaxChecker
 {
-    using System.ComponentModel.Composition;
-
-    [Export(typeof(ISyntaxChecker))]
     public class EmptyChecker : ISyntaxChecker
     {
         public string Name { get; } = "Empty";
