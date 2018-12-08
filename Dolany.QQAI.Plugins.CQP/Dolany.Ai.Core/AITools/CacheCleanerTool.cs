@@ -14,7 +14,9 @@
     public class CacheCleanerDTO
     {
         public string Path { get; set; }
+
         public bool IsCascading { get; set; }
+
         public int MaxCacheCount { get; set; }
     }
 

@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-
-namespace Dolany.Ai.Core.API
+﻿namespace Dolany.Ai.Core.API
 {
     using Dolany.Ai.Core.Common;
 
@@ -20,7 +16,7 @@ namespace Dolany.Ai.Core.API
 
         public static string Code_Image(string fileName)
         {
-            return $"[QQ:pic={fileName}]"; ;
+            return $"[QQ:pic={fileName}]";
         }
 
         public static string Code_Flash(string fileName)
@@ -33,7 +29,7 @@ namespace Dolany.Ai.Core.API
             return $"[QQ:voice={filePath}]";
         }
 
-        public static string ImagePath => "temp/image/";
+        public static string ImagePath => "C:/AmandaQQ/temp/image/";
 
         public static string ImageExtension => ".ini";
     }

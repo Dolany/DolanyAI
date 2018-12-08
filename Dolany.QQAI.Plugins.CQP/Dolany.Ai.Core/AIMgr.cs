@@ -1,8 +1,7 @@
-﻿using System;
-using System.Collections.Generic;
-
-namespace Dolany.Ai.Core
+﻿namespace Dolany.Ai.Core
 {
+    using System;
+    using System.Collections.Generic;
     using System.ComponentModel.Composition;
     using System.Linq;
     using System.Reflection;
@@ -22,17 +21,17 @@ namespace Dolany.Ai.Core
     /// </summary>
     public class AIMgr
     {
-        public IEnumerable<KeyValuePair<AIBase, AIAttribute>> AIList;
+        public IEnumerable<KeyValuePair<AIBase, AIAttribute>> AIList{ get; private set; }
 
         public static AIMgr Instance { get; } = new AIMgr();
 
         [ImportMany(typeof(IAITool))]
-        private Lazy<IEnumerable<IAITool>> Tools { get; set; }
+        private Lazy<IEnumerable<IAITool>> Tools => null;
 
         public List<EnterCommandAttribute> AllAvailableGroupCommands { get; } = new List<EnterCommandAttribute>();
 
         [ImportMany(typeof(ISyntaxChecker))]
-        public Lazy<IEnumerable<ISyntaxChecker>> Checkers { get; set; }
+        public Lazy<IEnumerable<ISyntaxChecker>> Checkers => null;
 
         private int CommandCount { get; set; }
 
@@ -138,10 +137,6 @@ namespace Dolany.Ai.Core
             AIList = list.ToList();
         }
 
-        /// <summary>
-        /// 处理群组消息收到事件
-        /// </summary>
-        /// <param name="MsgDTO"></param>
         [HandleProcessCorruptedStateExceptions]
         public void OnMsgReceived(MsgInformation MsgDTO)
         {
@@ -246,11 +241,6 @@ namespace Dolany.Ai.Core
             }
         }
 
-        /// <summary>
-        /// 提取消息命令，并将消息修改为没有命令的部分
-        /// </summary>
-        /// <param name="msg"></param>
-        /// <returns></returns>
         private static string GenCommand(ref string msg)
         {
             if (string.IsNullOrEmpty(msg))
