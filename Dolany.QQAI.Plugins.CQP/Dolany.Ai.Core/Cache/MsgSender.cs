@@ -13,6 +13,9 @@
 
         public void PushMsg(MsgCommand msg)
         {
+            var callback = $"[Command] {msg.ToGroup} {msg.ToQQ} {msg.Id} {msg.Command} {msg.Msg}";
+            AIMgr.Instance.MessagePublish(callback);
+
             using (var db = new AIDatabase())
             {
                 db.MsgCommand.Add(msg);

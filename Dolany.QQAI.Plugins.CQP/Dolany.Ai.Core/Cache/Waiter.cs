@@ -14,7 +14,7 @@ namespace Dolany.Ai.Core.Cache
 
     public class Waiter
     {
-        private ImmutableList<WaiterUnit> Units = ImmutableList.Create<WaiterUnit>();
+        private readonly ImmutableList<WaiterUnit> Units = ImmutableList.Create<WaiterUnit>();
 
         public static Waiter Instance { get; } = new Waiter();
 
@@ -35,6 +35,9 @@ namespace Dolany.Ai.Core.Cache
                 var infos = db.MsgInformation.ToList();
                 foreach (var info in infos)
                 {
+                    var msg = $"[Information] {info.FromGroup} {info.FromQQ} {info.RelationId} {info.Msg}";
+                    AIMgr.Instance.MessagePublish(msg);
+
                     var waitUnit = this.Units.FirstOrDefault(u => u.JudgePredicate(info));
                     if (waitUnit == null)
                     {

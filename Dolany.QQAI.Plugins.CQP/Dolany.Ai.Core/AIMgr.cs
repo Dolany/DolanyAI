@@ -12,7 +12,6 @@
     using Dolany.Ai.Core.Cache;
     using Dolany.Ai.Core.Common;
     using Dolany.Ai.Core.Db;
-    using Dolany.Ai.Core.Entities;
     using Dolany.Ai.Core.SyntaxChecker;
 
     /// <summary>
@@ -20,7 +19,7 @@
     /// </summary>
     public class AIMgr
     {
-        public IEnumerable<KeyValuePair<AIBase, AIAttribute>> AIList{ get; private set; }
+        public IEnumerable<KeyValuePair<AIBase, AIAttribute>> AIList { get; private set; }
 
         public static AIMgr Instance { get; } = new AIMgr();
 
@@ -30,7 +29,9 @@
 
         public List<ISyntaxChecker> Checkers { get; set; } = new List<ISyntaxChecker>();
 
-        private int CommandCount { get; set; }
+        private delegate void MessageCallBack(string msg);
+
+        private event MessageCallBack OnMessageCallBack;
 
         private AIMgr()
         {
@@ -44,8 +45,18 @@
             }
         }
 
-        public void Load()
+        public void MessagePublish(string message)
         {
+            this.OnMessageCallBack?.Invoke($"{DateTime.Now}: {message}");
+        }
+
+        public void Load(Action<string> CallBackFunc = null)
+        {
+            if (CallBackFunc != null)
+            {
+                OnMessageCallBack += new MessageCallBack(CallBackFunc);
+            }
+
             RuntimeLogger.Log("start up");
             DbMgr.InitXmls();
             RuntimeLogger.Log("加载所有可用AI");
@@ -55,28 +66,7 @@
             var msg = $"成功加载{AIList.Count()}个ai \r\n";
             RuntimeLogger.Log(msg);
 
-            RecordStarttime();
-            RecordCommandCount();
-        }
-
-        private static void RecordStarttime()
-        {
-            var query = DbMgr.Query<SysStatusEntity>(p => p.Key == SysStatus.StartTime.ToString()).ToList();
-            if (query.IsNullOrEmpty())
-            {
-                DbMgr.Insert(new SysStatusEntity
-                {
-                    Id = Guid.NewGuid().ToString(),
-                    Key = SysStatus.StartTime.ToString(),
-                    Content = DateTime.Now.ToCommonString()
-                });
-            }
-            else
-            {
-                var status = query.First();
-                status.Content = DateTime.Now.ToCommonString();
-                DbMgr.Update(status);
-            }
+            Sys_StartTime.Set(DateTime.Now);
         }
 
         /// <summary>
@@ -150,8 +140,8 @@
                 {
                     continue;
                 }
-                var tool = assembly.CreateInstance(type.FullName) as IAITool;
 
+                var tool = assembly.CreateInstance(type.FullName) as IAITool;
                 Tools.Add(tool);
             }
 
@@ -240,31 +230,10 @@
             }
 
             RecentCommandCache.Cache(DateTime.Now);
-            CommandCount++;
-            RecordCommandCount();
+            Sys_CommandCount.Plus();
         }
 
-        private void RecordCommandCount()
-        {
-            var query = DbMgr.Query<SysStatusEntity>(p => p.Key == SysStatus.Count.ToString()).ToList();
-            if (query.IsNullOrEmpty())
-            {
-                DbMgr.Insert(new SysStatusEntity
-                {
-                    Id = Guid.NewGuid().ToString(),
-                    Key = SysStatus.Count.ToString(),
-                    Content = CommandCount.ToString()
-                });
-            }
-            else
-            {
-                var status = query.First();
-                status.Content = CommandCount.ToString();
-                DbMgr.Update(status);
-            }
-        }
-
-        private static bool IsAiSealed(MsgInformationEx MsgDTO, AIBase ai)
+        private static bool IsAiSealed(MsgInformation MsgDTO, AIBase ai)
         {
             using (var db = new AIDatabase())
             {

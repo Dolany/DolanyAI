@@ -1,20 +1,22 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Timers;
-using Dolany.Ai.MQ.Db;
-using Newbe.Mahua;
-using Dolany.Ai.Util;
-
-namespace Dolany.Ai.MQ.Resolver
+﻿namespace Dolany.Ai.MQ.Resolver
 {
+    using System;
+    using System.Collections.Generic;
+    using System.Linq;
+    using System.Threading;
+    using System.Timers;
+
+    using Dolany.Ai.MQ.Db;
     using Dolany.Ai.MQ.MahuaApis;
+    using Dolany.Ai.Util;
+
+    using Newbe.Mahua;
+
+    using Timer = System.Timers.Timer;
 
     public class Listenser
     {
-        private Timer Ltimer = new Timer();
+        private readonly Timer Ltimer = new Timer();
 
         public Listenser()
         {
@@ -32,14 +34,14 @@ namespace Dolany.Ai.MQ.Resolver
             try
             {
                 var commands = CommandList();
-                foreach(var command in commands)
+                foreach (var command in commands)
                 {
                     ResovleCommand(command);
                 }
             }
             catch(Exception ex)
             {
-
+                MahuaModule.RuntimeLogger.Log(ex);
             }
             finally
             {
@@ -47,7 +49,7 @@ namespace Dolany.Ai.MQ.Resolver
             }
         }
 
-        private List<MsgCommand> CommandList()
+        private IEnumerable<MsgCommand> CommandList()
         {
             using (var db = new AIDatabaseEntities())
             {
@@ -62,7 +64,7 @@ namespace Dolany.Ai.MQ.Resolver
 
         private void ResovleCommand(MsgCommand command)
         {
-            switch(command.Command)
+            switch (command.Command)
             {
                 case AiCommand.SendGroup:
                 case AiCommand.SendPrivate:
@@ -74,7 +76,29 @@ namespace Dolany.Ai.MQ.Resolver
                 case AiCommand.GetGroupMemberInfo:
                     ReturnGroupMemberInfo(command.Msg, command.Id);
                     break;
+                case AiCommand.Praise:
+                    Praise(command.Msg, command.Id);
+                    break;
+                case AiCommand.Restart:
+                    Restart();
+                    break;
             }
+        }
+
+        private void Restart()
+        {
+            APIEx.Restart();
+        }
+
+        private void Praise(string qqNum, string relationId)
+        {
+            for (var i = 0; i < 10; i++)
+            {
+                APIEx.SendPraise(qqNum);
+                Thread.Sleep(100);
+            }
+
+            InfoSender.Send(RelationId: relationId);
         }
 
         private void ReturnGroupMemberInfo(string groupNum, string relationId)
@@ -85,21 +109,7 @@ namespace Dolany.Ai.MQ.Resolver
                 return;
             }
 
-            using (var db = new AIDatabaseEntities())
-            {
-                db.MsgInformation.Add(
-                    new MsgInformation
-                        {
-                            Id = Guid.NewGuid().ToString(),
-                            FromGroup = 0,
-                            FromQQ = 0,
-                            Msg = info,
-                            RelationId = relationId,
-                            Time = DateTime.Now
-                        });
-
-                db.SaveChanges();
-            }
+            InfoSender.Send(info, relationId);
         }
 
         private void ReturnBackMusic(string musicId, string relationId)
@@ -110,21 +120,7 @@ namespace Dolany.Ai.MQ.Resolver
                 return;
             }
 
-            using (var db = new AIDatabaseEntities())
-            {
-                db.MsgInformation.Add(
-                    new MsgInformation
-                        {
-                            Id = Guid.NewGuid().ToString(),
-                            FromGroup = 0,
-                            FromQQ = 0,
-                            Msg = music,
-                            RelationId = relationId,
-                            Time = DateTime.Now
-                        });
-
-                db.SaveChanges();
-            }
+            InfoSender.Send(music, relationId);
         }
 
         private void SendMsg(MsgCommand command)

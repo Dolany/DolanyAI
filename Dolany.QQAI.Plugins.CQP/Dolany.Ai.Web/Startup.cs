@@ -51,14 +51,14 @@
             app.UseStaticFiles();
             app.UseCookiePolicy();
 
-            try
-            {
-                AIMgr.Instance.Load();
-            }
-            catch (Exception ex)
-            {
-                RuntimeLogger.Log(ex);
-            }
+            //try
+            //{
+            //    AIMgr.Instance.Load();
+            //}
+            //catch (Exception ex)
+            //{
+            //    RuntimeLogger.Log(ex);
+            //}
 
             app.UseMvc(routes =>
             {

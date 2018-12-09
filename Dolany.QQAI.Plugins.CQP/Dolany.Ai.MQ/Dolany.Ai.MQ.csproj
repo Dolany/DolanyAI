@@ -87,6 +87,7 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>AIDatabase.edmx</DependentUpon>
     </Compile>
+    <Compile Include="Db\InfoSender.cs" />
     <Compile Include="Db\MsgCommand.cs">
       <DependentUpon>AIDatabase.tt</DependentUpon>
     </Compile>

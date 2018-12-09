@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-
-namespace Dolany.Ai.Core.Db
+﻿namespace Dolany.Ai.Core.Db
 {
     public partial class MsgInformation
     {

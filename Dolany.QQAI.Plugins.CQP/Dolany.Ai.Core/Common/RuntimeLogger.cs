@@ -10,24 +10,27 @@ namespace Dolany.Ai.Core.Common
     {
         private const string LogPath = "./RuntimeLog/";
         private static readonly object lockObj = new object();
-        public static int ErrorCount;
 
         public static void Log(string log)
         {
             lock (lockObj)
             {
-                var steam = CheckFile();
-                var data = new UTF8Encoding().GetBytes($"{DateTime.Now.ToCommonString()}:{log}\r\n");
-                steam.Write(data, 0, data.Length);
-                //清空缓冲区、关闭流
-                steam.Flush();
-                steam.Close();
+                using (var steam = CheckFile())
+                {
+                    AIMgr.Instance.MessagePublish(log);
+
+                    var data = new UTF8Encoding().GetBytes($"{DateTime.Now.ToCommonString()}:{log}\r\n");
+                    steam.Write(data, 0, data.Length);
+
+                    //清空缓冲区、关闭流
+                    steam.Flush();
+                }
             }
         }
 
         public static void Log(Exception ex)
         {
-            ErrorCount++;
+            Sys_ErrorCount.Plus();
             while (true)
             {
                 Log(ex.Message + "\r\n" + ex.StackTrace);
