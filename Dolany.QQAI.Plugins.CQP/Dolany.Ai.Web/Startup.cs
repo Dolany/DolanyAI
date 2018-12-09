@@ -1,9 +1,5 @@
 ﻿namespace Dolany.Ai.Web
 {
-    using System;
-
-    using Dolany.Ai.Core;
-    using Dolany.Ai.Core.Common;
     using Dolany.Ai.Web.Hubs;
 
     using Microsoft.AspNetCore.Builder;
@@ -58,7 +54,7 @@
                 {
                     routes.MapHub<AiHub>("/aiHub");
                 });
-
+            //app.UseMvc();
             app.UseMvc(routes =>
             {
                 routes.MapRoute(
