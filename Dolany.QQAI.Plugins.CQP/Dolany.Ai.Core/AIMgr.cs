@@ -35,14 +35,7 @@
 
         private AIMgr()
         {
-            try
-            {
-                Init();
-            }
-            catch (Exception ex)
-            {
-                RuntimeLogger.Log(ex);
-            }
+            
         }
 
         public void MessagePublish(string message)
@@ -52,6 +45,15 @@
 
         public void Load(Action<string> CallBackFunc = null)
         {
+            try
+            {
+                Init();
+            }
+            catch (Exception ex)
+            {
+                RuntimeLogger.Log(ex);
+            }
+
             if (CallBackFunc != null)
             {
                 OnMessageCallBack += new MessageCallBack(CallBackFunc);

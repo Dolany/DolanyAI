@@ -117,7 +117,7 @@ namespace Dolany.Ai.Core.Base
                 var list = new List<object>();
                 for (var i = 0; i < checkers.Length; i++)
                 {
-                    var checker = AIMgr.Instance.Checkers.FirstOrDefault(c => c.Name == checkers[1]);
+                    var checker = AIMgr.Instance.Checkers.FirstOrDefault(c => c.Name == checkers[i]);
                     if (checker == null ||
                         !checker.Check(paramStrs[i], out var p))
                     {
