@@ -61,6 +61,8 @@
                     name: "default",
                     template: "{controller=Home}/{action=Index}/{id?}");
             });
+
+            UDPConnector.Listen(async msg => await AiHub.Instance.SendMessage(msg));
         }
     }
 }

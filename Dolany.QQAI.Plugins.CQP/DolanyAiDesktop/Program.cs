@@ -20,6 +20,7 @@ namespace DolanyAiDesktop
         static void PrintMsg(string Msg)
         {
             Console.WriteLine(Msg);
+            UDPConnector.Send(Msg);
         }
     }
 }

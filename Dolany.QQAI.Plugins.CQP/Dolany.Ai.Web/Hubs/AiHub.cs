@@ -6,9 +6,11 @@
 
     public class AiHub : Hub
     {
-        public async Task SendMessage(string user, string message)
+        public async Task SendMessage(string message)
         {
-            await Clients.All.SendAsync("ReceiveMessage", user, message);
+            await Clients.All.SendAsync("ReceiveMessage", message);
         }
+
+        public static AiHub Instance { get; } = new AiHub();
     }
 }
