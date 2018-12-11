@@ -48,6 +48,7 @@ namespace Dolany.Ai.Core.Cache
                             }
                             else
                             {
+                                waitUnit.ResultInfo = info;
                                 waitUnit.Signal.Set();
                                 Units.Remove(waitUnit);
                             }
