@@ -33,18 +33,30 @@ namespace Dolany.Ai.Core.Cache
                 var infos = db.MsgInformation.ToList();
                 foreach (var info in infos)
                 {
-                    var msg = $"[Information] {info.FromGroup} {info.FromQQ} {info.RelationId} {info.Msg}";
+                    var msg =
+                        $"[Information] {info.Information} {info.FromGroup} {info.FromQQ} {info.RelationId} {info.Msg}";
                     AIMgr.Instance.MessagePublish(msg);
 
-                    var waitUnit = this.Units.FirstOrDefault(u => u.JudgePredicate(info));
-                    if (waitUnit == null)
+                    switch (info.Information)
                     {
-                        AIMgr.Instance.OnMsgReceived(info);
-                    }
-                    else
-                    {
-                        waitUnit.Signal.Set();
-                        Units.Remove(waitUnit);
+                        case AiInformation.Message:
+                        case AiInformation.CommandBack:
+                            var waitUnit = this.Units.FirstOrDefault(u => u.JudgePredicate(info));
+                            if (waitUnit == null)
+                            {
+                                AIMgr.Instance.OnMsgReceived(info);
+                            }
+                            else
+                            {
+                                waitUnit.Signal.Set();
+                                Units.Remove(waitUnit);
+                            }
+
+                            break;
+                        case AiInformation.AuthCode:
+                            Global.AuthCode = info.Msg;
+                            Utility.SendMsgToDeveloper($"AuthCode:{Global.AuthCode}");
+                            break;
                     }
 
                     db.MsgInformation.Remove(info);

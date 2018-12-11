@@ -1,7 +1,7 @@
-﻿using System;
-
-namespace Dolany.Ai.Core.API
+﻿namespace Dolany.Ai.Core.API
 {
+    using System;
+
     using Dolany.Ai.Core.API.ViewModel;
     using Dolany.Ai.Core.Cache;
     using Dolany.Ai.Core.Common;

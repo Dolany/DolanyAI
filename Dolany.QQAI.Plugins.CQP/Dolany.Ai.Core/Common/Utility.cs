@@ -40,7 +40,7 @@ namespace Dolany.Ai.Core.Common
                     AIConfig = GetConfigDic();
                 }
 
-                return AIConfig.Keys.Contains(name) ? AIConfig[name] : "";
+                return AIConfig.Keys.Contains(name) ? AIConfig[name] : string.Empty;
             }
             catch (Exception ex)
             {
@@ -243,7 +243,7 @@ namespace Dolany.Ai.Core.Common
             var picIdx = msg.IndexOf("[QQ:pic=", StringComparison.Ordinal);
             if (picIdx < 0)
             {
-                return "";
+                return string.Empty;
             }
 
             var startIdx = picIdx + "[QQ:pic=".Length;
@@ -272,6 +272,7 @@ namespace Dolany.Ai.Core.Common
             {
                 return string.Empty;
             }
+
             var strs1 = msg.Split(new[] { "QQ:pic=" }, StringSplitOptions.RemoveEmptyEntries);
             var strs2 = strs1.Last().Split(']');
             var strs3 = strs2.First().Split('.');

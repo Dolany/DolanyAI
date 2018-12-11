@@ -4,7 +4,7 @@
 
     public static class Global
     {
-        public static string AuthCode;
+        public static string AuthCode { get; set; }
     }
 
     public class Sys_ErrorCount
