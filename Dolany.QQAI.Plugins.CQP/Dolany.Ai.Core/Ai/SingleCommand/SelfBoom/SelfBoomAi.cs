@@ -37,8 +37,7 @@
                         Time = DateTime.Now,
                         ToGroup = MsgDTO.FromGroup
                     },
-                info => info.Msg == BoomCode.ToString(),
-                10000);
+                info => info.Msg == BoomCode.ToString());
             if (backInfo == null || string.IsNullOrEmpty(backInfo.Msg))
             {
                 MsgSender.Instance.PushMsg(
