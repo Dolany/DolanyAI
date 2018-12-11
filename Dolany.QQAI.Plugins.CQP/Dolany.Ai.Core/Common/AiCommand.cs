@@ -13,5 +13,7 @@
         public const string Praise = "Praise";
 
         public const string Restart = "Restart";
+
+        public const string GetAuthCode = "GetAuthCode";
     }
 }

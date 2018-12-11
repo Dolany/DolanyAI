@@ -69,6 +69,17 @@
             RuntimeLogger.Log(msg);
 
             Sys_StartTime.Set(DateTime.Now);
+            AskForAuthCode();
+        }
+
+        private void AskForAuthCode()
+        {
+            var authCodeInfo = Waiter.Instance.WaitForRelationId(
+                new MsgCommand { Id = Guid.NewGuid().ToString(), Command = AiCommand.GetAuthCode });
+            var authCode = authCodeInfo.Msg;
+            Global.AuthCode = authCode;
+
+            Utility.SendMsgToDeveloper($"AuthCode:{Global.AuthCode}");
         }
 
         /// <summary>

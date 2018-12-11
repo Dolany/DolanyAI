@@ -23,7 +23,7 @@ namespace Dolany.Ai.Core.API
                         ToQQ = 0
                     });
 
-            return info.Msg;
+            return info == null ? string.Empty : info.Msg;
         }
 
         public static GroupMemberListViewModel GetMemberInfos(long GroupNum)

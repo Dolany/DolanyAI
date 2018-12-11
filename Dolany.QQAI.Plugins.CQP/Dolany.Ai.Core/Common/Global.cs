@@ -4,14 +4,14 @@
 
     public static class Global
     {
-
+        public static string AuthCode;
     }
 
     public class Sys_ErrorCount
     {
         private static readonly object _lockObj = new object();
 
-        private static int _count = 0;
+        private static int _count;
 
         public static int Get()
         {
@@ -34,7 +34,7 @@
     {
         private static readonly object _lockObj = new object();
 
-        private static int _count = 0;
+        private static int _count;
 
         public static int Get()
         {

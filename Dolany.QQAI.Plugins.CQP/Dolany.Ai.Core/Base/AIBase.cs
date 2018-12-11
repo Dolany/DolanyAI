@@ -157,6 +157,12 @@ namespace Dolany.Ai.Core.Base
             var mi = GetMemberInfo(MsgDTO);
             if (mi == null)
             {
+                MsgSender.Instance.PushMsg(
+                    new MsgCommand
+                        {
+                            Command = AiCommand.Restart,
+                            Id = Guid.NewGuid().ToString()
+                        });
                 return false;
             }
 

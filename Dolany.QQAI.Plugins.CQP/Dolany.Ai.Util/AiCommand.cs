@@ -1,10 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace Dolany.Ai.Util
+﻿namespace Dolany.Ai.Util
 {
     public static class AiCommand
     {
@@ -19,5 +13,7 @@ namespace Dolany.Ai.Util
         public const string Praise = "Praise";
 
         public const string Restart = "Restart";
+
+        public const string GetAuthCode = "GetAuthCode";
     }
 }

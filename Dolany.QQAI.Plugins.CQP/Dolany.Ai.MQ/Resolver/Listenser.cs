@@ -82,7 +82,15 @@
                 case AiCommand.Restart:
                     Restart();
                     break;
+                case AiCommand.GetAuthCode:
+                    GetAuthCode(command.Id);
+                    break;
             }
+        }
+
+        private void GetAuthCode(string relationId)
+        {
+            InfoSender.Send(Utility.GetAuthCode(), relationId);
         }
 
         private void Restart()
