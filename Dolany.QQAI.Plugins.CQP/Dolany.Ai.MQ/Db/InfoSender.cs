@@ -12,8 +12,8 @@
                     new MsgInformation
                         {
                             Id = Guid.NewGuid().ToString(),
-                            FromGroup = 0,
-                            FromQQ = 0,
+                            FromGroup = FromGroup,
+                            FromQQ = FromQQ,
                             Msg = Msg,
                             RelationId = RelationId,
                             Time = DateTime.Now,

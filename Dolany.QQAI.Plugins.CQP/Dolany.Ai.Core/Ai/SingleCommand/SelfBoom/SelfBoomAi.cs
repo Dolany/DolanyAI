@@ -16,6 +16,8 @@
         PriorityLevel = 10)]
     public class SelfBoomAi : AIBase
     {
+        private readonly int BoomCode = Utility.RandInt(10000);
+
         [EnterCommand(
             Command = "Boom",
             AuthorityLevel = AuthorityLevel.成员,
@@ -35,7 +37,8 @@
                         Time = DateTime.Now,
                         ToGroup = MsgDTO.FromGroup
                     },
-                info => info.Msg == Global.AuthCode);
+                info => info.Msg == BoomCode.ToString(),
+                10000);
             if (backInfo == null || string.IsNullOrEmpty(backInfo.Msg))
             {
                 MsgSender.Instance.PushMsg(
@@ -87,7 +90,29 @@
                 new MsgCommand
                     {
                         Command = AiCommand.Restart,
-                        Id = Guid.NewGuid().ToString()
+                        Id = Guid.NewGuid().ToString(),
+                        Time = DateTime.Now
+                    });
+        }
+
+        [EnterCommand(
+            Command = "BoomCode",
+            AuthorityLevel = AuthorityLevel.开发者,
+            Description = "获取自爆指令码",
+            Syntax = "",
+            Tag = "系统功能",
+            SyntaxChecker = "Empty",
+            IsPrivateAvailabe = true)]
+        public void GetBoomCode(MsgInformationEx MsgDTO, object[] param)
+        {
+            MsgSender.Instance.PushMsg(
+                new MsgCommand
+                    {
+                        Command = AiCommand.SendGroup,
+                        Id = Guid.NewGuid().ToString(),
+                        Msg = BoomCode.ToString(),
+                        Time = DateTime.Now,
+                        ToGroup = MsgDTO.FromGroup
                     });
         }
 

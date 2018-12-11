@@ -161,7 +161,8 @@ namespace Dolany.Ai.Core.Base
                     new MsgCommand
                         {
                             Command = AiCommand.Restart,
-                            Id = Guid.NewGuid().ToString()
+                            Id = Guid.NewGuid().ToString(),
+                            Time = DateTime.Now
                         });
                 return false;
             }

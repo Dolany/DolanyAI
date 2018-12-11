@@ -1,7 +1,6 @@
 ﻿namespace Dolany.Ai.Core.Db
 {
     using Microsoft.EntityFrameworkCore;
-    using static Dolany.Ai.Core.Common.Utility;
 
     public sealed partial class AIDatabase : DbContext
     {

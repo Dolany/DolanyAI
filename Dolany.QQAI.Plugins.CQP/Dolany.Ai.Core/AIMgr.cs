@@ -45,6 +45,11 @@
 
         public void Load(Action<string> CallBackFunc = null)
         {
+            if (CallBackFunc != null)
+            {
+                OnMessageCallBack += new MessageCallBack(CallBackFunc);
+            }
+
             try
             {
                 Init();
@@ -52,11 +57,6 @@
             catch (Exception ex)
             {
                 RuntimeLogger.Log(ex);
-            }
-
-            if (CallBackFunc != null)
-            {
-                OnMessageCallBack += new MessageCallBack(CallBackFunc);
             }
 
             RuntimeLogger.Log("start up");
@@ -69,7 +69,7 @@
             RuntimeLogger.Log(msg);
 
             Sys_StartTime.Set(DateTime.Now);
-            AskForAuthCode();
+            // AskForAuthCode();
         }
 
         private void AskForAuthCode()

@@ -55,7 +55,7 @@ namespace Dolany.Ai.Core.Cache
                             break;
                         case AiInformation.AuthCode:
                             Global.AuthCode = info.Msg;
-                            Utility.SendMsgToDeveloper($"AuthCode:{Global.AuthCode}");
+                            // Utility.SendMsgToDeveloper($"AuthCode:{Global.AuthCode}");
                             break;
                     }
 

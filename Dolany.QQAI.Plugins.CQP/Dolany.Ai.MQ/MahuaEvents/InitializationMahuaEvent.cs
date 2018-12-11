@@ -1,11 +1,13 @@
-﻿using Newbe.Mahua.MahuaEvents;
-using System;
-
-namespace Dolany.Ai.MQ.MahuaEvents
+﻿namespace Dolany.Ai.MQ.MahuaEvents
 {
+    using System;
+
     using Dolany.Ai.MQ.Resolver;
+    using Dolany.Ai.MQ.Db;
+    using Dolany.Ai.Util;
 
     using Newbe.Mahua;
+    using Newbe.Mahua.MahuaEvents;
 
     /// <summary>
     /// 插件初始化事件
@@ -24,6 +26,19 @@ namespace Dolany.Ai.MQ.MahuaEvents
         public void Initialized(InitializedContext context)
         {
             new Listenser();
+            using (var db = new AIDatabaseEntities())
+            {
+                db.MsgInformation.Add(
+                    new MsgInformation
+                        {
+                            Id = Guid.NewGuid().ToString(),
+                            Information = AiInformation.AuthCode,
+                            Msg = Utility.GetAuthCode(),
+                            Time = DateTime.Now
+                        });
+
+                db.SaveChanges();
+            }
         }
     }
 }
