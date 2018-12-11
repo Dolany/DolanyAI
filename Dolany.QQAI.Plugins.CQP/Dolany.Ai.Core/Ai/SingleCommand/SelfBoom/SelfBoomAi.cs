@@ -24,7 +24,7 @@
             Tag = "系统功能",
             SyntaxChecker = "Empty",
             IsPrivateAvailabe = false)]
-        public void PraiseMe(MsgInformationEx MsgDTO, object[] param)
+        public void Boom(MsgInformationEx MsgDTO, object[] param)
         {
             var backInfo = Waiter.Instance.WaitForInformation(
                 new MsgCommand

@@ -6,6 +6,8 @@ namespace Dolany.Ai.MQ.MahuaEvents
     using Dolany.Ai.MQ.Db;
     using System;
 
+    using Dolany.Ai.Util;
+
     /// <summary>
     /// 群消息接收事件
     /// </summary>
@@ -31,7 +33,8 @@ namespace Dolany.Ai.MQ.MahuaEvents
                     FromQQ = long.Parse(context.FromQq),
                     RelationId = string.Empty,
                     Time = DateTime.Now,
-                    Msg = context.Message
+                    Msg = context.Message,
+                    Information = AiInformation.Message
                 });
 
                 db.SaveChanges();

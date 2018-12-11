@@ -39,7 +39,7 @@
                     ResovleCommand(command);
                 }
             }
-            catch(Exception ex)
+            catch (Exception ex)
             {
                 MahuaModule.RuntimeLogger.Log(ex);
             }
@@ -90,7 +90,7 @@
 
         private void GetAuthCode(string relationId)
         {
-            InfoSender.Send(Utility.GetAuthCode(), relationId);
+            InfoSender.Send(AiInformation.CommandBack, Utility.GetAuthCode(), relationId);
         }
 
         private void Restart()
@@ -106,7 +106,7 @@
                 Thread.Sleep(100);
             }
 
-            InfoSender.Send(RelationId: relationId);
+            InfoSender.Send(AiInformation.CommandBack, RelationId: relationId);
         }
 
         private void ReturnGroupMemberInfo(string groupNum, string relationId)
@@ -117,7 +117,7 @@
                 return;
             }
 
-            InfoSender.Send(info, relationId);
+            InfoSender.Send(AiInformation.CommandBack, info, relationId);
         }
 
         private void ReturnBackMusic(string musicId, string relationId)
@@ -128,7 +128,7 @@
                 return;
             }
 
-            InfoSender.Send(music, relationId);
+            InfoSender.Send(AiInformation.CommandBack, music, relationId);
         }
 
         private void SendMsg(MsgCommand command)

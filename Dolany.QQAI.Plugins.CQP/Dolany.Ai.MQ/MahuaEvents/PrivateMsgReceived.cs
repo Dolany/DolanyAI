@@ -4,6 +4,7 @@ using System;
 namespace Dolany.Ai.MQ.MahuaEvents
 {
     using Dolany.Ai.MQ.Db;
+    using Dolany.Ai.Util;
 
     using Newbe.Mahua;
 
@@ -32,7 +33,8 @@ namespace Dolany.Ai.MQ.MahuaEvents
                                               FromQQ = long.Parse(context.FromQq),
                                               RelationId = string.Empty,
                                               Time = DateTime.Now,
-                                              Msg = context.Message
+                                              Msg = context.Message,
+                                              Information = AiInformation.Message
                                           });
 
                 db.SaveChanges();

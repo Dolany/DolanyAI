@@ -4,7 +4,7 @@
 
     public class InfoSender
     {
-        public static void Send(string Msg = "", string RelationId = "", long FromGroup = 0, long FromQQ = 0)
+        public static void Send(string Information, string Msg = "", string RelationId = "", long FromGroup = 0, long FromQQ = 0)
         {
             using (var db = new AIDatabaseEntities())
             {
@@ -16,7 +16,8 @@
                             FromQQ = 0,
                             Msg = Msg,
                             RelationId = RelationId,
-                            Time = DateTime.Now
+                            Time = DateTime.Now,
+                            Information = Information
                         });
 
                 db.SaveChanges();
