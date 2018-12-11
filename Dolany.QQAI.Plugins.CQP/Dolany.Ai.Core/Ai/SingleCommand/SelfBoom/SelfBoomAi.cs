@@ -1,7 +1,6 @@
 ﻿namespace Dolany.Ai.Core.Ai.SingleCommand.SelfBoom
 {
     using System;
-    using System.Linq;
     using System.Threading;
 
     using Dolany.Ai.Core.API;
@@ -15,7 +14,7 @@
         Description = "AI for boom herself.",
         IsAvailable = true,
         PriorityLevel = 10)]
-    public class SelfBoomAi
+    public class SelfBoomAi : AIBase
     {
         [EnterCommand(
             Command = "Boom",
@@ -79,7 +78,7 @@
                     {
                         Command = AiCommand.SendGroup,
                         Id = Guid.NewGuid().ToString(),
-                        Msg = CodeApi.Code_Image("./images/boom.jpg"),
+                        Msg = CodeApi.Code_Image("images/boom.jpg"),
                         Time = DateTime.Now,
                         ToGroup = MsgDTO.FromGroup
                     });
@@ -90,6 +89,11 @@
                         Command = AiCommand.Restart,
                         Id = Guid.NewGuid().ToString()
                     });
+        }
+
+        public override void Work()
+        {
+            
         }
     }
 }
