@@ -4,7 +4,7 @@
   <edmx:Runtime>
     <!-- SSDL content -->
     <edmx:StorageModels>
-      <Schema Namespace="AIDatabase.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+    <Schema Namespace="AIDatabase.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
         <EntityType Name="MsgCommand">
           <Key>
             <PropertyRef Name="Id" />
@@ -26,13 +26,13 @@
           <Property Name="Time" Type="datetime" Nullable="false" />
           <Property Name="FromGroup" Type="bigint" Nullable="false" />
           <Property Name="FromQQ" Type="bigint" Nullable="false" />
+          <Property Name="Information" Type="nvarchar" MaxLength="50" />
         </EntityType>
         <EntityContainer Name="AIDatabaseStoreContainer">
           <EntitySet Name="MsgCommand" EntityType="Self.MsgCommand" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="MsgInformation" EntityType="Self.MsgInformation" Schema="dbo" store:Type="Tables" />
         </EntityContainer>
-      </Schema>
-    </edmx:StorageModels>
+      </Schema></edmx:StorageModels>
     <!-- CSDL content -->
     <edmx:ConceptualModels>
       <Schema Namespace="AIDatabase" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
@@ -57,6 +57,7 @@
           <Property Name="Time" Type="DateTime" Nullable="false" Precision="3" />
           <Property Name="FromGroup" Type="Int64" Nullable="false" />
           <Property Name="FromQQ" Type="Int64" Nullable="false" />
+          <Property Name="Information" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
         </EntityType>
         <EntityContainer Name="AIDatabaseEntities" annotation:LazyLoadingEnabled="true">
           <EntitySet Name="MsgCommand" EntityType="Self.MsgCommand" />
@@ -83,6 +84,7 @@
           <EntitySetMapping Name="MsgInformation">
             <EntityTypeMapping TypeName="AIDatabase.MsgInformation">
               <MappingFragment StoreEntitySet="MsgInformation">
+                <ScalarProperty Name="Information" ColumnName="Information" />
                 <ScalarProperty Name="Id" ColumnName="Id" />
                 <ScalarProperty Name="Msg" ColumnName="Msg" />
                 <ScalarProperty Name="RelationId" ColumnName="RelationId" />
