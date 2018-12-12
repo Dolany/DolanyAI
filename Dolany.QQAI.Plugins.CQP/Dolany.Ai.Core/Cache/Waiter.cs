@@ -1,7 +1,6 @@
-﻿using System;
-
-namespace Dolany.Ai.Core.Cache
+﻿namespace Dolany.Ai.Core.Cache
 {
+    using System;
     using System.Collections.Generic;
     using System.Linq;
     using System.Threading;

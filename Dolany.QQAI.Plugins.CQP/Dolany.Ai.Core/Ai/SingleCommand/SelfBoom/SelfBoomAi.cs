@@ -17,7 +17,7 @@
         PriorityLevel = 10)]
     public class SelfBoomAi : AIBase
     {
-        private readonly int BoomCode = Utility.RandInt(10000);
+        private int BoomCode = Utility.RandInt(10000);
 
         [EnterCommand(
             Command = "Boom",
@@ -53,6 +53,7 @@
                 return;
             }
 
+            Thread.Sleep(1000);
             MsgSender.Instance.PushMsg(
                 new MsgCommand
                     {
@@ -86,6 +87,8 @@
                         ToGroup = MsgDTO.FromGroup
                     });
 
+            BoomCode = Utility.RandInt(10000);
+            Thread.Sleep(1000);
             MsgSender.Instance.PushMsg(
                 new MsgCommand
                     {
