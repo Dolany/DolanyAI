@@ -53,11 +53,8 @@ namespace Dolany.Ai.Core.Cache
                             }
                             else
                             {
-                                lock (_lockObj)
-                                {
-                                    waitUnit.ResultInfo = info;
-                                    waitUnit.Signal.Set();
-                                }
+                                waitUnit.ResultInfo = info;
+                                waitUnit.Signal.Set();
                             }
 
                             break;
