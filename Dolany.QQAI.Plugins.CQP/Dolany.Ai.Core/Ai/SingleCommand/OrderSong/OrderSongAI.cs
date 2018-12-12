@@ -33,22 +33,22 @@ namespace Dolany.Ai.Core.Ai.SingleCommand.OrderSong
             Description = "根据歌名点歌",
             Syntax = "[歌名]",
             Tag = "点歌功能",
-            SyntaxChecker = "Word",
+            SyntaxChecker = "Any",
             IsPrivateAvailabe = true)]
         public void OrderASong(MsgInformationEx MsgDTO, object[] param)
         {
-            try
+            var songName = param[0] as string;
+
+            var songId = GetSongId(songName);
+
+            if (!string.IsNullOrEmpty(songId))
             {
-                var songName = param[0] as string;
-
-                var songId = GetSongId(songName);
-
                 var responseXml = GetMusicXml(songId);
                 MsgSender.Instance.PushMsg(MsgDTO, responseXml);
             }
-            catch (Exception ex)
+            else
             {
-                RuntimeLogger.Log(ex);
+                MsgSender.Instance.PushMsg(MsgDTO, "未查找到该歌曲！");
             }
         }
 

@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Text;
 
 namespace Dolany.Ai.Core.Base
 {
@@ -15,10 +14,8 @@ namespace Dolany.Ai.Core.Base
 
     public abstract class AIBase
     {
-        // ReSharper disable once MemberCanBeProtected.Global
-        public delegate void MsgConsolerDel(MsgInformationEx msgDTO, object[] para);
+        protected delegate void MsgConsolerDel(MsgInformationEx msgDTO, object[] para);
 
-        // ReSharper disable once MemberCanBePrivate.Global
         protected readonly Dictionary<EnterCommandAttribute, MsgConsolerDel> Consolers =
             new Dictionary<EnterCommandAttribute, MsgConsolerDel>();
 
@@ -140,7 +137,10 @@ namespace Dolany.Ai.Core.Base
             }
         }
 
-        private static bool AuthorityCheck(AuthorityLevel authorityLevel, EnterCommandAttribute enterAttr, MsgInformationEx MsgDTO)
+        private static bool AuthorityCheck(
+            AuthorityLevel authorityLevel,
+            EnterCommandAttribute enterAttr,
+            MsgInformationEx MsgDTO)
         {
             if (MsgDTO.FromQQ == DeveloperNumber)
             {
@@ -158,12 +158,7 @@ namespace Dolany.Ai.Core.Base
             if (mi == null)
             {
                 MsgSender.Instance.PushMsg(
-                    new MsgCommand
-                        {
-                            Command = AiCommand.Restart,
-                            Id = Guid.NewGuid().ToString(),
-                            Time = DateTime.Now
-                        });
+                    MsgDTO, "获取权限信息失败！");
                 return false;
             }
 

@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-
-namespace Dolany.Ai.Core.Db
+﻿namespace Dolany.Ai.Core.Db
 {
     using Dolany.Ai.Core.Common;
 

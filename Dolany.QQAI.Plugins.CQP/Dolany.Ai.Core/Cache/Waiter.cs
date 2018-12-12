@@ -18,7 +18,6 @@ namespace Dolany.Ai.Core.Cache
 
         private Waiter()
         {
-            
         }
 
         public void Listen()
@@ -41,7 +40,7 @@ namespace Dolany.Ai.Core.Cache
                     {
                         case AiInformation.Message:
                         case AiInformation.CommandBack:
-                            var waitUnit = this.Units.FirstOrDefault(u => u.JudgePredicate(info));
+                            var waitUnit = Units.FirstOrDefault(u => u.JudgePredicate(info));
                             if (waitUnit == null)
                             {
                                 AIMgr.Instance.OnMsgReceived(info);
@@ -50,7 +49,6 @@ namespace Dolany.Ai.Core.Cache
                             {
                                 waitUnit.ResultInfo = info;
                                 waitUnit.Signal.Set();
-                                Units.Remove(waitUnit);
                             }
 
                             break;
@@ -67,7 +65,10 @@ namespace Dolany.Ai.Core.Cache
             }
         }
 
-        public MsgInformation WaitForInformation(MsgCommand sendMsg, Predicate<MsgInformation> judgeFunc, int timeout = 5000)
+        public MsgInformation WaitForInformation(
+            MsgCommand sendMsg,
+            Predicate<MsgInformation> judgeFunc,
+            int timeout = 5000)
         {
             var signal = new AutoResetEvent(false);
             var unit = new WaiterUnit { JudgePredicate = judgeFunc, Signal = signal };
@@ -75,7 +76,9 @@ namespace Dolany.Ai.Core.Cache
             MsgSender.Instance.PushMsg(sendMsg);
             signal.WaitOne(timeout);
 
-            return unit.ResultInfo;
+            unit = Units.FirstOrDefault(u => u.Id == unit.Id);
+            Units.Remove(unit);
+            return unit?.ResultInfo;
         }
 
         public MsgInformation WaitForRelationId(MsgCommand sendMsg, int timeout = 5000)
@@ -86,8 +89,12 @@ namespace Dolany.Ai.Core.Cache
 
     public class WaiterUnit
     {
+        public string Id { get; } = Guid.NewGuid().ToString();
+
         public Predicate<MsgInformation> JudgePredicate { get; set; }
+
         public AutoResetEvent Signal { get; set; }
+
         public MsgInformation ResultInfo { get; set; }
     }
 }

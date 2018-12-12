@@ -1,6 +1,7 @@
 ﻿namespace Dolany.Ai.Core.Ai.SingleCommand.SelfBoom
 {
     using System;
+    using System.IO;
     using System.Threading;
 
     using Dolany.Ai.Core.API;
@@ -38,7 +39,7 @@
                         ToGroup = MsgDTO.FromGroup
                     },
                 info => info.Msg == BoomCode.ToString());
-            if (backInfo == null || string.IsNullOrEmpty(backInfo.Msg))
+            if (backInfo == null)
             {
                 MsgSender.Instance.PushMsg(
                     new MsgCommand
@@ -80,7 +81,7 @@
                     {
                         Command = AiCommand.SendGroup,
                         Id = Guid.NewGuid().ToString(),
-                        Msg = CodeApi.Code_Image("images/boom.jpg"),
+                        Msg = CodeApi.Code_Image(new FileInfo("images/boom.jpg").FullName),
                         Time = DateTime.Now,
                         ToGroup = MsgDTO.FromGroup
                     });
@@ -117,7 +118,6 @@
 
         public override void Work()
         {
-            
         }
     }
 }

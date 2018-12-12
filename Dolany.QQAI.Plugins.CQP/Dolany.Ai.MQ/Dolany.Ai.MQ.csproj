@@ -109,11 +109,11 @@
     <None Include="App.Config" />
     <None Include="build.bat" />
     <None Include="build.ps1" />
-    <None Include="buildTools\packages.config" />
     <EntityDeploy Include="Db\AIDatabase.edmx">
       <Generator>EntityModelCodeGenerator</Generator>
       <LastGenOutput>AIDatabase.Designer.cs</LastGenOutput>
     </EntityDeploy>
+    <None Include="buildTools\packages.config" />
     <None Include="Db\AIDatabase.edmx.diagram">
       <DependentUpon>AIDatabase.edmx</DependentUpon>
     </None>

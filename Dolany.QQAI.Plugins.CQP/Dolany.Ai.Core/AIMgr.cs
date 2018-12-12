@@ -23,7 +23,7 @@
 
         public static AIMgr Instance { get; } = new AIMgr();
 
-        private List<IAITool> Tools { get; set; } = new List<IAITool>();
+        private List<IAITool> Tools { get; } = new List<IAITool>();
 
         public List<EnterCommandAttribute> AllAvailableGroupCommands { get; } = new List<EnterCommandAttribute>();
 
@@ -35,12 +35,11 @@
 
         private AIMgr()
         {
-            
         }
 
         public void MessagePublish(string message)
         {
-            this.OnMessageCallBack?.Invoke($"{DateTime.Now}: {message}");
+            OnMessageCallBack?.Invoke($"{DateTime.Now}: {message}");
         }
 
         public void Load(Action<string> CallBackFunc = null)
@@ -69,17 +68,6 @@
             RuntimeLogger.Log(msg);
 
             Sys_StartTime.Set(DateTime.Now);
-            // AskForAuthCode();
-        }
-
-        private void AskForAuthCode()
-        {
-            var authCodeInfo = Waiter.Instance.WaitForRelationId(
-                new MsgCommand { Id = Guid.NewGuid().ToString(), Command = AiCommand.GetAuthCode });
-            var authCode = authCodeInfo.Msg;
-            Global.AuthCode = authCode;
-
-            Utility.SendMsgToDeveloper($"AuthCode:{Global.AuthCode}");
         }
 
         /// <summary>
@@ -94,8 +82,8 @@
                 ai.Key.Work();
                 ExtractCommands(ai.Key);
             }
-            
-            foreach (var tool in this.Tools)
+
+            foreach (var tool in Tools)
             {
                 tool.Work();
             }
