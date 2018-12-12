@@ -2,7 +2,7 @@
 
 namespace Dolany.Ai.Core.Cache
 {
-    using System.Collections.Immutable;
+    using System.Collections.Generic;
     using System.Linq;
     using System.Threading;
     using System.Timers;
@@ -12,7 +12,9 @@ namespace Dolany.Ai.Core.Cache
 
     public class Waiter
     {
-        private readonly ImmutableList<WaiterUnit> Units = ImmutableList.Create<WaiterUnit>();
+        private readonly object _lockObj = new object();
+
+        private readonly List<WaiterUnit> Units = new List<WaiterUnit>();
 
         public static Waiter Instance { get; } = new Waiter();
 
@@ -40,15 +42,22 @@ namespace Dolany.Ai.Core.Cache
                     {
                         case AiInformation.Message:
                         case AiInformation.CommandBack:
-                            var waitUnit = Units.FirstOrDefault(u => u.JudgePredicate(info));
+                            WaiterUnit waitUnit;
+                            lock (_lockObj)
+                            {
+                                waitUnit = Units.FirstOrDefault(u => u.JudgePredicate(info));
+                            }
                             if (waitUnit == null)
                             {
                                 AIMgr.Instance.OnMsgReceived(info);
                             }
                             else
                             {
-                                waitUnit.ResultInfo = info;
-                                waitUnit.Signal.Set();
+                                lock (_lockObj)
+                                {
+                                    waitUnit.ResultInfo = info;
+                                    waitUnit.Signal.Set();
+                                }
                             }
 
                             break;
@@ -72,12 +81,18 @@ namespace Dolany.Ai.Core.Cache
         {
             var signal = new AutoResetEvent(false);
             var unit = new WaiterUnit { JudgePredicate = judgeFunc, Signal = signal };
-            Units.Add(unit);
+            lock (_lockObj)
+            {
+                Units.Add(unit);
+            }
             MsgSender.Instance.PushMsg(sendMsg);
             signal.WaitOne(timeout);
 
-            unit = Units.FirstOrDefault(u => u.Id == unit.Id);
-            Units.Remove(unit);
+            lock (_lockObj)
+            {
+                unit = Units.FirstOrDefault(u => u.Id == unit.Id);
+                Units.Remove(unit);
+            }
             return unit?.ResultInfo;
         }
 
