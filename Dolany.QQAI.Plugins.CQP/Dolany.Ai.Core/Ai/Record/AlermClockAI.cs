@@ -5,9 +5,8 @@ using System.Linq;
 using System.Text;
 using System.Timers;
 
-namespace Dolany.Ai.Core.Ai.Record.AlermClock
+namespace Dolany.Ai.Core.Ai.Record
 {
-    using Dolany.Ai.Core.Ai.Record.AlermClock;
     using Dolany.Ai.Core.Base;
     using Dolany.Ai.Core.Cache;
     using Dolany.Ai.Core.Common;
@@ -118,8 +117,7 @@ namespace Dolany.Ai.Core.Ai.Record.AlermClock
             Syntax = "",
             Tag = "闹钟与报时功能",
             SyntaxChecker = "Empty",
-            IsPrivateAvailabe = false
-            )]
+            IsPrivateAvailabe = false)]
         public void QueryClock(MsgInformationEx MsgDTO, object[] param)
         {
             var Msg = QueryClock(MsgDTO);
@@ -133,8 +131,7 @@ namespace Dolany.Ai.Core.Ai.Record.AlermClock
             Syntax = "[目标时间]",
             Tag = "闹钟与报时功能",
             SyntaxChecker = "HourMinute",
-            IsPrivateAvailabe = false
-            )]
+            IsPrivateAvailabe = false)]
         public void DeleteClock(MsgInformationEx MsgDTO, object[] param)
         {
             if (!(param[0] is HourMinuteModel time))
@@ -194,7 +191,7 @@ namespace Dolany.Ai.Core.Ai.Record.AlermClock
             }
         }
 
-        private static void InsertClock(AlermClock entity, MsgInformationEx MsgDTO, Action<AlermClock> StartClock)
+        private static void InsertClock(AlermClock entity, MsgInformation MsgDTO, Action<AlermClock> StartClock)
         {
             using (var db = new AIDatabase())
             {

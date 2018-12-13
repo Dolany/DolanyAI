@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Linq;
 
-namespace Dolany.Ai.Core.Ai.Record.CartoonSaying
+namespace Dolany.Ai.Core.Ai.Record
 {
     using Dolany.Ai.Core.Base;
     using Dolany.Ai.Core.Cache;

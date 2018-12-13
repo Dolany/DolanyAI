@@ -1,7 +1,7 @@
 ﻿using System.Linq;
 using System.Text;
 
-namespace Dolany.Ai.Core.Ai.Sys.Helper
+namespace Dolany.Ai.Core.Ai.Sys
 {
     using Dolany.Ai.Core;
     using Dolany.Ai.Core.Base;

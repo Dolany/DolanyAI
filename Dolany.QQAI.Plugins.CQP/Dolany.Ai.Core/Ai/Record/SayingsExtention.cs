@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace Dolany.Ai.Core.Ai.Record.CartoonSaying
+namespace Dolany.Ai.Core.Ai.Record
 {
     using Dolany.Ai.Core.Db;
 

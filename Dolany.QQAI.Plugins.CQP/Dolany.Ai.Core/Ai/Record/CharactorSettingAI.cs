@@ -2,7 +2,7 @@
 using System.Linq;
 using System.Text;
 
-namespace Dolany.Ai.Core.Ai.Record.CharactorSetting
+namespace Dolany.Ai.Core.Ai.Record
 {
     using Dolany.Ai.Core.Base;
     using Dolany.Ai.Core.Cache;

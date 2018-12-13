@@ -4,6 +4,7 @@
     using System.Collections.Generic;
     using System.Linq;
     using System.Threading;
+    using System.Threading.Tasks;
     using System.Timers;
 
     using Dolany.Ai.Core.Common;
@@ -90,6 +91,39 @@
                 Units.Remove(unit);
             }
             return unit?.ResultInfo;
+        }
+
+        public IEnumerable<MsgInformation> WaitForInformations(
+            MsgCommand sendMsg,
+            IEnumerable<Predicate<MsgInformation>> judgeFuncs,
+            int timeout = 5000)
+        {
+            MsgSender.Instance.PushMsg(sendMsg);
+
+            var tasks = judgeFuncs.Select(
+                func => Task.Factory.StartNew(
+                    () =>
+                        {
+                            var signal = new AutoResetEvent(false);
+                            var unit = new WaiterUnit { JudgePredicate = func, Signal = signal };
+                            lock (_lockObj)
+                            {
+                                Units.Add(unit);
+                            }
+
+                            signal.WaitOne(timeout);
+
+                            lock (_lockObj)
+                            {
+                                unit = Units.FirstOrDefault(u => u.Id == unit.Id);
+                                Units.Remove(unit);
+                            }
+
+                            return unit?.ResultInfo;
+                        })).ToArray();
+            Task.WaitAll(tasks, timeout);
+
+            return tasks.Select(task => task.Result);
         }
 
         public MsgInformation WaitForRelationId(MsgCommand sendMsg, int timeout = 5000)

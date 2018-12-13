@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Linq;
 
-namespace Dolany.Ai.Core.Ai.Sys.Monitor
+namespace Dolany.Ai.Core.Ai.Sys
 {
     using Dolany.Ai.Core;
     using Dolany.Ai.Core.Base;

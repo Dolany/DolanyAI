@@ -1,4 +1,4 @@
-﻿namespace Dolany.Ai.Core.Ai.Sys.SysMsg
+﻿namespace Dolany.Ai.Core.Ai.Sys
 {
     using Dolany.Ai.Core.Base;
     using Dolany.Ai.Core.Common;

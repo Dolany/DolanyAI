@@ -4,7 +4,7 @@ using System.Diagnostics;
 using System.Linq;
 using System.Text;
 
-namespace Dolany.Ai.Core.Ai.Record.HourAlert
+namespace Dolany.Ai.Core.Ai.Record
 {
     using Dolany.Ai.Core.Base;
     using Dolany.Ai.Core.Cache;

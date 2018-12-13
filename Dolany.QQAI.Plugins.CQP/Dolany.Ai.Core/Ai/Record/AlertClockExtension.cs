@@ -1,4 +1,4 @@
-﻿namespace Dolany.Ai.Core.Ai.Record.AlermClock
+﻿namespace Dolany.Ai.Core.Ai.Record
 {
     using Dolany.Ai.Core.Db;
 

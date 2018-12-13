@@ -22,7 +22,7 @@ namespace Dolany.Ai.Core.Ai.Game.Jump300Report
             AuthorityLevel = AuthorityLevel.成员,
             Description = "查询300英雄战绩信息",
             Syntax = " [角色名]",
-            Tag = "战绩查询功能",
+            Tag = "游戏功能",
             SyntaxChecker = "Word",
             IsPrivateAvailabe = true)]
         public void JumpReport(MsgInformationEx MsgDTO, object[] param)

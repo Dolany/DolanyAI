@@ -33,7 +33,7 @@ namespace Dolany.Ai.Reborn.DolanyAI.Ai.Game.TouhouCard
             AuthorityLevel = AuthorityLevel.成员,
             Description = "随机获取一张DIY幻想乡卡牌",
             Syntax = "",
-            Tag = "抽卡功能",
+            Tag = "游戏功能",
             SyntaxChecker = "Empty",
             IsPrivateAvailabe = true)]
         public void RandomCard(MsgInformationEx MsgDTO, object[] param)
