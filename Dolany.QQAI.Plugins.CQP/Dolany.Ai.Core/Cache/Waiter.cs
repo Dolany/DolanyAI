@@ -60,7 +60,6 @@
                             break;
                         case AiInformation.AuthCode:
                             Global.AuthCode = info.Msg;
-                            // Utility.SendMsgToDeveloper($"AuthCode:{Global.AuthCode}");
                             break;
                     }
 
@@ -82,6 +81,7 @@
             {
                 Units.Add(unit);
             }
+
             MsgSender.Instance.PushMsg(sendMsg);
             signal.WaitOne(timeout);
 
@@ -90,6 +90,7 @@
                 unit = Units.FirstOrDefault(u => u.Id == unit.Id);
                 Units.Remove(unit);
             }
+
             return unit?.ResultInfo;
         }
 
