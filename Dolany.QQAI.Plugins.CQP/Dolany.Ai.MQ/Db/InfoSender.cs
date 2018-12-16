@@ -17,7 +17,8 @@
                             Msg = Msg,
                             RelationId = RelationId,
                             Time = DateTime.Now,
-                            Information = Information
+                            Information = Information,
+                            AiNum = Utility.SelfQQNum
                         });
 
                 db.SaveChanges();

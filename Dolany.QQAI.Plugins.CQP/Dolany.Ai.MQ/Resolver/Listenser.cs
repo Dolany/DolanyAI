@@ -53,7 +53,7 @@
         {
             using (var db = new AIDatabaseEntities())
             {
-                var list = db.MsgCommand.ToList();
+                var list = db.MsgCommand.Where(cmd => cmd.AiNum == Utility.SelfQQNum).ToList();
 
                 db.MsgCommand.RemoveRange(list);
                 db.SaveChanges();
