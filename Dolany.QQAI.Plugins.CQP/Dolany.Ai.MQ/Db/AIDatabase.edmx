@@ -15,6 +15,7 @@
           <Property Name="Command" Type="nvarchar" MaxLength="50" Nullable="false" />
           <Property Name="ToQQ" Type="bigint" Nullable="false" />
           <Property Name="ToGroup" Type="bigint" Nullable="false" />
+          <Property Name="AiNum" Type="bigint" Nullable="false" />
         </EntityType>
         <EntityType Name="MsgInformation">
           <Key>
@@ -27,6 +28,7 @@
           <Property Name="FromGroup" Type="bigint" Nullable="false" />
           <Property Name="FromQQ" Type="bigint" Nullable="false" />
           <Property Name="Information" Type="nvarchar" MaxLength="50" />
+          <Property Name="AiNum" Type="bigint" Nullable="false" />
         </EntityType>
         <EntityContainer Name="AIDatabaseStoreContainer">
           <EntitySet Name="MsgCommand" EntityType="Self.MsgCommand" Schema="dbo" store:Type="Tables" />
@@ -46,6 +48,7 @@
           <Property Name="Command" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
           <Property Name="ToQQ" Type="Int64" Nullable="false" />
           <Property Name="ToGroup" Type="Int64" Nullable="false" />
+          <Property Name="AiNum" Type="Int64" Nullable="false" />
         </EntityType>
         <EntityType Name="MsgInformation">
           <Key>
@@ -58,6 +61,7 @@
           <Property Name="FromGroup" Type="Int64" Nullable="false" />
           <Property Name="FromQQ" Type="Int64" Nullable="false" />
           <Property Name="Information" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="AiNum" Type="Int64" Nullable="false" />
         </EntityType>
         <EntityContainer Name="AIDatabaseEntities" annotation:LazyLoadingEnabled="true">
           <EntitySet Name="MsgCommand" EntityType="Self.MsgCommand" />
@@ -72,6 +76,7 @@
           <EntitySetMapping Name="MsgCommand">
             <EntityTypeMapping TypeName="AIDatabase.MsgCommand">
               <MappingFragment StoreEntitySet="MsgCommand">
+                <ScalarProperty Name="AiNum" ColumnName="AiNum" />
                 <ScalarProperty Name="Id" ColumnName="Id" />
                 <ScalarProperty Name="Msg" ColumnName="Msg" />
                 <ScalarProperty Name="Time" ColumnName="Time" />
@@ -84,6 +89,7 @@
           <EntitySetMapping Name="MsgInformation">
             <EntityTypeMapping TypeName="AIDatabase.MsgInformation">
               <MappingFragment StoreEntitySet="MsgInformation">
+                <ScalarProperty Name="AiNum" ColumnName="AiNum" />
                 <ScalarProperty Name="Information" ColumnName="Information" />
                 <ScalarProperty Name="Id" ColumnName="Id" />
                 <ScalarProperty Name="Msg" ColumnName="Msg" />
