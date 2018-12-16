@@ -31,7 +31,7 @@
         {
             using (var db = new AIDatabase())
             {
-                var infos = db.MsgInformation.ToList();
+                var infos = db.MsgInformation.Where(info => info.AiNum == Utility.SelfQQNum).ToList();
                 foreach (var info in infos)
                 {
                     var msg =
@@ -47,6 +47,7 @@
                             {
                                 waitUnit = Units.FirstOrDefault(u => u.JudgePredicate(info));
                             }
+
                             if (waitUnit == null)
                             {
                                 AIMgr.Instance.OnMsgReceived(info);

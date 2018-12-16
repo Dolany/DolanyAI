@@ -13,6 +13,7 @@
 
         public void PushMsg(MsgCommand msg)
         {
+            msg.AiNum = Utility.SelfQQNum;
             var callback = $"[Command] {msg.ToGroup} {msg.ToQQ} {msg.Id} {msg.Command} {msg.Msg}";
             AIMgr.Instance.MessagePublish(callback);
 

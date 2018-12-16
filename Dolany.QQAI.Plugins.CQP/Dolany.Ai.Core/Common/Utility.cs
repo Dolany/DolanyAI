@@ -1,26 +1,24 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-
-namespace Dolany.Ai.Core.Common
+﻿namespace Dolany.Ai.Core.Common
 {
+    using System;
+    using System.Collections.Generic;
     using System.IO;
     using System.Linq;
     using System.Runtime.ExceptionServices;
     using System.Security.Cryptography;
+    using System.Text;
 
+    using static Dolany.Ai.Core.API.CodeApi;
     using Dolany.Ai.Core.Cache;
     using Dolany.Ai.Core.Db;
     using Dolany.Ai.Core.Model;
-
-    using static Dolany.Ai.Core.API.CodeApi;
 
     public static class Utility
     {
         public static long DeveloperNumber => long.Parse(GetConfig(nameof(DeveloperNumber)));
         public static long SysMsgNumber => long.Parse(GetConfig(nameof(SysMsgNumber)));
-        public static long SelfQQNum => long.Parse(GetConfig(nameof(SelfQQNum)));
 
+        public static long SelfQQNum => long.Parse(GetConfig(nameof(SelfQQNum)));
         private static Dictionary<string, string> AIConfig;
 
         private static readonly RNGCryptoServiceProvider RngCsp = new RNGCryptoServiceProvider();

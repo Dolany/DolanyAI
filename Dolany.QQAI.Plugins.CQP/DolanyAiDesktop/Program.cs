@@ -1,7 +1,7 @@
-﻿using System;
-
-namespace DolanyAiDesktop
+﻿namespace DolanyAiDesktop
 {
+    using System;
+
     using Dolany.Ai.Core;
 
     class Program
@@ -20,7 +20,6 @@ namespace DolanyAiDesktop
         static void PrintMsg(string Msg)
         {
             Console.WriteLine(Msg);
-            //UDPConnector.Send(Msg);
         }
     }
 }

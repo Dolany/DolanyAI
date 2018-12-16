@@ -10,5 +10,6 @@ namespace Dolany.Ai.Core.Db
         public string Command { get; set; }
         public long ToQQ { get; set; }
         public long ToGroup { get; set; }
+        public long AiNum { get; set; }
     }
 }

@@ -15,7 +15,7 @@
     public class TouhouCardWarAi : AIBase
     {
         private readonly object _lockObj = new object();
-        private List<WarGameMgr> Mgrs = new List<WarGameMgr>();
+        private readonly List<WarGameMgr> Mgrs = new List<WarGameMgr>();
 
         public override void Work()
         {
@@ -50,6 +50,7 @@
             {
                 Mgrs.Add(wgMgr);
             }
+
             wgMgr.GameStart();
         }
 
