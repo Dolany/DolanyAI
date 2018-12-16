@@ -34,7 +34,8 @@ namespace Dolany.Ai.MQ.MahuaEvents
                                               RelationId = string.Empty,
                                               Time = DateTime.Now,
                                               Msg = context.Message,
-                                              Information = AiInformation.Message
+                                              Information = AiInformation.Message,
+                                              AiNum = Utility.SelfQQNum
                                           });
 
                 db.SaveChanges();
