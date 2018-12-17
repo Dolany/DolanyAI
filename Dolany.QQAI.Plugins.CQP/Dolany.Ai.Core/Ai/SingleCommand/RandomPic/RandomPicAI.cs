@@ -1,8 +1,6 @@
 ﻿namespace Dolany.Ai.Core.Ai.SingleCommand.RandomPic
 {
-    using System;
     using System.Collections.Generic;
-    using System.IO;
     using System.Linq;
 
     using Dolany.Ai.Core.Base;
@@ -20,10 +18,6 @@
         PriorityLevel = 2)]
     public class RandomPicAI : AIBase
     {
-        private string PicPath { get; } = ImagePath;
-
-        private static List<string> Keywords => new List<string>();
-
         public RandomPicAI()
         {
             RuntimeLogger.Log("RandomPicAI started.");
@@ -31,39 +25,6 @@
 
         public override void Work()
         {
-            ReloadAllKeywords();
-        }
-
-        private void ReloadAllKeywords()
-        {
-            Keywords.Clear();
-
-            var dirInfo = new DirectoryInfo(PicPath);
-            var childrenDirs = dirInfo.GetDirectories();
-            foreach (var info in childrenDirs)
-            {
-                Keywords.Add(info.Name);
-                Consolers.Add(
-                    new EnterCommandAttribute
-                        {
-                            AuthorityLevel = AuthorityLevel.成员,
-                            SyntaxChecker = "Empty",
-                            Command = info.Name
-                        },
-                    KeywordsConsoler);
-            }
-        }
-
-        private void KeywordsConsoler(MsgInformationEx MsgDTO, object[] param)
-        {
-            var RandPic = GetRandPic(MsgDTO.Command);
-            if (string.IsNullOrEmpty(RandPic))
-            {
-                return;
-            }
-
-            var pic = new FileInfo(PicPath + MsgDTO.Command + "\\" + RandPic).FullName;
-            MsgSender.Instance.PushMsg(MsgDTO, pic);
         }
 
         [EnterCommand(
@@ -76,8 +37,8 @@
             IsPrivateAvailabe = true)]
         public void RecentPic(MsgInformationEx MsgDTO, object[] param)
         {
-            var imageList = GetRecentImageList();
-            var idx = Utility.RandInt(imageList.Count());
+            var imageList = GetRecentImageList().ToList();
+            var idx = Utility.RandInt(imageList.Count);
             var picUrl = imageList.ElementAt(idx).Content;
 
             MsgSender.Instance.PushMsg(MsgDTO, Code_Image(picUrl));
@@ -93,8 +54,8 @@
             IsPrivateAvailabe = true)]
         public void RecentFlash(MsgInformationEx MsgDTO, object[] param)
         {
-            var imageList = GetRecentImageList();
-            var idx = Utility.RandInt(imageList.Count());
+            var imageList = GetRecentImageList().ToList();
+            var idx = Utility.RandInt(imageList.Count);
             var picUrl = imageList.ElementAt(idx).Content;
 
             MsgSender.Instance.PushMsg(MsgDTO, Code_Flash(picUrl));
@@ -104,42 +65,6 @@
         {
             var pics = DbMgr.Query<PicCacheEntity>();
             return pics;
-        }
-
-        private string GetRandPic(string dirName)
-        {
-            var dirInfo = new DirectoryInfo(PicPath + dirName);
-            var fil = dirInfo.GetFiles();
-            if (fil.IsNullOrEmpty())
-            {
-                return string.Empty;
-            }
-
-            var f = fil[Utility.RandInt(fil.Length)];
-            return f.Name;
-        }
-
-        [EnterCommand(
-            Command = "添加同义词",
-            Description = "添加图片检索时的关键字",
-            AuthorityLevel = AuthorityLevel.开发者,
-            Syntax = "[目标词] [同义词]",
-            Tag = "图片功能",
-            SyntaxChecker = "Word Word",
-            IsPrivateAvailabe = true)]
-        public void AppendSynonym(MsgInformationEx MsgDTO, object[] param)
-        {
-            var Keyword = param[0] as string;
-            var Content = param[1] as string;
-
-            DbMgr.Insert(new SynonymDicEntity
-            {
-                Id = Guid.NewGuid().ToString(),
-                Keyword = Keyword,
-                Content = Content
-            });
-
-            Utility.SendMsgToDeveloper("添加成功！");
         }
     }
 }
