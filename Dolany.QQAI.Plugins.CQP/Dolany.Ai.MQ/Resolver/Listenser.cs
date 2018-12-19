@@ -49,7 +49,7 @@
             }
         }
 
-        private IEnumerable<MsgCommand> CommandList()
+        private static IEnumerable<MsgCommand> CommandList()
         {
             using (var db = new AIDatabaseEntities())
             {
@@ -62,7 +62,7 @@
             }
         }
 
-        private void ResovleCommand(MsgCommand command)
+        private static void ResovleCommand(MsgCommand command)
         {
             switch (command.Command)
             {
@@ -88,17 +88,17 @@
             }
         }
 
-        private void GetAuthCode(string relationId)
+        private static void GetAuthCode(string relationId)
         {
             InfoSender.Send(AiInformation.CommandBack, Utility.GetAuthCode(), relationId);
         }
 
-        private void Restart()
+        private static void Restart()
         {
             APIEx.Restart();
         }
 
-        private void Praise(long qqNum, int count, string relationId)
+        private static void Praise(long qqNum, int count, string relationId)
         {
             for (var i = 0; i < count; i++)
             {
@@ -109,7 +109,7 @@
             InfoSender.Send(AiInformation.CommandBack, RelationId: relationId);
         }
 
-        private void ReturnGroupMemberInfo(string groupNum, string relationId)
+        private static void ReturnGroupMemberInfo(string groupNum, string relationId)
         {
             var info = APIEx.GetGroupMemberList(groupNum);
             if (string.IsNullOrEmpty(info))
@@ -120,7 +120,7 @@
             InfoSender.Send(AiInformation.CommandBack, info, relationId);
         }
 
-        private void ReturnBackMusic(string musicId, string relationId)
+        private static void ReturnBackMusic(string musicId, string relationId)
         {
             var music = APIEx._163Music(musicId);
             if (string.IsNullOrEmpty(music))
@@ -131,7 +131,7 @@
             InfoSender.Send(AiInformation.CommandBack, music, relationId);
         }
 
-        private void SendMsg(MsgCommand command)
+        private static void SendMsg(MsgCommand command)
         {
             using (var robotSession = MahuaRobotManager.Instance.CreateSession())
             {
@@ -145,9 +145,6 @@
                     case AiCommand.SendPrivate:
                         api.SendPrivateMessage(command.ToQQ.ToString(), command.Msg);
                         break;
-
-                    default:
-                        throw new Exception("Unexpected Case");
                 }
             }
         }

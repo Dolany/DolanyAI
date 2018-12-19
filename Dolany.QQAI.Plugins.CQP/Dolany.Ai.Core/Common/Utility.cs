@@ -8,7 +8,7 @@
     using System.Security.Cryptography;
     using System.Text;
 
-    using static Dolany.Ai.Core.API.CodeApi;
+    using Dolany.Ai.Core.API;
     using Dolany.Ai.Core.Cache;
     using Dolany.Ai.Core.Db;
     using Dolany.Ai.Core.Entities;
@@ -17,9 +17,11 @@
     public static class Utility
     {
         public static long DeveloperNumber => long.Parse(GetConfig(nameof(DeveloperNumber)));
+
         public static long SysMsgNumber => long.Parse(GetConfig(nameof(SysMsgNumber)));
 
         public static long SelfQQNum => long.Parse(GetConfig(nameof(SelfQQNum)));
+
         private static Dictionary<string, string> AIConfig;
 
         private static readonly RNGCryptoServiceProvider RngCsp = new RNGCryptoServiceProvider();
@@ -208,7 +210,7 @@
 
         public static ImageCacheModel ReadImageCacheInfo(string guid)
         {
-            var file = new FileInfo(ImagePath + guid + ImageExtension);
+            var file = new FileInfo(CodeApi.ImagePath + guid + CodeApi.ImageExtension);
             return !file.Exists ? null : ReadImageCacheInfo(file);
         }
 
@@ -255,7 +257,7 @@
         public static void RemovePicCache(string picName)
         {
             var picShortName = picName.Split('.').First();
-            var dir = new DirectoryInfo(ImagePath);
+            var dir = new DirectoryInfo(CodeApi.ImagePath);
             foreach (var file in dir.GetFiles())
             {
                 if (file.Name.Contains(picShortName))

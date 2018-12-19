@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Text;
 
 namespace Dolany.Ai.Core.Common
 {
@@ -29,7 +28,7 @@ namespace Dolany.Ai.Core.Common
                     continue;
                 }
 
-                var EntityName = t.Name.Replace("Entity", "");
+                var EntityName = t.Name.Replace("Entity", string.Empty);
                 InitXml(EntityName);
             }
         }
@@ -52,7 +51,7 @@ namespace Dolany.Ai.Core.Common
 
         public static void Insert(EntityBase entity)
         {
-            var EntityName = entity.GetType().Name.Replace("Entity", "");
+            var EntityName = entity.GetType().Name.Replace("Entity", string.Empty);
             InitXml(EntityName);
             var root = XElement.Load(EntityFilePath(EntityName));
             var ele = entity.ToElement();
@@ -62,7 +61,7 @@ namespace Dolany.Ai.Core.Common
 
         public static bool Update(EntityBase entity)
         {
-            var EntityName = entity.GetType().Name.Replace("Entity", "");
+            var EntityName = entity.GetType().Name.Replace("Entity", string.Empty);
             var root = XElement.Load(EntityFilePath(EntityName));
             foreach (var ele in root.Elements())
             {
@@ -82,7 +81,7 @@ namespace Dolany.Ai.Core.Common
         public static bool Delete<Entity>(string Id) where Entity : EntityBase, new()
         {
             var t = typeof(Entity);
-            var EntityName = t.Name.Replace("Entity", "");
+            var EntityName = t.Name.Replace("Entity", string.Empty);
             var root = XElement.Load(EntityFilePath(EntityName));
             foreach (var ele in root.Elements())
             {
@@ -103,7 +102,7 @@ namespace Dolany.Ai.Core.Common
         public static int Delete<Entity>(Expression<Func<Entity, bool>> express) where Entity : EntityBase, new()
         {
             var t = typeof(Entity);
-            var EntityName = t.Name.Replace("Entity", "");
+            var EntityName = t.Name.Replace("Entity", string.Empty);
             var root = XElement.Load(EntityFilePath(EntityName));
             var list = (from ele in root.Elements()
                         let entity = EntityBase.FromElement<Entity>(ele)
@@ -121,7 +120,7 @@ namespace Dolany.Ai.Core.Common
         public static Entity Get<Entity>(string Id) where Entity : EntityBase, new()
         {
             var t = typeof(Entity);
-            var EntityName = t.Name.Replace("Entity", "");
+            var EntityName = t.Name.Replace("Entity", string.Empty);
             var root = XElement.Load(EntityFilePath(EntityName));
             return root.Elements().Select(EntityBase.FromElement<Entity>).Where(entity => entity != null)
                 .FirstOrDefault(entity => entity.Id == Id);
@@ -131,7 +130,7 @@ namespace Dolany.Ai.Core.Common
             where Entity : EntityBase, new()
         {
             var t = typeof(Entity);
-            var EntityName = t.Name.Replace("Entity", "");
+            var EntityName = t.Name.Replace("Entity", string.Empty);
             var root = XElement.Load(EntityFilePath(EntityName));
             if (root.IsEmpty)
             {
@@ -147,7 +146,7 @@ namespace Dolany.Ai.Core.Common
             return list.Count == 0 ? null : list;
         }
 
-        private static void AppendEntity<Entity>(XElement ele, Expression<Func<Entity, bool>> express, List<Entity> list)
+        private static void AppendEntity<Entity>(XElement ele, Expression<Func<Entity, bool>> express, ICollection<Entity> list)
             where Entity : EntityBase, new()
         {
             var entity = EntityBase.FromElement<Entity>(ele);

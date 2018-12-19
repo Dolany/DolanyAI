@@ -78,9 +78,18 @@ namespace Dolany.Ai.Core.Common
             Debug.Assert(job != null, nameof(job) + " != null");
             job.Stop();
 
-            job.CallBack(sender, e);
-
-            job.Start();
+            try
+            {
+                job.CallBack(sender, e);
+            }
+            catch (Exception exception)
+            {
+                RuntimeLogger.Log(exception);
+            }
+            finally
+            {
+                job.Start();
+            }
         }
     }
 }
