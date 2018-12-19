@@ -29,8 +29,6 @@ namespace Dolany.Ai.Core.Ai.SingleCommand.Tuling
                 5000, 6000, 4000, 4001, 4002, 4003, 4005, 4007, 4100, 4200, 4300, 4400, 4500, 4600, 4602, 7002, 8008
             };
 
-        //private readonly string TulingImportUrl = Utility.GetConfig(nameof(TulingImportUrl));
-
         public TulingAI()
         {
             RuntimeLogger.Log("TulingAI started.");
@@ -53,7 +51,7 @@ namespace Dolany.Ai.Core.Ai.SingleCommand.Tuling
                 return false;
             }
 
-            MsgDTO.FullMsg = MsgDTO.FullMsg.Replace(Code_SelfAt(), "");
+            MsgDTO.FullMsg = MsgDTO.FullMsg.Replace(Code_SelfAt(), string.Empty);
             var response = RequestMsg(MsgDTO);
             if (string.IsNullOrEmpty(response))
             {
@@ -69,7 +67,7 @@ namespace Dolany.Ai.Core.Ai.SingleCommand.Tuling
             var post = GetPostReq(MsgDTO);
             if (post == null)
             {
-                return "";
+                return string.Empty;
             }
 
             var response = RequestHelper.PostData<TulingResponseData>(post);
