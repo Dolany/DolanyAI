@@ -77,7 +77,7 @@
                     ReturnGroupMemberInfo(command.Msg, command.Id);
                     break;
                 case AiCommand.Praise:
-                    Praise(command.Msg, command.Id);
+                    Praise(command.ToQQ, int.Parse(command.Msg), command.Id);
                     break;
                 case AiCommand.Restart:
                     Restart();
@@ -98,11 +98,11 @@
             APIEx.Restart();
         }
 
-        private void Praise(string qqNum, string relationId)
+        private void Praise(long qqNum, int count, string relationId)
         {
-            for (var i = 0; i < 10; i++)
+            for (var i = 0; i < count; i++)
             {
-                APIEx.SendPraise(qqNum);
+                APIEx.SendPraise(qqNum.ToString());
                 Thread.Sleep(100);
             }
 

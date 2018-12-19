@@ -4,7 +4,7 @@
 
     public class InfoSender
     {
-        public static void Send(string Information, string Msg = "", string RelationId = "", long FromGroup = 0, long FromQQ = 0)
+        public static void Send(string Information, string Msg = "", string RelationId = "", long FromGroup = 0L, long FromQQ = 0L)
         {
             using (var db = new AIDatabaseEntities())
             {

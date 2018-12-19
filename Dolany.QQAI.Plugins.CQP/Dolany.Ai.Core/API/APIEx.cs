@@ -32,15 +32,16 @@
             return string.IsNullOrEmpty(ml) ? null : JsonHelper.DeserializeJsonToObject<GroupMemberListViewModel>(ml);
         }
 
-        public static void SendPraise(string QQ号)
+        public static void SendPraise(long QQ号, int count = 10)
         {
             Waiter.Instance.WaitForRelationId(
                 new MsgCommand
                     {
                         Id = Guid.NewGuid().ToString(),
                         Command = AiCommand.Praise,
-                        Msg = QQ号,
-                        Time = DateTime.Now
+                        Msg = count.ToString(),
+                        Time = DateTime.Now,
+                        ToQQ = QQ号
                     });
         }
     }

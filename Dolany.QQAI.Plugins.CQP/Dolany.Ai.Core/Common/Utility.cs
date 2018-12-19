@@ -11,6 +11,7 @@
     using static Dolany.Ai.Core.API.CodeApi;
     using Dolany.Ai.Core.Cache;
     using Dolany.Ai.Core.Db;
+    using Dolany.Ai.Core.Entities;
     using Dolany.Ai.Core.Model;
 
     public static class Utility
@@ -262,6 +263,8 @@
                     file.Delete();
                 }
             }
+
+            DbMgr.Delete<PicCacheEntity>(p => p.Content == picName);
         }
 
         public static string ParsePicGuid(string msg)

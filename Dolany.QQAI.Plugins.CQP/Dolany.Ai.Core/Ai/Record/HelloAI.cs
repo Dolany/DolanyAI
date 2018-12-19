@@ -59,7 +59,7 @@ namespace Dolany.Ai.Core.Ai.Record
             Description = "设定每天打招呼的内容",
             Syntax = "[设定内容]",
             Tag = "打招呼功能",
-            SyntaxChecker = "Word",
+            SyntaxChecker = "Any",
             IsPrivateAvailabe = false
             )]
         public void SaveHelloContent(MsgInformationEx MsgDTO, object[] param)

@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Linq;
-using System.Threading;
 
 namespace Dolany.Ai.Core.Ai.SingleCommand.PraiseMe
 {
@@ -9,7 +8,6 @@ namespace Dolany.Ai.Core.Ai.SingleCommand.PraiseMe
     using Dolany.Ai.Core.Common;
     using Dolany.Ai.Core.Db;
     using static Dolany.Ai.Core.Common.Utility;
-    using static Dolany.Ai.Core.API.CodeApi;
     using static Dolany.Ai.Core.API.APIEx;
 
     [AI(
@@ -61,6 +59,7 @@ namespace Dolany.Ai.Core.Ai.SingleCommand.PraiseMe
                 var query = db.PraiseRec.Where(p => p.QQNum == MsgDTO.FromQQ);
                 if (query.IsNullOrEmpty())
                 {
+                    LastTime = DateTime.Now;
                     Praise(MsgDTO);
                     db.PraiseRec.Add(new PraiseRec
                     {
@@ -68,8 +67,6 @@ namespace Dolany.Ai.Core.Ai.SingleCommand.PraiseMe
                         LastDate = DateTime.Now.Date,
                         QQNum = MsgDTO.FromQQ
                     });
-
-                    LastTime = DateTime.Now;
                 }
                 else if (query.First().LastDate >= DateTime.Now.Date)
                 {
@@ -77,11 +74,10 @@ namespace Dolany.Ai.Core.Ai.SingleCommand.PraiseMe
                 }
                 else
                 {
+                    LastTime = DateTime.Now;
                     Praise(MsgDTO);
                     var praise = query.First();
                     praise.LastDate = DateTime.Now.Date;
-
-                    LastTime = DateTime.Now;
                 }
                 db.SaveChanges();
             }
@@ -102,13 +98,8 @@ namespace Dolany.Ai.Core.Ai.SingleCommand.PraiseMe
 
         private static void Praise(MsgInformationEx MsgDTO)
         {
-            for (var i = 0; i < 10; i++)
-            {
-                Thread.Sleep(100);
-                SendPraise(MsgDTO.FromQQ.ToString());
-            }
-
-            MsgSender.Instance.PushMsg(MsgDTO, $"{Code_At(MsgDTO.FromQQ)} 已赞十次！");
+            SendPraise(MsgDTO.FromQQ);
+            MsgSender.Instance.PushMsg(MsgDTO, "已赞十次！", true);
         }
     }
 }
