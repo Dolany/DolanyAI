@@ -1,12 +1,12 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Text;
 
 namespace Dolany.Ai.Core.Cache
 {
     using System.Diagnostics;
     using System.Linq;
-    using static Dolany.Ai.Core.Common.Utility;
+
+    using Dolany.Ai.Core.Common;
 
     public static class RecentCommandCache
     {
@@ -32,7 +32,7 @@ namespace Dolany.Ai.Core.Cache
         private static void Init()
         {
             TimeCache = new List<DateTime>();
-            MaxRecentCommandCacheCount = int.Parse(GetConfig(nameof(MaxRecentCommandCacheCount)));
+            MaxRecentCommandCacheCount = int.Parse(Utility.GetConfig(nameof(MaxRecentCommandCacheCount)));
         }
 
         public static bool IsTooFreq()

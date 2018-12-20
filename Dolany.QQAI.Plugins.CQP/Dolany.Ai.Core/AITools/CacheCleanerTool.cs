@@ -52,18 +52,16 @@
                     Path = ImagePath,
                     IsCascading = false,
                     MaxCacheCount = MaxPicCache
-                }
-                );
+                    });
             JobScheduler.Instance.Add(
                 JobTimer.DairlyInterval,
                 TimeUp,
                 new CacheCleanerDTO
                 {
-                    Path = "logs/",
+                    Path = "c:/AmandaQQ/logs/",
                     IsCascading = false,
                     MaxCacheCount = 7
-                }
-                );
+                    });
             JobScheduler.Instance.Add(
                 JobTimer.DairlyInterval,
                 TimeUp,
@@ -72,28 +70,25 @@
                     Path = "RuntimeLog/",
                     IsCascading = false,
                     MaxCacheCount = 7
-                }
-                );
+                    });
             JobScheduler.Instance.Add(
                 JobTimer.HourlyInterval / 2,
                 TimeUp,
                 new CacheCleanerDTO
                 {
-                    Path = "temp/voice/",
+                    Path = "c:/AmandaQQ/temp/voice/",
                     IsCascading = false,
                     MaxCacheCount = 50
-                }
-                );
+                    });
             JobScheduler.Instance.Add(
                 JobTimer.HourlyInterval / 2,
                 TimeUp,
                 new CacheCleanerDTO
                 {
-                    Path = "VoiceCache/",
+                    Path = "c:/AmandaQQ/VoiceCache/",
                     IsCascading = false,
                     MaxCacheCount = 50
-                }
-                );
+                    });
         }
 
         private void TimeUp(object sender, ElapsedEventArgs e)
