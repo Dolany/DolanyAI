@@ -1,12 +1,12 @@
-﻿using Newbe.Mahua.MahuaEvents;
-using System;
-
-namespace Dolany.Ai.MQ.MahuaEvents
+﻿namespace Dolany.Ai.MQ.MahuaEvents
 {
+    using System;
+
     using Dolany.Ai.MQ.Db;
     using Dolany.Ai.Util;
 
     using Newbe.Mahua;
+    using Newbe.Mahua.MahuaEvents;
 
     /// <summary>
     /// 私聊消息接收事件
