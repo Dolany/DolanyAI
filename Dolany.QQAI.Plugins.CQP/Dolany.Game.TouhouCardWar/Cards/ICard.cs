@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-
-namespace Dolany.Game.TouhouCardWar.Cards
+﻿namespace Dolany.Game.TouhouCardWar.Cards
 {
     public interface ICard
     {
@@ -16,9 +12,10 @@ namespace Dolany.Game.TouhouCardWar.Cards
         int Type { get; set; }
         string Tag { get; set; }
         string PicPath { get; set; }
+
         /// <summary>
-        /// 元素类型：1.风；2.火；3.水；4.土；5.雷；6.光；7.暗；8.无
+        /// 颜色类型：1.青；2.白；3.朱；4.玄；5.黄
         /// </summary>
-        int Element { get; set; }
+        int Color { get; set; }
     }
 }

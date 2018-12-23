@@ -1,9 +1,7 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-
-namespace Dolany.Game.TouhouCardWar.Db
+﻿namespace Dolany.Game.TouhouCardWar.Db
 {
+    using System;
+
     public class PlayerInfo
     {
         public string Id { get; set; }
