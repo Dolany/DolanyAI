@@ -29,7 +29,7 @@
             return $"[QQ:voice={filePath}]";
         }
 
-        public static string ImagePath => "C:/AmandaQQ/temp/image/";
+        public static string ImagePath => Utility.GetConfig("ImagePath");
 
         public static string ImageExtension => ".ini";
     }
