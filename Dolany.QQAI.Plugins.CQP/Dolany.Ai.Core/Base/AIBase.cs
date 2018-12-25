@@ -145,39 +145,54 @@ namespace Dolany.Ai.Core.Base
             EnterCommandAttribute enterAttr,
             MsgInformationEx MsgDTO)
         {
-            if (MsgDTO.FromQQ == DeveloperNumber)
-            {
-                return true;
-            }
-
             return MsgDTO.Type == MsgType.Group ?
-                GroupCheck(authorityLevel, MsgDTO) :
-                PrivateCheck(enterAttr);
+                GroupAuthCheck(authorityLevel, MsgDTO) :
+                PrivateAuthCheck(enterAttr);
         }
 
-        private static bool GroupCheck(AuthorityLevel authorityLevel, MsgInformationEx MsgDTO)
+        private static string GetAuthName(MsgInformationEx MsgDTO)
         {
+            var tempAuth = GetTempAuth(MsgDTO);
+            if (MsgDTO.FromQQ == DeveloperNumber || tempAuth == "开发者")
+            {
+                return "开发者";
+            }
+
             var mi = GetMemberInfo(MsgDTO);
             if (mi == null)
             {
                 MsgSender.Instance.PushMsg(
                     MsgDTO, "获取权限信息失败！");
-                return false;
-            }
-
-            var tempAuth = GetTempAuth(MsgDTO);
-
-            if (tempAuth == "开发者")
-            {
-                return true;
+                return "成员";
             }
 
             var authority = mi.Role;
+            if (authority == 0 || tempAuth == "群主")
+            {
+                return "群主";
+            }
+
+            if (authority == 1 || tempAuth == "管理员")
+            {
+                return "管理员";
+            }
+
+            return "成员";
+        }
+
+        private static bool GroupAuthCheck(AuthorityLevel authorityLevel, MsgInformationEx MsgDTO)
+        {
+            var authName = GetAuthName(MsgDTO);
+
+            if (authName == "开发者")
+            {
+                return true;
+            }
             if (authorityLevel == AuthorityLevel.开发者)
             {
                 return false;
             }
-            if (authority == 0 || tempAuth == "群主")
+            if (authName == "群主")
             {
                 return true;
             }
@@ -185,7 +200,7 @@ namespace Dolany.Ai.Core.Base
             {
                 return false;
             }
-            if (authority == 1 || tempAuth == "管理员")
+            if (authName == "管理员")
             {
                 return true;
             }
@@ -197,7 +212,7 @@ namespace Dolany.Ai.Core.Base
             return true;
         }
 
-        private static string GetTempAuth(MsgInformationEx MsgDTO)
+        private static string GetTempAuth(MsgInformation MsgDTO)
         {
             using (var db = new AIDatabase())
             {
@@ -213,7 +228,7 @@ namespace Dolany.Ai.Core.Base
             return string.Empty;
         }
 
-        private static bool PrivateCheck(EnterCommandAttribute enterAttr)
+        private static bool PrivateAuthCheck(EnterCommandAttribute enterAttr)
         {
             return enterAttr.IsPrivateAvailabe;
         }

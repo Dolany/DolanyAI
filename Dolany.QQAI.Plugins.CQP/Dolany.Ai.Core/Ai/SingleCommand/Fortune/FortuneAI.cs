@@ -1,15 +1,15 @@
-﻿using System;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace Dolany.Ai.Core.Ai.SingleCommand.Fortune
+﻿namespace Dolany.Ai.Core.Ai.SingleCommand.Fortune
 {
+    using System;
+    using System.Linq;
+    using System.Text;
+    using System.Threading.Tasks;
+
+    using Dolany.Ai.Core.API;
     using Dolany.Ai.Core.Base;
     using Dolany.Ai.Core.Cache;
     using Dolany.Ai.Core.Common;
     using Dolany.Ai.Core.Db;
-    using static Dolany.Ai.Core.API.CodeApi;
 
     [AI(
         Name = nameof(FortuneAI),
@@ -80,13 +80,14 @@ namespace Dolany.Ai.Core.Ai.SingleCommand.Fortune
 
         private static void RandBless(RandomFortune rf)
         {
+            if (rf.FortuneValue >= 50 ||
+                Utility.RandInt(100) > 10)
+            {
+                return;
+            }
+
             using (var db = new AIDatabase())
             {
-                if (rf.FortuneValue >= 50 ||
-                    Utility.RandInt(100) > 10)
-                {
-                    return;
-                }
                 var filist = db.FortuneItem;
                 var idx = Utility.RandInt(filist.Count());
                 var item = filist.OrderBy(p => p.Id)
@@ -128,19 +129,22 @@ namespace Dolany.Ai.Core.Ai.SingleCommand.Fortune
             if (rf.BlessValue > 0)
             {
                 rf.FortuneValue = rf.FortuneValue + rf.BlessValue;
+                rf.FortuneValue = rf.FortuneValue > 100 ? 100 : rf.FortuneValue;
                 msg += $"恭喜你受到了 {rf.BlessName} 的祝福\r";
-                msg += $"你今天的运势是：{(rf.FortuneValue > 100 ? 100 : rf.FortuneValue)}%({rf.BlessValue}↑)\r";
+                msg += $"你今天的运势是：{rf.FortuneValue}%({rf.BlessValue}↑)\r";
             }
             else if (rf.BlessValue < 0)
             {
                 rf.FortuneValue = rf.FortuneValue + rf.BlessValue;
+                rf.FortuneValue = rf.FortuneValue < 0 ? 0 : rf.FortuneValue;
                 msg += $"哎呀呀，你受到了 {rf.BlessName} 的诅咒\r";
-                msg += $"你今天的运势是：{(rf.FortuneValue < 0 ? 0 : rf.FortuneValue)}%({Math.Abs(rf.BlessValue)}↓)\r";
+                msg += $"你今天的运势是：{rf.FortuneValue}%({Math.Abs(rf.BlessValue)}↓)\r";
             }
             else
             {
                 msg += "你今天的运势是：" + rf.FortuneValue + "%\r";
             }
+
             var builder = new StringBuilder();
             builder.Append(msg);
 
@@ -148,6 +152,7 @@ namespace Dolany.Ai.Core.Ai.SingleCommand.Fortune
             {
                 builder.Append("|");
             }
+
             msg = builder.ToString();
 
             MsgSender.Instance.PushMsg(MsgDTO, msg);
@@ -160,8 +165,7 @@ namespace Dolany.Ai.Core.Ai.SingleCommand.Fortune
             Syntax = "",
             Tag = "运势功能",
             SyntaxChecker = "Empty",
-            IsPrivateAvailabe = true
-            )]
+            IsPrivateAvailabe = true)]
         public void TarotFortune(MsgInformationEx MsgDTO, object[] param)
         {
             using (var db = new AIDatabase())
@@ -200,7 +204,7 @@ namespace Dolany.Ai.Core.Ai.SingleCommand.Fortune
 
         private static void SendTarotFortune(MsgInformationEx MsgDTO, TarotFortuneData data)
         {
-            var msg = Code_Image(TarotServerPath + data.PicSrc) + '\r';
+            var msg = CodeApi.Code_Image(TarotServerPath + data.PicSrc) + '\r';
             msg += "牌名：" + data.Name + '\r';
             msg += data.IsPos ? "正位解释：" : "逆位解释：";
             msg += data.Description;

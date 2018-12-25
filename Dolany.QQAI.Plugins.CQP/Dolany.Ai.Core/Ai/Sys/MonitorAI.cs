@@ -110,6 +110,7 @@ namespace Dolany.Ai.Core.Ai.Sys
             {
                 return;
             }
+
             DbMgr.Insert(new PicCacheEntity
             {
                 Id = Guid.NewGuid().ToString(),
@@ -205,7 +206,7 @@ namespace Dolany.Ai.Core.Ai.Sys
             Tag = "系统命令",
             SyntaxChecker = "Empty",
             AuthorityLevel = AuthorityLevel.成员,
-            IsPrivateAvailabe = false)]
+            IsPrivateAvailabe = true)]
         public void Status(MsgInformationEx MsgDTO, object[] param)
         {
             var startTime = Sys_StartTime.Get();
