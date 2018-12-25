@@ -8,7 +8,7 @@
         public string Description { get; set; }
 
         /// <summary>
-        /// 卡牌类型:1，英雄；2.符卡；3.天气；4.护符；5.武器；6.反击
+        /// 卡牌类型:1，英雄；2.符卡；3.天气；4.护符；5.武器；6.反击；7.弹幕
         /// </summary>
         public int Type { get; set; }
         public string Tag { get; set; }
