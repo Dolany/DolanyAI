@@ -37,5 +37,6 @@
         public DbSet<TouhouCardRecord> TouhouCardRecord { get; set; }
         public DbSet<MsgCommand> MsgCommand { get; set; }
         public DbSet<MsgInformation> MsgInformation { get; set; }
+        public DbSet<TempAuthorize> TempAuthorize { get; set; }
     }
 }

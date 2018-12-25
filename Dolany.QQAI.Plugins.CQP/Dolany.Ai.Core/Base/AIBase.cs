@@ -9,6 +9,9 @@ namespace Dolany.Ai.Core.Base
     using Dolany.Ai.Core.Cache;
     using Dolany.Ai.Core.Common;
     using Dolany.Ai.Core.Db;
+
+    using Microsoft.Extensions.Configuration;
+
     using static Dolany.Ai.Core.API.CodeApi;
     using static Dolany.Ai.Core.Common.Utility;
 
@@ -162,12 +165,19 @@ namespace Dolany.Ai.Core.Base
                 return false;
             }
 
+            var tempAuth = GetTempAuth(MsgDTO);
+
+            if (tempAuth == "开发者")
+            {
+                return true;
+            }
+
             var authority = mi.Role;
             if (authorityLevel == AuthorityLevel.开发者)
             {
                 return false;
             }
-            if (authority == 0)
+            if (authority == 0 || tempAuth == "群主")
             {
                 return true;
             }
@@ -175,7 +185,7 @@ namespace Dolany.Ai.Core.Base
             {
                 return false;
             }
-            if (authority == 1)
+            if (authority == 1 || tempAuth == "管理员")
             {
                 return true;
             }
@@ -185,6 +195,22 @@ namespace Dolany.Ai.Core.Base
             }
 
             return true;
+        }
+
+        private static string GetTempAuth(MsgInformationEx MsgDTO)
+        {
+            using (var db = new AIDatabase())
+            {
+                var date = DateTime.Now.Date;
+                var authInfo = db.TempAuthorize.FirstOrDefault(
+                    t => t.GroupNum == MsgDTO.FromGroup && t.QQNum == MsgDTO.FromQQ && t.AuthDate == date);
+                if (authInfo != null)
+                {
+                    return authInfo.AuthName;
+                }
+            }
+
+            return string.Empty;
         }
 
         private static bool PrivateCheck(EnterCommandAttribute enterAttr)

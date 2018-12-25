@@ -218,5 +218,42 @@ namespace Dolany.Ai.Core.Ai.Sys
 
             MsgSender.Instance.PushMsg(MsgDTO, msg);
         }
+
+        [EnterCommand(
+            Command = "临时授权",
+            Description = "临时变更某个成员的权限等级，当日有效",
+            Syntax = "[@QQ号] 权限名称",
+            Tag = "系统命令",
+            SyntaxChecker = "At Word",
+            AuthorityLevel = AuthorityLevel.开发者,
+            IsPrivateAvailabe = false)]
+        public void TempAuthorize(MsgInformationEx MsgDTO, object[] param)
+        {
+            var qqNum = (long)param[0];
+            var authName = param[1] as string;
+
+            var validNames = new[] { "开发者", "群主", "管理员", "成员" };
+            if (!validNames.Contains(authName))
+            {
+                MsgSender.Instance.PushMsg(MsgDTO, "权限名称错误！");
+                return;
+            }
+
+            using (var db = new AIDatabase())
+            {
+                db.TempAuthorize.Add(
+                    new TempAuthorize
+                        {
+                            Id = Guid.NewGuid().ToString(),
+                            AuthDate = DateTime.Now.Date,
+                            AuthName = authName,
+                            GroupNum = MsgDTO.FromGroup,
+                            QQNum = qqNum
+                        });
+                db.SaveChanges();
+            }
+
+            MsgSender.Instance.PushMsg(MsgDTO, "临时授权成功！");
+        }
     }
 }
