@@ -1,19 +1,14 @@
-﻿using System;
-using System.Collections.Generic;
-
-namespace Dolany.Ai.Core.Base
+﻿namespace Dolany.Ai.Core.Base
 {
+    using System;
+    using System.Collections.Generic;
     using System.IO;
     using System.Linq;
 
+    using Dolany.Ai.Core.API;
     using Dolany.Ai.Core.Cache;
     using Dolany.Ai.Core.Common;
     using Dolany.Ai.Core.Db;
-
-    using Microsoft.Extensions.Configuration;
-
-    using static Dolany.Ai.Core.API.CodeApi;
-    using static Dolany.Ai.Core.Common.Utility;
 
     public abstract class AIBase
     {
@@ -61,7 +56,7 @@ namespace Dolany.Ai.Core.Base
                     if (RecentCommandCache.IsTooFreq())
                     {
                         MsgSender.Instance.PushMsg(MsgDTO, "哇哇哇~~，AI过热中......");
-                        MsgSender.Instance.PushMsg(MsgDTO, Code_Image(new FileInfo("images/过热.jpg").FullName));
+                        MsgSender.Instance.PushMsg(MsgDTO, CodeApi.Code_Image(new FileInfo("images/过热.jpg").FullName));
                         return true;
                     }
                     consoler.Value(MsgDTO, param);
@@ -153,12 +148,12 @@ namespace Dolany.Ai.Core.Base
         private static string GetAuthName(MsgInformationEx MsgDTO)
         {
             var tempAuth = GetTempAuth(MsgDTO);
-            if (MsgDTO.FromQQ == DeveloperNumber || tempAuth == "开发者")
+            if (MsgDTO.FromQQ == Utility.DeveloperNumber || tempAuth == "开发者")
             {
                 return "开发者";
             }
 
-            var mi = GetMemberInfo(MsgDTO);
+            var mi = Utility.GetMemberInfo(MsgDTO);
             if (mi == null)
             {
                 MsgSender.Instance.PushMsg(
