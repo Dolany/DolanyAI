@@ -59,7 +59,7 @@ namespace Dolany.Ai.Core.Ai.SingleCommand.OrderSong
                 InterfaceName = $"http://music.163.com/api/search/get/?s={UrlCharConvert(songName)}&type=1"
             });
 
-            if (response == null)
+            if (response?.result == null)
             {
                 return string.Empty;
             }

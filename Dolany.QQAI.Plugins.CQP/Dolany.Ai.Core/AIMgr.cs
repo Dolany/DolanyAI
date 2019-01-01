@@ -224,6 +224,7 @@
                 return;
             }
 
+            MsgDTO.AuthName = Utility.GetAuthName(MsgDTO);
             if (!AIList.Where(ai => !IsAiSealed(MsgDTO, ai.Key))
                 .Any(ai => ai.Key.OnMsgReceived(MsgDTO)))
             {

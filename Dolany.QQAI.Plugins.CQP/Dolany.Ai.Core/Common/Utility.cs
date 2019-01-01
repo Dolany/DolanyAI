@@ -180,12 +180,58 @@
             return copyT;
         }
 
+        public static string GetAuthName(MsgInformationEx MsgDTO)
+        {
+            var tempAuth = GetTempAuth(MsgDTO);
+            if (MsgDTO.FromQQ == DeveloperNumber || tempAuth == "开发者")
+            {
+                return "开发者";
+            }
+
+            var mi = GetMemberInfo(MsgDTO);
+            if (mi == null)
+            {
+                MsgSender.Instance.PushMsg(
+                    MsgDTO, "获取权限信息失败！请联系开发者！");
+                return "成员";
+            }
+
+            var authority = mi.Role;
+            if (authority == 0 || tempAuth == "群主")
+            {
+                return "群主";
+            }
+
+            if (authority == 1 || tempAuth == "管理员")
+            {
+                return "管理员";
+            }
+
+            return "成员";
+        }
+
+        private static string GetTempAuth(MsgInformation MsgDTO)
+        {
+            using (var db = new AIDatabase())
+            {
+                var date = DateTime.Now.Date;
+                var authInfo = db.TempAuthorize.FirstOrDefault(
+                    t => t.GroupNum == MsgDTO.FromGroup && t.QQNum == MsgDTO.FromQQ && t.AuthDate == date);
+                if (authInfo != null)
+                {
+                    return authInfo.AuthName;
+                }
+            }
+
+            return string.Empty;
+        }
+
         public static MemberRoleCache GetMemberInfo(MsgInformationEx MsgDTO)
         {
             return GroupMemberInfoCacher.GetMemberInfo(MsgDTO);
         }
 
-        public static ImageCacheModel ReadImageCacheInfo(FileInfo file)
+        private static ImageCacheModel ReadImageCacheInfo(FileInfo file)
         {
             using (var reader = new StreamReader(file.FullName))
             {

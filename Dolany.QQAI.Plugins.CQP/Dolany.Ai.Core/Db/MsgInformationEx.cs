@@ -7,5 +7,6 @@
         public string FullMsg { get; set; }
         public string Command { get; set; }
         public MsgType Type { get; set; }
+        public string AuthName { get; set; }
     }
 }

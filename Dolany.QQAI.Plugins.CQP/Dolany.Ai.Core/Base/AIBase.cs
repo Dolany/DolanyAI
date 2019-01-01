@@ -145,39 +145,9 @@
                 PrivateAuthCheck(enterAttr);
         }
 
-        private static string GetAuthName(MsgInformationEx MsgDTO)
-        {
-            var tempAuth = GetTempAuth(MsgDTO);
-            if (MsgDTO.FromQQ == Utility.DeveloperNumber || tempAuth == "开发者")
-            {
-                return "开发者";
-            }
-
-            var mi = Utility.GetMemberInfo(MsgDTO);
-            if (mi == null)
-            {
-                MsgSender.Instance.PushMsg(
-                    MsgDTO, "获取权限信息失败！");
-                return "成员";
-            }
-
-            var authority = mi.Role;
-            if (authority == 0 || tempAuth == "群主")
-            {
-                return "群主";
-            }
-
-            if (authority == 1 || tempAuth == "管理员")
-            {
-                return "管理员";
-            }
-
-            return "成员";
-        }
-
         private static bool GroupAuthCheck(AuthorityLevel authorityLevel, MsgInformationEx MsgDTO)
         {
-            var authName = GetAuthName(MsgDTO);
+            var authName = MsgDTO.AuthName;
 
             if (authName == "开发者")
             {
@@ -205,22 +175,6 @@
             }
 
             return true;
-        }
-
-        private static string GetTempAuth(MsgInformation MsgDTO)
-        {
-            using (var db = new AIDatabase())
-            {
-                var date = DateTime.Now.Date;
-                var authInfo = db.TempAuthorize.FirstOrDefault(
-                    t => t.GroupNum == MsgDTO.FromGroup && t.QQNum == MsgDTO.FromQQ && t.AuthDate == date);
-                if (authInfo != null)
-                {
-                    return authInfo.AuthName;
-                }
-            }
-
-            return string.Empty;
         }
 
         private static bool PrivateAuthCheck(EnterCommandAttribute enterAttr)
