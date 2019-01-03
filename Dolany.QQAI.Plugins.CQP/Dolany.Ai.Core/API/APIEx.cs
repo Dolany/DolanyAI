@@ -21,8 +21,7 @@
                         Time = DateTime.Now,
                         ToGroup = 0,
                         ToQQ = 0
-                    },
-                15000);
+                    });
 
             return info == null ? string.Empty : info.Msg;
         }

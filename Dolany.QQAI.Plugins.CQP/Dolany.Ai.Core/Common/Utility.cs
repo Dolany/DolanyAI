@@ -191,7 +191,8 @@
             var mi = GetMemberInfo(MsgDTO);
             if (mi == null)
             {
-                // MsgSender.Instance.PushMsg(MsgDTO, "获取权限信息失败！请联系开发者！");
+                MsgSender.Instance.PushMsg(
+                    MsgDTO, "获取权限信息失败！请联系开发者！");
                 return "成员";
             }
 
