@@ -85,19 +85,6 @@
                 case AiCommand.GetAuthCode:
                     GetAuthCode(command.Id);
                     break;
-                case AiCommand.GetGroups:
-                    GetGroups(command.Id);
-                    break;
-            }
-        }
-
-        private static void GetGroups(string relationId)
-        {
-            using (var robotSession = MahuaRobotManager.Instance.CreateSession())
-            {
-                var api = robotSession.MahuaApi;
-                var groups = api.GetGroups();
-                InfoSender.Send(AiInformation.CommandBack, groups, relationId);
             }
         }
 

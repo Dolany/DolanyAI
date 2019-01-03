@@ -18,8 +18,6 @@ namespace Dolany.Ai.Core.Ai.Sys
         PriorityLevel = 100)]
     public class MonitorAI : AIBase
     {
-        private readonly object lock_obj = new object();
-
         public override void Work()
         {
         }
@@ -93,10 +91,7 @@ namespace Dolany.Ai.Core.Ai.Sys
                 return true;
             }
 
-            lock (lock_obj)
-            {
-                FiltPicMsg(MsgDTO);
-            }
+            FiltPicMsg(MsgDTO);
 
             using (var db = new AIDatabase())
             {
@@ -113,16 +108,6 @@ namespace Dolany.Ai.Core.Ai.Sys
             var cacheInfo = ReadImageCacheInfo(guid);
             if (cacheInfo == null)
             {
-                return;
-            }
-
-            var query = DbMgr.Query<PicCacheEntity>(p => p.Content == cacheInfo.url).ToList();
-            if (!query.IsNullOrEmpty())
-            {
-                var picinfo = query.First();
-                picinfo.SendTime = DateTime.Now;
-                DbMgr.Update(picinfo);
-
                 return;
             }
 

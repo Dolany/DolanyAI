@@ -15,7 +15,5 @@
         public const string Restart = "Restart";
 
         public const string GetAuthCode = "GetAuthCode";
-
-        public const string GetGroups = "GetGroups";
     }
 }
