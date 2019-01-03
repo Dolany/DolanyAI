@@ -14,6 +14,8 @@
     using Dolany.Ai.Core.Entities;
     using Dolany.Ai.Core.Model;
 
+    using JetBrains.Annotations;
+
     public static class Utility
     {
         public static long DeveloperNumber => long.Parse(GetConfig(nameof(DeveloperNumber)));
@@ -31,6 +33,7 @@
             return objs == null || !objs.Any();
         }
 
+        [NotNull]
         [HandleProcessCorruptedStateExceptions]
         public static string GetConfig(string name)
         {
@@ -56,6 +59,7 @@
             return !string.IsNullOrEmpty(value) ? value : defaltValue;
         }
 
+        [NotNull]
         private static Dictionary<string, string> GetConfigDic()
         {
             var configFile = new FileInfo("AIConfig.ini");
@@ -79,6 +83,7 @@
             }
         }
 
+        [NotNull]
         public static Dictionary<int, string> LoadFortuneImagesConfig()
         {
             var dic = new Dictionary<int, string>();
@@ -144,6 +149,7 @@
             SendMsgToDeveloper(ex.Message + '\r' + ex.StackTrace);
         }
 
+        [CanBeNull]
         public static HourMinuteModel GenTimeFromStr(string timeStr)
         {
             var strs = timeStr.Split(':', '：');
@@ -226,11 +232,13 @@
             return string.Empty;
         }
 
+        [CanBeNull]
         public static MemberRoleCache GetMemberInfo(MsgInformationEx MsgDTO)
         {
             return GroupMemberInfoCacher.GetMemberInfo(MsgDTO);
         }
 
+        [NotNull]
         private static ImageCacheModel ReadImageCacheInfo(FileInfo file)
         {
             using (var reader = new StreamReader(file.FullName))
@@ -254,6 +262,7 @@
             }
         }
 
+        [CanBeNull]
         public static ImageCacheModel ReadImageCacheInfo(string guid)
         {
             var file = new FileInfo(CodeApi.ImagePath + guid + CodeApi.ImageExtension);

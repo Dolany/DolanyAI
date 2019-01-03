@@ -8,8 +8,11 @@
     using Dolany.Ai.Core.Db;
     using Dolany.Ai.Core.Net;
 
+    using JetBrains.Annotations;
+
     public class APIEx
     {
+        [CanBeNull]
         private static string GetGroupMemberList(string 群号)
         {
             var info = Waiter.Instance.WaitForRelationId(
@@ -23,13 +26,27 @@
                         ToQQ = 0
                     });
 
-            return info == null ? string.Empty : info.Msg;
+            return info?.Msg;
         }
 
+        [CanBeNull]
         public static GroupMemberListViewModel GetMemberInfos(long GroupNum)
         {
             var ml = GetGroupMemberList(GroupNum.ToString());
-            return string.IsNullOrEmpty(ml) ? null : JsonHelper.DeserializeJsonToObject<GroupMemberListViewModel>(ml);
+            if (string.IsNullOrEmpty(ml))
+            {
+                return null;
+            }
+
+            try
+            {
+                return JsonHelper.DeserializeJsonToObject<GroupMemberListViewModel>(ml);
+            }
+            catch (Exception ex)
+            {
+                RuntimeLogger.Log(ex);
+                return null;
+            }
         }
 
         public static void SendPraise(long QQ号, int count = 10)

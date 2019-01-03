@@ -4,6 +4,7 @@
     using System.Collections.Generic;
     using System.Linq;
     using System.Threading;
+    using System.Threading.Tasks;
     using System.Timers;
 
     using Dolany.Ai.MQ.Db;
@@ -36,7 +37,7 @@
                 var commands = CommandList();
                 foreach (var command in commands)
                 {
-                    ResovleCommand(command);
+                    Task.Run(() => ResovleCommand(command));
                 }
             }
             catch (Exception ex)
@@ -62,7 +63,7 @@
             }
         }
 
-        private static void ResovleCommand(MsgCommand command)
+        private static async Task ResovleCommand(MsgCommand command)
         {
             switch (command.Command)
             {
@@ -71,26 +72,26 @@
                     SendMsg(command);
                     break;
                 case AiCommand.Get163Music:
-                    ReturnBackMusic(command.Msg, command.Id);
+                    await ReturnBackMusic(command.Msg, command.Id);
                     break;
                 case AiCommand.GetGroupMemberInfo:
-                    ReturnGroupMemberInfo(command.Msg, command.Id);
+                    await ReturnGroupMemberInfo(command.Msg, command.Id);
                     break;
                 case AiCommand.Praise:
-                    Praise(command.ToQQ, int.Parse(command.Msg), command.Id);
+                    await Praise(command.ToQQ, int.Parse(command.Msg), command.Id);
                     break;
                 case AiCommand.Restart:
                     Restart();
                     break;
                 case AiCommand.GetAuthCode:
-                    GetAuthCode(command.Id);
+                    await GetAuthCode(command.Id);
                     break;
             }
         }
 
-        private static void GetAuthCode(string relationId)
+        private static async Task GetAuthCode(string relationId)
         {
-            InfoSender.Send(AiInformation.CommandBack, Utility.GetAuthCode(), relationId);
+            await InfoSender.Send(AiInformation.CommandBack, Utility.GetAuthCode(), relationId);
         }
 
         private static void Restart()
@@ -98,7 +99,7 @@
             APIEx.Restart();
         }
 
-        private static void Praise(long qqNum, int count, string relationId)
+        private static async Task Praise(long qqNum, int count, string relationId)
         {
             for (var i = 0; i < count; i++)
             {
@@ -106,10 +107,10 @@
                 Thread.Sleep(100);
             }
 
-            InfoSender.Send(AiInformation.CommandBack, RelationId: relationId);
+            await InfoSender.Send(AiInformation.CommandBack, RelationId: relationId);
         }
 
-        private static void ReturnGroupMemberInfo(string groupNum, string relationId)
+        private static async Task ReturnGroupMemberInfo(string groupNum, string relationId)
         {
             var info = APIEx.GetGroupMemberList(groupNum);
             if (string.IsNullOrEmpty(info))
@@ -117,10 +118,10 @@
                 return;
             }
 
-            InfoSender.Send(AiInformation.CommandBack, info, relationId);
+            await InfoSender.Send(AiInformation.CommandBack, info, relationId);
         }
 
-        private static void ReturnBackMusic(string musicId, string relationId)
+        private static async Task ReturnBackMusic(string musicId, string relationId)
         {
             var music = APIEx._163Music(musicId);
             if (string.IsNullOrEmpty(music))
@@ -128,7 +129,7 @@
                 return;
             }
 
-            InfoSender.Send(AiInformation.CommandBack, music, relationId);
+            await InfoSender.Send(AiInformation.CommandBack, music, relationId);
         }
 
         private static void SendMsg(MsgCommand command)

@@ -113,8 +113,7 @@
                 for (var i = 0; i < checkers.Length; i++)
                 {
                     var checker = AIMgr.Instance.Checkers.FirstOrDefault(c => c.Name == checkers[i]);
-                    if (checker == null ||
-                        !checker.Check(paramStrs[i], out var p))
+                    if (checker == null || !checker.Check(paramStrs[i], out var p))
                     {
                         return false;
                     }
@@ -135,14 +134,9 @@
             }
         }
 
-        private static bool AuthorityCheck(
-            AuthorityLevel authorityLevel,
-            EnterCommandAttribute enterAttr,
-            MsgInformationEx MsgDTO)
+        private static bool AuthorityCheck(AuthorityLevel authorityLevel, EnterCommandAttribute enterAttr, MsgInformationEx MsgDTO)
         {
-            return MsgDTO.Type == MsgType.Group ?
-                GroupAuthCheck(authorityLevel, MsgDTO) :
-                PrivateAuthCheck(enterAttr);
+            return MsgDTO.Type == MsgType.Group ? GroupAuthCheck(authorityLevel, MsgDTO) : PrivateAuthCheck(enterAttr);
         }
 
         private static bool GroupAuthCheck(AuthorityLevel authorityLevel, MsgInformationEx MsgDTO)

@@ -8,8 +8,11 @@ namespace Dolany.Ai.Core.Cache
     using Dolany.Ai.Core.Common;
     using Dolany.Ai.Core.Db;
 
+    using JetBrains.Annotations;
+
     public static class GroupMemberInfoCacher
     {
+        [CanBeNull]
         public static MemberRoleCache GetMemberInfo(MsgInformationEx MsgDTO)
         {
             using (var db = new AIDatabase())
@@ -21,8 +24,8 @@ namespace Dolany.Ai.Core.Cache
                     return GetNewInfo(MsgDTO);
                 }
 
-                var Cache = query.First();
-                if (Cache.Datatime.AddDays(7) < DateTime.Now)
+                var Cache = query.FirstOrDefault();
+                if (Cache == null || Cache.Datatime.AddDays(7) < DateTime.Now)
                 {
                     return GetNewInfo(MsgDTO);
                 }
@@ -31,6 +34,7 @@ namespace Dolany.Ai.Core.Cache
             }
         }
 
+        [CanBeNull]
         private static MemberRoleCache GetNewInfo(MsgInformationEx MsgDTO)
         {
             using (var db = new AIDatabase())
@@ -68,8 +72,7 @@ namespace Dolany.Ai.Core.Cache
                 }
                 db.SaveChanges();
 
-                return db.MemberRoleCache.First(i => i.QQNum == MsgDTO.FromQQ)
-                                         .Clone();
+                return db.MemberRoleCache.FirstOrDefault(i => i.QQNum == MsgDTO.FromQQ && i.GroupNum == MsgDTO.FromGroup)?.Clone();
             }
         }
     }
