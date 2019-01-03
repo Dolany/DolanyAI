@@ -177,8 +177,7 @@ namespace Dolany.Ai.Core.Ai.SingleCommand.Dice
             Syntax = "[标准格式] [自定义命令名称]",
             Tag = "骰子功能",
             SyntaxChecker = "Word Word",
-            IsPrivateAvailabe = false
-        )]
+            IsPrivateAvailabe = false)]
         public void SaveFormatAs(MsgInformationEx MsgDTO, object[] param)
         {
             var sourceFormat = param[0] as string;

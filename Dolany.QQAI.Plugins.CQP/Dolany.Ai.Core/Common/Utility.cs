@@ -338,5 +338,18 @@
 
             return imageGuid;
         }
+
+        public static T[] RandSort<T>(T[] array)
+        {
+            for (var i = 0; i < array.Length; i++)
+            {
+                var randIdx = RandInt(array.Length - i) + i;
+                var temp = array[i];
+                array[i] = array[randIdx];
+                array[randIdx] = temp;
+            }
+
+            return array;
+        }
     }
 }

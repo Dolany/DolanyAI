@@ -3,20 +3,20 @@
     public class TouhouCard
     {
         public string Id { get; set; }
-        public int No { get; set; }
-        public string Name { get; set; }
-        public string Description { get; set; }
+        int No { get; set; }
+        string Name { get; set; }
+        string Description { get; set; }
 
         /// <summary>
-        /// 卡牌类型:1，英雄；2.符卡；3.天气；4.护符；5.武器；6.反击；7.弹幕
+        /// 卡牌类型:1.英雄；2.随从；3.符卡；4.武器
         /// </summary>
-        public int Type { get; set; }
-        public string Tag { get; set; }
-        public string PicPath { get; set; }
+        int Type { get; set; }
+        string Tag { get; set; }
+        string PicPath { get; set; }
 
         /// <summary>
-        /// 颜色类型：1.青；2.白；3.朱；4.玄；5.黄
+        /// 颜色类型：1.天；2.地；3.人；4.中立
         /// </summary>
-        public int Color { get; set; }
+        int Color { get; set; }
     }
 }
