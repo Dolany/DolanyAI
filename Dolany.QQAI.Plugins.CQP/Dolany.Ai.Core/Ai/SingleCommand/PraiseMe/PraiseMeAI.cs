@@ -1,14 +1,15 @@
-﻿using System;
-using System.Linq;
-
-namespace Dolany.Ai.Core.Ai.SingleCommand.PraiseMe
+﻿namespace Dolany.Ai.Core.Ai.SingleCommand.PraiseMe
 {
+    using System;
+    using System.Linq;
+
     using Dolany.Ai.Core.Base;
     using Dolany.Ai.Core.Cache;
     using Dolany.Ai.Core.Common;
     using Dolany.Ai.Core.Db;
-    using static Dolany.Ai.Core.Common.Utility;
+
     using static Dolany.Ai.Core.API.APIEx;
+    using static Dolany.Ai.Core.Common.Utility;
 
     [AI(
         Name = nameof(PraiseMeAI),

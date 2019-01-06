@@ -38,5 +38,6 @@
         public DbSet<MsgCommand> MsgCommand { get; set; }
         public DbSet<MsgInformation> MsgInformation { get; set; }
         public DbSet<TempAuthorize> TempAuthorize { get; set; }
+        public DbSet<MajFortune> MajFortune { get; set; }
     }
 }

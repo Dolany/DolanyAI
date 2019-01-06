@@ -1,8 +1,8 @@
-﻿using System.Linq;
-using System.Text;
-
-namespace Dolany.Ai.Core.Ai.Sys
+﻿namespace Dolany.Ai.Core.Ai.Sys
 {
+    using System.Linq;
+    using System.Text;
+
     using Dolany.Ai.Core;
     using Dolany.Ai.Core.Base;
     using Dolany.Ai.Core.Cache;

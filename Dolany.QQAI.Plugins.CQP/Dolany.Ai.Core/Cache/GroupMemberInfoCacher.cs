@@ -1,8 +1,9 @@
-﻿using System;
-
-namespace Dolany.Ai.Core.Cache
+﻿namespace Dolany.Ai.Core.Cache
 {
+    using System;
+    using System.Collections.Generic;
     using System.Linq;
+    using System.Timers;
 
     using Dolany.Ai.Core.API;
     using Dolany.Ai.Core.Common;
@@ -12,6 +13,13 @@ namespace Dolany.Ai.Core.Cache
 
     public static class GroupMemberInfoCacher
     {
+        private static object lock_obj { get; } = new object();
+
+        private static Queue<long> WaitQueue { get; set; }
+
+        private static int GroupEmptyRefreshRate => int.Parse(Utility.GetConfig("GroupEmptyRefreshRate"));
+        private static int GroupRefreshRate => int.Parse(Utility.GetConfig("GroupRefreshRate"));
+
         [CanBeNull]
         public static MemberRoleCache GetMemberInfo(MsgInformationEx MsgDTO)
         {
@@ -21,34 +29,79 @@ namespace Dolany.Ai.Core.Cache
                                                            ic.GroupNum == MsgDTO.FromGroup);
                 if (query.IsNullOrEmpty())
                 {
-                    return GetNewInfo(MsgDTO);
+                    Enqueue(MsgDTO.FromGroup);
+                    return new MemberRoleCache
+                               {
+                                   Datatime = DateTime.Now, GroupNum = MsgDTO.FromGroup, QQNum = MsgDTO.FromQQ, Role = 2
+                               };
                 }
 
                 var Cache = query.FirstOrDefault();
                 if (Cache == null || Cache.Datatime.AddDays(7) < DateTime.Now)
                 {
-                    return GetNewInfo(MsgDTO);
+                    Enqueue(MsgDTO.FromGroup);
+                    return new MemberRoleCache
+                               {
+                                   Datatime = DateTime.Now, GroupNum = MsgDTO.FromGroup, QQNum = MsgDTO.FromQQ, Role = 2
+                               };
                 }
 
                 return Cache.Clone();
             }
         }
 
-        [CanBeNull]
-        private static MemberRoleCache GetNewInfo(MsgInformationEx MsgDTO)
+        private static void Enqueue(long GroupNum)
+        {
+            lock (lock_obj)
+            {
+                if (WaitQueue == null)
+                {
+                    WaitQueue = new Queue<long>();
+                    JobScheduler.Instance.Add(JobTimer.HourlyInterval * GroupEmptyRefreshRate, TimeUp);
+                }
+                WaitQueue.Enqueue(GroupNum);
+            }
+        }
+
+        private static void TimeUp(object sender, ElapsedEventArgs e)
+        {
+            var timer = sender as JobTimer;
+            lock (lock_obj)
+            {
+                if (WaitQueue.Count == 0)
+                {
+                    if (timer != null)
+                    {
+                        timer.Interval = JobTimer.HourlyInterval * GroupEmptyRefreshRate;
+                    }
+                }
+                else
+                {
+                    var groupNum = WaitQueue.Dequeue();
+                    RefreshGroupInfo(groupNum);
+
+                    if (timer != null)
+                    {
+                        timer.Interval = JobTimer.HourlyInterval * GroupRefreshRate;
+                    }
+                }
+            }
+        }
+
+        private static void RefreshGroupInfo(long GroupNum)
         {
             using (var db = new AIDatabase())
             {
-                var infos = APIEx.GetMemberInfos(MsgDTO.FromGroup);
-                if (infos == null)
+                var infos = APIEx.GetMemberInfos(GroupNum);
+                if (infos?.mems == null)
                 {
-                    RuntimeLogger.Log($"Cannot get Group Member Infos:{MsgDTO.FromGroup}");
-                    return null;
+                    RuntimeLogger.Log($"Cannot get Group Member Infos:{GroupNum}");
+                    return;
                 }
 
                 foreach (var info in infos.mems)
                 {
-                    var query = db.MemberRoleCache.Where(p => p.GroupNum == MsgDTO.FromGroup &&
+                    var query = db.MemberRoleCache.Where(p => p.GroupNum == GroupNum &&
                                                               p.QQNum == info.uin);
                     if (!query.IsNullOrEmpty())
                     {
@@ -60,19 +113,17 @@ namespace Dolany.Ai.Core.Cache
                     else
                     {
                         db.MemberRoleCache.Add(new MemberRoleCache
-                        {
-                            Id = Guid.NewGuid().ToString(),
-                            Datatime = DateTime.Now,
-                            GroupNum = MsgDTO.FromGroup,
-                            Nickname = info.nick,
-                            QQNum = info.uin,
-                            Role = info.role
-                        });
+                                                   {
+                                                       Id = Guid.NewGuid().ToString(),
+                                                       Datatime = DateTime.Now,
+                                                       GroupNum = GroupNum,
+                                                       Nickname = info.nick,
+                                                       QQNum = info.uin,
+                                                       Role = info.role
+                                                   });
                     }
                 }
                 db.SaveChanges();
-
-                return db.MemberRoleCache.FirstOrDefault(i => i.QQNum == MsgDTO.FromQQ && i.GroupNum == MsgDTO.FromGroup)?.Clone();
             }
         }
     }
