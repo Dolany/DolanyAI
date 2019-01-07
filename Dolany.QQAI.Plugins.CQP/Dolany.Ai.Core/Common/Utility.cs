@@ -33,24 +33,23 @@
             return objs == null || !objs.Any();
         }
 
+        public static void Swap<T>(this T[] array, int firstIdx, int secondIdx)
+        {
+            var temp = array[firstIdx];
+            array[firstIdx] = array[secondIdx];
+            array[secondIdx] = temp;
+        }
+
         [NotNull]
         [HandleProcessCorruptedStateExceptions]
         public static string GetConfig(string name)
         {
-            try
+            if (AIConfig == null)
             {
-                if (AIConfig == null)
-                {
-                    AIConfig = GetConfigDic();
-                }
+                AIConfig = GetConfigDic();
+            }
 
-                return AIConfig.Keys.Contains(name) ? AIConfig[name] : string.Empty;
-            }
-            catch (Exception ex)
-            {
-                RuntimeLogger.Log(ex);
-                return string.Empty;
-            }
+            return AIConfig.Keys.Contains(name) ? AIConfig[name] : string.Empty;
         }
 
         public static string GetConfig(string name, string defaltValue)
@@ -344,9 +343,8 @@
             for (var i = 0; i < array.Length; i++)
             {
                 var randIdx = RandInt(array.Length - i) + i;
-                var temp = array[i];
-                array[i] = array[randIdx];
-                array[randIdx] = temp;
+
+                array.Swap(i, randIdx);
             }
 
             return array;

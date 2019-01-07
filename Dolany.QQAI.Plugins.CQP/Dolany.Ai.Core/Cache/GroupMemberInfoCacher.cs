@@ -37,16 +37,16 @@
                 }
 
                 var Cache = query.FirstOrDefault();
-                if (Cache == null || Cache.Datatime.AddDays(7) < DateTime.Now)
+                if (Cache != null && Cache.Datatime.AddDays(7) >= DateTime.Now)
                 {
-                    Enqueue(MsgDTO.FromGroup);
-                    return new MemberRoleCache
-                               {
-                                   Datatime = DateTime.Now, GroupNum = MsgDTO.FromGroup, QQNum = MsgDTO.FromQQ, Role = 2
-                               };
+                    return Cache.Clone();
                 }
 
-                return Cache.Clone();
+                Enqueue(MsgDTO.FromGroup);
+                return new MemberRoleCache
+                           {
+                               Datatime = DateTime.Now, GroupNum = MsgDTO.FromGroup, QQNum = MsgDTO.FromQQ, Role = 2
+                           };
             }
         }
 

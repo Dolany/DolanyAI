@@ -6,6 +6,8 @@ using System.Text;
 
 namespace Dolany.Ai.Core.Ai.Record
 {
+    using System.Threading;
+
     using Dolany.Ai.Core.Base;
     using Dolany.Ai.Core.Cache;
     using Dolany.Ai.Core.Common;
@@ -85,6 +87,8 @@ namespace Dolany.Ai.Core.Ai.Record
 
                     var randGirl = GetRanAlertContent(curHour);
                     SendAlertMsg(randGirl, groupNum);
+
+                    Thread.Sleep(1000);
                 }
             }
         }
