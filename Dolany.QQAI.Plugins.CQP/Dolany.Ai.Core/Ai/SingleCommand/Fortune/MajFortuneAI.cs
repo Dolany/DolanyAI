@@ -133,7 +133,8 @@
                            FortuneStar = fortuneStar,
                            Kind = kind,
                            Position = position,
-                           QQNum = QQNum
+                           QQNum = QQNum,
+                           UpdateTime = DateTime.Now.Date
                        };
         }
 

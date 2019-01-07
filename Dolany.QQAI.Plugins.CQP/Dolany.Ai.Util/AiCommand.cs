@@ -6,6 +6,8 @@
 
         public const string SendPrivate = "SendPrivate";
 
+        public const string SendGroupTemp = "SendGroupTemp";
+
         public const string GetGroupMemberInfo = "GetGroupMemberInfo";
 
         public const string Get163Music = "Get163Music";

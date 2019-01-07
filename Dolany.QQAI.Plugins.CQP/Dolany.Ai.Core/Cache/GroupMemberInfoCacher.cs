@@ -59,7 +59,11 @@
                     WaitQueue = new Queue<long>();
                     JobScheduler.Instance.Add(JobTimer.HourlyInterval * GroupEmptyRefreshRate, TimeUp);
                 }
-                WaitQueue.Enqueue(GroupNum);
+
+                if (!WaitQueue.Contains(GroupNum))
+                {
+                    WaitQueue.Enqueue(GroupNum);
+                }
             }
         }
 
