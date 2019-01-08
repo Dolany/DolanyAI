@@ -238,7 +238,7 @@
         }
 
         [NotNull]
-        private static ImageCacheModel ReadImageCacheInfo(FileInfo file)
+        private static ImageCacheModel ReadImageCacheInfo(FileSystemInfo file)
         {
             using (var reader = new StreamReader(file.FullName))
             {
@@ -248,8 +248,7 @@
                 while (!string.IsNullOrEmpty(line = reader.ReadLine()))
                 {
                     var strs = line.Split(new[] { '=' }, StringSplitOptions.RemoveEmptyEntries);
-                    if (strs.IsNullOrEmpty() ||
-                        strs.Length < 2)
+                    if (strs.IsNullOrEmpty() || strs.Length < 2)
                     {
                         continue;
                     }

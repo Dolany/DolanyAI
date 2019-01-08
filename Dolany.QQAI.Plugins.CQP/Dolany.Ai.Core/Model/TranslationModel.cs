@@ -23,9 +23,6 @@ namespace Dolany.Ai.Core.Model
         [JsonProperty("id")]
         public string Id { get; set; }
 
-        [JsonProperty("commandId")]
-        public string CommandId { get; set; }
-
         /// <summary>
         /// 目标语言：en,英文;zh,中文
         /// </summary>
@@ -41,7 +38,7 @@ namespace Dolany.Ai.Core.Model
         [JsonProperty("property")]
         public string Property { get; set; }
 
-        [JsonProperty("meanings")]
-        public IEnumerable<string> Meanings { get; set; }
+        [JsonProperty("details")]
+        public IEnumerable<string> Details { get; set; }
     }
 }

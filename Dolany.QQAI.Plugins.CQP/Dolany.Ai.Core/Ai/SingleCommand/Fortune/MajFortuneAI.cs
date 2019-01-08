@@ -92,7 +92,7 @@
                 var query = db.MajFortune.Where(m => m.QQNum == QQNum && m.UpdateTime == today).ToList();
                 if (!query.IsNullOrEmpty())
                 {
-                    return query.First();
+                    return query.First().Clone();
                 }
 
                 query = db.MajFortune.Where(m => m.QQNum == QQNum).ToList();
@@ -106,9 +106,15 @@
                 }
 
                 var fortune = query.First();
-                var id = fortune.Id;
-                fortune = this.NewFortune(QQNum);
-                fortune.Id = id;
+
+                var newFortuen = NewFortune(fortune.QQNum);
+
+                fortune.CharactorName = newFortuen.CharactorName;
+                fortune.CharactorPath = newFortuen.CharactorPath;
+                fortune.FortuneStar = newFortuen.FortuneStar;
+                fortune.Kind = newFortuen.Kind;
+                fortune.Position = newFortuen.Position;
+                fortune.UpdateTime = DateTime.Now.Date;
 
                 db.SaveChanges();
 
@@ -133,7 +139,8 @@
                            FortuneStar = fortuneStar,
                            Kind = kind,
                            Position = position,
-                           QQNum = QQNum
+                           QQNum = QQNum,
+                           UpdateTime = DateTime.Now.Date
                        };
         }
 

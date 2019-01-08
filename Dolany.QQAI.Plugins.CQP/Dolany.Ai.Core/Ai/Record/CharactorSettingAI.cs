@@ -1,9 +1,9 @@
-﻿using System;
-using System.Linq;
-using System.Text;
-
-namespace Dolany.Ai.Core.Ai.Record
+﻿namespace Dolany.Ai.Core.Ai.Record
 {
+    using System;
+    using System.Linq;
+    using System.Text;
+
     using Dolany.Ai.Core.Base;
     using Dolany.Ai.Core.Cache;
     using Dolany.Ai.Core.Common;
@@ -35,8 +35,7 @@ namespace Dolany.Ai.Core.Ai.Record
             Syntax = "[人物名] [设定项] [设定内容]",
             Tag = "设定功能",
             SyntaxChecker = "Word Word Word",
-            IsPrivateAvailabe = false
-            )]
+            IsPrivateAvailabe = false)]
         public void SetCharactor(MsgInformationEx MsgDTO, object[] param)
         {
             var charactor = param[0] as string;
@@ -60,8 +59,7 @@ namespace Dolany.Ai.Core.Ai.Record
             Syntax = "[人物名]",
             Tag = "设定功能",
             SyntaxChecker = "Word",
-            IsPrivateAvailabe = false
-            )]
+            IsPrivateAvailabe = false)]
         public void DeleteCharactor(MsgInformationEx MsgDTO, object[] param)
         {
             using (var db = new AIDatabase())
@@ -98,8 +96,7 @@ namespace Dolany.Ai.Core.Ai.Record
             Syntax = "[人物名]",
             Tag = "设定功能",
             SyntaxChecker = "Word",
-            IsPrivateAvailabe = false
-            )]
+            IsPrivateAvailabe = false)]
         public void ViewCharactor(MsgInformationEx MsgDTO, object[] param)
         {
             using (var db = new AIDatabase())
@@ -162,7 +159,7 @@ namespace Dolany.Ai.Core.Ai.Record
             }
         }
 
-        private static bool IsCharactorCreator(MsgInformationEx MsgDTO, string charactor)
+        private static bool IsCharactorCreator(MsgInformation MsgDTO, string charactor)
         {
             using (var db = new AIDatabase())
             {
@@ -183,7 +180,7 @@ namespace Dolany.Ai.Core.Ai.Record
             }
         }
 
-        private static bool IsQQFullChar(MsgInformationEx MsgDTO)
+        private static bool IsQQFullChar(MsgInformation MsgDTO)
         {
             using (var db = new AIDatabase())
             {

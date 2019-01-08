@@ -47,11 +47,11 @@
             switch (res.AimLang)
             {
                 case "en":
-                    var enwords = res.Meanings.Select(p => $"{p.Property} {string.Join(";", p.Meanings)}");
+                    var enwords = res.Meanings.Select(p => $"{p.Property} {string.Join(";", p.Details)}");
                     msg = string.Join("\r", enwords);
                     break;
                 case "zh":
-                    var zhwords = res.Meanings.SelectMany(m => m.Meanings);
+                    var zhwords = res.Meanings.SelectMany(m => m.Details);
                     msg = string.Join(";", zhwords);
                     break;
             }
