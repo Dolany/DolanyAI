@@ -2,25 +2,41 @@
 
 namespace Dolany.Ai.Core.Model.Tuling
 {
+    using Newtonsoft.Json;
+
     public class TulingImportResponseData
     {
-        public TulingImportResponseDataData data { get; set; }
+        [JsonProperty("data")]
+        public TulingImportResponseDataData Data { get; set; }
 
-        public int code { get; set; }
+        [JsonProperty("code")]
+        public int Code { get; set; }
     }
 
     public class TulingImportResponseDataData
     {
-        public int successNum { get; set; }
-        public IEnumerable<TulingImportResponseDataKnowledge> knowledgeList { get; set; }
+        [JsonProperty("successNum")]
+        public int SuccessNum { get; set; }
+
+        [JsonProperty("knowledgeList")]
+        public IEnumerable<TulingImportResponseDataKnowledge> KnowledgeList { get; set; }
     }
 
     public class TulingImportResponseDataKnowledge
     {
-        public int id { get; set; }
-        public string time { get; set; }
-        public string question { get; set; }
-        public string label_id { get; set; }
-        public string answer { get; set; }
+        [JsonProperty("id")]
+        public int Id { get; set; }
+
+        [JsonProperty("time")]
+        public string Time { get; set; }
+
+        [JsonProperty("question")]
+        public string Question { get; set; }
+
+        [JsonProperty("label_id")]
+        public string Label_id { get; set; }
+
+        [JsonProperty("answer")]
+        public string Answer { get; set; }
     }
 }

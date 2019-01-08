@@ -65,9 +65,9 @@ namespace Dolany.Ai.Core.Ai.SingleCommand.Tuling
         {
             var request = new XfyunRequestData
             {
-                aue = "lame",
-                auf = "audio/L16;rate=16000",
-                voice_name = voiceName
+                Aue = "lame",
+                Auf = "audio/L16;rate=16000",
+                Voice_name = voiceName
             };
             var postData = JsonHelper.SerializeObject(request);
             return Convert.ToBase64String(Encoding.UTF8.GetBytes(postData));
@@ -78,7 +78,7 @@ namespace Dolany.Ai.Core.Ai.SingleCommand.Tuling
             using (MD5 md5 = new MD5CryptoServiceProvider())
             {
                 var output = md5.ComputeHash(Encoding.UTF8.GetBytes(input));
-                return BitConverter.ToString(output).Replace("-", "").ToLower();
+                return BitConverter.ToString(output).Replace("-", string.Empty).ToLower();
             }
         }
     }

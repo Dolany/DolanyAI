@@ -72,7 +72,7 @@ namespace Dolany.Ai.Core.Ai.SingleCommand.Tuling
 
             var response = RequestHelper.PostData<TulingResponseData>(post);
             if (response == null ||
-                ErroCodes.Contains(response.intent.code))
+                ErroCodes.Contains(response.Intent.Code))
             {
                 return string.Empty;
             }
@@ -86,16 +86,16 @@ namespace Dolany.Ai.Core.Ai.SingleCommand.Tuling
             var perception = string.IsNullOrEmpty(imageInfo)
                 ? new perceptionData
                 {
-                    inputText = new inputTextData
+                    InputText = new inputTextData
                     {
-                        text = MsgDTO.FullMsg
+                        Text = MsgDTO.FullMsg
                     }
                 }
                 : new perceptionData
                 {
-                    inputImage = new inputImageData
+                    InputImage = new inputImageData
                     {
-                        url = imageInfo
+                        Url = imageInfo
                     }
                 };
 
@@ -104,12 +104,12 @@ namespace Dolany.Ai.Core.Ai.SingleCommand.Tuling
                 InterfaceName = RequestUrl,
                 data = new TulingRequestData
                 {
-                    reqType = 0,
-                    perception = perception,
-                    userInfo = new userInfoData
+                    ReqType = 0,
+                    Perception = perception,
+                    UserInfo = new userInfoData
                     {
-                        apiKey = ApiKey,
-                        userId = MsgDTO.FromQQ.ToString()
+                        ApiKey = ApiKey,
+                        UserId = MsgDTO.FromQQ.ToString()
                     }
                 }
             };
@@ -122,24 +122,24 @@ namespace Dolany.Ai.Core.Ai.SingleCommand.Tuling
             var result = string.Empty;
             var builder = new StringBuilder();
             builder.Append(result);
-            foreach (var res in response.results)
+            foreach (var res in response.Results)
             {
-                switch (res.resultType)
+                switch (res.ResultType)
                 {
                     case "text":
-                        builder.Append(res.values.text);
+                        builder.Append(res.Values.Text);
                         break;
 
                     case "image":
-                        builder.Append(Code_Image(res.values.image));
+                        builder.Append(Code_Image(res.Values.Image));
                         break;
 
                     case "voice":
-                        builder.Append(Code_Voice(res.values.voice));
+                        builder.Append(Code_Voice(res.Values.Voice));
                         break;
 
                     case "url":
-                        builder.Append($" {res.values.url} ");
+                        builder.Append($" {res.Values.Url} ");
                         break;
 
                     default:
@@ -158,7 +158,7 @@ namespace Dolany.Ai.Core.Ai.SingleCommand.Tuling
                 var imageGuid = ParsePicGuid(msg);
 
                 var image = ReadImageCacheInfo(imageGuid);
-                return image == null ? string.Empty : image.url;
+                return image == null ? string.Empty : image.Url;
             }
             catch (Exception)
             {

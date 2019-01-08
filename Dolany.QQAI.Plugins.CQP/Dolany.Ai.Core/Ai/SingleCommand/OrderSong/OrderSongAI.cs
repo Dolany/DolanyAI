@@ -59,14 +59,14 @@ namespace Dolany.Ai.Core.Ai.SingleCommand.OrderSong
                 InterfaceName = $"http://music.163.com/api/search/get/?s={UrlCharConvert(songName)}&type=1"
             });
 
-            if (response?.result == null)
+            if (response?.Result == null)
             {
                 return string.Empty;
             }
 
-            var songs = response.result.songs;
-            var idx = RandInt(songs.Count());
-            return response.result.songs.ElementAt(idx).id;
+            var songs = response.Result.Songs.ToList();
+            var idx = RandInt(songs.Count);
+            return songs[idx].Id;
         }
 
         private static string GetMusicXml(string songId)

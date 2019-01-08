@@ -2,57 +2,122 @@
 
 namespace Dolany.Ai.Core.Model
 {
+    using Newtonsoft.Json;
+
     public class NeteaseResponseModel
     {
-        public NeteaseResponse_Result result { get; set; }
-        public int? code { get; set; }
+        [JsonProperty("result")]
+        public NeteaseResponse_Result Result { get; set; }
+
+        [JsonProperty("code")]
+        public int? Code { get; set; }
     }
 
     public class NeteaseResponse_Result
     {
-        public IEnumerable<NeteaseResponse_Song> songs { get; set; }
-        public int? songCount { get; set; }
+        [JsonProperty("songs")]
+        public IEnumerable<NeteaseResponse_Song> Songs { get; set; }
+
+        [JsonProperty("songCount")]
+        public int? SongCount { get; set; }
     }
 
     public class NeteaseResponse_Song
     {
-        public string id { get; set; }
-        public string name { get; set; }
-        public IEnumerable<NeteaseResponse_Artist> artists { get; set; }
-        public NeteaseResponse_Album album { get; set; }
-        public long? duration { get; set; }
-        public string copyrightId { get; set; }
-        public int? status { get; set; }
-        public IEnumerable<object> alias { get; set; }
-        public int? rtype { get; set; }
-        public int? ftype { get; set; }
-        public int? mvid { get; set; }
-        public double? fee { get; set; }
-        public string rUrl { get; set; }
+        [JsonProperty("id")]
+        public string Id { get; set; }
+
+        [JsonProperty("name")]
+        public string Name { get; set; }
+
+        [JsonProperty("artists")]
+        public IEnumerable<NeteaseResponse_Artist> Artists { get; set; }
+
+        [JsonProperty("album")]
+        public NeteaseResponse_Album Album { get; set; }
+
+        [JsonProperty("duration")]
+        public long? Duration { get; set; }
+
+        [JsonProperty("copyrightId")]
+        public string CopyrightId { get; set; }
+
+        [JsonProperty("status")]
+        public int? Status { get; set; }
+
+        [JsonProperty("alias")]
+        public IEnumerable<object> Alias { get; set; }
+
+        [JsonProperty("rtype")]
+        public int? Rtype { get; set; }
+
+        [JsonProperty("ftype")]
+        public int? Ftype { get; set; }
+
+        [JsonProperty("mvid")]
+        public int? Mvid { get; set; }
+
+        [JsonProperty("fee")]
+        public double? Fee { get; set; }
+
+        [JsonProperty("rUrl")]
+        public string RUrl { get; set; }
     }
 
     public class NeteaseResponse_Artist
     {
-        public string id { get; set; }
-        public string name { get; set; }
-        public string picUrl { get; set; }
-        public IEnumerable<object> alias { get; set; }
-        public int? albumSize { get; set; }
-        public string picId { get; set; }
-        public string img1v1Url { get; set; }
-        public int? img1v1 { get; set; }
-        public string trans { get; set; }
+        [JsonProperty("id")]
+        public string Id { get; set; }
+
+        [JsonProperty("name")]
+        public string Name { get; set; }
+
+        [JsonProperty("picUrl")]
+        public string PicUrl { get; set; }
+
+        [JsonProperty("alias")]
+        public IEnumerable<object> Alias { get; set; }
+
+        [JsonProperty("albumSize")]
+        public int? AlbumSize { get; set; }
+
+        [JsonProperty("picId")]
+        public string PicId { get; set; }
+
+        [JsonProperty("img1v1Url")]
+        public string Img1v1Url { get; set; }
+
+        [JsonProperty("img1v1")]
+        public int? Img1v1 { get; set; }
+
+        [JsonProperty("trans")]
+        public string Trans { get; set; }
     }
 
     public class NeteaseResponse_Album
     {
-        public string id { get; set; }
-        public string name { get; set; }
-        public NeteaseResponse_Artist artist { get; set; }
-        public long? publishTime { get; set; }
-        public int? size { get; set; }
-        public string copyrightId { get; set; }
-        public int? status { get; set; }
-        public string picId { get; set; }
+        [JsonProperty("id")]
+        public string Id { get; set; }
+
+        [JsonProperty("name")]
+        public string Name { get; set; }
+
+        [JsonProperty("artist")]
+        public NeteaseResponse_Artist Artist { get; set; }
+
+        [JsonProperty("publishTime")]
+        public long? PublishTime { get; set; }
+
+        [JsonProperty("size")]
+        public int? Size { get; set; }
+
+        [JsonProperty("copyrightId")]
+        public string CopyrightId { get; set; }
+
+        [JsonProperty("status")]
+        public int? Status { get; set; }
+
+        [JsonProperty("picId")]
+        public string PicId { get; set; }
     }
 }

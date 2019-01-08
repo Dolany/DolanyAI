@@ -2,21 +2,29 @@
 
 namespace Dolany.Ai.Core.Model.Tuling
 {
+    using Newtonsoft.Json;
+
     public class TulingImportRequestData
     {
-        public string apikey { get; set; }
+        [JsonProperty("apikey")]
+        public string ApiKey { get; set; }
 
-        public TulingImportRequestDataData data { get; set; }
+        [JsonProperty("data")]
+        public TulingImportRequestDataData Data { get; set; }
     }
 
     public class TulingImportRequestDataData
     {
-        public IEnumerable<TulingImportRequestDataQA> list;
+        [JsonProperty("list")]
+        public IEnumerable<TulingImportRequestDataQA> List;
     }
 
     public class TulingImportRequestDataQA
     {
-        public string question { get; set; }
-        public string answer { get; set; }
+        [JsonProperty("question")]
+        public string Question { get; set; }
+
+        [JsonProperty("answer")]
+        public string Answer { get; set; }
     }
 }

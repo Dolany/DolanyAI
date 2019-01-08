@@ -2,33 +2,59 @@
 
 namespace Dolany.Ai.Core.Model.Tuling
 {
+    using Newtonsoft.Json;
+
     public class TulingResponseData
     {
-        public TulingResponseData_Intent intent { get; set; }
-        public IEnumerable<TulingResponseData_Result> results { get; set; }
+        [JsonProperty("intent")]
+        public TulingResponseData_Intent Intent { get; set; }
+
+        [JsonProperty("results")]
+        public IEnumerable<TulingResponseData_Result> Results { get; set; }
     }
 
     public class TulingResponseData_Intent
     {
-        public int code { get; set; }
-        public string intentName { get; set; }
-        public string actionName { get; set; }
-        public IEnumerable<KeyValuePair<string, string>> parameters { get; set; }
+        [JsonProperty("code")]
+        public int Code { get; set; }
+
+        [JsonProperty("intentName")]
+        public string IntentName { get; set; }
+
+        [JsonProperty("actionName")]
+        public string ActionName { get; set; }
+
+        [JsonProperty("parameters")]
+        public IEnumerable<KeyValuePair<string, string>> Parameters { get; set; }
     }
 
     public class TulingResponseData_Result
     {
-        public string resultType { get; set; }
-        public TulingResponseData_Value values { get; set; }
-        public int groupType { get; set; }
+        [JsonProperty("resultType")]
+        public string ResultType { get; set; }
+
+        [JsonProperty("values")]
+        public TulingResponseData_Value Values { get; set; }
+
+        [JsonProperty("groupType")]
+        public int GroupType { get; set; }
     }
 
     public class TulingResponseData_Value
     {
-        public string text { get; set; }
-        public string url { get; set; }
-        public string voice { get; set; }
-        public string image { get; set; }
-        public string video { get; set; }
+        [JsonProperty("text")]
+        public string Text { get; set; }
+
+        [JsonProperty("url")]
+        public string Url { get; set; }
+
+        [JsonProperty("voice")]
+        public string Voice { get; set; }
+
+        [JsonProperty("image")]
+        public string Image { get; set; }
+
+        [JsonProperty("video")]
+        public string Video { get; set; }
     }
 }

@@ -25,15 +25,12 @@
         {
             using (var db = new AIDatabase())
             {
-                var query = db.MemberRoleCache.Where(ic => ic.QQNum == MsgDTO.FromQQ &&
-                                                           ic.GroupNum == MsgDTO.FromGroup);
+                var query = db.MemberRoleCache.Where(
+                    ic => ic.QQNum == MsgDTO.FromQQ && ic.GroupNum == MsgDTO.FromGroup);
                 if (query.IsNullOrEmpty())
                 {
                     Enqueue(MsgDTO.FromGroup);
-                    return new MemberRoleCache
-                               {
-                                   Datatime = DateTime.Now, GroupNum = MsgDTO.FromGroup, QQNum = MsgDTO.FromQQ, Role = 2
-                               };
+                    return new MemberRoleCache { GroupNum = MsgDTO.FromGroup, QQNum = MsgDTO.FromQQ };
                 }
 
                 var Cache = query.FirstOrDefault();
@@ -43,10 +40,7 @@
                 }
 
                 Enqueue(MsgDTO.FromGroup);
-                return new MemberRoleCache
-                           {
-                               Datatime = DateTime.Now, GroupNum = MsgDTO.FromGroup, QQNum = MsgDTO.FromQQ, Role = 2
-                           };
+                return new MemberRoleCache { GroupNum = MsgDTO.FromGroup, QQNum = MsgDTO.FromQQ };
             }
         }
 
@@ -105,8 +99,7 @@
 
                 foreach (var info in infos.mems)
                 {
-                    var query = db.MemberRoleCache.Where(p => p.GroupNum == GroupNum &&
-                                                              p.QQNum == info.uin);
+                    var query = db.MemberRoleCache.Where(p => p.GroupNum == GroupNum && p.QQNum == info.uin);
                     if (!query.IsNullOrEmpty())
                     {
                         var cache = query.First();
@@ -116,17 +109,14 @@
                     }
                     else
                     {
-                        db.MemberRoleCache.Add(new MemberRoleCache
-                                                   {
-                                                       Id = Guid.NewGuid().ToString(),
-                                                       Datatime = DateTime.Now,
-                                                       GroupNum = GroupNum,
-                                                       Nickname = info.nick,
-                                                       QQNum = info.uin,
-                                                       Role = info.role
-                                                   });
+                        db.MemberRoleCache.Add(
+                            new MemberRoleCache
+                                {
+                                    GroupNum = GroupNum, Nickname = info.nick, QQNum = info.uin, Role = info.role
+                                });
                     }
                 }
+
                 db.SaveChanges();
             }
         }

@@ -1,12 +1,15 @@
 ﻿namespace Dolany.Ai.Core.Db
 {
-    public partial class MemberRoleCache
+    using System;
+
+    public class MemberRoleCache
     {
-        public string Id { get; set; }
+        public string Id { get; set; } = Guid.NewGuid().ToString();
         public long QQNum { get; set; }
         public long GroupNum { get; set; }
-        public int Role { get; set; }
-        public System.DateTime Datatime { get; set; }
+
+        public int Role { get; set; } = 2;
+        public DateTime Datatime { get; set; } = DateTime.Now;
         public string Nickname { get; set; }
     }
 }

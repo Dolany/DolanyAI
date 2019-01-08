@@ -1,50 +1,76 @@
 ﻿namespace Dolany.Ai.Core.Model.Tuling
 {
+    using Newtonsoft.Json;
+
     public class TulingRequestData
     {
-        public int reqType { get; set; }
-        public perceptionData perception { get; set; }
-        public userInfoData userInfo { get; set; }
+        [JsonProperty("reqType")]
+        public int ReqType { get; set; }
+
+        [JsonProperty("perception")]
+        public perceptionData Perception { get; set; }
+
+        [JsonProperty("userInfo")]
+        public userInfoData UserInfo { get; set; }
     }
 
     public class perceptionData
     {
-        public inputTextData inputText { get; set; }
-        public inputImageData inputImage { get; set; }
-        public inputMediaData inputMedia { get; set; }
-        public selfInfoData selfInfo { get; set; }
+        [JsonProperty("inputText")]
+        public inputTextData InputText { get; set; }
+
+        [JsonProperty("inputImage")]
+        public inputImageData InputImage { get; set; }
+
+        [JsonProperty("inputMedia")]
+        public inputMediaData InputMedia { get; set; }
+
+        [JsonProperty("selfInfo")]
+        public selfInfoData SelfInfo { get; set; }
     }
 
     public class inputTextData
     {
-        public string text { get; set; }
+        [JsonProperty("text")]
+        public string Text { get; set; }
     }
 
     public class inputImageData
     {
-        public string url { get; set; }
+        [JsonProperty("url")]
+        public string Url { get; set; }
     }
 
     public class inputMediaData
     {
-        public string url { get; set; }
+        [JsonProperty("url")]
+        public string Url { get; set; }
     }
 
     public class selfInfoData
     {
-        public locationData location { get; set; }
+        [JsonProperty("location")]
+        public locationData Location { get; set; }
     }
 
     public class locationData
     {
-        public string city { get; set; }
-        public string province { get; set; }
-        public string street { get; set; }
+        [JsonProperty("city")]
+        public string City { get; set; }
+
+        [JsonProperty("province")]
+        public string Province { get; set; }
+
+        [JsonProperty("street")]
+        public string Street { get; set; }
     }
 
     public class userInfoData
     {
-        public string apiKey { get; set; }
-        public string userId { get; set; }
+        [JsonProperty("apiKey")]
+        public string ApiKey { get; set; }
+
+        [JsonProperty("userId")]
+        public string UserId { get; set; }
     }
 }
