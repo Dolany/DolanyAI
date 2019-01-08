@@ -34,8 +34,7 @@
                 var infos = db.MsgInformation.Where(info => info.AiNum == Utility.SelfQQNum).ToList();
                 foreach (var info in infos)
                 {
-                    var msg =
-                        $"[Information] {info.Information} {info.FromGroup} {info.FromQQ} {info.RelationId} {info.Msg}";
+                    var msg = $"[Information] {info.Information} {info.FromGroup} {info.FromQQ} {info.Msg}";
                     AIMgr.Instance.MessagePublish(msg);
 
                     switch (info.Information)

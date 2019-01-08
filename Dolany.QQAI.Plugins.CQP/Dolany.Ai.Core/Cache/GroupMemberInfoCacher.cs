@@ -18,6 +18,7 @@
         private static Queue<long> WaitQueue { get; set; }
 
         private static int GroupEmptyRefreshRate => int.Parse(Utility.GetConfig("GroupEmptyRefreshRate"));
+
         private static int GroupRefreshRate => int.Parse(Utility.GetConfig("GroupRefreshRate"));
 
         [CanBeNull]
@@ -91,28 +92,28 @@
             using (var db = new AIDatabase())
             {
                 var infos = APIEx.GetMemberInfos(GroupNum);
-                if (infos?.mems == null)
+                if (infos?.Mems == null)
                 {
                     RuntimeLogger.Log($"Cannot get Group Member Infos:{GroupNum}");
                     return;
                 }
 
-                foreach (var info in infos.mems)
+                foreach (var info in infos.Mems)
                 {
-                    var query = db.MemberRoleCache.Where(p => p.GroupNum == GroupNum && p.QQNum == info.uin);
+                    var query = db.MemberRoleCache.Where(p => p.GroupNum == GroupNum && p.QQNum == info.Uin);
                     if (!query.IsNullOrEmpty())
                     {
                         var cache = query.First();
-                        cache.Role = info.role;
+                        cache.Role = info.Role;
                         cache.Datatime = DateTime.Now;
-                        cache.Nickname = info.nick;
+                        cache.Nickname = info.Nick;
                     }
                     else
                     {
                         db.MemberRoleCache.Add(
                             new MemberRoleCache
                                 {
-                                    GroupNum = GroupNum, Nickname = info.nick, QQNum = info.uin, Role = info.role
+                                    GroupNum = GroupNum, Nickname = info.Nick, QQNum = info.Uin, Role = info.Role
                                 });
                     }
                 }

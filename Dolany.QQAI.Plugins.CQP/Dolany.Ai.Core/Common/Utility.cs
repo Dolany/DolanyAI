@@ -245,7 +245,7 @@
                 var model = new ImageCacheModel();
 
                 string line;
-                while ((line = reader.ReadLine()) != null)
+                while (!string.IsNullOrEmpty(line = reader.ReadLine()))
                 {
                     var strs = line.Split(new[] { '=' }, StringSplitOptions.RemoveEmptyEntries);
                     if (strs.IsNullOrEmpty() ||

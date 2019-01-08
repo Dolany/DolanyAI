@@ -1,8 +1,13 @@
 ﻿namespace Dolany.Ai.Core.API.ViewModel
 {
+    using Newtonsoft.Json;
+
     public class GroupMemberLevelViewModel
     {
-        public int level { get; set; }
-        public int point { get; set; }
+        [JsonProperty("level")]
+        public int Level { get; set; }
+
+        [JsonProperty("point")]
+        public int Point { get; set; }
     }
 }
