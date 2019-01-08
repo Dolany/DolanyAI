@@ -158,7 +158,7 @@ namespace Dolany.Ai.Core.Ai.SingleCommand.Tuling
                 var imageGuid = ParsePicGuid(msg);
 
                 var image = ReadImageCacheInfo(imageGuid);
-                return image == null ? string.Empty : image.Url;
+                return image == null ? string.Empty : image.url;
             }
             catch (Exception)
             {

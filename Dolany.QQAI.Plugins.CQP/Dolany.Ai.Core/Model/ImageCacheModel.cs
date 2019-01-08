@@ -1,25 +1,17 @@
 ﻿namespace Dolany.Ai.Core.Model
 {
-    using Newtonsoft.Json;
-
     public class ImageCacheModel
     {
-        [JsonProperty("Guid")]
-        public string Guid { get; set; }
+        public string guid { get; set; }
 
-        [JsonProperty("url")]
-        public string Url { get; set; }
+        public string url { get; set; }
 
-        [JsonProperty("size")]
-        public int Size { get; set; }
+        public int size { get; set; }
 
-        [JsonProperty("type")]
-        public string Type { get; set; }
+        public string type { get; set; }
 
-        [JsonProperty("height")]
-        public int Height { get; set; }
+        public int height { get; set; }
 
-        [JsonProperty("width")]
-        public int Width { get; set; }
+        public int width { get; set; }
     }
 }

@@ -116,7 +116,7 @@ namespace Dolany.Ai.Core.Ai.Sys
                 Id = Guid.NewGuid().ToString(),
                 FromGroup = MsgDTO.FromGroup,
                 FromQQ = MsgDTO.FromQQ,
-                Content = cacheInfo.Url,
+                Content = cacheInfo.url,
                 SendTime = DateTime.Now
             });
 

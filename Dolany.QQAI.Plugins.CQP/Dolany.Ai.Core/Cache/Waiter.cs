@@ -31,7 +31,8 @@
         {
             using (var db = new AIDatabase())
             {
-                var infos = db.MsgInformation.Where(info => info.AiNum == Utility.SelfQQNum).ToList();
+                var infos = db.MsgInformation.Where(info => info.AiNum == Utility.SelfQQNum)
+                    .OrderBy(p => p.Time).Take(10).ToList();
                 foreach (var info in infos)
                 {
                     var msg = $"[Information] {info.Information} {info.FromGroup} {info.FromQQ} {info.Msg}";
