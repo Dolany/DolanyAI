@@ -16,5 +16,7 @@
         public DbSet<IncaMagic> IncaMagic { get; set; }
 
         public DbSet<IncaLine> IncaLine { get; set; }
+
+        public DbSet<IncaEffect> IncaEffect { get; set; }
     }
 }

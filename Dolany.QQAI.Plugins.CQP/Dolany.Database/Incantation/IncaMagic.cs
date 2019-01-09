@@ -8,6 +8,8 @@
 
         public long QQNum { get; set; }
 
+        public string Name { get; set; }
+
         /// <summary>
         /// 咒文
         /// </summary>
@@ -19,18 +21,8 @@
         public int SuccessRate { get; set; }
 
         /// <summary>
-        /// 暴击率
-        /// </summary>
-        public int CritRate { get; set; }
-
-        /// <summary>
-        /// 冷却时间（要求 > 1）
+        /// 冷却时间（要求 >= 1）
         /// </summary>
         public int CD { get; set; }
-
-        /// <summary>
-        /// 特效列表
-        /// </summary>
-        public string EffectList { get; set; }
     }
 }

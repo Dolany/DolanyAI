@@ -9,5 +9,11 @@
         public long QQNum { get; set; }
 
         public string CharactorName { get; set; }
+
+        public int Level { get; set; }
+
+        public int MaxIncaCount { get; set; }
+
+        public int MaxHP { get; set; }
     }
 }
