@@ -26,7 +26,7 @@ namespace Dolany.Ai.Core.Ai.SingleCommand.Dice
             Command = "分组",
             AuthorityLevel = AuthorityLevel.成员,
             Description = "分组",
-            Syntax = "",
+            Syntax = "[每组人数] [@成员]*若干",
             Tag = "骰子功能",
             SyntaxChecker = "Long MultiAt",
             IsPrivateAvailabe = false)]

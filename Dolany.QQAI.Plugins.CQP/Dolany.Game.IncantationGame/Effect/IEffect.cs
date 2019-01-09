@@ -14,7 +14,7 @@
 
         string GetDescrption();
 
-        string DeEffect(IncaGameMgr mgr, IncaCharactor aimCharactor);
+        string DeEffect(IncaGameMgr mgr, Player player);
     }
 
     public enum EffectKindEnum
