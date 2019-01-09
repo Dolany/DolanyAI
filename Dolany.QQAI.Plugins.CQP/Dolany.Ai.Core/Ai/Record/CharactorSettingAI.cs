@@ -7,7 +7,8 @@
     using Dolany.Ai.Core.Base;
     using Dolany.Ai.Core.Cache;
     using Dolany.Ai.Core.Common;
-    using Dolany.Ai.Core.Db;
+    using Dolany.Ai.Core.Model;
+    using Dolany.Database.Ai;
 
     [AI(
         Name = nameof(CharactorSettingAI),
@@ -213,7 +214,7 @@
         {
             using (var db = new AIDatabase())
             {
-                var cs = new Db.CharactorSetting
+                var cs = new CharactorSetting
                 {
                     Id = Guid.NewGuid().ToString(),
                     CreateTime = DateTime.Now,

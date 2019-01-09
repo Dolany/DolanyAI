@@ -15,4 +15,8 @@
     </PackageReference>
   </ItemGroup>
 
+  <ItemGroup>
+    <ProjectReference Include="..\Dolany.Database\Dolany.Database.csproj" />
+  </ItemGroup>
+
 </Project>

@@ -9,7 +9,8 @@
     using Dolany.Ai.Core.Base;
     using Dolany.Ai.Core.Cache;
     using Dolany.Ai.Core.Common;
-    using Dolany.Ai.Core.Db;
+    using Dolany.Ai.Core.Model;
+    using Dolany.Database.Ai;
 
     using JetBrains.Annotations;
 

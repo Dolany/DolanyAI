@@ -8,8 +8,8 @@ namespace Dolany.Ai.Core.Ai.SingleCommand.Dice
     using Dolany.Ai.Core.Base;
     using Dolany.Ai.Core.Cache;
     using Dolany.Ai.Core.Common;
-    using Dolany.Ai.Core.Db;
     using Dolany.Ai.Core.Entities;
+    using Dolany.Ai.Core.Model;
 
     [AI(
         Name = nameof(DiceAI),
@@ -40,8 +40,9 @@ namespace Dolany.Ai.Core.Ai.SingleCommand.Dice
             string format;
             if (MsgDTO.Type == MsgType.Group)
             {
-                var query = DbMgr.Query<DiceSettingRecordEntity>(p => p.Content == MsgDTO.Command &&
-                                                                      p.FromGroup == MsgDTO.FromGroup);
+                var query = DbMgr
+                    .Query<DiceSettingRecordEntity>(p => p.Content == MsgDTO.Command && p.FromGroup == MsgDTO.FromGroup)
+                    .ToList();
                 format = query.IsNullOrEmpty() ? MsgDTO.Command : query.First().SourceFormat;
             }
             else
@@ -189,8 +190,9 @@ namespace Dolany.Ai.Core.Ai.SingleCommand.Dice
                 return;
             }
 
-            var query = DbMgr.Query<DiceSettingRecordEntity>(p => p.Content == savedFormat &&
-                                                                  p.FromGroup == MsgDTO.FromGroup);
+            var query = DbMgr
+                .Query<DiceSettingRecordEntity>(p => p.Content == savedFormat && p.FromGroup == MsgDTO.FromGroup)
+                .ToList();
             if (query.IsNullOrEmpty())
             {
                 DbMgr.Insert(new DiceSettingRecordEntity

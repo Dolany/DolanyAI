@@ -4,7 +4,7 @@ using System.Collections.Generic;
 namespace Dolany.Ai.Core.Ai.Game.Jump300Report
 {
     using Dolany.Ai.Core.Ai.Game.Jump300Report.Parser;
-    using Dolany.Ai.Core.Db;
+    using Dolany.Ai.Core.Model;
     using Dolany.Ai.Core.Net;
     using static Dolany.Ai.Core.Common.Utility;
 
@@ -71,7 +71,8 @@ namespace Dolany.Ai.Core.Ai.Game.Jump300Report
 
                 do
                 {
-                    var HtmlStr = requester.Request($"http://300report.jumpw.com/list.html?name={MsgDTO.Msg}&index={idx}");
+                    var HtmlStr = requester.Request(
+                        $"http://300report.jumpw.com/list.html?name={MsgDTO.Msg}&index={idx}");
 
                     var listParser = new JumpListHtmlParser();
                     listParser.Load(HtmlStr);
@@ -84,7 +85,8 @@ namespace Dolany.Ai.Core.Ai.Game.Jump300Report
 
                     idx += count;
                     list.Add(listParser);
-                } while (true);
+                }
+                while (true);
 
                 return list;
             }

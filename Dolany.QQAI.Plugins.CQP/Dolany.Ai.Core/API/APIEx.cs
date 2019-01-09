@@ -5,8 +5,8 @@
     using Dolany.Ai.Core.API.ViewModel;
     using Dolany.Ai.Core.Cache;
     using Dolany.Ai.Core.Common;
-    using Dolany.Ai.Core.Db;
     using Dolany.Ai.Core.Net;
+    using Dolany.Database.Ai;
 
     using JetBrains.Annotations;
 

@@ -3,7 +3,8 @@
     using System;
 
     using Dolany.Ai.Core.Common;
-    using Dolany.Ai.Core.Db;
+    using Dolany.Ai.Core.Model;
+    using Dolany.Database.Ai;
 
     using static Dolany.Ai.Core.API.CodeApi;
 

@@ -2,7 +2,8 @@
 {
     using Dolany.Ai.Core.Base;
     using Dolany.Ai.Core.Common;
-    using Dolany.Ai.Core.Db;
+    using Dolany.Ai.Core.Model;
+
     using static Dolany.Ai.Core.Common.Utility;
 
     [AI(

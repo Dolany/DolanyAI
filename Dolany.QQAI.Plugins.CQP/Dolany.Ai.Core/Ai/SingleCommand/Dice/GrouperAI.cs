@@ -9,7 +9,7 @@ namespace Dolany.Ai.Core.Ai.SingleCommand.Dice
     using Dolany.Ai.Core.Base;
     using Dolany.Ai.Core.Cache;
     using Dolany.Ai.Core.Common;
-    using Dolany.Ai.Core.Db;
+    using Dolany.Ai.Core.Model;
 
     [AI(
         Name = nameof(GrouperAI),

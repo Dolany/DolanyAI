@@ -4,7 +4,7 @@ namespace Dolany.Ai.Core.Ai.Game.Jump300Report
 {
     using Dolany.Ai.Core.Base;
     using Dolany.Ai.Core.Cache;
-    using Dolany.Ai.Core.Db;
+    using Dolany.Ai.Core.Model;
 
     [AI(
         Name = nameof(Jump300ReportAI),

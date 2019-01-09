@@ -7,7 +7,7 @@
     using Dolany.Ai.Core.Base;
     using Dolany.Ai.Core.Cache;
     using Dolany.Ai.Core.Common;
-    using Dolany.Ai.Core.Db;
+    using Dolany.Ai.Core.Model;
 
     [AI(
         Name = nameof(HelperAI),
@@ -72,7 +72,7 @@
 
         private static bool HelpCommand(MsgInformationEx MsgDTO)
         {
-            var commands = AIMgr.Instance.AllAvailableGroupCommands.Where(c => c.Command == MsgDTO.Msg);
+            var commands = AIMgr.Instance.AllAvailableGroupCommands.Where(c => c.Command == MsgDTO.Msg).ToList();
             if (commands.IsNullOrEmpty())
             {
                 return false;
@@ -96,10 +96,9 @@
 
         private static void HelpTag(MsgInformationEx MsgDTO)
         {
-            var commands = AIMgr.Instance.AllAvailableGroupCommands.Where(c => c.Tag == MsgDTO.Msg &&
-                                                                               c.AuthorityLevel != AuthorityLevel.开发者)
-                                                                   .GroupBy(p => p.Command)
-                                                                   .Select(p => p.First());
+            var commands = AIMgr.Instance.AllAvailableGroupCommands
+                .Where(c => c.Tag == MsgDTO.Msg && c.AuthorityLevel != AuthorityLevel.开发者).GroupBy(p => p.Command)
+                .Select(p => p.First()).ToList();
             if (commands.IsNullOrEmpty())
             {
                 return;

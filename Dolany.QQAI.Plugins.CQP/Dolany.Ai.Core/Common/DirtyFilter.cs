@@ -1,12 +1,12 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Text;
 
 namespace Dolany.Ai.Core.Common
 {
     using System.Linq;
 
-    using Dolany.Ai.Core.Db;
+    using Dolany.Ai.Core.Model;
+    using Dolany.Database.Ai;
 
     public static class DirtyFilter
     {

@@ -5,7 +5,9 @@ namespace Dolany.Ai.Core.Ai.SingleCommand.Voice
     using Dolany.Ai.Core.Base;
     using Dolany.Ai.Core.Cache;
     using Dolany.Ai.Core.Common;
-    using Dolany.Ai.Core.Db;
+    using Dolany.Ai.Core.Model;
+    using Dolany.Database.Ai;
+
     using static Dolany.Ai.Core.API.CodeApi;
 
     [AI(
@@ -31,8 +33,7 @@ namespace Dolany.Ai.Core.Ai.SingleCommand.Voice
             Syntax = "[舰娘名称]",
             Tag = "语音功能",
             SyntaxChecker = "Word",
-            IsPrivateAvailabe = true
-        )]
+            IsPrivateAvailabe = true)]
         public void KancoleVoice(MsgInformationEx MsgDTO, object[] param)
         {
             var girlName = param[0] as string;

@@ -9,8 +9,9 @@ namespace Dolany.Ai.Core.Ai.Repeater
     using Dolany.Ai.Core.Base;
     using Dolany.Ai.Core.Cache;
     using Dolany.Ai.Core.Common;
-    using Dolany.Ai.Core.Db;
+    using Dolany.Ai.Core.Model;
     using Dolany.Ai.Core.SyntaxChecker;
+    using Dolany.Database.Ai;
 
     [AI(
         Name = nameof(PlusOneAI),
@@ -47,7 +48,7 @@ namespace Dolany.Ai.Core.Ai.Repeater
                 return false;
             }
 
-            var query = Cache.Where(d => d.GroupNumber == MsgDTO.FromGroup);
+            var query = Cache.Where(d => d.GroupNumber == MsgDTO.FromGroup).ToList();
             if (query.IsNullOrEmpty())
             {
                 Cache.Add(new PlusOneCache
@@ -91,8 +92,7 @@ namespace Dolany.Ai.Core.Ai.Repeater
             Syntax = "",
             Tag = "复读机功能",
             SyntaxChecker = "Empty",
-            IsPrivateAvailabe = false
-            )]
+            IsPrivateAvailabe = false)]
         public void Forbidden(MsgInformationEx MsgDTO, object[] param)
         {
             ForbiddenStateChange(MsgDTO.FromGroup, false);
@@ -107,8 +107,7 @@ namespace Dolany.Ai.Core.Ai.Repeater
             Syntax = "",
             Tag = "复读机功能",
             SyntaxChecker = "Empty",
-            IsPrivateAvailabe = false
-            )]
+            IsPrivateAvailabe = false)]
         public void Unforbidden(MsgInformationEx MsgDTO, object[] param)
         {
             ForbiddenStateChange(MsgDTO.FromGroup, true);

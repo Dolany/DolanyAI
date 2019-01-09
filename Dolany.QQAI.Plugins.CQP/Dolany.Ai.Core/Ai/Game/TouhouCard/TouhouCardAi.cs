@@ -7,7 +7,9 @@ namespace Dolany.Ai.Reborn.DolanyAI.Ai.Game.TouhouCard
     using Dolany.Ai.Core.Base;
     using Dolany.Ai.Core.Cache;
     using Dolany.Ai.Core.Common;
-    using Dolany.Ai.Core.Db;
+    using Dolany.Ai.Core.Model;
+    using Dolany.Database.Ai;
+
     using static Dolany.Ai.Core.API.CodeApi;
 
     [AI(

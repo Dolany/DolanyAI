@@ -6,8 +6,8 @@
     using Dolany.Ai.Core.Base;
     using Dolany.Ai.Core.Cache;
     using Dolany.Ai.Core.Common;
-    using Dolany.Ai.Core.Db;
     using Dolany.Ai.Core.Entities;
+    using Dolany.Ai.Core.Model;
 
     using static Dolany.Ai.Core.API.CodeApi;
 

@@ -7,12 +7,12 @@ namespace Dolany.Ai.Core.Ai.SingleCommand.Tuling
     using Dolany.Ai.Core.Base;
     using Dolany.Ai.Core.Cache;
     using Dolany.Ai.Core.Common;
-    using Dolany.Ai.Core.Db;
     using Dolany.Ai.Core.Model;
     using Dolany.Ai.Core.Model.Tuling;
     using Dolany.Ai.Core.Net;
-    using static Dolany.Ai.Core.Common.Utility;
+
     using static Dolany.Ai.Core.API.CodeApi;
+    using static Dolany.Ai.Core.Common.Utility;
 
     [AI(
         Name = nameof(TulingAI),
@@ -173,8 +173,7 @@ namespace Dolany.Ai.Core.Ai.SingleCommand.Tuling
             Syntax = "[问题] [答案]",
             Tag = "图灵功能",
             SyntaxChecker = "Word Word",
-            IsPrivateAvailabe = true
-        )]
+            IsPrivateAvailabe = true)]
         public void AddPrivateQA(MsgInformationEx MsgDTO, object[] param)
         {
             MsgSender.Instance.PushMsg(MsgDTO, "暂未开放！");

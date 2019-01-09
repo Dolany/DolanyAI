@@ -8,7 +8,7 @@
     using System.Timers;
 
     using Dolany.Ai.Core.Common;
-    using Dolany.Ai.Core.Db;
+    using Dolany.Database.Ai;
 
     public class Waiter
     {

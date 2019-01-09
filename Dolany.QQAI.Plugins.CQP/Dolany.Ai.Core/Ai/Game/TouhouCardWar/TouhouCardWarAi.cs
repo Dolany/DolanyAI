@@ -1,7 +1,7 @@
 ﻿namespace Dolany.Ai.Core.Ai.Game.TouhouCardWar
 {
     using Dolany.Ai.Core.Base;
-    using Dolany.Ai.Core.Db;
+    using Dolany.Ai.Core.Model;
 
     [AI(
         Name = nameof(TouhouCardWarAi),

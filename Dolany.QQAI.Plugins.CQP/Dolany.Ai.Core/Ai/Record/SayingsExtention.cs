@@ -2,7 +2,7 @@
 
 namespace Dolany.Ai.Core.Ai.Record
 {
-    using Dolany.Ai.Core.Db;
+    using Dolany.Database.Ai;
 
     public static class SayingsExtention
     {

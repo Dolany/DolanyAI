@@ -23,6 +23,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\Dolany.Database\Dolany.Database.csproj" />
     <ProjectReference Include="..\Dolany.Game.TouhouCardWar\Dolany.Game.TouhouCardWar.csproj" />
   </ItemGroup>
 

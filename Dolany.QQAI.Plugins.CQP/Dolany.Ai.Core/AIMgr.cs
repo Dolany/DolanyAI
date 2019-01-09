@@ -11,8 +11,9 @@
     using Dolany.Ai.Core.Base;
     using Dolany.Ai.Core.Cache;
     using Dolany.Ai.Core.Common;
-    using Dolany.Ai.Core.Db;
+    using Dolany.Ai.Core.Model;
     using Dolany.Ai.Core.SyntaxChecker;
+    using Dolany.Database.Ai;
 
     /// <summary>
     /// AI管理类
