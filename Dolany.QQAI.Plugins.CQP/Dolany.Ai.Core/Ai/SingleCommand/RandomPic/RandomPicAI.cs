@@ -1,12 +1,8 @@
 ﻿namespace Dolany.Ai.Core.Ai.SingleCommand.RandomPic
 {
-    using System.Collections.Generic;
-    using System.Linq;
-
     using Dolany.Ai.Core.Base;
     using Dolany.Ai.Core.Cache;
     using Dolany.Ai.Core.Common;
-    using Dolany.Ai.Core.Entities;
     using Dolany.Ai.Core.Model;
 
     using static Dolany.Ai.Core.API.CodeApi;
@@ -15,7 +11,7 @@
         Name = nameof(RandomPicAI),
         Description = "AI for Sending Random Pic By Keyword.",
         IsAvailable = true,
-        PriorityLevel = 2)]
+        PriorityLevel = 10)]
     public class RandomPicAI : AIBase
     {
         public RandomPicAI()
@@ -37,9 +33,7 @@
             IsPrivateAvailabe = true)]
         public void RecentPic(MsgInformationEx MsgDTO, object[] param)
         {
-            var imageList = GetRecentImageList().ToList();
-            var idx = Utility.RandInt(imageList.Count);
-            var picUrl = imageList.ElementAt(idx).Content;
+            var picUrl = PicCacher.Random();
 
             MsgSender.Instance.PushMsg(MsgDTO, Code_Image(picUrl));
         }
@@ -54,17 +48,9 @@
             IsPrivateAvailabe = true)]
         public void RecentFlash(MsgInformationEx MsgDTO, object[] param)
         {
-            var imageList = GetRecentImageList().ToList();
-            var idx = Utility.RandInt(imageList.Count);
-            var picUrl = imageList.ElementAt(idx).Content;
+            var picUrl = PicCacher.Random();
 
             MsgSender.Instance.PushMsg(MsgDTO, Code_Flash(picUrl));
-        }
-
-        private static IEnumerable<PicCacheEntity> GetRecentImageList()
-        {
-            var pics = DbMgr.Query<PicCacheEntity>();
-            return pics;
         }
     }
 }

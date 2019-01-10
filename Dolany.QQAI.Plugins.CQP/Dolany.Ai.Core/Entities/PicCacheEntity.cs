@@ -1,6 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Text;
 
 namespace Dolany.Ai.Core.Entities
 {
@@ -13,6 +11,6 @@ namespace Dolany.Ai.Core.Entities
         public long FromQQ { get; set; }
 
         [DataColumn]
-        public DateTime SendTime { get; set; }
+        public DateTime SendTime { get; set; } = DateTime.Now;
     }
 }

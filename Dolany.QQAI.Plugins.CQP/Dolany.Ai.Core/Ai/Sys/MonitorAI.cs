@@ -3,11 +3,12 @@ using System.Linq;
 
 namespace Dolany.Ai.Core.Ai.Sys
 {
+    using System.Collections.Generic;
+
     using Dolany.Ai.Core;
     using Dolany.Ai.Core.Base;
     using Dolany.Ai.Core.Cache;
     using Dolany.Ai.Core.Common;
-    using Dolany.Ai.Core.Entities;
     using Dolany.Ai.Core.Model;
     using Dolany.Database.Ai;
 
@@ -20,8 +21,15 @@ namespace Dolany.Ai.Core.Ai.Sys
         PriorityLevel = 100)]
     public class MonitorAI : AIBase
     {
+        private List<long> InactiveGroups = new List<long>();
+
         public override void Work()
         {
+            using (var db = new AIDatabase())
+            {
+                var query = db.ActiveOffGroups.Where(p => p.AINum == SelfQQNum);
+                this.InactiveGroups = query.Select(p => p.GroupNum).ToList();
+            }
         }
 
         [EnterCommand(
@@ -44,8 +52,7 @@ namespace Dolany.Ai.Core.Ai.Sys
 
             using (var db = new AIDatabase())
             {
-                var query = db.AISeal.Where(a => a.GroupNum == groupNum &&
-                                                 a.AiName == aiName);
+                var query = db.AISeal.Where(a => a.GroupNum == groupNum && a.AiName == aiName);
                 if (!query.IsNullOrEmpty())
                 {
                     SendMsgToDeveloper("ai功能已经在封印中！");
@@ -71,8 +78,7 @@ namespace Dolany.Ai.Core.Ai.Sys
             {
                 var t = ai.GetType();
                 var attributes = t.GetCustomAttributes(typeof(AIAttribute), false);
-                if (attributes.Length <= 0 ||
-                    !(attributes[0] is AIAttribute))
+                if (attributes.Length <= 0 || !(attributes[0] is AIAttribute))
                 {
                     continue;
                 }
@@ -95,46 +101,19 @@ namespace Dolany.Ai.Core.Ai.Sys
 
             FiltPicMsg(MsgDTO);
 
-            using (var db = new AIDatabase())
-            {
-                var selfNum = SelfQQNum;
-                var query = db.ActiveOffGroups.Where(p => p.AINum == selfNum &&
-                                                          p.GroupNum == MsgDTO.FromGroup);
-                return !query.IsNullOrEmpty();
-            }
+            return this.InactiveGroups.Contains(MsgDTO.FromGroup);
         }
 
         private static void FiltPicMsg(MsgInformationEx MsgDTO)
         {
             var guid = ParsePicGuid(MsgDTO.FullMsg);
             var cacheInfo = ReadImageCacheInfo(guid);
-            if (cacheInfo == null)
+            if (cacheInfo == null || string.IsNullOrEmpty(cacheInfo.url))
             {
                 return;
             }
 
-            DbMgr.Insert(new PicCacheEntity
-            {
-                Id = Guid.NewGuid().ToString(),
-                FromGroup = MsgDTO.FromGroup,
-                FromQQ = MsgDTO.FromQQ,
-                Content = cacheInfo.url,
-                SendTime = DateTime.Now
-            });
-
-            var MaxPicCacheCount = int.Parse(GetConfig("MaxPicCacheCount"));
-            var pics = DbMgr.Query<PicCacheEntity>().ToList();
-            var count = pics.Count;
-            if (count <= MaxPicCacheCount)
-            {
-                return;
-            }
-
-            var redundantPics = pics.OrderBy(p => p.SendTime).Take(count - MaxPicCacheCount);
-            foreach (var pic in redundantPics)
-            {
-                DbMgr.Delete<PicCacheEntity>(pic.Id);
-            }
+            PicCacher.Cache(cacheInfo.url);
         }
 
         [EnterCommand(
@@ -166,9 +145,10 @@ namespace Dolany.Ai.Core.Ai.Sys
                 });
 
                 db.SaveChanges();
-                MsgSender.Instance.PushMsg(MsgDTO, "关机成功！");
             }
 
+            this.InactiveGroups.Add(MsgDTO.FromGroup);
+            MsgSender.Instance.PushMsg(MsgDTO, "关机成功！");
             AIMgr.Instance.OnActiveStateChange(false, MsgDTO.FromGroup);
         }
 
@@ -195,9 +175,10 @@ namespace Dolany.Ai.Core.Ai.Sys
                 db.ActiveOffGroups.RemoveRange(query);
 
                 db.SaveChanges();
-                MsgSender.Instance.PushMsg(MsgDTO, "开机成功！");
             }
 
+            this.InactiveGroups.RemoveAll(p => p == MsgDTO.FromGroup);
+            MsgSender.Instance.PushMsg(MsgDTO, "开机成功！");
             AIMgr.Instance.OnActiveStateChange(true, MsgDTO.FromGroup);
         }
 

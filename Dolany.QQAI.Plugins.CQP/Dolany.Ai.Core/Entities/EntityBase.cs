@@ -14,7 +14,7 @@ namespace Dolany.Ai.Core.Entities
     public class EntityBase
     {
         [DataColumn]
-        public string Id { get; set; }
+        public string Id { get; set; } = Guid.NewGuid().ToString();
 
         public string Content { get; set; }
 
