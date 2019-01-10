@@ -17,7 +17,8 @@
             var magic = new IncaMagic { Name = Name, QQNum = QQNum, Word = Word };
             var magicLevel = ParseMagicLevel(ValidCount);
             magic.SuccessRate = ParseSRate(magicLevel);
-            magic.CD = magicLevel + 1;
+            magic.CD = magicLevel;
+            magic.ChantDuring = (magicLevel + 1) / 2 - 1;
 
             var effectTotalLv = ParseEffectTotalLv(magicLevel);
             var effects = ParseEffects(effectTotalLv, AimKind);
@@ -34,8 +35,7 @@
 
                 foreach (var effect in effects)
                 {
-                    db.IncaEffect.Add(
-                        new IncaEffect { Effect = effect.Name, MagicId = magic.Id, Value = effect.Value });
+                    db.IncaEffect.Add(new IncaEffect { Effect = effect.Name, MagicId = magic.Id, Value = effect.Value });
                 }
 
                 db.SaveChanges();
@@ -81,13 +81,13 @@
                 case 1:
                     return rand.Next(10) + 90;
                 case 2:
-                    return rand.Next(20) + 70;
+                    return rand.Next(10) + 80;
                 case 3:
-                    return rand.Next(20) + 50;
+                    return rand.Next(10) + 70;
                 case 4:
-                    return rand.Next(20) + 30;
+                    return rand.Next(10) + 60;
                 default:
-                    return 10;
+                    return 60;
             }
         }
 

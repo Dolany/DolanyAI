@@ -4,6 +4,8 @@ using System.Threading;
 
 namespace Dolany.Ai.Core.Ai.Repeater
 {
+    using System.Collections.Generic;
+
     using Dolany.Ai.Core;
     using Dolany.Ai.Core.Base;
     using Dolany.Ai.Core.Cache;
@@ -23,10 +25,27 @@ namespace Dolany.Ai.Core.Ai.Repeater
 
         private long CurCount;
 
-        private const int SleepTime = 3000;
+        private const int SleepTime = 2000;
+
+        private readonly List<long> InactiveGroups = new List<long>();
+
+        private readonly object List_lock = new object();
 
         public override void Work()
         {
+            Load();
+        }
+
+        private void Load()
+        {
+            using (var db = new AIDatabase())
+            {
+                var query = db.RepeaterAvailable.Where(p => !p.Available);
+                lock (List_lock)
+                {
+                    this.InactiveGroups.AddRange(query.Select(p => p.GroupNumber));
+                }
+            }
         }
 
         public override bool OnMsgReceived(MsgInformationEx MsgDTO)
@@ -88,7 +107,7 @@ namespace Dolany.Ai.Core.Ai.Repeater
             MsgSender.Instance.PushMsg(MsgDTO, "复读机启用成功！");
         }
 
-        private static void ForbiddenStateChange(long fromGroup, bool state)
+        private void ForbiddenStateChange(long fromGroup, bool state)
         {
             using (var db = new AIDatabase())
             {
@@ -113,20 +132,25 @@ namespace Dolany.Ai.Core.Ai.Repeater
 
                 db.SaveChanges();
             }
+
+            lock (this.List_lock)
+            {
+                if (state)
+                {
+                    this.InactiveGroups.Add(fromGroup);
+                }
+                else
+                {
+                    this.InactiveGroups.RemoveAll(p => p == fromGroup);
+                }
+            }
         }
 
-        private static bool IsAvailable(long GroupNum)
+        private bool IsAvailable(long GroupNum)
         {
-            using (var db = new AIDatabase())
+            lock (this.List_lock)
             {
-                var query = db.RepeaterAvailable;
-                if (query.IsNullOrEmpty())
-                {
-                    return true;
-                }
-
-                return Enumerable.All(query, r => r.GroupNumber != GroupNum ||
-                                                  r.Available);
+                return !InactiveGroups.Contains(GroupNum);
             }
         }
 

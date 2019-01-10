@@ -1,7 +1,5 @@
 ﻿namespace Dolany.Game.IncantationGame.Effect
 {
-    using Dolany.Database.Incantation;
-
     public interface IEffect
     {
         EffectKindEnum Kind { get; set; }
