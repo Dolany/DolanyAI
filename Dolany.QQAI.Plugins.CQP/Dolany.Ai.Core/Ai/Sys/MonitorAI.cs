@@ -1,9 +1,8 @@
-﻿using System;
-using System.Linq;
-
-namespace Dolany.Ai.Core.Ai.Sys
+﻿namespace Dolany.Ai.Core.Ai.Sys
 {
+    using System;
     using System.Collections.Generic;
+    using System.Linq;
 
     using Dolany.Ai.Core;
     using Dolany.Ai.Core.Base;
@@ -238,6 +237,48 @@ namespace Dolany.Ai.Core.Ai.Sys
             }
 
             MsgSender.Instance.PushMsg(MsgDTO, "临时授权成功！");
+        }
+
+        [EnterCommand(
+            Command = "初始化",
+            Description = "初始化群成员信息",
+            Syntax = "",
+            Tag = "系统命令",
+            SyntaxChecker = "Empty",
+            AuthorityLevel = AuthorityLevel.成员,
+            IsPrivateAvailabe = false)]
+        public void InitAI(MsgInformationEx MsgDTO, object[] param)
+        {
+            using (var db = new AIDatabase())
+            {
+                var today = DateTime.Now.Date;
+                var query = db.InitInfo.FirstOrDefault(p => p.GroupNum == MsgDTO.FromGroup && p.UpdateTime == today);
+                if (query != null)
+                {
+                    MsgSender.Instance.PushMsg(MsgDTO, "每天只能初始化一次噢~");
+                    return;
+                }
+
+                if (!GroupMemberInfoCacher.RefreshGroupInfo(MsgDTO.FromGroup))
+                {
+                    MsgSender.Instance.PushMsg(MsgDTO, "初始化失败，请稍后再试！");
+                    return;
+                }
+
+                query = db.InitInfo.FirstOrDefault(p => p.GroupNum == MsgDTO.FromGroup);
+                if (query == null)
+                {
+                    db.InitInfo.Add(new InitInfo { GroupNum = MsgDTO.FromGroup, UpdateTime = DateTime.Now.Date });
+                }
+                else
+                {
+                    query.UpdateTime = DateTime.Now.Date;
+                }
+
+                db.SaveChanges();
+            }
+
+            MsgSender.Instance.PushMsg(MsgDTO, "初始化成功！");
         }
     }
 }
