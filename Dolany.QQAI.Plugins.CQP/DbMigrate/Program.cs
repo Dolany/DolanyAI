@@ -9,8 +9,6 @@ namespace DbMigrate
 {
     class Program
     {
-        private static readonly MongoContext context = MongoContext.Instance;
-
         static void Main(string[] args)
         {
             Migrate<ActiveOffGroups>();
@@ -47,7 +45,7 @@ namespace DbMigrate
             Console.ReadKey();
         }
 
-        private static void Migrate<T>()
+        private static void Migrate<T>() where  T: BaseEntity
         {
             try
             {
@@ -56,7 +54,7 @@ namespace DbMigrate
                     var type = typeof(AIDatabase);
                     var prop = type.GetProperty(typeof(T).Name);
                     var values = prop.GetValue(sqlDb) as IEnumerable<T>;
-                    context.Collection<T>().InsertManyAsync((values ?? throw new InvalidOperationException()).ToList());
+                    MongoService<T>.InsertMany((values ?? throw new InvalidOperationException()).ToList());
                 }
 
                 Console.WriteLine($"{typeof(T).Name} Completed");
