@@ -2,9 +2,9 @@
 {
     using System;
 
-    using Dolany.Ai.MQ.Resolver;
-    using Dolany.Ai.MQ.Db;
-    using Dolany.Ai.Util;
+    using Resolver;
+    using Db;
+    using Util;
 
     using Newbe.Mahua;
     using Newbe.Mahua.MahuaEvents;

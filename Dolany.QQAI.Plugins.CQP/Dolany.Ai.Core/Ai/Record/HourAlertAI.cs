@@ -8,14 +8,14 @@ namespace Dolany.Ai.Core.Ai.Record
 {
     using System.Threading;
 
-    using Dolany.Ai.Core.Base;
-    using Dolany.Ai.Core.Cache;
-    using Dolany.Ai.Core.Common;
-    using Dolany.Ai.Core.Model;
+    using Base;
+    using Cache;
+    using Common;
+    using Model;
     using Dolany.Database.Ai;
 
-    using static Dolany.Ai.Core.API.CodeApi;
-    using static Dolany.Ai.Core.Common.Utility;
+    using static API.CodeApi;
+    using static Common.Utility;
 
     [AI(
         Name = nameof(HourAlertAI),

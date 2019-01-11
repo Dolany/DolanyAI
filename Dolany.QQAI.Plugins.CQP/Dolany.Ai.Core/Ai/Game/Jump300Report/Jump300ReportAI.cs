@@ -2,8 +2,8 @@
 
 namespace Dolany.Ai.Core.Ai.Game.Jump300Report
 {
-    using Dolany.Ai.Core.Base;
-    using Dolany.Ai.Core.Cache;
+    using Base;
+    using Cache;
     using Dolany.Ai.Core.Model;
 
     [AI(

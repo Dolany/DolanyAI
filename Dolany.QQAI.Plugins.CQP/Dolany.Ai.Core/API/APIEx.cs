@@ -2,10 +2,10 @@
 {
     using System;
 
-    using Dolany.Ai.Core.API.ViewModel;
-    using Dolany.Ai.Core.Cache;
-    using Dolany.Ai.Core.Common;
-    using Dolany.Ai.Core.Net;
+    using ViewModel;
+    using Cache;
+    using Common;
+    using Net;
     using Dolany.Database.Ai;
 
     using JetBrains.Annotations;

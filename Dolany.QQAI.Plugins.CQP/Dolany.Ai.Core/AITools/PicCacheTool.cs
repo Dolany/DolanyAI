@@ -2,8 +2,8 @@
 {
     using System.Timers;
 
-    using Dolany.Ai.Core.Cache;
-    using Dolany.Ai.Core.Common;
+    using Cache;
+    using Common;
 
     public class PicCacheTool : IAITool
     {

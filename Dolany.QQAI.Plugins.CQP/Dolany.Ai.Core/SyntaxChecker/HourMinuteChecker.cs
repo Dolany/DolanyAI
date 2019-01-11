@@ -1,6 +1,6 @@
 ﻿namespace Dolany.Ai.Core.SyntaxChecker
 {
-    using Dolany.Ai.Core.Common;
+    using Common;
 
     public class HourMinuteChecker : ISyntaxChecker
     {

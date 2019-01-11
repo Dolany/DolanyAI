@@ -3,14 +3,14 @@
     using System;
     using System.Linq;
 
-    using Dolany.Ai.Core.Base;
-    using Dolany.Ai.Core.Cache;
-    using Dolany.Ai.Core.Common;
-    using Dolany.Ai.Core.Model;
+    using Base;
+    using Cache;
+    using Common;
+    using Model;
     using Dolany.Database.Ai;
 
-    using static Dolany.Ai.Core.API.APIEx;
-    using static Dolany.Ai.Core.Common.Utility;
+    using static API.APIEx;
+    using static Common.Utility;
 
     [AI(
         Name = nameof(PraiseMeAI),

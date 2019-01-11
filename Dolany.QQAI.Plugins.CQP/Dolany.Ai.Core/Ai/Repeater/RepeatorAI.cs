@@ -6,12 +6,12 @@ namespace Dolany.Ai.Core.Ai.Repeater
 {
     using System.Collections.Generic;
 
-    using Dolany.Ai.Core;
-    using Dolany.Ai.Core.Base;
-    using Dolany.Ai.Core.Cache;
-    using Dolany.Ai.Core.Common;
-    using Dolany.Ai.Core.Model;
-    using Dolany.Ai.Core.SyntaxChecker;
+    using Core;
+    using Base;
+    using Cache;
+    using Common;
+    using Model;
+    using SyntaxChecker;
     using Dolany.Database.Ai;
 
     [AI(

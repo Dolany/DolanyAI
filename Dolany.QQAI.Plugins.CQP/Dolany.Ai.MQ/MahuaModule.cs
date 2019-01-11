@@ -7,7 +7,7 @@ namespace Dolany.Ai.MQ
     using System.Text;
 
     using Newbe.Mahua;
-    using Dolany.Ai.MQ.MahuaEvents;
+    using MahuaEvents;
     using Newbe.Mahua.MahuaEvents;
 
     /// <summary>

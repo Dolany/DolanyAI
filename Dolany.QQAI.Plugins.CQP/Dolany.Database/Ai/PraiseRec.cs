@@ -8,6 +8,6 @@ namespace Dolany.Database.Ai
     {
         public string Id { get; set; }
         public long QQNum { get; set; }
-        public System.DateTime LastDate { get; set; }
+        public DateTime LastDate { get; set; }
     }
 }

@@ -7,7 +7,7 @@
     using System.Threading.Tasks;
     using System.Timers;
 
-    using Dolany.Ai.Core.Common;
+    using Common;
     using Dolany.Database.Ai;
 
     public class Waiter

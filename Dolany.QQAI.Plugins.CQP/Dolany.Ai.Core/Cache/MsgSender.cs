@@ -2,11 +2,11 @@
 {
     using System;
 
-    using Dolany.Ai.Core.Common;
-    using Dolany.Ai.Core.Model;
+    using Common;
+    using Model;
     using Dolany.Database.Ai;
 
-    using static Dolany.Ai.Core.API.CodeApi;
+    using static API.CodeApi;
 
     public class MsgSender
     {

@@ -5,10 +5,10 @@
     using System.IO;
     using System.Linq;
 
-    using Dolany.Ai.Core.API;
-    using Dolany.Ai.Core.Cache;
-    using Dolany.Ai.Core.Common;
-    using Dolany.Ai.Core.Model;
+    using API;
+    using Cache;
+    using Common;
+    using Model;
 
     public abstract class AIBase
     {

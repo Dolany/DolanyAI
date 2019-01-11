@@ -9,6 +9,6 @@ namespace Dolany.Database.Ai
         public string Id { get; set; }
         public long QQNum { get; set; }
         public string TarotId { get; set; }
-        public System.DateTime UpdateTime { get; set; }
+        public DateTime UpdateTime { get; set; }
     }
 }

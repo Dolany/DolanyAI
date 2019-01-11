@@ -8,7 +8,7 @@ namespace Dolany.Database.Ai
     {
         public string Id { get; set; }
         public long QQNum { get; set; }
-        public System.DateTime UpdateDate { get; set; }
+        public DateTime UpdateDate { get; set; }
         public string CardName { get; set; }
     }
 }

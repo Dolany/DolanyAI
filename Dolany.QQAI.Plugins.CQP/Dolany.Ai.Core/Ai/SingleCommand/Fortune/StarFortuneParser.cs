@@ -2,8 +2,8 @@
 
 namespace Dolany.Ai.Core.Ai.SingleCommand.Fortune
 {
-    using Dolany.Ai.Core.Common;
-    using Dolany.Ai.Core.Net;
+    using Common;
+    using Net;
 
     public class StarFortuneParser : HtmlParser
     {

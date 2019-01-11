@@ -5,9 +5,9 @@
     using System.Linq;
     using System.Timers;
 
-    using Dolany.Ai.Core.API;
-    using Dolany.Ai.Core.Common;
-    using Dolany.Ai.Core.Model;
+    using API;
+    using Common;
+    using Model;
     using Dolany.Database.Ai;
 
     using JetBrains.Annotations;

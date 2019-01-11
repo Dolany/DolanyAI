@@ -7,9 +7,9 @@ using System.Text;
 
 namespace Dolany.Ai.Core.Ai.Game.Jump300Report
 {
-    using Dolany.Ai.Core.Ai.Game.Jump300Report.Model;
-    using Dolany.Ai.Core.Ai.Game.Jump300Report.Parser;
-    using Dolany.Ai.Core.Common;
+    using Model;
+    using Parser;
+    using Common;
 
     public class JumpReportAnalyzer
     {

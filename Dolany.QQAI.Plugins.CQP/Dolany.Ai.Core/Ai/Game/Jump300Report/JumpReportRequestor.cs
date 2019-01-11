@@ -3,10 +3,10 @@ using System.Collections.Generic;
 
 namespace Dolany.Ai.Core.Ai.Game.Jump300Report
 {
-    using Dolany.Ai.Core.Ai.Game.Jump300Report.Parser;
+    using Parser;
     using Dolany.Ai.Core.Model;
-    using Dolany.Ai.Core.Net;
-    using static Dolany.Ai.Core.Common.Utility;
+    using Net;
+    using static Common.Utility;
 
     public class JumpReportRequestor
     {

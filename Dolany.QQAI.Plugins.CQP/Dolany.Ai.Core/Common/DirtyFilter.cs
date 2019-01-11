@@ -5,7 +5,7 @@ namespace Dolany.Ai.Core.Common
 {
     using System.Linq;
 
-    using Dolany.Ai.Core.Model;
+    using Model;
     using Dolany.Database.Ai;
 
     public static class DirtyFilter

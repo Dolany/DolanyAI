@@ -3,11 +3,11 @@
     using System.Linq;
     using System.Text;
 
-    using Dolany.Ai.Core;
-    using Dolany.Ai.Core.Base;
-    using Dolany.Ai.Core.Cache;
-    using Dolany.Ai.Core.Common;
-    using Dolany.Ai.Core.Model;
+    using Core;
+    using Base;
+    using Cache;
+    using Common;
+    using Model;
 
     [AI(
         Name = nameof(HelperAI),

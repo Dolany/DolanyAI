@@ -4,7 +4,7 @@
     using System.Collections.Generic;
     using System.Text.RegularExpressions;
 
-    using Dolany.Ai.Core.Common;
+    using Common;
 
     public class MultiAtChecker: ISyntaxChecker
     {

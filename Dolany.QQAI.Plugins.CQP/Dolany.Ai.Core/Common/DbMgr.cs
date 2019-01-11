@@ -10,7 +10,7 @@ namespace Dolany.Ai.Core.Common
     using System.Xml;
     using System.Xml.Linq;
 
-    using Dolany.Ai.Core.Entities;
+    using Entities;
 
     public static class DbMgr
     {

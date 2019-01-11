@@ -4,15 +4,15 @@ using System.Text;
 
 namespace Dolany.Ai.Core.Ai.SingleCommand.Tuling
 {
-    using Dolany.Ai.Core.Base;
-    using Dolany.Ai.Core.Cache;
-    using Dolany.Ai.Core.Common;
-    using Dolany.Ai.Core.Model;
+    using Base;
+    using Cache;
+    using Common;
+    using Model;
     using Dolany.Ai.Core.Model.Tuling;
-    using Dolany.Ai.Core.Net;
+    using Net;
 
-    using static Dolany.Ai.Core.API.CodeApi;
-    using static Dolany.Ai.Core.Common.Utility;
+    using static API.CodeApi;
+    using static Common.Utility;
 
     [AI(
         Name = nameof(TulingAI),

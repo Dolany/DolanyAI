@@ -5,10 +5,10 @@
     using System.Linq;
     using System.Timers;
 
-    using Dolany.Ai.Core.Common;
+    using Common;
 
-    using static Dolany.Ai.Core.API.CodeApi;
-    using static Dolany.Ai.Core.Common.Utility;
+    using static API.CodeApi;
+    using static Common.Utility;
 
     public class CacheCleanerDTO
     {

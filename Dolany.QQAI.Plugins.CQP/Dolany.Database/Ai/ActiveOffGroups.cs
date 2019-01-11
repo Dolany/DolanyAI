@@ -8,7 +8,7 @@ namespace Dolany.Database.Ai
     {
         public string Id { get; set; }
         public long GroupNum { get; set; }
-        public System.DateTime UpdateTime { get; set; }
+        public DateTime UpdateTime { get; set; }
         public long AINum { get; set; }
     }
 }

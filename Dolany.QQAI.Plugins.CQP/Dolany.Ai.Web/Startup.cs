@@ -1,6 +1,6 @@
 ﻿namespace Dolany.Ai.Web
 {
-    using Dolany.Ai.Web.Hubs;
+    using Hubs;
 
     using Microsoft.AspNetCore.Builder;
     using Microsoft.AspNetCore.Hosting;

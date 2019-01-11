@@ -1,6 +1,6 @@
 ﻿namespace Dolany.Ai.Core.API
 {
-    using Dolany.Ai.Core.Common;
+    using Common;
 
     public static class CodeApi
     {

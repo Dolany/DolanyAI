@@ -1,6 +1,6 @@
 ﻿namespace Dolany.Ai.Core.Model
 {
-    using Dolany.Ai.Core.Common;
+    using Common;
     using Dolany.Database.Ai;
 
     public class MsgInformationEx : MsgInformation

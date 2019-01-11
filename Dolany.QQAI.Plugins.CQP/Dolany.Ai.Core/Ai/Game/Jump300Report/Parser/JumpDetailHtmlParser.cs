@@ -6,9 +6,9 @@ namespace Dolany.Ai.Core.Ai.Game.Jump300Report.Parser
 {
     using System.Linq;
 
-    using Dolany.Ai.Core.Ai.Game.Jump300Report.Model;
-    using Dolany.Ai.Core.Common;
-    using Dolany.Ai.Core.Net;
+    using Model;
+    using Common;
+    using Net;
 
     public class JumpDetailHtmlParser : HtmlParser
     {

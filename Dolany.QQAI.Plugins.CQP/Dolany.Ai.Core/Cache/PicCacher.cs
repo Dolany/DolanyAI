@@ -2,8 +2,8 @@
 
 namespace Dolany.Ai.Core.Cache
 {
-    using Dolany.Ai.Core.Common;
-    using Dolany.Ai.Core.Entities;
+    using Common;
+    using Entities;
 
     public class PicCacher
     {

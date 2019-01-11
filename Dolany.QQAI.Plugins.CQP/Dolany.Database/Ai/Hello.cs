@@ -9,7 +9,7 @@ namespace Dolany.Database.Ai
         public string Id { get; set; }
         public long GroupNum { get; set; }
         public long QQNum { get; set; }
-        public System.DateTime LastHelloDate { get; set; }
+        public DateTime LastHelloDate { get; set; }
         public string Content { get; set; }
     }
 }

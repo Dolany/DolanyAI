@@ -7,9 +7,9 @@
     using System.Threading.Tasks;
     using System.Timers;
 
-    using Dolany.Ai.MQ.Db;
-    using Dolany.Ai.MQ.MahuaApis;
-    using Dolany.Ai.Util;
+    using Db;
+    using MahuaApis;
+    using Util;
 
     using Newbe.Mahua;
 

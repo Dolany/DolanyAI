@@ -2,7 +2,7 @@
 {
     using System.Collections.Generic;
 
-    using Dolany.Database.Incantation;
+    using Database.Incantation;
 
     public class Player
     {

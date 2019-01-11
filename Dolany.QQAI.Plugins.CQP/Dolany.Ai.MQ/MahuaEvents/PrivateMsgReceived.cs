@@ -2,8 +2,8 @@
 {
     using System;
 
-    using Dolany.Ai.MQ.Db;
-    using Dolany.Ai.Util;
+    using Db;
+    using Util;
 
     using Newbe.Mahua;
     using Newbe.Mahua.MahuaEvents;

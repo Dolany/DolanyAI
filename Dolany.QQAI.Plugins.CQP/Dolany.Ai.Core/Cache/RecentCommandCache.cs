@@ -6,7 +6,7 @@ namespace Dolany.Ai.Core.Cache
     using System.Diagnostics;
     using System.Linq;
 
-    using Dolany.Ai.Core.Common;
+    using Common;
 
     public static class RecentCommandCache
     {

@@ -4,8 +4,8 @@ using System.Linq;
 
 namespace Dolany.Ai.Core.Ai.SingleCommand.Fortune
 {
-    using Dolany.Ai.Core.Model;
-    using Dolany.Ai.Core.Net;
+    using Model;
+    using Net;
 
     public class FortuneRequestor
     {

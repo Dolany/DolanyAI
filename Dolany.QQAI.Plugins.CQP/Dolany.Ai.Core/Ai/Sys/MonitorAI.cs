@@ -4,14 +4,14 @@
     using System.Collections.Generic;
     using System.Linq;
 
-    using Dolany.Ai.Core;
-    using Dolany.Ai.Core.Base;
-    using Dolany.Ai.Core.Cache;
-    using Dolany.Ai.Core.Common;
-    using Dolany.Ai.Core.Model;
+    using Core;
+    using Base;
+    using Cache;
+    using Common;
+    using Model;
     using Dolany.Database.Ai;
 
-    using static Dolany.Ai.Core.Common.Utility;
+    using static Common.Utility;
 
     [AI(
         Name = nameof(MonitorAI),
@@ -246,7 +246,7 @@
             Tag = "系统命令",
             SyntaxChecker = "Empty",
             AuthorityLevel = AuthorityLevel.成员,
-            IsPrivateAvailabe = false)]
+            IsPrivateAvailable = false)]
         public void InitAI(MsgInformationEx MsgDTO, object[] param)
         {
             using (var db = new AIDatabase())

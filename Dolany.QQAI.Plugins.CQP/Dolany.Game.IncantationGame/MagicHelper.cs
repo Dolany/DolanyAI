@@ -1,13 +1,13 @@
-﻿namespace Dolany.Game.IncantationGame
+﻿using JetBrains.Annotations;
+
+namespace Dolany.Game.IncantationGame
 {
     using System;
     using System.Collections.Generic;
     using System.Linq;
 
-    using Dolany.Database.Incantation;
-    using Dolany.Game.IncantationGame.Effect;
-
-    using JetBrains.Annotations;
+    using Database.Incantation;
+    using Effect;
 
     public class MagicHelper
     {

@@ -5,11 +5,11 @@ using static Dolany.Ai.Core.Common.Utility;
 
 namespace Dolany.Ai.Core.Ai.SingleCommand.Dice
 {
-    using Dolany.Ai.Core.Base;
-    using Dolany.Ai.Core.Cache;
-    using Dolany.Ai.Core.Common;
-    using Dolany.Ai.Core.Entities;
-    using Dolany.Ai.Core.Model;
+    using Base;
+    using Cache;
+    using Common;
+    using Entities;
+    using Model;
 
     [AI(
         Name = nameof(DiceAI),

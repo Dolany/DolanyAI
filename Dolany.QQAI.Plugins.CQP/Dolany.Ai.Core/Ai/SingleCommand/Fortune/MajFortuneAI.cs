@@ -5,11 +5,11 @@
     using System.IO;
     using System.Linq;
 
-    using Dolany.Ai.Core.API;
-    using Dolany.Ai.Core.Base;
-    using Dolany.Ai.Core.Cache;
-    using Dolany.Ai.Core.Common;
-    using Dolany.Ai.Core.Model;
+    using API;
+    using Base;
+    using Cache;
+    using Common;
+    using Model;
     using Dolany.Database.Ai;
 
     using JetBrains.Annotations;

@@ -1,10 +1,10 @@
 ﻿namespace Dolany.Ai.Core.Ai.Sys
 {
-    using Dolany.Ai.Core.Base;
-    using Dolany.Ai.Core.Common;
-    using Dolany.Ai.Core.Model;
+    using Base;
+    using Common;
+    using Model;
 
-    using static Dolany.Ai.Core.Common.Utility;
+    using static Common.Utility;
 
     [AI(
         Name = nameof(SysMsgAI),

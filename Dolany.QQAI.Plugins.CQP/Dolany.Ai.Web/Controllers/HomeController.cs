@@ -2,7 +2,7 @@
 {
     using System.Diagnostics;
 
-    using Dolany.Ai.Web.Models;
+    using Models;
 
     using Microsoft.AspNetCore.Mvc;
 

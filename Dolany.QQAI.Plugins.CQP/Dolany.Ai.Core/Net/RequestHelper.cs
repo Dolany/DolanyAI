@@ -5,8 +5,8 @@ namespace Dolany.Ai.Core.Net
 {
     using System;
 
-    using Dolany.Ai.Core.Common;
-    using Dolany.Ai.Core.Model;
+    using Common;
+    using Model;
 
     using JetBrains.Annotations;
 

@@ -7,12 +7,12 @@
     using System.Runtime.ExceptionServices;
     using System.Threading.Tasks;
 
-    using Dolany.Ai.Core.AITools;
-    using Dolany.Ai.Core.Base;
-    using Dolany.Ai.Core.Cache;
-    using Dolany.Ai.Core.Common;
-    using Dolany.Ai.Core.Model;
-    using Dolany.Ai.Core.SyntaxChecker;
+    using AITools;
+    using Base;
+    using Cache;
+    using Common;
+    using Model;
+    using SyntaxChecker;
     using Dolany.Database.Ai;
 
     /// <summary>

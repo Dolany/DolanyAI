@@ -8,10 +8,10 @@
     using System.Security.Cryptography;
     using System.Text;
 
-    using Dolany.Ai.Core.API;
-    using Dolany.Ai.Core.Cache;
-    using Dolany.Ai.Core.Entities;
-    using Dolany.Ai.Core.Model;
+    using API;
+    using Cache;
+    using Entities;
+    using Model;
     using Dolany.Database.Ai;
 
     using JetBrains.Annotations;

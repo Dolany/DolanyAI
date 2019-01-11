@@ -7,8 +7,8 @@ using static Dolany.Ai.Core.Common.Utility;
 
 namespace Dolany.Ai.Core.Ai.SingleCommand.Tuling
 {
-    using Dolany.Ai.Core.Model;
-    using Dolany.Ai.Core.Net;
+    using Model;
+    using Net;
 
     public class XfyunRequestHelper
     {
