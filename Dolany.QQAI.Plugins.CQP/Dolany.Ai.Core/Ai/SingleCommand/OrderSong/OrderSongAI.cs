@@ -35,7 +35,7 @@ namespace Dolany.Ai.Core.Ai.SingleCommand.OrderSong
             Syntax = "[歌名]",
             Tag = "点歌功能",
             SyntaxChecker = "Any",
-            IsPrivateAvailabe = true)]
+            IsPrivateAvailable = true)]
         public void OrderASong(MsgInformationEx MsgDTO, object[] param)
         {
             var songName = param[0] as string;

@@ -21,7 +21,7 @@
             Syntax = "",
             Tag = "游戏功能",
             SyntaxChecker = "Empty",
-            IsPrivateAvailabe = false)]
+            IsPrivateAvailable = false)]
         public void GameStart(MsgInformationEx MsgDTO, object[] param)
         {
         }

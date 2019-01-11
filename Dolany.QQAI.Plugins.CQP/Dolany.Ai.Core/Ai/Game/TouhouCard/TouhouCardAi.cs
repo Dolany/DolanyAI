@@ -37,7 +37,7 @@ namespace Dolany.Ai.Reborn.DolanyAI.Ai.Game.TouhouCard
             Syntax = "",
             Tag = "游戏功能",
             SyntaxChecker = "Empty",
-            IsPrivateAvailabe = true)]
+            IsPrivateAvailable = true)]
         public void RandomCard(MsgInformationEx MsgDTO, object[] param)
         {
             var cardName = RandomCard(MsgDTO.FromQQ);

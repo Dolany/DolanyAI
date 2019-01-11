@@ -21,7 +21,9 @@ namespace Dolany.Ai.Core.Base
         public string Syntax { get; set; }
         public string Tag { get; set; }
         public string SyntaxChecker { get; set; }
-        public bool IsPrivateAvailabe { get; set; }
+        public bool IsPrivateAvailable { get; set; }
+
+        public bool IsGroupAvailable { get; set; } = true;
 
         private IEnumerable<string> _CommandsList;
 

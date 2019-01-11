@@ -53,7 +53,7 @@ namespace Dolany.Ai.Core.Ai.Record
             Syntax = "[目标时间] [提醒内容]",
             Tag = "闹钟与报时功能",
             SyntaxChecker = "HourMinute Word",
-            IsPrivateAvailabe = false)]
+            IsPrivateAvailable = false)]
         public void SetClock(MsgInformationEx MsgDTO, object[] param)
         {
             if (!(param[0] is HourMinuteModel time))
@@ -117,7 +117,7 @@ namespace Dolany.Ai.Core.Ai.Record
             Syntax = "",
             Tag = "闹钟与报时功能",
             SyntaxChecker = "Empty",
-            IsPrivateAvailabe = false)]
+            IsPrivateAvailable = false)]
         public void QueryClock(MsgInformationEx MsgDTO, object[] param)
         {
             var Msg = QueryClock(MsgDTO);
@@ -131,7 +131,7 @@ namespace Dolany.Ai.Core.Ai.Record
             Syntax = "[目标时间]",
             Tag = "闹钟与报时功能",
             SyntaxChecker = "HourMinute",
-            IsPrivateAvailabe = false)]
+            IsPrivateAvailable = false)]
         public void DeleteClock(MsgInformationEx MsgDTO, object[] param)
         {
             if (!(param[0] is HourMinuteModel time))
@@ -152,7 +152,7 @@ namespace Dolany.Ai.Core.Ai.Record
             Syntax = "",
             Tag = "闹钟与报时功能",
             SyntaxChecker = "Empty",
-            IsPrivateAvailabe = false)]
+            IsPrivateAvailable = false)]
         public void ClearAllClock(MsgInformationEx MsgDTO, object[] param)
         {
             var Msg = ClearAllClock(MsgDTO);

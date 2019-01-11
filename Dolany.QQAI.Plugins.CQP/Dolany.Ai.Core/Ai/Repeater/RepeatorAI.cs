@@ -84,7 +84,7 @@ namespace Dolany.Ai.Core.Ai.Repeater
             Syntax = "",
             Tag = "复读机功能",
             SyntaxChecker = "Empty",
-            IsPrivateAvailabe = false)]
+            IsPrivateAvailable = false)]
         public void Forbidden(MsgInformationEx MsgDTO, object[] param)
         {
             ForbiddenStateChange(MsgDTO.FromGroup, false);
@@ -99,7 +99,7 @@ namespace Dolany.Ai.Core.Ai.Repeater
             Syntax = "",
             Tag = "复读机功能",
             SyntaxChecker = "Empty",
-            IsPrivateAvailabe = false)]
+            IsPrivateAvailable = false)]
         public void Unforbidden(MsgInformationEx MsgDTO, object[] param)
         {
             ForbiddenStateChange(MsgDTO.FromGroup, true);

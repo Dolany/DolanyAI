@@ -25,7 +25,7 @@
             Syntax = "[翻译内容]",
             Tag = "翻译功能",
             SyntaxChecker = "Any",
-            IsPrivateAvailabe = false)]
+            IsPrivateAvailable = false)]
         public void Trans(MsgInformationEx MsgDTO, object[] param)
         {
             var word = param[0] as string;

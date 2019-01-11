@@ -7,8 +7,8 @@
 
     using Dolany.Ai.Core.Common;
 
-    using static Dolany.Ai.Core.Common.Utility;
     using static Dolany.Ai.Core.API.CodeApi;
+    using static Dolany.Ai.Core.Common.Utility;
 
     public class CacheCleanerDTO
     {

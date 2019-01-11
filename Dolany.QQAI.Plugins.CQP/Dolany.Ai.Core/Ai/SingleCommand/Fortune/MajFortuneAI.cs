@@ -66,7 +66,7 @@
             Syntax = "",
             Tag = "运势功能",
             SyntaxChecker = "Empty",
-            IsPrivateAvailabe = false)]
+            IsPrivateAvailable = false)]
         public void RandomMajFortune(MsgInformationEx MsgDTO, object[] param)
         {
             var fortune = TodayFortune(MsgDTO.FromQQ);

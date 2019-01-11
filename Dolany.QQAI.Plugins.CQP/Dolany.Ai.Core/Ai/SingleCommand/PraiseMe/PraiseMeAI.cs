@@ -48,7 +48,7 @@
             Syntax = "",
             Tag = "点赞功能",
             SyntaxChecker = "Empty",
-            IsPrivateAvailabe = true)]
+            IsPrivateAvailable = true)]
         public void PraiseMe(MsgInformationEx MsgDTO, object[] param)
         {
             if (!CheckLimit(MsgDTO))

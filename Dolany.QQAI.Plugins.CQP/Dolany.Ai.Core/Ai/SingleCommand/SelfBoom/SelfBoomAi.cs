@@ -27,7 +27,7 @@
             Syntax = "",
             Tag = "系统功能",
             SyntaxChecker = "Empty",
-            IsPrivateAvailabe = false)]
+            IsPrivateAvailable = false)]
         public void Boom(MsgInformationEx MsgDTO, object[] param)
         {
             var backInfo = Waiter.Instance.WaitForInformation(
@@ -106,7 +106,7 @@
             Syntax = "",
             Tag = "系统功能",
             SyntaxChecker = "Empty",
-            IsPrivateAvailabe = true)]
+            IsPrivateAvailable = true)]
         public void GetBoomCode(MsgInformationEx MsgDTO, object[] param)
         {
             MsgSender.Instance.PushMsg(

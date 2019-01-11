@@ -173,7 +173,7 @@ namespace Dolany.Ai.Core.Ai.SingleCommand.Tuling
             Syntax = "[问题] [答案]",
             Tag = "图灵功能",
             SyntaxChecker = "Word Word",
-            IsPrivateAvailabe = true)]
+            IsPrivateAvailable = true)]
         public void AddPrivateQA(MsgInformationEx MsgDTO, object[] param)
         {
             MsgSender.Instance.PushMsg(MsgDTO, "暂未开放！");

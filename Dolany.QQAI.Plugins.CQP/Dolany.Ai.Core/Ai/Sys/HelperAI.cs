@@ -27,7 +27,7 @@
             Syntax = "",
             SyntaxChecker = "Empty",
             Tag = "系统命令",
-            IsPrivateAvailabe = true)]
+            IsPrivateAvailable = true)]
         public void HelpMe(MsgInformationEx MsgDTO, object[] param)
         {
             HelpSummary(MsgDTO);
@@ -40,7 +40,7 @@
             Syntax = "[命令名/标签名]",
             SyntaxChecker = "Word",
             Tag = "系统命令",
-            IsPrivateAvailabe = true)]
+            IsPrivateAvailable = true)]
         public void HelpMe_Command(MsgInformationEx MsgDTO, object[] param)
         {
             if (HelpCommand(MsgDTO))

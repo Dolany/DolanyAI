@@ -32,7 +32,7 @@ namespace Dolany.Ai.Core.Ai.Record
             Syntax = "[出处] [人物] [内容]",
             Tag = "语录功能",
             SyntaxChecker = "Word Word Any",
-            IsPrivateAvailabe = false)]
+            IsPrivateAvailable = false)]
         public void ProcceedMsg(MsgInformationEx MsgDTO, object[] param)
         {
             if (IsInSealing(MsgDTO.FromGroup, MsgDTO.FromQQ))
@@ -64,7 +64,7 @@ namespace Dolany.Ai.Core.Ai.Record
             Syntax = "",
             Tag = "语录功能",
             SyntaxChecker = "Empty",
-            IsPrivateAvailabe = false)]
+            IsPrivateAvailable = false)]
         public void Sayings(MsgInformationEx MsgDTO, object[] param)
         {
             if (IsInSealing(MsgDTO.FromGroup, MsgDTO.FromQQ))
@@ -82,7 +82,7 @@ namespace Dolany.Ai.Core.Ai.Record
             Syntax = "[关键字]",
             Tag = "语录功能",
             SyntaxChecker = "Word",
-            IsPrivateAvailabe = false)]
+            IsPrivateAvailable = false)]
         public void Sayings_Query(MsgInformationEx MsgDTO, object[] param)
         {
             if (IsInSealing(MsgDTO.FromGroup, MsgDTO.FromQQ))
@@ -155,7 +155,7 @@ namespace Dolany.Ai.Core.Ai.Record
             Syntax = "[关键字]",
             Tag = "语录功能",
             SyntaxChecker = "Word",
-            IsPrivateAvailabe = false)]
+            IsPrivateAvailable = false)]
         public void ClearSayings(MsgInformationEx MsgDTO, object[] param)
         {
             using (var db = new AIDatabase())
@@ -179,7 +179,7 @@ namespace Dolany.Ai.Core.Ai.Record
             Syntax = "[@qq号码]",
             Tag = "语录功能",
             SyntaxChecker = "At",
-            IsPrivateAvailabe = false)]
+            IsPrivateAvailable = false)]
         public void SayingSeal(MsgInformationEx MsgDTO, object[] param)
         {
             var memberNum = (long)param[0];
@@ -215,7 +215,7 @@ namespace Dolany.Ai.Core.Ai.Record
             Syntax = "[@qq号码]",
             Tag = "语录功能",
             SyntaxChecker = "At",
-            IsPrivateAvailabe = false)]
+            IsPrivateAvailable = false)]
         public void SayingDeseal(MsgInformationEx MsgDTO, object[] param)
         {
             var memberNum = (long)param[0];

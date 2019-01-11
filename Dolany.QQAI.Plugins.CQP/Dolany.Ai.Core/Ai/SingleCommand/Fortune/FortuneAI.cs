@@ -37,7 +37,7 @@
             Syntax = "",
             Tag = "运势功能",
             SyntaxChecker = "Empty",
-            IsPrivateAvailabe = true)]
+            IsPrivateAvailable = true)]
         public void RandomFortune(MsgInformationEx MsgDTO, object[] param)
         {
             using (var db = new AIDatabase())
@@ -106,7 +106,7 @@
             Syntax = "[星座名]",
             Tag = "运势功能",
             SyntaxChecker = "Word",
-            IsPrivateAvailabe = true)]
+            IsPrivateAvailable = true)]
         public void StarFortune(MsgInformationEx MsgDTO, object[] param)
         {
             var jr = new FortuneRequestor(MsgDTO, ReportCallBack);
@@ -166,7 +166,7 @@
             Syntax = "",
             Tag = "运势功能",
             SyntaxChecker = "Empty",
-            IsPrivateAvailabe = true)]
+            IsPrivateAvailable = true)]
         public void TarotFortune(MsgInformationEx MsgDTO, object[] param)
         {
             using (var db = new AIDatabase())
@@ -233,7 +233,7 @@
             Syntax = "[@qq号码]",
             Tag = "运势功能",
             SyntaxChecker = "At",
-            IsPrivateAvailabe = false)]
+            IsPrivateAvailable = false)]
         public void HolyLight(MsgInformationEx MsgDTO, object[] param)
         {
             var aimNum = (long)param[0];
@@ -249,7 +249,7 @@
             Syntax = "[@qq号码]",
             Tag = "运势功能",
             SyntaxChecker = "At",
-            IsPrivateAvailabe = false)]
+            IsPrivateAvailable = false)]
         public void CreatorBless(MsgInformationEx MsgDTO, object[] param)
         {
             var aimNum = (long)param[0];
@@ -295,7 +295,7 @@
             Syntax = "[@qq号码]",
             Tag = "运势功能",
             SyntaxChecker = "At",
-            IsPrivateAvailabe = false)]
+            IsPrivateAvailable = false)]
         public void Darkness(MsgInformationEx MsgDTO, object[] param)
         {
             var aimNum = (long)param[0];

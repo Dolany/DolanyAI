@@ -36,7 +36,7 @@
             Syntax = "[人物名] [设定项] [设定内容]",
             Tag = "设定功能",
             SyntaxChecker = "Word Word Word",
-            IsPrivateAvailabe = false)]
+            IsPrivateAvailable = false)]
         public void SetCharactor(MsgInformationEx MsgDTO, object[] param)
         {
             var charactor = param[0] as string;
@@ -60,7 +60,7 @@
             Syntax = "[人物名]",
             Tag = "设定功能",
             SyntaxChecker = "Word",
-            IsPrivateAvailabe = false)]
+            IsPrivateAvailable = false)]
         public void DeleteCharactor(MsgInformationEx MsgDTO, object[] param)
         {
             using (var db = new AIDatabase())
@@ -97,7 +97,7 @@
             Syntax = "[人物名]",
             Tag = "设定功能",
             SyntaxChecker = "Word",
-            IsPrivateAvailabe = false)]
+            IsPrivateAvailable = false)]
         public void ViewCharactor(MsgInformationEx MsgDTO, object[] param)
         {
             using (var db = new AIDatabase())

@@ -79,6 +79,11 @@
                 return false;
             }
 
+            if ((!enterAttr.IsGroupAvailable && MsgDTO.Type == MsgType.Group) || (!enterAttr.IsPrivateAvailable && MsgDTO.Type == MsgType.Private))
+            {
+                return false;
+            }
+
             if (!SyntaxCheck(enterAttr.SyntaxChecker, MsgDTO.Msg, out param))
             {
                 return false;
@@ -173,7 +178,7 @@
 
         private static bool PrivateAuthCheck(EnterCommandAttribute enterAttr)
         {
-            return enterAttr.IsPrivateAvailabe;
+            return enterAttr.IsPrivateAvailable;
         }
 
         public virtual void OnActiveStateChange(bool state, long GroupNum)

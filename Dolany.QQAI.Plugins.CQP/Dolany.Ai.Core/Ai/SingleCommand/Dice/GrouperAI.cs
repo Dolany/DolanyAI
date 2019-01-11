@@ -29,7 +29,7 @@ namespace Dolany.Ai.Core.Ai.SingleCommand.Dice
             Syntax = "[每组人数] [@成员]*若干",
             Tag = "骰子功能",
             SyntaxChecker = "Long MultiAt",
-            IsPrivateAvailabe = false)]
+            IsPrivateAvailable = false)]
         public void Group(MsgInformationEx MsgDTO, object[] param)
         {
             var size = (int)param[0];

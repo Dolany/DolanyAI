@@ -39,7 +39,7 @@ namespace Dolany.Ai.Core.Ai.Sys
             Tag = "系统命令",
             SyntaxChecker = "Long Word",
             AuthorityLevel = AuthorityLevel.开发者,
-            IsPrivateAvailabe = true)]
+            IsPrivateAvailable = true)]
         public void SealAi(MsgInformationEx MsgDTO, object[] param)
         {
             var groupNum = (long)param[0];
@@ -123,7 +123,7 @@ namespace Dolany.Ai.Core.Ai.Sys
             Tag = "系统命令",
             SyntaxChecker = "Empty",
             AuthorityLevel = AuthorityLevel.管理员,
-            IsPrivateAvailabe = false)]
+            IsPrivateAvailable = false)]
         public void PowerOff(MsgInformationEx MsgDTO, object[] param)
         {
             using (var db = new AIDatabase())
@@ -159,7 +159,7 @@ namespace Dolany.Ai.Core.Ai.Sys
             Tag = "系统命令",
             SyntaxChecker = "Empty",
             AuthorityLevel = AuthorityLevel.管理员,
-            IsPrivateAvailabe = false)]
+            IsPrivateAvailable = false)]
         public void PowerOn(MsgInformationEx MsgDTO, object[] param)
         {
             using (var db = new AIDatabase())
@@ -189,7 +189,7 @@ namespace Dolany.Ai.Core.Ai.Sys
             Tag = "系统命令",
             SyntaxChecker = "Empty",
             AuthorityLevel = AuthorityLevel.成员,
-            IsPrivateAvailabe = true)]
+            IsPrivateAvailable = true)]
         public void Status(MsgInformationEx MsgDTO, object[] param)
         {
             var startTime = Sys_StartTime.Get();
@@ -210,7 +210,7 @@ namespace Dolany.Ai.Core.Ai.Sys
             Tag = "系统命令",
             SyntaxChecker = "At Word",
             AuthorityLevel = AuthorityLevel.开发者,
-            IsPrivateAvailabe = false)]
+            IsPrivateAvailable = false)]
         public void TempAuthorize(MsgInformationEx MsgDTO, object[] param)
         {
             var qqNum = (long)param[0];

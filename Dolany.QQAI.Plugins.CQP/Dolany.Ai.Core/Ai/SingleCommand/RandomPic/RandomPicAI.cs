@@ -30,7 +30,7 @@
             Syntax = "",
             Tag = "图片功能",
             SyntaxChecker = "Empty",
-            IsPrivateAvailabe = true)]
+            IsPrivateAvailable = true)]
         public void RecentPic(MsgInformationEx MsgDTO, object[] param)
         {
             var picUrl = PicCacher.Random();
@@ -45,7 +45,7 @@
             Syntax = "",
             Tag = "图片功能",
             SyntaxChecker = "Empty",
-            IsPrivateAvailabe = true)]
+            IsPrivateAvailable = true)]
         public void RecentFlash(MsgInformationEx MsgDTO, object[] param)
         {
             var picUrl = PicCacher.Random();

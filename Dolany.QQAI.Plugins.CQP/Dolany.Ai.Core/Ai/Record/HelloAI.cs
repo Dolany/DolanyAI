@@ -62,7 +62,7 @@ namespace Dolany.Ai.Core.Ai.Record
             Syntax = "[设定内容]",
             Tag = "打招呼功能",
             SyntaxChecker = "Any",
-            IsPrivateAvailabe = false)]
+            IsPrivateAvailable = false)]
         public void SaveHelloContent(MsgInformationEx MsgDTO, object[] param)
         {
             var content = param[0] as string;
@@ -103,7 +103,7 @@ namespace Dolany.Ai.Core.Ai.Record
             Syntax = "",
             Tag = "打招呼功能",
             SyntaxChecker = "Empty",
-            IsPrivateAvailabe = false)]
+            IsPrivateAvailable = false)]
         public void SayHello(MsgInformationEx MsgDTO, object[] param)
         {
             using (var db = new AIDatabase())
@@ -127,7 +127,7 @@ namespace Dolany.Ai.Core.Ai.Record
             Syntax = "",
             Tag = "打招呼功能",
             SyntaxChecker = "Empty",
-            IsPrivateAvailabe = false)]
+            IsPrivateAvailable = false)]
         public void DeleteHello(MsgInformationEx MsgDTO, object[] param)
         {
             using (var db = new AIDatabase())

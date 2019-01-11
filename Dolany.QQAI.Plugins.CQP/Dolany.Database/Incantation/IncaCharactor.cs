@@ -8,7 +8,9 @@
 
         public long QQNum { get; set; }
 
-        public string CharactorName { get; set; }
+        public long Name { get; set; }
+
+        public string CharactorNo{ get; set; }
 
         public int Level { get; set; }
 
@@ -27,7 +29,7 @@
         public int Property_Agility { get; set; }
 
         /// <summary>
-        /// 属性-智力，影响法术等级
+        /// 属性-智力，影响法术等级和成功率
         /// </summary>
         public int Property_Intellect { get; set; }
     }

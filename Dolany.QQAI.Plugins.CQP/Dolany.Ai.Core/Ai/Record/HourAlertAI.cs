@@ -124,7 +124,7 @@ namespace Dolany.Ai.Core.Ai.Record
             Syntax = "",
             Tag = "闹钟与报时功能",
             SyntaxChecker = "Empty",
-            IsPrivateAvailabe = false)]
+            IsPrivateAvailable = false)]
         public void AlertEnable(MsgInformationEx MsgDTO, object[] param)
         {
             AvailableStateChange(MsgDTO.FromGroup, true);
@@ -138,7 +138,7 @@ namespace Dolany.Ai.Core.Ai.Record
             Syntax = "",
             Tag = "闹钟与报时功能",
             SyntaxChecker = "Empty",
-            IsPrivateAvailabe = false)]
+            IsPrivateAvailable = false)]
         public void AlertDisenable(MsgInformationEx MsgDTO, object[] param)
         {
             AvailableStateChange(MsgDTO.FromGroup, false);
@@ -205,7 +205,7 @@ namespace Dolany.Ai.Core.Ai.Record
             Tag = "闹钟与报时功能",
             SyntaxChecker = "Empty",
             AuthorityLevel = AuthorityLevel.开发者,
-            IsPrivateAvailabe = true)]
+            IsPrivateAvailable = true)]
         public void AllAvailabeGroups(MsgInformationEx MsgDTO, object[] param)
         {
             var list = AvailableGroups;

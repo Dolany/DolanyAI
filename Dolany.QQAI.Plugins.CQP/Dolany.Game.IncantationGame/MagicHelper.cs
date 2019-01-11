@@ -27,7 +27,7 @@
             return magic;
         }
 
-        public static void SaveToDb(IncaMagic magic, IEnumerable<IEffect> effects)
+        private static void SaveToDb(IncaMagic magic, IEnumerable<IEffect> effects)
         {
             using (var db = new IncaDatabase())
             {
@@ -87,7 +87,7 @@
                 case 4:
                     return rand.Next(10) + 60;
                 default:
-                    return 60;
+                    return rand.Next(10) + 50;
             }
         }
 
