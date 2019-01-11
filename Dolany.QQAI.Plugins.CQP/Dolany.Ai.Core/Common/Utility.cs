@@ -1,4 +1,6 @@
-﻿namespace Dolany.Ai.Core.Common
+﻿using Dolany.Database;
+
+namespace Dolany.Ai.Core.Common
 {
     using System;
     using System.Collections.Generic;
@@ -217,18 +219,11 @@
 
         private static string GetTempAuth(MsgInformation MsgDTO)
         {
-            using (var db = new AIDatabase())
-            {
-                var date = DateTime.Now.Date;
-                var authInfo = db.TempAuthorize.FirstOrDefault(
-                    t => t.GroupNum == MsgDTO.FromGroup && t.QQNum == MsgDTO.FromQQ && t.AuthDate == date);
-                if (authInfo != null)
-                {
-                    return authInfo.AuthName;
-                }
-            }
-
-            return string.Empty;
+            var date = DateTime.Now.Date;
+            var authInfo = MongoService<TempAuthorize>
+                .Get(t => t.GroupNum == MsgDTO.FromGroup && t.QQNum == MsgDTO.FromQQ && t.AuthDate == date)
+                .FirstOrDefault();
+            return authInfo != null ? authInfo.AuthName : string.Empty;
         }
 
         [CanBeNull]

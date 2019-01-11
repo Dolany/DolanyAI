@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
 using System.Text;
+using Dolany.Database;
 
 namespace Dolany.Ai.Core.Ai.Record
 {
@@ -28,13 +29,10 @@ namespace Dolany.Ai.Core.Ai.Record
         {
             get
             {
-                using (var db = new AIDatabase())
-                {
-                    var selfNum = SelfQQNum;
-                    var query = db.AlertRegistedGroup.Where(a => a.Available.ToLower() == "true" &&
-                                                                 a.AINum == selfNum);
-                    return query.IsNullOrEmpty() ? null : query.Select(q => q.GroupNum).ToList();
-                }
+                var selfNum = SelfQQNum;
+                var query = MongoService<AlertRegistedGroup>.Get(a => a.Available.ToLower() == "true" &&
+                                                                      a.AINum == selfNum);
+                return query.IsNullOrEmpty() ? null : query.Select(q => q.GroupNum).ToList();
             }
         }
 
@@ -77,21 +75,18 @@ namespace Dolany.Ai.Core.Ai.Record
                 return;
             }
 
-            using (var db = new AIDatabase())
+            foreach (var groupNum in availableList)
             {
-                foreach (var groupNum in availableList)
+                var isActiveOff = MongoService<ActiveOffGroups>.Get(p => p.GroupNum == groupNum).Any();
+                if (isActiveOff)
                 {
-                    var isActiveOff = db.ActiveOffGroups.Any(p => p.GroupNum == groupNum);
-                    if (isActiveOff)
-                    {
-                        continue;
-                    }
-
-                    var randGirl = GetRanAlertContent(curHour);
-                    SendAlertMsg(randGirl, groupNum);
-
-                    Thread.Sleep(1000);
+                    continue;
                 }
+
+                var randGirl = GetRanAlertContent(curHour);
+                SendAlertMsg(randGirl, groupNum);
+
+                Thread.Sleep(1000);
             }
         }
 
@@ -147,43 +142,35 @@ namespace Dolany.Ai.Core.Ai.Record
 
         private static void AvailableStateChange(long groupNumber, bool state)
         {
-            using (var db = new AIDatabase())
+            var query = MongoService<AlertRegistedGroup>.Get(a => a.GroupNum == groupNumber);
+            if (query.IsNullOrEmpty())
             {
-                var query = db.AlertRegistedGroup.Where(a => a.GroupNum == groupNumber);
-                if (query.IsNullOrEmpty())
+                MongoService<AlertRegistedGroup>.Insert(new AlertRegistedGroup
                 {
-                    db.AlertRegistedGroup.Add(new AlertRegistedGroup
-                    {
-                        Id = Guid.NewGuid().ToString(),
-                        GroupNum = groupNumber,
-                        Available = state.ToString(),
-                        AINum = SelfQQNum
-                    });
-                }
-                else
-                {
-                    var arg = query.FirstOrDefault();
-                    Debug.Assert(arg != null, nameof(arg) + " != null");
-                    arg.Available = state.ToString();
-                }
-                db.SaveChanges();
+                    Id = Guid.NewGuid().ToString(),
+                    GroupNum = groupNumber,
+                    Available = state.ToString(),
+                    AINum = SelfQQNum
+                });
+            }
+            else
+            {
+                var arg = query.FirstOrDefault();
+                Debug.Assert(arg != null, nameof(arg) + " != null");
+                arg.Available = state.ToString();
+
+                MongoService<AlertRegistedGroup>.Update(arg);
             }
         }
 
         private static KanColeGirlVoice GetRanAlertContent(int aimHour)
         {
-            using (var db = new AIDatabase())
-            {
-                var tag = HourToTag(aimHour);
-                var query = db.KanColeGirlVoice.Where(a => a.Tag == tag)
-                                               .OrderBy(a => a.Id);
+            var tag = HourToTag(aimHour);
+            var query = MongoService<KanColeGirlVoice>.Get(a => a.Tag == tag).OrderBy(a => a.Id).ToList();
 
-                var randIdx = RandInt(query.Count());
+            var randIdx = RandInt(query.Count());
 
-                return query.Skip(randIdx)
-                            .First()
-                            .Clone();
-            }
+            return query.Skip(randIdx).First().Clone();
         }
 
         private static string HourToTag(int aimHour)

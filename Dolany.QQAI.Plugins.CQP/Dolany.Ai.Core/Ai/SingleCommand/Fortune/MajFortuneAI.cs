@@ -1,4 +1,6 @@
-﻿namespace Dolany.Ai.Core.Ai.SingleCommand.Fortune
+﻿using Dolany.Database;
+
+namespace Dolany.Ai.Core.Ai.SingleCommand.Fortune
 {
     using System;
     using System.Collections.Generic;
@@ -87,40 +89,36 @@
         [NotNull]
         private MajFortune TodayFortune(long QQNum)
         {
-            using (var db = new AIDatabase())
+            var today = DateTime.Now.Date;
+            var query = MongoService<MajFortune>.Get(m => m.QQNum == QQNum && m.UpdateTime == today).ToList();
+            if (!query.IsNullOrEmpty())
             {
-                var today = DateTime.Now.Date;
-                var query = db.MajFortune.Where(m => m.QQNum == QQNum && m.UpdateTime == today).ToList();
-                if (!query.IsNullOrEmpty())
-                {
-                    return query.First().Clone();
-                }
-
-                query = db.MajFortune.Where(m => m.QQNum == QQNum).ToList();
-                if (query.IsNullOrEmpty())
-                {
-                    var newFortune = this.NewFortune(QQNum);
-                    db.MajFortune.Add(newFortune);
-                    db.SaveChanges();
-
-                    return newFortune.Clone();
-                }
-
-                var fortune = query.First();
-
-                var newFortuen = NewFortune(fortune.QQNum);
-
-                fortune.CharactorName = newFortuen.CharactorName;
-                fortune.CharactorPath = newFortuen.CharactorPath;
-                fortune.FortuneStar = newFortuen.FortuneStar;
-                fortune.Kind = newFortuen.Kind;
-                fortune.Position = newFortuen.Position;
-                fortune.UpdateTime = DateTime.Now.Date;
-
-                db.SaveChanges();
-
-                return fortune.Clone();
+                return query.First().Clone();
             }
+
+            query = MongoService<MajFortune>.Get(m => m.QQNum == QQNum).ToList();
+            if (query.IsNullOrEmpty())
+            {
+                var newFortune = this.NewFortune(QQNum);
+                MongoService<MajFortune>.Insert(newFortune);
+
+                return newFortune.Clone();
+            }
+
+            var fortune = query.First();
+
+            var newFortuen = NewFortune(fortune.QQNum);
+
+            fortune.CharactorName = newFortuen.CharactorName;
+            fortune.CharactorPath = newFortuen.CharactorPath;
+            fortune.FortuneStar = newFortuen.FortuneStar;
+            fortune.Kind = newFortuen.Kind;
+            fortune.Position = newFortuen.Position;
+            fortune.UpdateTime = DateTime.Now.Date;
+
+            MongoService<MajFortune>.Update(fortune);
+
+            return fortune.Clone();
         }
 
         [NotNull]

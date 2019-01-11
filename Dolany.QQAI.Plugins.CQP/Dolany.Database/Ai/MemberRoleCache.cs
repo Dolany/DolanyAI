@@ -2,9 +2,8 @@
 {
     using System;
 
-    public class MemberRoleCache
+    public class MemberRoleCache : BaseEntity
     {
-        public string Id { get; set; } = Guid.NewGuid().ToString();
         public long QQNum { get; set; }
         public long GroupNum { get; set; }
 

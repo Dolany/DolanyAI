@@ -4,9 +4,8 @@ using System.Text;
 
 namespace Dolany.Database.Ai
 {
-    public partial class MsgRecievedCache
+    public partial class MsgRecievedCache : BaseEntity
     {
-        public string Id { get; set; }
         public string Msg { get; set; }
         public long FromGroup { get; set; }
         public long FromQQ { get; set; }

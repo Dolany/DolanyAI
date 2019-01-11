@@ -1,4 +1,6 @@
-﻿namespace Dolany.Ai.Core.Ai.Record
+﻿using Dolany.Database;
+
+namespace Dolany.Ai.Core.Ai.Record
 {
     using System;
     using System.Linq;
@@ -63,31 +65,28 @@
             IsPrivateAvailable = false)]
         public void DeleteCharactor(MsgInformationEx MsgDTO, object[] param)
         {
-            using (var db = new AIDatabase())
+            var charactor = param[0] as string;
+
+            var query = MongoService<CharactorSetting>.Get(c => c.GroupNumber == MsgDTO.FromGroup &&
+                                                                c.Charactor == charactor);
+            if (query.IsNullOrEmpty())
             {
-                var charactor = param[0] as string;
-                var query = db.CharactorSetting.Where(c => c.GroupNumber == MsgDTO.FromGroup &&
-                                                           c.Charactor == charactor);
-                if (query.IsNullOrEmpty())
-                {
-                    MsgSender.Instance.PushMsg(MsgDTO, "这个人物还没有被创建呢！");
-                    return;
-                }
-
-                if (query.First().Creator != MsgDTO.FromQQ)
-                {
-                    MsgSender.Instance.PushMsg(MsgDTO, "你只能删除自己创建的人物噢！");
-                    return;
-                }
-
-                foreach (var c in query)
-                {
-                    db.CharactorSetting.Remove(c);
-                }
-                db.SaveChanges();
-
-                MsgSender.Instance.PushMsg(MsgDTO, "删除成功！");
+                MsgSender.Instance.PushMsg(MsgDTO, "这个人物还没有被创建呢！");
+                return;
             }
+
+            if (query.First().Creator != MsgDTO.FromQQ)
+            {
+                MsgSender.Instance.PushMsg(MsgDTO, "你只能删除自己创建的人物噢！");
+                return;
+            }
+
+            foreach (var c in query)
+            {
+                MongoService<CharactorSetting>.Delete(c);
+            }
+
+            MsgSender.Instance.PushMsg(MsgDTO, "删除成功！");
         }
 
         [EnterCommand(
@@ -100,28 +99,26 @@
             IsPrivateAvailable = false)]
         public void ViewCharactor(MsgInformationEx MsgDTO, object[] param)
         {
-            using (var db = new AIDatabase())
+            var charactor = param[0] as string;
+
+            var query = MongoService<CharactorSetting>.Get(c => c.GroupNumber == MsgDTO.FromGroup &&
+                                                                c.Charactor == charactor);
+            if (query.IsNullOrEmpty())
             {
-                var charactor = param[0] as string;
-                var query = db.CharactorSetting.Where(c => c.GroupNumber == MsgDTO.FromGroup &&
-                                                           c.Charactor == charactor);
-                if (query.IsNullOrEmpty())
-                {
-                    MsgSender.Instance.PushMsg(MsgDTO, "这个人物还没有创建哦~");
-                    return;
-                }
-
-                var msg = charactor + ':';
-                var builder = new StringBuilder();
-                builder.Append(msg);
-                foreach (var c in query)
-                {
-                    builder.Append('\r' + c.SettingName + ':' + c.Content);
-                }
-                msg = builder.ToString();
-
-                MsgSender.Instance.PushMsg(MsgDTO, msg);
+                MsgSender.Instance.PushMsg(MsgDTO, "这个人物还没有创建哦~");
+                return;
             }
+
+            var msg = charactor + ':';
+            var builder = new StringBuilder();
+            builder.Append(msg);
+            foreach (var c in query)
+            {
+                builder.Append('\r' + c.SettingName + ':' + c.Content);
+            }
+            msg = builder.ToString();
+
+            MsgSender.Instance.PushMsg(MsgDTO, msg);
         }
 
         private static void TryToInsertChar(MsgInformationEx MsgDTO, string charactor, string settingName, string content)
@@ -162,102 +159,80 @@
 
         private static bool IsCharactorCreator(MsgInformation MsgDTO, string charactor)
         {
-            using (var db = new AIDatabase())
-            {
-                var query = db.CharactorSetting.Where(cs => cs.GroupNumber == MsgDTO.FromGroup &&
-                                                            cs.Charactor == charactor);
-                return query.First().Creator == MsgDTO.FromQQ;
-            }
+            var query = MongoService<CharactorSetting>.Get(cs => cs.GroupNumber == MsgDTO.FromGroup &&
+                                                                 cs.Charactor == charactor);
+
+            return query.First().Creator == MsgDTO.FromQQ;
         }
 
         private static bool IsSettingExist(long fromGroup, string charactor, string settingName)
         {
-            using (var db = new AIDatabase())
-            {
-                var query = db.CharactorSetting.Where(cs => cs.GroupNumber == fromGroup &&
-                                                            cs.Charactor == charactor &&
-                                                            cs.SettingName == settingName);
-                return !query.IsNullOrEmpty();
-            }
+            var query = MongoService<CharactorSetting>.Get(cs => cs.GroupNumber == fromGroup &&
+                                                                 cs.Charactor == charactor &&
+                                                                 cs.SettingName == settingName);
+
+            return !query.IsNullOrEmpty();
         }
 
         private static bool IsQQFullChar(MsgInformation MsgDTO)
         {
-            using (var db = new AIDatabase())
+            var query = MongoService<CharactorSetting>.Get(cs => cs.GroupNumber == MsgDTO.FromGroup &&
+                                                                 cs.Creator == MsgDTO.FromQQ);
+
+            if (query.IsNullOrEmpty())
             {
-                var query = db.CharactorSetting.Where(cs => cs.GroupNumber == MsgDTO.FromGroup &&
-                                                            cs.Creator == MsgDTO.FromQQ);
-                if (query.IsNullOrEmpty())
-                {
-                    return false;
-                }
-                query = query.GroupBy(p => p.Charactor)
-                             .Select(p => p.First());
-                return !query.IsNullOrEmpty() &&
-                       query.Count() > MaxCharNumPerQQ;
+                return false;
             }
+            query = query.GroupBy(p => p.Charactor).Select(p => p.First()).ToList();
+            return !query.IsNullOrEmpty() && query.Count > MaxCharNumPerQQ;
         }
 
         private static bool IsSettingFull(long fromGroup, string charactor, string settingName)
         {
-            using (var db = new AIDatabase())
-            {
-                var query = db.CharactorSetting.Where(cs => cs.GroupNumber == fromGroup &&
-                                                            cs.Charactor == charactor &&
-                                                            cs.SettingName != settingName);
-                return !query.IsNullOrEmpty() &&
-                       query.Count() > MaxSettingPerChar;
-            }
+            var query = MongoService<CharactorSetting>.Get(cs => cs.GroupNumber == fromGroup &&
+                                                                 cs.Charactor == charactor &&
+                                                                 cs.SettingName != settingName);
+
+            return !query.IsNullOrEmpty() && query.Count > MaxSettingPerChar;
         }
 
         private static void InsertSetting(MsgInformationEx MsgDTO, string charactor, string settingName, string content)
         {
-            using (var db = new AIDatabase())
+            var cs = new CharactorSetting
             {
-                var cs = new CharactorSetting
-                {
-                    Id = Guid.NewGuid().ToString(),
-                    CreateTime = DateTime.Now,
-                    GroupNumber = MsgDTO.FromGroup,
-                    Creator = MsgDTO.FromQQ,
-                    Charactor = charactor,
-                    SettingName = settingName,
-                    Content = content
-                };
+                Id = Guid.NewGuid().ToString(),
+                CreateTime = DateTime.Now,
+                GroupNumber = MsgDTO.FromGroup,
+                Creator = MsgDTO.FromQQ,
+                Charactor = charactor,
+                SettingName = settingName,
+                Content = content
+            };
+            MongoService<CharactorSetting>.Insert(cs);
 
-                db.CharactorSetting.Add(cs);
-                db.SaveChanges();
-
-                MsgSender.Instance.PushMsg(MsgDTO, "设定成功！");
-            }
+            MsgSender.Instance.PushMsg(MsgDTO, "设定成功！");
         }
 
         private static void ModifySetting(MsgInformationEx MsgDTO, string charactor, string settingName, string content)
         {
-            using (var db = new AIDatabase())
+            var cs = MongoService<CharactorSetting>.Get(c => c.GroupNumber == MsgDTO.FromGroup &&
+                                                             c.Charactor == charactor &&
+                                                             c.SettingName == settingName).FirstOrDefault();
+
+            if (cs != null)
             {
-                var cs = db.CharactorSetting.FirstOrDefault(c => c.GroupNumber == MsgDTO.FromGroup &&
-                                                                 c.Charactor == charactor &&
-                                                                 c.SettingName == settingName);
-
-                if (cs != null)
-                {
-                    cs.Content = content;
-                }
-                db.SaveChanges();
-
-                MsgSender.Instance.PushMsg(MsgDTO, "修改设定成功！");
+                cs.Content = content;
             }
+            MongoService<CharactorSetting>.Update(cs);
+
+            MsgSender.Instance.PushMsg(MsgDTO, "修改设定成功！");
         }
 
         private static bool IsExistCharactor(long groupNumber, string charactor)
         {
-            using (var db = new AIDatabase())
-            {
-                var query = db.CharactorSetting.Where(cs => cs.GroupNumber == groupNumber &&
-                                                            cs.Charactor == charactor);
-                return !query.IsNullOrEmpty();
-            }
+            var query = MongoService<CharactorSetting>.Get(cs => cs.GroupNumber == groupNumber &&
+                                                                 cs.Charactor == charactor);
+            return !query.IsNullOrEmpty();
         }
     }
 }

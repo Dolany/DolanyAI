@@ -1,4 +1,5 @@
 ﻿using System.Linq;
+using Dolany.Database;
 
 namespace Dolany.Ai.Core.Ai.SingleCommand.Voice
 {
@@ -50,20 +51,17 @@ namespace Dolany.Ai.Core.Ai.SingleCommand.Voice
 
         private static KanColeGirlVoice GetRandVoiceInfo(string name)
         {
-            using (var db = new AIDatabase())
+            var query = MongoService<KanColeGirlVoice>.Get(p => p.Name.Contains(name))
+                .OrderBy(p => p.Id).ToList();
+            if (query.IsNullOrEmpty())
             {
-                var query = db.KanColeGirlVoice.Where(p => p.Name.Contains(name))
-                    .OrderBy(p => p.Id);
-                if (query.IsNullOrEmpty())
-                {
-                    return null;
-                }
-
-                var count = query.Count();
-                var idx = Utility.RandInt(count);
-
-                return query.Skip(idx).First().Clone();
+                return null;
             }
+
+            var count = query.Count();
+            var idx = Utility.RandInt(count);
+
+            return query.Skip(idx).First().Clone();
         }
     }
 }

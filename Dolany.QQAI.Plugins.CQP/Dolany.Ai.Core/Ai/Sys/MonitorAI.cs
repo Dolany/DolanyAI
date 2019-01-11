@@ -1,4 +1,6 @@
-﻿namespace Dolany.Ai.Core.Ai.Sys
+﻿using Dolany.Database;
+
+namespace Dolany.Ai.Core.Ai.Sys
 {
     using System;
     using System.Collections.Generic;
@@ -24,11 +26,8 @@
 
         public override void Work()
         {
-            using (var db = new AIDatabase())
-            {
-                var query = db.ActiveOffGroups.Where(p => p.AINum == SelfQQNum);
-                this.InactiveGroups = query.Select(p => p.GroupNum).ToList();
-            }
+            var query = MongoService<ActiveOffGroups>.Get(p => p.AINum == SelfQQNum);
+            this.InactiveGroups = query.Select(p => p.GroupNum).ToList();
         }
 
         [EnterCommand(
@@ -49,24 +48,20 @@
                 return;
             }
 
-            using (var db = new AIDatabase())
+            var query = MongoService<AISeal>.Get(a => a.GroupNum == groupNum && a.AiName == aiName);
+            if (!query.IsNullOrEmpty())
             {
-                var query = db.AISeal.Where(a => a.GroupNum == groupNum && a.AiName == aiName);
-                if (!query.IsNullOrEmpty())
-                {
-                    SendMsgToDeveloper("ai功能已经在封印中！");
-                    return;
-                }
-
-                var aiseal = new AISeal
-                {
-                    Id = Guid.NewGuid().ToString(),
-                    GroupNum = groupNum,
-                    AiName = aiName
-                };
-                db.AISeal.Add(aiseal);
-                db.SaveChanges();
+                SendMsgToDeveloper("ai功能已经在封印中！");
+                return;
             }
+
+            var aiseal = new AISeal
+            {
+                Id = Guid.NewGuid().ToString(),
+                GroupNum = groupNum,
+                AiName = aiName
+            };
+            MongoService<AISeal>.Insert(aiseal);
             SendMsgToDeveloper("ai封印成功！");
         }
 
@@ -125,26 +120,21 @@
             IsPrivateAvailable = false)]
         public void PowerOff(MsgInformationEx MsgDTO, object[] param)
         {
-            using (var db = new AIDatabase())
+            var selfNum = SelfQQNum;
+            var query = MongoService<ActiveOffGroups>.Get(p => p.AINum == selfNum &&
+                                                               p.GroupNum == MsgDTO.FromGroup);
+            if (!query.IsNullOrEmpty())
             {
-                var selfNum = SelfQQNum;
-                var query = db.ActiveOffGroups.Where(p => p.AINum == selfNum &&
-                                                          p.GroupNum == MsgDTO.FromGroup);
-                if (!query.IsNullOrEmpty())
-                {
-                    return;
-                }
-
-                db.ActiveOffGroups.Add(new ActiveOffGroups
-                {
-                    Id = Guid.NewGuid().ToString(),
-                    AINum = selfNum,
-                    GroupNum = MsgDTO.FromGroup,
-                    UpdateTime = DateTime.Now
-                });
-
-                db.SaveChanges();
+                return;
             }
+
+            MongoService<ActiveOffGroups>.Insert(new ActiveOffGroups
+            {
+                Id = Guid.NewGuid().ToString(),
+                AINum = selfNum,
+                GroupNum = MsgDTO.FromGroup,
+                UpdateTime = DateTime.Now
+            });
 
             this.InactiveGroups.Add(MsgDTO.FromGroup);
             MsgSender.Instance.PushMsg(MsgDTO, "关机成功！");
@@ -161,20 +151,15 @@
             IsPrivateAvailable = false)]
         public void PowerOn(MsgInformationEx MsgDTO, object[] param)
         {
-            using (var db = new AIDatabase())
+            var selfNum = SelfQQNum;
+            var query = MongoService<ActiveOffGroups>.Get(p => p.AINum == selfNum &&
+                                                               p.GroupNum == MsgDTO.FromGroup);
+            if (query.IsNullOrEmpty())
             {
-                var selfNum = SelfQQNum;
-                var query = db.ActiveOffGroups.Where(p => p.AINum == selfNum &&
-                                                          p.GroupNum == MsgDTO.FromGroup);
-                if (query.IsNullOrEmpty())
-                {
-                    return;
-                }
-
-                db.ActiveOffGroups.RemoveRange(query);
-
-                db.SaveChanges();
+                return;
             }
+
+            MongoService<ActiveOffGroups>.DeleteMany(query);
 
             this.InactiveGroups.RemoveAll(p => p == MsgDTO.FromGroup);
             MsgSender.Instance.PushMsg(MsgDTO, "开机成功！");
@@ -222,19 +207,15 @@
                 return;
             }
 
-            using (var db = new AIDatabase())
-            {
-                db.TempAuthorize.Add(
-                    new TempAuthorize
-                        {
-                            Id = Guid.NewGuid().ToString(),
-                            AuthDate = DateTime.Now.Date,
-                            AuthName = authName,
-                            GroupNum = MsgDTO.FromGroup,
-                            QQNum = qqNum
-                        });
-                db.SaveChanges();
-            }
+            MongoService<TempAuthorize>.Insert(
+                new TempAuthorize
+                {
+                    Id = Guid.NewGuid().ToString(),
+                    AuthDate = DateTime.Now.Date,
+                    AuthName = authName,
+                    GroupNum = MsgDTO.FromGroup,
+                    QQNum = qqNum
+                });
 
             MsgSender.Instance.PushMsg(MsgDTO, "临时授权成功！");
         }
@@ -249,33 +230,29 @@
             IsPrivateAvailable = false)]
         public void InitAI(MsgInformationEx MsgDTO, object[] param)
         {
-            using (var db = new AIDatabase())
+            var today = DateTime.Now.Date;
+            var query = MongoService<InitInfo>.Get(p => p.GroupNum == MsgDTO.FromGroup && p.UpdateTime == today).FirstOrDefault();
+            if (query != null)
             {
-                var today = DateTime.Now.Date;
-                var query = db.InitInfo.FirstOrDefault(p => p.GroupNum == MsgDTO.FromGroup && p.UpdateTime == today);
-                if (query != null)
-                {
-                    MsgSender.Instance.PushMsg(MsgDTO, "每天只能初始化一次噢~");
-                    return;
-                }
+                MsgSender.Instance.PushMsg(MsgDTO, "每天只能初始化一次噢~");
+                return;
+            }
 
-                if (!GroupMemberInfoCacher.RefreshGroupInfo(MsgDTO.FromGroup))
-                {
-                    MsgSender.Instance.PushMsg(MsgDTO, "初始化失败，请稍后再试！");
-                    return;
-                }
+            if (!GroupMemberInfoCacher.RefreshGroupInfo(MsgDTO.FromGroup))
+            {
+                MsgSender.Instance.PushMsg(MsgDTO, "初始化失败，请稍后再试！");
+                return;
+            }
 
-                query = db.InitInfo.FirstOrDefault(p => p.GroupNum == MsgDTO.FromGroup);
-                if (query == null)
-                {
-                    db.InitInfo.Add(new InitInfo { GroupNum = MsgDTO.FromGroup, UpdateTime = DateTime.Now.Date });
-                }
-                else
-                {
-                    query.UpdateTime = DateTime.Now.Date;
-                }
-
-                db.SaveChanges();
+            query = MongoService<InitInfo>.Get(p => p.GroupNum == MsgDTO.FromGroup).FirstOrDefault();
+            if (query == null)
+            {
+                MongoService<InitInfo>.Insert(new InitInfo { GroupNum = MsgDTO.FromGroup, UpdateTime = DateTime.Now.Date });
+            }
+            else
+            {
+                query.UpdateTime = DateTime.Now.Date;
+                MongoService<InitInfo>.Update(query);
             }
 
             MsgSender.Instance.PushMsg(MsgDTO, "初始化成功！");

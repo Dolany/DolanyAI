@@ -4,9 +4,8 @@ using System.Text;
 
 namespace Dolany.Database.Ai
 {
-    public partial class TarotFortuneRecord
+    public partial class TarotFortuneRecord : BaseEntity
     {
-        public string Id { get; set; }
         public long QQNum { get; set; }
         public string TarotId { get; set; }
         public DateTime UpdateTime { get; set; }

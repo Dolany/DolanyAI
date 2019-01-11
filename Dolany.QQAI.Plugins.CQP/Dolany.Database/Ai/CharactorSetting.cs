@@ -4,9 +4,8 @@ using System.Text;
 
 namespace Dolany.Database.Ai
 {
-    public partial class CharactorSetting
+    public partial class CharactorSetting : BaseEntity
     {
-        public string Id { get; set; }
         public long GroupNumber { get; set; }
         public long Creator { get; set; }
         public DateTime CreateTime { get; set; }

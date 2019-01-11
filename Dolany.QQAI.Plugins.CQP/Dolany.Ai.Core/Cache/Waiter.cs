@@ -1,4 +1,6 @@
-﻿namespace Dolany.Ai.Core.Cache
+﻿using Dolany.Database;
+
+namespace Dolany.Ai.Core.Cache
 {
     using System;
     using System.Collections.Generic;
@@ -29,45 +31,40 @@
 
         private void ListenCallBack(object sender, ElapsedEventArgs e)
         {
-            using (var db = new AIDatabase())
+            var infos = MongoService<MsgInformation>.Get(info => info.AiNum == Utility.SelfQQNum)
+                .OrderBy(p => p.Time).Take(10).ToList();
+            foreach (var info in infos)
             {
-                var infos = db.MsgInformation.Where(info => info.AiNum == Utility.SelfQQNum)
-                    .OrderBy(p => p.Time).Take(10).ToList();
-                foreach (var info in infos)
+                var msg = $"[Information] {info.Information} {info.FromGroup} {info.FromQQ} {info.Msg}";
+                AIMgr.Instance.MessagePublish(msg);
+
+                switch (info.Information)
                 {
-                    var msg = $"[Information] {info.Information} {info.FromGroup} {info.FromQQ} {info.Msg}";
-                    AIMgr.Instance.MessagePublish(msg);
+                    case AiInformation.Message:
+                    case AiInformation.CommandBack:
+                        WaiterUnit waitUnit;
+                        lock (_lockObj)
+                        {
+                            waitUnit = Units.FirstOrDefault(u => u.JudgePredicate(info));
+                        }
 
-                    switch (info.Information)
-                    {
-                        case AiInformation.Message:
-                        case AiInformation.CommandBack:
-                            WaiterUnit waitUnit;
-                            lock (_lockObj)
-                            {
-                                waitUnit = Units.FirstOrDefault(u => u.JudgePredicate(info));
-                            }
+                        if (waitUnit == null)
+                        {
+                            AIMgr.Instance.OnMsgReceived(info);
+                        }
+                        else
+                        {
+                            waitUnit.ResultInfo = info;
+                            waitUnit.Signal.Set();
+                        }
 
-                            if (waitUnit == null)
-                            {
-                                AIMgr.Instance.OnMsgReceived(info);
-                            }
-                            else
-                            {
-                                waitUnit.ResultInfo = info;
-                                waitUnit.Signal.Set();
-                            }
-
-                            break;
-                        case AiInformation.AuthCode:
-                            Global.AuthCode = info.Msg;
-                            break;
-                    }
-
-                    db.MsgInformation.Remove(info);
+                        break;
+                    case AiInformation.AuthCode:
+                        Global.AuthCode = info.Msg;
+                        break;
                 }
 
-                db.SaveChanges();
+                MongoService<MsgInformation>.Delete(info);
             }
         }
 

@@ -1,4 +1,6 @@
-﻿namespace Dolany.Ai.Core
+﻿using Dolany.Database;
+
+namespace Dolany.Ai.Core
 {
     using System;
     using System.Collections.Generic;
@@ -242,13 +244,10 @@
 
         private static bool IsAiSealed(MsgInformation MsgDTO, AIBase ai)
         {
-            using (var db = new AIDatabase())
-            {
-                var aiName = ai.GetType().Name;
-                var query = db.AISeal.Where(s => s.GroupNum == MsgDTO.FromGroup &&
-                                                 s.AiName == aiName);
-                return !query.IsNullOrEmpty();
-            }
+            var aiName = ai.GetType().Name;
+            var query = MongoService<AISeal>.Get(s => s.GroupNum == MsgDTO.FromGroup &&
+                                                      s.AiName == aiName);
+            return !query.IsNullOrEmpty();
         }
 
         private static string GenCommand(ref string msg)

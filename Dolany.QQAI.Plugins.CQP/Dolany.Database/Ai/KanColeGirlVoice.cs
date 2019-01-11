@@ -4,9 +4,8 @@ using System.Text;
 
 namespace Dolany.Database.Ai
 {
-    public partial class KanColeGirlVoice
+    public partial class KanColeGirlVoice : BaseEntity
     {
-        public string Id { get; set; }
         public string Name { get; set; }
         public string VoiceUrl { get; set; }
         public string Content { get; set; }

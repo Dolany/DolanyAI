@@ -1,4 +1,6 @@
-﻿namespace Dolany.Ai.Core.Ai.SingleCommand.PraiseMe
+﻿using Dolany.Database;
+
+namespace Dolany.Ai.Core.Ai.SingleCommand.PraiseMe
 {
     using System;
     using System.Linq;
@@ -56,32 +58,30 @@
                 return;
             }
 
-            using (var db = new AIDatabase())
+            var query = MongoService<PraiseRec>.Get(p => p.QQNum == MsgDTO.FromQQ);
+            if (query.IsNullOrEmpty())
             {
-                var query = db.PraiseRec.Where(p => p.QQNum == MsgDTO.FromQQ);
-                if (query.IsNullOrEmpty())
+                LastTime = DateTime.Now;
+                Praise(MsgDTO);
+                MongoService<PraiseRec>.Insert(new PraiseRec
                 {
-                    LastTime = DateTime.Now;
-                    Praise(MsgDTO);
-                    db.PraiseRec.Add(new PraiseRec
-                    {
-                        Id = Guid.NewGuid().ToString(),
-                        LastDate = DateTime.Now.Date,
-                        QQNum = MsgDTO.FromQQ
-                    });
-                }
-                else if (query.First().LastDate >= DateTime.Now.Date)
-                {
-                    MsgSender.Instance.PushMsg(MsgDTO, "今天已经赞过十次啦！");
-                }
-                else
-                {
-                    LastTime = DateTime.Now;
-                    Praise(MsgDTO);
-                    var praise = query.First();
-                    praise.LastDate = DateTime.Now.Date;
-                }
-                db.SaveChanges();
+                    Id = Guid.NewGuid().ToString(),
+                    LastDate = DateTime.Now.Date,
+                    QQNum = MsgDTO.FromQQ
+                });
+            }
+            else if (query.First().LastDate >= DateTime.Now.Date)
+            {
+                MsgSender.Instance.PushMsg(MsgDTO, "今天已经赞过十次啦！");
+            }
+            else
+            {
+                LastTime = DateTime.Now;
+                Praise(MsgDTO);
+                var praise = query.First();
+                praise.LastDate = DateTime.Now.Date;
+
+                MongoService<PraiseRec>.Update(praise);
             }
         }
 

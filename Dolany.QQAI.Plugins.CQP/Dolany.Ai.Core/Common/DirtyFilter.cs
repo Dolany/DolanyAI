@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using Dolany.Database;
 
 namespace Dolany.Ai.Core.Common
 {
@@ -26,45 +27,38 @@ namespace Dolany.Ai.Core.Common
 
         private static void AddInBlackList(long GroupNum, long QQNum)
         {
-            using (var db = new AIDatabase())
+            var query = MongoService<BlackList>.Get(b => b.QQNum == QQNum);
+            if (!query.IsNullOrEmpty())
             {
-                var query = db.BlackList.Where(b => b.QQNum == QQNum);
-                if (!query.IsNullOrEmpty())
-                {
-                    var black = query.First();
-                    black.BlackCount++;
-                    black.UpdateTime = DateTime.Now;
-                    db.SaveChanges();
-                    return;
-                }
+                var black = query.First();
+                black.BlackCount++;
+                black.UpdateTime = DateTime.Now;
 
-                var mi = GroupNum == 0
-                    ? null
-                    : Utility.GetMemberInfo(new MsgInformationEx
-                    {
-                        FromGroup = GroupNum,
-                        FromQQ = QQNum
-                    });
+                MongoService<BlackList>.Update(black);
+                return;
+            }
 
-                db.BlackList.Add(new BlackList
+            var mi = GroupNum == 0
+                ? null
+                : Utility.GetMemberInfo(new MsgInformationEx
                 {
-                    Id = Guid.NewGuid().ToString(),
-                    BlackCount = 1,
-                    UpdateTime = DateTime.Now,
-                    QQNum = QQNum,
-                    NickName = mi == null ? string.Empty : mi.Nickname
+                    FromGroup = GroupNum,
+                    FromQQ = QQNum
                 });
 
-                db.SaveChanges();
-            }
+            MongoService<BlackList>.Insert(new BlackList
+            {
+                Id = Guid.NewGuid().ToString(),
+                BlackCount = 1,
+                UpdateTime = DateTime.Now,
+                QQNum = QQNum,
+                NickName = mi == null ? string.Empty : mi.Nickname
+            });
         }
 
         private static void InitWordList()
         {
-            using (var db = new AIDatabase())
-            {
-                WordList = db.DirtyWord.Select(d => d.Content).ToList();
-            }
+            WordList = MongoService<DirtyWord>.Get().Select(d => d.Content).ToList();
         }
 
         public static bool IsInBlackList(long fromQQ)
@@ -74,16 +68,13 @@ namespace Dolany.Ai.Core.Common
                 InitWordList();
             }
 
-            using (var db = new AIDatabase())
+            var query = MongoService<BlackList>.Get(b => b.QQNum == fromQQ);
+            if (query.IsNullOrEmpty())
             {
-                var query = db.BlackList.Where(b => b.QQNum == fromQQ);
-                if (query.IsNullOrEmpty())
-                {
-                    return false;
-                }
-
-                return query.First().BlackCount >= MaxTolerateCount;
+                return false;
             }
+
+            return query.First().BlackCount >= MaxTolerateCount;
         }
 
         private static bool IsDirtyWord(string msg)

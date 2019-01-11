@@ -4,9 +4,8 @@ using System.Text;
 
 namespace Dolany.Database.Ai
 {
-    public partial class HolyLightBless
+    public partial class HolyLightBless : BaseEntity
     {
-        public string Id { get; set; }
         public long QQNum { get; set; }
         public DateTime BlessDate { get; set; }
     }

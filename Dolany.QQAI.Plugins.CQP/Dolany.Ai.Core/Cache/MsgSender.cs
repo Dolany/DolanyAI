@@ -1,4 +1,6 @@
-﻿namespace Dolany.Ai.Core.Cache
+﻿using Dolany.Database;
+
+namespace Dolany.Ai.Core.Cache
 {
     using System;
 
@@ -18,12 +20,7 @@
             var callback = $"[Command] {msg.ToGroup} {msg.ToQQ} {msg.Id} {msg.Command} {msg.Msg}";
             AIMgr.Instance.MessagePublish(callback);
 
-            using (var db = new AIDatabase())
-            {
-                db.MsgCommand.Add(msg);
-
-                db.SaveChanges();
-            }
+            MongoService<MsgCommand>.Insert(msg);
         }
 
         public void PushMsg(MsgInformationEx MsgInfo, string Content, bool isNeedAt = false)

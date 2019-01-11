@@ -4,9 +4,8 @@ using System.Text;
 
 namespace Dolany.Database.Ai
 {
-    public partial class DirtyWord
+    public partial class DirtyWord : BaseEntity
     {
-        public string Id { get; set; }
         public string Content { get; set; }
     }
 }

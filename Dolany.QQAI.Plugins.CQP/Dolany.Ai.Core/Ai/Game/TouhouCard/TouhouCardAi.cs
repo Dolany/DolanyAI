@@ -1,6 +1,7 @@
 ﻿using System;
 using System.IO;
 using System.Linq;
+using Dolany.Database;
 
 namespace Dolany.Ai.Reborn.DolanyAI.Ai.Game.TouhouCard
 {
@@ -46,36 +47,32 @@ namespace Dolany.Ai.Reborn.DolanyAI.Ai.Game.TouhouCard
 
         private static string RandomCard(long FromQQ)
         {
-            using (var db = new AIDatabase())
+            var query = MongoService<TouhouCardRecord>.Get(p => p.QQNum == FromQQ);
+            if (query.IsNullOrEmpty())
             {
-                var query = db.TouhouCardRecord.Where(p => p.QQNum == FromQQ);
-                if (query.IsNullOrEmpty())
+                var tcr = new TouhouCardRecord
                 {
-                    var tcr = new TouhouCardRecord
-                    {
-                        Id = Guid.NewGuid().ToString(),
-                        UpdateDate = DateTime.Now.Date,
-                        CardName = GetRandCard(),
-                        QQNum = FromQQ
-                    };
-                    db.TouhouCardRecord.Add(tcr);
-                    db.SaveChanges();
+                    Id = Guid.NewGuid().ToString(),
+                    UpdateDate = DateTime.Now.Date,
+                    CardName = GetRandCard(),
+                    QQNum = FromQQ
+                };
+                MongoService<TouhouCardRecord>.Insert(tcr);
 
-                    return PicPath + tcr.CardName;
-                }
+                return PicPath + tcr.CardName;
+            }
 
-                var rec = query.First();
-                if (rec.UpdateDate >= DateTime.Now.Date)
-                {
-                    return PicPath + rec.CardName;
-                }
-
-                rec.CardName = GetRandCard();
-                rec.UpdateDate = DateTime.Now.Date;
-                db.SaveChanges();
-
+            var rec = query.First();
+            if (rec.UpdateDate >= DateTime.Now.Date)
+            {
                 return PicPath + rec.CardName;
             }
+
+            rec.CardName = GetRandCard();
+            rec.UpdateDate = DateTime.Now.Date;
+            MongoService<TouhouCardRecord>.Update(rec);
+
+            return PicPath + rec.CardName;
         }
 
         private static string GetRandCard()

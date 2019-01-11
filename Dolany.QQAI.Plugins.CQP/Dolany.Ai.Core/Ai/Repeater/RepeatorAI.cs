@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Linq;
 using System.Threading;
+using Dolany.Database;
 
 namespace Dolany.Ai.Core.Ai.Repeater
 {
@@ -38,13 +39,10 @@ namespace Dolany.Ai.Core.Ai.Repeater
 
         private void Load()
         {
-            using (var db = new AIDatabase())
+            var query = MongoService<RepeaterAvailable>.Get(p => !p.Available);
+            lock (List_lock)
             {
-                var query = db.RepeaterAvailable.Where(p => !p.Available);
-                lock (List_lock)
-                {
-                    this.InactiveGroups.AddRange(query.Select(p => p.GroupNumber));
-                }
+                this.InactiveGroups.AddRange(query.Select(p => p.GroupNumber));
             }
         }
 
@@ -109,28 +107,23 @@ namespace Dolany.Ai.Core.Ai.Repeater
 
         private void ForbiddenStateChange(long fromGroup, bool state)
         {
-            using (var db = new AIDatabase())
+            var query = MongoService<RepeaterAvailable>.Get(r => r.GroupNumber == fromGroup);
+            if (query.IsNullOrEmpty())
             {
-                var query = db.RepeaterAvailable.Where(r => r.GroupNumber == fromGroup);
-                if (query.IsNullOrEmpty())
+                MongoService<RepeaterAvailable>.Insert(new RepeaterAvailable
                 {
-                    db.RepeaterAvailable.Add(new RepeaterAvailable
-                    {
-                        Id = Guid.NewGuid().ToString(),
-                        GroupNumber = fromGroup,
-                        Available = state
-                    });
-                }
-                else
+                    Id = Guid.NewGuid().ToString(),
+                    GroupNumber = fromGroup,
+                    Available = state
+                });
+            }
+            else
+            {
+                var ra = query.FirstOrDefault();
+                if (ra != null)
                 {
-                    var ra = query.FirstOrDefault();
-                    if (ra != null)
-                    {
-                        ra.Available = state;
-                    }
+                    ra.Available = state;
                 }
-
-                db.SaveChanges();
             }
 
             lock (this.List_lock)

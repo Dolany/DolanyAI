@@ -1,4 +1,6 @@
-﻿namespace Dolany.Ai.Core.Ai.SingleCommand.Fortune
+﻿using Dolany.Database;
+
+namespace Dolany.Ai.Core.Ai.SingleCommand.Fortune
 {
     using System;
     using System.Linq;
@@ -40,43 +42,39 @@
             IsPrivateAvailable = true)]
         public void RandomFortune(MsgInformationEx MsgDTO, object[] param)
         {
-            using (var db = new AIDatabase())
+            var query = MongoService<RandomFortune>.Get(r => r.QQNum == MsgDTO.FromQQ);
+            if (!query.IsNullOrEmpty())
             {
-                var query = db.RandomFortune.Where(r => r.QQNum == MsgDTO.FromQQ);
-                if (!query.IsNullOrEmpty())
+                var f = query.First();
+                if (DateTime.Now.Date > f.UpdateDate.Date)
                 {
-                    var f = query.First();
-                    if (DateTime.Now.Date > f.UpdateDate.Date)
-                    {
-                        f.FortuneValue = GetRandomFortune();
-                        f.UpdateDate = DateTime.Now;
-                        f.BlessName = string.Empty;
-                        f.BlessValue = 0;
-                        RandBless(f);
+                    f.FortuneValue = GetRandomFortune();
+                    f.UpdateDate = DateTime.Now;
+                    f.BlessName = string.Empty;
+                    f.BlessValue = 0;
+                    RandBless(f);
 
-                        db.SaveChanges();
-                    }
-
-                    ShowRandFortune(MsgDTO, f);
-                    return;
+                    MongoService<RandomFortune>.Update(f);
                 }
 
-                var randFor = GetRandomFortune();
-                var rf = new RandomFortune
-                {
-                    Id = Guid.NewGuid().ToString(),
-                    UpdateDate = DateTime.Now,
-                    QQNum = MsgDTO.FromQQ,
-                    FortuneValue = randFor,
-                    BlessName = string.Empty,
-                    BlessValue = 0
-                };
-                RandBless(rf);
-
-                db.RandomFortune.Add(rf);
-                db.SaveChanges();
-                ShowRandFortune(MsgDTO, rf);
+                ShowRandFortune(MsgDTO, f);
+                return;
             }
+
+            var randFor = GetRandomFortune();
+            var rf = new RandomFortune
+            {
+                Id = Guid.NewGuid().ToString(),
+                UpdateDate = DateTime.Now,
+                QQNum = MsgDTO.FromQQ,
+                FortuneValue = randFor,
+                BlessName = string.Empty,
+                BlessValue = 0
+            };
+            RandBless(rf);
+
+            MongoService<RandomFortune>.Insert(rf);
+            ShowRandFortune(MsgDTO, rf);
         }
 
         private static void RandBless(RandomFortune rf)
@@ -87,16 +85,13 @@
                 return;
             }
 
-            using (var db = new AIDatabase())
-            {
-                var filist = db.FortuneItem;
-                var idx = Utility.RandInt(filist.Count());
-                var item = filist.OrderBy(p => p.Id)
-                                 .Skip(idx)
-                                 .First();
-                rf.BlessName = item.Name;
-                rf.BlessValue = item.Value;
-            }
+            var filist = MongoService<FortuneItem>.Get();
+            var idx = Utility.RandInt(filist.Count());
+            var item = filist.OrderBy(p => p.Id)
+                .Skip(idx)
+                .First();
+            rf.BlessName = item.Name;
+            rf.BlessValue = item.Value;
         }
 
         [EnterCommand(
@@ -169,38 +164,36 @@
             IsPrivateAvailable = true)]
         public void TarotFortune(MsgInformationEx MsgDTO, object[] param)
         {
-            using (var db = new AIDatabase())
+            var query = MongoService<TarotFortuneRecord>.Get(t => t.QQNum == MsgDTO.FromQQ);
+            if (query.IsNullOrEmpty())
             {
-                var query = db.TarotFortuneRecord.Where(t => t.QQNum == MsgDTO.FromQQ);
-                if (query.IsNullOrEmpty())
+                var fortune = GetRandTarotFortune();
+                SendTarotFortune(MsgDTO, fortune);
+                MongoService<TarotFortuneRecord>.Insert(new TarotFortuneRecord
                 {
-                    var fortune = GetRandTarotFortune();
-                    SendTarotFortune(MsgDTO, fortune);
-                    db.TarotFortuneRecord.Add(new TarotFortuneRecord
-                    {
-                        Id = Guid.NewGuid().ToString(),
-                        QQNum = MsgDTO.FromQQ,
-                        UpdateTime = DateTime.Now.Date,
-                        TarotId = fortune.Id
-                    });
-                    db.SaveChanges();
-                    return;
-                }
+                    Id = Guid.NewGuid().ToString(),
+                    QQNum = MsgDTO.FromQQ,
+                    UpdateTime = DateTime.Now.Date,
+                    TarotId = fortune.Id
+                });
 
-                var rec = query.First();
-                if (rec.UpdateTime < DateTime.Now.Date)
-                {
-                    var fortune = GetRandTarotFortune();
-                    SendTarotFortune(MsgDTO, fortune);
-                    rec.UpdateTime = DateTime.Now.Date;
-                    rec.TarotId = fortune.Id;
-                    db.SaveChanges();
-                    return;
-                }
-
-                var data = db.TarotFortuneData.First(p => p.Id == rec.TarotId);
-                SendTarotFortune(MsgDTO, data);
+                return;
             }
+
+            var rec = query.First();
+            if (rec.UpdateTime < DateTime.Now.Date)
+            {
+                var fortune = GetRandTarotFortune();
+                SendTarotFortune(MsgDTO, fortune);
+                rec.UpdateTime = DateTime.Now.Date;
+                rec.TarotId = fortune.Id;
+                MongoService<TarotFortuneRecord>.Update(rec);
+
+                return;
+            }
+
+            var data = MongoService<TarotFortuneData>.Get(p => p.Id == rec.TarotId).First();
+            SendTarotFortune(MsgDTO, data);
         }
 
         private static void SendTarotFortune(MsgInformationEx MsgDTO, TarotFortuneData data)
@@ -215,15 +208,12 @@
 
         private static TarotFortuneData GetRandTarotFortune()
         {
-            using (var db = new AIDatabase())
-            {
-                var datas = db.TarotFortuneData.OrderBy(p => p.Id);
-                var count = datas.Count();
+            var datas = MongoService<TarotFortuneData>.Get().OrderBy(p => p.Id).ToList();
+            var count = datas.Count();
 
-                var randData = datas.Skip(Utility.RandInt(count))
-                                    .First();
-                return randData.Clone();
-            }
+            var randData = datas.Skip(Utility.RandInt(count))
+                .First();
+            return randData.Clone();
         }
 
         [EnterCommand(
@@ -260,31 +250,28 @@
 
         private static void Bless(long QQNum, string BlessName, int BlessValue)
         {
-            using (var db = new AIDatabase())
+            var query = MongoService<RandomFortune>.Get(h => h.QQNum == QQNum);
+            if (query.IsNullOrEmpty())
             {
-                var query = db.RandomFortune.Where(h => h.QQNum == QQNum);
-                if (query.IsNullOrEmpty())
+                var randFor = GetRandomFortune();
+                var rf = new RandomFortune
                 {
-                    var randFor = GetRandomFortune();
-                    var rf = new RandomFortune
-                    {
-                        Id = Guid.NewGuid().ToString(),
-                        UpdateDate = DateTime.Now,
-                        QQNum = QQNum,
-                        FortuneValue = randFor,
-                        BlessName = BlessName,
-                        BlessValue = BlessValue
-                    };
-                    db.RandomFortune.Add(rf);
-                }
-                else
-                {
-                    var fortune = query.First();
-                    fortune.BlessName = BlessName;
-                    fortune.BlessValue = BlessValue;
-                }
+                    Id = Guid.NewGuid().ToString(),
+                    UpdateDate = DateTime.Now,
+                    QQNum = QQNum,
+                    FortuneValue = randFor,
+                    BlessName = BlessName,
+                    BlessValue = BlessValue
+                };
+                MongoService<RandomFortune>.Insert(rf);
+            }
+            else
+            {
+                var fortune = query.First();
+                fortune.BlessName = BlessName;
+                fortune.BlessValue = BlessValue;
 
-                db.SaveChanges();
+                MongoService<RandomFortune>.Update(fortune);
             }
         }
 

@@ -4,9 +4,8 @@ using System.Text;
 
 namespace Dolany.Database.Ai
 {
-    public partial class TarotFortuneData
+    public partial class TarotFortuneData : BaseEntity
     {
-        public string Id { get; set; }
         public string Name { get; set; }
         public bool IsPos { get; set; }
         public string Description { get; set; }

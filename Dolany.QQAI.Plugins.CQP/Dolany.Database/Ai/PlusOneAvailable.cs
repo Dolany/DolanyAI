@@ -4,9 +4,8 @@ using System.Text;
 
 namespace Dolany.Database.Ai
 {
-    public partial class PlusOneAvailable
+    public partial class PlusOneAvailable : BaseEntity
     {
-        public string Id { get; set; }
         public long GroupNumber { get; set; }
         public bool Available { get; set; }
     }

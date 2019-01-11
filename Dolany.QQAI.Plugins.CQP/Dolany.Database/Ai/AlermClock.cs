@@ -1,12 +1,9 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Text;
 
 namespace Dolany.Database.Ai
 {
-    public partial class AlermClock
+    public partial class AlermClock : BaseEntity
     {
-        public string Id { get; set; }
         public long GroupNumber { get; set; }
         public long Creator { get; set; }
         public DateTime CreateTime { get; set; }

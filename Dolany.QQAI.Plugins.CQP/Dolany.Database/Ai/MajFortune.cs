@@ -2,9 +2,8 @@
 {
     using System;
 
-    public class MajFortune
+    public class MajFortune : BaseEntity
     {
-        public string Id { get; set; } = Guid.NewGuid().ToString();
         public int FortuneStar { get; set; }
         public string Position { get; set; }
         public string Kind { get; set; }

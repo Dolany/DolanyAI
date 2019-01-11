@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
 using System.Threading;
+using Dolany.Database;
 
 namespace Dolany.Ai.Core.Ai.Repeater
 {
@@ -33,13 +34,10 @@ namespace Dolany.Ai.Core.Ai.Repeater
 
         private void Load()
         {
-            using (var db = new AIDatabase())
+            var query = MongoService<PlusOneAvailable>.Get(p => !p.Available);
+            lock (List_lock)
             {
-                var query = db.PlusOneAvailable.Where(p => !p.Available);
-                lock (List_lock)
-                {
-                    this.InactiveGroups.AddRange(query.Select(p => p.GroupNumber));
-                }
+                this.InactiveGroups.AddRange(query.Select(p => p.GroupNumber));
             }
         }
 
@@ -129,27 +127,24 @@ namespace Dolany.Ai.Core.Ai.Repeater
 
         private void ForbiddenStateChange(long fromGroup, bool state)
         {
-            using (var db = new AIDatabase())
+            var query = MongoService<PlusOneAvailable>.Get(r => r.GroupNumber == fromGroup);
+            if (query.IsNullOrEmpty())
             {
-                var query = db.PlusOneAvailable.Where(r => r.GroupNumber == fromGroup);
-                if (query.IsNullOrEmpty())
+                var pa = new PlusOneAvailable
                 {
-                    var pa = new PlusOneAvailable
-                    {
-                        Id = Guid.NewGuid().ToString(),
-                        GroupNumber = fromGroup,
-                        Available = state
-                    };
-                    db.PlusOneAvailable.Add(pa);
-                }
-                else
-                {
-                    var ra = query.FirstOrDefault();
-                    Debug.Assert(ra != null, nameof(ra) + " != null");
-                    ra.Available = state;
-                }
+                    Id = Guid.NewGuid().ToString(),
+                    GroupNumber = fromGroup,
+                    Available = state
+                };
+                MongoService<PlusOneAvailable>.Insert(pa);
+            }
+            else
+            {
+                var ra = query.FirstOrDefault();
+                Debug.Assert(ra != null, nameof(ra) + " != null");
+                ra.Available = state;
 
-                db.SaveChanges();
+                MongoService<PlusOneAvailable>.Update(ra);
             }
 
             lock (this.List_lock)

@@ -4,9 +4,8 @@ using System.Text;
 
 namespace Dolany.Database.Ai
 {
-    public partial class ActiveOffGroups
+    public partial class ActiveOffGroups : BaseEntity
     {
-        public string Id { get; set; }
         public long GroupNum { get; set; }
         public DateTime UpdateTime { get; set; }
         public long AINum { get; set; }

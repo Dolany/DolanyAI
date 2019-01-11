@@ -4,9 +4,8 @@ using System.Text;
 
 namespace Dolany.Database.Ai
 {
-    public partial class AlertContent
+    public partial class AlertContent : BaseEntity
     {
-        public string Id { get; set; }
         public long FromGroup { get; set; }
         public long Creator { get; set; }
         public DateTime CreateTime { get; set; }

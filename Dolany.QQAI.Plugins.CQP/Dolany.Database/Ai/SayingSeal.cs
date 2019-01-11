@@ -4,9 +4,8 @@ using System.Text;
 
 namespace Dolany.Database.Ai
 {
-    public partial class SayingSeal
+    public partial class SayingSeal : BaseEntity
     {
-        public string Id { get; set; }
         public long GroupNum { get; set; }
         public long SealMember { get; set; }
         public DateTime CreateTime { get; set; }

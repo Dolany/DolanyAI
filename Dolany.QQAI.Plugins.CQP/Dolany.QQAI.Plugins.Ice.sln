@@ -28,9 +28,11 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "DolanyCore", "DolanyCore", 
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Dolany.Game.TouhouCardWar", "Dolany.Game.TouhouCardWar\Dolany.Game.TouhouCardWar.csproj", "{6218B521-FC11-4ABC-9676-C088283C1046}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Dolany.Game.IncantationGame", "Dolany.Game.IncantationGame\Dolany.Game.IncantationGame.csproj", "{B81A5AA6-3779-45C1-AB81-97266BCA4A5E}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Dolany.Game.IncantationGame", "Dolany.Game.IncantationGame\Dolany.Game.IncantationGame.csproj", "{B81A5AA6-3779-45C1-AB81-97266BCA4A5E}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Dolany.Database", "Dolany.Database\Dolany.Database.csproj", "{7A3EB285-4A87-4EC4-8406-164F426C4D12}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Dolany.Database", "Dolany.Database\Dolany.Database.csproj", "{7A3EB285-4A87-4EC4-8406-164F426C4D12}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DbMigrate", "DbMigrate\DbMigrate.csproj", "{9CA43C91-131E-49BB-A331-DCEDA60A9C15}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -78,6 +80,10 @@ Global
 		{7A3EB285-4A87-4EC4-8406-164F426C4D12}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{7A3EB285-4A87-4EC4-8406-164F426C4D12}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{7A3EB285-4A87-4EC4-8406-164F426C4D12}.Release|Any CPU.Build.0 = Release|Any CPU
+		{9CA43C91-131E-49BB-A331-DCEDA60A9C15}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{9CA43C91-131E-49BB-A331-DCEDA60A9C15}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{9CA43C91-131E-49BB-A331-DCEDA60A9C15}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{9CA43C91-131E-49BB-A331-DCEDA60A9C15}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -92,6 +98,7 @@ Global
 		{6218B521-FC11-4ABC-9676-C088283C1046} = {57495118-F4E5-4BDA-B6D9-DE6EBA01C783}
 		{B81A5AA6-3779-45C1-AB81-97266BCA4A5E} = {57495118-F4E5-4BDA-B6D9-DE6EBA01C783}
 		{7A3EB285-4A87-4EC4-8406-164F426C4D12} = {57495118-F4E5-4BDA-B6D9-DE6EBA01C783}
+		{9CA43C91-131E-49BB-A331-DCEDA60A9C15} = {3D1D748A-8A7B-446B-8AFB-97877F34CCED}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {16A16387-5510-46DA-B392-7152AF4264E7}

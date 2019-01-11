@@ -4,6 +4,7 @@ using System.Diagnostics;
 using System.Linq;
 using System.Text;
 using System.Timers;
+using Dolany.Database;
 
 namespace Dolany.Ai.Core.Ai.Record
 {
@@ -175,106 +176,89 @@ namespace Dolany.Ai.Core.Ai.Record
 
         private static void LoadAlerms(Action<AlermClock> StartClock)
         {
-            using (var db = new AIDatabase())
+            var selfNum = SelfQQNum;
+            var clocks = MongoService<AlermClock>.Get(p => p.AINum == selfNum);
+            foreach (var clock in clocks)
             {
-                var selfNum = SelfQQNum;
-                var clocks = db.AlermClock.Where(p => p.AINum == selfNum);
-                foreach (var clock in clocks)
+                var isActiveOff = MongoService<ActiveOffGroups>.Get(p => p.GroupNum == clock.GroupNumber).Any();
+                if (isActiveOff)
                 {
-                    var isActiveOff = db.ActiveOffGroups.Any(p => p.GroupNum == clock.GroupNumber);
-                    if (isActiveOff)
-                    {
-                        continue;
-                    }
-                    StartClock(clock.Clone());
+                    continue;
                 }
+                StartClock(clock.Clone());
             }
         }
 
         private static void InsertClock(AlermClock entity, MsgInformation MsgDTO, Action<AlermClock> StartClock)
         {
-            using (var db = new AIDatabase())
+            var query = MongoService<AlermClock>.Get(q => q.GroupNumber == MsgDTO.FromGroup &&
+                                                          q.Creator == MsgDTO.FromQQ &&
+                                                          q.AimHourt == entity.AimHourt &&
+                                                          q.AimMinute == entity.AimMinute);
+            if (!query.IsNullOrEmpty())
             {
-                var query = db.AlermClock.Where(q => q.GroupNumber == MsgDTO.FromGroup &&
-                                                     q.Creator == MsgDTO.FromQQ &&
-                                                     q.AimHourt == entity.AimHourt &&
-                                                     q.AimMinute == entity.AimMinute);
-                if (!query.IsNullOrEmpty())
-                {
-                    var clock = query.FirstOrDefault();
-                    Debug.Assert(clock != null, nameof(clock) + " != null");
-                    clock.Content = entity.Content;
-                }
-                else
-                {
-                    db.AlermClock.Add(entity);
-                    StartClock(entity.Clone());
-                }
+                var clock = query.FirstOrDefault();
+                Debug.Assert(clock != null, nameof(clock) + " != null");
+                clock.Content = entity.Content;
 
-                db.SaveChanges();
+                MongoService<AlermClock>.Update(clock);
+            }
+            else
+            {
+                MongoService<AlermClock>.Insert(entity);
+                StartClock(entity.Clone());
             }
         }
 
         private static string QueryClock(MsgInformationEx MsgDTO)
         {
-            using (var db = new AIDatabase())
+            var allClocks = MongoService<AlermClock>.Get(q => q.GroupNumber == MsgDTO.FromGroup &&
+                                                              q.Creator == MsgDTO.FromQQ);
+            if (allClocks.IsNullOrEmpty())
             {
-                var allClocks = db.AlermClock.Where(q => q.GroupNumber == MsgDTO.FromGroup &&
-                                                         q.Creator == MsgDTO.FromQQ);
-                if (allClocks.IsNullOrEmpty())
-                {
-                    return $@"{Code_At(MsgDTO.FromQQ)} 你还没有设定闹钟呢！";
-                }
-
-                var Msg = $@"{Code_At(MsgDTO.FromQQ)} 你当前共设定了{allClocks.Count()}个闹钟";
-                var builder = new StringBuilder();
-                builder.Append(Msg);
-                foreach (var clock in allClocks)
-                {
-                    builder.Append('\r' + $@"{clock.AimHourt:00}:{clock.AimMinute:00} {clock.Content}");
-                }
-                Msg = builder.ToString();
-
-                return Msg;
+                return $@"{Code_At(MsgDTO.FromQQ)} 你还没有设定闹钟呢！";
             }
+
+            var Msg = $@"{Code_At(MsgDTO.FromQQ)} 你当前共设定了{allClocks.Count()}个闹钟";
+            var builder = new StringBuilder();
+            builder.Append(Msg);
+            foreach (var clock in allClocks)
+            {
+                builder.Append('\r' + $@"{clock.AimHourt:00}:{clock.AimMinute:00} {clock.Content}");
+            }
+            Msg = builder.ToString();
+
+            return Msg;
         }
 
         private static string DeleteClock(HourMinuteModel time, MsgInformationEx MsgDTO)
         {
-            using (var db = new AIDatabase())
+            var query = MongoService<AlermClock>.Get(q => q.GroupNumber == MsgDTO.FromGroup &&
+                                                          q.Creator == MsgDTO.FromQQ &&
+                                                          q.AimHourt == time.Hour &&
+                                                          q.AimMinute == time.Minute);
+            if (query.IsNullOrEmpty())
             {
-                var query = db.AlermClock.Where(q => q.GroupNumber == MsgDTO.FromGroup &&
-                                                     q.Creator == MsgDTO.FromQQ &&
-                                                     q.AimHourt == time.Hour &&
-                                                     q.AimMinute == time.Minute);
-                if (query.IsNullOrEmpty())
-                {
-                    return "八嘎！你还没有在这个时间点设置过闹钟呢！";
-                }
-
-                db.AlermClock.RemoveRange(query);
-
-                db.SaveChanges();
-                return "删除闹钟成功！";
+                return "八嘎！你还没有在这个时间点设置过闹钟呢！";
             }
+
+            MongoService<AlermClock>.DeleteMany(query);
+
+            return "删除闹钟成功！";
         }
 
         private static string ClearAllClock(MsgInformationEx MsgDTO)
         {
-            using (var db = new AIDatabase())
+            var query = MongoService<AlermClock>.Get(q => q.GroupNumber == MsgDTO.FromGroup &&
+                                                          q.Creator == MsgDTO.FromQQ);
+            if (query.IsNullOrEmpty())
             {
-                var query = db.AlermClock.Where(q => q.GroupNumber == MsgDTO.FromGroup &&
-                                                     q.Creator == MsgDTO.FromQQ);
-                if (query.IsNullOrEmpty())
-                {
-                    return "八嘎！你还没有设置过闹钟呢！";
-                }
-
-                db.AlermClock.RemoveRange(query);
-                db.SaveChanges();
-
-                return "清空闹钟成功！";
+                return "八嘎！你还没有设置过闹钟呢！";
             }
+
+            MongoService<AlermClock>.DeleteMany(query);
+
+            return "清空闹钟成功！";
         }
 
         public override void OnActiveStateChange(bool state, long GroupNum)

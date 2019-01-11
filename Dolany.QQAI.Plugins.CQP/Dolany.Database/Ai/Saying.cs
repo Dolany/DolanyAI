@@ -4,9 +4,8 @@ using System.Text;
 
 namespace Dolany.Database.Ai
 {
-    public partial class Saying
+    public partial class Saying : BaseEntity
     {
-        public string Id { get; set; }
         public string Cartoon { get; set; }
         public string Charactor { get; set; }
         public long FromGroup { get; set; }

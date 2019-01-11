@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Linq;
+using Dolany.Database;
 
 namespace Dolany.Ai.Core.Ai.Record
 {
@@ -34,23 +35,20 @@ namespace Dolany.Ai.Core.Ai.Record
                 return true;
             }
 
-            using (var db = new AIDatabase())
+            var now = DateTime.Now.Date;
+            var query = MongoService<Hello>.Get(h => h.GroupNum == MsgDTO.FromGroup &&
+                                                     h.QQNum == MsgDTO.FromQQ &&
+                                                     now > h.LastHelloDate);
+            if (query.IsNullOrEmpty())
             {
-                var now = DateTime.Now.Date;
-                var query = db.Hello.Where(h => h.GroupNum == MsgDTO.FromGroup &&
-                                                h.QQNum == MsgDTO.FromQQ &&
-                                                now > h.LastHelloDate);
-                if (query.IsNullOrEmpty())
-                {
-                    return false;
-                }
-
-                var hello = query.First();
-                MsgSender.Instance.PushMsg(MsgDTO, $"{Code_At(MsgDTO.FromQQ)} {hello.Content}");
-
-                hello.LastHelloDate = DateTime.Now.Date;
-                db.SaveChanges();
+                return false;
             }
+
+            var hello = query.First();
+            MsgSender.Instance.PushMsg(MsgDTO, $"{Code_At(MsgDTO.FromQQ)} {hello.Content}");
+
+            hello.LastHelloDate = DateTime.Now.Date;
+            MongoService<Hello>.Update(hello);
 
             return false;
         }
@@ -67,30 +65,27 @@ namespace Dolany.Ai.Core.Ai.Record
         {
             var content = param[0] as string;
 
-            using (var db = new AIDatabase())
+            var query = MongoService<Hello>.Get(h => h.GroupNum == MsgDTO.FromGroup &&
+                                                     h.QQNum == MsgDTO.FromQQ);
+            if (query.IsNullOrEmpty())
             {
-                var query = db.Hello.Where(h => h.GroupNum == MsgDTO.FromGroup &&
-                                                h.QQNum == MsgDTO.FromQQ);
-                if (query.IsNullOrEmpty())
+                MongoService<Hello>.Insert(new Hello
                 {
-                    db.Hello.Add(new Hello
-                    {
-                        Id = Guid.NewGuid().ToString(),
-                        GroupNum = MsgDTO.FromGroup,
-                        QQNum = MsgDTO.FromQQ,
-                        LastHelloDate = DateTime.Now.Date,
-                        Content = content
-                    });
-                }
-                else
+                    Id = Guid.NewGuid().ToString(),
+                    GroupNum = MsgDTO.FromGroup,
+                    QQNum = MsgDTO.FromQQ,
+                    LastHelloDate = DateTime.Now.Date,
+                    Content = content
+                });
+            }
+            else
+            {
+                var hello = query.FirstOrDefault();
+                if (hello != null)
                 {
-                    var hello = query.FirstOrDefault();
-                    if (hello != null)
-                    {
-                        hello.Content = content;
-                    }
+                    hello.Content = content;
+                    MongoService<Hello>.Update(hello);
                 }
-                db.SaveChanges();
             }
 
             MsgSender.Instance.PushMsg(MsgDTO, "招呼内容设定成功");
@@ -106,18 +101,15 @@ namespace Dolany.Ai.Core.Ai.Record
             IsPrivateAvailable = false)]
         public void SayHello(MsgInformationEx MsgDTO, object[] param)
         {
-            using (var db = new AIDatabase())
+            var query = MongoService<Hello>.Get(h => h.GroupNum == MsgDTO.FromGroup &&
+                                                     h.QQNum == MsgDTO.FromQQ);
+            if (query.IsNullOrEmpty())
             {
-                var query = db.Hello.Where(h => h.GroupNum == MsgDTO.FromGroup &&
-                                                h.QQNum == MsgDTO.FromQQ);
-                if (query.IsNullOrEmpty())
-                {
-                    MsgSender.Instance.PushMsg(MsgDTO, "你还没有设定过招呼内容哦~");
-                    return;
-                }
-
-                MsgSender.Instance.PushMsg(MsgDTO, $"{Code_At(MsgDTO.FromQQ)} {query.First().Content}");
+                MsgSender.Instance.PushMsg(MsgDTO, "你还没有设定过招呼内容哦~");
+                return;
             }
+
+            MsgSender.Instance.PushMsg(MsgDTO, $"{Code_At(MsgDTO.FromQQ)} {query.First().Content}");
         }
 
         [EnterCommand(
@@ -130,19 +122,15 @@ namespace Dolany.Ai.Core.Ai.Record
             IsPrivateAvailable = false)]
         public void DeleteHello(MsgInformationEx MsgDTO, object[] param)
         {
-            using (var db = new AIDatabase())
+            var query = MongoService<Hello>.Get(h => h.GroupNum == MsgDTO.FromGroup &&
+                                                     h.QQNum == MsgDTO.FromQQ);
+            if (query.IsNullOrEmpty())
             {
-                var query = db.Hello.Where(h => h.GroupNum == MsgDTO.FromGroup &&
-                                                h.QQNum == MsgDTO.FromQQ);
-                if (query.IsNullOrEmpty())
-                {
-                    MsgSender.Instance.PushMsg(MsgDTO, "你还没有设定过招呼内容哦~");
-                    return;
-                }
-
-                db.Hello.RemoveRange(query);
-                db.SaveChanges();
+                MsgSender.Instance.PushMsg(MsgDTO, "你还没有设定过招呼内容哦~");
+                return;
             }
+
+            MongoService<Hello>.DeleteMany(query);
 
             MsgSender.Instance.PushMsg(MsgDTO, "删除成功！");
         }

@@ -1,4 +1,6 @@
-﻿namespace Dolany.Ai.Core.Cache
+﻿using Dolany.Database;
+
+namespace Dolany.Ai.Core.Cache
 {
     using System;
     using System.Collections.Generic;
@@ -25,25 +27,21 @@
         [CanBeNull]
         public static MemberRoleCache GetMemberInfo(MsgInformationEx MsgDTO)
         {
-            using (var db = new AIDatabase())
+            var query = MongoService<MemberRoleCache>.Get(ic => ic.QQNum == MsgDTO.FromQQ && ic.GroupNum == MsgDTO.FromGroup);
+            if (query.IsNullOrEmpty())
             {
-                var query = db.MemberRoleCache.Where(
-                    ic => ic.QQNum == MsgDTO.FromQQ && ic.GroupNum == MsgDTO.FromGroup);
-                if (query.IsNullOrEmpty())
-                {
-                    Enqueue(MsgDTO.FromGroup);
-                    return new MemberRoleCache { GroupNum = MsgDTO.FromGroup, QQNum = MsgDTO.FromQQ };
-                }
-
-                var Cache = query.FirstOrDefault();
-                if (Cache != null && Cache.Datatime.AddDays(7) >= DateTime.Now)
-                {
-                    return Cache.Clone();
-                }
-
                 Enqueue(MsgDTO.FromGroup);
                 return new MemberRoleCache { GroupNum = MsgDTO.FromGroup, QQNum = MsgDTO.FromQQ };
             }
+
+            var Cache = query.FirstOrDefault();
+            if (Cache != null && Cache.Datatime.AddDays(7) >= DateTime.Now)
+            {
+                return Cache.Clone();
+            }
+
+            Enqueue(MsgDTO.FromGroup);
+            return new MemberRoleCache { GroupNum = MsgDTO.FromGroup, QQNum = MsgDTO.FromQQ };
         }
 
         private static void Enqueue(long GroupNum)
@@ -90,36 +88,32 @@
 
         public static bool RefreshGroupInfo(long GroupNum)
         {
-            using (var db = new AIDatabase())
+            var infos = APIEx.GetMemberInfos(GroupNum);
+            if (infos?.Mems == null)
             {
-                var infos = APIEx.GetMemberInfos(GroupNum);
-                if (infos?.Mems == null)
-                {
-                    RuntimeLogger.Log($"Cannot get Group Member Infos:{GroupNum}");
-                    return false;
-                }
+                RuntimeLogger.Log($"Cannot get Group Member Infos:{GroupNum}");
+                return false;
+            }
 
-                foreach (var info in infos.Mems)
+            foreach (var info in infos.Mems)
+            {
+                var query = MongoService<MemberRoleCache>.Get(p => p.GroupNum == GroupNum && p.QQNum == info.Uin);
+                if (!query.IsNullOrEmpty())
                 {
-                    var query = db.MemberRoleCache.Where(p => p.GroupNum == GroupNum && p.QQNum == info.Uin);
-                    if (!query.IsNullOrEmpty())
-                    {
-                        var cache = query.First();
-                        cache.Role = info.Role;
-                        cache.Datatime = DateTime.Now;
-                        cache.Nickname = info.Nick;
-                    }
-                    else
-                    {
-                        db.MemberRoleCache.Add(
-                            new MemberRoleCache
-                                {
-                                    GroupNum = GroupNum, Nickname = info.Nick, QQNum = info.Uin, Role = info.Role
-                                });
-                    }
-                }
+                    var cache = query.First();
+                    cache.Role = info.Role;
+                    cache.Datatime = DateTime.Now;
+                    cache.Nickname = info.Nick;
 
-                db.SaveChanges();
+                    MongoService<MemberRoleCache>.Update(cache);
+                }
+                else
+                {
+                    MongoService<MemberRoleCache>.Insert(new MemberRoleCache
+                    {
+                        GroupNum = GroupNum, Nickname = info.Nick, QQNum = info.Uin, Role = info.Role
+                    });
+                }
             }
 
             return true;

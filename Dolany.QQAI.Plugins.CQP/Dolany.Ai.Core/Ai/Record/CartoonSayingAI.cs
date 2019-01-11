@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Linq;
+using Dolany.Database;
 
 namespace Dolany.Ai.Core.Ai.Record
 {
@@ -48,11 +49,8 @@ namespace Dolany.Ai.Core.Ai.Record
                 Content = param[2] as string,
                 FromGroup = MsgDTO.FromGroup
             };
-            using (var db = new AIDatabase())
-            {
-                db.Saying.Add(saying);
-                db.SaveChanges();
-            }
+
+            MongoService<Saying>.Insert(saying);
 
             MsgSender.Instance.PushMsg(MsgDTO, "语录录入成功！");
         }
@@ -106,36 +104,30 @@ namespace Dolany.Ai.Core.Ai.Record
 
         private static bool IsInSealing(long groupNum, long memberNum)
         {
-            using (var db = new AIDatabase())
-            {
-                var query = db.SayingSeal.Where(s => s.GroupNum == groupNum &&
-                                                     s.SealMember == memberNum);
-                return !query.IsNullOrEmpty();
-            }
+            var query = MongoService<SayingSeal>.Get(s => s.GroupNum == groupNum &&
+                                                          s.SealMember == memberNum);
+            return !query.IsNullOrEmpty();
         }
 
         private static string GetRanSaying(long fromGroup, string keyword = null)
         {
-            using (var db = new AIDatabase())
+            var query = MongoService<Saying>.Get(p => p.FromGroup == fromGroup);
+            if (keyword != null)
             {
-                var query = db.Saying.Where(p => p.FromGroup == fromGroup);
-                if (keyword != null)
-                {
-                    query = query.Where(p => p.Cartoon.Contains(keyword) ||
-                                             p.Charactor.Contains(keyword) ||
-                                             p.Content.Contains(keyword));
-                }
-
-                if (query.IsNullOrEmpty())
-                {
-                    return string.Empty;
-                }
-
-                query = query.OrderBy(p => p.Id);
-                var randIdx = Utility.RandInt(query.Count());
-                var saying = query.Skip(randIdx).FirstOrDefault();
-                return GetShownSaying(saying);
+                query = query.Where(p => p.Cartoon.Contains(keyword) ||
+                                         p.Charactor.Contains(keyword) ||
+                                         p.Content.Contains(keyword)).ToList();
             }
+
+            if (query.IsNullOrEmpty())
+            {
+                return string.Empty;
+            }
+
+            query = query.OrderBy(p => p.Id).ToList();
+            var randIdx = Utility.RandInt(query.Count());
+            var saying = query.Skip(randIdx).FirstOrDefault();
+            return GetShownSaying(saying);
         }
 
         private static string GetShownSaying(Saying s)
@@ -158,18 +150,14 @@ namespace Dolany.Ai.Core.Ai.Record
             IsPrivateAvailable = false)]
         public void ClearSayings(MsgInformationEx MsgDTO, object[] param)
         {
-            using (var db = new AIDatabase())
-            {
-                var query = db.Saying.Where(s => s.FromGroup == MsgDTO.FromGroup &&
-                                                 (s.Content.Contains(MsgDTO.Msg) ||
-                                                  s.Charactor.Contains(MsgDTO.Msg) ||
-                                                  s.Cartoon.Contains(MsgDTO.Msg)));
-                var count = query.Count();
-                db.Saying.RemoveRange(query);
-                db.SaveChanges();
+            var query = MongoService<Saying>.Get(s => s.FromGroup == MsgDTO.FromGroup &&
+                                                      (s.Content.Contains(MsgDTO.Msg) ||
+                                                       s.Charactor.Contains(MsgDTO.Msg) ||
+                                                       s.Cartoon.Contains(MsgDTO.Msg)));
+            var count = query.Count();
+            MongoService<Saying>.DeleteMany(query);
 
-                MsgSender.Instance.PushMsg(MsgDTO, $"共删除{count}条语录");
-            }
+            MsgSender.Instance.PushMsg(MsgDTO, $"共删除{count}条语录");
         }
 
         [EnterCommand(
@@ -184,27 +172,22 @@ namespace Dolany.Ai.Core.Ai.Record
         {
             var memberNum = (long)param[0];
 
-            using (var db = new AIDatabase())
+            var query = MongoService<SayingSeal>.Get(s => s.GroupNum == MsgDTO.FromGroup &&
+                                                          s.SealMember == memberNum);
+            if (!query.IsNullOrEmpty())
             {
-                var query = db.SayingSeal.Where(s => s.GroupNum == MsgDTO.FromGroup &&
-                                                     s.SealMember == memberNum);
-                if (!query.IsNullOrEmpty())
-                {
-                    MsgSender.Instance.PushMsg(MsgDTO, "此成员正在封禁中！");
-                    return;
-                }
-
-                db.SayingSeal.Add(new SayingSeal
-                {
-                    Id = Guid.NewGuid().ToString(),
-                    CreateTime = DateTime.Now,
-                    SealMember = memberNum,
-                    GroupNum = MsgDTO.FromGroup,
-                    Content = "封禁"
-                });
-
-                db.SaveChanges();
+                MsgSender.Instance.PushMsg(MsgDTO, "此成员正在封禁中！");
+                return;
             }
+
+            MongoService<SayingSeal>.Insert(new SayingSeal
+            {
+                Id = Guid.NewGuid().ToString(),
+                CreateTime = DateTime.Now,
+                SealMember = memberNum,
+                GroupNum = MsgDTO.FromGroup,
+                Content = "封禁"
+            });
             MsgSender.Instance.PushMsg(MsgDTO, "封禁成功！");
         }
 
@@ -220,21 +203,14 @@ namespace Dolany.Ai.Core.Ai.Record
         {
             var memberNum = (long)param[0];
 
-            using (var db = new AIDatabase())
+            var query = MongoService<SayingSeal>.Get(s => s.GroupNum == MsgDTO.FromGroup &&
+                                                          s.SealMember == memberNum);
+            if (query.IsNullOrEmpty())
             {
-                var query = db.SayingSeal.Where(s => s.GroupNum == MsgDTO.FromGroup &&
-                                                     s.SealMember == memberNum);
-                if (query.IsNullOrEmpty())
-                {
-                    MsgSender.Instance.PushMsg(MsgDTO, "此成员尚未被封禁！");
-                    return;
-                }
-                foreach (var s in query)
-                {
-                    db.SayingSeal.Remove(s);
-                }
-                db.SaveChanges();
+                MsgSender.Instance.PushMsg(MsgDTO, "此成员尚未被封禁！");
+                return;
             }
+            MongoService<SayingSeal>.DeleteMany(query);
 
             MsgSender.Instance.PushMsg(MsgDTO, "解封成功！");
         }

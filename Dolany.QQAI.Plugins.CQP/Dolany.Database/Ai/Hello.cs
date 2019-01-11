@@ -1,12 +1,9 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Text;
 
 namespace Dolany.Database.Ai
 {
-    public partial class Hello
+    public partial class Hello : BaseEntity
     {
-        public string Id { get; set; }
         public long GroupNum { get; set; }
         public long QQNum { get; set; }
         public DateTime LastHelloDate { get; set; }
