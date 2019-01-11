@@ -152,7 +152,7 @@
 
         private void LoadAis()
         {
-            var assembly = Assembly.GetExecutingAssembly();
+            var assembly = Assembly.GetAssembly(typeof(AIBase));
             var list = from type in assembly.GetTypes()
                        where type.IsSubclassOf(typeof(AIBase))
                        where type.FullName != null

@@ -134,7 +134,7 @@ namespace Dolany.Ai.Core.Common
             var root = XElement.Load(EntityFilePath(EntityName));
             if (root.IsEmpty)
             {
-                return null;
+                return new Entity[0];
             }
 
             var list = new List<Entity>();
@@ -143,7 +143,7 @@ namespace Dolany.Ai.Core.Common
                 AppendEntity(ele, express, list);
             }
 
-            return list.Count == 0 ? null : list;
+            return list.Count == 0 ? new List<Entity>() : list;
         }
 
         private static void AppendEntity<Entity>(XElement ele, Expression<Func<Entity, bool>> express, ICollection<Entity> list)

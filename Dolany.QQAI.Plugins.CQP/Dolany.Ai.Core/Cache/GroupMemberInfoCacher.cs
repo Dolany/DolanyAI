@@ -88,7 +88,7 @@
             }
         }
 
-        private static void RefreshGroupInfo(long GroupNum)
+        public static bool RefreshGroupInfo(long GroupNum)
         {
             using (var db = new AIDatabase())
             {
@@ -96,7 +96,7 @@
                 if (infos?.Mems == null)
                 {
                     RuntimeLogger.Log($"Cannot get Group Member Infos:{GroupNum}");
-                    return;
+                    return false;
                 }
 
                 foreach (var info in infos.Mems)
@@ -121,6 +121,8 @@
 
                 db.SaveChanges();
             }
+
+            return true;
         }
     }
 }

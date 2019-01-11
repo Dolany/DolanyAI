@@ -36,26 +36,26 @@ namespace Dolany.IWS2000.Ai.DolanyAI
             return objs == null || !objs.Any();
         }
 
-        public static (int hour, int minute)? GenTimeFromStr(string timeStr)
-        {
-            var strs = timeStr.Split(':', '：');
-            if (strs.Length != 2)
-            {
-                return null;
-            }
+        //public static (int hour, int minute)? GenTimeFromStr(string timeStr)
+        //{
+        //    var strs = timeStr.Split(':', '：');
+        //    if (strs.Length != 2)
+        //    {
+        //        return null;
+        //    }
 
-            if (!int.TryParse(strs[0], out var hour))
-            {
-                return null;
-            }
+        //    if (!int.TryParse(strs[0], out var hour))
+        //    {
+        //        return null;
+        //    }
 
-            if (!int.TryParse(strs[1], out var minute))
-            {
-                return null;
-            }
+        //    if (!int.TryParse(strs[1], out var minute))
+        //    {
+        //        return null;
+        //    }
 
-            return (hour, minute);
-        }
+        //    return (hour, minute);
+        //}
 
         public static void SetConfig(string name, string value)
         {
