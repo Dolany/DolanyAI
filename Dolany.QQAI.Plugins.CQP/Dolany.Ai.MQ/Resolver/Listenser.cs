@@ -52,15 +52,11 @@
 
         private static IEnumerable<MsgCommand> CommandList()
         {
-            using (var db = new AIDatabaseEntities())
-            {
-                var list = db.MsgCommand.Where(cmd => cmd.AiNum == Utility.SelfQQNum).ToList();
+            var list = MongoService<MsgCommand>.Get();
 
-                db.MsgCommand.RemoveRange(list);
-                db.SaveChanges();
+            MongoService<MsgCommand>.DeleteMany(list);
 
-                return list;
-            }
+            return list;
         }
 
         private static async Task ResovleCommand(MsgCommand command)

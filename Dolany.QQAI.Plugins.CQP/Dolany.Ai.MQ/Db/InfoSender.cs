@@ -14,23 +14,18 @@
                     {
                         lock (lock_obj)
                         {
-                            using (var db = new AIDatabaseEntities())
-                            {
-                                db.MsgInformation.Add(
-                                    new MsgInformation
-                                        {
-                                            Id = Guid.NewGuid().ToString(),
-                                            FromGroup = FromGroup,
-                                            FromQQ = FromQQ,
-                                            Msg = Msg,
-                                            RelationId = RelationId,
-                                            Time = DateTime.Now,
-                                            Information = Information,
-                                            AiNum = Utility.SelfQQNum
-                                        });
-
-                                db.SaveChanges();
-                            }
+                            MongoService<MsgInformation>.Insert(
+                                new MsgInformation
+                                    {
+                                        Id = Guid.NewGuid().ToString(),
+                                        FromGroup = FromGroup,
+                                        FromQQ = FromQQ,
+                                        Msg = Msg,
+                                        RelationId = RelationId,
+                                        Time = DateTime.Now,
+                                        Information = Information,
+                                        AiNum = Utility.SelfQQNum
+                                    });
                         }
                     });
         }

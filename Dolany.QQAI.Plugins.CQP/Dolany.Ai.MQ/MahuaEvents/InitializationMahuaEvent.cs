@@ -26,19 +26,15 @@
         public void Initialized(InitializedContext context)
         {
             new Listenser();
-            using (var db = new AIDatabaseEntities())
-            {
-                db.MsgInformation.Add(
-                    new MsgInformation
-                        {
-                            Id = Guid.NewGuid().ToString(),
-                            Information = AiInformation.AuthCode,
-                            Msg = Utility.GetAuthCode(),
-                            Time = DateTime.Now
-                        });
 
-                db.SaveChanges();
-            }
+            MongoService<MsgInformation>.Insert(
+                new MsgInformation
+                    {
+                        Id = Guid.NewGuid().ToString(),
+                        Information = AiInformation.AuthCode,
+                        Msg = Utility.GetAuthCode(),
+                        Time = DateTime.Now
+                    });
         }
     }
 }

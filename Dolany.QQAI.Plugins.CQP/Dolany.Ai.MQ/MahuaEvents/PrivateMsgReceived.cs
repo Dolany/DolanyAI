@@ -24,22 +24,18 @@
 
         public void ProcessPrivateMessage(PrivateMessageReceivedContext context)
         {
-            using (var db = new AIDatabaseEntities())
-            {
-                db.MsgInformation.Add(new MsgInformation
-                                          {
-                                              Id = Guid.NewGuid().ToString(),
-                                              FromGroup = 0,
-                                              FromQQ = long.Parse(context.FromQq),
-                                              RelationId = string.Empty,
-                                              Time = DateTime.Now,
-                                              Msg = context.Message,
-                                              Information = AiInformation.Message,
-                                              AiNum = Utility.SelfQQNum
-                                          });
-
-                db.SaveChanges();
-            }
+            MongoService<MsgInformation>.Insert(
+                new MsgInformation
+                    {
+                        Id = Guid.NewGuid().ToString(),
+                        FromGroup = 0,
+                        FromQQ = long.Parse(context.FromQq),
+                        RelationId = string.Empty,
+                        Time = DateTime.Now,
+                        Msg = context.Message,
+                        Information = AiInformation.Message,
+                        AiNum = Utility.SelfQQNum
+                    });
         }
     }
 }
