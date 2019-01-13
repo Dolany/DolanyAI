@@ -1,14 +1,15 @@
-﻿using Dolany.Database;
-
-namespace Dolany.Ai.Core.Cache
+﻿namespace Dolany.Ai.Core.Cache
 {
     using System;
 
     using Common;
-    using Model;
+
+    using Dolany.Database;
     using Dolany.Database.Ai;
 
-    using static API.CodeApi;
+    using Model;
+
+    using static Dolany.Ai.Core.API.CodeApi;
 
     public class MsgSender
     {
@@ -20,7 +21,7 @@ namespace Dolany.Ai.Core.Cache
             var callback = $"[Command] {msg.ToGroup} {msg.ToQQ} {msg.Id} {msg.Command} {msg.Msg}";
             AIMgr.Instance.MessagePublish(callback);
 
-            MongoService<MsgCommand>.Insert(msg);
+            RabbitMQService.Instance.Send(msg);
         }
 
         public void PushMsg(MsgInformationEx MsgInfo, string Content, bool isNeedAt = false)

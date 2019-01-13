@@ -1,19 +1,24 @@
-﻿using Dolany.Database;
-
-namespace Dolany.Ai.Core.Ai.Sys
+﻿namespace Dolany.Ai.Core.Ai.Sys
 {
     using System;
     using System.Collections.Generic;
     using System.Linq;
 
-    using Core;
     using Base;
+
     using Cache;
+
     using Common;
-    using Model;
+
+    using Core;
+
+    using Dolany.Ai.Common;
+    using Dolany.Database;
     using Dolany.Database.Ai;
 
-    using static Common.Utility;
+    using Model;
+
+    using static Dolany.Ai.Core.Common.Utility;
 
     [AI(
         Name = nameof(MonitorAI),

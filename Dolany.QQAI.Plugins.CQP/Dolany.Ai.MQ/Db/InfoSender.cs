@@ -14,7 +14,7 @@
                     {
                         lock (lock_obj)
                         {
-                            MongoService<MsgInformation>.Insert(
+                            RabbitMQService.Instance.Send(
                                 new MsgInformation
                                     {
                                         Id = Guid.NewGuid().ToString(),

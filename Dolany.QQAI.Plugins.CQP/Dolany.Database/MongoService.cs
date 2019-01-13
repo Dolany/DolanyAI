@@ -1,11 +1,12 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Linq.Expressions;
-using MongoDB.Driver;
-
-namespace Dolany.Database
+﻿namespace Dolany.Database
 {
+    using System;
+    using System.Collections.Generic;
+    using System.Linq;
+    using System.Linq.Expressions;
+
+    using MongoDB.Driver;
+
     public class MongoService<T> where T : BaseEntity
     {
         private static MongoContext Repo { get; set; } = MongoContext.Instance;

@@ -1,15 +1,14 @@
-﻿using Dolany.Database;
-
-namespace Dolany.Ai.Core.Cache
+﻿namespace Dolany.Ai.Core.Cache
 {
     using System;
     using System.Collections.Generic;
     using System.Linq;
     using System.Threading;
     using System.Threading.Tasks;
-    using System.Timers;
 
     using Common;
+
+    using Dolany.Database;
     using Dolany.Database.Ai;
 
     public class Waiter
@@ -26,45 +25,38 @@ namespace Dolany.Ai.Core.Cache
 
         public void Listen()
         {
-            JobScheduler.Instance.Add(500, ListenCallBack);
+            RabbitMQService.Instance.StartReceive(ListenCallBack);
         }
 
-        private void ListenCallBack(object sender, ElapsedEventArgs e)
+        private void ListenCallBack(MsgInformation info)
         {
-            var infos = MongoService<MsgInformation>.Get(info => info.AiNum == Utility.SelfQQNum)
-                .OrderBy(p => p.Time).Take(10).ToList();
-            foreach (var info in infos)
+            var msg = $"[Information] {info.Information} {info.FromGroup} {info.FromQQ} {info.Msg}";
+            AIMgr.Instance.MessagePublish(msg);
+
+            switch (info.Information)
             {
-                var msg = $"[Information] {info.Information} {info.FromGroup} {info.FromQQ} {info.Msg}";
-                AIMgr.Instance.MessagePublish(msg);
+                case AiInformation.Message:
+                case AiInformation.CommandBack:
+                    WaiterUnit waitUnit;
+                    lock (_lockObj)
+                    {
+                        waitUnit = Units.FirstOrDefault(u => u.JudgePredicate(info));
+                    }
 
-                switch (info.Information)
-                {
-                    case AiInformation.Message:
-                    case AiInformation.CommandBack:
-                        WaiterUnit waitUnit;
-                        lock (_lockObj)
-                        {
-                            waitUnit = Units.FirstOrDefault(u => u.JudgePredicate(info));
-                        }
+                    if (waitUnit == null)
+                    {
+                        AIMgr.Instance.OnMsgReceived(info);
+                    }
+                    else
+                    {
+                        waitUnit.ResultInfo = info;
+                        waitUnit.Signal.Set();
+                    }
 
-                        if (waitUnit == null)
-                        {
-                            AIMgr.Instance.OnMsgReceived(info);
-                        }
-                        else
-                        {
-                            waitUnit.ResultInfo = info;
-                            waitUnit.Signal.Set();
-                        }
-
-                        break;
-                    case AiInformation.AuthCode:
-                        Global.AuthCode = info.Msg;
-                        break;
-                }
-
-                MongoService<MsgInformation>.Delete(info);
+                    break;
+                case AiInformation.AuthCode:
+                    Global.AuthCode = info.Msg;
+                    break;
             }
         }
 

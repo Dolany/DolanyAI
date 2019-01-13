@@ -1,13 +1,15 @@
-﻿using System;
-using System.Collections.Generic;
-using HtmlAgilityPack;
-
-namespace Dolany.Ai.Core.Ai.Game.Jump300Report.Parser
+﻿namespace Dolany.Ai.Core.Ai.Game.Jump300Report.Parser
 {
+    using System;
+    using System.Collections.Generic;
     using System.Linq;
 
+    using Dolany.Ai.Common;
+
+    using HtmlAgilityPack;
+
     using Model;
-    using Common;
+
     using Net;
 
     public class JumpDetailHtmlParser : HtmlParser
@@ -98,9 +100,9 @@ namespace Dolany.Ai.Core.Ai.Game.Jump300Report.Parser
 
         private void MatchBaseInfoAnalyze(HtmlNode root)
         {
-            var query = SearchNodes(root,
-                (n) => n.Name == "div"
-                && n.ChildAttributes("class").Any((p) => p.Value == "datamsg"));
+            var query = SearchNodes(
+                root,
+                (n) => n.Name == "div" && n.ChildAttributes("class").Any((p) => p.Value == "datamsg"));
             if (query.IsNullOrEmpty())
             {
                 return;
@@ -123,8 +125,7 @@ namespace Dolany.Ai.Core.Ai.Game.Jump300Report.Parser
                 int.Parse(sp1[8]),
                 int.Parse(sp1[9]),
                 int.Parse(sp1[10]),
-                int.Parse(sp1[11])
-                );
+                int.Parse(sp1[11]));
             MatchBaseInfo.DuringSpan = GenSpan(sp1[13]);
         }
 

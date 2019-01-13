@@ -1,15 +1,18 @@
-﻿using System.Collections.Generic;
-
-namespace Dolany.Ai.Core.Cache
+﻿namespace Dolany.Ai.Core.Cache
 {
+    using System.Collections.Generic;
+
     using Common;
+
+    using Dolany.Ai.Common;
+
     using Entities;
 
     public class PicCacher
     {
         private static readonly List<string> CacheList = new List<string>();
 
-        private static readonly int MaxPicCacheCount = int.Parse(Utility.GetConfig("MaxPicCacheCount"));
+        private static readonly int MaxPicCacheCount = int.Parse(CommonUtil.GetConfig("MaxPicCacheCount"));
 
         private static readonly object RW_lock = new object();
 

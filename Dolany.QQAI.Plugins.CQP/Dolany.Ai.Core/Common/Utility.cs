@@ -1,87 +1,41 @@
-﻿using Dolany.Database;
-
-namespace Dolany.Ai.Core.Common
+﻿namespace Dolany.Ai.Core.Common
 {
     using System;
     using System.Collections.Generic;
     using System.IO;
     using System.Linq;
-    using System.Runtime.ExceptionServices;
     using System.Security.Cryptography;
     using System.Text;
 
     using API;
+
     using Cache;
-    using Entities;
-    using Model;
+
+    using Dolany.Ai.Common;
+    using Dolany.Database;
     using Dolany.Database.Ai;
+
+    using Entities;
 
     using JetBrains.Annotations;
 
+    using Model;
+
     public static class Utility
     {
-        public static long DeveloperNumber => long.Parse(GetConfig(nameof(DeveloperNumber)));
+        public static long DeveloperNumber => long.Parse(CommonUtil.GetConfig(nameof(DeveloperNumber)));
 
-        public static long SysMsgNumber => long.Parse(GetConfig(nameof(SysMsgNumber)));
+        public static long SysMsgNumber => long.Parse(CommonUtil.GetConfig(nameof(SysMsgNumber)));
 
-        public static long SelfQQNum => long.Parse(GetConfig(nameof(SelfQQNum)));
-
-        private static Dictionary<string, string> AIConfig;
+        public static long SelfQQNum => long.Parse(CommonUtil.GetConfig(nameof(SelfQQNum)));
 
         private static readonly RNGCryptoServiceProvider RngCsp = new RNGCryptoServiceProvider();
-
-        public static bool IsNullOrEmpty<T>(this IEnumerable<T> objs)
-        {
-            return objs == null || !objs.Any();
-        }
-
+        
         public static void Swap<T>(this T[] array, int firstIdx, int secondIdx)
         {
             var temp = array[firstIdx];
             array[firstIdx] = array[secondIdx];
             array[secondIdx] = temp;
-        }
-
-        [NotNull]
-        [HandleProcessCorruptedStateExceptions]
-        public static string GetConfig(string name)
-        {
-            if (AIConfig == null)
-            {
-                AIConfig = GetConfigDic();
-            }
-
-            return AIConfig.Keys.Contains(name) ? AIConfig[name] : string.Empty;
-        }
-
-        public static string GetConfig(string name, string defaltValue)
-        {
-            var value = GetConfig(name);
-            return !string.IsNullOrEmpty(value) ? value : defaltValue;
-        }
-
-        [NotNull]
-        private static Dictionary<string, string> GetConfigDic()
-        {
-            var configFile = new FileInfo("AIConfig.ini");
-            var dic = new Dictionary<string, string>();
-            using (var reader = new StreamReader(configFile.FullName))
-            {
-                string line;
-                while ((line = reader.ReadLine()) != null)
-                {
-                    var strs = line.Split(new[] { '=' }, StringSplitOptions.RemoveEmptyEntries);
-                    if (strs.IsNullOrEmpty() ||
-                        strs.Length != 2)
-                    {
-                        continue;
-                    }
-
-                    dic.Add(strs[0], strs[1]);
-                }
-
-                return dic;
-            }
         }
 
         [NotNull]

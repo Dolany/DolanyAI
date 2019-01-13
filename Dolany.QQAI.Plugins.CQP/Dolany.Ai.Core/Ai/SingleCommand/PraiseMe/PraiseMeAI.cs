@@ -1,18 +1,21 @@
-﻿using Dolany.Database;
-
-namespace Dolany.Ai.Core.Ai.SingleCommand.PraiseMe
+﻿namespace Dolany.Ai.Core.Ai.SingleCommand.PraiseMe
 {
     using System;
     using System.Linq;
 
     using Base;
+
     using Cache;
+
     using Common;
-    using Model;
+
+    using Dolany.Ai.Common;
+    using Dolany.Database;
     using Dolany.Database.Ai;
 
-    using static API.APIEx;
-    using static Common.Utility;
+    using Model;
+
+    using static Dolany.Ai.Core.API.APIEx;
 
     [AI(
         Name = nameof(PraiseMeAI),
@@ -27,7 +30,7 @@ namespace Dolany.Ai.Core.Ai.SingleCommand.PraiseMe
         {
             get
             {
-                var config = GetConfig(nameof(PraiseLimit), "10");
+                var config = CommonUtil.GetConfig(nameof(PraiseLimit), "10");
 
                 return int.Parse(config);
             }

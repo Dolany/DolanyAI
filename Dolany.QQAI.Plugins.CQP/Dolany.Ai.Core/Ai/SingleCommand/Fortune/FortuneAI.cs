@@ -1,6 +1,4 @@
-﻿using Dolany.Database;
-
-namespace Dolany.Ai.Core.Ai.SingleCommand.Fortune
+﻿namespace Dolany.Ai.Core.Ai.SingleCommand.Fortune
 {
     using System;
     using System.Linq;
@@ -8,11 +6,18 @@ namespace Dolany.Ai.Core.Ai.SingleCommand.Fortune
     using System.Threading.Tasks;
 
     using API;
+
     using Base;
+
     using Cache;
+
     using Common;
-    using Model;
+
+    using Dolany.Ai.Common;
+    using Dolany.Database;
     using Dolany.Database.Ai;
+
+    using Model;
 
     [AI(
         Name = nameof(FortuneAI),

@@ -4,7 +4,9 @@
 
     using Base;
     using Cache;
-    using Common;
+
+    using Dolany.Ai.Common;
+
     using Model;
     using Net;
 
@@ -33,7 +35,7 @@
                 new PostReq_Param
                     {
                         data = new TranslationSendModel { Word = word },
-                        InterfaceName = Utility.GetConfig("TranslationAPIUrl")
+                        InterfaceName = CommonUtil.GetConfig("TranslationAPIUrl")
                     });
 
             if (res == null)

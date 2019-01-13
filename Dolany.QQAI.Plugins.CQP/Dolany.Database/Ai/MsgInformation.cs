@@ -1,7 +1,8 @@
 ﻿namespace Dolany.Database.Ai
 {
-    public partial class MsgInformation : BaseEntity
+    public partial class MsgInformation
     {
+        public string Id { get; set; }
         public string Msg { get; set; }
         public string RelationId { get; set; }
         public System.DateTime Time { get; set; }

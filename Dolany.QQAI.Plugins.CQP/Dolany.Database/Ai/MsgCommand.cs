@@ -2,8 +2,9 @@
 
 namespace Dolany.Database.Ai
 {
-    public class MsgCommand : BaseEntity
+    public class MsgCommand
     {
+        public string Id { get; set; }
         public string Msg { get; set; }
         public DateTime Time { get; set; } = DateTime.Now;
         public string Command { get; set; }

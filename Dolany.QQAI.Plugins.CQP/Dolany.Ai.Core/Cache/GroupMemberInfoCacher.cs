@@ -1,6 +1,4 @@
-﻿using Dolany.Database;
-
-namespace Dolany.Ai.Core.Cache
+﻿namespace Dolany.Ai.Core.Cache
 {
     using System;
     using System.Collections.Generic;
@@ -8,11 +6,16 @@ namespace Dolany.Ai.Core.Cache
     using System.Timers;
 
     using API;
+
     using Common;
-    using Model;
+
+    using Dolany.Ai.Common;
+    using Dolany.Database;
     using Dolany.Database.Ai;
 
     using JetBrains.Annotations;
+
+    using Model;
 
     public static class GroupMemberInfoCacher
     {
@@ -20,9 +23,9 @@ namespace Dolany.Ai.Core.Cache
 
         private static Queue<long> WaitQueue { get; set; }
 
-        private static int GroupEmptyRefreshRate => int.Parse(Utility.GetConfig("GroupEmptyRefreshRate"));
+        private static int GroupEmptyRefreshRate => int.Parse(CommonUtil.GetConfig("GroupEmptyRefreshRate"));
 
-        private static int GroupRefreshRate => int.Parse(Utility.GetConfig("GroupRefreshRate"));
+        private static int GroupRefreshRate => int.Parse(CommonUtil.GetConfig("GroupRefreshRate"));
 
         [CanBeNull]
         public static MemberRoleCache GetMemberInfo(MsgInformationEx MsgDTO)

@@ -1,15 +1,15 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Diagnostics;
-using System.Linq;
-using System.Reflection;
-using System.Text;
-
-namespace Dolany.Ai.Core.Ai.Game.Jump300Report
+﻿namespace Dolany.Ai.Core.Ai.Game.Jump300Report
 {
-    using Model;
+    using System;
+    using System.Collections.Generic;
+    using System.Diagnostics;
+    using System.Linq;
+    using System.Reflection;
+    using System.Text;
+
+    using Dolany.Ai.Common;
+
     using Parser;
-    using Common;
 
     public class JumpReportAnalyzer
     {
@@ -70,12 +70,7 @@ namespace Dolany.Ai.Core.Ai.Game.Jump300Report
         {
             var Title = (m.GetCustomAttributes(typeof(JumpAnalyzeAttribute), false).FirstOrDefault() as JumpAnalyzeAttribute)?.Title;
             Debug.Assert(m.DeclaringType != null, "m.DeclaringType != null");
-            var content = m.DeclaringType.InvokeMember(m.Name,
-                        BindingFlags.InvokeMethod,
-                        null,
-                        this,
-                        null
-                        ) as string;
+            var content = m.DeclaringType.InvokeMember(m.Name, BindingFlags.InvokeMethod, null, this, null) as string;
             var report = $@"{Title} :
 {content}
 ";
@@ -97,10 +92,12 @@ namespace Dolany.Ai.Core.Ai.Game.Jump300Report
             Debug.Assert(Lists != null, nameof(Lists) + " != null");
             var jumpBaseInfos = Lists.FirstOrDefault()?.BaseInfo;
             if (jumpBaseInfos != null)
+            {
                 foreach (var r in jumpBaseInfos)
                 {
                     builder.Append('\r' + r.Name + ":" + r.Value);
                 }
+            }
 
             report = builder.ToString();
 
@@ -206,14 +203,12 @@ namespace Dolany.Ai.Core.Ai.Game.Jump300Report
                     continue;
                 }
 
-                PlayerInfoInMatch first = null;
-                foreach (var match in query)
-                {
-                    first = match;
-                    break;
-                }
+                var first = query.FirstOrDefault();
 
-                if (first != null) grade += first.Grade;
+                if (first != null)
+                {
+                    grade += first.Grade;
+                }
             }
 
             return (grade / Details.Count).ToString();

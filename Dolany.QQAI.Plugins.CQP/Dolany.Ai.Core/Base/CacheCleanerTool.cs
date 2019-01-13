@@ -7,8 +7,9 @@
 
     using Common;
 
+    using Dolany.Ai.Common;
+
     using static API.CodeApi;
-    using static Common.Utility;
 
     public class CacheCleanerDTO
     {
@@ -25,7 +26,7 @@
         {
             get
             {
-                var config = GetConfig(nameof(PicCleanFreq), "10");
+                var config = CommonUtil.GetConfig(nameof(PicCleanFreq), "10");
 
                 return int.Parse(config);
             }
@@ -35,7 +36,7 @@
         {
             get
             {
-                var config = GetConfig("MaxOriginPicCache", "200");
+                var config = CommonUtil.GetConfig("MaxOriginPicCache", "200");
 
                 return int.Parse(config);
             }

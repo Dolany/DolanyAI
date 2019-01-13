@@ -1,17 +1,19 @@
-﻿using System;
-using System.IO;
-using System.Linq;
-using Dolany.Database;
-
-namespace Dolany.Ai.Reborn.DolanyAI.Ai.Game.TouhouCard
+﻿namespace Dolany.Ai.Reborn.DolanyAI.Ai.Game.TouhouCard
 {
+    using System;
+    using System.IO;
+    using System.Linq;
+
     using Core.Base;
     using Core.Cache;
     using Core.Common;
     using Core.Model;
+
+    using Dolany.Ai.Common;
+    using Dolany.Database;
     using Dolany.Database.Ai;
 
-    using static Core.API.CodeApi;
+    using static Dolany.Ai.Core.API.CodeApi;
 
     [AI(
         Name = nameof(TouhouCardAi),

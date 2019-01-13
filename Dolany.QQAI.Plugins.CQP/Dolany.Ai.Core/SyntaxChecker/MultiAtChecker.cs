@@ -4,9 +4,9 @@
     using System.Collections.Generic;
     using System.Text.RegularExpressions;
 
-    using Common;
+    using Dolany.Ai.Common;
 
-    public class MultiAtChecker: ISyntaxChecker
+    public class MultiAtChecker : ISyntaxChecker
     {
         public string Name { get; } = "MultiAt";
 

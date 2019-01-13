@@ -1,15 +1,20 @@
-﻿using System.Linq;
-using Dolany.Database;
-
-namespace Dolany.Ai.Core.Ai.SingleCommand.Voice
+﻿namespace Dolany.Ai.Core.Ai.SingleCommand.Voice
 {
+    using System.Linq;
+
     using Base;
+
     using Cache;
+
     using Common;
-    using Model;
+
+    using Dolany.Ai.Common;
+    using Dolany.Database;
     using Dolany.Database.Ai;
 
-    using static API.CodeApi;
+    using Model;
+
+    using static Dolany.Ai.Core.API.CodeApi;
 
     [AI(
         Name = nameof(KancoleVoiceAI),

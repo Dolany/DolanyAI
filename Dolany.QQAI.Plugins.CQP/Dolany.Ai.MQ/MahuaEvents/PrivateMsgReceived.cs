@@ -24,7 +24,7 @@
 
         public void ProcessPrivateMessage(PrivateMessageReceivedContext context)
         {
-            MongoService<MsgInformation>.Insert(
+            RabbitMQService.Instance.Send(
                 new MsgInformation
                     {
                         Id = Guid.NewGuid().ToString(),

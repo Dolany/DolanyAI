@@ -2,7 +2,8 @@
 
 namespace Dolany.Ai.Core.Ai.SingleCommand.Fortune
 {
-    using Common;
+    using Dolany.Ai.Common;
+
     using Net;
 
     public class StarFortuneParser : HtmlParser
@@ -13,9 +14,9 @@ namespace Dolany.Ai.Core.Ai.SingleCommand.Fortune
         {
             var root = document.DocumentNode;
 
-            var query = SearchNodes(root,
-                n => n.Name == "div" &&
-                     n.ChildAttributes("class").Any(p => p.Value == "xz_cont"));
+            var query = SearchNodes(
+                root,
+                n => n.Name == "div" && n.ChildAttributes("class").Any(p => p.Value == "xz_cont"));
             if (query.IsNullOrEmpty())
             {
                 return;

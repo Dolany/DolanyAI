@@ -1,6 +1,4 @@
-﻿using Dolany.Database;
-
-namespace Dolany.Ai.Core
+﻿namespace Dolany.Ai.Core
 {
     using System;
     using System.Collections.Generic;
@@ -10,12 +8,20 @@ namespace Dolany.Ai.Core
     using System.Threading.Tasks;
 
     using AITools;
+
     using Base;
+
     using Cache;
+
     using Common;
-    using Model;
-    using SyntaxChecker;
+
+    using Dolany.Ai.Common;
+    using Dolany.Database;
     using Dolany.Database.Ai;
+
+    using Model;
+
+    using SyntaxChecker;
 
     /// <summary>
     /// AI管理类

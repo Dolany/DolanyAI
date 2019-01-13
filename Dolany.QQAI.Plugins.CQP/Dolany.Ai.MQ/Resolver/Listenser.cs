@@ -1,11 +1,8 @@
 ﻿namespace Dolany.Ai.MQ.Resolver
 {
     using System;
-    using System.Collections.Generic;
-    using System.Linq;
     using System.Threading;
     using System.Threading.Tasks;
-    using System.Timers;
 
     using Db;
     using MahuaApis;
@@ -13,51 +10,62 @@
 
     using Newbe.Mahua;
 
-    using Timer = System.Timers.Timer;
-
     public class Listenser
     {
-        private readonly Timer Ltimer = new Timer();
+        // private readonly Timer Ltimer = new Timer();
+        public static Listenser Instance { get; } = new Listenser();
 
-        public Listenser()
+        private Listenser()
         {
-            Ltimer.Elapsed += Timer_TimesUp;
-            Ltimer.Interval = 500;
-            Ltimer.AutoReset = false;
+            //Ltimer.Elapsed += Timer_TimesUp;
+            //Ltimer.Interval = 500;
+            //Ltimer.AutoReset = false;
 
-            Ltimer.Start();
+            //Ltimer.Start();
         }
 
-        private void Timer_TimesUp(object sender, ElapsedEventArgs e)
-        {
-            Ltimer.Stop();
+        //private void Timer_TimesUp(object sender, ElapsedEventArgs e)
+        //{
+        //    Ltimer.Stop();
 
+        //    try
+        //    {
+        //        var commands = CommandList();
+        //        foreach (var command in commands)
+        //        {
+        //            Task.Run(() => ResovleCommand(command));
+        //        }
+        //    }
+        //    catch (Exception ex)
+        //    {
+        //        MahuaModule.RuntimeLogger.Log(ex);
+        //    }
+        //    finally
+        //    {
+        //        Ltimer.Start();
+        //    }
+        //}
+
+        public void ReceivedCommand(MsgCommand command)
+        {
             try
             {
-                var commands = CommandList();
-                foreach (var command in commands)
-                {
-                    Task.Run(() => ResovleCommand(command));
-                }
+                Task.Run(() => ResovleCommand(command));
             }
             catch (Exception ex)
             {
                 MahuaModule.RuntimeLogger.Log(ex);
             }
-            finally
-            {
-                Ltimer.Start();
-            }
         }
 
-        private static IEnumerable<MsgCommand> CommandList()
-        {
-            var list = MongoService<MsgCommand>.Get();
+        //private static IEnumerable<MsgCommand> CommandList()
+        //{
+        //    var list = MongoService<MsgCommand>.Get();
 
-            MongoService<MsgCommand>.DeleteMany(list);
+        //    MongoService<MsgCommand>.DeleteMany(list);
 
-            return list;
-        }
+        //    return list;
+        //}
 
         private static async Task ResovleCommand(MsgCommand command)
         {

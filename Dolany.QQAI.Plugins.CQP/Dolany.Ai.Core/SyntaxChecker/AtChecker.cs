@@ -2,7 +2,7 @@
 {
     using System;
 
-    using Common;
+    using Dolany.Ai.Common;
 
     public class AtChecker : ISyntaxChecker
     {

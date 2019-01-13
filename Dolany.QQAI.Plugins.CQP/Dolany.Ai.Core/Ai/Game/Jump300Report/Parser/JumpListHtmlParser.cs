@@ -1,12 +1,15 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using HtmlAgilityPack;
-
-namespace Dolany.Ai.Core.Ai.Game.Jump300Report.Parser
+﻿namespace Dolany.Ai.Core.Ai.Game.Jump300Report.Parser
 {
+    using System;
+    using System.Collections.Generic;
+    using System.Linq;
+
+    using Dolany.Ai.Common;
+
+    using HtmlAgilityPack;
+
     using Model;
-    using Common;
+
     using Net;
 
     public class JumpListHtmlParser : HtmlParser
@@ -138,17 +141,20 @@ namespace Dolany.Ai.Core.Ai.Game.Jump300Report.Parser
 
         private void AppendAddr(HtmlNode node)
         {
-            var nodes = SearchNodes(node, n => n.ChildAttributes("onClick").Count() > 0);
+            var nodes = SearchNodes(node, n => n.ChildAttributes("onClick").Any());
             var addrList = new List<string>();
             foreach (var n in nodes)
             {
                 var attr = n.ChildAttributes("onClick").FirstOrDefault();
-                if (attr != null)
+                if (attr == null)
                 {
-                    var attrValue = attr.Value;
-                    var addrName = attrValue.Replace("javascript:window.open('match.html?id=", "").Replace("');", "");
-                    addrList.Add(addrName);
+                    continue;
                 }
+
+                var attrValue = attr.Value;
+                var addrName = attrValue.Replace("javascript:window.open('match.html?id=", string.Empty)
+                    .Replace("');", string.Empty);
+                addrList.Add(addrName);
             }
 
             for (var i = 0; i < Matches.Count(); i++)

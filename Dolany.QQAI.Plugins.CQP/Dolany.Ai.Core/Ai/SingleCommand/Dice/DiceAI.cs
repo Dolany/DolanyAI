@@ -1,15 +1,22 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using static Dolany.Ai.Core.Common.Utility;
-
-namespace Dolany.Ai.Core.Ai.SingleCommand.Dice
+﻿namespace Dolany.Ai.Core.Ai.SingleCommand.Dice
 {
+    using System;
+    using System.Collections.Generic;
+    using System.Linq;
+
     using Base;
+
     using Cache;
+
     using Common;
+
+    using Dolany.Ai.Common;
+
     using Entities;
+
     using Model;
+
+    using static Dolany.Ai.Core.Common.Utility;
 
     [AI(
         Name = nameof(DiceAI),
@@ -18,8 +25,8 @@ namespace Dolany.Ai.Core.Ai.SingleCommand.Dice
         PriorityLevel = 5)]
     public class DiceAI : AIBase
     {
-        private readonly int DiceCountMaxLimit = int.Parse(GetConfig(nameof(DiceCountMaxLimit)));
-        private readonly int DiceSizeMaxLimit = int.Parse(GetConfig(nameof(DiceSizeMaxLimit)));
+        private readonly int DiceCountMaxLimit = int.Parse(CommonUtil.GetConfig(nameof(DiceCountMaxLimit)));
+        private readonly int DiceSizeMaxLimit = int.Parse(CommonUtil.GetConfig(nameof(DiceSizeMaxLimit)));
 
         public DiceAI()
         {

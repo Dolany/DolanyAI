@@ -1,13 +1,12 @@
-﻿using System.Linq;
-
-using Dolany.Ai.Util;
-
-namespace Dolany.Ai.MQ
+﻿namespace Dolany.Ai.MQ
 {
     using System;
     using System.Collections.Generic;
     using System.IO;
+    using System.Linq;
     using System.Runtime.ExceptionServices;
+
+    using Dolany.Ai.Util;
 
     public static class Utility
     {
@@ -27,7 +26,7 @@ namespace Dolany.Ai.MQ
 
             foreach (var file in dir.GetFiles().OrderByDescending(p => p.CreationTime))
             {
-                var authLine = "";
+                var authLine = string.Empty;
                 using (var reader = new StreamReader(file.FullName))
                 {
                     string line;

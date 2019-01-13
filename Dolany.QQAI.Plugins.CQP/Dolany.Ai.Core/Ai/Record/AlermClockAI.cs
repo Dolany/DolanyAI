@@ -1,21 +1,27 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Diagnostics;
-using System.Linq;
-using System.Text;
-using System.Timers;
-using Dolany.Database;
-
-namespace Dolany.Ai.Core.Ai.Record
+﻿namespace Dolany.Ai.Core.Ai.Record
 {
+    using System;
+    using System.Collections.Generic;
+    using System.Diagnostics;
+    using System.Linq;
+    using System.Text;
+    using System.Timers;
+
     using Base;
+
     using Cache;
+
     using Common;
-    using Model;
+
+    using Dolany.Ai.Common;
+    using Dolany.Database;
     using Dolany.Database.Ai;
 
-    using static API.CodeApi;
-    using static Common.Utility;
+    using Model;
+
+    using static Dolany.Ai.Core.Common.Utility;
+
+    using static Dolany.Ai.Core.API.CodeApi;
 
     [AI(
         Name = nameof(AlermClockAI),

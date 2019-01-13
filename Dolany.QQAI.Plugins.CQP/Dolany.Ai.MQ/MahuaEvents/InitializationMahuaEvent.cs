@@ -2,7 +2,6 @@
 {
     using System;
 
-    using Resolver;
     using Db;
     using Util;
 
@@ -25,15 +24,14 @@
 
         public void Initialized(InitializedContext context)
         {
-            new Listenser();
-
-            MongoService<MsgInformation>.Insert(
+            RabbitMQService.Instance.Send(
                 new MsgInformation
                     {
                         Id = Guid.NewGuid().ToString(),
                         Information = AiInformation.AuthCode,
                         Msg = Utility.GetAuthCode(),
-                        Time = DateTime.Now
+                        Time = DateTime.Now,
+                        AiNum = Utility.SelfQQNum
                     });
         }
     }

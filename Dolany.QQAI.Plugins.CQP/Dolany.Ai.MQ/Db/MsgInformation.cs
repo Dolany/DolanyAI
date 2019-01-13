@@ -1,7 +1,10 @@
 ﻿namespace Dolany.Ai.MQ.Db
 {
-    public partial class MsgInformation : BaseEntity
+    using System;
+
+    public class MsgInformation
     {
+        public string Id { get; set; } = Guid.NewGuid().ToString();
         public string Msg { get; set; }
         public string RelationId { get; set; }
         public System.DateTime Time { get; set; }

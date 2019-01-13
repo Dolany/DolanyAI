@@ -1,18 +1,25 @@
-﻿using System;
-using System.Linq;
-using System.Text;
-
-namespace Dolany.Ai.Core.Ai.SingleCommand.Tuling
+﻿namespace Dolany.Ai.Core.Ai.SingleCommand.Tuling
 {
+    using System;
+    using System.Linq;
+    using System.Text;
+
     using Base;
+
     using Cache;
+
     using Common;
-    using Model;
+
+    using Dolany.Ai.Common;
     using Dolany.Ai.Core.Model.Tuling;
+
+    using Model;
+
     using Net;
 
-    using static API.CodeApi;
-    using static Common.Utility;
+    using static Dolany.Ai.Core.Common.Utility;
+
+    using static Dolany.Ai.Core.API.CodeApi;
 
     [AI(
         Name = nameof(TulingAI),
@@ -21,8 +28,8 @@ namespace Dolany.Ai.Core.Ai.SingleCommand.Tuling
         PriorityLevel = 2)]
     public class TulingAI : AIBase
     {
-        private readonly string RequestUrl = GetConfig("TulingRequestUrl");
-        private readonly string ApiKey = GetConfig("TulingApiKey");
+        private readonly string RequestUrl = CommonUtil.GetConfig("TulingRequestUrl");
+        private readonly string ApiKey = CommonUtil.GetConfig("TulingApiKey");
 
         private readonly int[] ErroCodes =
             {

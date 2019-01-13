@@ -1,13 +1,14 @@
-﻿using System;
-using System.Collections.Generic;
-using Dolany.Database;
-
-namespace Dolany.Ai.Core.Common
+﻿namespace Dolany.Ai.Core.Common
 {
+    using System;
+    using System.Collections.Generic;
     using System.Linq;
 
-    using Model;
+    using Dolany.Ai.Common;
+    using Dolany.Database;
     using Dolany.Database.Ai;
+
+    using Model;
 
     public static class DirtyFilter
     {

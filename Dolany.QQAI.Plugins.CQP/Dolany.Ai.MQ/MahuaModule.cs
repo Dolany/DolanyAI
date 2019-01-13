@@ -62,11 +62,9 @@ namespace Dolany.Ai.MQ
         {
             protected override void Load(ContainerBuilder builder)
             {
-                
+                RabbitMQService.Instance.StartReceive();
                 base.Load(builder);
             }
-
-            
         }
 
         public static class RuntimeLogger

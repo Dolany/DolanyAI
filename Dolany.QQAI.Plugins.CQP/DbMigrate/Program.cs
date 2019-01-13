@@ -27,8 +27,6 @@ namespace DbMigrate
             Migrate<KanColeGirlVoice>();
             Migrate<MajFortune>();
             Migrate<MemberRoleCache>();
-            Migrate<MsgCommand>();
-            Migrate<MsgInformation>();
             Migrate<MsgRecievedCache>();
             Migrate<MsgSendCache>();
             Migrate<PlusOneAvailable>();

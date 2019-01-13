@@ -8,6 +8,9 @@
     using API;
     using Cache;
     using Common;
+
+    using Dolany.Ai.Common;
+
     using Model;
 
     public abstract class AIBase

@@ -2,6 +2,8 @@
 {
     using Common;
 
+    using Dolany.Ai.Common;
+
     public static class CodeApi
     {
         public static string Code_At(long qqNumber)
@@ -29,7 +31,7 @@
             return $"[QQ:voice={filePath}]";
         }
 
-        public static string ImagePath => Utility.GetConfig("ImagePath");
+        public static string ImagePath => CommonUtil.GetConfig("ImagePath");
 
         public static string ImageExtension => ".ini";
     }

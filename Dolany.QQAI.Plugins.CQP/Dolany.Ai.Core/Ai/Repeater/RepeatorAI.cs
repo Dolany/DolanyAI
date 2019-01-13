@@ -1,19 +1,23 @@
-﻿using System;
-using System.Linq;
-using System.Threading;
-using Dolany.Database;
-
-namespace Dolany.Ai.Core.Ai.Repeater
+﻿namespace Dolany.Ai.Core.Ai.Repeater
 {
+    using System;
     using System.Collections.Generic;
+    using System.Linq;
+    using System.Threading;
+
+    using Base;
+
+    using Cache;
 
     using Core;
-    using Base;
-    using Cache;
-    using Common;
-    using Model;
-    using SyntaxChecker;
+
+    using Dolany.Ai.Common;
+    using Dolany.Database;
     using Dolany.Database.Ai;
+
+    using Model;
+
+    using SyntaxChecker;
 
     [AI(
         Name = nameof(RepeatorAI),
