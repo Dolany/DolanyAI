@@ -20,7 +20,7 @@
         public static MemberRoleCache GetMemberInfo(MsgInformationEx MsgDTO)
         {
             var redisKey = $"GroupMemberInfo-{MsgDTO.FromGroup}-{MsgDTO.FromQQ}";
-            var redisValue = Cache.Get<GroupMemberCacheModel>(redisKey);
+            var redisValue = CacheService.Get<GroupMemberCacheModel>(redisKey);
             if (redisValue != null)
             {
                 return new MemberRoleCache
@@ -50,18 +50,18 @@
             foreach (var info in infos.Mems)
             {
                 var redisKey = $"GroupMemberInfo-{GroupNum}-{info.Uin}";
-                var redisValue = Cache.Get<GroupMemberCacheModel>(redisKey);
+                var redisValue = CacheService.Get<GroupMemberCacheModel>(redisKey);
 
                 if (redisValue != null)
                 {
                     redisValue.Role = info.Role;
                     redisValue.NickName = info.Nick;
 
-                    Cache.Insert(redisKey, redisValue, DateTime.Now.AddDays(7));
+                    CacheService.Insert(redisKey, redisValue, DateTime.Now.AddDays(7));
                 }
                 else
                 {
-                    Cache.Insert(
+                    CacheService.Insert(
                         redisKey,
                         new GroupMemberCacheModel
                             {

@@ -14,6 +14,8 @@
     using Dolany.Ai.Common;
     using Dolany.Database;
     using Dolany.Database.Ai;
+    using Dolany.Database.Redis;
+    using Dolany.Database.Redis.Model;
 
     using Entities;
 
@@ -173,11 +175,10 @@
 
         private static string GetTempAuth(MsgInformation MsgDTO)
         {
-            var date = DateTime.Now.Date;
-            var authInfo = MongoService<TempAuthorize>
-                .Get(t => t.GroupNum == MsgDTO.FromGroup && t.QQNum == MsgDTO.FromQQ && t.AuthDate == date)
-                .FirstOrDefault();
-            return authInfo != null ? authInfo.AuthName : string.Empty;
+            var redisKey = $"TempAuthorize-{MsgDTO.FromGroup}-{MsgDTO.FromQQ}";
+            var redisValue = CacheService.Get<TempAuthorizeCache>(redisKey);
+
+            return redisValue != null ? redisValue.AuthName : string.Empty;
         }
 
         [CanBeNull]

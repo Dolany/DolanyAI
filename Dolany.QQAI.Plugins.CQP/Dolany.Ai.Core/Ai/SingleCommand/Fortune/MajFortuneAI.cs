@@ -13,9 +13,8 @@
 
     using Common;
 
-    using Dolany.Ai.Common;
-    using Dolany.Database;
-    using Dolany.Database.Ai;
+    using Dolany.Database.Redis;
+    using Dolany.Database.Redis.Model;
 
     using JetBrains.Annotations;
 
@@ -82,7 +81,7 @@
         }
 
         [NotNull]
-        private string FortunePrintString(MajFortune fortune)
+        private string FortunePrintString(MajFortuneCache fortune)
         {
             var msg = "今日麻将运势：" + $"\r整体运势：{GetStarString(fortune.FortuneStar)} " + $"\r吉位：{fortune.Position} "
                       + $"\r牌运：{fortune.Kind} " + $"\r代表人物：{fortune.CharactorName} "
@@ -92,42 +91,23 @@
         }
 
         [NotNull]
-        private MajFortune TodayFortune(long QQNum)
+        private MajFortuneCache TodayFortune(long QQNum)
         {
-            var today = DateTime.Now.Date;
-            var query = MongoService<MajFortune>.Get(m => m.QQNum == QQNum && m.UpdateTime == today).ToList();
-            if (!query.IsNullOrEmpty())
+            var redisKey = $"MajFortune-{QQNum}";
+            var redisValue = CacheService.Get<MajFortuneCache>(redisKey);
+
+            if (redisValue != null)
             {
-                return query.First().Clone();
+                return redisValue;
             }
 
-            query = MongoService<MajFortune>.Get(m => m.QQNum == QQNum).ToList();
-            if (query.IsNullOrEmpty())
-            {
-                var newFortune = this.NewFortune(QQNum);
-                MongoService<MajFortune>.Insert(newFortune);
-
-                return newFortune.Clone();
-            }
-
-            var fortune = query.First();
-
-            var newFortuen = NewFortune(fortune.QQNum);
-
-            fortune.CharactorName = newFortuen.CharactorName;
-            fortune.CharactorPath = newFortuen.CharactorPath;
-            fortune.FortuneStar = newFortuen.FortuneStar;
-            fortune.Kind = newFortuen.Kind;
-            fortune.Position = newFortuen.Position;
-            fortune.UpdateTime = DateTime.Now.Date;
-
-            MongoService<MajFortune>.Update(fortune);
-
-            return fortune.Clone();
+            var newFortune = this.NewFortune(QQNum);
+            CacheService.Insert(redisKey, newFortune, DateTime.Now.AddDays(1).Date);
+            return newFortune;
         }
 
         [NotNull]
-        private MajFortune NewFortune(long QQNum)
+        private MajFortuneCache NewFortune(long QQNum)
         {
             var fortuneStar = Utility.RandInt(11);
             var position = PosArray[Utility.RandInt(PosArray.Length)];
@@ -136,15 +116,14 @@
             var charactorName = CharactorsDic.Keys.ElementAt(dicIdx);
             var charactorPath = CharactorsDic.Values.ElementAt(dicIdx);
 
-            return new MajFortune
-                       {
+            return new MajFortuneCache
+            {
                            CharactorName = charactorName,
                            CharactorPath = charactorPath,
                            FortuneStar = fortuneStar,
                            Kind = kind,
                            Position = position,
-                           QQNum = QQNum,
-                           UpdateTime = DateTime.Now.Date
+                           QQNum = QQNum
                        };
         }
 

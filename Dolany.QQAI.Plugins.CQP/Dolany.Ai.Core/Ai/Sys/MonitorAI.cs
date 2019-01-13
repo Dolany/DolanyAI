@@ -15,6 +15,8 @@
     using Dolany.Ai.Common;
     using Dolany.Database;
     using Dolany.Database.Ai;
+    using Dolany.Database.Redis;
+    using Dolany.Database.Redis.Model;
 
     using Model;
 
@@ -33,41 +35,6 @@
         {
             var query = MongoService<ActiveOffGroups>.Get(p => p.AINum == SelfQQNum);
             this.InactiveGroups = query.Select(p => p.GroupNum).ToList();
-        }
-
-        [EnterCommand(
-            Command = "功能封印",
-            Description = "封印一个群的某个ai功能",
-            Syntax = "[群组号] [需要封印的ai名]",
-            Tag = "系统命令",
-            SyntaxChecker = "Long Word",
-            AuthorityLevel = AuthorityLevel.开发者,
-            IsPrivateAvailable = true)]
-        public void SealAi(MsgInformationEx MsgDTO, object[] param)
-        {
-            var groupNum = (long)param[0];
-            var aiName = GetAiRealName(param[1] as string);
-            if (string.IsNullOrEmpty(aiName))
-            {
-                SendMsgToDeveloper("查找ai失败！");
-                return;
-            }
-
-            var query = MongoService<AISeal>.Get(a => a.GroupNum == groupNum && a.AiName == aiName);
-            if (!query.IsNullOrEmpty())
-            {
-                SendMsgToDeveloper("ai功能已经在封印中！");
-                return;
-            }
-
-            var aiseal = new AISeal
-            {
-                Id = Guid.NewGuid().ToString(),
-                GroupNum = groupNum,
-                AiName = aiName
-            };
-            MongoService<AISeal>.Insert(aiseal);
-            SendMsgToDeveloper("ai封印成功！");
         }
 
         private static string GetAiRealName(string aiName)
@@ -212,15 +179,11 @@
                 return;
             }
 
-            MongoService<TempAuthorize>.Insert(
-                new TempAuthorize
-                {
-                    Id = Guid.NewGuid().ToString(),
-                    AuthDate = DateTime.Now.Date,
-                    AuthName = authName,
-                    GroupNum = MsgDTO.FromGroup,
-                    QQNum = qqNum
-                });
+            var redisKey = $"TempAuthorize-{MsgDTO.FromGroup}-{MsgDTO.FromQQ}";
+            CacheService.Insert(
+                redisKey,
+                new TempAuthorizeCache { AuthName = authName, GroupNum = MsgDTO.FromGroup, QQNum = qqNum },
+                DateTime.Now.AddDays(1).Date);
 
             MsgSender.Instance.PushMsg(MsgDTO, "临时授权成功！");
         }
@@ -235,9 +198,10 @@
             IsPrivateAvailable = false)]
         public void InitAI(MsgInformationEx MsgDTO, object[] param)
         {
-            var today = DateTime.Now.Date;
-            var query = MongoService<InitInfo>.Get(p => p.GroupNum == MsgDTO.FromGroup && p.UpdateTime == today).FirstOrDefault();
-            if (query != null)
+            var redisKey = $"InitInfo-{MsgDTO.FromGroup}";
+            var redisValue = CacheService.Get<InitInfoCache>(redisKey);
+
+            if (redisValue != null)
             {
                 MsgSender.Instance.PushMsg(MsgDTO, "每天只能初始化一次噢~");
                 return;
@@ -249,16 +213,10 @@
                 return;
             }
 
-            query = MongoService<InitInfo>.Get(p => p.GroupNum == MsgDTO.FromGroup).FirstOrDefault();
-            if (query == null)
-            {
-                MongoService<InitInfo>.Insert(new InitInfo { GroupNum = MsgDTO.FromGroup, UpdateTime = DateTime.Now.Date });
-            }
-            else
-            {
-                query.UpdateTime = DateTime.Now.Date;
-                MongoService<InitInfo>.Update(query);
-            }
+            CacheService.Insert(
+                redisKey,
+                new InitInfoCache { GroupNum = MsgDTO.FromGroup },
+                DateTime.Now.AddDays(1).Date);
 
             MsgSender.Instance.PushMsg(MsgDTO, "初始化成功！");
         }

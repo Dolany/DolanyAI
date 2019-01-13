@@ -5,13 +5,13 @@
     /// <summary>
     /// 缓存
     /// </summary>
-    public static class Cache
+    public static class CacheService
     {
         private static readonly object cacheLocker = new object(); //缓存锁对象
 
         private static ICache cache; //缓存接口
 
-        static Cache()
+        static CacheService()
         {
             Load();
         }

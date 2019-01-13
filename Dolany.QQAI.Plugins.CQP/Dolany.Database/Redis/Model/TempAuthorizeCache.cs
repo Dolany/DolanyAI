@@ -1,12 +1,9 @@
-﻿namespace Dolany.Database.Ai
+﻿namespace Dolany.Database.Redis.Model
 {
-    using System;
-
-    public class TempAuthorize : BaseEntity
+    public class TempAuthorizeCache
     {
         public long QQNum { get; set; }
         public long GroupNum { get; set; }
-        public DateTime AuthDate { get; set; }
         public string AuthName { get; set; }
     }
 }

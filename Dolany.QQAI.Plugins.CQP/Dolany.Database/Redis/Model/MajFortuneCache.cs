@@ -1,8 +1,6 @@
-﻿namespace Dolany.Database.Ai
+﻿namespace Dolany.Database.Redis.Model
 {
-    using System;
-
-    public class MajFortune : BaseEntity
+    public class MajFortuneCache
     {
         public int FortuneStar { get; set; }
         public string Position { get; set; }
@@ -10,6 +8,5 @@
         public string CharactorName { get; set; }
         public string CharactorPath { get; set; }
         public long QQNum { get; set; }
-        public DateTime UpdateTime { get; set; } = DateTime.Now.Date;
     }
 }

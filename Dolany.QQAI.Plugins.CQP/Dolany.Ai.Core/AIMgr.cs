@@ -238,22 +238,13 @@
                 MsgDTO.AuthName = Utility.GetAuthName(MsgDTO);
             }
 
-            if (!AIList.Where(ai => !IsAiSealed(MsgDTO, ai.Key))
-                .Any(ai => ai.Key.OnMsgReceived(MsgDTO)))
+            if (!AIList.Any(ai => ai.Key.OnMsgReceived(MsgDTO)))
             {
                 return;
             }
 
             RecentCommandCache.Cache(DateTime.Now);
             Sys_CommandCount.Plus();
-        }
-
-        private static bool IsAiSealed(MsgInformation MsgDTO, AIBase ai)
-        {
-            var aiName = ai.GetType().Name;
-            var query = MongoService<AISeal>.Get(s => s.GroupNum == MsgDTO.FromGroup &&
-                                                      s.AiName == aiName);
-            return !query.IsNullOrEmpty();
         }
 
         private static string GenCommand(ref string msg)

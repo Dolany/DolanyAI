@@ -12,6 +12,8 @@
     using Dolany.Ai.Common;
     using Dolany.Database;
     using Dolany.Database.Ai;
+    using Dolany.Database.Redis;
+    using Dolany.Database.Redis.Model;
 
     using Model;
 
@@ -40,20 +42,29 @@
                 return true;
             }
 
-            var now = DateTime.Now.Date;
-            var query = MongoService<Hello>.Get(h => h.GroupNum == MsgDTO.FromGroup &&
-                                                     h.QQNum == MsgDTO.FromQQ &&
-                                                     now > h.LastHelloDate);
-            if (query.IsNullOrEmpty())
+            var redisKey = $"Hello-{MsgDTO.FromGroup}-{MsgDTO.FromQQ}";
+            var redisValue = CacheService.Get<HelloCache>(redisKey);
+            if (redisValue != null)
             {
                 return false;
             }
 
-            var hello = query.First();
+            var query = MongoService<Hello>.Get(h => h.GroupNum == MsgDTO.FromGroup &&
+                                                     h.QQNum == MsgDTO.FromQQ);
+
+            var hello = query.FirstOrDefault();
+            if (hello == null)
+            {
+                return false;
+            }
+
             MsgSender.Instance.PushMsg(MsgDTO, $"{Code_At(MsgDTO.FromQQ)} {hello.Content}");
 
             hello.LastHelloDate = DateTime.Now.Date;
-            MongoService<Hello>.Update(hello);
+            CacheService.Insert(
+                redisKey,
+                new HelloCache { GroupNum = MsgDTO.FromGroup, LastUpdateTime = DateTime.Now, QQNum = MsgDTO.FromQQ },
+                DateTime.Now.AddDays(1).Date);
 
             return false;
         }
