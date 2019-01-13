@@ -12,6 +12,8 @@
     using Dolany.Ai.Common;
     using Dolany.Database;
     using Dolany.Database.Ai;
+    using Dolany.Database.Redis;
+    using Dolany.Database.Redis.Model;
 
     using Model;
 
@@ -53,7 +55,8 @@
             Syntax = "",
             Tag = "点赞功能",
             SyntaxChecker = "Empty",
-            IsPrivateAvailable = true)]
+            IsPrivateAvailable = true,
+            IsGroupAvailable = true)]
         public void PraiseMe(MsgInformationEx MsgDTO, object[] param)
         {
             if (!CheckLimit(MsgDTO))
@@ -61,30 +64,19 @@
                 return;
             }
 
-            var query = MongoService<PraiseRec>.Get(p => p.QQNum == MsgDTO.FromQQ);
-            if (query.IsNullOrEmpty())
+            var redisKey = $"PraiseRec-{MsgDTO.FromQQ}";
+            var redisValue = CacheService.Get<PraiseRecCache>(redisKey);
+            if (redisValue == null)
             {
-                LastTime = DateTime.Now;
                 Praise(MsgDTO);
-                MongoService<PraiseRec>.Insert(new PraiseRec
-                {
-                    Id = Guid.NewGuid().ToString(),
-                    LastDate = DateTime.Now.Date,
-                    QQNum = MsgDTO.FromQQ
-                });
-            }
-            else if (query.First().LastDate >= DateTime.Now.Date)
-            {
-                MsgSender.Instance.PushMsg(MsgDTO, "今天已经赞过十次啦！");
+                CacheService.Insert(
+                    redisKey,
+                    new PraiseRecCache { QQNum = MsgDTO.FromQQ },
+                    CommonUtil.UntilTommorow());
             }
             else
             {
-                LastTime = DateTime.Now;
-                Praise(MsgDTO);
-                var praise = query.First();
-                praise.LastDate = DateTime.Now.Date;
-
-                MongoService<PraiseRec>.Update(praise);
+                MsgSender.Instance.PushMsg(MsgDTO, "今天已经赞过十次啦！");
             }
         }
 

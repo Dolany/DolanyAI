@@ -64,7 +64,7 @@
             CacheService.Insert(
                 redisKey,
                 new HelloCache { GroupNum = MsgDTO.FromGroup, LastUpdateTime = DateTime.Now, QQNum = MsgDTO.FromQQ },
-                DateTime.Now.AddDays(1).Date);
+                CommonUtil.UntilTommorow());
 
             return false;
         }

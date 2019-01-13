@@ -183,7 +183,7 @@
             CacheService.Insert(
                 redisKey,
                 new TempAuthorizeCache { AuthName = authName, GroupNum = MsgDTO.FromGroup, QQNum = qqNum },
-                DateTime.Now.AddDays(1).Date);
+                CommonUtil.UntilTommorow());
 
             MsgSender.Instance.PushMsg(MsgDTO, "临时授权成功！");
         }
@@ -216,7 +216,7 @@
             CacheService.Insert(
                 redisKey,
                 new InitInfoCache { GroupNum = MsgDTO.FromGroup },
-                DateTime.Now.AddDays(1).Date);
+                CommonUtil.UntilTommorow());
 
             MsgSender.Instance.PushMsg(MsgDTO, "初始化成功！");
         }

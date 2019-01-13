@@ -13,6 +13,7 @@
 
     using Common;
 
+    using Dolany.Ai.Common;
     using Dolany.Database.Redis;
     using Dolany.Database.Redis.Model;
 
@@ -102,7 +103,7 @@
             }
 
             var newFortune = this.NewFortune(QQNum);
-            CacheService.Insert(redisKey, newFortune, DateTime.Now.AddDays(1).Date);
+            CacheService.Insert(redisKey, newFortune, CommonUtil.UntilTommorow());
             return newFortune;
         }
 

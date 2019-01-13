@@ -41,8 +41,7 @@
                 while ((line = reader.ReadLine()) != null)
                 {
                     var strs = line.Split(new[] { '=' }, StringSplitOptions.RemoveEmptyEntries);
-                    if (strs.IsNullOrEmpty() ||
-                        strs.Length != 2)
+                    if (strs.IsNullOrEmpty() || strs.Length != 2)
                     {
                         continue;
                     }
@@ -57,6 +56,11 @@
         public static bool IsNullOrEmpty<T>(this IEnumerable<T> objs)
         {
             return objs == null || !objs.Any();
+        }
+
+        public static DateTime UntilTommorow()
+        {
+            return DateTime.Now.AddDays(1).Date;
         }
     }
 }
