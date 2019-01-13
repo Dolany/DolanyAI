@@ -1,17 +1,14 @@
 ﻿namespace Dolany.Ai.Core.Cache
 {
     using System;
-    using System.Collections.Generic;
-    using System.Linq;
-    using System.Timers;
 
     using API;
 
     using Common;
 
-    using Dolany.Ai.Common;
-    using Dolany.Database;
     using Dolany.Database.Ai;
+    using Dolany.Database.Redis;
+    using Dolany.Database.Redis.Model;
 
     using JetBrains.Annotations;
 
@@ -19,74 +16,26 @@
 
     public static class GroupMemberInfoCacher
     {
-        private static object lock_obj { get; } = new object();
-
-        private static Queue<long> WaitQueue { get; set; }
-
-        private static int GroupEmptyRefreshRate => int.Parse(CommonUtil.GetConfig("GroupEmptyRefreshRate"));
-
-        private static int GroupRefreshRate => int.Parse(CommonUtil.GetConfig("GroupRefreshRate"));
-
         [CanBeNull]
         public static MemberRoleCache GetMemberInfo(MsgInformationEx MsgDTO)
         {
-            var query = MongoService<MemberRoleCache>.Get(ic => ic.QQNum == MsgDTO.FromQQ && ic.GroupNum == MsgDTO.FromGroup);
-            if (query.IsNullOrEmpty())
+            var redisKey = $"GroupMemberInfo-{MsgDTO.FromGroup}-{MsgDTO.FromQQ}";
+            var redisValue = Cache.Get<GroupMemberCacheModel>(redisKey);
+            if (redisValue != null)
             {
-                Enqueue(MsgDTO.FromGroup);
-                return new MemberRoleCache { GroupNum = MsgDTO.FromGroup, QQNum = MsgDTO.FromQQ };
+                return new MemberRoleCache
+                           {
+                               GroupNum = redisValue.GroupNum,
+                               QQNum = redisValue.QQNum,
+                               Datatime = DateTime.Now,
+                               Nickname = redisValue.NickName,
+                               Role = redisValue.Role
+                           };
             }
 
-            var Cache = query.FirstOrDefault();
-            if (Cache != null && Cache.Datatime.AddDays(7) >= DateTime.Now)
-            {
-                return Cache.Clone();
-            }
+            RefreshGroupInfo(MsgDTO.FromGroup);
 
-            Enqueue(MsgDTO.FromGroup);
             return new MemberRoleCache { GroupNum = MsgDTO.FromGroup, QQNum = MsgDTO.FromQQ };
-        }
-
-        private static void Enqueue(long GroupNum)
-        {
-            lock (lock_obj)
-            {
-                if (WaitQueue == null)
-                {
-                    WaitQueue = new Queue<long>();
-                    JobScheduler.Instance.Add(JobTimer.HourlyInterval * GroupEmptyRefreshRate, TimeUp);
-                }
-
-                if (!WaitQueue.Contains(GroupNum))
-                {
-                    WaitQueue.Enqueue(GroupNum);
-                }
-            }
-        }
-
-        private static void TimeUp(object sender, ElapsedEventArgs e)
-        {
-            var timer = sender as JobTimer;
-            lock (lock_obj)
-            {
-                if (WaitQueue.Count == 0)
-                {
-                    if (timer != null)
-                    {
-                        timer.Interval = JobTimer.HourlyInterval * GroupEmptyRefreshRate;
-                    }
-                }
-                else
-                {
-                    var groupNum = WaitQueue.Dequeue();
-                    RefreshGroupInfo(groupNum);
-
-                    if (timer != null)
-                    {
-                        timer.Interval = JobTimer.HourlyInterval * GroupRefreshRate;
-                    }
-                }
-            }
         }
 
         public static bool RefreshGroupInfo(long GroupNum)
@@ -100,22 +49,25 @@
 
             foreach (var info in infos.Mems)
             {
-                var query = MongoService<MemberRoleCache>.Get(p => p.GroupNum == GroupNum && p.QQNum == info.Uin);
-                if (!query.IsNullOrEmpty())
-                {
-                    var cache = query.First();
-                    cache.Role = info.Role;
-                    cache.Datatime = DateTime.Now;
-                    cache.Nickname = info.Nick;
+                var redisKey = $"GroupMemberInfo-{GroupNum}-{info.Uin}";
+                var redisValue = Cache.Get<GroupMemberCacheModel>(redisKey);
 
-                    MongoService<MemberRoleCache>.Update(cache);
+                if (redisValue != null)
+                {
+                    redisValue.Role = info.Role;
+                    redisValue.NickName = info.Nick;
+
+                    Cache.Insert(redisKey, redisValue, DateTime.Now.AddDays(7));
                 }
                 else
                 {
-                    MongoService<MemberRoleCache>.Insert(new MemberRoleCache
-                    {
-                        GroupNum = GroupNum, Nickname = info.Nick, QQNum = info.Uin, Role = info.Role
-                    });
+                    Cache.Insert(
+                        redisKey,
+                        new GroupMemberCacheModel
+                            {
+                                GroupNum = GroupNum, NickName = info.Nick, QQNum = info.Uin, Role = info.Role
+                            },
+                        DateTime.Now.AddDays(7));
                 }
             }
 
