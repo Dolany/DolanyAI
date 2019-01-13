@@ -16,6 +16,8 @@
     using Dolany.Ai.Common;
     using Dolany.Database;
     using Dolany.Database.Ai;
+    using Dolany.Database.Redis;
+    using Dolany.Database.Redis.Model;
 
     using Model;
 
@@ -47,42 +49,30 @@
             IsPrivateAvailable = true)]
         public void RandomFortune(MsgInformationEx MsgDTO, object[] param)
         {
-            var query = MongoService<RandomFortune>.Get(r => r.QQNum == MsgDTO.FromQQ);
-            if (!query.IsNullOrEmpty())
+            var redisKey = $"RandomFortune-{MsgDTO.FromQQ}";
+            var redisValue = CacheService.Get<RandomFortuneCache>(redisKey);
+            if (redisValue == null)
             {
-                var f = query.First();
-                if (DateTime.Now.Date > f.UpdateDate.Date)
+                var randFor = GetRandomFortune();
+                var rf = new RandomFortuneCache
                 {
-                    f.FortuneValue = GetRandomFortune();
-                    f.UpdateDate = DateTime.Now;
-                    f.BlessName = string.Empty;
-                    f.BlessValue = 0;
-                    RandBless(f);
+                                 QQNum = MsgDTO.FromQQ,
+                                 FortuneValue = randFor,
+                                 BlessName = string.Empty,
+                                 BlessValue = 0
+                             };
+                RandBless(rf);
+                ShowRandFortune(MsgDTO, rf);
 
-                    MongoService<RandomFortune>.Update(f);
-                }
-
-                ShowRandFortune(MsgDTO, f);
-                return;
+                CacheService.Insert(redisKey, rf, CommonUtil.UntilTommorow());
             }
-
-            var randFor = GetRandomFortune();
-            var rf = new RandomFortune
+            else
             {
-                Id = Guid.NewGuid().ToString(),
-                UpdateDate = DateTime.Now,
-                QQNum = MsgDTO.FromQQ,
-                FortuneValue = randFor,
-                BlessName = string.Empty,
-                BlessValue = 0
-            };
-            RandBless(rf);
-
-            MongoService<RandomFortune>.Insert(rf);
-            ShowRandFortune(MsgDTO, rf);
+                ShowRandFortune(MsgDTO, redisValue);
+            }
         }
 
-        private static void RandBless(RandomFortune rf)
+        private static void RandBless(RandomFortuneCache rf)
         {
             if (rf.FortuneValue >= 50 ||
                 Utility.RandInt(100) > 10)
@@ -123,7 +113,7 @@
             return Utility.RandInt(101);
         }
 
-        private static void ShowRandFortune(MsgInformationEx MsgDTO, RandomFortune rf)
+        private static void ShowRandFortune(MsgInformationEx MsgDTO, RandomFortuneCache rf)
         {
             var msg = string.Empty;
 
@@ -169,35 +159,22 @@
             IsPrivateAvailable = true)]
         public void TarotFortune(MsgInformationEx MsgDTO, object[] param)
         {
-            var query = MongoService<TarotFortuneRecord>.Get(t => t.QQNum == MsgDTO.FromQQ);
-            if (query.IsNullOrEmpty())
+            var redisKey = $"TarotFortune-{MsgDTO.FromQQ}";
+            var redisValue = CacheService.Get<TarotFortuneCache>(redisKey);
+
+            if (redisValue == null)
             {
                 var fortune = GetRandTarotFortune();
                 SendTarotFortune(MsgDTO, fortune);
-                MongoService<TarotFortuneRecord>.Insert(new TarotFortuneRecord
-                {
-                    Id = Guid.NewGuid().ToString(),
-                    QQNum = MsgDTO.FromQQ,
-                    UpdateTime = DateTime.Now.Date,
-                    TarotId = fortune.Id
-                });
+                CacheService.Insert(
+                    redisKey,
+                    new TarotFortuneCache { QQNum = MsgDTO.FromQQ, TarotId = fortune.Id },
+                    CommonUtil.UntilTommorow());
 
                 return;
             }
 
-            var rec = query.First();
-            if (rec.UpdateTime < DateTime.Now.Date)
-            {
-                var fortune = GetRandTarotFortune();
-                SendTarotFortune(MsgDTO, fortune);
-                rec.UpdateTime = DateTime.Now.Date;
-                rec.TarotId = fortune.Id;
-                MongoService<TarotFortuneRecord>.Update(rec);
-
-                return;
-            }
-
-            var data = MongoService<TarotFortuneData>.Get(p => p.Id == rec.TarotId).First();
+            var data = MongoService<TarotFortuneData>.Get(p => p.Id == redisValue.TarotId).First();
             SendTarotFortune(MsgDTO, data);
         }
 
@@ -255,28 +232,27 @@
 
         private static void Bless(long QQNum, string BlessName, int BlessValue)
         {
-            var query = MongoService<RandomFortune>.Get(h => h.QQNum == QQNum);
-            if (query.IsNullOrEmpty())
+            var redisKey = $"RandomFortune-{QQNum}";
+            var redisValue = CacheService.Get<RandomFortuneCache>(redisKey);
+
+            if (redisValue == null)
             {
                 var randFor = GetRandomFortune();
-                var rf = new RandomFortune
+                var rf = new RandomFortuneCache()
                 {
-                    Id = Guid.NewGuid().ToString(),
-                    UpdateDate = DateTime.Now,
                     QQNum = QQNum,
                     FortuneValue = randFor,
                     BlessName = BlessName,
                     BlessValue = BlessValue
                 };
-                MongoService<RandomFortune>.Insert(rf);
+                CacheService.Insert(redisKey, rf, CommonUtil.UntilTommorow());
             }
             else
             {
-                var fortune = query.First();
-                fortune.BlessName = BlessName;
-                fortune.BlessValue = BlessValue;
+                redisValue.BlessName = BlessName;
+                redisValue.BlessValue = BlessValue;
 
-                MongoService<RandomFortune>.Update(fortune);
+                CacheService.Insert(redisKey, redisValue, CommonUtil.UntilTommorow());
             }
         }
 
