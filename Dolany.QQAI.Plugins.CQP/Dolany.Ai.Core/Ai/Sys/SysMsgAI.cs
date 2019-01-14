@@ -35,7 +35,7 @@
             }
 
             ParseRollBack(MsgDTO);
-            return true;
+            return false;
         }
 
         private static void ParseRollBack(MsgInformationEx MsgDTO)

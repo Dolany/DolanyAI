@@ -1,4 +1,6 @@
-﻿namespace Dolany.Ai.Common
+﻿using JetBrains.Annotations;
+
+namespace Dolany.Ai.Common
 {
     using System;
     using System.Collections.Generic;
@@ -6,7 +8,6 @@
     using System.Linq;
     using System.Runtime.ExceptionServices;
 
-    using JetBrains.Annotations;
 
     public static class CommonUtil
     {

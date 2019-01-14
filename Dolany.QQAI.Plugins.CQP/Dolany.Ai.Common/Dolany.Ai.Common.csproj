@@ -5,6 +5,10 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <PackageReference Include="JetBrains.Annotations" Version="2018.2.1" />
+  </ItemGroup>
+
+  <ItemGroup>
     <Reference Include="JetBrains.Annotations">
       <HintPath>..\..\..\..\..\.nuget\packages\jetbrains.annotations\2018.2.1\lib\netstandard2.0\JetBrains.Annotations.dll</HintPath>
     </Reference>

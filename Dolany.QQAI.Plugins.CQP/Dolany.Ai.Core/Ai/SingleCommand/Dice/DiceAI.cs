@@ -11,12 +11,9 @@
     using Common;
 
     using Dolany.Ai.Common;
-
-    using Entities;
-
     using Model;
 
-    using static Dolany.Ai.Core.Common.Utility;
+    using static Common.Utility;
 
     [AI(
         Name = nameof(DiceAI),
@@ -44,18 +41,7 @@
                 return true;
             }
 
-            string format;
-            if (MsgDTO.Type == MsgType.Group)
-            {
-                var query = DbMgr
-                    .Query<DiceSettingRecordEntity>(p => p.Content == MsgDTO.Command && p.FromGroup == MsgDTO.FromGroup)
-                    .ToList();
-                format = query.IsNullOrEmpty() ? MsgDTO.Command : query.First().SourceFormat;
-            }
-            else
-            {
-                format = MsgDTO.Command;
-            }
+            var format = MsgDTO.Command;
 
             var model = ParseDice(format);
             if (model == null ||
@@ -176,51 +162,6 @@
             sb += $"={sum}";
 
             MsgSender.Instance.PushMsg(MsgDTO, sb, true);
-        }
-
-        [EnterCommand(
-            Command = "save",
-            AuthorityLevel = AuthorityLevel.管理员,
-            Description = "保存自定义骰子格式",
-            Syntax = "[标准格式] [自定义命令名称]",
-            Tag = "骰子功能",
-            SyntaxChecker = "Word Word",
-            IsPrivateAvailable = false)]
-        public void SaveFormatAs(MsgInformationEx MsgDTO, object[] param)
-        {
-            var sourceFormat = param[0] as string;
-            var savedFormat = param[1] as string;
-
-            if (ParseDice(sourceFormat) == null)
-            {
-                MsgSender.Instance.PushMsg(MsgDTO, "源格式错误，请使用类似3d20[+][3]的格式！");
-                return;
-            }
-
-            var query = DbMgr
-                .Query<DiceSettingRecordEntity>(p => p.Content == savedFormat && p.FromGroup == MsgDTO.FromGroup)
-                .ToList();
-            if (query.IsNullOrEmpty())
-            {
-                DbMgr.Insert(new DiceSettingRecordEntity
-                {
-                    Id = Guid.NewGuid().ToString(),
-                    FromGroup = MsgDTO.FromGroup,
-                    SourceFormat = sourceFormat,
-                    Content = savedFormat,
-                    UpdateTime = DateTime.Now
-                });
-            }
-            else
-            {
-                var setting = query.First();
-                setting.SourceFormat = sourceFormat;
-                setting.UpdateTime = DateTime.Now;
-
-                DbMgr.Update(setting);
-            }
-
-            MsgSender.Instance.PushMsg(MsgDTO, "保存成功！");
         }
     }
 

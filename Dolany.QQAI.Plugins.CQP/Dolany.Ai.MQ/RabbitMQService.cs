@@ -2,8 +2,8 @@
 {
     using System.Text;
 
-    using Dolany.Ai.MQ.Db;
-    using Dolany.Ai.MQ.Resolver;
+    using Db;
+    using Resolver;
 
     using Newtonsoft.Json;
 

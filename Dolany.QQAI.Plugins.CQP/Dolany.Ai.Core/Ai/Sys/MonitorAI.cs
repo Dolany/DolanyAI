@@ -13,14 +13,14 @@
     using Core;
 
     using Dolany.Ai.Common;
-    using Dolany.Database;
+    using Database;
     using Dolany.Database.Ai;
-    using Dolany.Database.Redis;
+    using Database.Redis;
     using Dolany.Database.Redis.Model;
 
     using Model;
 
-    using static Dolany.Ai.Core.Common.Utility;
+    using static Common.Utility;
 
     [AI(
         Name = nameof(MonitorAI),
@@ -35,27 +35,6 @@
         {
             var query = MongoService<ActiveOffGroups>.Get(p => p.AINum == SelfQQNum);
             this.InactiveGroups = query.Select(p => p.GroupNum).ToList();
-        }
-
-        private static string GetAiRealName(string aiName)
-        {
-            var list = AIMgr.Instance.AIList;
-            foreach (var ai in list)
-            {
-                var t = ai.GetType();
-                var attributes = t.GetCustomAttributes(typeof(AIAttribute), false);
-                if (attributes.Length <= 0 || !(attributes[0] is AIAttribute))
-                {
-                    continue;
-                }
-                var attr = (AIAttribute)attributes[0];
-                if (attr.Name == aiName)
-                {
-                    return t.Name;
-                }
-            }
-
-            return string.Empty;
         }
 
         public override bool OnMsgReceived(MsgInformationEx MsgDTO)
@@ -196,7 +175,7 @@
             SyntaxChecker = "Empty",
             AuthorityLevel = AuthorityLevel.成员,
             IsPrivateAvailable = false)]
-        public void InitAI(MsgInformationEx MsgDTO, object[] param)
+        public void InitAi(MsgInformationEx MsgDTO, object[] param)
         {
             var redisKey = $"InitInfo-{MsgDTO.FromGroup}";
             var redisValue = CacheService.Get<InitInfoCache>(redisKey);

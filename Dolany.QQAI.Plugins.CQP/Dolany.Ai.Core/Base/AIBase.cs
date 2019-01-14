@@ -62,6 +62,7 @@
                         MsgSender.Instance.PushMsg(MsgDTO, CodeApi.Code_Image(new FileInfo("images/过热.jpg").FullName));
                         return true;
                     }
+
                     consoler.Value(MsgDTO, param);
                     return true;
                 }
@@ -112,7 +113,8 @@
             {
                 var checkers = SyntaxChecker.Split(' ');
                 var paramStrs = msg.Split(' ');
-                if (checkers.Length != paramStrs.Length)
+
+                if (checkers.Length > paramStrs.Length)
                 {
                     return false;
                 }
@@ -121,7 +123,19 @@
                 for (var i = 0; i < checkers.Length; i++)
                 {
                     var checker = AIMgr.Instance.Checkers.FirstOrDefault(c => c.Name == checkers[i]);
-                    if (checker == null || !checker.Check(paramStrs[i], out var p))
+
+                    if (checker == null)
+                    {
+                        return false;
+                    }
+
+                    if (checker.Name == "Any")
+                    {
+                        list.Add(string.Join(" ", paramStrs.Skip(i)));
+                        break;
+                    }
+
+                    if (!checker.Check(paramStrs[i], out var p))
                     {
                         return false;
                     }

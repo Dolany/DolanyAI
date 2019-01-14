@@ -14,14 +14,14 @@
     using Common;
 
     using Dolany.Ai.Common;
-    using Dolany.Database;
+    using Database;
     using Dolany.Database.Ai;
 
     using Model;
 
-    using static Dolany.Ai.Core.Common.Utility;
+    using static Common.Utility;
 
-    using static Dolany.Ai.Core.API.CodeApi;
+    using static API.CodeApi;
 
     [AI(
         Name = nameof(HourAlertAI),
@@ -80,9 +80,10 @@
                 return;
             }
 
+            var groups = MongoService<ActiveOffGroups>.Get();
             foreach (var groupNum in availableList)
             {
-                var isActiveOff = MongoService<ActiveOffGroups>.Get(p => p.GroupNum == groupNum).Any();
+                var isActiveOff = groups.Any(p => p.GroupNum == groupNum);
                 if (isActiveOff)
                 {
                     continue;
@@ -175,7 +176,7 @@
 
             var randIdx = RandInt(query.Count());
 
-            return query.Skip(randIdx).First().Clone();
+            return query[randIdx];
         }
 
         private static string HourToTag(int aimHour)
