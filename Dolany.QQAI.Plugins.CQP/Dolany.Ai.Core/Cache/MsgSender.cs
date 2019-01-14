@@ -5,6 +5,8 @@
     using Common;
 
     using Database;
+
+    using Dolany.Ai.Common;
     using Dolany.Database.Ai;
 
     using Model;
@@ -22,7 +24,7 @@
             var callback = $"[Command] {msg.ToGroup} {msg.ToQQ} {msg.Id} {msg.Command} {msg.Msg}";
             AIMgr.Instance.MessagePublish(callback);
 
-            Global.CommandInfoService.Send(msg);
+            Global.CommandInfoService.Send(msg, CommonUtil.GetConfig("MsgInformationName"));
         }
 
         public void PushMsg(MsgInformationEx MsgInfo, string Content, bool isNeedAt = false)

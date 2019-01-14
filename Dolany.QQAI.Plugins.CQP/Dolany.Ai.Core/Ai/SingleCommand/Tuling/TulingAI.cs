@@ -14,6 +14,7 @@ namespace Dolany.Ai.Core.Ai.SingleCommand.Tuling
 
     using Dolany.Ai.Common;
     using Dolany.Ai.Core.Model.Tuling;
+    using Dolany.Database;
 
     using Model;
 
@@ -61,9 +62,12 @@ namespace Dolany.Ai.Core.Ai.SingleCommand.Tuling
             }
 
             MsgDTO.FullMsg = MsgDTO.FullMsg.Replace(Code_SelfAt(), string.Empty);
-            const string redisKey = "QuestionnaireDuring";
-            var redisValue = CacheService.Get<string>(redisKey);
-            if (redisValue != null)
+
+            var cacheResponse = CacheWaiter.Instance.WaitForResponse<string>(
+                "QuestionnaireDuring",
+                "QuestionnaireDuring");
+
+            if (cacheResponse != null)
             {
                 Questionnaire(MsgDTO);
                 return true;

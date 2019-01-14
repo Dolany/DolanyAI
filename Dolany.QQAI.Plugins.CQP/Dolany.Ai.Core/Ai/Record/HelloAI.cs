@@ -42,9 +42,11 @@
                 return true;
             }
 
-            var redisKey = $"Hello-{MsgDTO.FromGroup}-{MsgDTO.FromQQ}";
-            var redisValue = CacheService.Get<HelloCache>(redisKey);
-            if (redisValue != null)
+            var response = CacheWaiter.Instance.WaitForResponse<HelloCache>(
+                "Hello",
+                $"{MsgDTO.FromGroup}-{MsgDTO.FromQQ}");
+
+            if (response != null)
             {
                 return false;
             }
@@ -60,10 +62,14 @@
 
             MsgSender.Instance.PushMsg(MsgDTO, $"{Code_At(MsgDTO.FromQQ)} {hello.Content}");
 
-            hello.LastHelloDate = DateTime.Now.Date;
-            CacheService.Insert(
-                redisKey,
-                new HelloCache { GroupNum = MsgDTO.FromGroup, LastUpdateTime = DateTime.Now, QQNum = MsgDTO.FromQQ },
+            var model = new HelloCache
+                            {
+                                GroupNum = MsgDTO.FromGroup, LastUpdateTime = DateTime.Now, QQNum = MsgDTO.FromQQ
+                            };
+            CacheWaiter.Instance.SendCache(
+                "Hello",
+                $"{MsgDTO.FromGroup}-{MsgDTO.FromQQ}",
+                model,
                 CommonUtil.UntilTommorow());
 
             return false;

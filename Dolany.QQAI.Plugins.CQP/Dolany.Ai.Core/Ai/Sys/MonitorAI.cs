@@ -177,10 +177,9 @@
             IsPrivateAvailable = false)]
         public void InitAi(MsgInformationEx MsgDTO, object[] param)
         {
-            var redisKey = $"InitInfo-{MsgDTO.FromGroup}";
-            var redisValue = CacheService.Get<InitInfoCache>(redisKey);
+            var response = CacheWaiter.Instance.WaitForResponse<InitInfoCache>("InitInfo", MsgDTO.FromGroup.ToString());
 
-            if (redisValue != null)
+            if (response != null)
             {
                 MsgSender.Instance.PushMsg(MsgDTO, "每天只能初始化一次噢~");
                 return;
@@ -192,8 +191,9 @@
                 return;
             }
 
-            CacheService.Insert(
-                redisKey,
+            CacheWaiter.Instance.SendCache(
+                "InitInfo",
+                MsgDTO.FromGroup.ToString(),
                 new InitInfoCache { GroupNum = MsgDTO.FromGroup },
                 CommonUtil.UntilTommorow());
 
