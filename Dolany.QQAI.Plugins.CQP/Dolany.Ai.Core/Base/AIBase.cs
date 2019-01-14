@@ -109,51 +109,43 @@
                 return false;
             }
 
-            try
-            {
-                var checkers = SyntaxChecker.Split(' ');
-                var paramStrs = msg.Split(' ');
+            var checkers = SyntaxChecker.Split(' ');
+            var paramStrs = msg.Split(' ');
 
-                if (checkers.Length > paramStrs.Length)
+            if (checkers.Length > paramStrs.Length)
+            {
+                return false;
+            }
+
+            var list = new List<object>();
+            for (var i = 0; i < checkers.Length; i++)
+            {
+                var checker = AIMgr.Instance.Checkers.FirstOrDefault(c => c.Name == checkers[i]);
+
+                if (checker == null)
                 {
                     return false;
                 }
 
-                var list = new List<object>();
-                for (var i = 0; i < checkers.Length; i++)
+                if (checker.Name == "Any")
                 {
-                    var checker = AIMgr.Instance.Checkers.FirstOrDefault(c => c.Name == checkers[i]);
-
-                    if (checker == null)
-                    {
-                        return false;
-                    }
-
-                    if (checker.Name == "Any")
-                    {
-                        list.Add(string.Join(" ", paramStrs.Skip(i)));
-                        break;
-                    }
-
-                    if (!checker.Check(paramStrs[i], out var p))
-                    {
-                        return false;
-                    }
-
-                    if (p != null)
-                    {
-                        list.AddRange(p);
-                    }
+                    list.Add(string.Join(" ", paramStrs.Skip(i)));
+                    break;
                 }
 
-                param = list.ToArray();
-                return true;
+                if (!checker.Check(paramStrs[i], out var p))
+                {
+                    return false;
+                }
+
+                if (p != null)
+                {
+                    list.AddRange(p);
+                }
             }
-            catch (Exception ex)
-            {
-                RuntimeLogger.Log(ex);
-                return false;
-            }
+
+            param = list.ToArray();
+            return true;
         }
 
         private static bool AuthorityCheck(AuthorityLevel authorityLevel, EnterCommandAttribute enterAttr, MsgInformationEx MsgDTO)

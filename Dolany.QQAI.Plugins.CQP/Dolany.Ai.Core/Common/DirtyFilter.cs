@@ -5,7 +5,7 @@
     using System.Linq;
 
     using Dolany.Ai.Common;
-    using Dolany.Database;
+    using Database;
     using Dolany.Database.Ai;
 
     using Model;

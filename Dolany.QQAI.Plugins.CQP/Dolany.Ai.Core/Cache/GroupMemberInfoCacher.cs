@@ -7,7 +7,7 @@
     using Common;
 
     using Dolany.Database.Ai;
-    using Dolany.Database.Redis;
+    using Database.Redis;
     using Dolany.Database.Redis.Model;
 
     using JetBrains.Annotations;

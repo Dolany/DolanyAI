@@ -52,19 +52,18 @@
 
         public override bool OnMsgReceived(MsgInformationEx MsgDTO)
         {
-            base.OnMsgReceived(MsgDTO);
+            if (base.OnMsgReceived(MsgDTO))
+            {
+                return true;
+            }
 
             if (!IsAvailable(MsgDTO.FromGroup))
             {
                 return false;
             }
+
             var atChecker = new AtChecker();
             if (atChecker.Check(MsgDTO.FullMsg, out _))
-            {
-                return false;
-            }
-
-            if (AIMgr.Instance.AllAvailableGroupCommands.Select(p => p.Command).Contains(MsgDTO.Command))
             {
                 return false;
             }
@@ -74,6 +73,7 @@
             {
                 return false;
             }
+
             CurCount %= RepeatLimit;
             Repeat(MsgDTO);
             return true;

@@ -7,8 +7,6 @@
     using System.Threading.Tasks;
 
     using Common;
-
-    using Dolany.Database;
     using Dolany.Database.Ai;
 
     public class Waiter
@@ -25,7 +23,7 @@
 
         public void Listen()
         {
-            RabbitMQService.Instance.StartReceive(ListenCallBack);
+            Global.CommandInfoService.StartReceive<MsgInformation>(ListenCallBack);
         }
 
         private void ListenCallBack(MsgInformation info)

@@ -32,7 +32,9 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Dolany.Game.IncantationGame
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Dolany.Database", "Dolany.Database\Dolany.Database.csproj", "{7A3EB285-4A87-4EC4-8406-164F426C4D12}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Dolany.Ai.Common", "Dolany.Ai.Common\Dolany.Ai.Common.csproj", "{2B9694E8-00A1-4AA6-A87B-C2009FB97F9B}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Dolany.Ai.Common", "Dolany.Ai.Common\Dolany.Ai.Common.csproj", "{2B9694E8-00A1-4AA6-A87B-C2009FB97F9B}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Dolany.Cache", "Dolany.Cache\Dolany.Cache.csproj", "{C67CAAEE-3080-4E08-9D73-E4D355A87CE0}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -84,6 +86,10 @@ Global
 		{2B9694E8-00A1-4AA6-A87B-C2009FB97F9B}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{2B9694E8-00A1-4AA6-A87B-C2009FB97F9B}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{2B9694E8-00A1-4AA6-A87B-C2009FB97F9B}.Release|Any CPU.Build.0 = Release|Any CPU
+		{C67CAAEE-3080-4E08-9D73-E4D355A87CE0}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{C67CAAEE-3080-4E08-9D73-E4D355A87CE0}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{C67CAAEE-3080-4E08-9D73-E4D355A87CE0}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{C67CAAEE-3080-4E08-9D73-E4D355A87CE0}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -99,6 +105,7 @@ Global
 		{B81A5AA6-3779-45C1-AB81-97266BCA4A5E} = {57495118-F4E5-4BDA-B6D9-DE6EBA01C783}
 		{7A3EB285-4A87-4EC4-8406-164F426C4D12} = {57495118-F4E5-4BDA-B6D9-DE6EBA01C783}
 		{2B9694E8-00A1-4AA6-A87B-C2009FB97F9B} = {57495118-F4E5-4BDA-B6D9-DE6EBA01C783}
+		{C67CAAEE-3080-4E08-9D73-E4D355A87CE0} = {57495118-F4E5-4BDA-B6D9-DE6EBA01C783}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {16A16387-5510-46DA-B392-7152AF4264E7}

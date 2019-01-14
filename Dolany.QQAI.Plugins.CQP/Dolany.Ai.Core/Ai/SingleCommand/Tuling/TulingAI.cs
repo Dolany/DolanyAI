@@ -1,4 +1,6 @@
-﻿namespace Dolany.Ai.Core.Ai.SingleCommand.Tuling
+﻿using Dolany.Database.Redis;
+
+namespace Dolany.Ai.Core.Ai.SingleCommand.Tuling
 {
     using System;
     using System.Linq;
@@ -17,9 +19,9 @@
 
     using Net;
 
-    using static Dolany.Ai.Core.Common.Utility;
+    using static Common.Utility;
 
-    using static Dolany.Ai.Core.API.CodeApi;
+    using static API.CodeApi;
 
     [AI(
         Name = nameof(TulingAI),
@@ -59,6 +61,14 @@
             }
 
             MsgDTO.FullMsg = MsgDTO.FullMsg.Replace(Code_SelfAt(), string.Empty);
+            const string redisKey = "QuestionnaireDuring";
+            var redisValue = CacheService.Get<string>(redisKey);
+            if (redisValue != null)
+            {
+                Questionnaire(MsgDTO);
+                return true;
+            }
+
             var response = RequestMsg(MsgDTO);
             if (string.IsNullOrEmpty(response))
             {
@@ -67,6 +77,11 @@
 
             MsgSender.Instance.PushMsg(MsgDTO, response, true);
             return true;
+        }
+
+        private void Questionnaire(MsgInformationEx MsgDTO)
+        {
+            // todo
         }
 
         private string RequestMsg(MsgInformationEx MsgDTO)

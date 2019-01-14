@@ -1,10 +1,18 @@
-﻿namespace Dolany.Ai.Core.Common
+﻿using Dolany.Ai.Common;
+using Dolany.Database;
+
+namespace Dolany.Ai.Core.Common
 {
     using System;
 
     public static class Global
     {
         public static string AuthCode { get; set; }
+
+        public static readonly RabbitMQService CommandInfoService = new RabbitMQService(CommonUtil.GetConfig("MsgCommandName"),
+            CommonUtil.GetConfig("MsgInformationName"));
+
+
     }
 
     public class Sys_ErrorCount

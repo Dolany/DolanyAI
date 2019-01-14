@@ -24,7 +24,7 @@
 
     [AI(
         Name = nameof(MonitorAI),
-        Description = "AI for Monitor Ais status and emitting heart beat.",
+        Description = "AI for Monitor Ais status.",
         IsAvailable = true,
         PriorityLevel = 100)]
     public class MonitorAI : AIBase

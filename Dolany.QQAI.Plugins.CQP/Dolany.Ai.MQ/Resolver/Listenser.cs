@@ -12,39 +12,11 @@
 
     public class Listenser
     {
-        // private readonly Timer Ltimer = new Timer();
         public static Listenser Instance { get; } = new Listenser();
 
         private Listenser()
         {
-            //Ltimer.Elapsed += Timer_TimesUp;
-            //Ltimer.Interval = 500;
-            //Ltimer.AutoReset = false;
-
-            //Ltimer.Start();
         }
-
-        //private void Timer_TimesUp(object sender, ElapsedEventArgs e)
-        //{
-        //    Ltimer.Stop();
-
-        //    try
-        //    {
-        //        var commands = CommandList();
-        //        foreach (var command in commands)
-        //        {
-        //            Task.Run(() => ResovleCommand(command));
-        //        }
-        //    }
-        //    catch (Exception ex)
-        //    {
-        //        MahuaModule.RuntimeLogger.Log(ex);
-        //    }
-        //    finally
-        //    {
-        //        Ltimer.Start();
-        //    }
-        //}
 
         public void ReceivedCommand(MsgCommand command)
         {
@@ -57,15 +29,6 @@
                 MahuaModule.RuntimeLogger.Log(ex);
             }
         }
-
-        //private static IEnumerable<MsgCommand> CommandList()
-        //{
-        //    var list = MongoService<MsgCommand>.Get();
-
-        //    MongoService<MsgCommand>.DeleteMany(list);
-
-        //    return list;
-        //}
 
         private static async Task ResovleCommand(MsgCommand command)
         {
@@ -90,6 +53,20 @@
                 case AiCommand.GetAuthCode:
                     await GetAuthCode(command.Id);
                     break;
+                case AiCommand.GetGroups:
+                    await GetGroups(command.Id);
+                    break;
+            }
+        }
+
+        private static async Task GetGroups(string relationId)
+        {
+            using (var robotSession = MahuaRobotManager.Instance.CreateSession())
+            {
+                var api = robotSession.MahuaApi;
+                var model = api.GetGroups();
+
+                await InfoSender.Send(AiInformation.CommandBack, model, relationId);
             }
         }
 

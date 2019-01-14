@@ -233,7 +233,7 @@
                 return;
             }
 
-            if (MsgDTO.Type == MsgType.Group)
+            if (MsgDTO.Type == MsgType.Group && MsgDTO.FromQQ != Utility.SysMsgNumber)
             {
                 MsgDTO.AuthName = Utility.GetAuthName(MsgDTO);
             }

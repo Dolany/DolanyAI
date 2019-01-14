@@ -4,12 +4,12 @@
 
     using Common;
 
-    using Dolany.Database;
+    using Database;
     using Dolany.Database.Ai;
 
     using Model;
 
-    using static Dolany.Ai.Core.API.CodeApi;
+    using static API.CodeApi;
 
     public class MsgSender
     {
@@ -18,10 +18,11 @@
         public void PushMsg(MsgCommand msg)
         {
             msg.AiNum = Utility.SelfQQNum;
+            msg.Time = DateTime.Now;
             var callback = $"[Command] {msg.ToGroup} {msg.ToQQ} {msg.Id} {msg.Command} {msg.Msg}";
             AIMgr.Instance.MessagePublish(callback);
 
-            RabbitMQService.Instance.Send(msg);
+            Global.CommandInfoService.Send(msg);
         }
 
         public void PushMsg(MsgInformationEx MsgInfo, string Content, bool isNeedAt = false)
