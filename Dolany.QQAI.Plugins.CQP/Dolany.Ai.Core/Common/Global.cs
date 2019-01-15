@@ -3,17 +3,17 @@
     using System;
 
     using Dolany.Ai.Common;
-    using Dolany.Database;
+    using Database;
 
     public static class Global
     {
         public static string AuthCode { get; set; }
 
         public static readonly RabbitMQService CommandInfoService =
-            new RabbitMQService(CommonUtil.GetConfig("MsgCommandName"));
+            new RabbitMQService(CommonUtil.GetConfig("MsgInformationName"));
 
         public static readonly RabbitMQService CacheInfoService =
-            new RabbitMQService(CommonUtil.GetConfig("CacheInfoService"));
+            new RabbitMQService(CommonUtil.GetConfig("CacheResponse"));
     }
 
     public class Sys_ErrorCount
