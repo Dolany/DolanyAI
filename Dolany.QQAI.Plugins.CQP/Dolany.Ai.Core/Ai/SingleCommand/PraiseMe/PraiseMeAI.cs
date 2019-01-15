@@ -1,4 +1,6 @@
-﻿namespace Dolany.Ai.Core.Ai.SingleCommand.PraiseMe
+﻿using Dolany.Database.Sqlite;
+
+namespace Dolany.Ai.Core.Ai.SingleCommand.PraiseMe
 {
     using System;
     using System.Linq;
@@ -64,13 +66,14 @@
                 return;
             }
 
-            var response = CacheWaiter.Instance.WaitForResponse<PraiseRecCache>("PraiseRec", MsgDTO.FromQQ.ToString());
+            var key = $"PraiseRec-{MsgDTO.FromQQ}";
+            var response = SqliteCacheService.Get<PraiseRecCache>(key);
 
             if (response == null)
             {
                 Praise(MsgDTO);
                 var model = new PraiseRecCache { QQNum = MsgDTO.FromQQ };
-                CacheWaiter.Instance.SendCache("PraiseRec", MsgDTO.FromQQ.ToString(), model, CommonUtil.UntilTommorow());
+                SqliteCacheService.Cache(key, model, CommonUtil.UntilTommorow());
             }
             else
             {

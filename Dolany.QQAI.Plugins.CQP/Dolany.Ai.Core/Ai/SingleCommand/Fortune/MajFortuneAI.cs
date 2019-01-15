@@ -1,4 +1,6 @@
-﻿namespace Dolany.Ai.Core.Ai.SingleCommand.Fortune
+﻿using Dolany.Database.Sqlite;
+
+namespace Dolany.Ai.Core.Ai.SingleCommand.Fortune
 {
     using System;
     using System.Collections.Generic;
@@ -94,7 +96,8 @@
         [NotNull]
         private MajFortuneCache TodayFortune(long QQNum)
         {
-            var response = CacheWaiter.Instance.WaitForResponse<MajFortuneCache>("MajFortune", QQNum.ToString());
+            var key = $"MajFortune-{QQNum}";
+            var response = SqliteCacheService.Get<MajFortuneCache>(key);
 
             if (response != null)
             {
@@ -102,7 +105,7 @@
             }
 
             var newFortune = this.NewFortune(QQNum);
-            CacheWaiter.Instance.SendCache("MajFortune", QQNum.ToString(), newFortune, CommonUtil.UntilTommorow());
+            SqliteCacheService.Cache(key, newFortune, CommonUtil.UntilTommorow());
 
             return newFortune;
         }

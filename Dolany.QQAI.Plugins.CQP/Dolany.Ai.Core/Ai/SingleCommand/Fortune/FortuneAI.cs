@@ -1,4 +1,6 @@
-﻿namespace Dolany.Ai.Core.Ai.SingleCommand.Fortune
+﻿using Dolany.Database.Sqlite;
+
+namespace Dolany.Ai.Core.Ai.SingleCommand.Fortune
 {
     using System;
     using System.Linq;
@@ -49,9 +51,8 @@
             IsPrivateAvailable = true)]
         public void RandomFortune(MsgInformationEx MsgDTO, object[] param)
         {
-            var response = CacheWaiter.Instance.WaitForResponse<RandomFortuneCache>(
-                "RandomFortune",
-                MsgDTO.FromQQ.ToString());
+            var key = $"RandomFortune-{MsgDTO.FromQQ}";
+            var response = SqliteCacheService.Get<RandomFortuneCache>(key);
 
             if (response == null)
             {
@@ -66,11 +67,7 @@
                 RandBless(rf);
                 ShowRandFortune(MsgDTO, rf);
 
-                CacheWaiter.Instance.SendCache(
-                    "RandomFortune",
-                    MsgDTO.FromQQ.ToString(),
-                    rf,
-                    CommonUtil.UntilTommorow());
+                SqliteCacheService.Cache(key, rf, CommonUtil.UntilTommorow());
             }
             else
             {
@@ -80,8 +77,7 @@
 
         private static void RandBless(RandomFortuneCache rf)
         {
-            if (rf.FortuneValue >= 50 ||
-                Utility.RandInt(100) > 10)
+            if (rf.FortuneValue >= 50 || Utility.RandInt(100) > 10)
             {
                 return;
             }
@@ -165,19 +161,14 @@
             IsPrivateAvailable = true)]
         public void TarotFortune(MsgInformationEx MsgDTO, object[] param)
         {
-            var response = CacheWaiter.Instance.WaitForResponse<TarotFortuneCache>(
-                "TarotFortune",
-                MsgDTO.FromQQ.ToString());
+            var key = $"TarotFortune-{MsgDTO.FromQQ}";
+            var response = SqliteCacheService.Get<TarotFortuneCache>(key);
 
             if (response == null)
             {
                 var fortune = GetRandTarotFortune();
                 var model = new TarotFortuneCache { QQNum = MsgDTO.FromQQ, TarotId = fortune.Id };
-                CacheWaiter.Instance.SendCache(
-                    "TarotFortune",
-                    MsgDTO.FromQQ.ToString(),
-                    model,
-                    CommonUtil.UntilTommorow());
+                SqliteCacheService.Cache(key, model, CommonUtil.UntilTommorow());
 
                 response = model;
             }
@@ -240,7 +231,8 @@
 
         private static void Bless(long QQNum, string BlessName, int BlessValue)
         {
-            var response = CacheWaiter.Instance.WaitForResponse<RandomFortuneCache>("RandomFortune", QQNum.ToString());
+            var key = $"RandomFortune-{QQNum}";
+            var response = SqliteCacheService.Get<RandomFortuneCache>(key);
 
             if (response == null)
             {
@@ -252,14 +244,14 @@
                     BlessName = BlessName,
                     BlessValue = BlessValue
                 };
-                CacheWaiter.Instance.SendCache("RandomFortune", QQNum.ToString(), rf, CommonUtil.UntilTommorow());
+                SqliteCacheService.Cache(key, rf, CommonUtil.UntilTommorow());
             }
             else
             {
                 response.BlessName = BlessName;
                 response.BlessValue = BlessValue;
 
-                CacheWaiter.Instance.SendCache("RandomFortune", QQNum.ToString(), response, CommonUtil.UntilTommorow());
+                SqliteCacheService.Cache(key, response, CommonUtil.UntilTommorow());
             }
         }
 

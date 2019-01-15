@@ -1,4 +1,6 @@
-﻿namespace Dolany.Ai.Core.Cache
+﻿using Dolany.Database.Sqlite;
+
+namespace Dolany.Ai.Core.Cache
 {
     using System;
 
@@ -17,9 +19,8 @@
         [CanBeNull]
         public static MemberRoleCache GetMemberInfo(MsgInformationEx MsgDTO)
         {
-            var cacheResponse = CacheWaiter.Instance.WaitForResponse<MemberRoleCache>(
-                $"GroupMemberInfo-{MsgDTO.FromGroup}",
-                MsgDTO.FromQQ.ToString());
+            var cacheResponse =
+                SqliteCacheService.Get<MemberRoleCache>($"GroupMemberInfo-{MsgDTO.FromGroup}-{MsgDTO.FromQQ}");
 
             if (cacheResponse != null)
             {
@@ -50,11 +51,7 @@
                                     QQNum = info.Uin,
                                     Role = info.Role
                                 };
-                CacheWaiter.Instance.SendCache(
-                    $"GroupMemberInfo-{GroupNum}",
-                    info.Uin.ToString(),
-                    model,
-                    DateTime.Now.AddDays(7));
+                SqliteCacheService.Cache($"GroupMemberInfo-{GroupNum}-{info.Uin}", model, DateTime.Now.AddDays(7));
             }
 
             return true;

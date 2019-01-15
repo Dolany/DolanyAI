@@ -1,4 +1,5 @@
 ﻿using Dolany.Database.Redis;
+using Dolany.Database.Sqlite;
 
 namespace Dolany.Ai.Core.Ai.SingleCommand.Tuling
 {
@@ -63,9 +64,7 @@ namespace Dolany.Ai.Core.Ai.SingleCommand.Tuling
 
             MsgDTO.FullMsg = MsgDTO.FullMsg.Replace(Code_SelfAt(), string.Empty);
 
-            var cacheResponse = CacheWaiter.Instance.WaitForResponse<string>(
-                "QuestionnaireDuring",
-                "QuestionnaireDuring");
+            var cacheResponse = SqliteCacheService.Get<string>("QuestionnaireDuring-QuestionnaireDuring");
 
             if (cacheResponse != null)
             {

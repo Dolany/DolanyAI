@@ -122,7 +122,7 @@
             LoadCheckers();
 
             Waiter.Instance.Listen();
-            CacheWaiter.Instance.Listen();
+            // CacheWaiter.Instance.Listen();
         }
 
         private void LoadCheckers()
@@ -183,7 +183,7 @@
                     return;
                 }
 
-                var MsgEx = new MsgInformationEx
+                var msgEx = new MsgInformationEx
                                 {
                                     Id = MsgDTO.Id,
                                     Msg = MsgDTO.Msg,
@@ -192,18 +192,18 @@
                                     FromGroup = MsgDTO.FromGroup,
                                     FromQQ = MsgDTO.FromQQ
                                 };
-                if (MsgEx.FromQQ < 0)
+                if (msgEx.FromQQ < 0)
                 {
-                    MsgEx.FromQQ = MsgEx.FromQQ & 0xFFFFFFFF;
+                    msgEx.FromQQ = msgEx.FromQQ & 0xFFFFFFFF;
                 }
 
-                var msg = MsgEx.Msg;
-                MsgEx.FullMsg = msg;
-                MsgEx.Command = GenCommand(ref msg);
-                MsgEx.Msg = msg;
-                MsgEx.Type = MsgEx.FromGroup == 0 ? MsgType.Private : MsgType.Group;
+                var msg = msgEx.Msg;
+                msgEx.FullMsg = msg;
+                msgEx.Command = GenCommand(ref msg);
+                msgEx.Msg = msg;
+                msgEx.Type = msgEx.FromGroup == 0 ? MsgType.Private : MsgType.Group;
 
-                MsgCallBack(MsgEx);
+                MsgCallBack(msgEx);
             }
             catch (Exception ex)
             {

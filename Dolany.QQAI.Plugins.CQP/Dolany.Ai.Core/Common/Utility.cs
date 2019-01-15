@@ -1,4 +1,6 @@
-﻿namespace Dolany.Ai.Core.Common
+﻿using Dolany.Database.Sqlite;
+
+namespace Dolany.Ai.Core.Common
 {
     using System;
     using System.Collections.Generic;
@@ -176,9 +178,8 @@
 
         private static string GetTempAuth(MsgInformation MsgDTO)
         {
-            var response = CacheWaiter.Instance.WaitForResponse<TempAuthorizeCache>(
-                "TempAuthorize",
-                $"{MsgDTO.FromGroup}-{MsgDTO.FromQQ}");
+            var response =
+                SqliteCacheService.Get<TempAuthorizeCache>($"TempAuthorize-{MsgDTO.FromGroup}-{MsgDTO.FromQQ}");
 
             return response != null ? response.AuthName : string.Empty;
         }

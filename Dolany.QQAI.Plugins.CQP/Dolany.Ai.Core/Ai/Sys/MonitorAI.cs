@@ -1,4 +1,6 @@
-﻿namespace Dolany.Ai.Core.Ai.Sys
+﻿using Dolany.Database.Sqlite;
+
+namespace Dolany.Ai.Core.Ai.Sys
 {
     using System;
     using System.Collections.Generic;
@@ -158,12 +160,9 @@
                 return;
             }
 
+            var key = $"TempAuthorize-{MsgDTO.FromGroup}-{MsgDTO.FromQQ}";
             var model = new TempAuthorizeCache { AuthName = authName, GroupNum = MsgDTO.FromGroup, QQNum = qqNum };
-            CacheWaiter.Instance.SendCache(
-                "TempAuthorize",
-                $"{MsgDTO.FromGroup}-{MsgDTO.FromQQ}",
-                model,
-                CommonUtil.UntilTommorow());
+            SqliteCacheService.Cache(key, model, CommonUtil.UntilTommorow());
 
             MsgSender.Instance.PushMsg(MsgDTO, "临时授权成功！");
         }
@@ -178,7 +177,8 @@
             IsPrivateAvailable = false)]
         public void InitAi(MsgInformationEx MsgDTO, object[] param)
         {
-            var response = CacheWaiter.Instance.WaitForResponse<InitInfoCache>("InitInfo", MsgDTO.FromGroup.ToString());
+            var key = $"InitInfo-{MsgDTO.FromGroup}";
+            var response = SqliteCacheService.Get<InitInfoCache>(key);
 
             if (response != null)
             {
@@ -192,11 +192,8 @@
                 return;
             }
 
-            CacheWaiter.Instance.SendCache(
-                "InitInfo",
-                MsgDTO.FromGroup.ToString(),
-                new InitInfoCache { GroupNum = MsgDTO.FromGroup },
-                CommonUtil.UntilTommorow());
+            var model = new InitInfoCache {GroupNum = MsgDTO.FromGroup};
+            SqliteCacheService.Cache(key, model, CommonUtil.UntilTommorow());
 
             MsgSender.Instance.PushMsg(MsgDTO, "初始化成功！");
         }

@@ -1,4 +1,6 @@
-﻿namespace Dolany.Ai.Core.Ai.Record
+﻿using Dolany.Database.Sqlite;
+
+namespace Dolany.Ai.Core.Ai.Record
 {
     using System;
     using System.Linq;
@@ -42,9 +44,8 @@
                 return true;
             }
 
-            var response = CacheWaiter.Instance.WaitForResponse<HelloCache>(
-                "Hello",
-                $"{MsgDTO.FromGroup}-{MsgDTO.FromQQ}");
+            var key = $"Hello-{MsgDTO.FromGroup}-{MsgDTO.FromQQ}";
+            var response = SqliteCacheService.Get<HelloCache>(key);
 
             if (response != null)
             {
@@ -66,11 +67,7 @@
                             {
                                 GroupNum = MsgDTO.FromGroup, LastUpdateTime = DateTime.Now, QQNum = MsgDTO.FromQQ
                             };
-            CacheWaiter.Instance.SendCache(
-                "Hello",
-                $"{MsgDTO.FromGroup}-{MsgDTO.FromQQ}",
-                model,
-                CommonUtil.UntilTommorow());
+            SqliteCacheService.Cache(key, model, CommonUtil.UntilTommorow());
 
             return false;
         }
