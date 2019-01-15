@@ -10,7 +10,7 @@
         public static string AuthCode { get; set; }
 
         public static readonly RabbitMQService CommandInfoService =
-            new RabbitMQService(CommonUtil.GetConfig("MsgInformationName"));
+            new RabbitMQService(CommonUtil.GetConfig("InformationQueueName"));
 
         public static readonly RabbitMQService CacheInfoService =
             new RabbitMQService(CommonUtil.GetConfig("CacheResponse"));

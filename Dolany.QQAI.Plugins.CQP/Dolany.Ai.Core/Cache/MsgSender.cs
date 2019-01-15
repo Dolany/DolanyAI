@@ -24,7 +24,7 @@
             var callback = $"[Command] {msg.ToGroup} {msg.ToQQ} {msg.Id} {msg.Command} {msg.Msg}";
             AIMgr.Instance.MessagePublish(callback);
 
-            Global.CommandInfoService.Send(msg, CommonUtil.GetConfig("MsgInformationName"));
+            Global.CommandInfoService.Send(msg, CommonUtil.GetConfig("CommandQueueName"));
         }
 
         public void PushMsg(MsgInformationEx MsgInfo, string Content, bool isNeedAt = false)

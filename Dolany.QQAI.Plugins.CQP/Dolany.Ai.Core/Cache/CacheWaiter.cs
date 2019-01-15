@@ -41,7 +41,7 @@
             waitUnit.Signal.Set();
         }
 
-        public T WaitForResponse<T>(string table, string key, int timeout = 5000)
+        public T WaitForResponse<T>(string table, string key, int timeout = 10000)
             where T : class
         {
             var request = new CacheRequestModel
