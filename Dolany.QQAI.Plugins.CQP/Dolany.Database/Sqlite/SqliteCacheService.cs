@@ -1,54 +1,64 @@
-﻿using System;
-using System.Linq;
-using Newtonsoft.Json;
-
-namespace Dolany.Database.Sqlite
+﻿namespace Dolany.Database.Sqlite
 {
+    using System;
+    using System.Linq;
+
+    using Newtonsoft.Json;
+
     public class SqliteCacheService
     {
+        private static readonly object Lock_obj = new object();
+
         public static void Cache<T>(string key, T data, DateTime? expTime = null)
         {
-            using (var db = new SqliteContext())
+            lock (Lock_obj)
             {
-                var query = db.SqliteCacheModel.FirstOrDefault(m => m.Key == key);
-                if (query == null)
+                using (var db = new SqliteContext())
                 {
-                    db.SqliteCacheModel.Add(new SqliteCacheModel
+                    var query = db.SqliteCacheModel.FirstOrDefault(m => m.Key == key);
+                    if (query == null)
                     {
-                        Key = key,
-                        Value = JsonConvert.SerializeObject(data),
-                        ExpTime = expTime
-                    });
-                }
-                else
-                {
-                    query.Value = JsonConvert.SerializeObject(data);
-                    query.ExpTime = expTime;
-                }
+                        db.SqliteCacheModel.Add(new SqliteCacheModel
+                                                    {
+                                                        Key = key,
+                                                        Value = JsonConvert.SerializeObject(data),
+                                                        ExpTime = expTime.ToString()
+                                                    });
+                    }
+                    else
+                    {
+                        query.Value = JsonConvert.SerializeObject(data);
+                        query.ExpTime = expTime.ToString();
+                    }
 
-                db.SaveChanges();
+                    db.SaveChanges();
+                }
             }
         }
 
         public static T Get<T>(string key) where T : class
         {
-            using (var db = new SqliteContext())
+            lock (Lock_obj)
             {
-                var query = db.SqliteCacheModel.FirstOrDefault(m => m.Key == key);
-                if (query == null)
+                using (var db = new SqliteContext())
                 {
+                    var query = db.SqliteCacheModel.FirstOrDefault(m => m.Key == key);
+                    if (query == null)
+                    {
+                        return null;
+                    }
+
+                    if (!string.IsNullOrEmpty(query.Value) && DateTime.TryParse(query.ExpTime, out var time)
+                                                           && time > DateTime.Now)
+                    {
+                        return JsonConvert.DeserializeObject<T>(query.Value);
+                    }
+
+                    db.SqliteCacheModel.Remove(query);
+                    db.SaveChanges();
+
                     return null;
                 }
-
-                if (!string.IsNullOrEmpty(query.Value) && !(query.ExpTime < DateTime.Now))
-                {
-                    return JsonConvert.DeserializeObject<T>(query.Value);
-                }
-
-                db.SqliteCacheModel.Remove(query);
-                db.SaveChanges();
-
-                return null;
             }
         }
     }

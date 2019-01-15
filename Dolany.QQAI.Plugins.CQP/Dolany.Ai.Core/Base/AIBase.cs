@@ -150,6 +150,11 @@
 
         private static bool AuthorityCheck(AuthorityLevel authorityLevel, EnterCommandAttribute enterAttr, MsgInformationEx MsgDTO)
         {
+            if (string.IsNullOrEmpty(MsgDTO.AuthName))
+            {
+                MsgDTO.AuthName = Utility.GetAuthName(MsgDTO);
+            }
+
             return MsgDTO.Type == MsgType.Group ? GroupAuthCheck(authorityLevel, MsgDTO) : PrivateAuthCheck(enterAttr);
         }
 

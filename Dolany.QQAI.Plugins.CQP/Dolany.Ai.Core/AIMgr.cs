@@ -28,7 +28,7 @@
     /// </summary>
     public class AIMgr
     {
-        public IEnumerable<KeyValuePair<AIBase, AIAttribute>> AIList { get; private set; }
+        private IEnumerable<KeyValuePair<AIBase, AIAttribute>> AIList { get; set; }
 
         public static AIMgr Instance { get; } = new AIMgr();
 
@@ -36,7 +36,11 @@
 
         public List<EnterCommandAttribute> AllAvailableGroupCommands { get; } = new List<EnterCommandAttribute>();
 
-        public List<ISyntaxChecker> Checkers { get; set; } = new List<ISyntaxChecker>();
+        public List<ISyntaxChecker> Checkers { get; private set; } = new List<ISyntaxChecker>();
+
+        private bool IsTesting = bool.Parse(CommonUtil.GetConfig("IsTesting"));
+
+        private IEnumerable<long> TestGroups = CommonUtil.GetConfig("TestGroups").Split(" ").Select(long.Parse);
 
         private delegate void MessageCallBack(string msg);
 
@@ -158,6 +162,7 @@
             }
 
             RuntimeLogger.Log($"{Tools.Count} tools created.");
+            RuntimeLogger.Log(this.IsTesting ? "Mode:Testing" : "Mode:Formal");
         }
 
         private void LoadAis()
@@ -179,6 +184,11 @@
             try
             {
                 if (AIList.IsNullOrEmpty())
+                {
+                    return;
+                }
+
+                if (this.IsTesting && !this.TestGroups.Contains(MsgDTO.FromGroup))
                 {
                     return;
                 }
@@ -233,11 +243,6 @@
                 !DirtyFilter.Filter(MsgDTO.FromGroup, MsgDTO.FromQQ, MsgDTO.Msg))
             {
                 return;
-            }
-
-            if (MsgDTO.Type == MsgType.Group && MsgDTO.FromQQ != Utility.SysMsgNumber)
-            {
-                MsgDTO.AuthName = Utility.GetAuthName(MsgDTO);
             }
 
             if (!AIList.Any(ai => ai.Key.OnMsgReceived(MsgDTO)))
