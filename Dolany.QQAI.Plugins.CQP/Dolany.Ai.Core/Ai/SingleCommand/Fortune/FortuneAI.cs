@@ -49,9 +49,11 @@
             IsPrivateAvailable = true)]
         public void RandomFortune(MsgInformationEx MsgDTO, object[] param)
         {
-            var redisKey = $"RandomFortune-{MsgDTO.FromQQ}";
-            var redisValue = CacheService.Get<RandomFortuneCache>(redisKey);
-            if (redisValue == null)
+            var response = CacheWaiter.Instance.WaitForResponse<RandomFortuneCache>(
+                "RandomFortune",
+                MsgDTO.FromQQ.ToString());
+
+            if (response == null)
             {
                 var randFor = GetRandomFortune();
                 var rf = new RandomFortuneCache
@@ -64,11 +66,15 @@
                 RandBless(rf);
                 ShowRandFortune(MsgDTO, rf);
 
-                CacheService.Insert(redisKey, rf, CommonUtil.UntilTommorow());
+                CacheWaiter.Instance.SendCache(
+                    "RandomFortune",
+                    MsgDTO.FromQQ.ToString(),
+                    rf,
+                    CommonUtil.UntilTommorow());
             }
             else
             {
-                ShowRandFortune(MsgDTO, redisValue);
+                ShowRandFortune(MsgDTO, response);
             }
         }
 
@@ -159,22 +165,24 @@
             IsPrivateAvailable = true)]
         public void TarotFortune(MsgInformationEx MsgDTO, object[] param)
         {
-            var redisKey = $"TarotFortune-{MsgDTO.FromQQ}";
-            var redisValue = CacheService.Get<TarotFortuneCache>(redisKey);
+            var response = CacheWaiter.Instance.WaitForResponse<TarotFortuneCache>(
+                "TarotFortune",
+                MsgDTO.FromQQ.ToString());
 
-            if (redisValue == null)
+            if (response == null)
             {
                 var fortune = GetRandTarotFortune();
-                SendTarotFortune(MsgDTO, fortune);
-                CacheService.Insert(
-                    redisKey,
-                    new TarotFortuneCache { QQNum = MsgDTO.FromQQ, TarotId = fortune.Id },
+                var model = new TarotFortuneCache { QQNum = MsgDTO.FromQQ, TarotId = fortune.Id };
+                CacheWaiter.Instance.SendCache(
+                    "TarotFortune",
+                    MsgDTO.FromQQ.ToString(),
+                    model,
                     CommonUtil.UntilTommorow());
 
-                return;
+                response = model;
             }
 
-            var data = MongoService<TarotFortuneData>.Get(p => p.Id == redisValue.TarotId).First();
+            var data = MongoService<TarotFortuneData>.Get(p => p.Id == response.TarotId).First();
             SendTarotFortune(MsgDTO, data);
         }
 
@@ -232,10 +240,9 @@
 
         private static void Bless(long QQNum, string BlessName, int BlessValue)
         {
-            var redisKey = $"RandomFortune-{QQNum}";
-            var redisValue = CacheService.Get<RandomFortuneCache>(redisKey);
+            var response = CacheWaiter.Instance.WaitForResponse<RandomFortuneCache>("RandomFortune", QQNum.ToString());
 
-            if (redisValue == null)
+            if (response == null)
             {
                 var randFor = GetRandomFortune();
                 var rf = new RandomFortuneCache()
@@ -245,14 +252,14 @@
                     BlessName = BlessName,
                     BlessValue = BlessValue
                 };
-                CacheService.Insert(redisKey, rf, CommonUtil.UntilTommorow());
+                CacheWaiter.Instance.SendCache("RandomFortune", QQNum.ToString(), rf, CommonUtil.UntilTommorow());
             }
             else
             {
-                redisValue.BlessName = BlessName;
-                redisValue.BlessValue = BlessValue;
+                response.BlessName = BlessName;
+                response.BlessValue = BlessValue;
 
-                CacheService.Insert(redisKey, redisValue, CommonUtil.UntilTommorow());
+                CacheWaiter.Instance.SendCache("RandomFortune", QQNum.ToString(), response, CommonUtil.UntilTommorow());
             }
         }
 

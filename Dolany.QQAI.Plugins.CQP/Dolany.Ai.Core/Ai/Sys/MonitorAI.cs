@@ -158,10 +158,11 @@
                 return;
             }
 
-            var redisKey = $"TempAuthorize-{MsgDTO.FromGroup}-{MsgDTO.FromQQ}";
-            CacheService.Insert(
-                redisKey,
-                new TempAuthorizeCache { AuthName = authName, GroupNum = MsgDTO.FromGroup, QQNum = qqNum },
+            var model = new TempAuthorizeCache { AuthName = authName, GroupNum = MsgDTO.FromGroup, QQNum = qqNum };
+            CacheWaiter.Instance.SendCache(
+                "TempAuthorize",
+                $"{MsgDTO.FromGroup}-{MsgDTO.FromQQ}",
+                model,
                 CommonUtil.UntilTommorow());
 
             MsgSender.Instance.PushMsg(MsgDTO, "临时授权成功！");

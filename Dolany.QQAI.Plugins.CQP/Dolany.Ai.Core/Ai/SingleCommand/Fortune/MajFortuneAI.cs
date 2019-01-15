@@ -94,16 +94,16 @@
         [NotNull]
         private MajFortuneCache TodayFortune(long QQNum)
         {
-            var redisKey = $"MajFortune-{QQNum}";
-            var redisValue = CacheService.Get<MajFortuneCache>(redisKey);
+            var response = CacheWaiter.Instance.WaitForResponse<MajFortuneCache>("MajFortune", QQNum.ToString());
 
-            if (redisValue != null)
+            if (response != null)
             {
-                return redisValue;
+                return response;
             }
 
             var newFortune = this.NewFortune(QQNum);
-            CacheService.Insert(redisKey, newFortune, CommonUtil.UntilTommorow());
+            CacheWaiter.Instance.SendCache("MajFortune", QQNum.ToString(), newFortune, CommonUtil.UntilTommorow());
+
             return newFortune;
         }
 

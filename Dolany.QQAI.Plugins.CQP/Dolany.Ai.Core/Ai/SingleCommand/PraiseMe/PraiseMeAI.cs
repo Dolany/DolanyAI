@@ -64,15 +64,13 @@
                 return;
             }
 
-            var redisKey = $"PraiseRec-{MsgDTO.FromQQ}";
-            var redisValue = CacheService.Get<PraiseRecCache>(redisKey);
-            if (redisValue == null)
+            var response = CacheWaiter.Instance.WaitForResponse<PraiseRecCache>("PraiseRec", MsgDTO.FromQQ.ToString());
+
+            if (response == null)
             {
                 Praise(MsgDTO);
-                CacheService.Insert(
-                    redisKey,
-                    new PraiseRecCache { QQNum = MsgDTO.FromQQ },
-                    CommonUtil.UntilTommorow());
+                var model = new PraiseRecCache { QQNum = MsgDTO.FromQQ };
+                CacheWaiter.Instance.SendCache("PraiseRec", MsgDTO.FromQQ.ToString(), model, CommonUtil.UntilTommorow());
             }
             else
             {
