@@ -160,7 +160,7 @@ namespace Dolany.Ai.Core.Ai.Sys
                 return;
             }
 
-            var key = $"TempAuthorize-{MsgDTO.FromGroup}-{MsgDTO.FromQQ}";
+            var key = $"TempAuthorize-{MsgDTO.FromGroup}-{qqNum}";
             var model = new TempAuthorizeCache { AuthName = authName, GroupNum = MsgDTO.FromGroup, QQNum = qqNum };
             SqliteCacheService.Cache(key, model, CommonUtil.UntilTommorow());
 
