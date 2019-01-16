@@ -16,7 +16,6 @@
     using Common;
 
     using Dolany.Ai.Common;
-    using Dolany.Database;
     using Dolany.Database.Ai;
 
     using Model;
@@ -84,12 +83,11 @@
         /// </summary>
         private void StartAIs()
         {
-            AIList = AIList.Where(a => a.Value.IsAvailable)
-                           .OrderByDescending(a => a.Value.PriorityLevel);
-            foreach (var ai in AIList)
+            AIList = AIList.Where(a => a.Value.IsAvailable).OrderByDescending(a => a.Value.PriorityLevel);
+            foreach (var (aiBase, _) in AIList)
             {
-                ai.Key.Work();
-                ExtractCommands(ai.Key);
+                aiBase.Work();
+                ExtractCommands(aiBase);
             }
 
             foreach (var tool in Tools)
@@ -142,8 +140,7 @@
             var assembly = Assembly.GetExecutingAssembly();
             foreach (var type in assembly.GetTypes())
             {
-                if (!type.IsClass ||
-                    !typeof(IAITool).IsAssignableFrom(type))
+                if (!type.IsClass || !typeof(IAITool).IsAssignableFrom(type))
                 {
                     continue;
                 }
@@ -229,8 +226,7 @@
 
         private void MsgCallBack_Func(MsgInformationEx MsgDTO)
         {
-            if (DirtyFilter.IsInBlackList(MsgDTO.FromQQ) ||
-                !DirtyFilter.Filter(MsgDTO.FromGroup, MsgDTO.FromQQ, MsgDTO.Msg))
+            if (DirtyFilter.IsInBlackList(MsgDTO.FromQQ) || !DirtyFilter.Filter(MsgDTO.FromGroup, MsgDTO.FromQQ, MsgDTO.Msg))
             {
                 return;
             }
