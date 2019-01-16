@@ -166,9 +166,6 @@ namespace Dolany.Ai.Core.Ai.SingleCommand.Tuling
                     case "url":
                         builder.Append($" {res.Values.Url} ");
                         break;
-
-                    default:
-                        throw new Exception("Unexpected Case");
                 }
             }
 

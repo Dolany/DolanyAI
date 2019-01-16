@@ -1,10 +1,12 @@
-﻿namespace Dolany.Ai.Core.API
+﻿using System.IO;
+
+namespace Dolany.Ai.Core.API
 {
     using Common;
 
     using Dolany.Ai.Common;
 
-    public static class CodeApi
+    public class CodeApi
     {
         public static string Code_At(long qqNumber)
         {
@@ -19,6 +21,11 @@
         public static string Code_Image(string fileName)
         {
             return $"[QQ:pic={fileName}]";
+        }
+
+        public static string Code_Image_Relational(string relationalName)
+        {
+            return Code_Image(new FileInfo(relationalName).FullName);
         }
 
         public static string Code_Flash(string fileName)

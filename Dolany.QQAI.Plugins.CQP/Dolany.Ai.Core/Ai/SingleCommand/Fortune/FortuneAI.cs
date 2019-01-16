@@ -16,9 +16,8 @@ namespace Dolany.Ai.Core.Ai.SingleCommand.Fortune
     using Common;
 
     using Dolany.Ai.Common;
-    using Dolany.Database;
+    using Database;
     using Dolany.Database.Ai;
-    using Dolany.Database.Redis;
     using Dolany.Database.Redis.Model;
 
     using Model;
@@ -148,7 +147,7 @@ namespace Dolany.Ai.Core.Ai.SingleCommand.Fortune
 
             msg = builder.ToString();
 
-            MsgSender.Instance.PushMsg(MsgDTO, msg);
+            MsgSender.Instance.PushMsg(MsgDTO, msg, true);
         }
 
         [EnterCommand(
@@ -184,7 +183,7 @@ namespace Dolany.Ai.Core.Ai.SingleCommand.Fortune
             msg += data.IsPos ? "正位解释：" : "逆位解释：";
             msg += data.Description;
 
-            MsgSender.Instance.PushMsg(MsgDTO, msg);
+            MsgSender.Instance.PushMsg(MsgDTO, msg, true);
         }
 
         private static TarotFortuneData GetRandTarotFortune()

@@ -59,7 +59,7 @@
                     if (RecentCommandCache.IsTooFreq())
                     {
                         MsgSender.Instance.PushMsg(MsgDTO, "哇哇哇~~，AI过热中......");
-                        MsgSender.Instance.PushMsg(MsgDTO, CodeApi.Code_Image(new FileInfo("images/过热.jpg").FullName));
+                        MsgSender.Instance.PushMsg(MsgDTO, CodeApi.Code_Image_Relational("images/过热.jpg"));
                         return true;
                     }
 
@@ -94,6 +94,11 @@
             }
 
             if (!AuthorityCheck(enterAttr.AuthorityLevel, enterAttr, MsgDTO))
+            {
+                return false;
+            }
+
+            if (enterAttr.IsTesting && !Global.TestGroups.Contains(MsgDTO.FromGroup))
             {
                 return false;
             }

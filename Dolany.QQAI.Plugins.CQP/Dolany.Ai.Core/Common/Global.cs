@@ -1,4 +1,7 @@
-﻿namespace Dolany.Ai.Core.Common
+﻿using System.Collections.Generic;
+using System.Linq;
+
+namespace Dolany.Ai.Core.Common
 {
     using System;
 
@@ -8,6 +11,10 @@
     public static class Global
     {
         public static string AuthCode { get; set; }
+
+        public static bool IsTesting { get; } = bool.Parse(CommonUtil.GetConfig("IsTesting"));
+
+        public static IEnumerable<long> TestGroups { get; } = CommonUtil.GetConfig("TestGroups").Split(" ").Select(long.Parse);
 
         public static readonly RabbitMQService CommandInfoService =
             new RabbitMQService(CommonUtil.GetConfig("InformationQueueName"));

@@ -44,7 +44,7 @@
         public void RandomCard(MsgInformationEx MsgDTO, object[] param)
         {
             var cardName = RandomCard(MsgDTO.FromQQ);
-            MsgSender.Instance.PushMsg(MsgDTO, Code_Image(new FileInfo(cardName).FullName));
+            MsgSender.Instance.PushMsg(MsgDTO, Code_Image_Relational(cardName));
         }
 
         private static string RandomCard(long FromQQ)

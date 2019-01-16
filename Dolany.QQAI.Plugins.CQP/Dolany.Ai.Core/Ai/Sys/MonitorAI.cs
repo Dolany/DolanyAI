@@ -135,9 +135,19 @@ namespace Dolany.Ai.Core.Ai.Sys
 
             var msg = $@"系统已成功运行{timeStr}
 共处理{Sys_CommandCount.Get()}条指令
-遇到{Sys_ErrorCount.Get()}个错误";
+遇到{Sys_ErrorCount.Get()}个错误{PowerState(MsgDTO)}";
 
             MsgSender.Instance.PushMsg(MsgDTO, msg);
+        }
+
+        private string PowerState(MsgInformationEx MsgDTO)
+        {
+            if (MsgDTO.Type == MsgType.Private)
+            {
+                return string.Empty;
+            }
+
+            return InactiveGroups.Contains(MsgDTO.FromGroup) ? "电源状态：关机" : "电源状态：开机";
         }
 
         [EnterCommand(

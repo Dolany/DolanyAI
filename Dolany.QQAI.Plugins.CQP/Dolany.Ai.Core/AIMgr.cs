@@ -37,10 +37,6 @@
 
         public List<ISyntaxChecker> Checkers { get; private set; } = new List<ISyntaxChecker>();
 
-        private bool IsTesting = bool.Parse(CommonUtil.GetConfig("IsTesting"));
-
-        private IEnumerable<long> TestGroups = CommonUtil.GetConfig("TestGroups").Split(" ").Select(long.Parse);
-
         private delegate void MessageCallBack(string msg);
 
         private event MessageCallBack OnMessageCallBack;
@@ -159,7 +155,7 @@
             }
 
             RuntimeLogger.Log($"{Tools.Count} tools created.");
-            RuntimeLogger.Log(this.IsTesting ? "Mode:Testing" : "Mode:Formal");
+            RuntimeLogger.Log(Global.IsTesting ? "Mode:Testing" : "Mode:Formal");
         }
 
         private void LoadAis()
@@ -185,7 +181,7 @@
                     return;
                 }
 
-                if (this.IsTesting && !this.TestGroups.Contains(MsgDTO.FromGroup))
+                if (Global.IsTesting && !Global.TestGroups.Contains(MsgDTO.FromGroup))
                 {
                     return;
                 }

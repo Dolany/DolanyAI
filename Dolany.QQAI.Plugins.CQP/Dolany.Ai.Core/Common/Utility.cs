@@ -15,9 +15,6 @@ namespace Dolany.Ai.Core.Common
 
     using Dolany.Ai.Common;
     using Dolany.Database.Ai;
-    using Database.Redis;
-
-    using Dolany.Database;
     using Dolany.Database.Redis.Model;
 
     using Entities;

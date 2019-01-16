@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Text;
 
 namespace Dolany.Ai.Core.Base
 {
@@ -21,9 +20,9 @@ namespace Dolany.Ai.Core.Base
         public string Syntax { get; set; }
         public string Tag { get; set; }
         public string SyntaxChecker { get; set; }
-        public bool IsPrivateAvailable { get; set; }
-
+        public bool IsPrivateAvailable { get; set; } = false;
         public bool IsGroupAvailable { get; set; } = true;
+        public bool IsTesting { get; set; } = false;
 
         private IEnumerable<string> _CommandsList;
 

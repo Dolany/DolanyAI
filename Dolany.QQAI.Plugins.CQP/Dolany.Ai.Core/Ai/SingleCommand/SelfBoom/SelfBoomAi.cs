@@ -83,7 +83,7 @@
                     {
                         Command = AiCommand.SendGroup,
                         Id = Guid.NewGuid().ToString(),
-                        Msg = CodeApi.Code_Image(new FileInfo("images/boom.jpg").FullName),
+                        Msg = CodeApi.Code_Image_Relational("images/boom.jpg"),
                         Time = DateTime.Now,
                         ToGroup = MsgDTO.FromGroup
                     });

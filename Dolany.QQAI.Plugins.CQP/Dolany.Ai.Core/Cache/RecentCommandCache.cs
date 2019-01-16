@@ -2,58 +2,46 @@
 {
     using System;
     using System.Collections.Generic;
-    using System.Diagnostics;
     using System.Linq;
 
     using Dolany.Ai.Common;
 
-    public static class RecentCommandCache
+    public class RecentCommandCache
     {
-        private static int MaxRecentCommandCacheCount;
+        private static readonly int MaxRecentCommandCacheCount = int.Parse(CommonUtil.GetConfig(nameof(MaxRecentCommandCacheCount)));
 
-        private static List<DateTime> TimeCache;
+        private static readonly List<DateTime> TimeCache = new List<DateTime>();
+
+        private static readonly object Lock_list = new object();
 
         public static void Cache(DateTime time)
         {
-            if (TimeCache == null)
+            lock (Lock_list)
             {
-                Init();
+                TimeCache.Add(time);
+                if (TimeCache.Count > MaxRecentCommandCacheCount)
+                {
+                    TimeCache.RemoveAt(0);
+                }
             }
-
-            Debug.Assert(TimeCache != null, nameof(TimeCache) + " != null");
-            TimeCache.Add(time);
-            if (TimeCache.Count > MaxRecentCommandCacheCount)
-            {
-                TimeCache.RemoveAt(0);
-            }
-        }
-
-        private static void Init()
-        {
-            TimeCache = new List<DateTime>();
-            MaxRecentCommandCacheCount = int.Parse(CommonUtil.GetConfig(nameof(MaxRecentCommandCacheCount)));
         }
 
         public static bool IsTooFreq()
         {
-            if (TimeCache == null)
+            lock (Lock_list)
             {
-                Init();
-            }
+                if (!TimeCache.Any())
+                {
+                    return false;
+                }
 
-            Debug.Assert(TimeCache != null, nameof(TimeCache) + " != null");
-            if (!TimeCache.Any())
-            {
+                if (TimeCache.Count >= MaxRecentCommandCacheCount && TimeCache.First().AddMinutes(1) > DateTime.Now)
+                {
+                    return true;
+                }
+
                 return false;
             }
-
-            if (TimeCache.Count >= MaxRecentCommandCacheCount &&
-                TimeCache.First().AddMinutes(1) > DateTime.Now)
-            {
-                return true;
-            }
-
-            return false;
         }
     }
 }
