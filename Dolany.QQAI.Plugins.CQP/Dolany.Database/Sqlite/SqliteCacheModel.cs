@@ -1,7 +1,7 @@
-﻿using System;
-
-namespace Dolany.Database.Sqlite
+﻿namespace Dolany.Database.Sqlite
 {
+    using System;
+
     public class SqliteCacheModel
     {
         public string Id { get; set; } = Guid.NewGuid().ToString();
@@ -10,6 +10,6 @@ namespace Dolany.Database.Sqlite
 
         public string Value { get; set; }
 
-        public DateTime? ExpTime { get; set; }
+        public string ExpTime { get; set; }
     }
 }

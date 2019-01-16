@@ -46,7 +46,6 @@ namespace Dolany.Ai.Core.Cache
                 var model = new MemberRoleCache
                                 {
                                     GroupNum = GroupNum,
-                                    Datatime = DateTime.Now,
                                     Nickname = info.Nick,
                                     QQNum = info.Uin,
                                     Role = info.Role

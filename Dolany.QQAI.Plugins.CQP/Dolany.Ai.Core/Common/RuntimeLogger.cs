@@ -1,10 +1,8 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-
-namespace Dolany.Ai.Core.Common
+﻿namespace Dolany.Ai.Core.Common
 {
+    using System;
     using System.IO;
+    using System.Text;
 
     public static class RuntimeLogger
     {
