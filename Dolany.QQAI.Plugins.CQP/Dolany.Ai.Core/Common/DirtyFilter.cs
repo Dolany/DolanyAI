@@ -10,9 +10,9 @@
 
     using Model;
 
-    public static class DirtyFilter
+    public class DirtyFilter
     {
-        private static List<string> WordList;
+        private static readonly List<string> WordList = MongoService<DirtyWord>.Get().Select(d => d.Content).ToList();
 
         private const int MaxTolerateCount = 10;
 
@@ -57,18 +57,8 @@
             });
         }
 
-        private static void InitWordList()
-        {
-            WordList = MongoService<DirtyWord>.Get().Select(d => d.Content).ToList();
-        }
-
         public static bool IsInBlackList(long fromQQ)
         {
-            if (WordList == null)
-            {
-                InitWordList();
-            }
-
             var query = MongoService<BlackList>.Get(b => b.QQNum == fromQQ);
             if (query.IsNullOrEmpty())
             {
@@ -80,15 +70,7 @@
 
         private static bool IsDirtyWord(string msg)
         {
-            foreach (var w in WordList)
-            {
-                if (msg.Contains(w))
-                {
-                    return true;
-                }
-            }
-
-            return false;
+            return WordList.Any(msg.Contains);
         }
     }
 }

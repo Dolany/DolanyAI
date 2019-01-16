@@ -3,7 +3,6 @@
 namespace Dolany.Ai.Core.Common
 {
     using System;
-    using System.Collections.Generic;
     using System.IO;
     using System.Linq;
     using System.Security.Cryptography;
@@ -32,36 +31,12 @@ namespace Dolany.Ai.Core.Common
         public static long SelfQQNum => long.Parse(CommonUtil.GetConfig(nameof(SelfQQNum)));
 
         private static readonly RNGCryptoServiceProvider RngCsp = new RNGCryptoServiceProvider();
-        
+
         public static void Swap<T>(this T[] array, int firstIdx, int secondIdx)
         {
             var temp = array[firstIdx];
             array[firstIdx] = array[secondIdx];
             array[secondIdx] = temp;
-        }
-
-        [NotNull]
-        public static Dictionary<int, string> LoadFortuneImagesConfig()
-        {
-            var dic = new Dictionary<int, string>();
-            var configFile = new FileInfo("FortuneImagesConfig.ini");
-            using (var reader = new StreamReader(configFile.FullName))
-            {
-                string line;
-                while ((line = reader.ReadLine()) != null)
-                {
-                    var strs = line.Split(new[] { '=' }, StringSplitOptions.RemoveEmptyEntries);
-                    if (strs.IsNullOrEmpty() ||
-                        strs.Length != 2)
-                    {
-                        continue;
-                    }
-
-                    dic.Add(int.Parse(strs[0]), strs[1]);
-                }
-
-                return dic;
-            }
         }
 
         public static string UrlCharConvert(string name)
@@ -87,23 +62,6 @@ namespace Dolany.Ai.Core.Common
         private static bool IsAsciiChar(char c)
         {
             return c >= 0x20 && c <= 0x7e;
-        }
-
-        public static void SendMsgToDeveloper(string msg)
-        {
-            MsgSender.Instance.PushMsg(
-                new MsgCommand
-                    {
-                        Id = Guid.NewGuid().ToString(),
-                        Command = AiCommand.SendPrivate,
-                        Msg = msg,
-                        ToQQ = DeveloperNumber
-                    });
-        }
-
-        public static void SendMsgToDeveloper(Exception ex)
-        {
-            SendMsgToDeveloper(ex.Message + '\r' + ex.StackTrace);
         }
 
         [CanBeNull]

@@ -190,28 +190,5 @@
             tag += "00";
             return tag;
         }
-
-        [EnterCommand(
-            Command = "所有报时开启群组",
-            Description = "获取所有报时开启群组的列表",
-            Syntax = "",
-            Tag = "闹钟与报时功能",
-            SyntaxChecker = "Empty",
-            AuthorityLevel = AuthorityLevel.开发者,
-            IsPrivateAvailable = true)]
-        public void AllAvailabeGroups(MsgInformationEx MsgDTO, object[] param)
-        {
-            var list = AvailableGroups;
-            var msg = $"共有群组{list.Count}个";
-            var builder = new StringBuilder();
-            builder.Append(msg);
-            foreach (var l in list)
-            {
-                builder.Append('\r' + l.ToString());
-            }
-            msg = builder.ToString();
-
-            SendMsgToDeveloper(msg);
-        }
     }
 }
