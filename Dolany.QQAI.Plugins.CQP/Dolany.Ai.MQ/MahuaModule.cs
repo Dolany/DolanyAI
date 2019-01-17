@@ -1,4 +1,6 @@
 ﻿using Autofac;
+using Dolany.Ai.MQ.Db;
+using Dolany.Ai.Util;
 
 namespace Dolany.Ai.MQ
 {
@@ -98,6 +100,8 @@ namespace Dolany.Ai.MQ
 
                     break;
                 }
+
+                InfoSender.Send(AiInformation.Error, ex.Message + "\r\n" + ex.StackTrace);
             }
 
             private static FileStream CheckFile()

@@ -25,7 +25,7 @@ namespace Dolany.Ai.Core.Ai.Sys
 
     [AI(
         Name = nameof(MonitorAI),
-        Description = "AI for Monitor Ais status.",
+        Description = "AI for Monitoring and managing Ais status.",
         IsAvailable = true,
         PriorityLevel = 100)]
     public class MonitorAI : AIBase
@@ -47,7 +47,13 @@ namespace Dolany.Ai.Core.Ai.Sys
 
             FiltPicMsg(MsgDTO);
 
-            return this.InactiveGroups.Contains(MsgDTO.FromGroup);
+            if (!this.InactiveGroups.Contains(MsgDTO.FromGroup))
+            {
+                return false;
+            }
+
+            Sys_CommandCount.Minus();
+            return true;
         }
 
         private static void FiltPicMsg(MsgInformationEx MsgDTO)
@@ -147,33 +153,6 @@ namespace Dolany.Ai.Core.Ai.Sys
             }
 
             return InactiveGroups.Contains(MsgDTO.FromGroup) ? "电源状态：关机" : "电源状态：开机";
-        }
-
-        [EnterCommand(
-            Command = "临时授权",
-            Description = "临时变更某个成员的权限等级，当日有效",
-            Syntax = "[@QQ号] 权限名称",
-            Tag = "系统命令",
-            SyntaxChecker = "At Word",
-            AuthorityLevel = AuthorityLevel.开发者,
-            IsPrivateAvailable = false)]
-        public void TempAuthorize(MsgInformationEx MsgDTO, object[] param)
-        {
-            var qqNum = (long)param[0];
-            var authName = param[1] as string;
-
-            var validNames = new[] { "开发者", "群主", "管理员", "成员" };
-            if (!validNames.Contains(authName))
-            {
-                MsgSender.Instance.PushMsg(MsgDTO, "权限名称错误！");
-                return;
-            }
-
-            var key = $"TempAuthorize-{MsgDTO.FromGroup}-{qqNum}";
-            var model = new TempAuthorizeCache { AuthName = authName, GroupNum = MsgDTO.FromGroup, QQNum = qqNum };
-            SqliteCacheService.Cache(key, model, CommonUtil.UntilTommorow());
-
-            MsgSender.Instance.PushMsg(MsgDTO, "临时授权成功！");
         }
 
         [EnterCommand(

@@ -1,22 +1,52 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using Dolany.Ai.Common;
 using Dolany.Ai.Core.Base;
 using Dolany.Ai.Core.Cache;
 using Dolany.Ai.Core.Common;
 using Dolany.Ai.Core.Model;
 using Dolany.Database.Ai;
+using Dolany.Database.Redis.Model;
+using Dolany.Database.Sqlite;
 
-namespace Dolany.Ai.Core.Ai.SingleCommand.Boardcast
+namespace Dolany.Ai.Core.Ai.Sys
 {
-    [AI(Name = nameof(BoardcastAI),
+    [AI(Name = nameof(DeveloperOnlyAI),
         IsAvailable = true,
-        Description = "Ai for boardcast informations",
+        Description = "Ai for developer only operations",
         PriorityLevel = 10)]
-    public class BoardcastAI : AIBase
+    public class DeveloperOnlyAI : AIBase
     {
         public override void Work()
         {
+        }
+
+        [EnterCommand(
+            Command = "临时授权",
+            Description = "临时变更某个成员的权限等级，当日有效",
+            Syntax = "[@QQ号] 权限名称",
+            Tag = "系统命令",
+            SyntaxChecker = "At Word",
+            AuthorityLevel = AuthorityLevel.开发者,
+            IsPrivateAvailable = false)]
+        public void TempAuthorize(MsgInformationEx MsgDTO, object[] param)
+        {
+            var qqNum = (long)param[0];
+            var authName = param[1] as string;
+
+            var validNames = new[] { "开发者", "群主", "管理员", "成员" };
+            if (!validNames.Contains(authName))
+            {
+                MsgSender.Instance.PushMsg(MsgDTO, "权限名称错误！");
+                return;
+            }
+
+            var key = $"TempAuthorize-{MsgDTO.FromGroup}-{qqNum}";
+            var model = new TempAuthorizeCache { AuthName = authName, GroupNum = MsgDTO.FromGroup, QQNum = qqNum };
+            SqliteCacheService.Cache(key, model, CommonUtil.UntilTommorow());
+
+            MsgSender.Instance.PushMsg(MsgDTO, "临时授权成功！");
         }
 
         [EnterCommand(

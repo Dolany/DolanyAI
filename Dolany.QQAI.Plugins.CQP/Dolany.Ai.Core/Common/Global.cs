@@ -67,6 +67,14 @@ namespace Dolany.Ai.Core.Common
                 _count++;
             }
         }
+
+        public static void Minus()
+        {
+            lock (_lockObj)
+            {
+                _count--;
+            }
+        }
     }
 
     public class Sys_StartTime

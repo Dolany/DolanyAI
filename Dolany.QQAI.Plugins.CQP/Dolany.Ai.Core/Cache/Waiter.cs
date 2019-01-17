@@ -55,6 +55,9 @@
                 case AiInformation.AuthCode:
                     Global.AuthCode = info.Msg;
                     break;
+                case AiInformation.Error:
+                    Sys_ErrorCount.Plus();
+                    break;
             }
         }
 

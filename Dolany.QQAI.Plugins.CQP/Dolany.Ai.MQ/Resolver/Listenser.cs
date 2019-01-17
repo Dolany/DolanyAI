@@ -66,13 +66,13 @@
                 var api = robotSession.MahuaApi;
                 var model = api.GetGroups();
 
-                await InfoSender.Send(AiInformation.CommandBack, model, relationId);
+                await InfoSender.SendAsync(AiInformation.CommandBack, model, relationId);
             }
         }
 
         private static async Task GetAuthCode(string relationId)
         {
-            await InfoSender.Send(AiInformation.CommandBack, Utility.GetAuthCode(), relationId);
+            await InfoSender.SendAsync(AiInformation.CommandBack, Utility.GetAuthCode(), relationId);
         }
 
         private static void Restart()
@@ -88,7 +88,7 @@
                 Thread.Sleep(100);
             }
 
-            await InfoSender.Send(AiInformation.CommandBack, RelationId: relationId);
+            await InfoSender.SendAsync(AiInformation.CommandBack, RelationId: relationId);
         }
 
         private static async Task ReturnGroupMemberInfo(string groupNum, string relationId)
@@ -99,7 +99,7 @@
                 return;
             }
 
-            await InfoSender.Send(AiInformation.CommandBack, info, relationId);
+            await InfoSender.SendAsync(AiInformation.CommandBack, info, relationId);
         }
 
         private static async Task ReturnBackMusic(string musicId, string relationId)
@@ -110,7 +110,7 @@
                 return;
             }
 
-            await InfoSender.Send(AiInformation.CommandBack, music, relationId);
+            await InfoSender.SendAsync(AiInformation.CommandBack, music, relationId);
         }
 
         private static void SendMsg(MsgCommand command)

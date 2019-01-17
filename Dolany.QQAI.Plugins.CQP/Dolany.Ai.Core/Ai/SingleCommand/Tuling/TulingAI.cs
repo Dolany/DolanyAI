@@ -1,4 +1,6 @@
-﻿using Dolany.Database.Redis;
+﻿using Dolany.Database.Ai;
+using Dolany.Database.Redis;
+using Dolany.Database.Redis.Model;
 using Dolany.Database.Sqlite;
 
 namespace Dolany.Ai.Core.Ai.SingleCommand.Tuling
@@ -34,6 +36,7 @@ namespace Dolany.Ai.Core.Ai.SingleCommand.Tuling
     {
         private readonly string RequestUrl = CommonUtil.GetConfig("TulingRequestUrl");
         private readonly string ApiKey = CommonUtil.GetConfig("TulingApiKey");
+        private const int QLimit = 5;
 
         private readonly int[] ErroCodes =
             {
@@ -56,8 +59,7 @@ namespace Dolany.Ai.Core.Ai.SingleCommand.Tuling
                 return true;
             }
 
-            if (MsgDTO.Type == MsgType.Group &&
-                !MsgDTO.FullMsg.Contains(Code_SelfAt()))
+            if (MsgDTO.Type == MsgType.Group && !MsgDTO.FullMsg.Contains(Code_SelfAt()))
             {
                 return false;
             }
@@ -68,7 +70,7 @@ namespace Dolany.Ai.Core.Ai.SingleCommand.Tuling
 
             if (cacheResponse != null)
             {
-                Questionnaire(MsgDTO);
+                Questionnaire(MsgDTO, cacheResponse);
                 return true;
             }
 
@@ -82,9 +84,30 @@ namespace Dolany.Ai.Core.Ai.SingleCommand.Tuling
             return true;
         }
 
-        private void Questionnaire(MsgInformationEx MsgDTO)
+        private void Questionnaire(MsgInformationEx MsgDTO, string QNo)
         {
-            // todo
+            var cacheResponse = SqliteCacheService.Get<QuestionnaireLimitCache>($"QuestionnaireLimit-{MsgDTO.FromQQ}");
+            if (cacheResponse != null && cacheResponse.Count > QLimit)
+            {
+                MsgSender.Instance.PushMsg(MsgDTO, $"每天最多可以反馈{QLimit}哦~", true);
+                return;
+            }
+
+            if (string.IsNullOrEmpty(MsgDTO.FullMsg))
+            {
+                return;
+            }
+
+            MongoService<QuestionnaireRecord>.Insert(new QuestionnaireRecord
+            {
+                GroupNum = MsgDTO.FromGroup
+                , QQNum = MsgDTO.FromQQ
+                , QNo = QNo
+                , UpdateTime = DateTime.Now
+                , Content = MsgDTO.FullMsg
+            });
+
+            MsgSender.Instance.PushMsg(MsgDTO, "感谢你的支持！冰冰会变得更强的！", true);
         }
 
         private string RequestMsg(MsgInformationEx MsgDTO)
@@ -96,8 +119,7 @@ namespace Dolany.Ai.Core.Ai.SingleCommand.Tuling
             }
 
             var response = RequestHelper.PostData<TulingResponseData>(post);
-            if (response == null ||
-                ErroCodes.Contains(response.Intent.Code))
+            if (response == null || ErroCodes.Contains(response.Intent.Code))
             {
                 return string.Empty;
             }

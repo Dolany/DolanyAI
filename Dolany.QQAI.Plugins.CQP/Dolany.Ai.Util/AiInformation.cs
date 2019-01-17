@@ -7,5 +7,7 @@
         public const string CommandBack = "CommandBack";
 
         public const string AuthCode = "AuthCode";
+
+        public const string Error = "Error";
     }
 }
