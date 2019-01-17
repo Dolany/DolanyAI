@@ -84,10 +84,10 @@
         private void StartAIs()
         {
             AIList = AIList.Where(a => a.Value.IsAvailable).OrderByDescending(a => a.Value.PriorityLevel);
-            foreach (var (aiBase, _) in AIList)
+            foreach (var keyValuePair in AIList)
             {
-                aiBase.Work();
-                ExtractCommands(aiBase);
+                keyValuePair.Key.Work();
+                ExtractCommands(keyValuePair.Key);
             }
 
             foreach (var tool in Tools)
