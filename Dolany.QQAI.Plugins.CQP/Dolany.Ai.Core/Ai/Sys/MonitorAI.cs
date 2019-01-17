@@ -152,7 +152,7 @@ namespace Dolany.Ai.Core.Ai.Sys
                 return string.Empty;
             }
 
-            return InactiveGroups.Contains(MsgDTO.FromGroup) ? "电源状态：关机" : "电源状态：开机";
+            return InactiveGroups.Contains(MsgDTO.FromGroup) ? "\r电源状态：关机" : "\r电源状态：开机";
         }
 
         [EnterCommand(

@@ -1,17 +1,19 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using Dolany.Ai.Common;
-using Dolany.Ai.Core.Base;
-using Dolany.Ai.Core.Cache;
-using Dolany.Ai.Core.Common;
-using Dolany.Ai.Core.Model;
-using Dolany.Database.Ai;
-using Dolany.Database.Redis.Model;
-using Dolany.Database.Sqlite;
-
-namespace Dolany.Ai.Core.Ai.Sys
+﻿namespace Dolany.Ai.Core.Ai.Sys
 {
+    using System;
+    using System.Collections.Generic;
+    using System.Linq;
+
+    using Dolany.Ai.Common;
+    using Dolany.Ai.Core.Base;
+    using Dolany.Ai.Core.Cache;
+    using Dolany.Ai.Core.Common;
+    using Dolany.Ai.Core.Model;
+    using Dolany.Database;
+    using Dolany.Database.Ai;
+    using Dolany.Database.Redis.Model;
+    using Dolany.Database.Sqlite;
+
     [AI(Name = nameof(DeveloperOnlyAI),
         IsAvailable = true,
         Description = "Ai for developer only operations",
@@ -60,28 +62,32 @@ namespace Dolany.Ai.Core.Ai.Sys
         public void Board(MsgInformationEx MsgDTO, object[] param)
         {
             var content = param[0] as string;
-
-            var info = Waiter.Instance.WaitForRelationId(new MsgCommand {Msg = AiCommand.GetGroups});
-            if (info == null || string.IsNullOrEmpty(info.Msg))
-            {
-                return;
-            }
-
-            Console.WriteLine(info.Msg);
-            RuntimeLogger.Log(info.Msg);
-
-            var groups = ParseGroups(info.Msg);
-            if (groups.IsNullOrEmpty())
-            {
-                return;
-            }
+            var groups = Global.AllGroups;
 
             foreach (var group in groups)
             {
-                MsgSender.Instance.PushMsg(new MsgCommand{Command = AiCommand.SendGroup, Msg = content, ToGroup = group});
+                MsgSender.Instance.PushMsg(
+                    new MsgCommand { Command = AiCommand.SendGroup, Msg = content, ToGroup = group });
             }
 
             MsgSender.Instance.PushMsg(MsgDTO, "广播结束！");
+        }
+
+        [EnterCommand(
+            Command = "问卷调查",
+            Description = "开启问卷调查模式",
+            Syntax = "持续小时数",
+            Tag = "系统命令",
+            SyntaxChecker = "Long",
+            AuthorityLevel = AuthorityLevel.开发者,
+            IsPrivateAvailable = true)]
+        public void Questionnaire(MsgInformationEx MsgDTO, object[] param)
+        {
+            var hourCount = (long)param[0];
+
+            const string key = "QuestionnaireDuring-QuestionnaireDuring";
+            SqliteCacheService.Cache(key, DateTime.Now.ToString("yyyyMMdd"), DateTime.Now.AddHours(hourCount));
+            MsgSender.Instance.PushMsg(MsgDTO, "问卷调查模式开启");
         }
 
         private List<long> ParseGroups(string groupStr)

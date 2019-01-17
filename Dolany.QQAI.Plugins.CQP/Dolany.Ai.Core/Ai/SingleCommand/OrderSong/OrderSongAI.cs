@@ -1,16 +1,21 @@
-﻿using System;
-using System.Linq;
-
-namespace Dolany.Ai.Core.Ai.SingleCommand.OrderSong
+﻿namespace Dolany.Ai.Core.Ai.SingleCommand.OrderSong
 {
+    using System;
+    using System.Linq;
+
     using Base;
+
     using Cache;
+
     using Common;
-    using Model;
-    using Net;
+
     using Dolany.Database.Ai;
 
-    using static Common.Utility;
+    using Model;
+
+    using Net;
+
+    using static Dolany.Ai.Core.Common.Utility;
 
     [AI(
         Name = nameof(OrderSongAI),

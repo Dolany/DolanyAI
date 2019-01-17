@@ -1,9 +1,4 @@
-﻿using Dolany.Database.Ai;
-using Dolany.Database.Redis;
-using Dolany.Database.Redis.Model;
-using Dolany.Database.Sqlite;
-
-namespace Dolany.Ai.Core.Ai.SingleCommand.Tuling
+﻿namespace Dolany.Ai.Core.Ai.SingleCommand.Tuling
 {
     using System;
     using System.Linq;
@@ -18,14 +13,17 @@ namespace Dolany.Ai.Core.Ai.SingleCommand.Tuling
     using Dolany.Ai.Common;
     using Dolany.Ai.Core.Model.Tuling;
     using Dolany.Database;
+    using Dolany.Database.Ai;
+    using Dolany.Database.Redis.Model;
+    using Dolany.Database.Sqlite;
 
     using Model;
 
     using Net;
 
-    using static Common.Utility;
+    using static Dolany.Ai.Core.Common.Utility;
 
-    using static API.CodeApi;
+    using static Dolany.Ai.Core.API.CodeApi;
 
     [AI(
         Name = nameof(TulingAI),
@@ -42,6 +40,21 @@ namespace Dolany.Ai.Core.Ai.SingleCommand.Tuling
             {
                 5000, 6000, 4000, 4001, 4002, 4003, 4005, 4007, 4100, 4200, 4300, 4400, 4500, 4600, 4602, 7002, 8008
             };
+
+        private string ResponseWord
+        {
+            get
+            {
+                var words = new[]
+                                {
+                                    "感谢你的支持！冰冰会变得更强的！", "嗯嗯~冰冰听到啦~",
+                                    "瓦卡利马西塔~", "汝的诉求，余已经听闻", "はい！マスター！",
+                                    "已收录AI记忆节点", "（拿出小本本记上）", "哇~这就是你的愿望吗？"
+                                };
+
+                return words[RandInt(words.Length)];
+            }
+        }
 
         public TulingAI()
         {
@@ -100,14 +113,14 @@ namespace Dolany.Ai.Core.Ai.SingleCommand.Tuling
 
             MongoService<QuestionnaireRecord>.Insert(new QuestionnaireRecord
             {
-                GroupNum = MsgDTO.FromGroup
-                , QQNum = MsgDTO.FromQQ
-                , QNo = QNo
-                , UpdateTime = DateTime.Now
-                , Content = MsgDTO.FullMsg
+                GroupNum = MsgDTO.FromGroup,
+                QQNum = MsgDTO.FromQQ,
+                QNo = QNo,
+                UpdateTime = DateTime.Now,
+                Content = MsgDTO.FullMsg
             });
 
-            MsgSender.Instance.PushMsg(MsgDTO, "感谢你的支持！冰冰会变得更强的！", true);
+            MsgSender.Instance.PushMsg(MsgDTO, ResponseWord, true);
         }
 
         private string RequestMsg(MsgInformationEx MsgDTO)
