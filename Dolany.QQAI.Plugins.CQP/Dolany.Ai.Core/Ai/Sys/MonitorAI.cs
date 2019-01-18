@@ -198,7 +198,13 @@ namespace Dolany.Ai.Core.Ai.Sys
         {
             var index = (long) param[0];
 
+            var exMsg = Sys_ErrorCount.GetMsg((int) index);
+            if (string.IsNullOrEmpty(exMsg))
+            {
+                return;
+            }
 
+            MsgSender.Instance.PushMsg(MsgDTO, exMsg);
         }
     }
 }
