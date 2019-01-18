@@ -34,21 +34,34 @@
     {
         private static readonly object _lockObj = new object();
 
-        private static int _count;
+        private static readonly List<string> ErrorList = new List<string>();
 
-        public static int Get()
+        public static int GetCount()
         {
             lock (_lockObj)
             {
-                return _count;
+                return ErrorList.Count;
             }
         }
 
-        public static void Plus()
+        public static void Plus(string msg)
         {
             lock (_lockObj)
             {
-                _count++;
+                ErrorList.Add(msg);
+            }
+        }
+
+        public static string GetMsg(int index)
+        {
+            lock (_lockObj)
+            {
+                if (index < 0 || index >= ErrorList.Count)
+                {
+                    return string.Empty;
+                }
+
+                return ErrorList[index];
             }
         }
     }

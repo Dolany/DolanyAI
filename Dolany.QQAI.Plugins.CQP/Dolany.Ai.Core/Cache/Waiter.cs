@@ -56,7 +56,7 @@
                     Global.AuthCode = info.Msg;
                     break;
                 case AiInformation.Error:
-                    Sys_ErrorCount.Plus();
+                    Sys_ErrorCount.Plus(info.Msg);
                     break;
             }
         }

@@ -12,13 +12,22 @@
 
     public class DirtyFilter
     {
-        private static readonly List<string> WordList = MongoService<DirtyWord>.Get().Select(d => d.Content).ToList();
+        private readonly List<string> WordList = MongoService<DirtyWord>.Get().Select(d => d.Content).ToList();
+
+        private readonly List<long> BlackList;
+
+        public static DirtyFilter Instance { get; } = new DirtyFilter();
 
         private const int MaxTolerateCount = 10;
 
-        public static bool Filter(long GroupNum, long QQNum, string msg)
+        private DirtyFilter()
         {
-            if (!IsDirtyWord(msg))
+            BlackList = MongoService<BlackList>.Get(p => p.BlackCount >= MaxTolerateCount).Select(p => p.QQNum).ToList();
+        }
+
+        public bool Filter(long GroupNum, long QQNum, string msg)
+        {
+            if (!WordList.Any(msg.Contains))
             {
                 return true;
             }
@@ -26,7 +35,7 @@
             return false;
         }
 
-        private static void AddInBlackList(long GroupNum, long QQNum)
+        private void AddInBlackList(long GroupNum, long QQNum)
         {
             var query = MongoService<BlackList>.Get(b => b.QQNum == QQNum);
             if (!query.IsNullOrEmpty())
@@ -36,6 +45,11 @@
                 black.UpdateTime = DateTime.Now;
 
                 MongoService<BlackList>.Update(black);
+
+                if (black.BlackCount > MaxTolerateCount && !BlackList.Contains(QQNum))
+                {
+                    BlackList.Add(QQNum);
+                }
                 return;
             }
 
@@ -57,20 +71,9 @@
             });
         }
 
-        public static bool IsInBlackList(long fromQQ)
+        public bool IsInBlackList(long fromQQ)
         {
-            var query = MongoService<BlackList>.Get(b => b.QQNum == fromQQ);
-            if (query.IsNullOrEmpty())
-            {
-                return false;
-            }
-
-            return query.First().BlackCount >= MaxTolerateCount;
-        }
-
-        private static bool IsDirtyWord(string msg)
-        {
-            return WordList.Any(msg.Contains);
+            return BlackList.Contains(fromQQ);
         }
     }
 }

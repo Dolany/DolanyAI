@@ -28,7 +28,7 @@
 
         public static void Log(Exception ex)
         {
-            Sys_ErrorCount.Plus();
+            Sys_ErrorCount.Plus(ex.Message + "\r\n" + ex.StackTrace);
             while (true)
             {
                 Log(ex.Message + "\r\n" + ex.StackTrace);

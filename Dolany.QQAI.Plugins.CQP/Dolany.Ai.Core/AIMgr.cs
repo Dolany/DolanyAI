@@ -232,7 +232,7 @@
 
         private void MsgCallBack_Func(MsgInformationEx MsgDTO)
         {
-            if (DirtyFilter.IsInBlackList(MsgDTO.FromQQ) || !DirtyFilter.Filter(MsgDTO.FromGroup, MsgDTO.FromQQ, MsgDTO.Msg))
+            if (DirtyFilter.Instance.IsInBlackList(MsgDTO.FromQQ) || !DirtyFilter.Instance.Filter(MsgDTO.FromGroup, MsgDTO.FromQQ, MsgDTO.Msg))
             {
                 return;
             }

@@ -44,9 +44,7 @@
             var format = MsgDTO.Command;
 
             var model = ParseDice(format);
-            if (model == null ||
-                model.Count > DiceCountMaxLimit ||
-                model.Size > DiceSizeMaxLimit)
+            if (model == null || model.Count > DiceCountMaxLimit || model.Size > DiceSizeMaxLimit)
             {
                 return false;
             }
@@ -81,8 +79,7 @@
                 return msg;
             }
 
-            if (!int.TryParse(strs1[1], out var modify) ||
-                modify <= 0)
+            if (!int.TryParse(strs1[1], out var modify) || modify <= 0)
             {
                 return msg;
             }
@@ -105,8 +102,7 @@
 
             if (strs.Length == 1)
             {
-                if (!int.TryParse(strs[0], out var size) ||
-                    size <= 0)
+                if (!int.TryParse(strs[0], out var size) || size <= 0)
                 {
                     return null;
                 }

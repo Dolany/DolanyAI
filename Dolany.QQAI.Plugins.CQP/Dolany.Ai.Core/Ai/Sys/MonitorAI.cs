@@ -140,7 +140,7 @@ namespace Dolany.Ai.Core.Ai.Sys
 
             var msg = $@"系统已成功运行{timeStr}
 共处理{Sys_CommandCount.Get()}条指令
-遇到{Sys_ErrorCount.Get()}个错误{PowerState(MsgDTO)}";
+遇到{Sys_ErrorCount.GetCount()}个错误{PowerState(MsgDTO)}";
 
             MsgSender.Instance.PushMsg(MsgDTO, msg);
         }
@@ -184,6 +184,21 @@ namespace Dolany.Ai.Core.Ai.Sys
             SqliteCacheService.Cache(key, model, CommonUtil.UntilTommorow());
 
             MsgSender.Instance.PushMsg(MsgDTO, "初始化成功！");
+        }
+
+        [EnterCommand(
+            Command = "Exception",
+            Description = "Get Exception Detail",
+            Syntax = "[Index]",
+            Tag = "系统命令",
+            SyntaxChecker = "Long", 
+            AuthorityLevel = AuthorityLevel.成员,
+            IsPrivateAvailable = false)]
+        public void ExceptionMonitor(MsgInformationEx MsgDTO, object[] param)
+        {
+            var index = (long) param[0];
+
+
         }
     }
 }
