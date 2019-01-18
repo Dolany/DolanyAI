@@ -3,9 +3,6 @@
     using System;
 
     using Common;
-
-    using Database;
-
     using Dolany.Ai.Common;
     using Dolany.Database.Ai;
 
@@ -24,7 +21,7 @@
             var callback = $"[Command] {msg.ToGroup} {msg.ToQQ} {msg.Id} {msg.Command} {msg.Msg}";
             AIMgr.Instance.MessagePublish(callback);
 
-            Global.CommandInfoService.Send(msg, CommonUtil.GetConfig("CommandQueueName"));
+            Global.CommandInfoService.Send(msg, Configger.Instance["CommandQueueName"]);
         }
 
         public void PushMsg(MsgInformationEx MsgInfo, string Content, bool isNeedAt = false)

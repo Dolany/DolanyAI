@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Text;
 
-namespace Dolany.Database.Redis.Model
+namespace Dolany.Database.Sqlite.Model
 {
     public class QuestionnaireLimitCache
     {

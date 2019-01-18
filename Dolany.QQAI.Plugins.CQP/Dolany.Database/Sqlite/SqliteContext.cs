@@ -8,7 +8,7 @@
     {
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
-            optionsBuilder.UseSqlite($"Data Source={CommonUtil.GetConfig("CacheDb")}");
+            optionsBuilder.UseSqlite($"Data Source={Configger.Instance["CacheDb"]}");
         }
 
         public DbSet<SqliteCacheModel> SqliteCacheModel { get; set; }

@@ -14,7 +14,7 @@ namespace Dolany.Ai.Core.Common
 
     using Dolany.Ai.Common;
     using Dolany.Database.Ai;
-    using Dolany.Database.Redis.Model;
+    using Database.Sqlite.Model;
 
     using Entities;
 
@@ -24,11 +24,11 @@ namespace Dolany.Ai.Core.Common
 
     public static class Utility
     {
-        public static long DeveloperNumber => long.Parse(CommonUtil.GetConfig(nameof(DeveloperNumber)));
+        public static long DeveloperNumber => long.Parse(Configger.Instance["DeveloperNumber"]);
 
-        public static long SysMsgNumber => long.Parse(CommonUtil.GetConfig(nameof(SysMsgNumber)));
+        public static long SysMsgNumber => long.Parse(Configger.Instance["SysMsgNumber"]);
 
-        public static long SelfQQNum => long.Parse(CommonUtil.GetConfig(nameof(SelfQQNum)));
+        public static long SelfQQNum => long.Parse(Configger.Instance["SelfQQNum"]);
 
         private static readonly RNGCryptoServiceProvider RngCsp = new RNGCryptoServiceProvider();
 

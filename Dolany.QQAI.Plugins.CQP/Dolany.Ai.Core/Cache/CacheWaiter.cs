@@ -6,8 +6,8 @@
     using System.Threading;
 
     using Dolany.Ai.Common;
-    using Dolany.Ai.Core.Common;
-    using Dolany.Database;
+    using Common;
+    using Database;
 
     using Newtonsoft.Json;
 
@@ -48,7 +48,7 @@
                               {
                                   RequestTable = table,
                                   RequestKey = key,
-                                  ResponseQueueName = CommonUtil.GetConfig("CacheResponse"),
+                                  ResponseQueueName = Configger.Instance["CacheResponse"],
                                   RequestType = 2
                               };
 
@@ -59,7 +59,7 @@
                 Units.Add(unit);
             }
 
-            Global.CacheInfoService.Send(request, CommonUtil.GetConfig("CacheInfoService"));
+            Global.CacheInfoService.Send(request, Configger.Instance["CacheInfoService"]);
             signal.WaitOne(timeout);
 
             lock (_lockObj)
@@ -88,7 +88,7 @@
                                   RequestType = 1
                               };
 
-            Global.CacheInfoService.Send(request, CommonUtil.GetConfig("CacheInfoService"));
+            Global.CacheInfoService.Send(request, Configger.Instance["CacheInfoService"]);
         }
     }
 

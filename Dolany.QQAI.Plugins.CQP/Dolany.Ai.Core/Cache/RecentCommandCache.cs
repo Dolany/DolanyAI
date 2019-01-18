@@ -8,7 +8,7 @@
 
     public class RecentCommandCache
     {
-        private static readonly int MaxRecentCommandCacheCount = int.Parse(CommonUtil.GetConfig(nameof(MaxRecentCommandCacheCount)));
+        private static readonly int MaxRecentCommandCacheCount = int.Parse(Configger.Instance["MaxRecentCommandCacheCount"]);
 
         private static readonly List<DateTime> TimeCache = new List<DateTime>();
 

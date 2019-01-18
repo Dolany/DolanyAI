@@ -1,7 +1,8 @@
-﻿namespace Dolany.Ai.Core.Ai.Sys
+﻿using System.Threading;
+
+namespace Dolany.Ai.Core.Ai.Sys
 {
     using System;
-    using System.Collections.Generic;
     using System.Linq;
 
     using Dolany.Ai.Common;
@@ -9,9 +10,8 @@
     using Dolany.Ai.Core.Cache;
     using Dolany.Ai.Core.Common;
     using Dolany.Ai.Core.Model;
-    using Dolany.Database;
     using Dolany.Database.Ai;
-    using Dolany.Database.Redis.Model;
+    using Database.Sqlite.Model;
     using Dolany.Database.Sqlite;
 
     [AI(Name = nameof(DeveloperOnlyAI),
@@ -68,6 +68,8 @@
             {
                 MsgSender.Instance.PushMsg(
                     new MsgCommand { Command = AiCommand.SendGroup, Msg = content, ToGroup = group });
+
+                Thread.Sleep(2000);
             }
 
             MsgSender.Instance.PushMsg(MsgDTO, "广播结束！");
@@ -88,12 +90,6 @@
             const string key = "QuestionnaireDuring-QuestionnaireDuring";
             SqliteCacheService.Cache(key, DateTime.Now.ToString("yyyyMMdd"), DateTime.Now.AddHours(hourCount));
             MsgSender.Instance.PushMsg(MsgDTO, "问卷调查模式开启");
-        }
-
-        private List<long> ParseGroups(string groupStr)
-        {
-            // todo
-            return null;
         }
     }
 }

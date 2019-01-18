@@ -12,7 +12,7 @@
     {
         private static readonly List<string> CacheList = new List<string>();
 
-        private static readonly int MaxPicCacheCount = int.Parse(CommonUtil.GetConfig("MaxPicCacheCount"));
+        private static readonly int MaxPicCacheCount = int.Parse(Configger.Instance["MaxPicCacheCount"]);
 
         private static readonly object RW_lock = new object();
 

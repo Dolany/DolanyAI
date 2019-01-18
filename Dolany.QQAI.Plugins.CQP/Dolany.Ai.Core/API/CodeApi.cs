@@ -38,7 +38,7 @@ namespace Dolany.Ai.Core.API
             return $"[QQ:voice={filePath}]";
         }
 
-        public static string ImagePath => CommonUtil.GetConfig("ImagePath");
+        public static string ImagePath => Configger.Instance["ImagePath"];
 
         public static string ImageExtension => ".ini";
     }

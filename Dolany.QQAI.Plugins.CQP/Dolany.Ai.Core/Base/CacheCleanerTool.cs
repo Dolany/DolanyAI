@@ -22,25 +22,9 @@
 
     public class CacheCleanerTool : IAITool
     {
-        private int PicCleanFreq
-        {
-            get
-            {
-                var config = CommonUtil.GetConfig(nameof(PicCleanFreq), "10");
+        private readonly int PicCleanFreq = int.Parse(Configger.Instance["PicCleanFreq"]);
 
-                return int.Parse(config);
-            }
-        }
-
-        private static int MaxPicCache
-        {
-            get
-            {
-                var config = CommonUtil.GetConfig("MaxOriginPicCache", "200");
-
-                return int.Parse(config);
-            }
-        }
+        private static readonly int MaxPicCache = int.Parse(Configger.Instance["MaxOriginPicCache"]);
 
         public void Work()
         {

@@ -12,15 +12,15 @@
     {
         public static string AuthCode { get; set; }
 
-        public static bool IsTesting { get; } = bool.Parse(CommonUtil.GetConfig("IsTesting"));
+        public static bool IsTesting { get; } = bool.Parse(Configger.Instance["IsTesting"]);
 
-        public static IEnumerable<long> TestGroups { get; } = CommonUtil.GetConfig("TestGroups").Split(" ").Select(long.Parse);
+        public static IEnumerable<long> TestGroups { get; } = Configger.Instance["TestGroups"].Split(" ").Select(long.Parse);
 
         public static readonly RabbitMQService CommandInfoService =
-            new RabbitMQService(CommonUtil.GetConfig("InformationQueueName"));
+            new RabbitMQService(Configger.Instance["InformationQueueName"]);
 
         public static readonly RabbitMQService CacheInfoService =
-            new RabbitMQService(CommonUtil.GetConfig("CacheResponse"));
+            new RabbitMQService(Configger.Instance["CacheResponse"]);
 
         public static readonly long[] AllGroups =
             {

@@ -14,8 +14,8 @@ namespace Dolany.Ai.Core.Ai.Record
     using Dolany.Ai.Common;
     using Dolany.Database;
     using Dolany.Database.Ai;
-    using Dolany.Database.Redis;
-    using Dolany.Database.Redis.Model;
+    using Database.Sqlite;
+    using Database.Sqlite.Model;
 
     using Model;
 

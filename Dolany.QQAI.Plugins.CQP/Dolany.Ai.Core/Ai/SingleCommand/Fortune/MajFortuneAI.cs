@@ -16,8 +16,8 @@ namespace Dolany.Ai.Core.Ai.SingleCommand.Fortune
     using Common;
 
     using Dolany.Ai.Common;
-    using Dolany.Database.Redis;
-    using Dolany.Database.Redis.Model;
+    using Database.Sqlite;
+    using Database.Sqlite.Model;
 
     using JetBrains.Annotations;
 

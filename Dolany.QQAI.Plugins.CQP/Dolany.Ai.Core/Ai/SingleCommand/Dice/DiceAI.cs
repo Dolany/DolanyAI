@@ -22,8 +22,8 @@
         PriorityLevel = 5)]
     public class DiceAI : AIBase
     {
-        private readonly int DiceCountMaxLimit = int.Parse(CommonUtil.GetConfig(nameof(DiceCountMaxLimit)));
-        private readonly int DiceSizeMaxLimit = int.Parse(CommonUtil.GetConfig(nameof(DiceSizeMaxLimit)));
+        private readonly int DiceCountMaxLimit = int.Parse(Configger.Instance["DiceCountMaxLimit"]);
+        private readonly int DiceSizeMaxLimit = int.Parse(Configger.Instance["DiceSizeMaxLimit"]);
 
         public DiceAI()
         {
@@ -45,8 +45,8 @@
 
             var model = ParseDice(format);
             if (model == null ||
-                model.count > DiceCountMaxLimit ||
-                model.size > DiceSizeMaxLimit)
+                model.Count > DiceCountMaxLimit ||
+                model.Size > DiceSizeMaxLimit)
             {
                 return false;
             }
@@ -86,7 +86,7 @@
             {
                 return msg;
             }
-            model.modify = modify;
+            model.Modify = modify;
             return strs1[0];
         }
 
@@ -110,8 +110,8 @@
                 {
                     return null;
                 }
-                model.size = size;
-                model.count = 1;
+                model.Size = size;
+                model.Count = 1;
 
                 return model;
             }
@@ -124,8 +124,8 @@
                 {
                     return null;
                 }
-                model.size = size;
-                model.count = count;
+                model.Size = size;
+                model.Count = count;
 
                 return model;
             }
@@ -135,14 +135,14 @@
         {
             var result = new DiceResultModel
             {
-                modify = model.modify,
-                result = new List<int>()
+                Modify = model.Modify,
+                Result = new List<int>()
             };
 
-            for (var i = 0; i < model.count; i++)
+            for (var i = 0; i < model.Count; i++)
             {
-                var value = RandInt(model.size) + 1;
-                result.result.Add(value);
+                var value = RandInt(model.Size) + 1;
+                result.Result.Add(value);
             }
 
             return result;
@@ -150,13 +150,13 @@
 
         private static void SendResult(MsgInformationEx MsgDTO, DiceResultModel ResultModel)
         {
-            var sum = ResultModel.result.Sum(p => p);
-            var sb = string.Join("+", ResultModel.result.Select(p => p.ToString()));
+            var sum = ResultModel.Result.Sum(p => p);
+            var sb = string.Join("+", ResultModel.Result.Select(p => p.ToString()));
 
-            if (ResultModel.modify != 0)
+            if (ResultModel.Modify != 0)
             {
-                sum += ResultModel.modify;
-                sb += $"+{ResultModel.modify}";
+                sum += ResultModel.Modify;
+                sb += $"+{ResultModel.Modify}";
             }
 
             sb += $"={sum}";
@@ -167,14 +167,14 @@
 
     public class DiceModel
     {
-        public int count { get; set; }
-        public int size { get; set; }
-        public int modify { get; set; }
+        public int Count { get; set; }
+        public int Size { get; set; }
+        public int Modify { get; set; }
     }
 
     public class DiceResultModel
     {
-        public List<int> result { get; set; }
-        public int modify { get; set; }
+        public List<int> Result { get; set; }
+        public int Modify { get; set; }
     }
 }

@@ -35,7 +35,7 @@
                 new PostReq_Param
                     {
                         data = new TranslationSendModel { Word = word },
-                        InterfaceName = CommonUtil.GetConfig("TranslationAPIUrl")
+                        InterfaceName = Configger.Instance["TranslationAPIUrl"]
                     });
 
             if (res == null)

@@ -1,4 +1,4 @@
-﻿namespace Dolany.Database.Redis.Model
+﻿namespace Dolany.Database.Sqlite.Model
 {
     using System;
 

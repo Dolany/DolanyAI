@@ -1,10 +1,6 @@
-﻿using Dolany.Database.Sqlite;
-
-namespace Dolany.Ai.Core.Ai.SingleCommand.PraiseMe
+﻿namespace Dolany.Ai.Core.Ai.SingleCommand.PraiseMe
 {
     using System;
-    using System.Linq;
-
     using Base;
 
     using Cache;
@@ -12,14 +8,12 @@ namespace Dolany.Ai.Core.Ai.SingleCommand.PraiseMe
     using Common;
 
     using Dolany.Ai.Common;
-    using Dolany.Database;
-    using Dolany.Database.Ai;
-    using Dolany.Database.Redis;
-    using Dolany.Database.Redis.Model;
+    using Database.Sqlite;
+    using Database.Sqlite.Model;
 
     using Model;
 
-    using static Dolany.Ai.Core.API.APIEx;
+    using static API.APIEx;
 
     [AI(
         Name = nameof(PraiseMeAI),
@@ -30,15 +24,7 @@ namespace Dolany.Ai.Core.Ai.SingleCommand.PraiseMe
     {
         private DateTime LastTime;
 
-        private int PraiseLimit
-        {
-            get
-            {
-                var config = CommonUtil.GetConfig(nameof(PraiseLimit), "10");
-
-                return int.Parse(config);
-            }
-        }
+        private readonly int PraiseLimit = int.Parse(Configger.Instance["PraiseLimit"]);
 
         public PraiseMeAI()
         {

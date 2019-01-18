@@ -12,18 +12,18 @@
 
     using Dolany.Ai.Common;
     using Dolany.Ai.Core.Model.Tuling;
-    using Dolany.Database;
+    using Database;
     using Dolany.Database.Ai;
-    using Dolany.Database.Redis.Model;
-    using Dolany.Database.Sqlite;
+    using Database.Sqlite.Model;
+    using Database.Sqlite;
 
     using Model;
 
     using Net;
 
-    using static Dolany.Ai.Core.Common.Utility;
+    using static Common.Utility;
 
-    using static Dolany.Ai.Core.API.CodeApi;
+    using static API.CodeApi;
 
     [AI(
         Name = nameof(TulingAI),
@@ -32,8 +32,8 @@
         PriorityLevel = 2)]
     public class TulingAI : AIBase
     {
-        private readonly string RequestUrl = CommonUtil.GetConfig("TulingRequestUrl");
-        private readonly string ApiKey = CommonUtil.GetConfig("TulingApiKey");
+        private readonly string RequestUrl = Configger.Instance["TulingRequestUrl"];
+        private readonly string ApiKey = Configger.Instance["TulingApiKey"];
         private const int QLimit = 5;
 
         private readonly int[] ErroCodes =
