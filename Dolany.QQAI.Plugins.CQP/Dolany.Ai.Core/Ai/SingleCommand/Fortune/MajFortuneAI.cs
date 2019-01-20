@@ -39,7 +39,7 @@ namespace Dolany.Ai.Core.Ai.SingleCommand.Fortune
         private Dictionary<string, string> CharactorsDic { get; } = new Dictionary<string, string>();
         private List<string> KindsList { get; } = new List<string>();
 
-        public override void Work()
+        public override void Initialization()
         {
             ReadCharactorsDic();
             ReadKindsList();

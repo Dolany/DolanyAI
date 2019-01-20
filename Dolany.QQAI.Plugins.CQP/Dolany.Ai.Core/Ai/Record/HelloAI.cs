@@ -33,7 +33,7 @@ namespace Dolany.Ai.Core.Ai.Record
             RuntimeLogger.Log("HelloAI started.");
         }
 
-        public override void Work()
+        public override void Initialization()
         {
         }
 

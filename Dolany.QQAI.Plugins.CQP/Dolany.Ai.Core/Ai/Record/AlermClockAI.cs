@@ -32,12 +32,7 @@
     {
         private static List<string> ClockIdList => new List<string>();
 
-        public AlermClockAI()
-        {
-            RuntimeLogger.Log("AlermClockAI constructed");
-        }
-
-        public override void Work()
+        public override void Initialization()
         {
             ReloadAllClocks();
         }

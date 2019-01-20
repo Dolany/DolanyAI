@@ -31,12 +31,7 @@ namespace Dolany.Ai.Core.Ai.SingleCommand.Fortune
     {
         private const string TarotServerPath = "https://m.sheup.com/";
 
-        public FortuneAI()
-        {
-            RuntimeLogger.Log("FortuneAI started.");
-        }
-
-        public override void Work()
+        public override void Initialization()
         {
         }
 

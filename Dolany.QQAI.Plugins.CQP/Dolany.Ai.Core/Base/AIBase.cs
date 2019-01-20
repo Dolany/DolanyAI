@@ -36,7 +36,9 @@
             }
         }
 
-        public abstract void Work();
+        public virtual void Initialization()
+        {
+        }
 
         public virtual bool OnMsgReceived(MsgInformationEx MsgDTO)
         {

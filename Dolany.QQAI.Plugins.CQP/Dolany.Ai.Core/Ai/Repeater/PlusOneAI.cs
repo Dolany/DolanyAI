@@ -31,7 +31,7 @@
 
         private readonly object List_lock = new object();
 
-        public override void Work()
+        public override void Initialization()
         {
             Load();
         }

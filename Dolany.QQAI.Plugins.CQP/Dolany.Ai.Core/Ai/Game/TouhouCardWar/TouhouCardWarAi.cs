@@ -10,7 +10,7 @@
         PriorityLevel = 10)]
     public class TouhouCardWarAi : AIBase
     {
-        public override void Work()
+        public override void Initialization()
         {
         }
 

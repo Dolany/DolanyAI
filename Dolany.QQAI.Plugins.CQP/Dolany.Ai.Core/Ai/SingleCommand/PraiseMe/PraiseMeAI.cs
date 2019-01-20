@@ -26,12 +26,7 @@
 
         private readonly int PraiseLimit = int.Parse(Configger.Instance["PraiseLimit"]);
 
-        public PraiseMeAI()
-        {
-            RuntimeLogger.Log("PraiseMeAI started.");
-        }
-
-        public override void Work()
+        public override void Initialization()
         {
             LastTime = DateTime.Now.AddMinutes(-PraiseLimit);
         }

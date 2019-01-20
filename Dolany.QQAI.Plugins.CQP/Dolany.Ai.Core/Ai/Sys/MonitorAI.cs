@@ -32,7 +32,7 @@ namespace Dolany.Ai.Core.Ai.Sys
     {
         private List<long> InactiveGroups = new List<long>();
 
-        public override void Work()
+        public override void Initialization()
         {
             var query = MongoService<ActiveOffGroups>.Get(p => p.AINum == SelfQQNum);
             this.InactiveGroups = query.Select(p => p.GroupNum).ToList();

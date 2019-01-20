@@ -20,7 +20,7 @@ namespace Dolany.Ai.Core.Ai.Sys
         PriorityLevel = 10)]
     public class DeveloperOnlyAI : AIBase
     {
-        public override void Work()
+        public override void Initialization()
         {
         }
 

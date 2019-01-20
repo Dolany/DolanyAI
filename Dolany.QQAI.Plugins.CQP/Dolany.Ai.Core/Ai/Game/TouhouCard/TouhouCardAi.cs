@@ -24,12 +24,7 @@
     {
         private const string PicPath = "TouhouCard/";
 
-        public TouhouCardAi()
-        {
-            RuntimeLogger.Log("TouhouCardAI started");
-        }
-
-        public override void Work()
+        public override void Initialization()
         {
         }
 

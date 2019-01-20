@@ -1,7 +1,6 @@
 ﻿namespace Dolany.Ai.Core.Ai.SingleCommand.SelfBoom
 {
     using System;
-    using System.IO;
     using System.Threading;
 
     using API;
@@ -120,7 +119,7 @@
                     });
         }
 
-        public override void Work()
+        public override void Initialization()
         {
         }
     }

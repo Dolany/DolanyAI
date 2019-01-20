@@ -11,6 +11,9 @@
     using Common;
 
     using Dolany.Ai.Common;
+    using Dolany.Database;
+    using Dolany.Database.Ai;
+
     using Model;
 
     using static Common.Utility;
@@ -25,13 +28,12 @@
         private readonly int DiceCountMaxLimit = int.Parse(Configger.Instance["DiceCountMaxLimit"]);
         private readonly int DiceSizeMaxLimit = int.Parse(Configger.Instance["DiceSizeMaxLimit"]);
 
-        public DiceAI()
-        {
-            RuntimeLogger.Log("DiceAI started.");
-        }
+        private List<long> DiceActiveGroups = new List<long>();
 
-        public override void Work()
+        public override void Initialization()
         {
+            var query = MongoService<DiceActiveGroup>.Get();
+            this.DiceActiveGroups = query.Select(g => g.GroupNum).ToList();
         }
 
         public override bool OnMsgReceived(MsgInformationEx MsgDTO)
@@ -39,6 +41,11 @@
             if (base.OnMsgReceived(MsgDTO))
             {
                 return true;
+            }
+
+            if (MsgDTO.Type == MsgType.Group && !this.DiceActiveGroups.Contains(MsgDTO.FromGroup))
+            {
+                return false;
             }
 
             var format = MsgDTO.Command;
@@ -52,6 +59,51 @@
             var result = ConsoleDice(model);
             SendResult(MsgDTO, result);
             return true;
+        }
+
+        [EnterCommand(
+            Command = "骰娘开启",
+            AuthorityLevel = AuthorityLevel.管理员,
+            Description = "开启骰娘功能",
+            Syntax = "",
+            Tag = "骰子功能",
+            SyntaxChecker = "Empty",
+            IsPrivateAvailable = false)]
+        public void DiceActive(MsgInformationEx MsgDTO, object[] param)
+        {
+            if (this.DiceActiveGroups.Contains(MsgDTO.FromGroup))
+            {
+                return;
+            }
+
+            MongoService<DiceActiveGroup>.DeleteMany(g => g.GroupNum == MsgDTO.FromGroup);
+            MongoService<DiceActiveGroup>.Insert(new DiceActiveGroup { GroupNum = MsgDTO.FromGroup });
+            
+            this.DiceActiveGroups.Add(MsgDTO.FromGroup);
+
+            MsgSender.Instance.PushMsg(MsgDTO, "骰娘开启成功！");
+        }
+
+        [EnterCommand(
+            Command = "骰娘关闭",
+            AuthorityLevel = AuthorityLevel.管理员,
+            Description = "关闭骰娘功能",
+            Syntax = "",
+            Tag = "骰子功能",
+            SyntaxChecker = "Empty",
+            IsPrivateAvailable = false)]
+        public void DiceInActive(MsgInformationEx MsgDTO, object[] param)
+        {
+            if (!this.DiceActiveGroups.Contains(MsgDTO.FromGroup))
+            {
+                return;
+            }
+
+            MongoService<DiceActiveGroup>.DeleteMany(g => g.GroupNum == MsgDTO.FromGroup);
+
+            this.DiceActiveGroups.RemoveAll(g => g == MsgDTO.FromGroup);
+
+            MsgSender.Instance.PushMsg(MsgDTO, "骰娘关闭成功！");
         }
 
         private static DiceModel ParseDice(string msg)

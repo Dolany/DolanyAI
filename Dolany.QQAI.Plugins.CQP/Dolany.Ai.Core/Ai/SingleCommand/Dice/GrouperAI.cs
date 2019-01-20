@@ -18,7 +18,7 @@ namespace Dolany.Ai.Core.Ai.SingleCommand.Dice
         PriorityLevel = 10)]
     public class GrouperAI : AIBase
     {
-        public override void Work()
+        public override void Initialization()
         {
         }
 

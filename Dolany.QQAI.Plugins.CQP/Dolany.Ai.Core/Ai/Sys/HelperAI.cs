@@ -19,7 +19,7 @@
         PriorityLevel = 10)]
     public class HelperAI : AIBase
     {
-        public override void Work()
+        public override void Initialization()
         {
         }
 

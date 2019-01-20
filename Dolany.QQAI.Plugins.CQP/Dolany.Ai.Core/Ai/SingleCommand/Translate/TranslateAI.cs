@@ -16,7 +16,7 @@
         PriorityLevel = 10)]
     public class TranslateAI : AIBase
     {
-        public override void Work()
+        public override void Initialization()
         {
         }
 

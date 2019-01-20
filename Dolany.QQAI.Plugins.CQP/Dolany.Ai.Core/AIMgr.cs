@@ -86,7 +86,7 @@
             AIList = AIList.Where(a => a.Value.IsAvailable).OrderByDescending(a => a.Value.PriorityLevel);
             foreach (var keyValuePair in AIList)
             {
-                keyValuePair.Key.Work();
+                keyValuePair.Key.Initialization();
                 ExtractCommands(keyValuePair.Key);
             }
 

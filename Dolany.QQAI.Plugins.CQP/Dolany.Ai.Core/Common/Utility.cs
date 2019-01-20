@@ -1,8 +1,7 @@
-﻿using Dolany.Database.Sqlite;
-
-namespace Dolany.Ai.Core.Common
+﻿namespace Dolany.Ai.Core.Common
 {
     using System;
+    using System.Collections.Generic;
     using System.IO;
     using System.Linq;
     using System.Security.Cryptography;
@@ -12,9 +11,11 @@ namespace Dolany.Ai.Core.Common
 
     using Cache;
 
+    using Database.Sqlite.Model;
+
     using Dolany.Ai.Common;
     using Dolany.Database.Ai;
-    using Database.Sqlite.Model;
+    using Dolany.Database.Sqlite;
 
     using Entities;
 
@@ -24,7 +25,7 @@ namespace Dolany.Ai.Core.Common
 
     public static class Utility
     {
-        public static long DeveloperNumber => long.Parse(Configger.Instance["DeveloperNumber"]);
+        private static long DeveloperNumber => long.Parse(Configger.Instance["DeveloperNumber"]);
 
         public static long SysMsgNumber => long.Parse(Configger.Instance["SysMsgNumber"]);
 
@@ -32,7 +33,7 @@ namespace Dolany.Ai.Core.Common
 
         private static readonly RNGCryptoServiceProvider RngCsp = new RNGCryptoServiceProvider();
 
-        public static void Swap<T>(this T[] array, int firstIdx, int secondIdx)
+        private static void Swap<T>(this IList<T> array, int firstIdx, int secondIdx)
         {
             var temp = array[firstIdx];
             array[firstIdx] = array[secondIdx];

@@ -41,12 +41,7 @@
             }
         }
 
-        public HourAlertAI()
-        {
-            RuntimeLogger.Log("HourAlertAI started");
-        }
-
-        public override void Work()
+        public override void Initialization()
         {
             HourAlertFunc();
         }

@@ -13,7 +13,7 @@ namespace Dolany.Ai.Core.Ai.Game.Jump300Report
         PriorityLevel = 10)]
     public class Jump300ReportAI : AIBase
     {
-        public override void Work()
+        public override void Initialization()
         {
         }
 

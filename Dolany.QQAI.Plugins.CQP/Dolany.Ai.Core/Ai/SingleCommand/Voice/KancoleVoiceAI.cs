@@ -23,12 +23,7 @@
         PriorityLevel = 10)]
     public class KancoleVoiceAI : AIBase
     {
-        public KancoleVoiceAI()
-        {
-            RuntimeLogger.Log("KancoleVoiceAI started.");
-        }
-
-        public override void Work()
+        public override void Initialization()
         {
         }
 

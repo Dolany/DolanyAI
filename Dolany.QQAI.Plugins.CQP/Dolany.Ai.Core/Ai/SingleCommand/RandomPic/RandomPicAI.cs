@@ -2,7 +2,7 @@
 {
     using Base;
     using Cache;
-    using Common;
+
     using Model;
 
     using static API.CodeApi;
@@ -14,12 +14,7 @@
         PriorityLevel = 10)]
     public class RandomPicAI : AIBase
     {
-        public RandomPicAI()
-        {
-            RuntimeLogger.Log("RandomPicAI started.");
-        }
-
-        public override void Work()
+        public override void Initialization()
         {
         }
 

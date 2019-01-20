@@ -56,12 +56,7 @@
             }
         }
 
-        public TulingAI()
-        {
-            RuntimeLogger.Log("TulingAI started.");
-        }
-
-        public override void Work()
+        public override void Initialization()
         {
         }
 

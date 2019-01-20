@@ -22,12 +22,7 @@
         PriorityLevel = 10)]
     public class CartoonSayingAI : AIBase
     {
-        public CartoonSayingAI()
-        {
-            RuntimeLogger.Log("CartoonSayingAI constructed");
-        }
-
-        public override void Work()
+        public override void Initialization()
         {
         }
 

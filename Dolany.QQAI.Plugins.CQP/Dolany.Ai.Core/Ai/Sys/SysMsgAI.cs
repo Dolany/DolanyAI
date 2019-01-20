@@ -1,7 +1,7 @@
 ﻿namespace Dolany.Ai.Core.Ai.Sys
 {
     using Base;
-    using Common;
+
     using Model;
 
     using static Common.Utility;
@@ -13,12 +13,7 @@
         PriorityLevel = 20)]
     public class SysMsgAI : AIBase
     {
-        public SysMsgAI()
-        {
-            RuntimeLogger.Log("SysMsgAI started.");
-        }
-
-        public override void Work()
+        public override void Initialization()
         {
         }
 

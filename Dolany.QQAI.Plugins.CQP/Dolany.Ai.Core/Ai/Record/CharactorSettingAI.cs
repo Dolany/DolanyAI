@@ -26,12 +26,7 @@
         private const int MaxCharNumPerQQ = 10;
         private const int MaxSettingPerChar = 7;
 
-        public CharactorSettingAI()
-        {
-            RuntimeLogger.Log("CharactorSettingAI constructed");
-        }
-
-        public override void Work()
+        public override void Initialization()
         {
         }
 

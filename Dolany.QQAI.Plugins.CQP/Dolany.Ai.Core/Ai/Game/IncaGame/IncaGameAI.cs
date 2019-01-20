@@ -17,7 +17,7 @@
         PriorityLevel = 10)]
     public class IncaGameAI : AIBase
     {
-        public override void Work()
+        public override void Initialization()
         {
         }
 

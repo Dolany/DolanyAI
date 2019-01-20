@@ -24,12 +24,7 @@
         PriorityLevel = 10)]
     public class OrderSongAI : AIBase
     {
-        public OrderSongAI()
-        {
-            RuntimeLogger.Log("OrderSongAI started.");
-        }
-
-        public override void Work()
+        public override void Initialization()
         {
         }
 
