@@ -81,7 +81,7 @@
             if (Utility.RandInt(100) >= ItemRate)
             {
                 var query = MongoService<DriftBottleRecord>.Get(
-                    r => r.FromQQ != MsgDTO.FromQQ && r.FromGroup != MsgDTO.FromGroup);
+                    r => r.FromQQ != MsgDTO.FromQQ && r.FromGroup != MsgDTO.FromGroup && !r.ReceivedQQ.HasValue);
                 if (!query.IsNullOrEmpty())
                 {
                     var qcount = query.Count;

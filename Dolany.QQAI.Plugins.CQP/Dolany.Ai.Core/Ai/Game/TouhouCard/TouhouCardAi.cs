@@ -1,6 +1,5 @@
 ﻿namespace Dolany.Ai.Reborn.DolanyAI.Ai.Game.TouhouCard
 {
-    using System;
     using System.IO;
     using System.Linq;
 
@@ -10,8 +9,8 @@
     using Core.Model;
 
     using Dolany.Ai.Common;
-    using Dolany.Database;
-    using Dolany.Database.Ai;
+    using Dolany.Database.Sqlite;
+    using Dolany.Database.Sqlite.Model;
 
     using static Dolany.Ai.Core.API.CodeApi;
 
@@ -44,32 +43,17 @@
 
         private static string RandomCard(long FromQQ)
         {
-            var query = MongoService<TouhouCardRecord>.Get(p => p.QQNum == FromQQ);
-            if (query.IsNullOrEmpty())
+            var key = $"TouhouCard-{FromQQ}";
+            var cache = SqliteCacheService.Get<TouhouCardCache>(key);
+            if (cache != null)
             {
-                var tcr = new TouhouCardRecord
-                {
-                    Id = Guid.NewGuid().ToString(),
-                    UpdateDate = DateTime.Now.Date,
-                    CardName = GetRandCard(),
-                    QQNum = FromQQ
-                };
-                MongoService<TouhouCardRecord>.Insert(tcr);
-
-                return PicPath + tcr.CardName;
+                return PicPath + cache.CardName; 
             }
 
-            var rec = query.First();
-            if (rec.UpdateDate >= DateTime.Now.Date)
-            {
-                return PicPath + rec.CardName;
-            }
+            var tcr = new TouhouCardCache { QQNum = FromQQ, CardName = GetRandCard() };
+            SqliteCacheService.Cache(key, tcr, CommonUtil.UntilTommorow());
 
-            rec.CardName = GetRandCard();
-            rec.UpdateDate = DateTime.Now.Date;
-            MongoService<TouhouCardRecord>.Update(rec);
-
-            return PicPath + rec.CardName;
+            return PicPath + tcr.CardName;
         }
 
         private static string GetRandCard()
