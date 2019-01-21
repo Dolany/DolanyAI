@@ -163,15 +163,13 @@
             PrintItem(MsgDTO, item, count);
         }
 
-        private int RecordItem(MsgInformationEx MsgDTO, DriftBottleItemModel item)
+        private int RecordItem(MsgInformation MsgDTO, DriftBottleItemModel item)
         {
             var query = MongoService<DriftItemRecord>.Get(r => r.QQNum == MsgDTO.FromQQ).FirstOrDefault();
             if (query == null || query.ItemCount.All(i => i.Name != item.Name))
             {
-                MongoService<DriftItemRecord>.Insert(new DriftItemRecord
-                {
-                    QQNum = MsgDTO.FromQQ, ItemCount = new[] {new DriftItemCountRecord {Count = 1, Name = item.Name}}
-                });
+                MongoService<DriftItemRecord>.Insert(
+                    new DriftItemRecord { QQNum = MsgDTO.FromQQ, ItemCount = new[] { new DriftItemCountRecord { Count = 1, Name = item.Name } } });
 
                 return 1;
             }
@@ -189,14 +187,14 @@
                 $"你捞到了 {item.Name} \r" + 
                 $"    {item.Description} \r" + 
                 $" 稀有率为 {Math.Round(item.Rate * 1.0 / this.SumRate * 100, 2)}%\r" +
-                $"你总共捞到该物品 {count}次";
+                $"你总共拥有该物品 {count}个";
 
             MsgSender.Instance.PushMsg(MsgDTO, msg, true);
         }
 
         private void PrintBottle(MsgInformationEx MsgDTO, DriftBottleRecord record)
         {
-            var msg = $"你捞到了一个漂流瓶 \r    {record.Content}   by 陌生人";
+            var msg = $"你捞到了一个漂流瓶 \r    {record.Content}\r   by 陌生人";
             MsgSender.Instance.PushMsg(MsgDTO, msg);
         }
 
