@@ -78,7 +78,7 @@
 
             MongoService<DiceActiveGroup>.DeleteMany(g => g.GroupNum == MsgDTO.FromGroup);
             MongoService<DiceActiveGroup>.Insert(new DiceActiveGroup { GroupNum = MsgDTO.FromGroup });
-            
+
             this.DiceActiveGroups.Add(MsgDTO.FromGroup);
 
             MsgSender.Instance.PushMsg(MsgDTO, "骰娘开启成功！");

@@ -122,6 +122,11 @@
         {
             var content = param[0] as string;
 
+            if (string.IsNullOrEmpty(content))
+            {
+                return;
+            }
+
             var count = 0;
 
             var key = $"ThrowBottle-{MsgDTO.FromQQ}";
