@@ -25,7 +25,6 @@
   <ItemGroup>
     <ProjectReference Include="..\Dolany.Ai.Common\Dolany.Ai.Common.csproj" />
     <ProjectReference Include="..\Dolany.Database\Dolany.Database.csproj" />
-    <ProjectReference Include="..\Dolany.Game.TouhouCardWar\Dolany.Game.TouhouCardWar.csproj" />
   </ItemGroup>
 
 </Project>
