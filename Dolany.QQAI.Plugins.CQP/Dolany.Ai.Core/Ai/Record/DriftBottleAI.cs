@@ -159,15 +159,37 @@
         private void FishItem(MsgInformationEx MsgDTO)
         {
             var item = LocalateItem(Utility.RandInt(this.SumRate));
-            PrintItem(MsgDTO, item);
+            var count = RecordItem(MsgDTO, item);
+            PrintItem(MsgDTO, item, count);
         }
 
-        private void PrintItem(MsgInformationEx MsgDTO, DriftBottleItemModel item)
+        private int RecordItem(MsgInformationEx MsgDTO, DriftBottleItemModel item)
+        {
+            var query = MongoService<DriftItemRecord>.Get(r => r.QQNum == MsgDTO.FromQQ).FirstOrDefault();
+            if (query == null || query.ItemCount.All(i => i.Name != item.Name))
+            {
+                MongoService<DriftItemRecord>.Insert(new DriftItemRecord
+                {
+                    QQNum = MsgDTO.FromQQ, ItemCount = new[] {new DriftItemCountRecord {Count = 1, Name = item.Name}}
+                });
+
+                return 1;
+            }
+
+            var ic = query.ItemCount.First(i => i.Name == item.Name);
+            ic.Count++;
+            MongoService<DriftItemRecord>.Update(query);
+
+            return ic.Count;
+        }
+
+        private void PrintItem(MsgInformationEx MsgDTO, DriftBottleItemModel item, int count)
         {
             var msg =
                 $"你捞到了 {item.Name} \r" + 
                 $"    {item.Description} \r" + 
-                $" 稀有率为 {Math.Round(item.Rate * 1.0 / this.SumRate * 100, 2)}%";
+                $" 稀有率为 {Math.Round(item.Rate * 1.0 / this.SumRate * 100, 2)}%\r" +
+                $"你总共捞到该物品 {count}次";
 
             MsgSender.Instance.PushMsg(MsgDTO, msg, true);
         }
