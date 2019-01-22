@@ -4,9 +4,6 @@
     using Base;
 
     using Cache;
-
-    using Common;
-
     using Dolany.Ai.Common;
     using Database.Sqlite;
     using Database.Sqlite.Model;
@@ -48,13 +45,15 @@
             }
 
             var key = $"PraiseRec-{MsgDTO.FromQQ}";
-            var response = SqliteCacheService.Get<PraiseRecCache>(key);
+            var response = SCacheService.Get<PraiseRecCache>(key);
 
             if (response == null)
             {
                 Praise(MsgDTO);
                 var model = new PraiseRecCache { QQNum = MsgDTO.FromQQ };
-                SqliteCacheService.Cache(key, model, CommonUtil.UntilTommorow());
+                SCacheService.Cache(key, model);
+
+                LastTime = DateTime.Now;
             }
             else
             {

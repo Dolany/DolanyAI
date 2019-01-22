@@ -44,14 +44,14 @@
         private static string RandomCard(long FromQQ)
         {
             var key = $"TouhouCard-{FromQQ}";
-            var cache = SqliteCacheService.Get<TouhouCardCache>(key);
+            var cache = SCacheService.Get<TouhouCardCache>(key);
             if (cache != null)
             {
                 return PicPath + cache.CardName; 
             }
 
             var tcr = new TouhouCardCache { QQNum = FromQQ, CardName = GetRandCard() };
-            SqliteCacheService.Cache(key, tcr, CommonUtil.UntilTommorow());
+            SCacheService.Cache(key, tcr);
 
             return PicPath + tcr.CardName;
         }

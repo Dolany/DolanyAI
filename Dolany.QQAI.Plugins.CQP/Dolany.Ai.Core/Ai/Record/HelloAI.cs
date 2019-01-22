@@ -45,7 +45,7 @@ namespace Dolany.Ai.Core.Ai.Record
             }
 
             var key = $"Hello-{MsgDTO.FromGroup}-{MsgDTO.FromQQ}";
-            var response = SqliteCacheService.Get<HelloCache>(key);
+            var response = SCacheService.Get<HelloCache>(key);
 
             if (response != null)
             {
@@ -67,7 +67,7 @@ namespace Dolany.Ai.Core.Ai.Record
                             {
                                 GroupNum = MsgDTO.FromGroup, LastUpdateTime = DateTime.Now, QQNum = MsgDTO.FromQQ
                             };
-            SqliteCacheService.Cache(key, model, CommonUtil.UntilTommorow());
+            SCacheService.Cache(key, model);
 
             return false;
         }

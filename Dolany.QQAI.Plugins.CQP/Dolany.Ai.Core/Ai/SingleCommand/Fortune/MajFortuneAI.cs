@@ -97,7 +97,7 @@ namespace Dolany.Ai.Core.Ai.SingleCommand.Fortune
         private MajFortuneCache TodayFortune(long QQNum)
         {
             var key = $"MajFortune-{QQNum}";
-            var response = SqliteCacheService.Get<MajFortuneCache>(key);
+            var response = SCacheService.Get<MajFortuneCache>(key);
 
             if (response != null)
             {
@@ -105,7 +105,7 @@ namespace Dolany.Ai.Core.Ai.SingleCommand.Fortune
             }
 
             var newFortune = this.NewFortune(QQNum);
-            SqliteCacheService.Cache(key, newFortune, CommonUtil.UntilTommorow());
+            SCacheService.Cache(key, newFortune);
 
             return newFortune;
         }

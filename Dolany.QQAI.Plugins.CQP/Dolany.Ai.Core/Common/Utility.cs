@@ -135,7 +135,7 @@
         private static string GetTempAuth(MsgInformation MsgDTO)
         {
             var response =
-                SqliteCacheService.Get<TempAuthorizeCache>($"TempAuthorize-{MsgDTO.FromGroup}-{MsgDTO.FromQQ}");
+                SCacheService.Get<TempAuthorizeCache>($"TempAuthorize-{MsgDTO.FromGroup}-{MsgDTO.FromQQ}");
 
             return response != null ? response.AuthName : string.Empty;
         }

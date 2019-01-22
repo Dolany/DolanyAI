@@ -74,7 +74,7 @@
             var count = 0;
 
             var key = $"DriftBottle-{MsgDTO.FromQQ}";
-            var cache = SqliteCacheService.Get<DriftBottleFishingCache>(key);
+            var cache = SCacheService.Get<DriftBottleFishingCache>(key);
             if (cache != null && cache.Count >= FishingLimit)
             {
                 MsgSender.Instance.PushMsg(MsgDTO, $"每天只能捞{FishingLimit}次瓶子噢~", true);
@@ -112,10 +112,7 @@
                 FishItem(MsgDTO);
             }
 
-            SqliteCacheService.Cache(
-                key,
-                new DriftBottleFishingCache { QQNum = MsgDTO.FromQQ, Count = count + 1 },
-                CommonUtil.UntilTommorow());
+            SCacheService.Cache(key, new DriftBottleFishingCache {QQNum = MsgDTO.FromQQ, Count = count + 1});
         }
 
         [EnterCommand(
@@ -138,7 +135,7 @@
             var count = 0;
 
             var key = $"ThrowBottle-{MsgDTO.FromQQ}";
-            var cache = SqliteCacheService.Get<DriftBottleThrowCache>(key);
+            var cache = SCacheService.Get<DriftBottleThrowCache>(key);
             if (cache != null && cache.Count >= ThrowLimit)
             {
                 MsgSender.Instance.PushMsg(MsgDTO, $"每天只能扔{FishingLimit}次瓶子噢~", true);
@@ -156,10 +153,7 @@
                         FromGroup = MsgDTO.FromGroup, FromQQ = MsgDTO.FromQQ, Content = content, SendTime = DateTime.Now
                     });
 
-            SqliteCacheService.Cache(
-                key,
-                new DriftBottleThrowCache { QQNum = MsgDTO.FromQQ, Count = count + 1 },
-                CommonUtil.UntilTommorow());
+            SCacheService.Cache(key, new DriftBottleThrowCache {QQNum = MsgDTO.FromQQ, Count = count + 1});
 
             MsgSender.Instance.PushMsg(MsgDTO, "漂流瓶已随波而去，最终将会漂到哪里呢~");
         }

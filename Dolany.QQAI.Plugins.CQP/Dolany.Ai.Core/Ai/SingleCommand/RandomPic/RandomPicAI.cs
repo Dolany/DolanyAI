@@ -37,7 +37,7 @@ namespace Dolany.Ai.Core.Ai.SingleCommand.RandomPic
             var count = 0;
 
             var key = $"RandomPic-{MsgDTO.FromQQ}";
-            var cache = SqliteCacheService.Get<RandomPicCache>(key);
+            var cache = SCacheService.Get<RandomPicCache>(key);
             if (cache != null && cache.Count > DailyLimit)
             {
                 MsgSender.Instance.PushMsg(MsgDTO, $"每天只能获取 {DailyLimit}次随机图片/闪照哦~");
@@ -52,7 +52,7 @@ namespace Dolany.Ai.Core.Ai.SingleCommand.RandomPic
             var picUrl = PicCacher.Random();
             MsgSender.Instance.PushMsg(MsgDTO, Code_Image(picUrl));
 
-            SqliteCacheService.Cache(key, new RandomPicCache{QQNum = MsgDTO.FromQQ, Count = count + 1}, CommonUtil.UntilTommorow());
+            SCacheService.Cache(key, new RandomPicCache{QQNum = MsgDTO.FromQQ, Count = count + 1});
         }
 
         [EnterCommand(
@@ -68,7 +68,7 @@ namespace Dolany.Ai.Core.Ai.SingleCommand.RandomPic
             var count = 0;
 
             var key = $"RandomPic-{MsgDTO.FromQQ}";
-            var cache = SqliteCacheService.Get<RandomPicCache>(key);
+            var cache = SCacheService.Get<RandomPicCache>(key);
             if (cache != null && cache.Count > DailyLimit)
             {
                 MsgSender.Instance.PushMsg(MsgDTO, $"每天只能获取 {DailyLimit}次随机图片/闪照哦~");
@@ -83,7 +83,7 @@ namespace Dolany.Ai.Core.Ai.SingleCommand.RandomPic
             var picUrl = PicCacher.Random();
             MsgSender.Instance.PushMsg(MsgDTO, Code_Flash(picUrl));
 
-            SqliteCacheService.Cache(key, new RandomPicCache{QQNum = MsgDTO.FromQQ, Count = count + 1}, CommonUtil.UntilTommorow());
+            SCacheService.Cache(key, new RandomPicCache{QQNum = MsgDTO.FromQQ, Count = count + 1});
         }
     }
 }

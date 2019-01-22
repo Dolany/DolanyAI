@@ -166,7 +166,7 @@ namespace Dolany.Ai.Core.Ai.Sys
         public void InitAi(MsgInformationEx MsgDTO, object[] param)
         {
             var key = $"InitInfo-{MsgDTO.FromGroup}";
-            var response = SqliteCacheService.Get<InitInfoCache>(key);
+            var response = SCacheService.Get<InitInfoCache>(key);
 
             if (response != null)
             {
@@ -181,7 +181,7 @@ namespace Dolany.Ai.Core.Ai.Sys
             }
 
             var model = new InitInfoCache {GroupNum = MsgDTO.FromGroup};
-            SqliteCacheService.Cache(key, model, CommonUtil.UntilTommorow());
+            SCacheService.Cache(key, model);
 
             MsgSender.Instance.PushMsg(MsgDTO, "初始化成功！");
         }

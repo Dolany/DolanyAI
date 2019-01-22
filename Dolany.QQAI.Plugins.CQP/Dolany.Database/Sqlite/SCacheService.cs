@@ -1,15 +1,18 @@
-﻿namespace Dolany.Database.Sqlite
+﻿using System.Globalization;
+using Dolany.Ai.Common;
+
+namespace Dolany.Database.Sqlite
 {
     using System;
     using System.Linq;
 
     using Newtonsoft.Json;
 
-    public class SqliteCacheService
+    public class SCacheService
     {
         private static readonly object Lock_obj = new object();
 
-        public static void Cache<T>(string key, T data, DateTime? expTime = null)
+        public static void Cache<T>(string key, T data, DateTime expTime)
         {
             lock (Lock_obj)
             {
@@ -22,18 +25,23 @@
                                                     {
                                                         Key = key,
                                                         Value = JsonConvert.SerializeObject(data),
-                                                        ExpTime = expTime.ToString()
+                                                        ExpTime = expTime.ToString(CultureInfo.CurrentCulture)
                                                     });
                     }
                     else
                     {
                         query.Value = JsonConvert.SerializeObject(data);
-                        query.ExpTime = expTime.ToString();
+                        query.ExpTime = expTime.ToString(CultureInfo.CurrentCulture);
                     }
 
                     db.SaveChanges();
                 }
             }
+        }
+
+        public static void Cache<T>(string key, T data)
+        {
+            Cache(key, data, CommonUtil.UntilTommorow());
         }
 
         public static T Get<T>(string key) where T : class

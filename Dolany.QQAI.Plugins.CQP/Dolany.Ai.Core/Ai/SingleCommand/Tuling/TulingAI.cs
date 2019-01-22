@@ -74,7 +74,7 @@
 
             MsgDTO.FullMsg = MsgDTO.FullMsg.Replace(Code_SelfAt(), string.Empty);
 
-            var cacheResponse = SqliteCacheService.Get<string>("QuestionnaireDuring-QuestionnaireDuring");
+            var cacheResponse = SCacheService.Get<string>("QuestionnaireDuring-QuestionnaireDuring");
 
             if (cacheResponse != null)
             {
@@ -94,7 +94,7 @@
 
         private void Questionnaire(MsgInformationEx MsgDTO, string QNo)
         {
-            var cacheResponse = SqliteCacheService.Get<QuestionnaireLimitCache>($"QuestionnaireLimit-{MsgDTO.FromQQ}");
+            var cacheResponse = SCacheService.Get<QuestionnaireLimitCache>($"QuestionnaireLimit-{MsgDTO.FromQQ}");
             if (cacheResponse != null && cacheResponse.Count > QLimit)
             {
                 MsgSender.Instance.PushMsg(MsgDTO, $"每天最多可以反馈{QLimit}哦~", true);

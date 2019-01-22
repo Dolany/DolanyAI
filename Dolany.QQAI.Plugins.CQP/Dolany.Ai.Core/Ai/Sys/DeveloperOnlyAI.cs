@@ -46,7 +46,7 @@ namespace Dolany.Ai.Core.Ai.Sys
 
             var key = $"TempAuthorize-{MsgDTO.FromGroup}-{qqNum}";
             var model = new TempAuthorizeCache { AuthName = authName, GroupNum = MsgDTO.FromGroup, QQNum = qqNum };
-            SqliteCacheService.Cache(key, model, CommonUtil.UntilTommorow());
+            SCacheService.Cache(key, model);
 
             MsgSender.Instance.PushMsg(MsgDTO, "临时授权成功！");
         }
@@ -88,7 +88,7 @@ namespace Dolany.Ai.Core.Ai.Sys
             var hourCount = (long)param[0];
 
             const string key = "QuestionnaireDuring-QuestionnaireDuring";
-            SqliteCacheService.Cache(key, DateTime.Now.ToString("yyyyMMdd"), DateTime.Now.AddHours(hourCount));
+            SCacheService.Cache(key, DateTime.Now.ToString("yyyyMMdd"), DateTime.Now.AddHours(hourCount));
             MsgSender.Instance.PushMsg(MsgDTO, "问卷调查模式开启");
         }
     }

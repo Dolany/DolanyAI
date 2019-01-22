@@ -46,7 +46,7 @@ namespace Dolany.Ai.Core.Ai.SingleCommand.Fortune
         public void RandomFortune(MsgInformationEx MsgDTO, object[] param)
         {
             var key = $"RandomFortune-{MsgDTO.FromQQ}";
-            var response = SqliteCacheService.Get<RandomFortuneCache>(key);
+            var response = SCacheService.Get<RandomFortuneCache>(key);
 
             if (response == null)
             {
@@ -61,7 +61,7 @@ namespace Dolany.Ai.Core.Ai.SingleCommand.Fortune
                 RandBless(rf);
                 ShowRandFortune(MsgDTO, rf);
 
-                SqliteCacheService.Cache(key, rf, CommonUtil.UntilTommorow());
+                SCacheService.Cache(key, rf);
             }
             else
             {
@@ -156,13 +156,13 @@ namespace Dolany.Ai.Core.Ai.SingleCommand.Fortune
         public void TarotFortune(MsgInformationEx MsgDTO, object[] param)
         {
             var key = $"TarotFortune-{MsgDTO.FromQQ}";
-            var response = SqliteCacheService.Get<TarotFortuneCache>(key);
+            var response = SCacheService.Get<TarotFortuneCache>(key);
 
             if (response == null)
             {
                 var fortune = GetRandTarotFortune();
                 var model = new TarotFortuneCache { QQNum = MsgDTO.FromQQ, TarotId = fortune.Id };
-                SqliteCacheService.Cache(key, model, CommonUtil.UntilTommorow());
+                SCacheService.Cache(key, model);
 
                 response = model;
             }
@@ -226,7 +226,7 @@ namespace Dolany.Ai.Core.Ai.SingleCommand.Fortune
         private static void Bless(long QQNum, string BlessName, int BlessValue)
         {
             var key = $"RandomFortune-{QQNum}";
-            var response = SqliteCacheService.Get<RandomFortuneCache>(key);
+            var response = SCacheService.Get<RandomFortuneCache>(key);
 
             if (response == null)
             {
@@ -238,14 +238,14 @@ namespace Dolany.Ai.Core.Ai.SingleCommand.Fortune
                     BlessName = BlessName,
                     BlessValue = BlessValue
                 };
-                SqliteCacheService.Cache(key, rf, CommonUtil.UntilTommorow());
+                SCacheService.Cache(key, rf);
             }
             else
             {
                 response.BlessName = BlessName;
                 response.BlessValue = BlessValue;
 
-                SqliteCacheService.Cache(key, response, CommonUtil.UntilTommorow());
+                SCacheService.Cache(key, response);
             }
         }
 
