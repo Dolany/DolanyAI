@@ -1,6 +1,6 @@
-﻿namespace Dolany.Ai.Core.Ai.Repeater
+﻿namespace Dolany.Ai.Core.Model
 {
-    public class PlusOneCache
+    public class PlusOneModel
     {
         public long GroupNumber { get; set; }
 

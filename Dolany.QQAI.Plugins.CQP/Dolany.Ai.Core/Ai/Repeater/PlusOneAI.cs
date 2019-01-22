@@ -11,7 +11,7 @@
     using Cache;
 
     using Dolany.Ai.Common;
-    using Dolany.Database;
+    using Database;
     using Dolany.Database.Ai;
 
     using Model;
@@ -25,7 +25,7 @@
         PriorityLevel = 1)]
     public class PlusOneAI : AIBase
     {
-        private List<PlusOneCache> Cache { get; } = new List<PlusOneCache>();
+        private List<PlusOneModel> Cache { get; } = new List<PlusOneModel>();
 
         private readonly List<long> InactiveGroups = new List<long>();
 
@@ -65,7 +65,7 @@
             var query = Cache.Where(d => d.GroupNumber == MsgDTO.FromGroup).ToList();
             if (query.IsNullOrEmpty())
             {
-                Cache.Add(new PlusOneCache
+                Cache.Add(new PlusOneModel
                 {
                     GroupNumber = MsgDTO.FromGroup,
                     IsAlreadyRepeated = false,
@@ -81,7 +81,7 @@
             return true;
         }
 
-        private static void Repeat(MsgInformationEx MsgDTO, PlusOneCache groupCache)
+        private static void Repeat(MsgInformationEx MsgDTO, PlusOneModel groupCache)
         {
             if (groupCache.MsgCache != MsgDTO.FullMsg)
             {
