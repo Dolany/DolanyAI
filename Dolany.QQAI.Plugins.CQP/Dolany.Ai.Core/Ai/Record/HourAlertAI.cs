@@ -97,18 +97,14 @@
                 new MsgCommand
                     {
                         Command = AiCommand.SendGroup,
-                        Id = Guid.NewGuid().ToString(),
                         Msg = Code_Voice(randGirl.VoiceUrl),
-                        Time = DateTime.Now,
                         ToGroup = groupNum
                 });
             MsgSender.Instance.PushMsg(
                 new MsgCommand
                     {
                         Command = AiCommand.SendGroup,
-                        Id = Guid.NewGuid().ToString(),
                         Msg = randGirl.Content,
-                        Time = DateTime.Now,
                         ToGroup = groupNum
                     });
         }

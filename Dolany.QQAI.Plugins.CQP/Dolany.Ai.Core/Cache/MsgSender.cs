@@ -29,12 +29,10 @@
             PushMsg(
                 new MsgCommand
                     {
-                        Id = Guid.NewGuid().ToString(),
                         Command = MsgInfo.Type == MsgType.Group ? AiCommand.SendGroup : AiCommand.SendPrivate,
                         Msg = MsgInfo.Type == MsgType.Group && isNeedAt
                                   ? $"{Code_At(MsgInfo.FromQQ)} {Content}"
                                   : Content,
-                        Time = DateTime.Now,
                         ToGroup = MsgInfo.FromGroup,
                         ToQQ = MsgInfo.FromQQ
                     });

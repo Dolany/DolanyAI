@@ -102,10 +102,8 @@
             MsgSender.Instance.PushMsg(
                 new MsgCommand
                     {
-                        Id = Guid.NewGuid().ToString(),
                         Command = AiCommand.SendGroup,
                         Msg = $@"{Code_At(entity.Creator)} {entity.Content}",
-                        Time = DateTime.Now,
                         ToGroup = entity.GroupNumber
                     });
 

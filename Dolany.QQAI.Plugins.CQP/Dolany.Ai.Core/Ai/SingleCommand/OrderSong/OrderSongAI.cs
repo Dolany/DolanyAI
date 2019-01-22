@@ -3,7 +3,6 @@ using Dolany.Database.Sqlite.Model;
 
 namespace Dolany.Ai.Core.Ai.SingleCommand.OrderSong
 {
-    using System;
     using System.Linq;
 
     using Base;
@@ -98,10 +97,8 @@ namespace Dolany.Ai.Core.Ai.SingleCommand.OrderSong
             var song = Waiter.Instance.WaitForRelationId(
                 new MsgCommand
                     {
-                        Id = Guid.NewGuid().ToString(),
                         Command = AiCommand.Get163Music,
-                        Msg = songId,
-                        Time = DateTime.Now
+                        Msg = songId
                     });
             return song.Msg;
         }

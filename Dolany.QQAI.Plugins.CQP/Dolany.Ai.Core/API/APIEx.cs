@@ -18,10 +18,8 @@
             var info = Waiter.Instance.WaitForRelationId(
                 new MsgCommand
                     {
-                        Id = Guid.NewGuid().ToString(),
                         Command = AiCommand.GetGroupMemberInfo,
                         Msg = 群号,
-                        Time = DateTime.Now,
                         ToGroup = 0,
                         ToQQ = 0
                     });
@@ -54,10 +52,8 @@
             Waiter.Instance.WaitForRelationId(
                 new MsgCommand
                     {
-                        Id = Guid.NewGuid().ToString(),
                         Command = AiCommand.Praise,
                         Msg = count.ToString(),
-                        Time = DateTime.Now,
                         ToQQ = QQ号
                     });
         }

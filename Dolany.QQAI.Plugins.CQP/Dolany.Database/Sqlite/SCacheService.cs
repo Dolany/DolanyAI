@@ -44,7 +44,7 @@ namespace Dolany.Database.Sqlite
             Cache(key, data, CommonUtil.UntilTommorow());
         }
 
-        public static T Get<T>(string key) where T : class
+        public static T Get<T>(string key)
         {
             lock (Lock_obj)
             {
@@ -53,7 +53,7 @@ namespace Dolany.Database.Sqlite
                     var query = db.SqliteCacheModel.FirstOrDefault(m => m.Key == key);
                     if (query == null)
                     {
-                        return null;
+                        return default(T);
                     }
 
                     if (!string.IsNullOrEmpty(query.Value) && DateTime.TryParse(query.ExpTime, out var time)
@@ -65,7 +65,7 @@ namespace Dolany.Database.Sqlite
                     db.SqliteCacheModel.Remove(query);
                     db.SaveChanges();
 
-                    return null;
+                    return default(T);
                 }
             }
         }

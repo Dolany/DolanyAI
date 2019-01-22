@@ -1,6 +1,5 @@
 ﻿namespace Dolany.Ai.Core.Ai.SingleCommand.SelfBoom
 {
-    using System;
     using System.Threading;
 
     using API;
@@ -33,68 +32,32 @@
                 new MsgCommand
                     {
                         Command = AiCommand.SendGroup,
-                        Id = Guid.NewGuid().ToString(),
                         Msg = "请于5秒内输入指令码！",
-                        Time = DateTime.Now,
                         ToGroup = MsgDTO.FromGroup
                     },
                 info => info.Msg == BoomCode.ToString());
             if (backInfo == null)
             {
-                MsgSender.Instance.PushMsg(
-                    new MsgCommand
-                        {
-                            Command = AiCommand.SendGroup,
-                            Id = Guid.NewGuid().ToString(),
-                            Msg = "自爆失败！",
-                            Time = DateTime.Now,
-                            ToGroup = MsgDTO.FromGroup
-                        });
+                MsgSender.Instance.PushMsg(MsgDTO, "自爆失败！");
                 return;
             }
 
             Thread.Sleep(1000);
-            MsgSender.Instance.PushMsg(
-                new MsgCommand
-                    {
-                        Command = AiCommand.SendGroup,
-                        Id = Guid.NewGuid().ToString(),
-                        Msg = "AI即将自爆！",
-                        Time = DateTime.Now,
-                        ToGroup = MsgDTO.FromGroup
-                    });
+            MsgSender.Instance.PushMsg(MsgDTO, "AI即将自爆！");
             for (var i = 5; i > 0; i--)
             {
-                MsgSender.Instance.PushMsg(
-                    new MsgCommand
-                        {
-                            Command = AiCommand.SendGroup,
-                            Id = Guid.NewGuid().ToString(),
-                            Msg = i.ToString(),
-                            Time = DateTime.Now,
-                            ToGroup = MsgDTO.FromGroup
-                        });
+                MsgSender.Instance.PushMsg(MsgDTO, i.ToString());
                 Thread.Sleep(1000);
             }
 
-            MsgSender.Instance.PushMsg(
-                new MsgCommand
-                    {
-                        Command = AiCommand.SendGroup,
-                        Id = Guid.NewGuid().ToString(),
-                        Msg = CodeApi.Code_Image_Relational("images/boom.jpg"),
-                        Time = DateTime.Now,
-                        ToGroup = MsgDTO.FromGroup
-                    });
+            MsgSender.Instance.PushMsg(MsgDTO, CodeApi.Code_Image_Relational("images/boom.jpg"));
 
             BoomCode = Utility.RandInt(10000);
             Thread.Sleep(1000);
             MsgSender.Instance.PushMsg(
                 new MsgCommand
                     {
-                        Command = AiCommand.Restart,
-                        Id = Guid.NewGuid().ToString(),
-                        Time = DateTime.Now
+                        Command = AiCommand.Restart
                     });
         }
 
