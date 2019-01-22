@@ -186,7 +186,6 @@
         }
 
         private void FishItem(MsgInformationEx MsgDTO)
-        private int RecordItem(MsgInformation MsgDTO, DriftBottleItemModel item)
         {
             var item = LocalateItem(Utility.RandInt(this.SumRate));
             int count;

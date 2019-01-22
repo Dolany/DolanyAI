@@ -1,4 +1,8 @@
-﻿namespace Dolany.Ai.Core.Ai.SingleCommand.RandomPic
+﻿using Dolany.Ai.Common;
+using Dolany.Database.Sqlite;
+using Dolany.Database.Sqlite.Model;
+
+namespace Dolany.Ai.Core.Ai.SingleCommand.RandomPic
 {
     using Base;
     using Cache;
@@ -14,6 +18,8 @@
         PriorityLevel = 10)]
     public class RandomPicAI : AIBase
     {
+        private const int DailyLimit = 20;
+
         public override void Initialization()
         {
         }
@@ -28,9 +34,25 @@
             IsPrivateAvailable = true)]
         public void RecentPic(MsgInformationEx MsgDTO, object[] param)
         {
-            var picUrl = PicCacher.Random();
+            var count = 0;
 
+            var key = $"RandomPic-{MsgDTO.FromQQ}";
+            var cache = SqliteCacheService.Get<RandomPicCache>(key);
+            if (cache != null && cache.Count > DailyLimit)
+            {
+                MsgSender.Instance.PushMsg(MsgDTO, $"每天只能获取 {DailyLimit}次随机图片/闪照哦~");
+                return;
+            }
+
+            if (cache != null)
+            {
+                count = cache.Count;
+            }
+
+            var picUrl = PicCacher.Random();
             MsgSender.Instance.PushMsg(MsgDTO, Code_Image(picUrl));
+
+            SqliteCacheService.Cache(key, new RandomPicCache{QQNum = MsgDTO.FromQQ, Count = count + 1}, CommonUtil.UntilTommorow());
         }
 
         [EnterCommand(
@@ -43,9 +65,25 @@
             IsPrivateAvailable = true)]
         public void RecentFlash(MsgInformationEx MsgDTO, object[] param)
         {
-            var picUrl = PicCacher.Random();
+            var count = 0;
 
+            var key = $"RandomPic-{MsgDTO.FromQQ}";
+            var cache = SqliteCacheService.Get<RandomPicCache>(key);
+            if (cache != null && cache.Count > DailyLimit)
+            {
+                MsgSender.Instance.PushMsg(MsgDTO, $"每天只能获取 {DailyLimit}次随机图片/闪照哦~");
+                return;
+            }
+
+            if (cache != null)
+            {
+                count = cache.Count;
+            }
+
+            var picUrl = PicCacher.Random();
             MsgSender.Instance.PushMsg(MsgDTO, Code_Flash(picUrl));
+
+            SqliteCacheService.Cache(key, new RandomPicCache{QQNum = MsgDTO.FromQQ, Count = count + 1}, CommonUtil.UntilTommorow());
         }
     }
 }
