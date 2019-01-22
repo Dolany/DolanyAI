@@ -7,11 +7,8 @@
     using Base;
 
     using Cache;
-
-    using Common;
-
     using Dolany.Ai.Common;
-    using Dolany.Database;
+    using Database;
     using Dolany.Database.Ai;
 
     using Model;
@@ -199,7 +196,6 @@
         {
             var cs = new CharactorSetting
             {
-                Id = Guid.NewGuid().ToString(),
                 CreateTime = DateTime.Now,
                 GroupNumber = MsgDTO.FromGroup,
                 Creator = MsgDTO.FromQQ,
@@ -209,7 +205,7 @@
             };
             MongoService<CharactorSetting>.Insert(cs);
 
-            MsgSender.Instance.PushMsg(MsgDTO, "设定成功！");
+            MsgSender.Instance.PushMsg(MsgDTO, "设定成功！", true);
         }
 
         private static void ModifySetting(MsgInformationEx MsgDTO, string charactor, string settingName, string content)

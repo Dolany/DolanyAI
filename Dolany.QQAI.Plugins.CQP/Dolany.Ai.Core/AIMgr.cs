@@ -120,7 +120,6 @@
             LoadCheckers();
 
             Waiter.Instance.Listen();
-            // CacheWaiter.Instance.Listen();
         }
 
         private void LoadCheckers()

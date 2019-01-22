@@ -4,15 +4,13 @@ namespace Dolany.Ai.Core.Ai.Sys
 {
     using System;
     using System.Linq;
-
-    using Dolany.Ai.Common;
-    using Dolany.Ai.Core.Base;
-    using Dolany.Ai.Core.Cache;
-    using Dolany.Ai.Core.Common;
-    using Dolany.Ai.Core.Model;
+    using Base;
+    using Cache;
+    using Common;
+    using Model;
     using Dolany.Database.Ai;
     using Database.Sqlite.Model;
-    using Dolany.Database.Sqlite;
+    using Database.Sqlite;
 
     [AI(Name = nameof(DeveloperOnlyAI),
         IsAvailable = true,

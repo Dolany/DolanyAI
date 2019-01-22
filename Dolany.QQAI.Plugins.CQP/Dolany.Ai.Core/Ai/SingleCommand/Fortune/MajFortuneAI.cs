@@ -1,8 +1,5 @@
-﻿using Dolany.Database.Sqlite;
-
-namespace Dolany.Ai.Core.Ai.SingleCommand.Fortune
+﻿namespace Dolany.Ai.Core.Ai.SingleCommand.Fortune
 {
-    using System;
     using System.Collections.Generic;
     using System.IO;
     using System.Linq;
@@ -14,8 +11,6 @@ namespace Dolany.Ai.Core.Ai.SingleCommand.Fortune
     using Cache;
 
     using Common;
-
-    using Dolany.Ai.Common;
     using Database.Sqlite;
     using Database.Sqlite.Model;
 

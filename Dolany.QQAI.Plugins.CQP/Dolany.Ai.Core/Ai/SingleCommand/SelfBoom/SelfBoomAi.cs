@@ -108,15 +108,7 @@
             IsPrivateAvailable = true)]
         public void GetBoomCode(MsgInformationEx MsgDTO, object[] param)
         {
-            MsgSender.Instance.PushMsg(
-                new MsgCommand
-                    {
-                        Command = AiCommand.SendGroup,
-                        Id = Guid.NewGuid().ToString(),
-                        Msg = BoomCode.ToString(),
-                        Time = DateTime.Now,
-                        ToGroup = MsgDTO.FromGroup
-                    });
+            MsgSender.Instance.PushMsg(MsgDTO, BoomCode.ToString());
         }
 
         public override void Initialization()

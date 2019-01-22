@@ -63,7 +63,6 @@
 
             MongoService<BlackList>.Insert(new BlackList
             {
-                Id = Guid.NewGuid().ToString(),
                 BlackCount = 1,
                 UpdateTime = DateTime.Now,
                 QQNum = QQNum,

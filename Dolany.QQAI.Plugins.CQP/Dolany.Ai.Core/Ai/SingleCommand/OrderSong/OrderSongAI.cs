@@ -1,4 +1,7 @@
-﻿namespace Dolany.Ai.Core.Ai.SingleCommand.OrderSong
+﻿using Dolany.Database.Sqlite;
+using Dolany.Database.Sqlite.Model;
+
+namespace Dolany.Ai.Core.Ai.SingleCommand.OrderSong
 {
     using System;
     using System.Linq;
@@ -15,7 +18,7 @@
 
     using Net;
 
-    using static Dolany.Ai.Core.Common.Utility;
+    using static Common.Utility;
 
     [AI(
         Name = nameof(OrderSongAI),
@@ -24,6 +27,8 @@
         PriorityLevel = 10)]
     public class OrderSongAI : AIBase
     {
+        private const int DailyLimit = 3;
+
         public override void Initialization()
         {
         }
@@ -38,19 +43,32 @@
             IsPrivateAvailable = true)]
         public void OrderASong(MsgInformationEx MsgDTO, object[] param)
         {
-            var songName = param[0] as string;
+            var key = $"OrderSong-{MsgDTO.FromQQ}";
+            var count = 0;
+            var cache = SCacheService.Get<OrderSongCache>(key);
+            if (cache != null)
+            {
+                if (cache.Count > DailyLimit)
+                {
+                    MsgSender.Instance.PushMsg(MsgDTO, $"每天只能点歌 {DailyLimit}次哦~");
+                    return;
+                }
+                count = cache.Count;
+            }
 
+            var songName = param[0] as string;
             var songId = GetSongId(songName);
 
             if (!string.IsNullOrEmpty(songId))
             {
                 var responseXml = GetMusicXml(songId);
                 MsgSender.Instance.PushMsg(MsgDTO, responseXml);
+
+                SCacheService.Cache(key, new OrderSongCache {QQNum = MsgDTO.FromQQ, Count = count + 1});
+                return;
             }
-            else
-            {
-                MsgSender.Instance.PushMsg(MsgDTO, "未查找到该歌曲！");
-            }
+
+            MsgSender.Instance.PushMsg(MsgDTO, "未查找到该歌曲！");
         }
 
         private static string GetSongId(string songName)
