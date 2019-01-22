@@ -14,11 +14,11 @@
 
         private static readonly object Lock_list = new object();
 
-        public static void Cache(DateTime time)
+        public static void Cache()
         {
             lock (Lock_list)
             {
-                TimeCache.Add(time);
+                TimeCache.Add(DateTime.Now);
                 if (TimeCache.Count > MaxRecentCommandCacheCount)
                 {
                     TimeCache.RemoveAt(0);

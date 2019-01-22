@@ -65,15 +65,6 @@
                     IsCascading = false,
                     MaxCacheCount = 50
                     });
-            JobScheduler.Instance.Add(
-                JobTimer.HourlyInterval / 2,
-                TimeUp,
-                new CacheCleanerDTO
-                {
-                    Path = "c:/AmandaQQ/VoiceCache/",
-                    IsCascading = false,
-                    MaxCacheCount = 50
-                    });
         }
 
         private void TimeUp(object sender, ElapsedEventArgs e)

@@ -220,29 +220,24 @@
             {
                 try
                 {
-                    MsgCallBack_Func(MsgDTO);
+                    if (DirtyFilter.Instance.IsInBlackList(MsgDTO.FromQQ) || !DirtyFilter.Instance.Filter(MsgDTO.FromGroup, MsgDTO.FromQQ, MsgDTO.Msg))
+                    {
+                        return;
+                    }
+
+                    if (!AIList.Any(ai => ai.Key.OnMsgReceived(MsgDTO)))
+                    {
+                        return;
+                    }
+
+                    RecentCommandCache.Cache();
+                    Sys_CommandCount.Plus();
                 }
                 catch (Exception ex)
                 {
                     RuntimeLogger.Log(ex);
                 }
             });
-        }
-
-        private void MsgCallBack_Func(MsgInformationEx MsgDTO)
-        {
-            if (DirtyFilter.Instance.IsInBlackList(MsgDTO.FromQQ) || !DirtyFilter.Instance.Filter(MsgDTO.FromGroup, MsgDTO.FromQQ, MsgDTO.Msg))
-            {
-                return;
-            }
-
-            if (!AIList.Any(ai => ai.Key.OnMsgReceived(MsgDTO)))
-            {
-                return;
-            }
-
-            RecentCommandCache.Cache(DateTime.Now);
-            Sys_CommandCount.Plus();
         }
 
         private static string GenCommand(ref string msg)

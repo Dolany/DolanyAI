@@ -22,11 +22,9 @@ namespace Dolany.Database.Sqlite
                     if (query == null)
                     {
                         db.SqliteCacheModel.Add(new SqliteCacheModel
-                                                    {
-                                                        Key = key,
-                                                        Value = JsonConvert.SerializeObject(data),
-                                                        ExpTime = expTime.ToString(CultureInfo.CurrentCulture)
-                                                    });
+                        {
+                            Key = key, Value = JsonConvert.SerializeObject(data), ExpTime = expTime.ToString(CultureInfo.CurrentCulture)
+                        });
                     }
                     else
                     {
@@ -56,8 +54,7 @@ namespace Dolany.Database.Sqlite
                         return default(T);
                     }
 
-                    if (!string.IsNullOrEmpty(query.Value) && DateTime.TryParse(query.ExpTime, out var time)
-                                                           && time > DateTime.Now)
+                    if (!string.IsNullOrEmpty(query.Value) && DateTime.TryParse(query.ExpTime, out var time) && time > DateTime.Now)
                     {
                         return JsonConvert.DeserializeObject<T>(query.Value);
                     }
