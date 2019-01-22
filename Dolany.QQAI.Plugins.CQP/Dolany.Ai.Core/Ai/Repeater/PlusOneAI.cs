@@ -2,15 +2,12 @@
 {
     using System;
     using System.Collections.Generic;
-    using System.Diagnostics;
     using System.Linq;
     using System.Threading;
 
     using Base;
 
     using Cache;
-
-    using Dolany.Ai.Common;
     using Database;
     using Dolany.Database.Ai;
 
@@ -62,8 +59,8 @@
                 return false;
             }
 
-            var query = Cache.Where(d => d.GroupNumber == MsgDTO.FromGroup).ToList();
-            if (query.IsNullOrEmpty())
+            var query = Cache.FirstOrDefault(d => d.GroupNumber == MsgDTO.FromGroup);
+            if (query == null)
             {
                 Cache.Add(new PlusOneModel
                 {
@@ -76,8 +73,7 @@
             }
 
             Thread.Sleep(2000);
-            var groupCache = query.FirstOrDefault();
-            Repeat(MsgDTO, groupCache);
+            Repeat(MsgDTO, query);
             return true;
         }
 
@@ -131,8 +127,8 @@
 
         private void ForbiddenStateChange(long fromGroup, bool state)
         {
-            var query = MongoService<PlusOneAvailable>.Get(r => r.GroupNumber == fromGroup);
-            if (query.IsNullOrEmpty())
+            var query = MongoService<PlusOneAvailable>.Get(r => r.GroupNumber == fromGroup).FirstOrDefault();
+            if (query == null)
             {
                 var pa = new PlusOneAvailable
                 {
@@ -144,11 +140,9 @@
             }
             else
             {
-                var ra = query.FirstOrDefault();
-                Debug.Assert(ra != null, nameof(ra) + " != null");
-                ra.Available = state;
+                query.Available = state;
 
-                MongoService<PlusOneAvailable>.Update(ra);
+                MongoService<PlusOneAvailable>.Update(query);
             }
 
             lock (this.List_lock)

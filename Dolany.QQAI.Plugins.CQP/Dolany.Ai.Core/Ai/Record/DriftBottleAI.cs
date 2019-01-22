@@ -47,13 +47,8 @@
                 string line;
                 while (!string.IsNullOrEmpty(line = reader.ReadLine()))
                 {
-                    var strs = line.Split(new[] { ' ' }, StringSplitOptions.RemoveEmptyEntries);
-                    this.Items.Add(
-                        new DriftBottleItemModel
-                            {
-                                Name = strs[0], Description = strs[1], Rate = int.Parse(strs[2]),
-                                Honor = strs[3]
-                            });
+                    var strs = line.Split(new[] {' '}, StringSplitOptions.RemoveEmptyEntries);
+                    this.Items.Add(new DriftBottleItemModel {Name = strs[0], Description = strs[1], Rate = int.Parse(strs[2]), Honor = strs[3]});
                 }
             }
 
@@ -187,13 +182,19 @@
         {
             var item = LocalateItem(Utility.RandInt(this.SumRate));
             int count;
-            var honor = string.Empty;
+            var honor = 1;
             var query = MongoService<DriftItemRecord>.Get(r => r.QQNum == MsgDTO.FromQQ).FirstOrDefault();
-            if (query == null || query.ItemCount.All(i => i.Name != item.Name))
+            if (query == null)
             {
-                MongoService<DriftItemRecord>.Insert(
-                    new DriftItemRecord { QQNum = MsgDTO.FromQQ, ItemCount = new[] { new DriftItemCountRecord { Count = 1, Name = item.Name } } });
+                query = new DriftItemRecord
+                {
+                    QQNum = MsgDTO.FromQQ, ItemCount = new[] {new DriftItemCountRecord {Count = 1, Name = item.Name}}, HonorList = new List<string>()
+                };
+                MongoService<DriftItemRecord>.Insert(query);
+            }
 
+            if (query.ItemCount.All(i => i.Name != item.Name))
+            {
                 count = 1;
                 honor = CheckHonor(query, item);
             }
@@ -206,30 +207,6 @@
                 count = ic.Count;
             }
 
-            PrintItem(MsgDTO, item, count, honor);
-        }
-
-        private string CheckHonor(DriftItemRecord record, DriftBottleItemModel item)
-        {
-            var honorName = item.Honor;
-            if (record.HonorList.Contains(honorName))
-            {
-                return string.Empty;
-            }
-
-            var allNeedItems = HonorDic[honorName];
-            if (!allNeedItems.All(ani => record.ItemCount.Any(ic => ic.Name == ani)))
-            {
-                return string.Empty;
-            }
-
-            record.HonorList = record.HonorList.Append(honorName);
-            MongoService<DriftItemRecord>.Update(record);
-            return honorName;
-        }
-
-        private void PrintItem(MsgInformationEx MsgDTO, DriftBottleItemModel item, int count, string honor)
-        {
             var msg =
                 $"你捞到了 {item.Name} \r" +
                 $"    {item.Description} \r" +
@@ -238,13 +215,32 @@
 
             MsgSender.Instance.PushMsg(MsgDTO, msg, true);
 
-            if (string.IsNullOrEmpty(honor))
+            if (honor == 0)
             {
                 return;
             }
 
-            msg = $"恭喜你解锁了成就 {honor}! (集齐物品：{string.Join("，", HonorDic[honor])})";
+            if (honor < HonorDic[item.Honor].Length)
+            {
+                msg = $"成就 {item.Honor} 完成度：{Math.Round(honor * 1.0 / HonorDic[item.Honor].Length * 100, 2)})";
+                MsgSender.Instance.PushMsg(MsgDTO, msg, true);
+                return;
+            }
+
+            msg = $"恭喜你解锁了成就 {item.Honor}! (集齐物品：{string.Join("，", HonorDic[item.Honor])})";
             MsgSender.Instance.PushMsg(MsgDTO, msg, true);
+            query.HonorList = query.HonorList == null ? new []{item.Honor} : query.HonorList.Append(item.Honor);
+            MongoService<DriftItemRecord>.Update(query);
+        }
+
+        private int CheckHonor(DriftItemRecord record, DriftBottleItemModel item)
+        {
+            if (record.HonorList != null && record.HonorList.Contains(item.Honor))
+            {
+                return 0;
+            }
+
+            return record.HonorList == null ? 1 : record.HonorList.Count() + 1;
         }
 
         private void PrintBottle(MsgInformationEx MsgDTO, DriftBottleRecord record)
@@ -267,6 +263,27 @@
             }
 
             return this.Items.First();
+        }
+
+        [EnterCommand(Command = "查看物品",
+            AuthorityLevel = AuthorityLevel.成员,
+            Description = "查看某件物品的详情",
+            Syntax = "[物品名称]",
+            SyntaxChecker = "Word",
+            Tag = "漂流瓶功能",
+            IsPrivateAvailable = true)]
+        public void ViewItem(MsgInformationEx MsgDTO, object[] param)
+        {
+            var name = param[0] as string;
+            var item = Items.FirstOrDefault(i => i.Name == name);
+            if (item == null)
+            {
+                MsgSender.Instance.PushMsg(MsgDTO, $"未找到该物品：{name}");
+                return;
+            }
+
+            var msg = $"物品名称：{item.Name}\r物品描述：{item.Description}\r稀有率：{Math.Round(item.Rate * 1.0 / this.SumRate * 100, 2)}\r可解锁成就：{item.Honor}";
+            MsgSender.Instance.PushMsg(MsgDTO, msg);
         }
     }
 }
