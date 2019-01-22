@@ -49,7 +49,11 @@
                 {
                     var strs = line.Split(new[] { ' ' }, StringSplitOptions.RemoveEmptyEntries);
                     this.Items.Add(
-                        new DriftBottleItemModel { Name = strs[0], Description = strs[1], Rate = int.Parse(strs[2]) });
+                        new DriftBottleItemModel
+                            {
+                                Name = strs[0], Description = strs[1], Rate = int.Parse(strs[2]),
+                                Honor = strs[3]
+                            });
                 }
             }
 
@@ -112,7 +116,7 @@
                 FishItem(MsgDTO);
             }
 
-            SCacheService.Cache(key, new DriftBottleFishingCache {QQNum = MsgDTO.FromQQ, Count = count + 1});
+            SCacheService.Cache(key, new DriftBottleFishingCache { QQNum = MsgDTO.FromQQ, Count = count + 1 });
         }
 
         [EnterCommand(
@@ -153,7 +157,7 @@
                         FromGroup = MsgDTO.FromGroup, FromQQ = MsgDTO.FromQQ, Content = content, SendTime = DateTime.Now
                     });
 
-            SCacheService.Cache(key, new DriftBottleThrowCache {QQNum = MsgDTO.FromQQ, Count = count + 1});
+            SCacheService.Cache(key, new DriftBottleThrowCache { QQNum = MsgDTO.FromQQ, Count = count + 1 });
 
             MsgSender.Instance.PushMsg(MsgDTO, "漂流瓶已随波而去，最终将会漂到哪里呢~");
         }
