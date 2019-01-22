@@ -28,9 +28,9 @@
 
         private int SumRate;
 
-        private const int FishingLimit = 2;
+        private const int FishingLimit = 3;
 
-        private const int ThrowLimit = 2;
+        private const int ThrowLimit = 3;
 
         private const int ItemRate = 60;
 
