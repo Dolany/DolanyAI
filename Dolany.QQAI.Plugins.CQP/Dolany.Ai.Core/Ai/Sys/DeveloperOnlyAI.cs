@@ -89,5 +89,23 @@ namespace Dolany.Ai.Core.Ai.Sys
             SCacheService.Cache(key, DateTime.Now.ToString("yyyyMMdd"), DateTime.Now.AddHours(hourCount));
             MsgSender.Instance.PushMsg(MsgDTO, "问卷调查模式开启");
         }
+
+        [EnterCommand(
+            Command = "权限验证关闭",
+            Description = "临时关闭权限验证",
+            Syntax = "持续小时数",
+            Tag = "系统命令",
+            SyntaxChecker = "Long",
+            AuthorityLevel = AuthorityLevel.开发者,
+            IsPrivateAvailable = true)]
+        public void AuthDisable(MsgInformationEx MsgDTO, object[] param)
+        {
+            var duringHour = (long) param[0];
+
+            const string key = "AuthDisable";
+            SCacheService.Cache(key, "Disable", DateTime.Now.AddHours(duringHour));
+
+            MsgSender.Instance.PushMsg(MsgDTO, "验证已关闭！");
+        }
     }
 }
