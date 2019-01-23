@@ -29,7 +29,7 @@ namespace Dolany.Ai.Core.Cache
 
             const string key = "AuthDisable";
             var cache = SCacheService.Get<string>(key);
-            if (!string.IsNullOrEmpty(cache))
+            if (string.IsNullOrEmpty(cache))
             {
                 RefreshGroupInfo(MsgDTO.FromGroup);
             }

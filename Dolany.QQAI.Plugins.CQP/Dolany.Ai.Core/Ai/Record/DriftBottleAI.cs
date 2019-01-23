@@ -139,8 +139,107 @@
                 return;
             }
 
-            var itemMsgs = query.ItemCount.Select(ic => $"{ic.Name}*{ic.Count}");
+            var itemMsgs = query.ItemCount.Take(20).Select(ic => $"{ic.Name}*{ic.Count}");
             var msg = $"你收集到的物品有：{string.Join(",", itemMsgs)}";
+            if (query.ItemCount.Count() > 20)
+            {
+                var pageCount = (query.ItemCount.Count() - 1) / 20 + 1;
+                msg += $"\r(当前第1/{pageCount}页，请使用 我的物品 [页码] 来查看更多物品)";
+            }
+            MsgSender.Instance.PushMsg(MsgDTO, msg, true);
+        }
+
+        [EnterCommand(
+            Command = "我的成就",
+            AuthorityLevel = AuthorityLevel.成员,
+            Description = "查看自己的成就",
+            Syntax = "",
+            SyntaxChecker = "Empty",
+            Tag = "漂流瓶功能",
+            IsPrivateAvailable = true)]
+        public void MyHonors(MsgInformationEx MsgDTO, object[] param)
+        {
+            var query = MongoService<DriftItemRecord>.Get(r => r.QQNum == MsgDTO.FromQQ).FirstOrDefault();
+            if (query == null || !query.HonorList.Any())
+            {
+                MsgSender.Instance.PushMsg(MsgDTO, "你还没有获得任何成就，继续加油吧~", true);
+                return;
+            }
+
+            var msg = $"你获得的成就有：{string.Join(",", query.HonorList)}";
+            MsgSender.Instance.PushMsg(MsgDTO, msg, true);
+        }
+
+        [EnterCommand(Command = "我的物品",
+            AuthorityLevel = AuthorityLevel.成员,
+            Description = "分页查看自己的物品(每页20个)",
+            Syntax = "[页码]",
+            SyntaxChecker = "Long",
+            Tag = "漂流瓶功能",
+            IsPrivateAvailable = true)]
+        public void MyItemsPaged(MsgInformationEx MsgDTO, object[] param)
+        {
+            var pageIdx = (long)param[0];
+            if (pageIdx <= 0)
+            {
+                return;
+            }
+
+            var query = MongoService<DriftItemRecord>.Get(r => r.QQNum == MsgDTO.FromQQ).FirstOrDefault();
+            if (query == null || !query.ItemCount.Any())
+            {
+                MsgSender.Instance.PushMsg(MsgDTO, "你的背包空空如也~", true);
+                return;
+            }
+            var pageCount = (query.ItemCount.Count() - 1) / 20 + 1;
+            if (pageIdx > pageCount)
+            {
+                MsgSender.Instance.PushMsg(MsgDTO, $"你的背包只有 {pageCount}页~", true);
+                return;
+            }
+
+            var itemMsgs = query.ItemCount.Skip((int)(pageIdx - 1) * 20).Take(20).Select(ic => $"{ic.Name}*{ic.Count}");
+            var msg = $"该页的物品有：{string.Join(",", itemMsgs)}";
+            if (pageCount > 1)
+            {
+                msg += $"\r(当前第{pageIdx}/{pageCount}页，请使用 我的物品 [页码] 来查看更多物品)";
+            }
+            MsgSender.Instance.PushMsg(MsgDTO, msg, true);
+        }
+
+        [EnterCommand(
+            Command = "我的物品",
+            AuthorityLevel = AuthorityLevel.成员,
+            Description = "按成就名查看自己的物品",
+            Syntax = "[成就名]",
+            SyntaxChecker = "Word",
+            Tag = "漂流瓶功能",
+            IsPrivateAvailable = true)]
+        public void MyItemsByHonor(MsgInformationEx MsgDTO, object[] param)
+        {
+            var honorName = param[0] as string;
+
+            if (!this.HonorDic.Keys.Contains(honorName))
+            {
+                MsgSender.Instance.PushMsg(MsgDTO, "没有查找到该成就");
+                return;
+            }
+
+            var query = MongoService<DriftItemRecord>.Get(r => r.QQNum == MsgDTO.FromQQ).FirstOrDefault();
+            if (query == null || !query.ItemCount.Any())
+            {
+                MsgSender.Instance.PushMsg(MsgDTO, "你的背包空空如也~", true);
+                return;
+            }
+
+            var items = query.ItemCount.Where(ic => this.HonorDic[honorName].Contains(ic.Name));
+            if (!items.Any())
+            {
+                MsgSender.Instance.PushMsg(MsgDTO, "你没有属于该成就的物品", true);
+                return;
+            }
+
+            var msg = $"属于该成就的你拥有的有：{string.Join(",", items.Select(ic => $"{ic.Name}*{ic.Count}"))}";
             MsgSender.Instance.PushMsg(MsgDTO, msg, true);
         }
 
