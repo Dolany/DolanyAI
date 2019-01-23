@@ -76,7 +76,7 @@
             var cache = SCacheService.Get<DriftBottleFishingCache>(key);
             if (cache != null && cache.Count >= FishingLimit)
             {
-                MsgSender.Instance.PushMsg(MsgDTO, $"每天只能捞{FishingLimit}次瓶子噢~", true);
+                MsgSender.Instance.PushMsg(MsgDTO, "今天捞瓶子的次数已用完，请明天再试~", true);
                 return;
             }
 
@@ -137,7 +137,7 @@
             var cache = SCacheService.Get<DriftBottleThrowCache>(key);
             if (cache != null && cache.Count >= ThrowLimit)
             {
-                MsgSender.Instance.PushMsg(MsgDTO, $"每天只能扔{FishingLimit}次瓶子噢~", true);
+                MsgSender.Instance.PushMsg(MsgDTO, "今天扔瓶子的次数已用完，请明天再试~", true);
                 return;
             }
 
@@ -303,6 +303,34 @@
 
             var msg = $"解锁成就 {name} 需要集齐：{string.Join(",", this.HonorDic[name])}";
             MsgSender.Instance.PushMsg(MsgDTO, msg);
+        }
+
+        [EnterCommand(
+            Command = "漂流瓶奖励",
+            Description = "奖励某个人若干个捞瓶子次数（当日有效）",
+            Syntax = "[@QQ号] [奖励个数]",
+            Tag = "漂流瓶功能",
+            SyntaxChecker = "At Long",
+            AuthorityLevel = AuthorityLevel.开发者,
+            IsPrivateAvailable = false)]
+        public void FishingBonus(MsgInformationEx MsgDTO, object[] param)
+        {
+            var qqNum = (long)param[0];
+            var count = (long)param[1];
+
+            var key = $"DriftBottle-{qqNum}";
+            var cache = SCacheService.Get<DriftBottleFishingCache>(key);
+            if (cache == null)
+            {
+                SCacheService.Cache(key, new DriftBottleFishingCache{QQNum = qqNum, Count = (int)-count});
+            }
+            else
+            {
+                cache.Count -= (int)count;
+                SCacheService.Cache(key, cache);
+            }
+
+            MsgSender.Instance.PushMsg(MsgDTO, "奖励已生效！");
         }
     }
 }
