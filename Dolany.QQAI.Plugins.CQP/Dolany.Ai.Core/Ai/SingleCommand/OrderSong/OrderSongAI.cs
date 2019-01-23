@@ -39,22 +39,10 @@ namespace Dolany.Ai.Core.Ai.SingleCommand.OrderSong
             Syntax = "[歌名]",
             Tag = "点歌功能",
             SyntaxChecker = "Any",
-            IsPrivateAvailable = true)]
+            IsPrivateAvailable = true,
+            DailyLimit = 5)]
         public void OrderASong(MsgInformationEx MsgDTO, object[] param)
         {
-            var key = $"OrderSong-{MsgDTO.FromQQ}";
-            var count = 0;
-            var cache = SCacheService.Get<OrderSongCache>(key);
-            if (cache != null)
-            {
-                if (cache.Count > DailyLimit)
-                {
-                    MsgSender.Instance.PushMsg(MsgDTO, $"每天只能点歌 {DailyLimit}次哦~");
-                    return;
-                }
-                count = cache.Count;
-            }
-
             var songName = param[0] as string;
             var songId = GetSongId(songName);
 
@@ -63,7 +51,6 @@ namespace Dolany.Ai.Core.Ai.SingleCommand.OrderSong
                 var responseXml = GetMusicXml(songId);
                 MsgSender.Instance.PushMsg(MsgDTO, responseXml);
 
-                SCacheService.Cache(key, new OrderSongCache {QQNum = MsgDTO.FromQQ, Count = count + 1});
                 return;
             }
 

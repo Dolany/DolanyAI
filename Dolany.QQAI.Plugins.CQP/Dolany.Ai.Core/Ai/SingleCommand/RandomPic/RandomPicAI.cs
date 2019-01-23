@@ -31,28 +31,12 @@ namespace Dolany.Ai.Core.Ai.SingleCommand.RandomPic
             Syntax = "",
             Tag = "图片功能",
             SyntaxChecker = "Empty",
-            IsPrivateAvailable = true)]
+            IsPrivateAvailable = true,
+            DailyLimit = 20)]
         public void RecentPic(MsgInformationEx MsgDTO, object[] param)
         {
-            var count = 0;
-
-            var key = $"RandomPic-{MsgDTO.FromQQ}";
-            var cache = SCacheService.Get<RandomPicCache>(key);
-            if (cache != null && cache.Count > DailyLimit)
-            {
-                MsgSender.Instance.PushMsg(MsgDTO, $"每天只能获取 {DailyLimit}次随机图片/闪照哦~");
-                return;
-            }
-
-            if (cache != null)
-            {
-                count = cache.Count;
-            }
-
             var picUrl = PicCacher.Random();
             MsgSender.Instance.PushMsg(MsgDTO, Code_Image(picUrl));
-
-            SCacheService.Cache(key, new RandomPicCache{QQNum = MsgDTO.FromQQ, Count = count + 1});
         }
 
         [EnterCommand(
@@ -62,28 +46,12 @@ namespace Dolany.Ai.Core.Ai.SingleCommand.RandomPic
             Syntax = "",
             Tag = "图片功能",
             SyntaxChecker = "Empty",
-            IsPrivateAvailable = true)]
+            IsPrivateAvailable = true,
+            DailyLimit = 20)]
         public void RecentFlash(MsgInformationEx MsgDTO, object[] param)
         {
-            var count = 0;
-
-            var key = $"RandomPic-{MsgDTO.FromQQ}";
-            var cache = SCacheService.Get<RandomPicCache>(key);
-            if (cache != null && cache.Count > DailyLimit)
-            {
-                MsgSender.Instance.PushMsg(MsgDTO, $"每天只能获取 {DailyLimit}次随机图片/闪照哦~");
-                return;
-            }
-
-            if (cache != null)
-            {
-                count = cache.Count;
-            }
-
             var picUrl = PicCacher.Random();
             MsgSender.Instance.PushMsg(MsgDTO, Code_Flash(picUrl));
-
-            SCacheService.Cache(key, new RandomPicCache{QQNum = MsgDTO.FromQQ, Count = count + 1});
         }
     }
 }

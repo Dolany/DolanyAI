@@ -28,8 +28,6 @@
 
         private int SumRate;
 
-        private const int FishingLimit = 3;
-
         private const int ThrowLimit = 3;
 
         private const int ItemRate = 60;
@@ -67,24 +65,10 @@
             Syntax = "",
             SyntaxChecker = "Empty",
             Tag = "漂流瓶功能",
-            IsPrivateAvailable = true)]
+            IsPrivateAvailable = true,
+            DailyLimit = 3)]
         public void FishingBottle(MsgInformationEx MsgDTO, object[] param)
         {
-            var count = 0;
-
-            var key = $"DriftBottle-{MsgDTO.FromQQ}";
-            var cache = SCacheService.Get<DriftBottleFishingCache>(key);
-            if (cache != null && cache.Count >= FishingLimit)
-            {
-                MsgSender.Instance.PushMsg(MsgDTO, "今天捞瓶子的次数已用完，请明天再试~", true);
-                return;
-            }
-
-            if (cache != null)
-            {
-                count = cache.Count;
-            }
-
             if (Utility.RandInt(100) >= ItemRate)
             {
                 var query = MongoService<DriftBottleRecord>.Get(
@@ -110,8 +94,6 @@
             {
                 FishItem(MsgDTO);
             }
-
-            SCacheService.Cache(key, new DriftBottleFishingCache { QQNum = MsgDTO.FromQQ, Count = count + 1 });
         }
 
         [EnterCommand(
@@ -121,7 +103,8 @@
             Syntax = "[漂流瓶内容]",
             SyntaxChecker = "Any",
             Tag = "漂流瓶功能",
-            IsPrivateAvailable = true)]
+            IsPrivateAvailable = true,
+            DailyLimit = 3)]
         public void ThrowBottle(MsgInformationEx MsgDTO, object[] param)
         {
             var content = param[0] as string;
@@ -131,28 +114,11 @@
                 return;
             }
 
-            var count = 0;
-
-            var key = $"ThrowBottle-{MsgDTO.FromQQ}";
-            var cache = SCacheService.Get<DriftBottleThrowCache>(key);
-            if (cache != null && cache.Count >= ThrowLimit)
-            {
-                MsgSender.Instance.PushMsg(MsgDTO, "今天扔瓶子的次数已用完，请明天再试~", true);
-                return;
-            }
-
-            if (cache != null)
-            {
-                count = cache.Count;
-            }
-
             MongoService<DriftBottleRecord>.Insert(
                 new DriftBottleRecord
                     {
                         FromGroup = MsgDTO.FromGroup, FromQQ = MsgDTO.FromQQ, Content = content, SendTime = DateTime.Now
                     });
-
-            SCacheService.Cache(key, new DriftBottleThrowCache { QQNum = MsgDTO.FromQQ, Count = count + 1 });
 
             MsgSender.Instance.PushMsg(MsgDTO, "漂流瓶已随波而去，最终将会漂到哪里呢~");
         }
@@ -303,34 +269,6 @@
 
             var msg = $"解锁成就 {name} 需要集齐：{string.Join(",", this.HonorDic[name])}";
             MsgSender.Instance.PushMsg(MsgDTO, msg);
-        }
-
-        [EnterCommand(
-            Command = "漂流瓶奖励",
-            Description = "奖励某个人若干个捞瓶子次数（当日有效）",
-            Syntax = "[@QQ号] [奖励个数]",
-            Tag = "漂流瓶功能",
-            SyntaxChecker = "At Long",
-            AuthorityLevel = AuthorityLevel.开发者,
-            IsPrivateAvailable = false)]
-        public void FishingBonus(MsgInformationEx MsgDTO, object[] param)
-        {
-            var qqNum = (long)param[0];
-            var count = (long)param[1];
-
-            var key = $"DriftBottle-{qqNum}";
-            var cache = SCacheService.Get<DriftBottleFishingCache>(key);
-            if (cache == null)
-            {
-                SCacheService.Cache(key, new DriftBottleFishingCache{QQNum = qqNum, Count = (int)-count});
-            }
-            else
-            {
-                cache.Count -= (int)count;
-                SCacheService.Cache(key, cache);
-            }
-
-            MsgSender.Instance.PushMsg(MsgDTO, "奖励已生效！");
         }
     }
 }

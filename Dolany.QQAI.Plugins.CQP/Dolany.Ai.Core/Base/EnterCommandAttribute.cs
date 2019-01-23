@@ -23,6 +23,7 @@ namespace Dolany.Ai.Core.Base
         public bool IsPrivateAvailable { get; set; } = false;
         public bool IsGroupAvailable { get; set; } = true;
         public bool IsTesting { get; set; } = false;
+        public int DailyLimit { get; set; }
 
         private IEnumerable<string> _CommandsList;
 

@@ -107,5 +107,34 @@ namespace Dolany.Ai.Core.Ai.Sys
 
             MsgSender.Instance.PushMsg(MsgDTO, "验证已关闭！");
         }
+
+        [EnterCommand(
+            Command = "功能奖励",
+            Description = "奖励某个人某个功能若个使用次数（当日有效）",
+            Syntax = "[命令名] [@QQ号] [奖励个数]",
+            Tag = "系统功能",
+            SyntaxChecker = "Word At Long",
+            AuthorityLevel = AuthorityLevel.开发者,
+            IsPrivateAvailable = false)]
+        public void FishingBonus(MsgInformationEx MsgDTO, object[] param)
+        {
+            var command = param[0] as string;
+            var qqNum = (long)param[1];
+            var count = (long)param[2];
+
+            var key = $"DailyLimit-{command}-{qqNum}";
+            var cache = SCacheService.Get<DailyLimitCache>(key);
+            if (cache == null)
+            {
+                SCacheService.Cache(key, new DailyLimitCache{QQNum = qqNum, Count = (int)-count, Command = command});
+            }
+            else
+            {
+                cache.Count -= (int)count;
+                SCacheService.Cache(key, cache);
+            }
+
+            MsgSender.Instance.PushMsg(MsgDTO, "奖励已生效！");
+        }
     }
 }
