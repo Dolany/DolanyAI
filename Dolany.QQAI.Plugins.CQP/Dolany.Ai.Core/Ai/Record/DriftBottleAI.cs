@@ -12,8 +12,6 @@
     using Model;
     using Database;
     using Dolany.Database.Ai;
-    using Database.Sqlite;
-    using Dolany.Database.Sqlite.Model;
 
     [AI(
         Name = nameof(DriftBottleAI),
@@ -27,8 +25,6 @@
         private Dictionary<string, string[]> HonorDic = new Dictionary<string, string[]>();
 
         private int SumRate;
-
-        private const int ThrowLimit = 3;
 
         private const int ItemRate = 60;
 
@@ -66,7 +62,7 @@
             SyntaxChecker = "Empty",
             Tag = "漂流瓶功能",
             IsPrivateAvailable = true,
-            DailyLimit = 3)]
+            DailyLimit = 1)]
         public void FishingBottle(MsgInformationEx MsgDTO, object[] param)
         {
             if (Utility.RandInt(100) >= ItemRate)
@@ -232,7 +228,7 @@
                 return;
             }
 
-            var items = query.ItemCount.Where(ic => this.HonorDic[honorName].Contains(ic.Name));
+            var items = query.ItemCount.Where(ic => this.HonorDic[honorName].Contains(ic.Name)).ToList();
             if (!items.Any())
             {
                 MsgSender.Instance.PushMsg(MsgDTO, "你没有属于该成就的物品", true);

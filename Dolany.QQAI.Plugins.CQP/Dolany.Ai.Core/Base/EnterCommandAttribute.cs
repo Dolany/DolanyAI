@@ -24,6 +24,7 @@ namespace Dolany.Ai.Core.Base
         public bool IsGroupAvailable { get; set; } = true;
         public bool IsTesting { get; set; } = false;
         public int DailyLimit { get; set; }
+        public int TestingDailyLimit { get; set; }
 
         private IEnumerable<string> _CommandsList;
 

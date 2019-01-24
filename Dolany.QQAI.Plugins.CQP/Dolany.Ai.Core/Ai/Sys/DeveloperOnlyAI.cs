@@ -1,4 +1,5 @@
 ﻿using System.Threading;
+using Dolany.Database;
 
 namespace Dolany.Ai.Core.Ai.Sys
 {
@@ -135,6 +136,29 @@ namespace Dolany.Ai.Core.Ai.Sys
             }
 
             MsgSender.Instance.PushMsg(MsgDTO, "奖励已生效！");
+        }
+
+        [EnterCommand(
+            Command = "BlackList",
+            Description = "Put someone to blacklist",
+            Syntax = "qqnum",
+            Tag = "系统功能",
+            SyntaxChecker = "Long",
+            AuthorityLevel = AuthorityLevel.开发者,
+            IsPrivateAvailable = true)]
+        public void BlackList(MsgInformationEx MsgDTO, object[] param)
+        {
+            var qqNum = (long) param[0];
+            var query = MongoService<BlackList>.Get(b => b.QQNum == qqNum).FirstOrDefault();
+            if (query == null)
+            {
+                MongoService<BlackList>.Insert(new BlackList{QQNum = qqNum, BlackCount = 10, UpdateTime = DateTime.Now});
+            }
+            else
+            {
+                query.BlackCount = 10;
+                MongoService<BlackList>.Update(query);
+            }
         }
     }
 }
