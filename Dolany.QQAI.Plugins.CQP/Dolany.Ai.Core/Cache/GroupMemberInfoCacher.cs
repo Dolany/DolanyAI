@@ -57,6 +57,7 @@ namespace Dolany.Ai.Core.Cache
                                 };
                 SCacheService.Cache($"GroupMemberInfo-{GroupNum}-{info.Uin}", model, DateTime.Now.AddDays(7));
             }
+            RuntimeLogger.Log($"Refresh Group Info: {GroupNum} completed");
 
             return true;
         }

@@ -157,7 +157,7 @@
         public void MyHonors(MsgInformationEx MsgDTO, object[] param)
         {
             var query = MongoService<DriftItemRecord>.Get(r => r.QQNum == MsgDTO.FromQQ).FirstOrDefault();
-            if (query == null || !query.HonorList.Any())
+            if (query == null || query.HonorList == null || !query.HonorList.Any())
             {
                 MsgSender.Instance.PushMsg(MsgDTO, "你还没有获得任何成就，继续加油吧~", true);
                 return;

@@ -110,6 +110,22 @@ namespace Dolany.Ai.Core.Ai.Sys
         }
 
         [EnterCommand(
+            Command = "权限验证开启",
+            Description = "开启权限验证",
+            Syntax = "",
+            Tag = "系统命令",
+            SyntaxChecker = "Empty",
+            AuthorityLevel = AuthorityLevel.开发者,
+            IsPrivateAvailable = true)]
+        public void AuthEnable(MsgInformationEx MsgDTO, object[] param)
+        {
+            const string key = "AuthDisable";
+            SCacheService.Cache(key, "Disable", DateTime.Now);
+
+            MsgSender.Instance.PushMsg(MsgDTO, "验证已开启！");
+        }
+
+        [EnterCommand(
             Command = "功能奖励",
             Description = "奖励某个人某个功能若个使用次数（当日有效）",
             Syntax = "[命令名] [@QQ号] [奖励个数]",

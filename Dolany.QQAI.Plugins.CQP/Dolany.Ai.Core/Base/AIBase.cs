@@ -117,8 +117,8 @@ namespace Dolany.Ai.Core.Base
 
         private static bool DailyLimitCheck(EnterCommandAttribute enterAttr, MsgInformationEx MsgDTO)
         {
-            var isTesting = Global.TestGroups.Contains(MsgDTO.FromGroup);
-            if ((isTesting && enterAttr.TestingDailyLimit == 0) || (!isTesting && enterAttr.DailyLimit == 0))
+            var isTestingGroup = Global.TestGroups.Contains(MsgDTO.FromGroup);
+            if ((isTestingGroup && enterAttr.TestingDailyLimit == 0) || (!isTestingGroup && enterAttr.DailyLimit == 0))
             {
                 return true;
             }
@@ -132,7 +132,7 @@ namespace Dolany.Ai.Core.Base
             }
             else
             {
-                if ((isTesting && cache.Count > enterAttr.TestingDailyLimit) || (!isTesting && cache.Count > enterAttr.DailyLimit))
+                if ((isTestingGroup && cache.Count >= enterAttr.TestingDailyLimit) || (!isTestingGroup && cache.Count >= enterAttr.DailyLimit))
                 {
                     MsgSender.Instance.PushMsg(MsgDTO, $"今天 {enterAttr.Command} 的次数已用完，请明天再试~", true);
                     return false;

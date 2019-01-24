@@ -76,6 +76,11 @@
         private static bool HelpCommand(MsgInformationEx MsgDTO)
         {
             var commands = AIMgr.Instance.AllAvailableGroupCommands.Where(c => c.Command == MsgDTO.Msg).ToList();
+            if (!Global.TestGroups.Contains(MsgDTO.FromGroup))
+            {
+                commands = commands.Where(c => !c.IsTesting).ToList();
+            }
+
             if (commands.IsNullOrEmpty())
             {
                 return false;
@@ -102,6 +107,11 @@
             var commands = AIMgr.Instance.AllAvailableGroupCommands
                 .Where(c => c.Tag == MsgDTO.Msg && c.AuthorityLevel != AuthorityLevel.开发者).GroupBy(p => p.Command)
                 .Select(p => p.First()).ToList();
+            if (!Global.TestGroups.Contains(MsgDTO.FromGroup))
+            {
+                commands = commands.Where(c => !c.IsTesting).ToList();
+            }
+
             if (commands.IsNullOrEmpty())
             {
                 return;
