@@ -159,6 +159,28 @@ namespace Dolany.Ai.Core.Ai.Sys
                 query.BlackCount = 10;
                 MongoService<BlackList>.Update(query);
             }
+
+            MsgSender.Instance.PushMsg(MsgDTO, "Success");
+        }
+
+        [EnterCommand(
+            Command = "FreeBlackList",
+            Description = "Pull someone out from blacklist",
+            Syntax = "qqnum",
+            Tag = "系统功能",
+            SyntaxChecker = "Long",
+            AuthorityLevel = AuthorityLevel.开发者,
+            IsPrivateAvailable = true)]
+        public void FreeBlackList(MsgInformationEx MsgDTO, object[] param)
+        {
+            var qqNum = (long) param[0];
+            var query = MongoService<BlackList>.Get(b => b.QQNum == qqNum).FirstOrDefault();
+            if (query != null)
+            {
+                MongoService<BlackList>.Delete(query);
+            }
+
+            MsgSender.Instance.PushMsg(MsgDTO, "Success");
         }
     }
 }

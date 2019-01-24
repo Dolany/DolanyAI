@@ -62,7 +62,8 @@
             SyntaxChecker = "Empty",
             Tag = "漂流瓶功能",
             IsPrivateAvailable = true,
-            DailyLimit = 1)]
+            DailyLimit = 1,
+            TestingDailyLimit = 3)]
         public void FishingBottle(MsgInformationEx MsgDTO, object[] param)
         {
             if (Utility.RandInt(100) >= ItemRate)

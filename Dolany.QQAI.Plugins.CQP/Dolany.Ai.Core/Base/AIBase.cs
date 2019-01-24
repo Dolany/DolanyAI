@@ -117,26 +117,14 @@ namespace Dolany.Ai.Core.Base
 
         private static bool DailyLimitCheck(EnterCommandAttribute enterAttr, MsgInformationEx MsgDTO)
         {
-            bool isTesting = Global.TestGroups.Contains(MsgDTO.FromGroup);
-            if (isTesting && enterAttr.TestingDailyLimit == 0)
-            {
-                return true;
-            }
-            if (!isTesting && enterAttr.DailyLimit == 0)
+            var isTesting = Global.TestGroups.Contains(MsgDTO.FromGroup);
+            if ((isTesting && enterAttr.TestingDailyLimit == 0) || (!isTesting && enterAttr.DailyLimit == 0))
             {
                 return true;
             }
 
             var key = $"DailyLimit-{enterAttr.Command}-{MsgDTO.FromQQ}";
             var cache = SCacheService.Get<DailyLimitCache>(key);
-            if (cache != null)
-            {
-                if ((isTesting && cache.Count > enterAttr.TestingDailyLimit) || (!isTesting && cache.Count > enterAttr.DailyLimit))
-                {
-                    MsgSender.Instance.PushMsg(MsgDTO, $"今天 {enterAttr.Command} 的次数已用完，请明天再试~", true);
-                    return false;
-                }
-            }
 
             if (cache == null)
             {
@@ -144,6 +132,12 @@ namespace Dolany.Ai.Core.Base
             }
             else
             {
+                if ((isTesting && cache.Count > enterAttr.TestingDailyLimit) || (!isTesting && cache.Count > enterAttr.DailyLimit))
+                {
+                    MsgSender.Instance.PushMsg(MsgDTO, $"今天 {enterAttr.Command} 的次数已用完，请明天再试~", true);
+                    return false;
+                }
+
                 cache.Count++;
                 SCacheService.Cache(key, cache);
             }
