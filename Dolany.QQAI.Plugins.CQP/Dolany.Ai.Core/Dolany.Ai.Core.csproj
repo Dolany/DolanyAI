@@ -5,6 +5,12 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <Compile Remove="Mission\**" />
+    <EmbeddedResource Remove="Mission\**" />
+    <None Remove="Mission\**" />
+  </ItemGroup>
+
+  <ItemGroup>
     <Compile Remove="Class1.cs" />
   </ItemGroup>
 
@@ -25,12 +31,6 @@
   <ItemGroup>
     <ProjectReference Include="..\Dolany.Ai.Common\Dolany.Ai.Common.csproj" />
     <ProjectReference Include="..\Dolany.Database\Dolany.Database.csproj" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <Folder Include="Mission\MissionStep\" />
-    <Folder Include="Mission\Mission\" />
-    <Folder Include="Mission\Bonus\" />
   </ItemGroup>
 
 </Project>
