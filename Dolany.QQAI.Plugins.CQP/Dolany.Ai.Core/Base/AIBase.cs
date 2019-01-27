@@ -1,17 +1,18 @@
-﻿using Dolany.Database.Sqlite;
-using Dolany.Database.Sqlite.Model;
-
-namespace Dolany.Ai.Core.Base
+﻿namespace Dolany.Ai.Core.Base
 {
     using System;
     using System.Collections.Generic;
     using System.Linq;
 
     using API;
+
     using Cache;
+
     using Common;
 
     using Dolany.Ai.Common;
+    using Dolany.Database.Sqlite;
+    using Dolany.Database.Sqlite.Model;
 
     using Model;
 
@@ -128,7 +129,7 @@ namespace Dolany.Ai.Core.Base
 
             if (cache == null)
             {
-                SCacheService.Cache(key, new DailyLimitCache{Count = 1, QQNum = MsgDTO.FromQQ, Command = enterAttr.Command});
+                SCacheService.Cache(key, new DailyLimitCache { Count = 1, QQNum = MsgDTO.FromQQ, Command = enterAttr.Command });
             }
             else
             {

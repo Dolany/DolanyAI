@@ -1,9 +1,7 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-
-namespace Dolany.Ai.Core.Base
+﻿namespace Dolany.Ai.Core.Base
 {
+    using System;
+
     [AttributeUsage(AttributeTargets.Class)]
     public sealed class AIAttribute : Attribute
     {

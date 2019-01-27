@@ -6,31 +6,24 @@ namespace Dolany.Ai.Core.API.ViewModel
 
     public class GroupMemberListViewModel
     {
-        [JsonProperty("adm_max")]
-        public int Adm_max { get; set; }
+        public long[] adm { get; set; }
 
-        [JsonProperty("adm_num")]
-        public int Adm_num { get; set; }
+        public int ec { get; set; }
 
-        [JsonProperty("count")]
-        public int Count { get; set; }
+        public int ext_num { get; set; }
 
-        [JsonProperty("ec")]
-        public int Ec { get; set; }
+        public int level { get; set; }
 
-        [JsonProperty("max_count")]
-        public int Max_count { get; set; }
+        public Dictionary<string, string> levelname { get; set; }
 
-        [JsonProperty("mems")]
-        public IEnumerable<GroupMemberInfoViewModel> Mems { get; set; }
+        public int max_admin { get; set; }
 
-        [JsonProperty("search_count")]
-        public int Search_count { get; set; }
+        public int max_num { get; set; }
 
-        [JsonProperty("svr_time")]
-        public long Svr_time { get; set; }
+        public int mem_num { get; set; }
 
-        [JsonProperty("vecsize")]
-        public int Vecsize { get; set; }
+        public Dictionary<string, GroupMemberInfoViewModel> members { get; set; }
+
+        public long owner { get; set; }
     }
 }

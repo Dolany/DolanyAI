@@ -4,37 +4,18 @@
 
     public class GroupMemberInfoViewModel
     {
-        [JsonProperty("card")]
-        public string Card { get; set; }
+        public string cd { get; set; }
 
-        [JsonProperty("flag")]
-        public int Flag { get; set; }
+        public long jt { get; set; }
 
-        [JsonProperty("g")]
-        public int G { get; set; }
+        public int lad { get; set; }
 
-        [JsonProperty("join_time")]
-        public long Join_time { get; set; }
+        public int ll { get; set; }
 
-        [JsonProperty("last_speak_time")]
-        public long Last_speak_time { get; set; }
+        public int lp { get; set; }
 
-        [JsonProperty("lv")]
-        public GroupMemberLevelViewModel Lv { get; set; }
+        public long lst { get; set; }
 
-        [JsonProperty("nick")]
-        public string Nick { get; set; }
-
-        [JsonProperty("qage")]
-        public int Qage { get; set; }
-
-        [JsonProperty("role")]
-        public int Role { get; set; }
-
-        [JsonProperty("tags")]
-        public int Tags { get; set; }
-
-        [JsonProperty("uin")]
-        public long Uin { get; set; }
+        public string nk { get; set; }
     }
 }

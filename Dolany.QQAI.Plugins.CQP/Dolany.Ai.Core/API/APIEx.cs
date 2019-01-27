@@ -38,6 +38,7 @@
 
             try
             {
+                RuntimeLogger.Log(ml);
                 return JsonHelper.DeserializeJsonToObject<GroupMemberListViewModel>(ml);
             }
             catch (Exception ex)

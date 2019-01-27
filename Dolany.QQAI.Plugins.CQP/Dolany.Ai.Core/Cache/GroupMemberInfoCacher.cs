@@ -3,6 +3,7 @@
 namespace Dolany.Ai.Core.Cache
 {
     using System;
+    using System.Linq;
 
     using API;
 
@@ -40,22 +41,32 @@ namespace Dolany.Ai.Core.Cache
         public static bool RefreshGroupInfo(long GroupNum)
         {
             var infos = APIEx.GetMemberInfos(GroupNum);
-            if (infos?.Mems == null)
+            if (infos?.members == null)
             {
                 RuntimeLogger.Log($"Cannot get Group Member Infos:{GroupNum}");
                 return false;
             }
 
-            foreach (var info in infos.Mems)
+            foreach (var info in infos.members)
             {
+                var qqnum = long.Parse(info.Key);
+                var role = 2;
+                if (infos.owner == qqnum)
+                {
+                    role = 0;
+                }
+                else if (infos.adm != null && infos.adm.Contains(qqnum))
+                {
+                    role = 1;
+                }
                 var model = new MemberRoleCache
                                 {
                                     GroupNum = GroupNum,
-                                    Nickname = info.Nick,
-                                    QQNum = info.Uin,
-                                    Role = info.Role
+                                    Nickname = info.Value.nk,
+                                    QQNum = qqnum,
+                                    Role = role
                                 };
-                SCacheService.Cache($"GroupMemberInfo-{GroupNum}-{info.Uin}", model, DateTime.Now.AddDays(7));
+                SCacheService.Cache($"GroupMemberInfo-{GroupNum}-{qqnum}", model, DateTime.Now.AddDays(7));
             }
             RuntimeLogger.Log($"Refresh Group Info: {GroupNum} completed");
 
