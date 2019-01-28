@@ -19,5 +19,7 @@
         public const string GetAuthCode = "GetAuthCode";
 
         public const string GetGroups = "GetGroups";
+
+        public const string SetSilence = "SetSilence";
     }
 }

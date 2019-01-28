@@ -56,6 +56,20 @@
                 case AiCommand.GetGroups:
                     await GetGroups(command.Id);
                     break;
+                case AiCommand.SetSilence:
+                    await SetSilence(command.Id, command.ToGroup, command.ToQQ, int.Parse(command.Msg));
+                    break;
+            }
+        }
+
+        private static async Task SetSilence(string relationId, long GroupNum, long QQNum, int DuringTime)
+        {
+            using (var robotSession = MahuaRobotManager.Instance.CreateSession())
+            {
+                var api = robotSession.MahuaApi;
+                api.BanGroupMember(GroupNum.ToString(), QQNum.ToString(), TimeSpan.FromMinutes(DuringTime));
+
+                await InfoSender.SendAsync(AiInformation.CommandBack, Utility.GetAuthCode(), relationId);
             }
         }
 
