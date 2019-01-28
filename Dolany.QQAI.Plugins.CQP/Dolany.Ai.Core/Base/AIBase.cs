@@ -11,7 +11,7 @@
     using Common;
 
     using Dolany.Ai.Common;
-    using Dolany.Database.Sqlite;
+    using Database.Sqlite;
     using Dolany.Database.Sqlite.Model;
 
     using Model;

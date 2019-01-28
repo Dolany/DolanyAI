@@ -108,6 +108,7 @@
 
                 return unit?.ResultInfo;
             })).ToArray();
+            // ReSharper disable once CoVariantArrayConversion
             Task.WaitAll(tasks, timeout);
 
             return tasks.Select(task => task.Result);

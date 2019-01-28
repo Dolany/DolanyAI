@@ -14,8 +14,6 @@ namespace Dolany.Ai.Core.Ai.SingleCommand.Fortune
     using Cache;
 
     using Common;
-
-    using Dolany.Ai.Common;
     using Database;
     using Dolany.Database.Ai;
     using Database.Sqlite.Model;
