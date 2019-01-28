@@ -64,13 +64,9 @@
 
         private static async Task SetSilence(string relationId, long GroupNum, long QQNum, int DuringTime)
         {
-            using (var robotSession = MahuaRobotManager.Instance.CreateSession())
-            {
-                var api = robotSession.MahuaApi;
-                api.BanGroupMember(GroupNum.ToString(), QQNum.ToString(), TimeSpan.FromMinutes(DuringTime));
+            APIEx.Ban(GroupNum.ToString(), QQNum.ToString(), DuringTime);
 
-                await InfoSender.SendAsync(AiInformation.CommandBack, Utility.GetAuthCode(), relationId);
-            }
+            await InfoSender.SendAsync(AiInformation.CommandBack, Utility.GetAuthCode(), relationId);
         }
 
         private static async Task GetGroups(string relationId)

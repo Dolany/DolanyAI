@@ -19,6 +19,9 @@ namespace Dolany.Ai.MQ.MahuaApis
         [DllImport("bin\\message.dll")]
         private static extern string Api_Restart(string AuthCode);
 
+        [DllImport("bin\\message.dll")]
+        private static extern int Api_Ban(string 群号, string QQ, int 禁言时长, string AuthCode);
+
         [HandleProcessCorruptedStateExceptions]
         public static string GetGroupMemberList(string 群号)
         {
@@ -60,6 +63,12 @@ namespace Dolany.Ai.MQ.MahuaApis
         {
             var AuthCode = Utility.GetAuthCode();
             return Api_Restart(AuthCode);
+        }
+
+        // 	禁言
+        public static int Ban(string 群号, string QQ, int 禁言时长)
+        {
+            return Api_Ban(群号, QQ, 禁言时长, Utility.GetAuthCode()); 
         }
     }
 }
