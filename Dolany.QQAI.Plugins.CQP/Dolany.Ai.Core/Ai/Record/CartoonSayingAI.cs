@@ -18,7 +18,7 @@
     [AI(
         Name = nameof(CartoonSayingAI),
         Description = "AI for Cartoon Sayings.",
-        IsAvailable = true,
+        Enable = true,
         PriorityLevel = 10)]
     public class CartoonSayingAI : AIBase
     {

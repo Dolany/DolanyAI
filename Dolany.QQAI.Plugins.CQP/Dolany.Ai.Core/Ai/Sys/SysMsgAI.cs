@@ -9,7 +9,7 @@
     [AI(
         Name = nameof(SysMsgAI),
         Description = "AI for System msg consoling.",
-        IsAvailable = true,
+        Enable = true,
         PriorityLevel = 20)]
     public class SysMsgAI : AIBase
     {

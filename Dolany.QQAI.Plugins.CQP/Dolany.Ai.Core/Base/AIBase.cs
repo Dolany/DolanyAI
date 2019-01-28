@@ -162,6 +162,11 @@
                 return false;
             }
 
+            if (!checkers.Contains("Any") && checkers.Length < paramStrs.Length)
+            {
+                return false;
+            }
+
             var list = new List<object>();
             for (var i = 0; i < checkers.Length; i++)
             {

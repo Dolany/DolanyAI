@@ -26,7 +26,7 @@ namespace Dolany.Ai.Core.Ai.Sys
     [AI(
         Name = nameof(MonitorAI),
         Description = "AI for Monitoring and managing Ais status.",
-        IsAvailable = true,
+        Enable = true,
         PriorityLevel = 100)]
     public class MonitorAI : AIBase
     {

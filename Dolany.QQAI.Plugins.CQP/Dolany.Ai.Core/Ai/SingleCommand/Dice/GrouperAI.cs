@@ -14,7 +14,7 @@ namespace Dolany.Ai.Core.Ai.SingleCommand.Dice
     [AI(
         Name = nameof(GrouperAI),
         Description = "AI for grouping some members.",
-        IsAvailable = true,
+        Enable = true,
         PriorityLevel = 10)]
     public class GrouperAI : AIBase
     {

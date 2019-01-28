@@ -21,7 +21,7 @@
     [AI(
         Name = nameof(DiceAI),
         Description = "AI for dice.",
-        IsAvailable = true,
+        Enable = true,
         PriorityLevel = 5)]
     public class DiceAI : AIBase
     {

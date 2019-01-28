@@ -85,34 +85,29 @@
             return unit?.ResultInfo;
         }
 
-        public IEnumerable<MsgInformation> WaitForInformations(
-            MsgCommand sendMsg,
-            IEnumerable<Predicate<MsgInformation>> judgeFuncs,
-            int timeout = 5000)
+        public IEnumerable<MsgInformation> WaitForInformations(MsgCommand sendMsg, IEnumerable<Predicate<MsgInformation>> judgeFuncs, int timeout = 5000)
         {
             MsgSender.Instance.PushMsg(sendMsg);
 
-            var tasks = judgeFuncs.Select(
-                func => Task.Factory.StartNew(
-                    () =>
-                        {
-                            var signal = new AutoResetEvent(false);
-                            var unit = new WaiterUnit { JudgePredicate = func, Signal = signal };
-                            lock (_lockObj)
-                            {
-                                Units.Add(unit);
-                            }
+            var tasks = judgeFuncs.Select(func => Task.Factory.StartNew(() =>
+            {
+                var signal = new AutoResetEvent(false);
+                var unit = new WaiterUnit {JudgePredicate = func, Signal = signal};
+                lock (_lockObj)
+                {
+                    Units.Add(unit);
+                }
 
-                            signal.WaitOne(timeout);
+                signal.WaitOne(timeout);
 
-                            lock (_lockObj)
-                            {
-                                unit = Units.FirstOrDefault(u => u.Id == unit.Id);
-                                Units.Remove(unit);
-                            }
+                lock (_lockObj)
+                {
+                    unit = Units.FirstOrDefault(u => u.Id == unit.Id);
+                    Units.Remove(unit);
+                }
 
-                            return unit?.ResultInfo;
-                        })).ToArray();
+                return unit?.ResultInfo;
+            })).ToArray();
             Task.WaitAll(tasks, timeout);
 
             return tasks.Select(task => task.Result);

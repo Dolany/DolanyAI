@@ -16,7 +16,7 @@
     [AI(
         Name = nameof(DriftBottleAI),
         Description = "AI for drift bottle.",
-        IsAvailable = true,
+        Enable = true,
         PriorityLevel = 10)]
     public class DriftBottleAI : AIBase
     {

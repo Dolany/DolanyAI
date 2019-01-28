@@ -19,7 +19,7 @@
     [AI(
         Name = nameof(KancoleVoiceAI),
         Description = "AI for response random kancole girl voice.",
-        IsAvailable = true,
+        Enable = true,
         PriorityLevel = 10)]
     public class KancoleVoiceAI : AIBase
     {

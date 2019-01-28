@@ -25,7 +25,7 @@ namespace Dolany.Ai.Core.Ai.SingleCommand.Fortune
     [AI(
         Name = nameof(FortuneAI),
         Description = "AI for Fortune.",
-        IsAvailable = true,
+        Enable = true,
         PriorityLevel = 10)]
     public class FortuneAI : AIBase
     {

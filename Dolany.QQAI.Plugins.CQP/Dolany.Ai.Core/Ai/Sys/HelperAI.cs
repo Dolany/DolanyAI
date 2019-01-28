@@ -15,7 +15,7 @@
     [AI(
         Name = nameof(HelperAI),
         Description = "AI for Getting Help Infos.",
-        IsAvailable = true,
+        Enable = true,
         PriorityLevel = 10)]
     public class HelperAI : AIBase
     {

@@ -28,7 +28,7 @@
     [AI(
         Name = nameof(TulingAI),
         Description = "AI for Tuling Robot.",
-        IsAvailable = true,
+        Enable = true,
         PriorityLevel = 2)]
     public class TulingAI : AIBase
     {

@@ -21,7 +21,7 @@
     [AI(
         Name = nameof(MajFortuneAI),
         Description = "AI for Getting Daily Maj Fortune.",
-        IsAvailable = true,
+        Enable = true,
         PriorityLevel = 10)]
     public class MajFortuneAI : AIBase
     {

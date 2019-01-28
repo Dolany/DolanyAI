@@ -26,7 +26,7 @@
     [AI(
         Name = nameof(AlermClockAI),
         Description = "AI for Alerm Clock.",
-        IsAvailable = true,
+        Enable = true,
         PriorityLevel = 10)]
     public class AlermClockAI : AIBase
     {

@@ -14,7 +14,7 @@ namespace Dolany.Ai.Core.Ai.Sys
     using Database.Sqlite;
 
     [AI(Name = nameof(DeveloperOnlyAI),
-        IsAvailable = true,
+        Enable = true,
         Description = "Ai for developer only operations",
         PriorityLevel = 10)]
     public class DeveloperOnlyAI : AIBase

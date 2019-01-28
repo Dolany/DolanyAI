@@ -15,7 +15,7 @@
     [AI(
         Name = nameof(PraiseMeAI),
         Description = "AI for Praise someone.",
-        IsAvailable = true,
+        Enable = true,
         PriorityLevel = 10)]
     public class PraiseMeAI : AIBase
     {

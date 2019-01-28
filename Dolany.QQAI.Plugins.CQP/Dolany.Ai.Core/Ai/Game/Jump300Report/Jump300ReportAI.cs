@@ -9,7 +9,7 @@ namespace Dolany.Ai.Core.Ai.Game.Jump300Report
     [AI(
         Name = nameof(Jump300ReportAI),
         Description = "AI for 300 heros report.",
-        IsAvailable = true,
+        Enable = true,
         PriorityLevel = 10)]
     public class Jump300ReportAI : AIBase
     {

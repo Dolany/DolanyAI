@@ -16,7 +16,7 @@
     [AI(
         Name = nameof(CharactorSettingAI),
         Description = "AI for Setting a Charactor.",
-        IsAvailable = true,
+        Enable = true,
         PriorityLevel = 10)]
     public class CharactorSettingAI : AIBase
     {

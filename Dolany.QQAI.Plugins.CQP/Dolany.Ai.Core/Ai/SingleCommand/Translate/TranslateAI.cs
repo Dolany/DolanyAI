@@ -12,7 +12,7 @@
 
     [AI(Name = nameof(TranslateAI),
         Description = "Ai for translation",
-        IsAvailable = false,
+        Enable = false,
         PriorityLevel = 10)]
     public class TranslateAI : AIBase
     {

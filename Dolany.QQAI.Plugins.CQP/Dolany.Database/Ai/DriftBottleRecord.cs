@@ -17,5 +17,7 @@
         public DateTime? ReceivedTime { get; set; }
 
         public string Content { get; set; }
+
+        public string SignName { get; set; } = "陌生人";
     }
 }

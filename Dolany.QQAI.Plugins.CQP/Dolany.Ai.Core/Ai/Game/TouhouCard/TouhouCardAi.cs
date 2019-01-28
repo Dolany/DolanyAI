@@ -17,7 +17,7 @@
     [AI(
         Name = nameof(TouhouCardAi),
         Description = "AI for Getting Random TouhouCard.",
-        IsAvailable = true,
+        Enable = true,
         PriorityLevel = 10)]
     public class TouhouCardAi : AIBase
     {

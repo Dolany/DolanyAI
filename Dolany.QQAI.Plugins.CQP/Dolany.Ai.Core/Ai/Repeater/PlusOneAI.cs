@@ -18,7 +18,7 @@
     [AI(
         Name = nameof(PlusOneAI),
         Description = "AI for Auto Plus One.",
-        IsAvailable = true,
+        Enable = true,
         PriorityLevel = 1)]
     public class PlusOneAI : AIBase
     {

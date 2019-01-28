@@ -83,7 +83,7 @@
         /// </summary>
         private void StartAIs()
         {
-            AIList = AIList.Where(a => a.Value.IsAvailable).OrderByDescending(a => a.Value.PriorityLevel);
+            AIList = AIList.Where(a => a.Value.Enable).OrderByDescending(a => a.Value.PriorityLevel);
             foreach (var keyValuePair in AIList)
             {
                 keyValuePair.Key.Initialization();

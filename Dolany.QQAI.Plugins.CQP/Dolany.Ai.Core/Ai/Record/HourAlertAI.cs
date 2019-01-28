@@ -26,7 +26,7 @@
     [AI(
         Name = nameof(HourAlertAI),
         Description = "AI for Hour Alert.",
-        IsAvailable = true,
+        Enable = true,
         PriorityLevel = 10)]
     public class HourAlertAI : AIBase
     {

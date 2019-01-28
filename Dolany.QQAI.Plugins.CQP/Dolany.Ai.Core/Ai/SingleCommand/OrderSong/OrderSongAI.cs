@@ -22,7 +22,7 @@ namespace Dolany.Ai.Core.Ai.SingleCommand.OrderSong
     [AI(
         Name = nameof(OrderSongAI),
         Description = "AI for Ordering a song by name.",
-        IsAvailable = true,
+        Enable = true,
         PriorityLevel = 10)]
     public class OrderSongAI : AIBase
     {

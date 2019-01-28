@@ -14,7 +14,7 @@ namespace Dolany.Ai.Core.Ai.SingleCommand.RandomPic
     [AI(
         Name = nameof(RandomPicAI),
         Description = "AI for Sending Random Pic By Keyword.",
-        IsAvailable = true,
+        Enable = true,
         PriorityLevel = 10)]
     public class RandomPicAI : AIBase
     {

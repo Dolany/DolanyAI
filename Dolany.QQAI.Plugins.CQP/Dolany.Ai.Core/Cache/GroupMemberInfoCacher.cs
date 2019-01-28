@@ -47,9 +47,9 @@ namespace Dolany.Ai.Core.Cache
                 return false;
             }
 
-            foreach (var info in infos.members)
+            foreach (var (key, value) in infos.members)
             {
-                var qqnum = long.Parse(info.Key);
+                var qqnum = long.Parse(key);
                 var role = 2;
                 if (infos.owner == qqnum)
                 {
@@ -62,7 +62,7 @@ namespace Dolany.Ai.Core.Cache
                 var model = new MemberRoleCache
                                 {
                                     GroupNum = GroupNum,
-                                    Nickname = info.Value.nk,
+                                    Nickname = value.nk,
                                     QQNum = qqnum,
                                     Role = role
                                 };

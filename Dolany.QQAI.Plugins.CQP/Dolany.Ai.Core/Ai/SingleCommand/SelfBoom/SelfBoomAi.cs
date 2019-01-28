@@ -12,7 +12,7 @@
     [AI(
         Name = nameof(SelfBoomAi),
         Description = "AI for boom herself.",
-        IsAvailable = true,
+        Enable = true,
         PriorityLevel = 10)]
     public class SelfBoomAi : AIBase
     {

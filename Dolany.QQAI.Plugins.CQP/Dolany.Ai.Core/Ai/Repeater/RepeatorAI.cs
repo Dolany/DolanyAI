@@ -22,7 +22,7 @@
     [AI(
         Name = nameof(RepeatorAI),
         Description = "AI for Repeating Random words.",
-        IsAvailable = true,
+        Enable = true,
         PriorityLevel = 1)]
     public class RepeatorAI : AIBase
     {
