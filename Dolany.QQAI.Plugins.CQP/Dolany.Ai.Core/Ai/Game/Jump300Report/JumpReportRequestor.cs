@@ -6,7 +6,6 @@ namespace Dolany.Ai.Core.Ai.Game.Jump300Report
     using Parser;
     using Dolany.Ai.Core.Model;
     using Net;
-    using static Common.Utility;
 
     public class JumpReportRequestor
     {
@@ -18,7 +17,7 @@ namespace Dolany.Ai.Core.Ai.Game.Jump300Report
             this.MsgDTO = MsgDTO;
             this.ReportCallBack = ReportCallBack;
 
-            this.MsgDTO.Msg = UrlCharConvert(this.MsgDTO.Msg);
+            this.MsgDTO.Msg = System.Web.HttpUtility.UrlEncode(this.MsgDTO.Msg);
         }
 
         public void Work()
@@ -39,7 +38,7 @@ namespace Dolany.Ai.Core.Ai.Game.Jump300Report
             }
         }
 
-        private List<JumpDetailHtmlParser> GetAllDetails(List<JumpListHtmlParser> allList)
+        private List<JumpDetailHtmlParser> GetAllDetails(IEnumerable<JumpListHtmlParser> allList)
         {
             var allDetails = new List<JumpDetailHtmlParser>();
             foreach (var list in allList)

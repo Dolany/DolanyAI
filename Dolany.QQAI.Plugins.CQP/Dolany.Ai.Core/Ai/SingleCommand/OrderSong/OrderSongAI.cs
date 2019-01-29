@@ -1,7 +1,4 @@
-﻿using Dolany.Database.Sqlite;
-using Dolany.Database.Sqlite.Model;
-
-namespace Dolany.Ai.Core.Ai.SingleCommand.OrderSong
+﻿namespace Dolany.Ai.Core.Ai.SingleCommand.OrderSong
 {
     using System.Linq;
 
@@ -26,8 +23,6 @@ namespace Dolany.Ai.Core.Ai.SingleCommand.OrderSong
         PriorityLevel = 10)]
     public class OrderSongAI : AIBase
     {
-        private const int DailyLimit = 3;
-
         public override void Initialization()
         {
         }
@@ -61,7 +56,7 @@ namespace Dolany.Ai.Core.Ai.SingleCommand.OrderSong
         {
             var response = RequestHelper.PostData<NeteaseResponseModel>(new PostReq_Param
             {
-                InterfaceName = $"http://music.163.com/api/search/get/?s={UrlCharConvert(songName)}&type=1"
+                InterfaceName = $"http://music.163.com/api/search/get/?s={System.Web.HttpUtility.UrlEncode(songName)}&type=1"
             });
 
             if (response?.Result == null)

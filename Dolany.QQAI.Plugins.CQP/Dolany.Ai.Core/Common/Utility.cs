@@ -5,8 +5,6 @@
     using System.IO;
     using System.Linq;
     using System.Security.Cryptography;
-    using System.Text;
-
     using API;
 
     using Cache;
@@ -15,7 +13,7 @@
 
     using Dolany.Ai.Common;
     using Dolany.Database.Ai;
-    using Dolany.Database.Sqlite;
+    using Database.Sqlite;
 
     using Entities;
 
@@ -25,11 +23,11 @@
 
     public static class Utility
     {
-        private static long DeveloperNumber => long.Parse(Configger.Instance["DeveloperNumber"]);
+        private static long DeveloperNumber { get; } = long.Parse(Configger.Instance["DeveloperNumber"]);
 
-        public static long SysMsgNumber => long.Parse(Configger.Instance["SysMsgNumber"]);
+        public static long SysMsgNumber { get; } = long.Parse(Configger.Instance["SysMsgNumber"]);
 
-        public static long SelfQQNum => long.Parse(Configger.Instance["SelfQQNum"]);
+        public static long SelfQQNum { get; } = long.Parse(Configger.Instance["SelfQQNum"]);
 
         private static readonly RNGCryptoServiceProvider RngCsp = new RNGCryptoServiceProvider();
 
@@ -38,31 +36,6 @@
             var temp = array[firstIdx];
             array[firstIdx] = array[secondIdx];
             array[secondIdx] = temp;
-        }
-
-        public static string UrlCharConvert(string name)
-        {
-            var result = string.Empty;
-            var builder = new StringBuilder();
-            builder.Append(result);
-            foreach (var c in name)
-            {
-                if (IsAsciiChar(c))
-                {
-                    builder.Append(c);
-                    continue;
-                }
-
-                builder.Append(@"%" + BitConverter.ToString(Encoding.UTF8.GetBytes(new[] { c })).Replace("-", "%"));
-            }
-            result = builder.ToString();
-
-            return result;
-        }
-
-        private static bool IsAsciiChar(char c)
-        {
-            return c >= 0x20 && c <= 0x7e;
         }
 
         [CanBeNull]

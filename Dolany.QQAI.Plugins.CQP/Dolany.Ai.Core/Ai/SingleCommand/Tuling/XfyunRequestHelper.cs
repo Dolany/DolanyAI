@@ -3,7 +3,6 @@ using System.IO;
 using System.Net;
 using System.Security.Cryptography;
 using System.Text;
-using static Dolany.Ai.Core.Common.Utility;
 
 namespace Dolany.Ai.Core.Ai.SingleCommand.Tuling
 {
@@ -28,7 +27,7 @@ namespace Dolany.Ai.Core.Ai.SingleCommand.Tuling
                 var Params = GetParams();
                 var CheckSum = GetCheckSum(apiKey + CurTime + Params);
 
-                var postData = $"text={UrlCharConvert(text)}";
+                var postData = $"text={System.Web.HttpUtility.UrlEncode(text)}";
                 var bytes = Encoding.UTF8.GetBytes(postData);
 
                 wc.Headers.Add("Content-Type", "application/x-www-form-urlencoded; charset=utf-8");
