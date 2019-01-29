@@ -8,14 +8,14 @@
 
     using Cache;
 
-    using Dolany.Database;
+    using Database;
     using Dolany.Database.Ai;
     using Database.Sqlite;
     using Database.Sqlite.Model;
 
     using Model;
 
-    using static Dolany.Ai.Core.API.CodeApi;
+    using static API.CodeApi;
 
     [AI(
         Name = nameof(HelloAI),

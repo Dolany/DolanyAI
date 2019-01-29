@@ -62,7 +62,9 @@
             Syntax = "",
             Tag = "语录功能",
             SyntaxChecker = "Empty",
-            IsPrivateAvailable = false)]
+            IsPrivateAvailable = false,
+            DailyLimit = 10,
+            TestingDailyLimit = 20)]
         public void Sayings(MsgInformationEx MsgDTO, object[] param)
         {
             if (IsInSealing(MsgDTO.FromGroup, MsgDTO.FromQQ))
@@ -80,7 +82,9 @@
             Syntax = "[关键字]",
             Tag = "语录功能",
             SyntaxChecker = "Word",
-            IsPrivateAvailable = false)]
+            IsPrivateAvailable = false,
+            DailyLimit = 10,
+            TestingDailyLimit = 20)]
         public void Sayings_Query(MsgInformationEx MsgDTO, object[] param)
         {
             if (IsInSealing(MsgDTO.FromGroup, MsgDTO.FromQQ))

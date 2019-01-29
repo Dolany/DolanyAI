@@ -44,10 +44,12 @@
                     if (waitUnit == null)
                     {
                         AIMgr.Instance.OnMsgReceived(info);
+                        break;
                     }
-                    else
+
+                    waitUnit.ResultInfos.Add(info);
+                    if(waitUnit.Type == WaiterUnitType.Single)
                     {
-                        waitUnit.ResultInfo = info;
                         waitUnit.Signal.Set();
                     }
 
@@ -61,13 +63,10 @@
             }
         }
 
-        public MsgInformation WaitForInformation(
-            MsgCommand sendMsg,
-            Predicate<MsgInformation> judgeFunc,
-            int timeout = 5000)
+        public MsgInformation WaitForInformation(MsgCommand sendMsg, Predicate<MsgInformation> judgeFunc, int timeout = 5000)
         {
             var signal = new AutoResetEvent(false);
-            var unit = new WaiterUnit { JudgePredicate = judgeFunc, Signal = signal };
+            var unit = new WaiterUnit {JudgePredicate = judgeFunc, Signal = signal};
             lock (_lockObj)
             {
                 Units.Add(unit);
@@ -82,7 +81,7 @@
                 Units.Remove(unit);
             }
 
-            return unit?.ResultInfo;
+            return unit?.ResultInfos.FirstOrDefault();
         }
 
         public IEnumerable<MsgInformation> WaitForInformations(MsgCommand sendMsg, IEnumerable<Predicate<MsgInformation>> judgeFuncs, int timeout = 5000)
@@ -106,12 +105,33 @@
                     Units.Remove(unit);
                 }
 
-                return unit?.ResultInfo;
+                return unit?.ResultInfos.FirstOrDefault();
             })).ToArray();
             // ReSharper disable once CoVariantArrayConversion
             Task.WaitAll(tasks, timeout);
 
             return tasks.Select(task => task.Result);
+        }
+
+        public List<MsgInformation> WaitWhile(MsgCommand sendMsg, Predicate<MsgInformation> judgeFunc, int timeout = 5000)
+        {
+            var signal = new AutoResetEvent(false);
+            var unit = new WaiterUnit { JudgePredicate = judgeFunc, Signal = signal, Type = WaiterUnitType.Multi};
+            lock (_lockObj)
+            {
+                Units.Add(unit);
+            }
+
+            MsgSender.Instance.PushMsg(sendMsg);
+            signal.WaitOne(timeout);
+
+            lock (_lockObj)
+            {
+                unit = Units.FirstOrDefault(u => u.Id == unit.Id);
+                Units.Remove(unit);
+            }
+
+            return unit?.ResultInfos;
         }
 
         public MsgInformation WaitForRelationId(MsgCommand sendMsg, int timeout = 5000)
@@ -128,6 +148,14 @@
 
         public AutoResetEvent Signal { get; set; }
 
-        public MsgInformation ResultInfo { get; set; }
+        public List<MsgInformation> ResultInfos { get; set; } = new List<MsgInformation>();
+
+        public WaiterUnitType Type { get; set; } = WaiterUnitType.Single;
+    }
+
+    public enum WaiterUnitType
+    {
+        Single,
+        Multi
     }
 }
