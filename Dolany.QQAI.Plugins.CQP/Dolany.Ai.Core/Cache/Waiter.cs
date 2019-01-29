@@ -113,7 +113,7 @@
             return tasks.Select(task => task.Result);
         }
 
-        public List<MsgInformation> WaitWhile(MsgCommand sendMsg, Predicate<MsgInformation> judgeFunc, int timeout = 5000)
+        public List<MsgInformation> WaitWhile(MsgCommand sendMsg, Predicate<MsgInformation> judgeFunc, int timeout)
         {
             var signal = new AutoResetEvent(false);
             var unit = new WaiterUnit { JudgePredicate = judgeFunc, Signal = signal, Type = WaiterUnitType.Multi};
