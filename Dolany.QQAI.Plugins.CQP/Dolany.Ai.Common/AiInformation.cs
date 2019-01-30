@@ -1,4 +1,4 @@
-﻿namespace Dolany.Ai.Core.Common
+﻿namespace Dolany.Ai.Common
 {
     public class AiInformation
     {

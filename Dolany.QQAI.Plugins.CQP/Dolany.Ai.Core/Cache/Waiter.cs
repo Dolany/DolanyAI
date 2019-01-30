@@ -1,4 +1,6 @@
-﻿namespace Dolany.Ai.Core.Cache
+﻿using Dolany.Ai.Common;
+
+namespace Dolany.Ai.Core.Cache
 {
     using System;
     using System.Collections.Generic;
@@ -7,7 +9,6 @@
     using System.Threading.Tasks;
 
     using Common;
-    using Dolany.Database.Ai;
 
     public class Waiter
     {

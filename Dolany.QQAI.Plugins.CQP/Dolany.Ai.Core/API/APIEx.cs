@@ -1,4 +1,6 @@
-﻿namespace Dolany.Ai.Core.API
+﻿using Dolany.Ai.Common;
+
+namespace Dolany.Ai.Core.API
 {
     using System;
 
@@ -6,8 +8,6 @@
     using Cache;
     using Common;
     using Net;
-    using Dolany.Database.Ai;
-
     using JetBrains.Annotations;
 
     public class APIEx

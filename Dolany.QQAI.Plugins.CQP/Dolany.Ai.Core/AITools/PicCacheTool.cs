@@ -1,9 +1,10 @@
-﻿namespace Dolany.Ai.Core.AITools
+﻿using Dolany.Ai.Common;
+
+namespace Dolany.Ai.Core.AITools
 {
     using System.Timers;
 
     using Cache;
-    using Common;
 
     public class PicCacheTool : IAITool
     {
@@ -11,7 +12,7 @@
         {
             PicCacher.Load();
 
-            JobScheduler.Instance.Add(10 * JobTimer.MinutelyInterval, TimeUp);
+            Scheduler.Instance.Add(10 * SchedulerTimer.MinutelyInterval, TimeUp);
         }
 
         private static void TimeUp(object sender, ElapsedEventArgs e)

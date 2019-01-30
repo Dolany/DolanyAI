@@ -1,4 +1,4 @@
-﻿namespace Dolany.Database.Ai
+﻿namespace Dolany.Ai.Common
 {
     public partial class MsgInformation
     {

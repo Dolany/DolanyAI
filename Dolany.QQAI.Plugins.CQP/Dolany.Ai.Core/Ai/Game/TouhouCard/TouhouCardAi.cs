@@ -7,12 +7,10 @@
     using Core.Cache;
     using Core.Common;
     using Core.Model;
+    using Database.Sqlite;
+    using Database.Sqlite.Model;
 
-    using Dolany.Ai.Common;
-    using Dolany.Database.Sqlite;
-    using Dolany.Database.Sqlite.Model;
-
-    using static Dolany.Ai.Core.API.CodeApi;
+    using static Core.API.CodeApi;
 
     [AI(
         Name = nameof(TouhouCardAi),
@@ -47,7 +45,7 @@
             var cache = SCacheService.Get<TouhouCardCache>(key);
             if (cache != null)
             {
-                return PicPath + cache.CardName; 
+                return PicPath + cache.CardName;
             }
 
             var tcr = new TouhouCardCache { QQNum = FromQQ, CardName = GetRandCard() };

@@ -29,7 +29,7 @@
         public void Work()
         {
             RuntimeLogger.Log($"{nameof(CacheCleanerTool)} started.");
-            JobScheduler.Instance.Add(
+            Scheduler.Instance.Add(
                 PicCleanFreq * 1000,
                 TimeUp,
                 new CacheCleanerDTO
@@ -38,8 +38,8 @@
                     IsCascading = false,
                     MaxCacheCount = MaxPicCache
                     });
-            JobScheduler.Instance.Add(
-                JobTimer.DairlyInterval,
+            Scheduler.Instance.Add(
+                SchedulerTimer.DairlyInterval,
                 TimeUp,
                 new CacheCleanerDTO
                 {
@@ -47,8 +47,8 @@
                     IsCascading = false,
                     MaxCacheCount = 7
                     });
-            JobScheduler.Instance.Add(
-                JobTimer.DairlyInterval,
+            Scheduler.Instance.Add(
+                SchedulerTimer.DairlyInterval,
                 TimeUp,
                 new CacheCleanerDTO
                 {
@@ -56,8 +56,8 @@
                     IsCascading = false,
                     MaxCacheCount = 7
                     });
-            JobScheduler.Instance.Add(
-                JobTimer.HourlyInterval / 2,
+            Scheduler.Instance.Add(
+                SchedulerTimer.HourlyInterval / 2,
                 TimeUp,
                 new CacheCleanerDTO
                 {
@@ -69,7 +69,7 @@
 
         private void TimeUp(object sender, ElapsedEventArgs e)
         {
-            var timer = sender as JobTimer;
+            var timer = sender as SchedulerTimer;
             Debug.Assert(timer != null, nameof(timer) + " != null");
             var dto = timer.Data as CacheCleanerDTO;
 
