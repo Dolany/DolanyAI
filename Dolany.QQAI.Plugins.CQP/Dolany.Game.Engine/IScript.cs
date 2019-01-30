@@ -4,11 +4,11 @@ using System.Reflection;
 
 namespace Dolany.Game.Engine
 {
-    public class IScript
+    public abstract class IScript
     {
         private readonly Dictionary<string, MethodInfo> SavePointDic = new Dictionary<string, MethodInfo>();
 
-        public IScript()
+        protected IScript()
         {
             var type = GetType();
             var methods = type.GetMethods();
