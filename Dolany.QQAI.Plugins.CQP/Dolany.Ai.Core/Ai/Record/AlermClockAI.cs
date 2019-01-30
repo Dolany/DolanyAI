@@ -41,7 +41,7 @@
         {
             foreach (var clockId in ClockIdList)
             {
-                JobScheduler.Instance.Remove(clockId);
+                Scheduler.Instance.Remove(clockId);
             }
             ClockIdList.Clear();
 
@@ -88,13 +88,13 @@
         private void StartClock(AlermClock entity)
         {
             var interval = GetNextInterval(entity.AimHourt, entity.AimMinute);
-            var clockId = JobScheduler.Instance.Add(interval, TimeUp, entity);
+            var clockId = Scheduler.Instance.Add(interval, TimeUp, entity);
             ClockIdList.Add(clockId);
         }
 
         private void TimeUp(object sender, ElapsedEventArgs e)
         {
-            var timer = sender as JobTimer;
+            var timer = sender as SchedulerTimer;
             Debug.Assert(timer != null, nameof(timer) + " != null");
             var entity = timer.Data as AlermClock;
 

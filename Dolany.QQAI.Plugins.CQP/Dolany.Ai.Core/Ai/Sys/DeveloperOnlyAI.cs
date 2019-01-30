@@ -1,4 +1,5 @@
 ﻿using System.Threading;
+using Dolany.Ai.Common;
 using Dolany.Database;
 
 namespace Dolany.Ai.Core.Ai.Sys

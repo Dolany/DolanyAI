@@ -1,4 +1,6 @@
-﻿namespace Dolany.Ai.Core.Ai.SingleCommand.OrderSong
+﻿using Dolany.Ai.Common;
+
+namespace Dolany.Ai.Core.Ai.SingleCommand.OrderSong
 {
     using System.Linq;
 

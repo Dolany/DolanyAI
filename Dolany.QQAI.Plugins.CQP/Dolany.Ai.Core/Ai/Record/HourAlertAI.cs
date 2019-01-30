@@ -4,15 +4,11 @@
     using System.Collections.Generic;
     using System.Diagnostics;
     using System.Linq;
-    using System.Text;
     using System.Threading;
 
     using Base;
 
     using Cache;
-
-    using Common;
-
     using Dolany.Ai.Common;
     using Database;
     using Dolany.Database.Ai;
@@ -49,12 +45,12 @@
         private void HourAlertFunc()
         {
             var ts = GetNextHourSpan();
-            JobScheduler.Instance.Add(ts.TotalMilliseconds, TimeUp);
+            Scheduler.Instance.Add(ts.TotalMilliseconds, TimeUp);
         }
 
         private void TimeUp(object sender, System.Timers.ElapsedEventArgs e)
         {
-            var timer = sender as JobTimer;
+            var timer = sender as SchedulerTimer;
 
             HourAlert(DateTime.Now.Hour);
             Debug.Assert(timer != null, nameof(timer) + " != null");

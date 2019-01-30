@@ -1,4 +1,6 @@
-﻿namespace Dolany.Ai.Core.Ai.SingleCommand.SelfBoom
+﻿using Dolany.Ai.Common;
+
+namespace Dolany.Ai.Core.Ai.SingleCommand.SelfBoom
 {
     using System.Threading;
 
