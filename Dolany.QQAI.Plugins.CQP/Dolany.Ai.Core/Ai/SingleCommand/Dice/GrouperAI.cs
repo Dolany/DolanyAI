@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using Dolany.Ai.Common;
 
 namespace Dolany.Ai.Core.Ai.SingleCommand.Dice
 {
@@ -8,7 +9,6 @@ namespace Dolany.Ai.Core.Ai.SingleCommand.Dice
     using API;
     using Base;
     using Cache;
-    using Common;
     using Model;
 
     [AI(
@@ -36,7 +36,7 @@ namespace Dolany.Ai.Core.Ai.SingleCommand.Dice
             var list = param[1] as List<long>;
 
             Debug.Assert(list != null, nameof(list) + " != null");
-            list = Utility.RandSort(list.ToArray()).ToList();
+            list = CommonUtil.RandSort(list.ToArray()).ToList();
 
             for (var i = 0; i < list.Count; i += size)
             {

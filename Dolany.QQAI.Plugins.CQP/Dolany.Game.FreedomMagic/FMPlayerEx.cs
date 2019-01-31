@@ -8,6 +8,10 @@
 
         public int CurMP { get; set; }
 
+        public int MaxHP { get; set; }
+
+        public int MaxMP { get; set; }
+
         public List<string> MagicLastTurn { get; set; } = new List<string>();
         public List<string> MagicThisTurn { get; set; } = new List<string>();
 

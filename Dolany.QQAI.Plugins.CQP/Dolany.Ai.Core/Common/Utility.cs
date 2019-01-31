@@ -1,10 +1,8 @@
 ﻿namespace Dolany.Ai.Core.Common
 {
     using System;
-    using System.Collections.Generic;
     using System.IO;
     using System.Linq;
-    using System.Security.Cryptography;
     using API;
 
     using Cache;
@@ -28,15 +26,6 @@
         public static long SysMsgNumber { get; } = long.Parse(Configger.Instance["SysMsgNumber"]);
 
         public static long SelfQQNum { get; } = long.Parse(Configger.Instance["SelfQQNum"]);
-
-        private static readonly RNGCryptoServiceProvider RngCsp = new RNGCryptoServiceProvider();
-
-        private static void Swap<T>(this IList<T> array, int firstIdx, int secondIdx)
-        {
-            var temp = array[firstIdx];
-            array[firstIdx] = array[secondIdx];
-            array[secondIdx] = temp;
-        }
 
         [CanBeNull]
         public static HourMinuteModel GenTimeFromStr(string timeStr)
@@ -165,15 +154,6 @@
             return dt.ToString("yyyy-MM-dd HH:mm:ss");
         }
 
-        public static int RandInt(int MaxValue)
-        {
-            const decimal _base = int.MaxValue;
-            var bytes = new byte[4];
-            RngCsp.GetBytes(bytes);
-
-            return (int)(Math.Abs(BitConverter.ToInt32(bytes, 0)) / _base * MaxValue);
-        }
-
         public static string ParsePicName(string msg)
         {
             var picIdx = msg.IndexOf("[QQ:pic=", StringComparison.Ordinal);
@@ -217,18 +197,6 @@
             var imageGuid = strs3.First();
 
             return imageGuid;
-        }
-
-        public static T[] RandSort<T>(T[] array)
-        {
-            for (var i = 0; i < array.Length; i++)
-            {
-                var randIdx = RandInt(array.Length - i) + i;
-
-                array.Swap(i, randIdx);
-            }
-
-            return array;
         }
     }
 }

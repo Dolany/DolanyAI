@@ -7,9 +7,7 @@ namespace Dolany.Ai.Core.Ai.SingleCommand.SelfBoom
     using API;
     using Base;
     using Cache;
-    using Common;
     using Model;
-    using Dolany.Database.Ai;
 
     [AI(
         Name = nameof(SelfBoomAi),
@@ -18,7 +16,7 @@ namespace Dolany.Ai.Core.Ai.SingleCommand.SelfBoom
         PriorityLevel = 10)]
     public class SelfBoomAi : AIBase
     {
-        private int BoomCode = Utility.RandInt(10000);
+        private int BoomCode = CommonUtil.RandInt(10000);
 
         [EnterCommand(
             Command = "Boom",
@@ -54,7 +52,7 @@ namespace Dolany.Ai.Core.Ai.SingleCommand.SelfBoom
 
             MsgSender.Instance.PushMsg(MsgDTO, CodeApi.Code_Image_Relational("images/boom.jpg"));
 
-            BoomCode = Utility.RandInt(10000);
+            BoomCode = CommonUtil.RandInt(10000);
             Thread.Sleep(1000);
             MsgSender.Instance.PushMsg(
                 new MsgCommand

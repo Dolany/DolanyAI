@@ -9,12 +9,12 @@
     using Common;
 
     using Dolany.Ai.Common;
-    using Dolany.Database;
+    using Database;
     using Dolany.Database.Ai;
 
     using Model;
 
-    using static Dolany.Ai.Core.API.CodeApi;
+    using static API.CodeApi;
 
     [AI(
         Name = nameof(KancoleVoiceAI),
@@ -58,8 +58,8 @@
                 return null;
             }
 
-            var count = query.Count();
-            var idx = Utility.RandInt(count);
+            var count = query.Count;
+            var idx = CommonUtil.RandInt(count);
 
             return query.Skip(idx).First().Clone();
         }

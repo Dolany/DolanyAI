@@ -12,12 +12,6 @@ namespace Dolany.Game.FreedomMagic
 
         public int Level { get; set; }
 
-        public int Exp { get; set; }
-
-        public int MaxHP { get; set; }
-
-        public int MaxMP { get; set; }
-
-        public int WaitTime { get; set; }
+        public int CurExp { get; set; }
     }
 }

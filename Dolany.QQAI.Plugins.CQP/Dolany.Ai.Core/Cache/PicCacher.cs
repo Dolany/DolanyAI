@@ -74,7 +74,7 @@
                     return string.Empty;
                 }
 
-                var randIdx = Utility.RandInt(CacheList.Count);
+                var randIdx = CommonUtil.RandInt(CacheList.Count);
                 return CacheList[randIdx];
             }
         }

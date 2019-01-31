@@ -52,7 +52,7 @@
                                     "已收录AI记忆节点", "（拿出小本本记上）", "哇~这就是你的愿望吗？"
                                 };
 
-                return words[RandInt(words.Length)];
+                return words[CommonUtil.RandInt(words.Length)];
             }
         }
 

@@ -1,11 +1,12 @@
-﻿namespace Dolany.Ai.Reborn.DolanyAI.Ai.Game.TouhouCard
+﻿using Dolany.Ai.Common;
+
+namespace Dolany.Ai.Reborn.DolanyAI.Ai.Game.TouhouCard
 {
     using System.IO;
     using System.Linq;
 
     using Core.Base;
     using Core.Cache;
-    using Core.Common;
     using Core.Model;
     using Database.Sqlite;
     using Database.Sqlite.Model;
@@ -58,7 +59,7 @@
         {
             var dir = new DirectoryInfo(PicPath);
             var files = dir.GetFiles();
-            var rIdx = Utility.RandInt(files.Length);
+            var rIdx = CommonUtil.RandInt(files.Length);
             return files.ElementAt(rIdx).Name;
         }
     }

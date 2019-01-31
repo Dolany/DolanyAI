@@ -180,7 +180,7 @@ namespace Dolany.Ai.Core.Ai.Assistance
 
         private void SendSilence(MsgInformationEx MsgDTO, SilenceRule rule)
         {
-            var duringTime = rule.MinValue + Utility.RandInt(rule.MaxValue - rule.MinValue);
+            var duringTime = rule.MinValue + CommonUtil.RandInt(rule.MaxValue - rule.MinValue);
             Waiter.Instance.WaitForRelationId(new MsgCommand {ToGroup = MsgDTO.FromGroup, ToQQ = MsgDTO.FromQQ, Msg = duringTime.ToString()});
 
             var msg = $"当前禁言规则：\r禁言内容：{rule.Rule}\r禁言时长(分钟)：{rule.MinValue}-{rule.MaxValue}";

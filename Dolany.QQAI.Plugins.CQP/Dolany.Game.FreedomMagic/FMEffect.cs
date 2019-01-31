@@ -2,7 +2,7 @@
 {
     public class FMEffect
     {
-        public EffectType Type { get; set; }
+        public string Type { get; set; }
 
         public int Level { get; set; }
 

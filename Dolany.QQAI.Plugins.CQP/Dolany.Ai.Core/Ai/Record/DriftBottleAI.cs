@@ -7,7 +7,6 @@
     using Dolany.Ai.Common;
     using Base;
     using Cache;
-    using Common;
     using Model;
     using Database;
     using Dolany.Database.Ai;
@@ -48,14 +47,14 @@
             TestingDailyLimit = 3)]
         public void FishingBottle(MsgInformationEx MsgDTO, object[] param)
         {
-            if (Utility.RandInt(100) >= ItemRate)
+            if (CommonUtil.RandInt(100) >= ItemRate)
             {
                 var query = MongoService<DriftBottleRecord>.Get(
                     r => r.FromQQ != MsgDTO.FromQQ && r.FromGroup != MsgDTO.FromGroup && !r.ReceivedQQ.HasValue);
                 if (!query.IsNullOrEmpty())
                 {
                     var qcount = query.Count;
-                    var bottle = query[Utility.RandInt(qcount)];
+                    var bottle = query[CommonUtil.RandInt(qcount)];
                     PrintBottle(MsgDTO, bottle);
 
                     bottle.ReceivedGroup = MsgDTO.FromGroup;
@@ -224,7 +223,7 @@
 
         private void FishItem(MsgInformationEx MsgDTO)
         {
-            var item = LocalateItem(Utility.RandInt(this.SumRate));
+            var item = LocalateItem(CommonUtil.RandInt(this.SumRate));
             var honor = 1;
             var query = MongoService<DriftItemRecord>.Get(r => r.QQNum == MsgDTO.FromQQ).FirstOrDefault();
             if (query == null)

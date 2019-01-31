@@ -11,8 +11,6 @@ namespace Dolany.Ai.Core.Ai.SingleCommand.Fortune
     using Base;
 
     using Cache;
-
-    using Common;
     using Database.Sqlite;
     using Database.Sqlite.Model;
 
@@ -103,10 +101,10 @@ namespace Dolany.Ai.Core.Ai.SingleCommand.Fortune
         [NotNull]
         private MajFortuneCache NewFortune(long QQNum)
         {
-            var fortuneStar = Utility.RandInt(11);
-            var position = PosArray[Utility.RandInt(PosArray.Length)];
+            var fortuneStar = CommonUtil.RandInt(11);
+            var position = PosArray[CommonUtil.RandInt(PosArray.Length)];
             var kind = GetRandKind();
-            var dicIdx = Utility.RandInt(CharactorsDic.Count);
+            var dicIdx = CommonUtil.RandInt(CharactorsDic.Count);
             var charactorName = CharactorsDic.Keys.ElementAt(dicIdx);
             var charactorPath = CharactorsDic.Values.ElementAt(dicIdx);
 
@@ -123,7 +121,7 @@ namespace Dolany.Ai.Core.Ai.SingleCommand.Fortune
 
         private string GetRandKind()
         {
-            var rand = Utility.RandInt(SumRate);
+            var rand = CommonUtil.RandInt(SumRate);
             var tempSum = 0;
             foreach (var (key, value) in KindDic)
             {

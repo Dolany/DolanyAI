@@ -1,4 +1,5 @@
-﻿using Dolany.Database.Sqlite;
+﻿using Dolany.Ai.Common;
+using Dolany.Database.Sqlite;
 
 namespace Dolany.Ai.Core.Ai.SingleCommand.Fortune
 {
@@ -69,13 +70,13 @@ namespace Dolany.Ai.Core.Ai.SingleCommand.Fortune
 
         private static void RandBless(RandomFortuneCache rf)
         {
-            if (rf.FortuneValue >= 50 || Utility.RandInt(100) > 10)
+            if (rf.FortuneValue >= 50 || CommonUtil.RandInt(100) > 10)
             {
                 return;
             }
 
             var filist = MongoService<FortuneItem>.Get();
-            var idx = Utility.RandInt(filist.Count());
+            var idx = CommonUtil.RandInt(filist.Count());
             var item = filist.OrderBy(p => p.Id)
                 .Skip(idx)
                 .First();
@@ -104,7 +105,7 @@ namespace Dolany.Ai.Core.Ai.SingleCommand.Fortune
 
         private static int GetRandomFortune()
         {
-            return Utility.RandInt(101);
+            return CommonUtil.RandInt(101);
         }
 
         private static void ShowRandFortune(MsgInformationEx MsgDTO, RandomFortuneCache rf)
@@ -182,9 +183,9 @@ namespace Dolany.Ai.Core.Ai.SingleCommand.Fortune
         private static TarotFortuneData GetRandTarotFortune()
         {
             var datas = MongoService<TarotFortuneData>.Get().OrderBy(p => p.Id).ToList();
-            var count = datas.Count();
+            var count = datas.Count;
 
-            var randData = datas.Skip(Utility.RandInt(count))
+            var randData = datas.Skip(CommonUtil.RandInt(count))
                 .First();
             return randData.Clone();
         }

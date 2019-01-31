@@ -3,60 +3,70 @@
     "FullExp": 10,
     "MaxHP": 50,
     "MaxMP": 10,
-    "WaitTime": 8
+    "WaitTime": 8,
+    "MaxMagicLevel":  3
   },
   "2": {
     "FullExp": 20,
     "MaxHP": 53,
     "MaxMP": 10,
-    "WaitTime": 8
+    "WaitTime": 8,
+    "MaxMagicLevel": 3
   },
   "3": {
     "FullExp": 40,
     "MaxHP": 55,
     "MaxMP": 10,
-    "WaitTime": 9
+    "WaitTime": 9,
+    "MaxMagicLevel": 4
   },
   "4": {
     "FullExp": 60,
     "MaxHP": 58,
     "MaxMP": 10,
-    "WaitTime": 10
+    "WaitTime": 10,
+    "MaxMagicLevel": 4
   },
   "5": {
     "FullExp": 80,
     "MaxHP": 62,
     "MaxMP": 11,
-    "WaitTime": 10
+    "WaitTime": 10,
+    "MaxMagicLevel": 5
   },
   "6": {
     "FullExp": 100,
     "MaxHP": 65,
     "MaxMP": 11,
-    "WaitTime": 11
+    "WaitTime": 11,
+    "MaxMagicLevel": 5
   },
   "7": {
     "FullExp": 120,
     "MaxHP": 65,
     "MaxMP": 11,
-    "WaitTime": 11
+    "WaitTime": 11,
+    "MaxMagicLevel": 6
   },
   "8": {
     "FullExp": 140,
     "MaxHP": 68,
     "MaxMP": 12,
-    "WaitTime": 11
+    "WaitTime": 11,
+    "MaxMagicLevel": 6
   },
   "9": {
     "FullExp": 160,
     "MaxHP": 72,
     "MaxMP": 12,
-    "WaitTime": 12
+    "WaitTime": 12,
+    "MaxMagicLevel": 7
   },
   "10": {
     "FullExp": 180,
     "MaxHP": 75,
     "MaxMP": 12,
-    "WaitTime": 12
+    "WaitTime": 12,
+    "MaxMagicLevel": 7
   }
 }

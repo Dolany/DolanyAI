@@ -6,11 +6,8 @@
     using Base;
 
     using Cache;
-
-    using Common;
-
     using Dolany.Ai.Common;
-    using Dolany.Database;
+    using Database;
     using Dolany.Database.Ai;
 
     using Model;
@@ -129,7 +126,7 @@
             }
 
             query = query.OrderBy(p => p.Id).ToList();
-            var randIdx = Utility.RandInt(query.Count());
+            var randIdx = CommonUtil.RandInt(query.Count());
             var saying = query.Skip(randIdx).FirstOrDefault();
             return GetShownSaying(saying);
         }

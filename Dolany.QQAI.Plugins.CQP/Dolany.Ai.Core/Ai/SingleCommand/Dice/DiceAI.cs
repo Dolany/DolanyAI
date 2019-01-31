@@ -16,8 +16,6 @@
 
     using Model;
 
-    using static Common.Utility;
-
     [AI(
         Name = nameof(DiceAI),
         Description = "AI for dice.",
@@ -189,7 +187,7 @@
 
             for (var i = 0; i < model.Count; i++)
             {
-                var value = RandInt(model.Size) + 1;
+                var value = CommonUtil.RandInt(model.Size) + 1;
                 result.Result.Add(value);
             }
 

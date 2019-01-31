@@ -5,6 +5,10 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\Dolany.Ai.Common\Dolany.Ai.Common.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
     <None Update="Data\effectData.json">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>

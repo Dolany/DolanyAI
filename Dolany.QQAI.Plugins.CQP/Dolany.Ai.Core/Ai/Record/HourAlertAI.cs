@@ -161,7 +161,7 @@
             var tag = HourToTag(aimHour);
             var query = MongoService<KanColeGirlVoice>.Get(a => a.Tag == tag).OrderBy(a => a.Id).ToList();
 
-            var randIdx = RandInt(query.Count());
+            var randIdx = CommonUtil.RandInt(query.Count);
 
             return query[randIdx];
         }

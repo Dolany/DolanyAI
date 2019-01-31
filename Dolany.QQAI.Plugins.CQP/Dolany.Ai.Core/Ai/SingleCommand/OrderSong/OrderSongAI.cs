@@ -7,16 +7,9 @@ namespace Dolany.Ai.Core.Ai.SingleCommand.OrderSong
     using Base;
 
     using Cache;
-
-    using Common;
-
-    using Dolany.Database.Ai;
-
     using Model;
 
     using Net;
-
-    using static Common.Utility;
 
     [AI(
         Name = nameof(OrderSongAI),
@@ -67,7 +60,7 @@ namespace Dolany.Ai.Core.Ai.SingleCommand.OrderSong
             }
 
             var songs = response.Result.Songs.ToList();
-            var idx = RandInt(songs.Count);
+            var idx = CommonUtil.RandInt(songs.Count);
             return songs[idx].Id;
         }
 
