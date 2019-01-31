@@ -1,0 +1,382 @@
+﻿{
+  "Heal": [
+    {
+      "Level": 1,
+      "Value": 5,
+      "Description": "恢复5点生命值",
+      "Cost": 2
+    },
+    {
+      "Level": 2,
+      "Value": 7,
+      "Description": "恢复7点生命值",
+      "Cost": 3
+    },
+    {
+      "Level": 3,
+      "Value": 10,
+      "Description": "恢复10点生命值",
+      "Cost": 4
+    }
+  ],
+  "MPRestore": [
+    {
+      "Level": 3,
+      "Value": 0,
+      "Description": "回满你的魔力值",
+      "Cost": 3
+    },
+    {
+      "Level": 4,
+      "Value": 0,
+      "Description": "回满你的魔力值",
+      "Cost": 2
+    }
+  ],
+  "Harm_Fire": [
+    {
+      "Level": 1,
+      "Value": 5,
+      "Description": "造成5点火元素伤害",
+      "Cost": 1
+    },
+    {
+      "Level": 2,
+      "Value": 10,
+      "Description": "造成10点火元素伤害",
+      "Cost": 2
+    },
+    {
+      "Level": 3,
+      "Value": 15,
+      "Description": "造成15点火元素伤害",
+      "Cost": 3
+    }
+  ],
+  "Harm_Ice": [
+    {
+      "Level": 1,
+      "Value": 5,
+      "Description": "造成5点冰元素伤害",
+      "Cost": 1
+    },
+    {
+      "Level": 2,
+      "Value": 10,
+      "Description": "造成10点冰元素伤害",
+      "Cost": 2
+    },
+    {
+      "Level": 3,
+      "Value": 15,
+      "Description": "造成15点冰元素伤害",
+      "Cost": 3
+    }
+  ],
+  "Harm_Wind": [
+    {
+      "Level": 1,
+      "Value": 5,
+      "Description": "造成5点风元素伤害",
+      "Cost": 1
+    },
+    {
+      "Level": 2,
+      "Value": 10,
+      "Description": "造成10点风元素伤害",
+      "Cost": 2
+    },
+    {
+      "Level": 3,
+      "Value": 15,
+      "Description": "造成15点风元素伤害",
+      "Cost": 3
+    }
+  ],
+  "Harm_Thurnder": [
+    {
+      "Level": 1,
+      "Value": 5,
+      "Description": "造成5点雷元素伤害",
+      "Cost": 1
+    },
+    {
+      "Level": 2,
+      "Value": 10,
+      "Description": "造成10点雷元素伤害",
+      "Cost": 2
+    },
+    {
+      "Level": 3,
+      "Value": 15,
+      "Description": "造成15点雷元素伤害",
+      "Cost": 3
+    }
+  ],
+  "Harm_Physics": [
+    {
+      "Level": 1,
+      "Value": 5,
+      "Description": "造成5点物理伤害",
+      "Cost": 1
+    },
+    {
+      "Level": 2,
+      "Value": 10,
+      "Description": "造成10点物理伤害",
+      "Cost": 2
+    },
+    {
+      "Level": 3,
+      "Value": 15,
+      "Description": "造成15点物理伤害",
+      "Cost": 3
+    }
+  ],
+  "Harm_Real": [
+    {
+      "Level": 1,
+      "Value": 4,
+      "Description": "造成4点真实伤害",
+      "Cost": 1
+    },
+    {
+      "Level": 2,
+      "Value": 8,
+      "Description": "造成8点真实伤害",
+      "Cost": 2
+    },
+    {
+      "Level": 3,
+      "Value": 12,
+      "Description": "造成12点真实伤害",
+      "Cost": 3
+    }
+  ],
+  "Buff_HarmIncrease_Physics": [
+    {
+      "Level": 3,
+      "Value": 1,
+      "Description": "本回合内你的所有物理伤害效果等级+1",
+      "Cost": 3
+    },
+    {
+      "Level": 4,
+      "Value": 1,
+      "Description": "本回合内你的所有物理伤害效果等级+1",
+      "Cost": 2
+    }
+  ],
+  "Buff_HarmIncrease_Element": [
+    {
+      "Level": 3,
+      "Value": 1,
+      "Description": "本回合内你的所有元素伤害效果等级+1",
+      "Cost": 3
+    },
+    {
+      "Level": 4,
+      "Value": 1,
+      "Description": "本回合内你的所有元素伤害效果等级+1",
+      "Cost": 2
+    },
+    {
+      "Level": 5,
+      "Value": 1,
+      "Description": "本回合内你的所有元素伤害效果等级+1",
+      "Cost": 1
+    }
+  ],
+  "Debuff_HarmDecrease_Physics": [
+    {
+      "Level": 1,
+      "Value": 4,
+      "Description": "下回合你受到的所有物理伤害-3",
+      "Cost": 3
+    },
+    {
+      "Level": 2,
+      "Value": 6,
+      "Description": "下回合你受到的所有物理伤害-3",
+      "Cost": 2
+    },
+    {
+      "Level": 3,
+      "Value": 8,
+      "Description": "下回合你受到的所有物理伤害-3",
+      "Cost": 1
+    }
+  ],
+  "Debuff_HarmDecrease_Magic": [
+    {
+      "Level": 1,
+      "Value": 4,
+      "Description": "下回合你受到的所有元素伤害-3",
+      "Cost": 3
+    },
+    {
+      "Level": 2,
+      "Value": 6,
+      "Description": "下回合你受到的所有元素伤害-3",
+      "Cost": 2
+    },
+    {
+      "Level": 3,
+      "Value": 8,
+      "Description": "下回合你受到的所有元素伤害-3",
+      "Cost": 1
+    }
+  ],
+  "Debuff_HarmDecrease_Relational_Physics": [
+    {
+      "Level": 1,
+      "Value": 30,
+      "Description": "下回合你受到的所有物理伤害-30%",
+      "Cost": 3
+    },
+    {
+      "Level": 2,
+      "Value": 35,
+      "Description": "下回合你受到的所有物理伤害-35%",
+      "Cost": 3
+    },
+    {
+      "Level": 3,
+      "Value": 40,
+      "Description": "下回合你受到的所有物理伤害-40%",
+      "Cost": 3
+    }
+  ],
+  "Debuff_HarmDecrease_Relational_Magic": [
+    {
+      "Level": 1,
+      "Value": 30,
+      "Description": "下回合你受到的所有元素伤害-30%",
+      "Cost": 3
+    },
+    {
+      "Level": 2,
+      "Value": 35,
+      "Description": "下回合你受到的所有元素伤害-35%",
+      "Cost": 3
+    },
+    {
+      "Level": 3,
+      "Value": 40,
+      "Description": "下回合你受到的所有元素伤害-40%",
+      "Cost": 3
+    }
+  ],
+  "Debuff_Poison": [
+    {
+      "Level": 1,
+      "Value": 2,
+      "Description": "中毒+2",
+      "Cost": 1
+    },
+    {
+      "Level": 2,
+      "Value": 4,
+      "Description": "中毒+4",
+      "Cost": 2
+    },
+    {
+      "Level": 3,
+      "Value": 6,
+      "Description": "中毒+6",
+      "Cost": 3
+    }
+  ],
+  "Debuff_Blame": [
+    {
+      "Level": 3,
+      "Value": 1,
+      "Description": "下回合对手的第一个魔法无效",
+      "Cost": 3
+    },
+    {
+      "Level": 5,
+      "Value": 1,
+      "Description": "下回合对手的前二个魔法无效",
+      "Cost": 3
+    }
+  ],
+  "Debuff_Silence": [
+    {
+      "Level": 7,
+      "Value": 1,
+      "Description": "下回合对手将无法施放魔法",
+      "Cost": 7
+    }
+  ],
+  "CleanUp": [
+    {
+      "Level": 2,
+      "Value": 1,
+      "Description": "清除自身1个负面效果",
+      "Cost": 3
+    },
+    {
+      "Level": 3,
+      "Value": 2,
+      "Description": "清除自身2个负面效果",
+      "Cost": 3
+    }
+  ],
+  "CleanUp_All": [
+    {
+      "Level": 4,
+      "Value": 0,
+      "Description": "清除自身所有负面效果",
+      "Cost": 3
+    }
+  ],
+  "Shell": [
+    {
+      "Level": 1,
+      "Value": 5,
+      "Description": "获得5点护甲值",
+      "Cost": 2
+    },
+    {
+      "Level": 2,
+      "Value": 7,
+      "Description": "获得7点护甲值",
+      "Cost": 3
+    },
+    {
+      "Level": 3,
+      "Value": 10,
+      "Description": "获得10点护甲值",
+      "Cost": 4
+    }
+  ],
+  "Shell_Temp": [
+    {
+      "Level": 3,
+      "Value": 20,
+      "Description": "获得临时的20点护甲值,直到你的下个回合开始",
+      "Cost": 4
+    }
+  ],
+  "HPSteal": [
+    {
+      "Level": 1,
+      "Value": 4,
+      "Description": "偷取4点生命值",
+      "Cost": 2
+    },
+    {
+      "Level": 2,
+      "Value": 8,
+      "Description": "偷取8点生命值",
+      "Cost": 3
+    },
+    {
+      "Level": 3,
+      "Value": 12,
+      "Description": "偷取12点生命值",
+      "Cost": 4
+    }
+  ] 
+}

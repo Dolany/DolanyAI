@@ -15,8 +15,8 @@
   </ItemGroup>
 
   <ItemGroup>
-    <PackageReference Include="HtmlAgilityPack" Version="1.8.12" />
-    <PackageReference Include="JetBrains.Annotations" Version="2018.2.1" />
+    <PackageReference Include="HtmlAgilityPack" Version="1.8.14" />
+    <PackageReference Include="JetBrains.Annotations" Version="2018.3.0" />
     <PackageReference Include="Microsoft.EntityFrameworkCore" Version="2.2.1" />
     <PackageReference Include="Microsoft.EntityFrameworkCore.Design" Version="2.2.1" />
     <PackageReference Include="Microsoft.EntityFrameworkCore.SqlServer" Version="2.2.1" />
@@ -31,6 +31,16 @@
   <ItemGroup>
     <ProjectReference Include="..\Dolany.Ai.Common\Dolany.Ai.Common.csproj" />
     <ProjectReference Include="..\Dolany.Database\Dolany.Database.csproj" />
+    <ProjectReference Include="..\Dolany.Game.FreedomMagic\Dolany.Game.FreedomMagic.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Update="Data\driftBottleItemData.json">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Update="Data\majConfigData.json">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
   </ItemGroup>
 
 </Project>

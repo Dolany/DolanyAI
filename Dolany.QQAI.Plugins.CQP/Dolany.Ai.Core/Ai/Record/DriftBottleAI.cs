@@ -2,7 +2,6 @@
 {
     using System;
     using System.Collections.Generic;
-    using System.IO;
     using System.Linq;
 
     using Dolany.Ai.Common;
@@ -20,7 +19,7 @@
         PriorityLevel = 10)]
     public class DriftBottleAI : AIBase
     {
-        private readonly List<DriftBottleItemModel> Items = new List<DriftBottleItemModel>();
+        private List<DriftBottleItemModel> Items = new List<DriftBottleItemModel>();
 
         private Dictionary<string, string[]> HonorDic = new Dictionary<string, string[]>();
 
@@ -30,28 +29,11 @@
 
         public override void Initialization()
         {
-            LoadItems();
-            LoadHonors();
-        }
+            var data = CommonUtil.ReadJsonData<Dictionary<string, DriftBottleItemModel[]>>("driftBottleItemData");
+            HonorDic = data.ToDictionary(p => p.Key, p => p.Value.Select(i => i.Name).ToArray());
+            Items = data.SelectMany(p => p.Value).ToList();
 
-        private void LoadItems()
-        {
-            using (var reader = new StreamReader(new FileInfo("DriftBottleItems.ini").FullName))
-            {
-                string line;
-                while (!string.IsNullOrEmpty(line = reader.ReadLine()))
-                {
-                    var strs = line.Split(new[] { ' ' }, StringSplitOptions.RemoveEmptyEntries);
-                    this.Items.Add(new DriftBottleItemModel { Name = strs[0], Description = strs[1], Rate = int.Parse(strs[2]), Honor = strs[3] });
-                }
-            }
-
-            this.SumRate = this.Items.Sum(i => i.Rate);
-        }
-
-        private void LoadHonors()
-        {
-            HonorDic = Items.GroupBy(i => i.Honor).ToDictionary(i => i.Key, i => i.Select(p => p.Name).Distinct().ToArray());
+            SumRate = Items.Sum(p => p.Rate);
         }
 
         [EnterCommand(

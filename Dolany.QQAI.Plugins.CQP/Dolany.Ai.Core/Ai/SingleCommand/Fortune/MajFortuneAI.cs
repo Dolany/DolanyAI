@@ -1,4 +1,6 @@
-﻿namespace Dolany.Ai.Core.Ai.SingleCommand.Fortune
+﻿using Dolany.Ai.Common;
+
+namespace Dolany.Ai.Core.Ai.SingleCommand.Fortune
 {
     using System.Collections.Generic;
     using System.IO;
@@ -27,12 +29,12 @@
     {
         private readonly string[] PosArray = { "东", "南", "西", "北" };
 
-        private const string MajConfigFile = "majConfig.txt";
-
         private const string CharactorPath = "MajCharactor";
 
         private Dictionary<string, string> CharactorsDic { get; } = new Dictionary<string, string>();
-        private List<string> KindsList { get; } = new List<string>();
+        private Dictionary<string, int> KindDic = new Dictionary<string, int>();
+
+        private int SumRate;
 
         public override void Initialization()
         {
@@ -52,15 +54,8 @@
 
         private void ReadKindsList()
         {
-            var file = new FileInfo(MajConfigFile);
-            using (var reader = new StreamReader(file.FullName))
-            {
-                string line;
-                while (!string.IsNullOrEmpty(line = reader.ReadLine()))
-                {
-                    KindsList.Add(line);
-                }
-            }
+            KindDic = CommonUtil.ReadJsonData<Dictionary<string, int>>("majConfigData");
+            SumRate = KindDic.Sum(p => p.Value);
         }
 
         [EnterCommand(
@@ -110,20 +105,37 @@
         {
             var fortuneStar = Utility.RandInt(11);
             var position = PosArray[Utility.RandInt(PosArray.Length)];
-            var kind = KindsList[Utility.RandInt(KindsList.Count)];
+            var kind = GetRandKind();
             var dicIdx = Utility.RandInt(CharactorsDic.Count);
             var charactorName = CharactorsDic.Keys.ElementAt(dicIdx);
             var charactorPath = CharactorsDic.Values.ElementAt(dicIdx);
 
             return new MajFortuneCache
             {
-                           CharactorName = charactorName,
-                           CharactorPath = charactorPath,
-                           FortuneStar = fortuneStar,
-                           Kind = kind,
-                           Position = position,
-                           QQNum = QQNum
-                       };
+                CharactorName = charactorName,
+                CharactorPath = charactorPath,
+                FortuneStar = fortuneStar,
+                Kind = kind,
+                Position = position,
+                QQNum = QQNum
+            };
+        }
+
+        private string GetRandKind()
+        {
+            var rand = Utility.RandInt(SumRate);
+            var tempSum = 0;
+            foreach (var (key, value) in KindDic)
+            {
+                if (tempSum + value > rand)
+                {
+                    return key;
+                }
+
+                tempSum += value;
+            }
+
+            return string.Empty;
         }
 
         [NotNull]
