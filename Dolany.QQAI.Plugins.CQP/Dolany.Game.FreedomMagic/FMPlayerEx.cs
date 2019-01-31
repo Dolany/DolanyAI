@@ -20,17 +20,25 @@
             this.QQNum = player.QQNum;
             this.Magics = player.Magics;
             this.Level = player.Level;
-            this.MaxHP = player.MaxHP;
-            this.MaxMP = player.MaxMP;
+            this.MaxHP = FMLevelHelper.Instance[Level].MaxHP;
+            this.MaxMP = FMLevelHelper.Instance[Level].MaxMP;
 
             this.CurHP = MaxHP;
             this.CurMP = MaxMP;
         }
 
-        public string ExpGen(int value)
+        public bool ExpGen(int value)
         {
-            // todo
-            return null;
+            CurExp += value;
+            if (CurExp < FMLevelHelper.Instance[Level].FullExp)
+            {
+                return false;
+            }
+
+            Level += 1;
+            CurExp = 0;
+
+            return true;
         }
     }
 }

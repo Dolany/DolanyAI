@@ -6,6 +6,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\Dolany.Ai.Common\Dolany.Ai.Common.csproj" />
+    <ProjectReference Include="..\Dolany.Database\Dolany.Database.csproj" />
   </ItemGroup>
 
   <ItemGroup>

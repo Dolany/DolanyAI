@@ -33,8 +33,30 @@ namespace Dolany.Game.FreedomMagic
 
         public List<FMEffect> GetRandEffect(int totalLevel)
         {
-            // todo
-            return null;
+            if (totalLevel == 1 || CommonUtil.RandInt(100) < 70)
+            {
+                return new List<FMEffect>(){GetRandEffect(totalLevel, null)};
+            }
+
+            var firstLevel = totalLevel / 2;
+            var secondLevel = totalLevel - firstLevel;
+
+            var firstEffect = GetRandEffect(firstLevel, null);
+            var secondEffect = GetRandEffect(secondLevel, new[] {firstEffect.Type});
+
+            return new List<FMEffect>() {firstEffect, secondEffect};
+        }
+
+        private FMEffect GetRandEffect(int level, string[] skipEffects)
+        {
+            var levelList = EffectsList.Where(e => e.Level == level).ToList();
+            if (skipEffects.IsNullOrEmpty())
+            {
+                return levelList[CommonUtil.RandInt(EffectsList.Count)];
+            }
+
+            var list = levelList.Where(e => skipEffects.Contains(e.Type)).ToList();
+            return list[CommonUtil.RandInt(list.Count)];
         }
     }
 }
