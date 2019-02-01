@@ -8,9 +8,9 @@ namespace Dolany.Game.FreedomMagic
     {
         private List<FMEffect> EffectsList { get; }
 
-        private Dictionary<int, FMEffect[]> LevelDic { get; }
+        private Dictionary<int, FMEffect[]> EffectLevelDic { get; }
 
-        private int SingleRate = 70;
+        private const int SingleRate = 70;
 
         public static FMEffectHelper Instance { get; } = new FMEffectHelper();
 
@@ -28,12 +28,12 @@ namespace Dolany.Game.FreedomMagic
                 return effects;
             }).ToList();
 
-            LevelDic = EffectsList.GroupBy(p => p.Level).ToDictionary(p => p.Key, p => p.ToArray());
+            EffectLevelDic = EffectsList.GroupBy(p => p.Level).ToDictionary(p => p.Key, p => p.ToArray());
         }
 
         public List<FMEffect> GetRandEffect(int totalLevel)
         {
-            if (totalLevel == 1 || CommonUtil.RandInt(100) < 70)
+            if (totalLevel == 1 || CommonUtil.RandInt(100) < SingleRate)
             {
                 return new List<FMEffect>(){GetRandEffect(totalLevel, null)};
             }
@@ -49,7 +49,7 @@ namespace Dolany.Game.FreedomMagic
 
         private FMEffect GetRandEffect(int level, string[] skipEffects)
         {
-            var levelList = EffectsList.Where(e => e.Level == level).ToList();
+            var levelList = EffectLevelDic[level];
             if (skipEffects.IsNullOrEmpty())
             {
                 return levelList[CommonUtil.RandInt(EffectsList.Count)];

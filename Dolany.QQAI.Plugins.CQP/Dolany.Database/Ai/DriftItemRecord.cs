@@ -6,7 +6,7 @@ namespace Dolany.Database.Ai
     {
         public long QQNum { get; set; }
 
-        public IEnumerable<DriftItemCountRecord> ItemCount { get; set; }
+        public IList<DriftItemCountRecord> ItemCount { get; set; }
 
         public IEnumerable<string> HonorList { get; set; }
     }

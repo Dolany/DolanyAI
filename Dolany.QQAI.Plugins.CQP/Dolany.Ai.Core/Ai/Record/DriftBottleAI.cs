@@ -1,7 +1,8 @@
-﻿namespace Dolany.Ai.Core.Ai.Record
+﻿using Dolany.Game.OnlineStore;
+
+namespace Dolany.Ai.Core.Ai.Record
 {
     using System;
-    using System.Collections.Generic;
     using System.Linq;
 
     using Dolany.Ai.Common;
@@ -18,22 +19,7 @@
         PriorityLevel = 10)]
     public class DriftBottleAI : AIBase
     {
-        private List<DriftBottleItemModel> Items = new List<DriftBottleItemModel>();
-
-        private Dictionary<string, string[]> HonorDic = new Dictionary<string, string[]>();
-
-        private int SumRate;
-
         private const int ItemRate = 60;
-
-        public override void Initialization()
-        {
-            var data = CommonUtil.ReadJsonData<Dictionary<string, DriftBottleItemModel[]>>("driftBottleItemData");
-            HonorDic = data.ToDictionary(p => p.Key, p => p.Value.Select(i => i.Name).ToArray());
-            Items = data.SelectMany(p => p.Value).ToList();
-
-            SumRate = Items.Sum(p => p.Rate);
-        }
 
         [EnterCommand(
             Command = "捞瓶子",
@@ -47,31 +33,28 @@
             TestingDailyLimit = 3)]
         public void FishingBottle(MsgInformationEx MsgDTO, object[] param)
         {
-            if (CommonUtil.RandInt(100) >= ItemRate)
-            {
-                var query = MongoService<DriftBottleRecord>.Get(
-                    r => r.FromQQ != MsgDTO.FromQQ && r.FromGroup != MsgDTO.FromGroup && !r.ReceivedQQ.HasValue);
-                if (!query.IsNullOrEmpty())
-                {
-                    var qcount = query.Count;
-                    var bottle = query[CommonUtil.RandInt(qcount)];
-                    PrintBottle(MsgDTO, bottle);
-
-                    bottle.ReceivedGroup = MsgDTO.FromGroup;
-                    bottle.ReceivedQQ = MsgDTO.FromQQ;
-                    bottle.ReceivedTime = DateTime.Now;
-
-                    MongoService<DriftBottleRecord>.Update(bottle);
-                }
-                else
-                {
-                    FishItem(MsgDTO);
-                }
-            }
-            else
+            if (CommonUtil.RandInt(100) < ItemRate)
             {
                 FishItem(MsgDTO);
+                return;
             }
+
+            var query = MongoService<DriftBottleRecord>.Get(r => r.FromQQ != MsgDTO.FromQQ && r.FromGroup != MsgDTO.FromGroup && !r.ReceivedQQ.HasValue);
+            if (query.IsNullOrEmpty())
+            {
+                FishItem(MsgDTO);
+                return;
+            }
+
+            var qcount = query.Count;
+            var bottle = query[CommonUtil.RandInt(qcount)];
+            PrintBottle(MsgDTO, bottle);
+
+            bottle.ReceivedGroup = MsgDTO.FromGroup;
+            bottle.ReceivedQQ = MsgDTO.FromQQ;
+            bottle.ReceivedTime = DateTime.Now;
+
+            MongoService<DriftBottleRecord>.Update(bottle);
         }
 
         [EnterCommand(
@@ -197,7 +180,8 @@
         {
             var honorName = param[0] as string;
 
-            if (!this.HonorDic.Keys.Contains(honorName))
+            var honorItems = HonorHelper.Instance.FindHonorItems(honorName);
+            if (honorItems.IsNullOrEmpty())
             {
                 MsgSender.Instance.PushMsg(MsgDTO, "没有查找到该成就");
                 return;
@@ -210,7 +194,7 @@
                 return;
             }
 
-            var items = query.ItemCount.Where(ic => this.HonorDic[honorName].Contains(ic.Name)).ToList();
+            var items = query.ItemCount.Where(ic => honorItems.Any(hi => hi.Name == ic.Name)).ToList();
             if (!items.Any())
             {
                 MsgSender.Instance.PushMsg(MsgDTO, "你没有属于该成就的物品", true);
@@ -223,87 +207,25 @@
 
         private void FishItem(MsgInformationEx MsgDTO)
         {
-            var item = LocalateItem(CommonUtil.RandInt(this.SumRate));
-            var honor = 1;
-            var query = MongoService<DriftItemRecord>.Get(r => r.QQNum == MsgDTO.FromQQ).FirstOrDefault();
-            if (query == null)
-            {
-                query = new DriftItemRecord
-                            {
-                                QQNum = MsgDTO.FromQQ, ItemCount = new[] { new DriftItemCountRecord { Count = 1, Name = item.Name } }, HonorList = new List<string>()
-                            };
-                MongoService<DriftItemRecord>.Insert(query);
-            }
-
-            var count = 1;
-            if (query.ItemCount.All(i => i.Name != item.Name))
-            {
-                query.ItemCount = query.ItemCount.Append(new DriftItemCountRecord { Count = 1, Name = item.Name });
-                honor = CheckHonor(query, item);
-            }
-            else
-            {
-                var ic = query.ItemCount.First(i => i.Name == item.Name);
-                ic.Count++;
-                count = ic.Count;
-            }
-            MongoService<DriftItemRecord>.Update(query);
-
+            var item = HonorHelper.Instance.RandItem();
+            var itemMsg = ItemHelper.Instance.ItemIncome(MsgDTO.FromQQ, item.Name);
             var msg = $"你捞到了 {item.Name} \r" + 
                       $"    {item.Description} \r" + 
-                      $" 稀有率为 {Math.Round(item.Rate * 1.0 / this.SumRate * 100, 2)}%\r" + 
-                      $"你总共拥有该物品 {count}个";
+                      $" 稀有率为 {HonorHelper.Instance.ItemRate(item)}%\r" + 
+                      $"你总共拥有该物品 {ItemHelper.Instance.ItemCount(MsgDTO.FromQQ, item.Name)}个";
 
             MsgSender.Instance.PushMsg(MsgDTO, msg, true);
 
-            if (honor == 0)
+            if (!string.IsNullOrEmpty(itemMsg))
             {
-                return;
+                MsgSender.Instance.PushMsg(MsgDTO, itemMsg, true);
             }
-
-            if (honor < HonorDic[item.Honor].Length)
-            {
-                msg = $"成就 {item.Honor} 完成度：{honor}/{HonorDic[item.Honor].Length}";
-                MsgSender.Instance.PushMsg(MsgDTO, msg, true);
-                return;
-            }
-
-            msg = $"恭喜你解锁了成就 {item.Honor}! (集齐物品：{string.Join("，", HonorDic[item.Honor])})";
-            MsgSender.Instance.PushMsg(MsgDTO, msg, true);
-            query.HonorList = query.HonorList == null ? new[] { item.Honor } : query.HonorList.Append(item.Honor);
-            MongoService<DriftItemRecord>.Update(query);
-        }
-
-        private int CheckHonor(DriftItemRecord record, DriftBottleItemModel item)
-        {
-            if (record.HonorList != null && record.HonorList.Contains(item.Honor))
-            {
-                return 0;
-            }
-
-            return record.ItemCount.Count(p => this.HonorDic[item.Honor].Contains(p.Name));
         }
 
         private void PrintBottle(MsgInformationEx MsgDTO, DriftBottleRecord record)
         {
             var msg = $"你捞到了一个漂流瓶 \r    {record.Content}\r   by 陌生人";
             MsgSender.Instance.PushMsg(MsgDTO, msg);
-        }
-
-        private DriftBottleItemModel LocalateItem(int index)
-        {
-            var totalSum = 0;
-            foreach (var item in this.Items)
-            {
-                if (index < totalSum + item.Rate)
-                {
-                    return item;
-                }
-
-                totalSum += item.Rate;
-            }
-
-            return this.Items.First();
         }
 
         [EnterCommand(Command = "查看物品",
@@ -316,14 +238,14 @@
         public void ViewItem(MsgInformationEx MsgDTO, object[] param)
         {
             var name = param[0] as string;
-            var item = Items.FirstOrDefault(i => i.Name == name);
+            var item = HonorHelper.Instance.FindItem(name);
             if (item == null)
             {
                 MsgSender.Instance.PushMsg(MsgDTO, $"未找到该物品：{name}");
                 return;
             }
 
-            var msg = $"物品名称：{item.Name}\r物品描述：{item.Description}\r稀有率：{Math.Round(item.Rate * 1.0 / this.SumRate * 100, 2)}%\r可解锁成就：{item.Honor}";
+            var msg = $"物品名称：{item.Name}\r物品描述：{item.Description}\r稀有率：{HonorHelper.Instance.ItemRate(item)}%\r可解锁成就：{item.Honor}";
             MsgSender.Instance.PushMsg(MsgDTO, msg);
         }
 
@@ -338,13 +260,14 @@
         public void ViewHonor(MsgInformationEx MsgDTO, object[] param)
         {
             var name = param[0] as string;
-            if (!this.HonorDic.Keys.Contains(name))
+            var honorItems = HonorHelper.Instance.FindHonorItems(name);
+            if (honorItems.IsNullOrEmpty())
             {
                 MsgSender.Instance.PushMsg(MsgDTO, $"未找到该成就：{name}");
                 return;
             }
 
-            var msg = $"解锁成就 {name} 需要集齐：{string.Join(",", this.HonorDic[name])}";
+            var msg = $"解锁成就 {name} 需要集齐：{string.Join(",", honorItems.Select(h => h.Name))}";
             MsgSender.Instance.PushMsg(MsgDTO, msg);
         }
     }
