@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Threading.Tasks;
 using Dolany.Ai.Common;
 
 namespace Dolany.Game.FreedomMagic
@@ -15,10 +16,12 @@ namespace Dolany.Game.FreedomMagic
                                     g.FirstPlayer.QQNum == SecondQQNum || g.SecondePlayer.QQNum == SecondQQNum);
         }
 
-        public void GameStart(long GroupNum, long FirstQQNum, long SecondQQNum, Action<long, string> CommandCallBack,
-            Func<MsgCommand, Predicate<MsgInformation>, int, IEnumerable<MsgInformation>> WaitCallBack)
+        public void GameStart(long GroupNum, FMPlayerEx firstPlayer, FMPlayerEx SecondPlayer, Action<long, string> CommandCallBack,
+            Func<MsgCommand, Predicate<MsgInformation>, int, MsgInformation> WaitCallBack)
         {
-
+            var engine = new FMEngine(GroupNum, firstPlayer, SecondPlayer, CommandCallBack, WaitCallBack);
+            Gamings.Add(engine);
+            Task.Factory.StartNew(engine.GameStart);
         }
     }
 }
