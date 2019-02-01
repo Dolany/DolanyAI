@@ -42,7 +42,7 @@ namespace Dolany.Ai.Core.Ai.Game.FreedomMagic
             AuthorityLevel = AuthorityLevel.成员,
             Description = "创建一个魔法，等级根据咒文的长度而定（请尽量不要使用特殊字符）",
             Syntax = "[名称] [咒文]",
-            SyntaxChecker = "Word",
+            SyntaxChecker = "Word Word",
             Tag = "游戏功能",
             IsPrivateAvailable = true)]
         public void CreateMagic(MsgInformationEx MsgDTO, object[] param)

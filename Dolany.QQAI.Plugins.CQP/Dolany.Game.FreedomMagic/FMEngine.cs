@@ -2,6 +2,10 @@
 {
     public class FMEngine
     {
-        // todo
+        public long GroupNum { get; set; }
+
+        public FMPlayerEx FirstPlayer { get; set; }
+
+        public FMPlayerEx SecondePlayer { get; set; }
     }
 }

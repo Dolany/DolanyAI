@@ -62,7 +62,7 @@ namespace Dolany.Game.OnlineStore
                 {
                     ItemCount = new List<DriftItemCountRecord>() { new DriftItemCountRecord
                     {
-                        Count = 1,
+                        Count = count,
                         Name = itemName
                     }}
                 };
@@ -74,31 +74,35 @@ namespace Dolany.Game.OnlineStore
                 var ic = query.ItemCount.FirstOrDefault(p => p.Name == itemName);
                 if (ic != null)
                 {
-                    ic.Count++;
+                    ic.Count += count;
                 }
                 else
                 {
                     query.ItemCount.Add(new DriftItemCountRecord
                     {
-                        Count = 1,
+                        Count = count,
                         Name = itemName
                     });
-
-                    var honorMsg = HonorHelper.Instance.CheckHonor(query, itemName, out var isNewHonor);
-                    if (!string.IsNullOrEmpty(honorMsg))
-                    {
-                        msg = honorMsg;
-                        if (isNewHonor)
-                        {
-                            var honorName = HonorHelper.Instance.FindHonor(itemName);
-                            query.HonorList = query.HonorList == null ? new[] { honorName } : query.HonorList.Append(honorName);
-                            MongoService<DriftItemRecord>.Update(query);
-                        }
-                    }
                 }
 
                 MongoService<DriftItemRecord>.Update(query);
             }
+
+            var honorMsg = HonorHelper.Instance.CheckHonor(query, itemName, out var isNewHonor);
+            if (string.IsNullOrEmpty(honorMsg))
+            {
+                return msg;
+            }
+
+            msg = honorMsg;
+            if (!isNewHonor)
+            {
+                return msg;
+            }
+
+            var honorName = HonorHelper.Instance.FindHonor(itemName);
+            query.HonorList = query.HonorList == null ? new[] { honorName } : query.HonorList.Append(honorName);
+            MongoService<DriftItemRecord>.Update(query);
 
             return msg;
         }

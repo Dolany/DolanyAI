@@ -1,5 +1,4 @@
-﻿using System.Collections.Generic;
-using System.Linq;
+﻿using System.Linq;
 using Dolany.Ai.Common;
 using Dolany.Ai.Core.Base;
 using Dolany.Ai.Core.Cache;
@@ -89,7 +88,7 @@ namespace Dolany.Ai.Core.Ai.Game.Shopping
             }
 
             var price = GetHonorPrice(honorName);
-            var msg = $"贩卖此物品将获得 {price} 金币，是否确认贩卖？\r1：确认，2：取消";
+            var msg = $"贩卖此成就将获得 {price} 金币，是否确认贩卖？\r1：确认，2：取消";
             var response = Waiter.Instance.WaitForInformation(
                 new MsgCommand {ToGroup = MsgDTO.FromGroup, ToQQ = MsgDTO.FromQQ, Command = AiCommand.SendGroup, Msg = msg},
                 (information => information.FromQQ == MsgDTO.FromQQ && int.TryParse(information.Msg, out var i) && (i == 1 || i == 2)), 7000);
