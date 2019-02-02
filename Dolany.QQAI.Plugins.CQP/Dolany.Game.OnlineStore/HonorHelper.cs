@@ -19,7 +19,15 @@ namespace Dolany.Game.OnlineStore
         private HonorHelper()
         {
             HonorDic = CommonUtil.ReadJsonData<Dictionary<string, DriftBottleItemModel[]>>("driftBottleItemData");
-            Items = HonorDic.SelectMany(p => p.Value).ToList();
+            Items = HonorDic.SelectMany(p =>
+            {
+                foreach (var model in p.Value)
+                {
+                    model.Honor = p.Key;
+                }
+
+                return p.Value;
+            }).ToList();
 
             SumRate = Items.Sum(p => p.Rate);
         }
@@ -49,6 +57,11 @@ namespace Dolany.Game.OnlineStore
         public string CheckHonor(DriftItemRecord record, string itemName, out bool IsNewHonor)
         {
             IsNewHonor = false;
+            if (record == null || record.ItemCount == null)
+            {
+                return string.Empty;
+            }
+
             var honorName = FindHonor(itemName);
             var honorCount = 0;
             if (record.HonorList == null || !record.HonorList.Contains(honorName))

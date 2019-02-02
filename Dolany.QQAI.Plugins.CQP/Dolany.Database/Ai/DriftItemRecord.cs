@@ -8,7 +8,7 @@ namespace Dolany.Database.Ai
 
         public IList<DriftItemCountRecord> ItemCount { get; set; }
 
-        public IEnumerable<string> HonorList { get; set; }
+        public IList<string> HonorList { get; set; }
     }
 
     public class DriftItemCountRecord

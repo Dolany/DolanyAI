@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.Linq;
 using Dolany.Database;
 
 namespace Dolany.Game.FreedomMagic
@@ -44,7 +45,7 @@ namespace Dolany.Game.FreedomMagic
             Magics.RemoveAll(m => m.Name == name);
         }
 
-        public static FMPlayer Create(long QQNum)
+        private static FMPlayer Create(long QQNum)
         {
             return new FMPlayer()
             {
@@ -54,6 +55,20 @@ namespace Dolany.Game.FreedomMagic
                 Level = 1,
                 CurExp = 0
             };
+        }
+
+        public static FMPlayer GetPlayer(long QQNum)
+        {
+            var player = MongoService<FMPlayer>.Get(p => p.QQNum == QQNum).FirstOrDefault();
+            if (player != null)
+            {
+                return player;
+            }
+
+            player = Create(QQNum);
+            MongoService<FMPlayer>.Insert(player);
+
+            return player;
         }
     }
 }

@@ -23,7 +23,7 @@ namespace Dolany.Ai.Core.Ai.SingleCommand.SelfBoom
             AuthorityLevel = AuthorityLevel.成员,
             Description = "自爆",
             Syntax = "",
-            Tag = "系统功能",
+            Tag = "系统命令",
             SyntaxChecker = "Empty",
             IsPrivateAvailable = false)]
         public void Boom(MsgInformationEx MsgDTO, object[] param)

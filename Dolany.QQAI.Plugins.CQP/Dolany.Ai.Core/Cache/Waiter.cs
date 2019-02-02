@@ -1,4 +1,5 @@
 ﻿using Dolany.Ai.Common;
+using Dolany.Ai.Core.Model;
 
 namespace Dolany.Ai.Core.Cache
 {
@@ -64,7 +65,7 @@ namespace Dolany.Ai.Core.Cache
             }
         }
 
-        public MsgInformation WaitForInformation(MsgCommand sendMsg, Predicate<MsgInformation> judgeFunc, int timeout = 5000)
+        public MsgInformation WaitForInformation(MsgInformationEx MsgDTO, string msg, Predicate<MsgInformation> judgeFunc, int timeout = 5)
         {
             var signal = new AutoResetEvent(false);
             var unit = new WaiterUnit {JudgePredicate = judgeFunc, Signal = signal};
@@ -73,8 +74,8 @@ namespace Dolany.Ai.Core.Cache
                 Units.Add(unit);
             }
 
-            MsgSender.Instance.PushMsg(sendMsg);
-            signal.WaitOne(timeout);
+            MsgSender.Instance.PushMsg(MsgDTO, msg);
+            signal.WaitOne(timeout * 1000);
 
             lock (_lockObj)
             {
@@ -85,9 +86,30 @@ namespace Dolany.Ai.Core.Cache
             return unit?.ResultInfos.FirstOrDefault();
         }
 
-        public IEnumerable<MsgInformation> WaitForInformations(MsgCommand sendMsg, IEnumerable<Predicate<MsgInformation>> judgeFuncs, int timeout = 5000)
+        public MsgInformation WaitForInformation(MsgCommand command, Predicate<MsgInformation> judgeFunc, int timeout = 5)
         {
-            MsgSender.Instance.PushMsg(sendMsg);
+            var signal = new AutoResetEvent(false);
+            var unit = new WaiterUnit {JudgePredicate = judgeFunc, Signal = signal};
+            lock (_lockObj)
+            {
+                Units.Add(unit);
+            }
+
+            MsgSender.Instance.PushMsg(command);
+            signal.WaitOne(timeout * 1000);
+
+            lock (_lockObj)
+            {
+                unit = Units.FirstOrDefault(u => u.Id == unit.Id);
+                Units.Remove(unit);
+            }
+
+            return unit?.ResultInfos.FirstOrDefault();
+        }
+
+        public IEnumerable<MsgInformation> WaitForInformations(MsgInformationEx MsgDTO, string msg, IEnumerable<Predicate<MsgInformation>> judgeFuncs, int timeout = 5)
+        {
+            MsgSender.Instance.PushMsg(MsgDTO, msg);
 
             var tasks = judgeFuncs.Select(func => Task.Factory.StartNew(() =>
             {
@@ -98,7 +120,7 @@ namespace Dolany.Ai.Core.Cache
                     Units.Add(unit);
                 }
 
-                signal.WaitOne(timeout);
+                signal.WaitOne(timeout * 1000);
 
                 lock (_lockObj)
                 {
@@ -109,12 +131,12 @@ namespace Dolany.Ai.Core.Cache
                 return unit?.ResultInfos.FirstOrDefault();
             })).ToArray();
             // ReSharper disable once CoVariantArrayConversion
-            Task.WaitAll(tasks, timeout);
+            Task.WaitAll(tasks, timeout * 1000);
 
             return tasks.Select(task => task.Result);
         }
 
-        public List<MsgInformation> WaitWhile(MsgCommand sendMsg, Predicate<MsgInformation> judgeFunc, int timeout)
+        public List<MsgInformation> WaitWhile(MsgInformationEx MsgDTO, string msg, Predicate<MsgInformation> judgeFunc, int timeout)
         {
             var signal = new AutoResetEvent(false);
             var unit = new WaiterUnit { JudgePredicate = judgeFunc, Signal = signal, Type = WaiterUnitType.Multi};
@@ -123,8 +145,8 @@ namespace Dolany.Ai.Core.Cache
                 Units.Add(unit);
             }
 
-            MsgSender.Instance.PushMsg(sendMsg);
-            signal.WaitOne(timeout);
+            MsgSender.Instance.PushMsg(MsgDTO, msg);
+            signal.WaitOne(timeout * 1000);
 
             lock (_lockObj)
             {
@@ -135,9 +157,21 @@ namespace Dolany.Ai.Core.Cache
             return unit?.ResultInfos;
         }
 
-        public MsgInformation WaitForRelationId(MsgCommand sendMsg, int timeout = 5000)
+        public MsgInformation WaitForRelationId(MsgInformationEx MsgDTO, string msg, int timeout = 5)
         {
-            return WaitForInformation(sendMsg, information => information.RelationId == sendMsg.Id, timeout);
+            return WaitForInformation(MsgDTO, msg, information => information.RelationId == MsgDTO.Id, timeout);
+        }
+
+        public MsgInformation WaitForRelationId(MsgCommand command, int timeout = 5)
+        {
+            return WaitForInformation(command, information => information.RelationId == command.Id, timeout);
+        }
+
+        public bool WaitForConfirm(MsgInformationEx MsgDTO, string msg, int timeout = 5)
+        {
+            msg += "\r1：确认，2：取消";
+            var response = WaitForInformation(MsgDTO, msg, information => int.TryParse(information.Msg, out var i) && (i == 1 || i == 2), timeout);
+            return response != null && int.TryParse(response.Msg, out var ri) && ri == 1;
         }
     }
 

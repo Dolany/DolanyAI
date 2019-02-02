@@ -29,7 +29,7 @@ namespace Dolany.Ai.Core.Ai.SingleCommand.RandomPic
             AuthorityLevel = AuthorityLevel.成员,
             Description = "随机发送近期内所有群组内发过的图片",
             Syntax = "",
-            Tag = "图片功能",
+            Tag = "娱乐功能",
             SyntaxChecker = "Empty",
             IsPrivateAvailable = true,
             DailyLimit = 20)]
@@ -44,7 +44,7 @@ namespace Dolany.Ai.Core.Ai.SingleCommand.RandomPic
             AuthorityLevel = AuthorityLevel.成员,
             Description = "随机发送近期内所有群组内发过的图片（以闪照的形式）",
             Syntax = "",
-            Tag = "图片功能",
+            Tag = "娱乐功能",
             SyntaxChecker = "Empty",
             IsPrivateAvailable = true,
             DailyLimit = 20)]

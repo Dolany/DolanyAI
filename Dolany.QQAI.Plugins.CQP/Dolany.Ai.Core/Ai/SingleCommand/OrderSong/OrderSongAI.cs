@@ -27,7 +27,7 @@ namespace Dolany.Ai.Core.Ai.SingleCommand.OrderSong
             AuthorityLevel = AuthorityLevel.成员,
             Description = "根据歌名点歌",
             Syntax = "[歌名]",
-            Tag = "点歌功能",
+            Tag = "娱乐功能",
             SyntaxChecker = "Any",
             IsPrivateAvailable = true,
             DailyLimit = 5)]

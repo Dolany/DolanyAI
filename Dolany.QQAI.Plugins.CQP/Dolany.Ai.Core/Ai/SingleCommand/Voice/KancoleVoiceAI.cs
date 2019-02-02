@@ -32,7 +32,7 @@
             AuthorityLevel = AuthorityLevel.成员,
             Description = "获取随机舰娘语音",
             Syntax = "[舰娘名称]",
-            Tag = "语音功能",
+            Tag = "娱乐功能",
             SyntaxChecker = "Word",
             IsPrivateAvailable = true)]
         public void KancoleVoice(MsgInformationEx MsgDTO, object[] param)

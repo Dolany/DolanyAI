@@ -33,7 +33,7 @@
             AuthorityLevel = AuthorityLevel.成员,
             Description = "发送十个赞",
             Syntax = "",
-            Tag = "点赞功能",
+            Tag = "娱乐功能",
             SyntaxChecker = "Empty",
             IsPrivateAvailable = true,
             IsGroupAvailable = true)]

@@ -101,9 +101,16 @@ namespace Dolany.Game.OnlineStore
             }
 
             var honorName = HonorHelper.Instance.FindHonor(itemName);
-            query.HonorList = query.HonorList == null ? new[] { honorName } : query.HonorList.Append(honorName);
-            MongoService<DriftItemRecord>.Update(query);
+            if (query.HonorList == null)
+            {
+                query.HonorList = new List<string>() {honorName};
+            }
+            else
+            {
+                query.HonorList.Add(honorName);
+            }
 
+            MongoService<DriftItemRecord>.Update(query);
             return msg;
         }
     }

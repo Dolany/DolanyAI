@@ -53,11 +53,8 @@ namespace Dolany.Ai.Core.Ai.Game.Shopping
             }
 
             var price = HonorHelper.Instance.GetItemPrice(item);
-            var msg = $"贩卖此物品将获得 {price} 金币，是否确认贩卖？\r1：确认，2：取消";
-            var response = Waiter.Instance.WaitForInformation(
-                new MsgCommand {ToGroup = MsgDTO.FromGroup, ToQQ = MsgDTO.FromQQ, Command = AiCommand.SendGroup, Msg = msg},
-                (information => information.FromQQ == MsgDTO.FromQQ && int.TryParse(information.Msg, out var i) && (i == 1 || i == 2)), 7000);
-            if (response == null || (int.TryParse(response.Msg, out var ans) && ans == 2))
+            var msg = $"贩卖此物品将获得 {price} 金币，是否确认贩卖？";
+            if (!Waiter.Instance.WaitForConfirm(MsgDTO, msg, 7))
             {
                 MsgSender.Instance.PushMsg(MsgDTO, "交易取消！");
                 return;
@@ -88,11 +85,8 @@ namespace Dolany.Ai.Core.Ai.Game.Shopping
             }
 
             var price = GetHonorPrice(honorName);
-            var msg = $"贩卖此成就将获得 {price} 金币，是否确认贩卖？\r1：确认，2：取消";
-            var response = Waiter.Instance.WaitForInformation(
-                new MsgCommand {ToGroup = MsgDTO.FromGroup, ToQQ = MsgDTO.FromQQ, Command = AiCommand.SendGroup, Msg = msg},
-                (information => information.FromQQ == MsgDTO.FromQQ && int.TryParse(information.Msg, out var i) && (i == 1 || i == 2)), 7000);
-            if (response == null || (int.TryParse(response.Msg, out var ans) && ans == 2))
+            var msg = $"贩卖此成就将获得 {price} 金币，是否确认贩卖？";
+            if (!Waiter.Instance.WaitForConfirm(MsgDTO, msg, 7))
             {
                 MsgSender.Instance.PushMsg(MsgDTO, "交易取消！");
                 return;
@@ -108,6 +102,8 @@ namespace Dolany.Ai.Core.Ai.Game.Shopping
                     query.ItemCount.Remove(record);
                 }
             }
+
+            query.HonorList.Remove(honorName);
 
             MongoService<DriftItemRecord>.Update(query);
 
@@ -184,11 +180,8 @@ namespace Dolany.Ai.Core.Ai.Game.Shopping
                 return;
             }
 
-            var msg = $"购买此物品将消耗 {sellItem.Price} 金币，是否确认购买？\r1：确认，2：取消";
-            var response = Waiter.Instance.WaitForInformation(
-                new MsgCommand {ToGroup = MsgDTO.FromGroup, ToQQ = MsgDTO.FromQQ, Command = AiCommand.SendGroup, Msg = msg},
-                (information => information.FromQQ == MsgDTO.FromQQ && int.TryParse(information.Msg, out var i) && (i == 1 || i == 2)), 7000);
-            if (response == null || (int.TryParse(response.Msg, out var ans) && ans == 2))
+            var msg = $"购买此物品将消耗 {sellItem.Price} 金币，是否确认购买？";
+            if (!Waiter.Instance.WaitForConfirm(MsgDTO, msg, 7))
             {
                 MsgSender.Instance.PushMsg(MsgDTO, "交易取消！");
                 return;
@@ -202,7 +195,7 @@ namespace Dolany.Ai.Core.Ai.Game.Shopping
 
             OSPerson.GoldConsume(osPerson.QQNum, sellItem.Price);
 
-            MsgSender.Instance.PushMsg(MsgDTO, $"购买成功！你当前剩余的金币为 {osPerson.Golds}");
+            MsgSender.Instance.PushMsg(MsgDTO, $"购买成功！你当前剩余的金币为 {osPerson.Golds - sellItem.Price}");
         }
     }
 

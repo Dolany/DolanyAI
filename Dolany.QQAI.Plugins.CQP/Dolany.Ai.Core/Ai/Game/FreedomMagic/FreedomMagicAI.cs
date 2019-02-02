@@ -6,6 +6,7 @@ using Dolany.Ai.Core.Cache;
 using Dolany.Ai.Core.Model;
 using Dolany.Database;
 using Dolany.Game.FreedomMagic;
+using Dolany.Game.OnlineStore;
 
 namespace Dolany.Ai.Core.Ai.Game.FreedomMagic
 {
@@ -20,11 +21,13 @@ namespace Dolany.Ai.Core.Ai.Game.FreedomMagic
 
     [AI(Name = nameof(FreedomMagicAI),
         Description = "Ai for freedom magic game",
-        Enable = false,
+        Enable = true,
         PriorityLevel = 10)]
     public class FreedomMagicAI : AIBase
     {
         private List<SingWordsLevelModel> SwModels;
+        private Dictionary<int, int> ForgetConsumeDic = new Dictionary<int, int>();
+        private Dictionary<int, int> VolumeIncreaseCostDic = new Dictionary<int, int>();
 
         public override void Initialization()
         {
@@ -35,6 +38,9 @@ namespace Dolany.Ai.Core.Ai.Game.FreedomMagic
                 value.Level = key;
                 return value;
             }).ToList();
+
+            ForgetConsumeDic = CommonUtil.ReadJsonData<Dictionary<int, int>>("magicForgetConsumeData");
+            VolumeIncreaseCostDic = CommonUtil.ReadJsonData<Dictionary<int, int>>("volumeIncreaseCostData");
         }
 
         [EnterCommand(
@@ -44,7 +50,8 @@ namespace Dolany.Ai.Core.Ai.Game.FreedomMagic
             Syntax = "[名称] [咒文]",
             SyntaxChecker = "Word Word",
             Tag = "游戏功能",
-            IsPrivateAvailable = true)]
+            IsPrivateAvailable = true,
+            IsTesting = true)]
         public void CreateMagic(MsgInformationEx MsgDTO, object[] param)
         {
             var name = param[0] as string;
@@ -63,7 +70,7 @@ namespace Dolany.Ai.Core.Ai.Game.FreedomMagic
                 return;
             }
 
-            var player = GetPlayer(MsgDTO.FromQQ);
+            var player = FMPlayer.GetPlayer(MsgDTO.FromQQ);
             if (player.IsMagicFull)
             {
                 MsgSender.Instance.PushMsg(MsgDTO, "你持有的魔法数量已到达上限！");
@@ -97,7 +104,7 @@ namespace Dolany.Ai.Core.Ai.Game.FreedomMagic
 
             var magic = player.LearnMagic(name, singWords, swmode.Level);
             MongoService<FMPlayer>.Update(player);
-            MsgSender.Instance.PushMsg(MsgDTO, $"恭喜你成功创建了新的魔法！\r{magic}\r请牢记你的咒文！");
+            MsgSender.Instance.PushMsg(MsgDTO, $"恭喜你成功创建了新的魔法！\r{magic}\r请牢记你的咒文！", true);
         }
 
         private int EffectiveLength(string singWords)
@@ -106,17 +113,98 @@ namespace Dolany.Ai.Core.Ai.Game.FreedomMagic
             return chars.Count();
         }
 
-        private FMPlayer GetPlayer(long QQNum)
+        [EnterCommand(Command = "遗忘魔法",
+            AuthorityLevel = AuthorityLevel.成员,
+            Description = "遗忘一个魔法，需要花费一定量的金币",
+            Syntax = "[名称]",
+            SyntaxChecker = "Word",
+            Tag = "游戏功能",
+            IsPrivateAvailable = true,
+            IsTesting = true)]
+        public void ForgetMagic(MsgInformationEx MsgDTO, object[] param)
         {
-            var query = MongoService<FMPlayer>.Get(p => p.QQNum == QQNum).FirstOrDefault();
-            if (query != null)
+            var name = param[0] as string;
+
+            var player = FMPlayer.GetPlayer(MsgDTO.FromQQ);
+            if (player.Magics == null)
             {
-                return query;
+                MsgSender.Instance.PushMsg(MsgDTO, "你还没有创建过任何魔法！");
+                return;
             }
 
-            var player = FMPlayer.Create(QQNum);
-            MongoService<FMPlayer>.Insert(player);
-            return player;
+            var magic = player.Magics.FirstOrDefault(m => m.Name == name);
+            if (magic == null)
+            {
+                MsgSender.Instance.PushMsg(MsgDTO, "你还未创建该魔法！");
+                return;
+            }
+
+            if (!ForgetConsumeDic.Keys.Contains(magic.MagicLevel))
+            {
+                MsgSender.Instance.PushMsg(MsgDTO, "未查找到魔法等级数据！");
+                return;
+            }
+
+            var osPerson = OSPerson.GetPerson(MsgDTO.FromQQ);
+            var cost = ForgetConsumeDic[magic.MagicLevel];
+            var msg = $"遗忘此魔法将消耗 {cost} 个金币！";
+            if (cost > osPerson.Golds)
+            {
+                MsgSender.Instance.PushMsg(MsgDTO, msg + "你的持有的金币不足以支付费用！");
+                return;
+            }
+
+            if (!Waiter.Instance.WaitForConfirm(MsgDTO, msg, 7))
+            {
+                MsgSender.Instance.PushMsg(MsgDTO, "操作取消！");
+                return;
+            }
+
+            player.Magics.Remove(magic);
+            MongoService<FMPlayer>.Update(player);
+
+            OSPerson.GoldConsume(MsgDTO.FromQQ, cost);
+            MsgSender.Instance.PushMsg(MsgDTO, $"你已经成功遗忘该魔法！你当前学会的魔法数量：{player.Magics.Count}，你当前持有的金币：{osPerson.Golds - cost}", true);
+        }
+
+        [EnterCommand(Command = "魔法扩容",
+            AuthorityLevel = AuthorityLevel.成员,
+            Description = "扩充可以持有的魔法数量上限，需要花费大量金币",
+            Syntax = "",
+            SyntaxChecker = "Empty",
+            Tag = "游戏功能",
+            IsPrivateAvailable = true,
+            IsTesting = true)]
+        public void VolumeIncrease(MsgInformationEx MsgDTO, object[] param)
+        {
+            var osPerson = OSPerson.GetPerson(MsgDTO.FromQQ);
+            var player = FMPlayer.GetPlayer(MsgDTO.FromQQ);
+
+            if (!VolumeIncreaseCostDic.Keys.Contains(player.MagicVolume))
+            {
+                MsgSender.Instance.PushMsg(MsgDTO, "未知的容量等级！");
+                return;
+            }
+
+            var cost = VolumeIncreaseCostDic[player.MagicVolume];
+            var msg = $"扩充魔法数量上限需要消耗金币：{cost}!";
+            if (cost > osPerson.Golds)
+            {
+                MsgSender.Instance.PushMsg(MsgDTO, msg + "你的持有的金币不足以支付费用！");
+                return;
+            }
+
+            if (!Waiter.Instance.WaitForConfirm(MsgDTO, msg, 7))
+            {
+                MsgSender.Instance.PushMsg(MsgDTO, "操作取消！");
+                return;
+            }
+
+            player.MagicVolume++;
+            MongoService<FMPlayer>.Update(player);
+
+            OSPerson.GoldConsume(MsgDTO.FromQQ, cost);
+            MsgSender.Instance.PushMsg(MsgDTO, $"扩容成功！你当前魔法容量为：{player.MagicVolume}，你持有的金币为：{osPerson.Golds - cost}", true);
         }
     }
 }

@@ -11,7 +11,7 @@ namespace Dolany.Ai.Core.Ai.Assistance
 {
     [AI(Name = nameof(SilenceAI),
         Description = "Ai for silence someone",
-        Enable = true,
+        Enable = false,
         PriorityLevel = 15)]
     public class SilenceAI : AIBase
     {
@@ -180,7 +180,7 @@ namespace Dolany.Ai.Core.Ai.Assistance
         private void SendSilence(MsgInformationEx MsgDTO, SilenceRule rule)
         {
             var duringTime = rule.MinValue + CommonUtil.RandInt(rule.MaxValue - rule.MinValue);
-            Waiter.Instance.WaitForRelationId(new MsgCommand {ToGroup = MsgDTO.FromGroup, ToQQ = MsgDTO.FromQQ, Msg = duringTime.ToString()});
+            Waiter.Instance.WaitForRelationId(MsgDTO, duringTime.ToString());
 
             var msg = $"当前禁言规则：\r禁言内容：{rule.Rule}\r禁言时长(分钟)：{rule.MinValue}-{rule.MaxValue}";
             MsgSender.Instance.PushMsg(MsgDTO, msg, true);

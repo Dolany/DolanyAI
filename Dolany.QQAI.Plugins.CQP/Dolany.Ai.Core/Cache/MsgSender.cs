@@ -4,8 +4,6 @@
 
     using Common;
     using Dolany.Ai.Common;
-    using Dolany.Database.Ai;
-
     using Model;
 
     using static API.CodeApi;
