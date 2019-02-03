@@ -1,5 +1,6 @@
 ﻿using System.Linq;
 using Dolany.Ai.Common;
+using Dolany.Ai.Core.API;
 using Dolany.Ai.Core.Base;
 using Dolany.Ai.Core.Cache;
 using Dolany.Ai.Core.Model;
@@ -196,6 +197,66 @@ namespace Dolany.Ai.Core.Ai.Game.Shopping
             OSPerson.GoldConsume(osPerson.QQNum, sellItem.Price);
 
             MsgSender.Instance.PushMsg(MsgDTO, $"购买成功！你当前剩余的金币为 {osPerson.Golds - sellItem.Price}");
+        }
+
+        [EnterCommand(Command = "交易",
+            AuthorityLevel = AuthorityLevel.成员,
+            Description = "向另一个成员求购一个物品，并指定价格",
+            Syntax = "[@QQ号] [商品名] [价格]",
+            Tag = "商店功能",
+            SyntaxChecker = "At Word Long",
+            IsPrivateAvailable = false)]
+        public void DealWith(MsgInformationEx MsgDTO, object[] param)
+        {
+            var aimQQ = (long) param[0];
+            var itemName = param[1] as string;
+            var price = (int)(long) param[2];
+
+            if (price <= 0)
+            {
+                MsgSender.Instance.PushMsg(MsgDTO, "价格异常！");
+                return;
+            }
+
+            var sourceOSPerson = OSPerson.GetPerson(MsgDTO.FromQQ);
+            if (sourceOSPerson.Golds < price)
+            {
+                MsgSender.Instance.PushMsg(MsgDTO, "你没有足够的金币来支付！");
+                return;
+            }
+
+            if (!ItemHelper.Instance.CheckItem(aimQQ, itemName))
+            {
+                MsgSender.Instance.PushMsg(MsgDTO, "对方没有该物品！");
+                return;
+            }
+
+            var count = ItemHelper.Instance.ItemCount(aimQQ, itemName);
+            var msg = $"{CodeApi.Code_At(aimQQ)} 收到来自 {CodeApi.Code_At(MsgDTO.FromQQ)} 的交易请求：\r" +
+                      $"希望得到的物品：{itemName}\r" +
+                      $"价格：{price}\r" +
+                      $"你当前持有：{count}个，是否确认交易？";
+            if (!Waiter.Instance.WaitForConfirm(MsgDTO, msg, 7))
+            {
+                MsgSender.Instance.PushMsg(MsgDTO, "交易取消！");
+                return;
+            }
+
+            ItemHelper.Instance.ItemConsume(aimQQ, itemName);
+            var rmsg = ItemHelper.Instance.ItemIncome(MsgDTO.FromQQ, itemName);
+            if (!string.IsNullOrEmpty(rmsg))
+            {
+                MsgSender.Instance.PushMsg(MsgDTO, rmsg, true);
+            }
+
+            var aimOSPerson = OSPerson.GetPerson(aimQQ);
+            sourceOSPerson.Golds -= price;
+            aimOSPerson.Golds += price;
+
+            MongoService<OSPerson>.Update(sourceOSPerson);
+            MongoService<OSPerson>.Update(aimOSPerson);
+
+            MsgSender.Instance.PushMsg(MsgDTO, "交易完毕！");
         }
     }
 

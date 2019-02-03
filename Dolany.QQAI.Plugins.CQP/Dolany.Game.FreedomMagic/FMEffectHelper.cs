@@ -52,7 +52,7 @@ namespace Dolany.Game.FreedomMagic
             var levelList = EffectLevelDic[level];
             if (skipEffects.IsNullOrEmpty())
             {
-                return levelList[CommonUtil.RandInt(EffectsList.Count)];
+                return levelList[CommonUtil.RandInt(levelList.Length)];
             }
 
             var list = levelList.Where(e => skipEffects.Contains(e.Type)).ToList();

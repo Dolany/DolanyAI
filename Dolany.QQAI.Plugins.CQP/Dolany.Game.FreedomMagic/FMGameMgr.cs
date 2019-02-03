@@ -8,20 +8,24 @@ namespace Dolany.Game.FreedomMagic
 {
     public class FMGameMgr
     {
-        private static List<FMEngine> Gamings = new List<FMEngine>();
+        private static readonly List<FMEngine> Gamings = new List<FMEngine>();
 
-        public static bool IsPlaying(long GroupNum, long FirstQQNum, long SecondQQNum)
+        public static bool IsPlaying_Group(long GroupNum)
         {
-            return Gamings.Any(g => g.GroupNum == GroupNum || g.FirstPlayer.QQNum == FirstQQNum || g.SecondePlayer.QQNum == FirstQQNum ||
-                                    g.FirstPlayer.QQNum == SecondQQNum || g.SecondePlayer.QQNum == SecondQQNum);
+            return Gamings.Any(g => g.GroupNum == GroupNum);
         }
 
-        public void GameStart(long GroupNum, FMPlayerEx firstPlayer, FMPlayerEx SecondPlayer, Action<long, string> CommandCallBack,
-            Func<MsgCommand, Predicate<MsgInformation>, int, MsgInformation> WaitCallBack)
+        public static bool IsPlaying_Player(long QQNum)
+        {
+            return Gamings.Any(g => g.FirstPlayer.QQNum == QQNum || g.SecondePlayer.QQNum == QQNum);
+        }
+
+        public static void GameStart(long GroupNum, FMPlayerEx firstPlayer, FMPlayerEx SecondPlayer, Action<string, long> CommandCallBack,
+            Func<string, Predicate<MsgInformation>, int, MsgInformation> WaitCallBack)
         {
             var engine = new FMEngine(GroupNum, firstPlayer, SecondPlayer, CommandCallBack, WaitCallBack);
             Gamings.Add(engine);
-            Task.Factory.StartNew(engine.GameStart);
+            Task.Factory.StartNew(engine.GameStart).ContinueWith(task => Gamings.Remove(engine));
         }
     }
 }

@@ -1,6 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
 using Dolany.Ai.Common;
+using Dolany.Ai.Core.API;
 using Dolany.Ai.Core.Base;
 using Dolany.Ai.Core.Cache;
 using Dolany.Ai.Core.Model;
@@ -25,19 +26,13 @@ namespace Dolany.Ai.Core.Ai.Game.FreedomMagic
         PriorityLevel = 10)]
     public class FreedomMagicAI : AIBase
     {
-        private List<SingWordsLevelModel> SwModels;
+        private Dictionary<int, SingWordsLevelModel> SwModels;
         private Dictionary<int, int> ForgetConsumeDic = new Dictionary<int, int>();
         private Dictionary<int, int> VolumeIncreaseCostDic = new Dictionary<int, int>();
 
         public override void Initialization()
         {
-            var data = CommonUtil.ReadJsonData<Dictionary<int, SingWordsLevelModel>>("singWordsLevelData");
-            SwModels = data.Select(d =>
-            {
-                var (key, value) = d;
-                value.Level = key;
-                return value;
-            }).ToList();
+            SwModels = CommonUtil.ReadJsonData<Dictionary<int, SingWordsLevelModel>>("singWordsLevelData");
 
             ForgetConsumeDic = CommonUtil.ReadJsonData<Dictionary<int, int>>("magicForgetConsumeData");
             VolumeIncreaseCostDic = CommonUtil.ReadJsonData<Dictionary<int, int>>("volumeIncreaseCostData");
@@ -89,7 +84,7 @@ namespace Dolany.Ai.Core.Ai.Game.FreedomMagic
                 return;
             }
 
-            var swmode = SwModels.FirstOrDefault(m => m.Min >= effLen && m.Max < effLen);
+            var swmode = SwModels.Values.FirstOrDefault(m => m.Min <= effLen && m.Max > effLen);
             if (swmode == null)
             {
                 MsgSender.Instance.PushMsg(MsgDTO, "未知等级的魔法！");
@@ -205,6 +200,123 @@ namespace Dolany.Ai.Core.Ai.Game.FreedomMagic
 
             OSPerson.GoldConsume(MsgDTO.FromQQ, cost);
             MsgSender.Instance.PushMsg(MsgDTO, $"扩容成功！你当前魔法容量为：{player.MagicVolume}，你持有的金币为：{osPerson.Golds - cost}", true);
+        }
+
+        [EnterCommand(Command = "我的魔法书",
+            AuthorityLevel = AuthorityLevel.成员,
+            Description = "查看自己已经学会的所有魔法",
+            Syntax = "",
+            SyntaxChecker = "Empty",
+            Tag = "游戏功能",
+            IsPrivateAvailable = true,
+            IsTesting = true)]
+        public void MyMagicBook(MsgInformationEx MsgDTO, object[] param)
+        {
+            var player = FMPlayer.GetPlayer(MsgDTO.FromQQ);
+            if (player.Magics.IsNullOrEmpty())
+            {
+                MsgSender.Instance.PushMsg(MsgDTO, "你还没有学会任何魔法！");
+                return;
+            }
+
+            var msgs = player.Magics.Select(m => $"{m.Name} 等级：{m.MagicLevel} 消耗：{m.MagicCost}");
+            var msg = string.Join("\r", msgs);
+            MsgSender.Instance.PushMsg(MsgDTO, msg);
+        }
+
+        [EnterCommand(Command = "查看魔法",
+            AuthorityLevel = AuthorityLevel.成员,
+            Description = "查看自己已经学会的某个魔法",
+            Syntax = "[魔法名]",
+            SyntaxChecker = "Word",
+            Tag = "游戏功能",
+            IsPrivateAvailable = true,
+            IsTesting = true)]
+        public void ViewMagic(MsgInformationEx MsgDTO, object[] param)
+        {
+            var name = param[0] as string;
+
+            var player = FMPlayer.GetPlayer(MsgDTO.FromQQ);
+            if (player.Magics.IsNullOrEmpty())
+            {
+                MsgSender.Instance.PushMsg(MsgDTO, "你还没有学会任何魔法！");
+                return;
+            }
+
+            var magic = player.Magics.FirstOrDefault(m => m.Name == name);
+            if (magic == null)
+            {
+                MsgSender.Instance.PushMsg(MsgDTO, "你尚未学会该魔法！");
+                return;
+            }
+
+            MsgSender.Instance.PushMsg(MsgDTO, magic.ToString());
+        }
+
+        [EnterCommand(Command = "魔法挑战",
+            AuthorityLevel = AuthorityLevel.成员,
+            Description = "向一个成员发起挑战",
+            Syntax = "[@QQ号]",
+            SyntaxChecker = "At",
+            Tag = "游戏功能",
+            IsPrivateAvailable = false,
+            IsTesting = true)]
+        public void MagicChallege(MsgInformationEx MsgDTO, object[] param)
+        {
+            var aimQQ = (long) param[0];
+
+            var firstPlayer = FMPlayer.GetPlayer(MsgDTO.FromQQ);
+            if (firstPlayer.Magics == null || firstPlayer.Magics.Count < 5)
+            {
+                MsgSender.Instance.PushMsg(MsgDTO, "你学会的魔法数量不足以进行挑战！");
+                return;
+            }
+
+            var secondPlayer = FMPlayer.GetPlayer(aimQQ);
+            if (secondPlayer.Magics == null || secondPlayer.Magics.Count < 5)
+            {
+                MsgSender.Instance.PushMsg(MsgDTO, "你的对手学会的魔法数量不足以接受挑战！");
+                return;
+            }
+
+            if (FMGameMgr.IsPlaying_Group(MsgDTO.FromGroup))
+            {
+                MsgSender.Instance.PushMsg(MsgDTO, "本群正在进行一场挑战，请稍后再试！");
+                return;
+            }
+
+            if (FMGameMgr.IsPlaying_Player(MsgDTO.FromQQ))
+            {
+                MsgSender.Instance.PushMsg(MsgDTO, "你正在进行一场挑战，请稍后再试！");
+                return;
+            }
+
+            if (FMGameMgr.IsPlaying_Player(aimQQ))
+            {
+                MsgSender.Instance.PushMsg(MsgDTO, "你的对手正在进行一场挑战，请稍后再试！");
+                return;
+            }
+
+            if (!Waiter.Instance.WaitForConfirm(MsgDTO, $"你是否接受来自 {CodeApi.Code_At(MsgDTO.FromQQ)}的挑战？"))
+            {
+                MsgSender.Instance.PushMsg(MsgDTO, "挑战取消！");
+                return;
+            }
+
+            MsgSender.Instance.PushMsg(MsgDTO, "挑战即将开始！打扫擂台中......");
+            FMGameMgr.GameStart(MsgDTO.FromGroup, new FMPlayerEx(firstPlayer),
+                new FMPlayerEx(secondPlayer), (msg, sendTo) =>
+                {
+                    if (sendTo == 0)
+                    {
+                        MsgSender.Instance.PushMsg(MsgDTO, msg);
+                        return;
+                    }
+
+                    MsgDTO.FromQQ = sendTo;
+                    MsgSender.Instance.PushMsg(MsgDTO, msg, true);
+                },
+                (msg, judge, timeout) => Waiter.Instance.WaitForInformation(MsgDTO, msg, judge, timeout));
         }
     }
 }
