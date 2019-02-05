@@ -124,7 +124,7 @@ namespace Dolany.Ai.Core.Ai.Game.Shopping
             var golds = osPerson.Golds;
 
             var sellItems = GetDailySellItems();
-            var itemsStr = string.Join("\r", sellItems.Select(si => $"商品名：{si.Name}, 售价：{si.Price}"));
+            var itemsStr = string.Join("\r", sellItems.Select(si => $"商品名：{si.Name}({HonorHelper.Instance.FindHonor(si.Name)}), 售价：{si.Price}"));
             var msg = $"今日售卖的商品：\r{itemsStr}\r你当前持有金币 {golds}";
             MsgSender.Instance.PushMsg(MsgDTO, msg);
         }
@@ -236,7 +236,7 @@ namespace Dolany.Ai.Core.Ai.Game.Shopping
                       $"希望得到的物品：{itemName}\r" +
                       $"价格：{price}\r" +
                       $"你当前持有：{count}个，是否确认交易？";
-            if (!Waiter.Instance.WaitForConfirm(MsgDTO, msg, 7))
+            if (!Waiter.Instance.WaitForConfirm(MsgDTO, msg, 10))
             {
                 MsgSender.Instance.PushMsg(MsgDTO, "交易取消！");
                 return;

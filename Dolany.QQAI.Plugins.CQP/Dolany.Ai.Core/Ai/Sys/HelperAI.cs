@@ -1,4 +1,6 @@
-﻿namespace Dolany.Ai.Core.Ai.Sys
+﻿using System.Collections.Generic;
+
+namespace Dolany.Ai.Core.Ai.Sys
 {
     using System.Linq;
     using System.Text;
@@ -88,13 +90,19 @@
 
             foreach (var command in commands)
             {
-                var helpMsg = MsgDTO.Type == MsgType.Group ? $@"命令：{command.Command}
-格式： {command.Command} {command.Syntax}
-描述： {command.Description}
-权限： {command.AuthorityLevel.ToString()}" :
-                $@"命令：{command.Command}
-格式： {command.Command} {command.Syntax}
-描述： {command.Description}";
+                var range = new List<string>();
+                if (command.IsGroupAvailable)
+                {
+                    range.Add("群组");
+                }
+
+                if (command.IsPrivateAvailable)
+                {
+                    range.Add("私聊");
+                }
+
+                var helpMsg = $"命令：{command.Command}\r" + $"格式：{command.Command} {command.Syntax}\r" + $"描述： {command.Description}\r" +
+                              $"权限： {command.AuthorityLevel.ToString()}\r" + $"适用范围：{string.Join("，", range)}\r" + $"次数限制：{command.DailyLimit}";
 
                 MsgSender.Instance.PushMsg(MsgDTO, helpMsg);
             }

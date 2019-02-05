@@ -167,9 +167,9 @@ namespace Dolany.Ai.Core.Cache
             return WaitForInformation(command, information => information.RelationId == command.Id, timeout);
         }
 
-        public bool WaitForConfirm(MsgInformationEx MsgDTO, string msg, int timeout = 5)
+        public bool WaitForConfirm(MsgInformationEx MsgDTO, string msg, int timeout = 5, string ConfirmTxt = "确认", string CancelTxt = "取消")
         {
-            msg += "\r1：确认，2：取消";
+            msg += $"\r1：{ConfirmTxt}，2：{CancelTxt}";
             var response = WaitForInformation(MsgDTO, msg, information => int.TryParse(information.Msg, out var i) && (i == 1 || i == 2), timeout);
             return response != null && int.TryParse(response.Msg, out var ri) && ri == 1;
         }
