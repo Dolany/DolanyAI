@@ -189,9 +189,9 @@ namespace Dolany.Ai.Core.Ai.Game.Shopping
             }
 
             var imsg = ItemHelper.Instance.ItemIncome(MsgDTO.FromQQ, sellItem.Name);
-            if (!string.IsNullOrEmpty(imsg))
+            if (!string.IsNullOrEmpty(imsg.msg))
             {
-                MsgSender.Instance.PushMsg(MsgDTO, imsg, true);
+                MsgSender.Instance.PushMsg(MsgDTO, imsg.msg, true);
             }
 
             OSPerson.GoldConsume(osPerson.QQNum, sellItem.Price);
@@ -236,17 +236,17 @@ namespace Dolany.Ai.Core.Ai.Game.Shopping
                       $"希望得到的物品：{itemName}\r" +
                       $"价格：{price}\r" +
                       $"你当前持有：{count}个，是否确认交易？";
-            if (!Waiter.Instance.WaitForConfirm(MsgDTO, msg, 10))
+            if (!Waiter.Instance.WaitForConfirm(MsgDTO.FromGroup, aimQQ, msg, 10))
             {
                 MsgSender.Instance.PushMsg(MsgDTO, "交易取消！");
                 return;
             }
 
             ItemHelper.Instance.ItemConsume(aimQQ, itemName);
-            var rmsg = ItemHelper.Instance.ItemIncome(MsgDTO.FromQQ, itemName);
-            if (!string.IsNullOrEmpty(rmsg))
+            var (content, record) = ItemHelper.Instance.ItemIncome(MsgDTO.FromQQ, itemName);
+            if (!string.IsNullOrEmpty(content))
             {
-                MsgSender.Instance.PushMsg(MsgDTO, rmsg, true);
+                MsgSender.Instance.PushMsg(MsgDTO, content, true);
             }
 
             var aimOSPerson = OSPerson.GetPerson(aimQQ);

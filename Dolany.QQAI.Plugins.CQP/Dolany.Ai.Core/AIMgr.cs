@@ -16,8 +16,6 @@
     using Common;
 
     using Dolany.Ai.Common;
-    using Dolany.Database.Ai;
-
     using Model;
 
     using SyntaxChecker;
@@ -27,7 +25,7 @@
     /// </summary>
     public class AIMgr
     {
-        private IEnumerable<KeyValuePair<AIBase, AIAttribute>> AIList { get; set; }
+        private IList<KeyValuePair<AIBase, AIAttribute>> AIList { get; set; }
 
         public static AIMgr Instance { get; } = new AIMgr();
 
@@ -72,9 +70,6 @@
 
             StartAIs();
 
-            var msg = $"成功加载{AIList.Count()}个ai \r\n";
-            RuntimeLogger.Log(msg);
-
             Sys_StartTime.Set(DateTime.Now);
         }
 
@@ -83,11 +78,15 @@
         /// </summary>
         private void StartAIs()
         {
-            AIList = AIList.Where(a => a.Value.Enable).OrderByDescending(a => a.Value.PriorityLevel);
-            foreach (var keyValuePair in AIList)
+            AIList = AIList.Where(a => a.Value.Enable).OrderByDescending(a => a.Value.PriorityLevel).ToList();
+            var count = AIList.Count;
+
+            for (var i = 0; i < AIList.Count; i++)
             {
-                keyValuePair.Key.Initialization();
-                ExtractCommands(keyValuePair.Key);
+                AIList[i].Key.Initialization();
+                ExtractCommands(AIList[i].Key);
+
+                RuntimeLogger.Log($"AI加载进度：{AIList[i].Value.Name}({i}/{count})");
             }
 
             foreach (var tool in Tools)

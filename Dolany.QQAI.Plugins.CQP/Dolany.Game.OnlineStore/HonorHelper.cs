@@ -54,12 +54,11 @@ namespace Dolany.Game.OnlineStore
             return item == null ? string.Empty : item.Honor;
         }
 
-        public string CheckHonor(DriftItemRecord record, string itemName, out bool IsNewHonor)
+        public (string msg, bool IsNewHonor) CheckHonor(DriftItemRecord record, string itemName)
         {
-            IsNewHonor = false;
             if (record == null || record.ItemCount == null)
             {
-                return string.Empty;
+                return (string.Empty, false);
             }
 
             var honorName = FindHonor(itemName);
@@ -71,17 +70,16 @@ namespace Dolany.Game.OnlineStore
 
             if (honorCount == 0)
             {
-                return string.Empty;
+                return (string.Empty, false);
             }
 
             var honorItems = FindHonorItems(honorName);
             if (honorCount < honorItems.Length)
             {
-                return $"成就 {honorName} 完成度：{honorCount}/{honorItems.Length}";
+                return ($"成就 {honorName} 完成度：{honorCount}/{honorItems.Length}", false);
             }
 
-            IsNewHonor = true;
-            return $"恭喜你解锁了成就 {honorName}! (集齐物品：{string.Join("，", honorItems.Select(p => p.Name))})";
+            return ($"恭喜你解锁了成就 {honorName}! (集齐物品：{string.Join("，", honorItems.Select(p => p.Name))})", true);
         }
 
         private DriftBottleItemModel LocalateItem(int index)

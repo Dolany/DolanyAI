@@ -30,12 +30,17 @@ namespace Dolany.Game.OnlineStore
         public int ItemCount(long QQNum, string itemName)
         {
             var query = MongoService<DriftItemRecord>.Get(r => r.QQNum == QQNum).FirstOrDefault();
-            if (query == null || query.ItemCount.IsNullOrEmpty())
+            return ItemCount(query, itemName);
+        }
+
+        public int ItemCount(DriftItemRecord record, string itemName)
+        {
+            if (record == null || record.ItemCount.IsNullOrEmpty())
             {
                 return 0;
             }
 
-            var itemRecord = query.ItemCount.FirstOrDefault(i => i.Name == itemName);
+            var itemRecord = record.ItemCount.FirstOrDefault(i => i.Name == itemName);
             return itemRecord == null ? 0 : itemRecord.Count;
         }
 
@@ -52,7 +57,7 @@ namespace Dolany.Game.OnlineStore
             MongoService<DriftItemRecord>.Update(query);
         }
 
-        public string ItemIncome(long QQNum, string itemName, int count = 1)
+        public (string msg, DriftItemRecord record) ItemIncome(long QQNum, string itemName, int count = 1)
         {
             var msg = string.Empty;
             var query = MongoService<DriftItemRecord>.Get(r => r.QQNum == QQNum).FirstOrDefault();
@@ -67,6 +72,8 @@ namespace Dolany.Game.OnlineStore
                     }}
                 };
 
+                var (s, _) = HonorHelper.Instance.CheckHonor(query, itemName);
+                msg = s;
                 MongoService<DriftItemRecord>.Insert(query);
             }
             else
@@ -85,33 +92,24 @@ namespace Dolany.Game.OnlineStore
                     });
                 }
 
+                var (s, isNewHonor) = HonorHelper.Instance.CheckHonor(query, itemName);
+                msg = s;
+                if (isNewHonor)
+                {
+                    var honorName = HonorHelper.Instance.FindHonor(itemName);
+                    if (query.HonorList == null)
+                    {
+                        query.HonorList = new List<string>() {honorName};
+                    }
+                    else
+                    {
+                        query.HonorList.Add(honorName);
+                    }
+                }
                 MongoService<DriftItemRecord>.Update(query);
             }
 
-            var honorMsg = HonorHelper.Instance.CheckHonor(query, itemName, out var isNewHonor);
-            if (string.IsNullOrEmpty(honorMsg))
-            {
-                return msg;
-            }
-
-            msg = honorMsg;
-            if (!isNewHonor)
-            {
-                return msg;
-            }
-
-            var honorName = HonorHelper.Instance.FindHonor(itemName);
-            if (query.HonorList == null)
-            {
-                query.HonorList = new List<string>() {honorName};
-            }
-            else
-            {
-                query.HonorList.Add(honorName);
-            }
-
-            MongoService<DriftItemRecord>.Update(query);
-            return msg;
+            return (msg, query);
         }
     }
 }

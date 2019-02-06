@@ -130,7 +130,7 @@ namespace Dolany.Ai.Core.Ai.Sys
             Command = "功能奖励",
             Description = "奖励某个人某个功能若个使用次数（当日有效）",
             Syntax = "[命令名] [@QQ号] [奖励个数]",
-            Tag = "系统功能",
+            Tag = "系统命令",
             SyntaxChecker = "Word At Long",
             AuthorityLevel = AuthorityLevel.开发者,
             IsPrivateAvailable = false)]
@@ -159,7 +159,7 @@ namespace Dolany.Ai.Core.Ai.Sys
             Command = "BlackList",
             Description = "Put someone to blacklist",
             Syntax = "qqnum",
-            Tag = "系统功能",
+            Tag = "系统命令",
             SyntaxChecker = "Long",
             AuthorityLevel = AuthorityLevel.开发者,
             IsPrivateAvailable = true)]
@@ -184,7 +184,7 @@ namespace Dolany.Ai.Core.Ai.Sys
             Command = "FreeBlackList",
             Description = "Pull someone out from blacklist",
             Syntax = "qqnum",
-            Tag = "系统功能",
+            Tag = "系统命令",
             SyntaxChecker = "Long",
             AuthorityLevel = AuthorityLevel.开发者,
             IsPrivateAvailable = true)]

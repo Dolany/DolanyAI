@@ -208,18 +208,18 @@ namespace Dolany.Ai.Core.Ai.Record
         private void FishItem(MsgInformationEx MsgDTO)
         {
             var item = HonorHelper.Instance.RandItem();
-            var itemMsg = ItemHelper.Instance.ItemIncome(MsgDTO.FromQQ, item.Name);
+            var (s, record) = ItemHelper.Instance.ItemIncome(MsgDTO.FromQQ, item.Name);
             var msg = $"你捞到了 {item.Name} \r" +
                       $"    {item.Description} \r" +
                       $"稀有率为 {HonorHelper.Instance.ItemRate(item)}%\r" +
                       $"售价为：{HonorHelper.Instance.GetItemPrice(item)} 金币\r" +
-                      $"你总共拥有该物品 {ItemHelper.Instance.ItemCount(MsgDTO.FromQQ, item.Name)}个";
+                      $"你总共拥有该物品 {ItemHelper.Instance.ItemCount(record, item.Name)}个";
 
             MsgSender.Instance.PushMsg(MsgDTO, msg, true);
 
-            if (!string.IsNullOrEmpty(itemMsg))
+            if (!string.IsNullOrEmpty(s))
             {
-                MsgSender.Instance.PushMsg(MsgDTO, itemMsg, true);
+                MsgSender.Instance.PushMsg(MsgDTO, s, true);
             }
         }
 
