@@ -59,7 +59,7 @@ namespace Dolany.Game.OnlineStore
 
         public (string msg, DriftItemRecord record) ItemIncome(long QQNum, string itemName, int count = 1)
         {
-            var msg = string.Empty;
+            string msg;
             var query = MongoService<DriftItemRecord>.Get(r => r.QQNum == QQNum).FirstOrDefault();
             if (query == null)
             {

@@ -1,6 +1,7 @@
 ﻿using System.Threading;
 using Dolany.Ai.Common;
 using Dolany.Database;
+using Dolany.Game.OnlineStore;
 
 namespace Dolany.Ai.Core.Ai.Sys
 {
@@ -150,6 +151,34 @@ namespace Dolany.Ai.Core.Ai.Sys
             {
                 cache.Count -= (int)count;
                 SCacheService.Cache(key, cache);
+            }
+
+            MsgSender.Instance.PushMsg(MsgDTO, "奖励已生效！");
+        }
+
+        [EnterCommand(Command = "物品奖励",
+            Description = "奖励某个人某个物品",
+            Syntax = "[@QQ号] [物品名]",
+            Tag = "系统命令",
+            SyntaxChecker = "At Word",
+            AuthorityLevel = AuthorityLevel.开发者,
+            IsPrivateAvailable = false)]
+        public void ItemBonus(MsgInformationEx MsgDTO, object[] param)
+        {
+            var qqNum = (long) param[0];
+            var itemName = param[1] as string;
+
+            var item = HonorHelper.Instance.FindItem(itemName);
+            if (item == null)
+            {
+                MsgSender.Instance.PushMsg(MsgDTO, "未找到该物品！");
+                return;
+            }
+
+            var (msg, _) = ItemHelper.Instance.ItemIncome(qqNum, itemName);
+            if (!string.IsNullOrEmpty(msg))
+            {
+                MsgSender.Instance.PushMsg(MsgDTO, msg);
             }
 
             MsgSender.Instance.PushMsg(MsgDTO, "奖励已生效！");
