@@ -90,8 +90,6 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Db\InfoSender.cs" />
-    <Compile Include="Db\MsgCommand.cs" />
-    <Compile Include="Db\MsgInformation.cs" />
     <Compile Include="MahuaApis\APIEx.cs" />
     <Compile Include="MahuaEvents\GroupMsgReceive.cs" />
     <Compile Include="MahuaEvents\InitializationMahuaEvent.cs" />

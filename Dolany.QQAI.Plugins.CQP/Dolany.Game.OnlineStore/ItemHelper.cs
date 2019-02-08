@@ -69,7 +69,9 @@ namespace Dolany.Game.OnlineStore
                     {
                         Count = count,
                         Name = itemName
-                    }}
+                    }},
+                    QQNum = QQNum,
+                    HonorList = new List<string>()
                 };
 
                 var (s, _) = HonorHelper.Instance.CheckHonor(query, itemName);

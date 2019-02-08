@@ -1,14 +1,10 @@
-﻿using Dolany.Ai.Util;
-
-namespace Dolany.Ai.MQ
+﻿namespace Dolany.Ai.Util
 {
     using System.Text;
-    using Resolver;
 
     using Newtonsoft.Json;
 
     using RabbitMQ.Client;
-    using RabbitMQ.Client.Events;
 
     public class RabbitMQService
     {
@@ -32,20 +28,6 @@ namespace Dolany.Ai.MQ
         {
             var body = Encoding.UTF8.GetBytes(JsonConvert.SerializeObject(information));
             channel.BasicPublish(string.Empty, UtTools.GetConfig("InformationQueueName"), null, body); //开始传递
-        }
-
-        public void StartReceive()
-        {
-            var consumer = new EventingBasicConsumer(channel);
-            channel.BasicConsume(UtTools.GetConfig("CommandQueueName"), true, consumer);
-            consumer.Received += (model, ea) =>
-                {
-                    var body = ea.Body;
-                    var message = Encoding.UTF8.GetString(body);
-                    var command = JsonConvert.DeserializeObject<MsgCommand>(message);
-
-                    Listenser.Instance.ReceivedCommand(command);
-                };
         }
     }
 }

@@ -1,4 +1,6 @@
-﻿using Dolany.Game.OnlineStore;
+﻿using Dolany.Ai.Core.Common;
+using Dolany.Game.OnlineStore;
+using Newtonsoft.Json;
 
 namespace Dolany.Ai.Core.Ai.Record
 {
@@ -209,6 +211,7 @@ namespace Dolany.Ai.Core.Ai.Record
         {
             var item = HonorHelper.Instance.RandItem();
             var (s, record) = ItemHelper.Instance.ItemIncome(MsgDTO.FromQQ, item.Name);
+            RuntimeLogger.Log(JsonConvert.SerializeObject(record));
             var msg = $"你捞到了 {item.Name} \r" +
                       $"    {item.Description} \r" +
                       $"稀有率为 {HonorHelper.Instance.ItemRate(item)}%\r" +

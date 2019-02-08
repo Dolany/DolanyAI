@@ -86,7 +86,7 @@
                 AIList[i].Key.Initialization();
                 ExtractCommands(AIList[i].Key);
 
-                RuntimeLogger.Log($"AI加载进度：{AIList[i].Value.Name}({i}/{count})");
+                RuntimeLogger.Log($"AI加载进度：{AIList[i].Value.Name}({i + 1}/{count})");
             }
 
             foreach (var tool in Tools)

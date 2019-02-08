@@ -42,7 +42,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Dolany.Game.FreedomMagic", 
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Dolany.Game.OnlineStore", "Dolany.Game.OnlineStore\Dolany.Game.OnlineStore.csproj", "{AA064D6D-B5BF-4058-9E17-B7F6014D8C1F}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Dolany.Game.FightAndDefence", "Dolany.Game.FightAndDefence\Dolany.Game.FightAndDefence.csproj", "{214684EF-56C5-4D02-BA44-90511289272E}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Dolany.Test.Information", "Dolany.Test.Information\Dolany.Test.Information.csproj", "{E403102B-5108-456F-8A61-B033C895EE67}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -102,10 +102,10 @@ Global
 		{AA064D6D-B5BF-4058-9E17-B7F6014D8C1F}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{AA064D6D-B5BF-4058-9E17-B7F6014D8C1F}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{AA064D6D-B5BF-4058-9E17-B7F6014D8C1F}.Release|Any CPU.Build.0 = Release|Any CPU
-		{214684EF-56C5-4D02-BA44-90511289272E}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{214684EF-56C5-4D02-BA44-90511289272E}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{214684EF-56C5-4D02-BA44-90511289272E}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{214684EF-56C5-4D02-BA44-90511289272E}.Release|Any CPU.Build.0 = Release|Any CPU
+		{E403102B-5108-456F-8A61-B033C895EE67}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{E403102B-5108-456F-8A61-B033C895EE67}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{E403102B-5108-456F-8A61-B033C895EE67}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{E403102B-5108-456F-8A61-B033C895EE67}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -124,7 +124,7 @@ Global
 		{79820155-35EB-40C4-A809-C1F22D679C38} = {841A67F2-F572-4526-9E62-312351CACFE5}
 		{4DFB1417-5F53-4631-8B6D-1E7929AE1CE1} = {841A67F2-F572-4526-9E62-312351CACFE5}
 		{AA064D6D-B5BF-4058-9E17-B7F6014D8C1F} = {841A67F2-F572-4526-9E62-312351CACFE5}
-		{214684EF-56C5-4D02-BA44-90511289272E} = {841A67F2-F572-4526-9E62-312351CACFE5}
+		{E403102B-5108-456F-8A61-B033C895EE67} = {3D1D748A-8A7B-446B-8AFB-97877F34CCED}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {16A16387-5510-46DA-B392-7152AF4264E7}

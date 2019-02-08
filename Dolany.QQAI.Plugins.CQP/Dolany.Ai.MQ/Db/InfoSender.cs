@@ -1,4 +1,6 @@
-﻿namespace Dolany.Ai.MQ.Db
+﻿using Dolany.Ai.Util;
+
+namespace Dolany.Ai.MQ.Db
 {
     using System;
     using System.Threading.Tasks;

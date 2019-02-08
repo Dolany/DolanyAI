@@ -1,4 +1,4 @@
-﻿namespace Dolany.Ai.MQ.Db
+﻿namespace Dolany.Ai.Util
 {
     using System;
 
