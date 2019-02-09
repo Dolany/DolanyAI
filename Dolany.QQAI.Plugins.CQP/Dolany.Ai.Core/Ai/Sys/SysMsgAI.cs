@@ -24,6 +24,11 @@
                 return true;
             }
 
+            if (MsgDTO.FromQQ == AnonymousNumber)
+            {
+                return true;
+            }
+
             if (MsgDTO.FromQQ != SysMsgNumber)
             {
                 return false;

@@ -25,6 +25,8 @@
 
         public static long SysMsgNumber { get; } = long.Parse(Configger.Instance["SysMsgNumber"]);
 
+        public static long AnonymousNumber { get; } = long.Parse(Configger.Instance["AnonymousNumber"]);
+
         public static long SelfQQNum { get; } = long.Parse(Configger.Instance["SelfQQNum"]);
 
         [CanBeNull]

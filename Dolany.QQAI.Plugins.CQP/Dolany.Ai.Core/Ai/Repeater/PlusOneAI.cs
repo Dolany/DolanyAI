@@ -1,6 +1,5 @@
 ﻿namespace Dolany.Ai.Core.Ai.Repeater
 {
-    using System;
     using System.Collections.Generic;
     using System.Linq;
     using System.Threading;
@@ -132,7 +131,6 @@
             {
                 var pa = new PlusOneAvailable
                 {
-                    Id = Guid.NewGuid().ToString(),
                     GroupNumber = fromGroup,
                     Available = state
                 };
@@ -149,11 +147,11 @@
             {
                 if (state)
                 {
-                    this.InactiveGroups.Add(fromGroup);
+                    this.InactiveGroups.RemoveAll(p => p == fromGroup);
                 }
                 else
                 {
-                    this.InactiveGroups.RemoveAll(p => p == fromGroup);
+                    this.InactiveGroups.Add(fromGroup);
                 }
             }
         }
