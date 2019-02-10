@@ -9,10 +9,4 @@
     <ProjectReference Include="..\Dolany.Database\Dolany.Database.csproj" />
   </ItemGroup>
 
-  <ItemGroup>
-    <None Update="Data\WeatherData.json">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </None>
-  </ItemGroup>
-
 </Project>

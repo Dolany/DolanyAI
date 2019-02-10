@@ -65,7 +65,7 @@ namespace Dolany.Ai.Core.Cache
             }
         }
 
-        public MsgInformation WaitForInformation(MsgInformationEx MsgDTO, string msg, Predicate<MsgInformation> judgeFunc, int timeout = 5)
+        public MsgInformation WaitForInformation(MsgInformationEx MsgDTO, string msg, Predicate<MsgInformation> judgeFunc, int timeout = 5, bool isNeedAt = false)
         {
             var signal = new AutoResetEvent(false);
             var unit = new WaiterUnit {JudgePredicate = judgeFunc, Signal = signal};
@@ -74,7 +74,7 @@ namespace Dolany.Ai.Core.Cache
                 Units.Add(unit);
             }
 
-            MsgSender.Instance.PushMsg(MsgDTO, msg);
+            MsgSender.Instance.PushMsg(MsgDTO, msg, isNeedAt);
             signal.WaitOne(timeout * 1000);
 
             lock (_lockObj)
