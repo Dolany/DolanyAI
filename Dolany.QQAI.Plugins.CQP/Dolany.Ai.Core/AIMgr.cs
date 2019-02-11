@@ -27,6 +27,8 @@
     {
         private IList<KeyValuePair<AIBase, AIAttribute>> AIList { get; set; }
 
+        public string[] ManulOpenAiNames { get; set; }
+
         public static AIMgr Instance { get; } = new AIMgr();
 
         private List<IAITool> Tools { get; } = new List<IAITool>();
@@ -93,6 +95,8 @@
             {
                 tool.Work();
             }
+
+            ManulOpenAiNames = AIList.Where(ai => ai.Value.NeedManulOpen).Select(ai => ai.Value.Name).ToArray();
         }
 
         private void ExtractCommands(AIBase ai)

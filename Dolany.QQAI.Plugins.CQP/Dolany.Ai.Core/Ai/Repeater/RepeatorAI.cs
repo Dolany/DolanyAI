@@ -32,7 +32,7 @@
 
         private const int SleepTime = 2000;
 
-        private readonly List<long> InactiveGroups = new List<long>();
+        private readonly List<long> InactiveGroups = new List<long>() {0};
 
         private readonly object List_lock = new object();
 

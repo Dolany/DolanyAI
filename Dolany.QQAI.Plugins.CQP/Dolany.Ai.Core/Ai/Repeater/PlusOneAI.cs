@@ -23,7 +23,7 @@
     {
         private List<PlusOneModel> Cache { get; } = new List<PlusOneModel>();
 
-        private readonly List<long> InactiveGroups = new List<long>();
+        private readonly List<long> InactiveGroups = new List<long>() {0};
 
         private readonly object List_lock = new object();
 

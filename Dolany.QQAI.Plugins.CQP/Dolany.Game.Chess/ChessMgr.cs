@@ -25,9 +25,9 @@ namespace Dolany.Game.Chess
             return WorkingEngine.Any(e => e.AimQQNum == QQNum || e.SelfQQNum == QQNum);
         }
 
-        public void StartAGame(long GroupNum, long SelfQQNum, long AimQQNum, Action<string, long, long> MsgCallBack)
+        public void StartAGame(long GroupNum, long SelfQQNum, long AimQQNum, Action<string, long, long> MsgCallBack, Func<long, long, string, string> WaitCallBack)
         {
-            var engine = new ChessEngine(GroupNum, SelfQQNum, AimQQNum, MsgCallBack);
+            var engine = new ChessEngine(GroupNum, SelfQQNum, AimQQNum, MsgCallBack, WaitCallBack);
             WorkingEngine.Add(engine);
             engine.GameStart();
         }

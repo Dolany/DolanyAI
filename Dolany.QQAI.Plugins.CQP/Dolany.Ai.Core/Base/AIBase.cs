@@ -1,4 +1,6 @@
-﻿namespace Dolany.Ai.Core.Base
+﻿using System.Reflection;
+
+namespace Dolany.Ai.Core.Base
 {
     using System;
     using System.Collections.Generic;
@@ -23,6 +25,8 @@
         protected readonly Dictionary<EnterCommandAttribute, MsgConsolerDel> Consolers =
             new Dictionary<EnterCommandAttribute, MsgConsolerDel>();
 
+        protected readonly AIAttribute Attr;
+
         protected AIBase()
         {
             var t = GetType();
@@ -38,6 +42,8 @@
                     }
                 }
             }
+
+            Attr = t.GetCustomAttribute(typeof(AIAttribute), false) as AIAttribute;
         }
 
         public virtual void Initialization()
@@ -68,9 +74,15 @@
                         return true;
                     }
 
+                    if (MsgDTO.Type == MsgType.Group && Attr.NeedManulOpen && !AIStateMgr.Instance.GetState(Attr.Name, MsgDTO.FromGroup))
+                    {
+                        MsgSender.Instance.PushMsg(MsgDTO, $"本群尚未开启 {Attr.Name} 功能，请联系群主开启此功能，或者添加冰冰酱好友后使用私聊命令，或者申请加入AI测试群！");
+                        return true;
+                    }
+
                     if (!DailyLimitCheck(consoler.Key, MsgDTO))
                     {
-                        return false;
+                        return true;
                     }
 
                     consoler.Value(MsgDTO, param);

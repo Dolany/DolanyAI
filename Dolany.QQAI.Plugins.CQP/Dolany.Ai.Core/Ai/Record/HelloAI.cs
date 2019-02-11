@@ -21,7 +21,7 @@
         Name = nameof(HelloAI),
         Description = "AI for Saying Hello to you at everyday you say at the first time in one group.",
         Enable = true,
-        PriorityLevel = 12)]
+        PriorityLevel = 15)]
     public class HelloAI : AIBase
     {
         private List<Hello> HelloList = new List<Hello>();

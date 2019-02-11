@@ -1,6 +1,4 @@
-﻿using Dolany.Ai.Core.Common;
-using Dolany.Game.OnlineStore;
-using Newtonsoft.Json;
+﻿using Dolany.Game.OnlineStore;
 
 namespace Dolany.Ai.Core.Ai.Record
 {
@@ -15,10 +13,11 @@ namespace Dolany.Ai.Core.Ai.Record
     using Dolany.Database.Ai;
 
     [AI(
-        Name = nameof(DriftBottleAI),
+        Name = "漂流瓶",
         Description = "AI for drift bottle.",
         Enable = true,
-        PriorityLevel = 10)]
+        PriorityLevel = 10,
+        NeedManulOpen = true)]
     public class DriftBottleAI : AIBase
     {
         private const int ItemRate = 60;

@@ -67,7 +67,12 @@
                 return true;
             }
 
-            if (MsgDTO.Type == MsgType.Group && !MsgDTO.FullMsg.Contains(Code_SelfAt()))
+            if (MsgDTO.Type == MsgType.Private)
+            {
+                return false;
+            }
+
+            if (!MsgDTO.FullMsg.Contains(Code_SelfAt()))
             {
                 return false;
             }

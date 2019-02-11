@@ -21,6 +21,7 @@ namespace Dolany.Ai.Core.Ai.Game.ChessAgainst
             TestingDailyLimit = 3)]
         public void Sell(MsgInformationEx MsgDTO, object[] param)
         {
+            var aimNum = (long) param[0];
 
         }
     }

@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
+using System.Threading.Tasks;
 using Dolany.Ai.Common;
 
 namespace Dolany.Game.Chess
@@ -16,16 +17,19 @@ namespace Dolany.Game.Chess
 
         private readonly Action<string, long, long> MsgCallBack;
 
+        private readonly Func<long, long, string, string> WaitCallBack;
+
         private readonly List<ChessEffectModel> EffectsList = new List<ChessEffectModel>();
 
         private ChessEffectModel[] Chessborad;
 
-        public ChessEngine(long GroupNum, long SelfQQNum, long AimQQNum, Action<string, long, long> MsgCallBack)
+        public ChessEngine(long GroupNum, long SelfQQNum, long AimQQNum, Action<string, long, long> MsgCallBack, Func<long, long, string, string> WaitCallBack)
         {
             this.SelfQQNum = SelfQQNum;
             this.AimQQNum = AimQQNum;
             this.MsgCallBack = MsgCallBack;
             this.GroupNum = GroupNum;
+            this.WaitCallBack = WaitCallBack;
 
             var type = GetType();
             var methods = type.GetMethods();
@@ -47,18 +51,21 @@ namespace Dolany.Game.Chess
 
         public void GameStart()
         {
-            InitChessBoard();
-
-            for (var i = 0; i < 6; i++)
+            Task.Factory.StartNew(() =>
             {
-                ProceedTurn();
+                InitChessBoard();
 
-                var temp = SelfQQNum;
-                SelfQQNum = AimQQNum;
-                AimQQNum = temp;
-            }
+                for (var i = 0; i < 6; i++)
+                {
+                    ProceedTurn();
 
-            MsgCallBack("对决结束！", GroupNum, 0);
+                    var temp = SelfQQNum;
+                    SelfQQNum = AimQQNum;
+                    AimQQNum = temp;
+                }
+
+                MsgCallBack("对决结束！", GroupNum, 0);
+            });
         }
 
         private void ProceedTurn()

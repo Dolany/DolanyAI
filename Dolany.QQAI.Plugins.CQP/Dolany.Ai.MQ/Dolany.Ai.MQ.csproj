@@ -93,6 +93,7 @@
     <Compile Include="MahuaApis\APIEx.cs" />
     <Compile Include="MahuaEvents\GroupMsgReceive.cs" />
     <Compile Include="MahuaEvents\InitializationMahuaEvent.cs" />
+    <Compile Include="MahuaEvents\PrivateMsgFromGroup.cs" />
     <Compile Include="MahuaEvents\PrivateMsgReceived.cs" />
     <Compile Include="MahuaModule.cs" />
     <Compile Include="MyMenuProvider.cs" />
