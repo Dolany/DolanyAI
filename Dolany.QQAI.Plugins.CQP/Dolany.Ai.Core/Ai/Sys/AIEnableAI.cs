@@ -19,13 +19,14 @@ namespace Dolany.Ai.Core.Ai.Sys
             Syntax = "[功能名称]",
             SyntaxChecker = "Word",
             Tag = "系统命令",
-            IsPrivateAvailable = true)]
+            IsPrivateAvailable = false)]
         public void OpenFunction(MsgInformationEx MsgDTO, object[] param)
         {
             var name = param[0] as string;
             if (!AIMgr.Instance.ManulOpenAiNames.Contains(name))
             {
                 MsgSender.Instance.PushMsg(MsgDTO, "未查找到该功能名称，或者该功能无需手动开启！");
+                return;
             }
 
             AIStateMgr.Instance.AddSate(name, MsgDTO.FromGroup);
@@ -38,13 +39,14 @@ namespace Dolany.Ai.Core.Ai.Sys
             Syntax = "[功能名称]",
             SyntaxChecker = "Word",
             Tag = "系统命令",
-            IsPrivateAvailable = true)]
+            IsPrivateAvailable = false)]
         public void CloseFunction(MsgInformationEx MsgDTO, object[] param)
         {
             var name = param[0] as string;
             if (!AIMgr.Instance.ManulOpenAiNames.Contains(name))
             {
                 MsgSender.Instance.PushMsg(MsgDTO, "未查找到该功能名称，或者该功能无需手动关闭！");
+                return;
             }
 
             AIStateMgr.Instance.RemoveSate(name, MsgDTO.FromGroup);

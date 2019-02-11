@@ -172,7 +172,7 @@ namespace Dolany.Ai.Core.Cache
             msg += $"\r1：{ConfirmTxt}，2：{CancelTxt}";
             var response = WaitForInformation(MsgDTO, msg,
                 information => information.FromGroup == MsgDTO.FromGroup && information.FromQQ == MsgDTO.FromQQ && int.TryParse(information.Msg, out var i) &&
-                               (i == 1 || i == 2), timeout);
+                               (i == 1 || i == 2), timeout, true);
             return response != null && int.TryParse(response.Msg, out var ri) && ri == 1;
         }
 

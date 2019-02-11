@@ -17,13 +17,13 @@ namespace Dolany.Game.Chess
 
         private readonly Action<string, long, long> MsgCallBack;
 
-        private readonly Func<long, long, string, string> WaitCallBack;
+        private readonly Func<long, long, string, Predicate<string>, string> WaitCallBack;
 
         private readonly List<ChessEffectModel> EffectsList = new List<ChessEffectModel>();
 
         private ChessEffectModel[] Chessborad;
 
-        public ChessEngine(long GroupNum, long SelfQQNum, long AimQQNum, Action<string, long, long> MsgCallBack, Func<long, long, string, string> WaitCallBack)
+        public ChessEngine(long GroupNum, long SelfQQNum, long AimQQNum, Action<string, long, long> MsgCallBack, Func<long, long, string, Predicate<string>, string> WaitCallBack)
         {
             this.SelfQQNum = SelfQQNum;
             this.AimQQNum = AimQQNum;

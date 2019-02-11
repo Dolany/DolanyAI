@@ -31,6 +31,7 @@
   <ItemGroup>
     <ProjectReference Include="..\Dolany.Ai.Common\Dolany.Ai.Common.csproj" />
     <ProjectReference Include="..\Dolany.Database\Dolany.Database.csproj" />
+    <ProjectReference Include="..\Dolany.Game.Chess\Dolany.Game.Chess.csproj" />
     <ProjectReference Include="..\Dolany.Game.FreedomMagic\Dolany.Game.FreedomMagic.csproj" />
     <ProjectReference Include="..\Dolany.Game.OnlineStore\Dolany.Game.OnlineStore.csproj" />
   </ItemGroup>
