@@ -106,9 +106,11 @@ namespace Dolany.Game.Chess
             }
 
             var model = Chessborad[selectedNum];
+
             model.Method();
             model.IsChecked = true;
 
+            MsgCallBack($"随机效果已生效：{model.Name}！\r{model.Description}", GroupNum, SelfQQNum);
             MsgCallBack("回合结束！", GroupNum, 0);
         }
 

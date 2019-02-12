@@ -1,25 +1,19 @@
-﻿namespace Dolany.Ai.Core
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Reflection;
+using System.Runtime.ExceptionServices;
+using System.Threading.Tasks;
+using Dolany.Ai.Common;
+using Dolany.Ai.Core.AITools;
+using Dolany.Ai.Core.Base;
+using Dolany.Ai.Core.Cache;
+using Dolany.Ai.Core.Common;
+using Dolany.Ai.Core.Model;
+using Dolany.Ai.Core.SyntaxChecker;
+
+namespace Dolany.Ai.Core
 {
-    using System;
-    using System.Collections.Generic;
-    using System.Linq;
-    using System.Reflection;
-    using System.Runtime.ExceptionServices;
-    using System.Threading.Tasks;
-
-    using AITools;
-
-    using Base;
-
-    using Cache;
-
-    using Common;
-
-    using Dolany.Ai.Common;
-    using Model;
-
-    using SyntaxChecker;
-
     /// <summary>
     /// AI管理类
     /// </summary>
@@ -230,11 +224,7 @@
 
                     if (!AIList.Any(ai => ai.Key.OnMsgReceived(MsgDTO)))
                     {
-                        return;
                     }
-
-                    RecentCommandCache.Cache();
-                    Sys_CommandCount.Plus();
                 }
                 catch (Exception ex)
                 {

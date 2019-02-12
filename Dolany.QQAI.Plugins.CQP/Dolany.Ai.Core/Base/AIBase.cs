@@ -67,13 +67,6 @@ namespace Dolany.Ai.Core.Base
                         continue;
                     }
 
-                    if (RecentCommandCache.IsTooFreq())
-                    {
-                        MsgSender.Instance.PushMsg(MsgDTO, "哇哇哇~~，AI过热中......");
-                        MsgSender.Instance.PushMsg(MsgDTO, CodeApi.Code_Image_Relational("images/过热.jpg"));
-                        return true;
-                    }
-
                     if (MsgDTO.Type == MsgType.Group && Attr.NeedManulOpen && !AIStateMgr.Instance.GetState(Attr.Name, MsgDTO.FromGroup))
                     {
                         MsgSender.Instance.PushMsg(MsgDTO, $"本群尚未开启 {Attr.Name} 功能，请联系群主开启此功能，或者添加冰冰酱好友后使用私聊命令，或者申请加入AI测试群！");
@@ -85,7 +78,18 @@ namespace Dolany.Ai.Core.Base
                         return true;
                     }
 
+                    if (RecentCommandCache.IsTooFreq())
+                    {
+                        MsgSender.Instance.PushMsg(MsgDTO, "哇哇哇~~，AI过热中......");
+                        MsgSender.Instance.PushMsg(MsgDTO, CodeApi.Code_Image_Relational("images/过热.jpg"));
+                        return true;
+                    }
+
                     consoler.Value(MsgDTO, param);
+
+                    RecentCommandCache.Cache();
+                    Sys_CommandCount.Plus();
+
                     return true;
                 }
             }

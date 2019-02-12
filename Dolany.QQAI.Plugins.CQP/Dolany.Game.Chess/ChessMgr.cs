@@ -26,7 +26,8 @@ namespace Dolany.Game.Chess
             return WorkingEngine.Any(e => e.AimQQNum == QQNum || e.SelfQQNum == QQNum);
         }
 
-        public void StartAGame(long GroupNum, long FirstQQ, long SecondQQ, Action<string, long, long> MsgCallBack, Func<long, long, string, Predicate<string>, string> WaitCallBack)
+        public void StartAGame(long GroupNum, long FirstQQ, long SecondQQ, Action<string, long, long> MsgCallBack,
+            Func<long, long, string, Predicate<string>, string> WaitCallBack)
         {
             var ran = CommonUtil.RandInt(2);
             var SelfQQNum = ran == 0 ? FirstQQ : SecondQQ;
