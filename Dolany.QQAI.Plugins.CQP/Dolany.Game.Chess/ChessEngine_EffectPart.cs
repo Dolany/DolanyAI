@@ -1,4 +1,6 @@
-﻿namespace Dolany.Game.Chess
+﻿using Dolany.Game.OnlineStore;
+
+namespace Dolany.Game.Chess
 {
     public partial class ChessEngine
     {
@@ -139,7 +141,7 @@
             Description = "48小时内捞瓶子时有50%的概率丢失40金币")]
         public void 钻石尘()
         {
-
+            OSPerson.AddBuff(SelfQQNum, "钻石尘", "48小时内捞瓶子时有50%的概率丢失40金币", false, 48);
         }
     }
 }

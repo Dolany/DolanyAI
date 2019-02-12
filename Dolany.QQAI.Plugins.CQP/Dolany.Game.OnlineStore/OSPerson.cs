@@ -51,6 +51,46 @@ namespace Dolany.Game.OnlineStore
         {
             return Buffs != null && Buffs.Any(b => b.Name == buffName && b.ExpiryTime.ToLocalTime() > DateTime.Now);
         }
+
+        public static void AddBuff(long qqNum, string name, string description, bool isPos, int expiryHours)
+        {
+            var osPerson = MongoService<OSPerson>.Get(p => p.QQNum == qqNum).FirstOrDefault();
+            if (osPerson == null)
+            {
+                osPerson = new OSPerson {QQNum = qqNum, Buffs = new List<OSPersonBuff>(){new OSPersonBuff
+                {
+                    Name = name,
+                    Description = description,
+                    ExpiryTime = DateTime.Now.AddHours(expiryHours),
+                    IsPositive = isPos
+                }}};
+                MongoService<OSPerson>.Insert(osPerson);
+
+                return;
+            }
+
+            if (osPerson.Buffs == null)
+            {
+                osPerson.Buffs = new List<OSPersonBuff>();
+            }
+            var buff = osPerson.Buffs.FirstOrDefault(b => b.Name == name);
+            if (buff == null)
+            {
+                osPerson.Buffs.Add(new OSPersonBuff
+                {
+                    Name = name,
+                    Description = description,
+                    ExpiryTime = DateTime.Now.AddHours(expiryHours),
+                    IsPositive = isPos
+                });
+            }
+            else
+            {
+                buff.ExpiryTime = DateTime.Now.AddHours(expiryHours);
+            }
+
+            MongoService<OSPerson>.Update(osPerson);
+        }
     }
 
     public class OSPersonBuff
