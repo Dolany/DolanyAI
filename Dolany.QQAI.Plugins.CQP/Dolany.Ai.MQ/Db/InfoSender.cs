@@ -2,7 +2,6 @@
 
 namespace Dolany.Ai.MQ.Db
 {
-    using System;
     using System.Threading.Tasks;
 
     public class InfoSender
@@ -19,14 +18,11 @@ namespace Dolany.Ai.MQ.Db
                             RabbitMQService.Instance.Send(
                                 new MsgInformation
                                     {
-                                        Id = Guid.NewGuid().ToString(),
                                         FromGroup = FromGroup,
                                         FromQQ = FromQQ,
                                         Msg = Msg,
                                         RelationId = RelationId,
-                                        Time = DateTime.Now,
-                                        Information = Information,
-                                        AiNum = Utility.SelfQQNum
+                                        Information = Information
                                     });
                         }
                     });
@@ -39,14 +35,11 @@ namespace Dolany.Ai.MQ.Db
                 RabbitMQService.Instance.Send(
                     new MsgInformation
                     {
-                        Id = Guid.NewGuid().ToString(),
                         FromGroup = FromGroup,
                         FromQQ = FromQQ,
                         Msg = Msg,
                         RelationId = RelationId,
-                        Time = DateTime.Now,
-                        Information = Information,
-                        AiNum = Utility.SelfQQNum
+                        Information = Information
                     });
             }
         }

@@ -18,6 +18,8 @@ namespace Dolany.Ai.MQ
 
         private readonly IModel channel;
 
+        private readonly string routingKey = UtTools.GetConfig("InformationQueueName");
+
         private RabbitMQService()
         {
             factory.HostName = "localhost"; //RabbitMQ服务在本地运行
@@ -31,7 +33,7 @@ namespace Dolany.Ai.MQ
         public void Send(MsgInformation information)
         {
             var body = Encoding.UTF8.GetBytes(JsonConvert.SerializeObject(information));
-            channel.BasicPublish(string.Empty, UtTools.GetConfig("InformationQueueName"), null, body); //开始传递
+            channel.BasicPublish(string.Empty, routingKey, null, body); //开始传递
         }
 
         public void StartReceive()

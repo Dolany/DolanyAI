@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
+using System.Threading;
 using System.Threading.Tasks;
 using Dolany.Ai.Common;
 
@@ -13,7 +14,7 @@ namespace Dolany.Game.Chess
 
         public long AimQQNum { get; set; }
 
-        public long GroupNum { get; set; }
+        public long GroupNum { get; }
 
         private readonly Action<string, long, long> MsgCallBack;
 
@@ -22,6 +23,23 @@ namespace Dolany.Game.Chess
         private readonly List<ChessEffectModel> EffectsList = new List<ChessEffectModel>();
 
         private ChessEffectModel[] Chessborad;
+
+        private IEnumerable<int> AvailableNums
+        {
+            get
+            {
+                var list = new List<int>();
+                for (var i = 0; i < Chessborad.Length; i++)
+                {
+                    if (!Chessborad[i].IsChecked)
+                    {
+                        list.Add(i + 1);
+                    }
+                }
+
+                return list;
+            }
+        }
 
         public ChessEngine(long GroupNum, long SelfQQNum, long AimQQNum, Action<string, long, long> MsgCallBack, Func<long, long, string, Predicate<string>, string> WaitCallBack)
         {
@@ -53,24 +71,45 @@ namespace Dolany.Game.Chess
         {
             Task.Factory.StartNew(() =>
             {
-                InitChessBoard();
-
-                for (var i = 0; i < 6; i++)
+                try
                 {
-                    ProceedTurn();
+                    InitChessBoard();
 
-                    var temp = SelfQQNum;
-                    SelfQQNum = AimQQNum;
-                    AimQQNum = temp;
+                    for (var i = 0; i < 6; i++)
+                    {
+                        ProceedTurn();
+                        Thread.Sleep(1000);
+
+                        var temp = SelfQQNum;
+                        SelfQQNum = AimQQNum;
+                        AimQQNum = temp;
+                    }
+
+                    MsgCallBack("对决结束！", GroupNum, 0);
                 }
-
-                MsgCallBack("对决结束！", GroupNum, 0);
+                catch (Exception)
+                {
+                    MsgCallBack("系统异常！", GroupNum, 0);
+                }
             });
         }
 
         private void ProceedTurn()
         {
+            var response = WaitCallBack(GroupNum, SelfQQNum, $"回合开始！请输入合适的数字来获取随机效果！\r{ChessBoardStr()}",
+                msg => int.TryParse(msg, out var num) && AvailableNums.Contains(num));
 
+            if (string.IsNullOrEmpty(response) || !int.TryParse(response, out var selectedNum) || !AvailableNums.Contains(selectedNum))
+            {
+                MsgCallBack("异常输入，回合结束！", GroupNum, 0);
+                return;
+            }
+
+            var model = Chessborad[selectedNum];
+            model.Method();
+            model.IsChecked = true;
+
+            MsgCallBack("回合结束！", GroupNum, 0);
         }
 
         private void InitChessBoard()

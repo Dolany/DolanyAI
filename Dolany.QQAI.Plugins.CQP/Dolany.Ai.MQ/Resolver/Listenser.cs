@@ -20,17 +20,20 @@
 
         public void ReceivedCommand(MsgCommand command)
         {
-            try
+            Task.Run(() =>
             {
-                Task.Run(() => ResovleCommand(command));
-            }
-            catch (Exception ex)
-            {
-                MahuaModule.RuntimeLogger.Log(ex);
-            }
+                try
+                {
+                    ResovleCommand(command);
+                }
+                catch (Exception ex)
+                {
+                    MahuaModule.RuntimeLogger.Log(ex);
+                }
+            });
         }
 
-        private static async Task ResovleCommand(MsgCommand command)
+        private void ResovleCommand(MsgCommand command)
         {
             switch (command.Command)
             {
@@ -39,50 +42,50 @@
                     SendMsg(command);
                     break;
                 case AiCommand.Get163Music:
-                    await ReturnBackMusic(command.Msg, command.Id);
+                    ReturnBackMusic(command.Msg, command.Id);
                     break;
                 case AiCommand.GetGroupMemberInfo:
-                    await ReturnGroupMemberInfo(command.Msg, command.Id);
+                    ReturnGroupMemberInfo(command.Msg, command.Id);
                     break;
                 case AiCommand.Praise:
-                    await Praise(command.ToQQ, int.Parse(command.Msg), command.Id);
+                    Praise(command.ToQQ, int.Parse(command.Msg), command.Id);
                     break;
                 case AiCommand.Restart:
                     Restart();
                     break;
                 case AiCommand.GetAuthCode:
-                    await GetAuthCode(command.Id);
+                    GetAuthCode(command.Id);
                     break;
                 case AiCommand.GetGroups:
-                    await GetGroups(command.Id);
+                    GetGroups(command.Id);
                     break;
                 case AiCommand.SetSilence:
-                    await SetSilence(command.Id, command.ToGroup, command.ToQQ, int.Parse(command.Msg));
+                    SetSilence(command.Id, command.ToGroup, command.ToQQ, int.Parse(command.Msg));
                     break;
             }
         }
 
-        private static async Task SetSilence(string relationId, long GroupNum, long QQNum, int DuringTime)
+        private static void SetSilence(string relationId, long GroupNum, long QQNum, int DuringTime)
         {
             APIEx.Ban(GroupNum.ToString(), QQNum.ToString(), DuringTime);
 
-            await InfoSender.SendAsync(AiInformation.CommandBack, Utility.GetAuthCode(), relationId);
+            InfoSender.Send(AiInformation.CommandBack, Utility.GetAuthCode(), relationId);
         }
 
-        private static async Task GetGroups(string relationId)
+        private static void GetGroups(string relationId)
         {
             using (var robotSession = MahuaRobotManager.Instance.CreateSession())
             {
                 var api = robotSession.MahuaApi;
                 var model = api.GetGroups();
 
-                await InfoSender.SendAsync(AiInformation.CommandBack, model, relationId);
+                InfoSender.Send(AiInformation.CommandBack, model, relationId);
             }
         }
 
-        private static async Task GetAuthCode(string relationId)
+        private static void GetAuthCode(string relationId)
         {
-            await InfoSender.SendAsync(AiInformation.CommandBack, Utility.GetAuthCode(), relationId);
+            InfoSender.Send(AiInformation.CommandBack, Utility.GetAuthCode(), relationId);
         }
 
         private static void Restart()
@@ -90,18 +93,19 @@
             APIEx.Restart();
         }
 
-        private static async Task Praise(long qqNum, int count, string relationId)
+        private static void Praise(long qqNum, int count, string relationId)
         {
+            var qqnumstr = qqNum.ToString();
             for (var i = 0; i < count; i++)
             {
-                APIEx.SendPraise(qqNum.ToString());
+                APIEx.SendPraise(qqnumstr);
                 Thread.Sleep(100);
             }
 
-            await InfoSender.SendAsync(AiInformation.CommandBack, RelationId: relationId);
+            InfoSender.Send(AiInformation.CommandBack, RelationId: relationId);
         }
 
-        private static async Task ReturnGroupMemberInfo(string groupNum, string relationId)
+        private static void ReturnGroupMemberInfo(string groupNum, string relationId)
         {
             var info = APIEx.GetGroupMemberList(groupNum);
             if (string.IsNullOrEmpty(info))
@@ -109,10 +113,10 @@
                 return;
             }
 
-            await InfoSender.SendAsync(AiInformation.CommandBack, info, relationId);
+            InfoSender.Send(AiInformation.CommandBack, info, relationId);
         }
 
-        private static async Task ReturnBackMusic(string musicId, string relationId)
+        private static void ReturnBackMusic(string musicId, string relationId)
         {
             var music = APIEx._163Music(musicId);
             if (string.IsNullOrEmpty(music))
@@ -120,7 +124,7 @@
                 return;
             }
 
-            await InfoSender.SendAsync(AiInformation.CommandBack, music, relationId);
+            InfoSender.Send(AiInformation.CommandBack, music, relationId);
         }
 
         private static void SendMsg(MsgCommand command)

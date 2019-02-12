@@ -1,8 +1,5 @@
 ﻿namespace Dolany.Ai.MQ.MahuaEvents
 {
-    using System;
-
-    using Db;
     using Util;
 
     using Newbe.Mahua;
@@ -27,14 +24,11 @@
             RabbitMQService.Instance.Send(
                 new MsgInformation
                     {
-                        Id = Guid.NewGuid().ToString(),
                         FromGroup = long.Parse(context.FromGroup),
                         FromQQ = long.Parse(context.FromQq),
                         RelationId = string.Empty,
-                        Time = DateTime.Now,
                         Msg = context.Message,
-                        Information = AiInformation.Message,
-                        AiNum = Utility.SelfQQNum
+                        Information = AiInformation.Message
                     });
         }
     }

@@ -15,11 +15,9 @@ namespace Dolany.Test.Information
         {
             var inforamtion = new MsgInformation
             {
-                AiNum = long.Parse(UtTools.GetConfig("SelfQQNum")),
                 FromGroup = long.Parse(GroupNumTxt.Text),
                 FromQQ = long.Parse(QQNumTxt.Text),
                 Information = AiInformation.Message,
-                Time = DateTime.Now,
                 Msg = MsgTxt.Text
             };
 

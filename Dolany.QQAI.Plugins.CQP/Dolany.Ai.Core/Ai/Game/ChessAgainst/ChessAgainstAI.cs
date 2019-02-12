@@ -8,10 +8,11 @@ using Dolany.Game.Chess;
 namespace Dolany.Ai.Core.Ai.Game.ChessAgainst
 {
     [AI(
-        Name = nameof(ChessAgainstAI),
+        Name = "对决",
         Description = "AI for Chess Fight.",
         Enable = false,
-        PriorityLevel = 10)]
+        PriorityLevel = 10,
+        NeedManulOpen = true)]
     public class ChessAgainstAI : AIBase
     {
         [EnterCommand(Command = "对决",
@@ -45,7 +46,7 @@ namespace Dolany.Ai.Core.Ai.Game.ChessAgainst
                 return;
             }
 
-            if (!Waiter.Instance.WaitForConfirm(MsgDTO.FromGroup, aimNum, $"{CodeApi.Code_At(MsgDTO.FromQQ)} 正在向你发起一场决斗，是否接受？", 10))
+            if (!Waiter.Instance.WaitForConfirm(MsgDTO.FromGroup, aimNum, $"{CodeApi.Code_At(MsgDTO.FromQQ)} 正在向你发起一场对决，是否接受？", 10))
             {
                 MsgSender.Instance.PushMsg(MsgDTO, "对决取消！");
                 return;
