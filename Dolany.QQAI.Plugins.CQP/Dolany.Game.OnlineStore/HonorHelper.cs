@@ -118,5 +118,9 @@ namespace Dolany.Game.OnlineStore
         public int Rate { get; set; }
 
         public string Honor { get; set; }
+
+        public DateTime StartTime { get; set; }
+
+        public DateTime EndTime { get; set; }
     }
 }

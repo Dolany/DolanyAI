@@ -221,11 +221,13 @@ namespace Dolany.Ai.Core.Ai.Sys
         {
             var qqNum = (long) param[0];
             var query = MongoService<BlackList>.Get(b => b.QQNum == qqNum).FirstOrDefault();
-            if (query != null)
+            if (query == null)
             {
-                MongoService<BlackList>.Delete(query);
+                MsgSender.Instance.PushMsg(MsgDTO, "Not In BlackList");
+                return;
             }
 
+            MongoService<BlackList>.Delete(query);
             MsgSender.Instance.PushMsg(MsgDTO, "Success");
         }
     }
