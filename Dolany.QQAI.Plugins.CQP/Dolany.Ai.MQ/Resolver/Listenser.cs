@@ -14,6 +14,8 @@
     {
         public static Listenser Instance { get; } = new Listenser();
 
+        private static object Lock = new object();
+
         private Listenser()
         {
         }
@@ -129,18 +131,21 @@
 
         private static void SendMsg(MsgCommand command)
         {
-            using (var robotSession = MahuaRobotManager.Instance.CreateSession())
+            lock (Lock)
             {
-                var api = robotSession.MahuaApi;
-                switch (command.Command)
+                using (var robotSession = MahuaRobotManager.Instance.CreateSession())
                 {
-                    case AiCommand.SendGroup:
-                        api.SendGroupMessage(command.ToGroup.ToString(), command.Msg);
-                        break;
+                    var api = robotSession.MahuaApi;
+                    switch (command.Command)
+                    {
+                        case AiCommand.SendGroup:
+                            api.SendGroupMessage(command.ToGroup.ToString(), command.Msg);
+                            break;
 
-                    case AiCommand.SendPrivate:
-                        api.SendPrivateMessage(command.ToQQ.ToString(), command.Msg);
-                        break;
+                        case AiCommand.SendPrivate:
+                            api.SendPrivateMessage(command.ToQQ.ToString(), command.Msg);
+                            break;
+                    }
                 }
             }
         }

@@ -18,6 +18,8 @@ namespace Dolany.Ai.MQ
 
         private readonly IModel channel;
 
+        private readonly object Lock = new object();
+
         private readonly string routingKey = UtTools.GetConfig("InformationQueueName");
 
         private RabbitMQService()
@@ -32,8 +34,11 @@ namespace Dolany.Ai.MQ
 
         public void Send(MsgInformation information)
         {
-            var body = Encoding.UTF8.GetBytes(JsonConvert.SerializeObject(information));
-            channel.BasicPublish(string.Empty, routingKey, null, body); //开始传递
+            lock (Lock)
+            {
+                var body = Encoding.UTF8.GetBytes(JsonConvert.SerializeObject(information));
+                channel.BasicPublish(string.Empty, routingKey, null, body); //开始传递
+            }
         }
 
         public void StartReceive()
