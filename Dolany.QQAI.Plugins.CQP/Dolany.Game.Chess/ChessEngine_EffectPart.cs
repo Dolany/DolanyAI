@@ -102,7 +102,13 @@ namespace Dolany.Game.Chess
             Description = "24小时内进行交易时享有40%的折扣")]
         public void 苍天()
         {
-
+            OSPerson.AddBuff(SelfQQNum, new OSPersonBuff
+            {
+                Name = "苍天",
+                Description = "24小时内进行交易时享有40%的折扣",
+                ExpiryTime = DateTime.Now.AddHours(24),
+                IsPositive = true
+            });
         }
 
         [ChessEffect(Name = "雹",

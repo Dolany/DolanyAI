@@ -1,4 +1,7 @@
-﻿using Dolany.Ai.Core.Base;
+﻿using System.Collections.Generic;
+using System.Linq;
+using Dolany.Ai.Common;
+using Dolany.Ai.Core.Base;
 using Dolany.Ai.Core.Cache;
 using Dolany.Ai.Core.Model;
 using Dolany.Game.OnlineStore;
@@ -14,6 +17,18 @@ namespace Dolany.Ai.Core.Ai.Game.Shopping
     public class LotteryAI : AIBase
     {
         private const int LotteryFee = 100;
+
+        private Dictionary<int, int> LotteryDic;
+
+        private int SumRate;
+
+        public override void Initialization()
+        {
+            base.Initialization();
+
+            LotteryDic = CommonUtil.ReadJsonData<Dictionary<int, int>>("LotteryData");
+            SumRate = LotteryDic.Values.Sum();
+        }
 
         [EnterCommand(
             Command = "买彩票",
@@ -40,15 +55,31 @@ namespace Dolany.Ai.Core.Ai.Game.Shopping
                 return;
             }
 
-            var golds = OSPerson.GoldConsume(MsgDTO.FromQQ, LotteryFee);
-            RandomLottery(MsgDTO);
+            var golds = RandomLottery(MsgDTO);
 
             MsgSender.Instance.PushMsg(MsgDTO, $"你当前持有金币：{golds}", true);
         }
 
-        private void RandomLottery(MsgInformationEx MsgDTO)
+        private int RandomLottery(MsgInformationEx MsgDTO)
         {
+            var index = CommonUtil.RandInt(SumRate);
 
+            var totalSum = 0;
+            var bonus = 0;
+            foreach (var (key, value) in LotteryDic)
+            {
+                if (index < totalSum + value)
+                {
+                    bonus = key;
+                }
+
+                totalSum += value;
+            }
+
+            MsgSender.Instance.PushMsg(MsgDTO, bonus == 0 ? "谢谢参与！" : $"恭喜你中奖啦！奖金：{bonus}", true);
+
+            var golds = OSPerson.GoldConsume(MsgDTO.FromQQ, LotteryFee - bonus);
+            return golds;
         }
     }
 }
