@@ -1,4 +1,5 @@
-﻿using System.Linq;
+﻿using System;
+using System.Linq;
 using Dolany.Ai.Common;
 using Dolany.Ai.Core.API;
 using Dolany.Ai.Core.Base;
@@ -12,7 +13,7 @@ using Dolany.Game.OnlineStore;
 namespace Dolany.Ai.Core.Ai.Game.Shopping
 {
     [AI(
-        Name = nameof(ShoppingAI),
+        Name = "商店",
         Description = "AI for Shopping.",
         Enable = true,
         PriorityLevel = 10)]
@@ -234,6 +235,30 @@ namespace Dolany.Ai.Core.Ai.Game.Shopping
             MongoService<OSPerson>.Update(aimOSPerson);
 
             MsgSender.Instance.PushMsg(MsgDTO, "交易完毕！");
+        }
+
+        [EnterCommand(Command = "我的状态",
+            AuthorityLevel = AuthorityLevel.成员,
+            Description = "查看自己的当前的状态（包括金币，物品数量，buff等）",
+            Syntax = "",
+            SyntaxChecker = "Empty",
+            Tag = "商店功能",
+            IsPrivateAvailable = true)]
+        public void ViewItem(MsgInformationEx MsgDTO, object[] param)
+        {
+            var osPerson = OSPerson.GetPerson(MsgDTO.FromQQ);
+            var itemRecord = ItemHelper.Instance.GetRecord(MsgDTO.FromQQ);
+
+            var msg = $"金币：{osPerson.Golds}\r" + $"物品数量：{(itemRecord.ItemCount == null ? 0 : itemRecord.ItemCount.Count)}\r" +
+                      $"成就数量：{(itemRecord.HonorList == null ? 0 : itemRecord.HonorList.Count)}\r";
+            if (!osPerson.Buffs.IsNullOrEmpty())
+            {
+                msg += "Buff列表：\r" + string.Join("\r",
+                           osPerson.Buffs.Where(b => b.ExpiryTime.ToLocalTime() > DateTime.Now)
+                               .Select(b => $"名称：{b.Name}。效果：{b.Description}。持续到：{b.ExpiryTime.ToLocalTime()}"));
+            }
+
+            MsgSender.Instance.PushMsg(MsgDTO, msg, true);
         }
     }
 

@@ -14,7 +14,7 @@
     using Model;
 
     [AI(
-        Name = nameof(CharactorSettingAI),
+        Name = "人物设定",
         Description = "AI for Setting a Charactor.",
         Enable = true,
         PriorityLevel = 10)]

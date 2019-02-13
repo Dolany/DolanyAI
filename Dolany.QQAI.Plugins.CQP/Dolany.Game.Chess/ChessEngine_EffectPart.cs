@@ -29,24 +29,33 @@ namespace Dolany.Game.Chess
         }
 
         [ChessEffect(Name = "浓雾",
-            Description = "随机复制一件对方的物品")]
+            Description = "随机复制一件对手的物品")]
         public void 浓雾()
         {
+            var query = MongoService<DriftItemRecord>.Get(r => r.QQNum == AimQQNum).FirstOrDefault();
+            if (query == null || query.ItemCount.IsNullOrEmpty())
+            {
+                MsgCallBack("对手没有任何物品！", GroupNum, SelfQQNum);
+                return;
+            }
 
+            var item = query.ItemCount[CommonUtil.RandInt(query.ItemCount.Count)];
+            var (msg, _) = ItemHelper.Instance.ItemIncome(SelfQQNum, item.Name);
+            MsgCallBack($"你获得了 {item.Name}！\r{msg}", GroupNum, SelfQQNum);
         }
 
         [ChessEffect(Name = "烈日",
             Description = "抢夺对方50金币")]
         public void 烈日()
         {
-
+            // todo
         }
 
         [ChessEffect(Name = "雪",
             Description = "丢失50金币")]
         public void 雪()
         {
-
+            // todo
         }
 
         [ChessEffect(Name = "晴岚",
@@ -60,42 +69,42 @@ namespace Dolany.Game.Chess
             Description = "对方获得50金币")]
         public void 风雨()
         {
-
+            // todo
         }
 
         [ChessEffect(Name = "极光",
             Description = "24小时内商店购买享有40%的折扣")]
         public void 极光()
         {
-
+            // todo
         }
 
         [ChessEffect(Name = "黄砂",
             Description = "48小时内无法再次挑战")]
         public void 黄砂()
         {
-
+            // todo
         }
 
         [ChessEffect(Name = "梅雨",
             Description = "48小时内捞瓶子成功率下降30%")]
         public void 梅雨()
         {
-
+            // todo
         }
 
         [ChessEffect(Name = "快晴",
             Description = "36小时内无法从事商业活动（贩卖/购买/交易）")]
         public void 快晴()
         {
-
+            // todo
         }
 
         [ChessEffect(Name = "雾雨",
             Description = "随机获得一个商店正在出售的物品")]
         public void 雾雨()
         {
-
+            // todo
         }
 
         [ChessEffect(Name = "苍天",

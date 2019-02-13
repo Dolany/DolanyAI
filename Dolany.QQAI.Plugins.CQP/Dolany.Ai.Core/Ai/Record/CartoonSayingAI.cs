@@ -13,7 +13,7 @@
     using Model;
 
     [AI(
-        Name = nameof(CartoonSayingAI),
+        Name = "语录",
         Description = "AI for Cartoon Sayings.",
         Enable = true,
         PriorityLevel = 10)]

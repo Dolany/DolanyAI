@@ -1,8 +1,4 @@
-﻿using Dolany.Ai.Common;
-using Dolany.Database.Sqlite;
-using Dolany.Database.Sqlite.Model;
-
-namespace Dolany.Ai.Core.Ai.SingleCommand.RandomPic
+﻿namespace Dolany.Ai.Core.Ai.SingleCommand.RandomPic
 {
     using Base;
     using Cache;
@@ -12,7 +8,7 @@ namespace Dolany.Ai.Core.Ai.SingleCommand.RandomPic
     using static API.CodeApi;
 
     [AI(
-        Name = nameof(RandomPicAI),
+        Name = "随机图片",
         Description = "AI for Sending Random Pic By Keyword.",
         Enable = true,
         PriorityLevel = 10)]

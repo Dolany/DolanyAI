@@ -1,9 +1,13 @@
-﻿using Dolany.Ai.Core.API;
+﻿using System;
+using System.Linq;
+using Dolany.Ai.Common;
+using Dolany.Ai.Core.API;
 using Dolany.Ai.Core.Base;
 using Dolany.Ai.Core.Cache;
 using Dolany.Ai.Core.Common;
 using Dolany.Ai.Core.Model;
 using Dolany.Game.Chess;
+using Dolany.Game.OnlineStore;
 
 namespace Dolany.Ai.Core.Ai.Game.ChessAgainst
 {

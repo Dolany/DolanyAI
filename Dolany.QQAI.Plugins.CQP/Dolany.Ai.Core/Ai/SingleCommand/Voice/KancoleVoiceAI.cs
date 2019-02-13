@@ -17,7 +17,7 @@
     using static API.CodeApi;
 
     [AI(
-        Name = nameof(KancoleVoiceAI),
+        Name = "舰娘语音",
         Description = "AI for response random kancole girl voice.",
         Enable = true,
         PriorityLevel = 10)]

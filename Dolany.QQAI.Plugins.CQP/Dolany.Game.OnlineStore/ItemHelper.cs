@@ -15,6 +15,20 @@ namespace Dolany.Game.OnlineStore
 
         }
 
+        public DriftItemRecord GetRecord(long QQNum)
+        {
+            var query = MongoService<DriftItemRecord>.Get(r => r.QQNum == QQNum).FirstOrDefault();
+            if (query == null)
+            {
+                query = new DriftItemRecord()
+                {
+                    QQNum = QQNum
+                };
+            }
+
+            return query;
+        }
+
         public bool CheckItem(long QQNum, string itemName)
         {
             var query = MongoService<DriftItemRecord>.Get(r => r.QQNum == QQNum).FirstOrDefault();
