@@ -71,6 +71,7 @@ namespace Dolany.Ai.Core.Ai.Game.Shopping
                 if (index < totalSum + value)
                 {
                     bonus = key;
+                    break;
                 }
 
                 totalSum += value;

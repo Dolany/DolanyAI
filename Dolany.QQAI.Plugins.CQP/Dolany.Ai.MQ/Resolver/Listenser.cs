@@ -14,7 +14,7 @@
     {
         public static Listenser Instance { get; } = new Listenser();
 
-        private static object Lock = new object();
+        private static readonly object Lock = new object();
 
         private Listenser()
         {

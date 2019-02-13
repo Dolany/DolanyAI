@@ -1,4 +1,6 @@
-﻿namespace Dolany.Ai.MQ.MahuaEvents
+﻿using System;
+
+namespace Dolany.Ai.MQ.MahuaEvents
 {
     using Util;
 
@@ -21,8 +23,10 @@
 
         public void ProcessGroupMessage(GroupMessageReceivedContext context)
         {
-            RabbitMQService.Instance.Send(
-                new MsgInformation
+            try
+            {
+                RabbitMQService.Instance.Send(
+                    new MsgInformation
                     {
                         FromGroup = long.Parse(context.FromGroup),
                         FromQQ = long.Parse(context.FromQq),
@@ -30,6 +34,11 @@
                         Msg = context.Message,
                         Information = AiInformation.Message
                     });
+            }
+            catch (Exception e)
+            {
+                MahuaModule.RuntimeLogger.Log(e);
+            }
         }
     }
 }

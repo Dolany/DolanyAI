@@ -65,6 +65,7 @@ namespace Dolany.Ai.Core
             RuntimeLogger.Log("加载所有可用AI");
 
             StartAIs();
+            Waiter.Instance.Listen();
 
             Sys_StartTime.Set(DateTime.Now);
         }
@@ -115,8 +116,6 @@ namespace Dolany.Ai.Core
             LoadAis();
             LoadTools();
             LoadCheckers();
-
-            Waiter.Instance.Listen();
         }
 
         private void LoadCheckers()

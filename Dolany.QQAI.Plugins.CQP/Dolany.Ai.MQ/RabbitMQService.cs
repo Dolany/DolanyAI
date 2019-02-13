@@ -1,4 +1,5 @@
-﻿using Dolany.Ai.Util;
+﻿using System;
+using Dolany.Ai.Util;
 
 namespace Dolany.Ai.MQ
 {
@@ -36,8 +37,15 @@ namespace Dolany.Ai.MQ
         {
             lock (Lock)
             {
-                var body = Encoding.UTF8.GetBytes(JsonConvert.SerializeObject(information));
-                channel.BasicPublish(string.Empty, routingKey, null, body); //开始传递
+                try
+                {
+                    var body = Encoding.UTF8.GetBytes(JsonConvert.SerializeObject(information));
+                    channel.BasicPublish(string.Empty, routingKey, null, body); //开始传递
+                }
+                catch (Exception e)
+                {
+                    MahuaModule.RuntimeLogger.Log(e);
+                }
             }
         }
 
@@ -47,11 +55,18 @@ namespace Dolany.Ai.MQ
             channel.BasicConsume(UtTools.GetConfig("CommandQueueName"), true, consumer);
             consumer.Received += (model, ea) =>
                 {
-                    var body = ea.Body;
-                    var message = Encoding.UTF8.GetString(body);
-                    var command = JsonConvert.DeserializeObject<MsgCommand>(message);
+                    try
+                    {
+                        var body = ea.Body;
+                        var message = Encoding.UTF8.GetString(body);
+                        var command = JsonConvert.DeserializeObject<MsgCommand>(message);
 
-                    Listenser.Instance.ReceivedCommand(command);
+                        Listenser.Instance.ReceivedCommand(command);
+                    }
+                    catch (Exception e)
+                    {
+                        MahuaModule.RuntimeLogger.Log(e);
+                    }
                 };
         }
     }

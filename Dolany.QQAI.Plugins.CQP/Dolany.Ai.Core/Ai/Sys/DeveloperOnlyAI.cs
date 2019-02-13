@@ -230,5 +230,23 @@ namespace Dolany.Ai.Core.Ai.Sys
             MongoService<BlackList>.Delete(query);
             MsgSender.Instance.PushMsg(MsgDTO, "Success");
         }
+
+        [EnterCommand(
+            Command = "驱散",
+            Description = "清除某人身上的所有buff",
+            Syntax = "[@QQ]",
+            Tag = "系统命令",
+            SyntaxChecker = "At",
+            AuthorityLevel = AuthorityLevel.开发者,
+            IsPrivateAvailable = false)]
+        public void Dispel(MsgInformationEx MsgDTO, object[] param)
+        {
+            var qqNum = (long) param[0];
+            var osPerson = OSPerson.GetPerson(qqNum);
+            osPerson.Buffs.Clear();
+            MongoService<OSPerson>.Update(osPerson);
+
+            MsgSender.Instance.PushMsg(MsgDTO, "驱散成功！");
+        }
     }
 }

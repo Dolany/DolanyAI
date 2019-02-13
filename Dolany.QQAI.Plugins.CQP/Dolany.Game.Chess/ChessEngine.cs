@@ -89,7 +89,7 @@ namespace Dolany.Game.Chess
                 }
                 catch (Exception)
                 {
-                    MsgCallBack("系统异常！", GroupNum, 0);
+                    MsgCallBack("系统异常，游戏结束！", GroupNum, 0);
                 }
             });
         }
@@ -105,12 +105,14 @@ namespace Dolany.Game.Chess
                 return;
             }
 
-            var model = Chessborad[selectedNum];
+            var model = Chessborad[selectedNum - 1];
+
+            MsgCallBack($"随机效果已生效：{model.Name}！\r{model.Description}", GroupNum, SelfQQNum);
+            Thread.Sleep(1000);
 
             model.Method();
             model.IsChecked = true;
 
-            MsgCallBack($"随机效果已生效：{model.Name}！\r{model.Description}", GroupNum, SelfQQNum);
             MsgCallBack("回合结束！", GroupNum, 0);
         }
 
@@ -125,7 +127,7 @@ namespace Dolany.Game.Chess
             for (var i = 0; i < Chessborad.Length; i++)
             {
                 var model = Chessborad[i];
-                str += model.IsChecked ? model.Name : (i + 1).ToString();
+                str += model.IsChecked ? model.Name : $"{(i + 1).ToString()}  ";
                 str += (i + 1) % 3 == 0 ? "\r" : "  ";
             }
 
