@@ -25,7 +25,7 @@ namespace Dolany.Game.OnlineStore
             return osPerson;
         }
 
-        public static void GoldIncome(long QQNum, int gold)
+        public static int GoldIncome(long QQNum, int gold)
         {
             var osPerson = MongoService<OSPerson>.Get(p => p.QQNum == QQNum).FirstOrDefault();
             if (osPerson == null)
@@ -38,13 +38,17 @@ namespace Dolany.Game.OnlineStore
                 osPerson.Golds += gold;
                 MongoService<OSPerson>.Update(osPerson);
             }
+
+            return osPerson.Golds;
         }
 
-        public static void GoldConsume(long QQNum, int gold)
+        public static int GoldConsume(long QQNum, int gold)
         {
             var person = GetPerson(QQNum);
             person.Golds -= gold;
             MongoService<OSPerson>.Update(person);
+
+            return person.Golds;
         }
 
         public bool CheckBuff(string buffName)
@@ -52,18 +56,12 @@ namespace Dolany.Game.OnlineStore
             return Buffs != null && Buffs.Any(b => b.Name == buffName && b.ExpiryTime.ToLocalTime() > DateTime.Now);
         }
 
-        public static void AddBuff(long qqNum, string name, string description, bool isPos, int expiryHours)
+        public static void AddBuff(long qqNum, OSPersonBuff osBuff)
         {
             var osPerson = MongoService<OSPerson>.Get(p => p.QQNum == qqNum).FirstOrDefault();
             if (osPerson == null)
             {
-                osPerson = new OSPerson {QQNum = qqNum, Buffs = new List<OSPersonBuff>(){new OSPersonBuff
-                {
-                    Name = name,
-                    Description = description,
-                    ExpiryTime = DateTime.Now.AddHours(expiryHours),
-                    IsPositive = isPos
-                }}};
+                osPerson = new OSPerson {QQNum = qqNum, Buffs = new List<OSPersonBuff>(){osBuff}};
                 MongoService<OSPerson>.Insert(osPerson);
 
                 return;
@@ -73,20 +71,14 @@ namespace Dolany.Game.OnlineStore
             {
                 osPerson.Buffs = new List<OSPersonBuff>();
             }
-            var buff = osPerson.Buffs.FirstOrDefault(b => b.Name == name);
+            var buff = osPerson.Buffs.FirstOrDefault(b => b.Name == osBuff.Name);
             if (buff == null)
             {
-                osPerson.Buffs.Add(new OSPersonBuff
-                {
-                    Name = name,
-                    Description = description,
-                    ExpiryTime = DateTime.Now.AddHours(expiryHours),
-                    IsPositive = isPos
-                });
+                osPerson.Buffs.Add(osBuff);
             }
             else
             {
-                buff.ExpiryTime = DateTime.Now.AddHours(expiryHours);
+                buff.ExpiryTime = osBuff.ExpiryTime;
             }
 
             MongoService<OSPerson>.Update(osPerson);

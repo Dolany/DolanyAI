@@ -53,7 +53,7 @@ namespace Dolany.Ai.Core.Ai.Game.Shopping
                 return;
             }
 
-            var price = HonorHelper.Instance.GetItemPrice(item);
+            var price = HonorHelper.Instance.GetItemPrice(item, MsgDTO.FromQQ);
             var msg = $"贩卖此物品将获得 {price} 金币，是否确认贩卖？";
             if (!Waiter.Instance.WaitForConfirm(MsgDTO, msg, 7))
             {
@@ -61,11 +61,8 @@ namespace Dolany.Ai.Core.Ai.Game.Shopping
                 return;
             }
 
-            OSPerson.GoldIncome(MsgDTO.FromQQ, price);
-
-            ItemHelper.Instance.ItemConsume(MsgDTO.FromQQ, item.Name);
-
-            MsgSender.Instance.PushMsg(MsgDTO, $"贩卖成功！你当前拥有金币 {OSPerson.GetPerson(MsgDTO.FromQQ).Golds}");
+            var golds = TransHelper.SellItemToShop(MsgDTO.FromQQ, item.Name);
+            MsgSender.Instance.PushMsg(MsgDTO, $"贩卖成功！你当前拥有金币 {golds}");
         }
 
         private void SellHonor(MsgInformationEx MsgDTO, string honorName)
@@ -85,7 +82,7 @@ namespace Dolany.Ai.Core.Ai.Game.Shopping
                 return;
             }
 
-            var price = GetHonorPrice(honorName);
+            var price = HonorHelper.Instance.GetHonorPrice(honorName, MsgDTO.FromQQ);
             var msg = $"贩卖此成就将获得 {price} 金币，是否确认贩卖？";
             if (!Waiter.Instance.WaitForConfirm(MsgDTO, msg, 7))
             {
@@ -93,22 +90,8 @@ namespace Dolany.Ai.Core.Ai.Game.Shopping
                 return;
             }
 
-            OSPerson.GoldIncome(MsgDTO.FromQQ, price);
-
-            foreach (var record in itemsOwned)
-            {
-                record.Count--;
-                if (record.Count <= 0)
-                {
-                    query.ItemCount.Remove(record);
-                }
-            }
-
-            query.HonorList.Remove(honorName);
-
-            MongoService<DriftItemRecord>.Update(query);
-
-            MsgSender.Instance.PushMsg(MsgDTO, $"贩卖成功！你当前拥有金币 {OSPerson.GetPerson(MsgDTO.FromQQ).Golds}");
+            var golds = TransHelper.SellHonorToShop(query, MsgDTO.FromQQ, honorName);
+            MsgSender.Instance.PushMsg(MsgDTO, $"贩卖成功！你当前拥有金币 {golds}");
         }
 
         [EnterCommand(Command = "逛商店 .shopping",
@@ -129,12 +112,6 @@ namespace Dolany.Ai.Core.Ai.Game.Shopping
             MsgSender.Instance.PushMsg(MsgDTO, msg);
         }
 
-        private int GetHonorPrice(string honorName)
-        {
-            var items = HonorHelper.Instance.FindHonorItems(honorName);
-            return items.Sum(HonorHelper.Instance.GetItemPrice) * 3 / 2;
-        }
-
         private DailySellItemModel[] GetDailySellItems()
         {
             const string key = "DailySellItems";
@@ -153,7 +130,7 @@ namespace Dolany.Ai.Core.Ai.Game.Shopping
         private DailySellItemModel[] CreateDailySellItems()
         {
             var randSort = CommonUtil.RandSort(HonorHelper.Instance.Items.ToArray()).Take(5);
-            return randSort.Select(rs => new DailySellItemModel {Name = rs.Name, Price = HonorHelper.Instance.GetItemPrice(rs) * 2}).ToArray();
+            return randSort.Select(rs => new DailySellItemModel {Name = rs.Name, Price = HonorHelper.Instance.GetItemPrice(rs, 0) * 2}).ToArray();
         }
 
         [EnterCommand(Command = "购买",
@@ -243,7 +220,7 @@ namespace Dolany.Ai.Core.Ai.Game.Shopping
             }
 
             ItemHelper.Instance.ItemConsume(aimQQ, itemName);
-            var (content, record) = ItemHelper.Instance.ItemIncome(MsgDTO.FromQQ, itemName);
+            var (content, _) = ItemHelper.Instance.ItemIncome(MsgDTO.FromQQ, itemName);
             if (!string.IsNullOrEmpty(content))
             {
                 MsgSender.Instance.PushMsg(MsgDTO, content, true);

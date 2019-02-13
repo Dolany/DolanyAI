@@ -197,7 +197,8 @@ namespace Dolany.Ai.Core.Ai.SingleCommand.Fortune
             Syntax = "[@qq号码]",
             Tag = "运势功能",
             SyntaxChecker = "At",
-            IsPrivateAvailable = false)]
+            IsPrivateAvailable = false,
+            DailyLimit = 5)]
         public void HolyLight(MsgInformationEx MsgDTO, object[] param)
         {
             var aimNum = (long)param[0];
@@ -213,7 +214,8 @@ namespace Dolany.Ai.Core.Ai.SingleCommand.Fortune
             Syntax = "[@qq号码]",
             Tag = "运势功能",
             SyntaxChecker = "At",
-            IsPrivateAvailable = false)]
+            IsPrivateAvailable = false,
+            DailyLimit = 3)]
         public void CreatorBless(MsgInformationEx MsgDTO, object[] param)
         {
             var aimNum = (long)param[0];
@@ -255,7 +257,8 @@ namespace Dolany.Ai.Core.Ai.SingleCommand.Fortune
             Syntax = "[@qq号码]",
             Tag = "运势功能",
             SyntaxChecker = "At",
-            IsPrivateAvailable = false)]
+            IsPrivateAvailable = false,
+            DailyLimit = 3)]
         public void Darkness(MsgInformationEx MsgDTO, object[] param)
         {
             var aimNum = (long)param[0];

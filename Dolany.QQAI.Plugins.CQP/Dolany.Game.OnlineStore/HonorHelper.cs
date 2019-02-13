@@ -42,10 +42,33 @@ namespace Dolany.Game.OnlineStore
             return HonorDic.Keys.Contains(name) ? HonorDic[name] : null;
         }
 
-        public int GetItemPrice(DriftBottleItemModel item)
+        public int GetItemPrice(DriftBottleItemModel item, long qqNum)
         {
             var rate = Math.Round(item.Rate * 1.0 / this.SumRate * 100, 2);
-            return (int) (100 / rate);
+            var price = (int) (100 / rate);
+            var osPerson = OSPerson.GetPerson(qqNum);
+            if (osPerson.CheckBuff("疏雨"))
+            {
+                price += price * 40 / 100;
+            }
+            return price;
+        }
+
+        public int GetHonorPrice(string honorName, long qqNum)
+        {
+            var items = FindHonorItems(honorName);
+            var price = items.Sum(item =>
+            {
+                var rate = Math.Round(item.Rate * 1.0 / this.SumRate * 100, 2);
+                return (int) (100 / rate);
+            }) * 3 / 2;
+
+            var osPerson = OSPerson.GetPerson(qqNum);
+            if (osPerson.CheckBuff("疏雨"))
+            {
+                price += price * 40 / 100;
+            }
+            return price;
         }
 
         public string FindHonor(string itemName)

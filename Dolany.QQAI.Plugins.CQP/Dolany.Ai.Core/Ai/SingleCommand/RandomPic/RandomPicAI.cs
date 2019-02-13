@@ -32,7 +32,7 @@ namespace Dolany.Ai.Core.Ai.SingleCommand.RandomPic
             Tag = "娱乐功能",
             SyntaxChecker = "Empty",
             IsPrivateAvailable = true,
-            DailyLimit = 20)]
+            DailyLimit = 10)]
         public void RecentPic(MsgInformationEx MsgDTO, object[] param)
         {
             var picUrl = PicCacher.Random();
@@ -47,7 +47,7 @@ namespace Dolany.Ai.Core.Ai.SingleCommand.RandomPic
             Tag = "娱乐功能",
             SyntaxChecker = "Empty",
             IsPrivateAvailable = true,
-            DailyLimit = 20)]
+            DailyLimit = 10)]
         public void RecentFlash(MsgInformationEx MsgDTO, object[] param)
         {
             var picUrl = PicCacher.Random();

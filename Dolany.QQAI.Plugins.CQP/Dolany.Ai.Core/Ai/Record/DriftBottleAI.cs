@@ -213,7 +213,7 @@ namespace Dolany.Ai.Core.Ai.Record
             var msg = $"你捞到了 {item.Name} \r" +
                       $"    {item.Description} \r" +
                       $"稀有率为 {HonorHelper.Instance.ItemRate(item)}%\r" +
-                      $"售价为：{HonorHelper.Instance.GetItemPrice(item)} 金币\r" +
+                      $"售价为：{HonorHelper.Instance.GetItemPrice(item, MsgDTO.FromQQ)} 金币\r" +
                       $"你总共拥有该物品 {ItemHelper.Instance.ItemCount(record, item.Name)}个";
 
             MsgSender.Instance.PushMsg(MsgDTO, msg, true);

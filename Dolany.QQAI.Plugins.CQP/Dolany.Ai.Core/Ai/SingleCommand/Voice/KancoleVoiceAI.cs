@@ -34,7 +34,8 @@
             Syntax = "[舰娘名称]",
             Tag = "娱乐功能",
             SyntaxChecker = "Word",
-            IsPrivateAvailable = true)]
+            IsPrivateAvailable = true,
+            DailyLimit = 3)]
         public void KancoleVoice(MsgInformationEx MsgDTO, object[] param)
         {
             var girlName = param[0] as string;
