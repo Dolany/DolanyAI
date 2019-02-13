@@ -1,7 +1,4 @@
-﻿using System;
-using System.Linq;
-using Dolany.Ai.Common;
-using Dolany.Ai.Core.API;
+﻿using Dolany.Ai.Core.API;
 using Dolany.Ai.Core.Base;
 using Dolany.Ai.Core.Cache;
 using Dolany.Ai.Core.Common;
@@ -14,7 +11,7 @@ namespace Dolany.Ai.Core.Ai.Game.ChessAgainst
     [AI(
         Name = "对决",
         Description = "AI for Chess Fight.",
-        Enable = false,
+        Enable = true,
         PriorityLevel = 10,
         NeedManulOpen = true)]
     public class ChessAgainstAI : AIBase
@@ -47,6 +44,13 @@ namespace Dolany.Ai.Core.Ai.Game.ChessAgainst
             if (ChessMgr.Instance.IsQQInPlaying(aimNum))
             {
                 MsgSender.Instance.PushMsg(MsgDTO, "你的对手正在进行一场对决，请稍后再试！");
+                return;
+            }
+
+            var osPerson = OSPerson.GetPerson(MsgDTO.FromQQ);
+            if (osPerson.CheckBuff("黄砂"))
+            {
+                MsgSender.Instance.PushMsg(MsgDTO, "你当前无法进行挑战！(黄砂)");
                 return;
             }
 

@@ -208,6 +208,13 @@ namespace Dolany.Ai.Core.Ai.Record
 
         private void FishItem(MsgInformationEx MsgDTO)
         {
+            var osPerson = OSPerson.GetPerson(MsgDTO.FromQQ);
+            if (osPerson.CheckBuff("梅雨") && CommonUtil.RandInt(100) < 30)
+            {
+                MsgSender.Instance.PushMsg(MsgDTO, "欸呀呀，捞瓶子失败了！", true);
+                return;
+            }
+
             var item = HonorHelper.Instance.RandItem();
             var (s, record) = ItemHelper.Instance.ItemIncome(MsgDTO.FromQQ, item.Name);
             var msg = $"你捞到了 {item.Name} \r" +
@@ -222,6 +229,14 @@ namespace Dolany.Ai.Core.Ai.Record
             {
                 MsgSender.Instance.PushMsg(MsgDTO, s, true);
             }
+
+            if (!osPerson.CheckBuff("钻石尘"))
+            {
+                return;
+            }
+
+            OSPerson.GoldConsume(MsgDTO.FromQQ, 40);
+            MsgSender.Instance.PushMsg(MsgDTO, "欸呀呀，你丢失了40金币", true);
         }
 
         private void PrintBottle(MsgInformationEx MsgDTO, DriftBottleRecord record)

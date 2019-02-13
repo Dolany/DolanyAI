@@ -48,14 +48,15 @@ namespace Dolany.Game.Chess
             Description = "抢夺对方50金币")]
         public void 烈日()
         {
-            // todo
+            OSPerson.GoldConsume(AimQQNum, 50);
+            OSPerson.GoldIncome(SelfQQNum, 50);
         }
 
         [ChessEffect(Name = "雪",
             Description = "丢失50金币")]
         public void 雪()
         {
-            // todo
+            OSPerson.GoldConsume(SelfQQNum, 50);
         }
 
         [ChessEffect(Name = "晴岚",
@@ -69,42 +70,70 @@ namespace Dolany.Game.Chess
             Description = "对方获得50金币")]
         public void 风雨()
         {
-            // todo
+            OSPerson.GoldIncome(AimQQNum, 50);
         }
 
         [ChessEffect(Name = "极光",
             Description = "24小时内商店购买享有40%的折扣")]
         public void 极光()
         {
-            // todo
+            OSPerson.AddBuff(SelfQQNum, new OSPersonBuff
+            {
+                Name = "极光",
+                Description = "24小时内商店购买享有40%的折扣",
+                ExpiryTime = DateTime.Now.AddHours(24),
+                IsPositive = true
+            });
         }
 
         [ChessEffect(Name = "黄砂",
             Description = "48小时内无法再次挑战")]
         public void 黄砂()
         {
-            // todo
+            OSPerson.AddBuff(SelfQQNum, new OSPersonBuff
+            {
+                Name = "黄砂",
+                Description = "48小时内无法再次挑战",
+                ExpiryTime = DateTime.Now.AddHours(48),
+                IsPositive = false
+            });
         }
 
         [ChessEffect(Name = "梅雨",
             Description = "48小时内捞瓶子成功率下降30%")]
         public void 梅雨()
         {
-            // todo
+            OSPerson.AddBuff(SelfQQNum, new OSPersonBuff
+            {
+                Name = "梅雨",
+                Description = "48小时内捞瓶子成功率下降30%",
+                ExpiryTime = DateTime.Now.AddHours(48),
+                IsPositive = false
+            });
         }
 
         [ChessEffect(Name = "快晴",
             Description = "36小时内无法从事商业活动（贩卖/购买/交易）")]
         public void 快晴()
         {
-            // todo
+            OSPerson.AddBuff(SelfQQNum, new OSPersonBuff
+            {
+                Name = "快晴",
+                Description = "36小时内无法从事商业活动（贩卖/购买/交易）",
+                ExpiryTime = DateTime.Now.AddHours(36),
+                IsPositive = false
+            });
         }
 
         [ChessEffect(Name = "雾雨",
             Description = "随机获得一个商店正在出售的物品")]
         public void 雾雨()
         {
-            // todo
+            var sellingItems = TransHelper.GetDailySellItems();
+            var item = sellingItems[CommonUtil.RandInt(sellingItems.Length)];
+            var msg = ItemHelper.Instance.ItemIncome(SelfQQNum, item.Name);
+
+            MsgCallBack($"你获得了：{item.Name}\r{msg}", GroupNum, SelfQQNum);
         }
 
         [ChessEffect(Name = "苍天",
