@@ -47,13 +47,7 @@ namespace Dolany.Ai.Core.Ai.Sys
 
             FiltPicMsg(MsgDTO);
 
-            if (!this.InactiveGroups.Contains(MsgDTO.FromGroup))
-            {
-                return false;
-            }
-
-            Sys_CommandCount.Minus();
-            return true;
+            return this.InactiveGroups.Contains(MsgDTO.FromGroup);
         }
 
         private static void FiltPicMsg(MsgInformationEx MsgDTO)
