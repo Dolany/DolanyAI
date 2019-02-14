@@ -2,8 +2,6 @@
 
 namespace Dolany.Ai.Core.API.ViewModel
 {
-    using Newtonsoft.Json;
-
     public class GroupMemberListViewModel
     {
         public long[] adm { get; set; }

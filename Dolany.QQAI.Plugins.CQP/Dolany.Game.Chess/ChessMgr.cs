@@ -37,5 +37,10 @@ namespace Dolany.Game.Chess
             WorkingEngine.Add(engine);
             engine.GameStart();
         }
+
+        public void GameOver(ChessEngine engine)
+        {
+            WorkingEngine.Remove(engine);
+        }
     }
 }

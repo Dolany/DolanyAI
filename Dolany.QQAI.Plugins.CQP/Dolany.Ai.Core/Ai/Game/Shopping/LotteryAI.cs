@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
+using System.Threading;
 using Dolany.Ai.Common;
 using Dolany.Ai.Core.Base;
 using Dolany.Ai.Core.Cache;
@@ -57,6 +58,7 @@ namespace Dolany.Ai.Core.Ai.Game.Shopping
 
             var golds = RandomLottery(MsgDTO);
 
+            Thread.Sleep(1000);
             MsgSender.Instance.PushMsg(MsgDTO, $"你当前持有金币：{golds}", true);
         }
 

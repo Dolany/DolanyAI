@@ -91,7 +91,7 @@ namespace Dolany.Game.Chess
                 {
                     MsgCallBack("系统异常，游戏结束！", GroupNum, 0);
                 }
-            });
+            }).ContinueWith(task => ChessMgr.Instance.GameOver(this));
         }
 
         private void ProceedTurn()

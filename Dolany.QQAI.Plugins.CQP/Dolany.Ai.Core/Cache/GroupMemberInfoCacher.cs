@@ -30,7 +30,7 @@ namespace Dolany.Ai.Core.Cache
 
             const string key = "AuthDisable";
             var cache = SCacheService.Get<string>(key);
-            if (string.IsNullOrEmpty(cache))
+            if (string.IsNullOrEmpty(cache) && !string.IsNullOrEmpty(SCacheService.Get<string>($"GroupMemberInfoRefresh-{MsgDTO.FromGroup}")))
             {
                 RefreshGroupInfo(MsgDTO.FromGroup);
             }
@@ -66,8 +66,9 @@ namespace Dolany.Ai.Core.Cache
                                     QQNum = qqnum,
                                     Role = role
                                 };
-                SCacheService.Cache($"GroupMemberInfo-{GroupNum}-{qqnum}", model, DateTime.Now.AddDays(7));
+                SCacheService.Cache($"GroupMemberInfo-{GroupNum}-{qqnum}", model, DateTime.Now.AddDays(30));
             }
+            SCacheService.Cache($"GroupMemberInfoRefresh-{GroupNum}", "Refresh", DateTime.Now.AddDays(30));
             RuntimeLogger.Log($"Refresh Group Info: {GroupNum} completed");
 
             return true;
