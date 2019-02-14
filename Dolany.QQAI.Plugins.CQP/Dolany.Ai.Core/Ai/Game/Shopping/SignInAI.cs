@@ -1,7 +1,9 @@
-﻿using System.Linq;
+﻿using System;
+using System.Linq;
 using Dolany.Ai.Core.Base;
 using Dolany.Ai.Core.Cache;
 using Dolany.Ai.Core.Model;
+using Dolany.Database;
 using Dolany.Database.Sqlite;
 using Dolany.Game.OnlineStore;
 
@@ -10,7 +12,7 @@ namespace Dolany.Ai.Core.Ai.Game.Shopping
     [AI(
         Name = "签到",
         Description = "AI for Everyday Signing In.",
-        Enable = false,
+        Enable = true,
         PriorityLevel = 1,
         NeedManulOpen = true)]
     public class SignInAI : AIBase
@@ -66,7 +68,21 @@ namespace Dolany.Ai.Core.Ai.Game.Shopping
         private void Sign(MsgInformationEx MsgDTO)
         {
             var osPerson = OSPerson.GetPerson(MsgDTO.FromQQ);
-            // todo
+            if (osPerson.LastSignDate == null || osPerson.LastSignDate.Value.ToLocalTime() < DateTime.Today.AddDays(-1))
+            {
+                osPerson.SuccessiveSignDays = 1;
+            }
+            else
+            {
+                osPerson.SuccessiveSignDays += 1;
+            }
+
+            osPerson.LastSignDate = DateTime.Today;
+            var goldsGen = osPerson.SuccessiveSignDays > 7 ? 70 : osPerson.SuccessiveSignDays * 10;
+            osPerson.Golds += goldsGen;
+
+            MongoService<OSPerson>.Update(osPerson);
+            MsgSender.Instance.PushMsg(MsgDTO, $"签到成功！你已连续签到 {osPerson.SuccessiveSignDays}天，获得 {goldsGen}金币！");
         }
     }
 }

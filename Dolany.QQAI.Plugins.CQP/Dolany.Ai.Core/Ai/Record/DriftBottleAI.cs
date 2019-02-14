@@ -101,13 +101,8 @@ namespace Dolany.Ai.Core.Ai.Record
                 return;
             }
 
-            var itemMsgs = query.ItemCount.Take(20).Select(ic => $"{ic.Name}*{ic.Count}");
-            var msg = $"你收集到的物品有：{string.Join(",", itemMsgs)}";
-            if (query.ItemCount.Count > 20)
-            {
-                var pageCount = (query.ItemCount.Count - 1) / 20 + 1;
-                msg += $"\r(当前第1/{pageCount}页，请使用 我的物品 [页码] 来查看更多物品)";
-            }
+            var itemMsgs = HonorHelper.Instance.GetOrderedItemsStr(query.ItemCount);
+            var msg = $"你收集到的物品有：\r{itemMsgs}";
             MsgSender.Instance.PushMsg(MsgDTO, msg, true);
         }
 
@@ -129,43 +124,6 @@ namespace Dolany.Ai.Core.Ai.Record
             }
 
             var msg = $"你获得的成就有：{string.Join(",", query.HonorList)}";
-            MsgSender.Instance.PushMsg(MsgDTO, msg, true);
-        }
-
-        [EnterCommand(Command = "我的物品",
-            AuthorityLevel = AuthorityLevel.成员,
-            Description = "分页查看自己的物品(每页20个)",
-            Syntax = "[页码]",
-            SyntaxChecker = "Long",
-            Tag = "漂流瓶功能",
-            IsPrivateAvailable = true)]
-        public void MyItemsPaged(MsgInformationEx MsgDTO, object[] param)
-        {
-            var pageIdx = (long)param[0];
-            if (pageIdx <= 0)
-            {
-                return;
-            }
-
-            var query = MongoService<DriftItemRecord>.Get(r => r.QQNum == MsgDTO.FromQQ).FirstOrDefault();
-            if (query == null || !query.ItemCount.Any())
-            {
-                MsgSender.Instance.PushMsg(MsgDTO, "你的背包空空如也~", true);
-                return;
-            }
-            var pageCount = (query.ItemCount.Count - 1) / 20 + 1;
-            if (pageIdx > pageCount)
-            {
-                MsgSender.Instance.PushMsg(MsgDTO, $"你的背包只有 {pageCount}页~", true);
-                return;
-            }
-
-            var itemMsgs = query.ItemCount.Skip((int)(pageIdx - 1) * 20).Take(20).Select(ic => $"{ic.Name}*{ic.Count}");
-            var msg = $"该页的物品有：{string.Join(",", itemMsgs)}";
-            if (pageCount > 1)
-            {
-                msg += $"\r(当前第{pageIdx}/{pageCount}页，请使用 我的物品 [页码] 来查看更多物品)";
-            }
             MsgSender.Instance.PushMsg(MsgDTO, msg, true);
         }
 
