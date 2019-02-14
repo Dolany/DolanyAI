@@ -253,7 +253,7 @@ namespace Dolany.Ai.Core.Ai.Game.Shopping
             {
                 msg += "Buff列表：\r" + string.Join("\r",
                            osPerson.Buffs.Where(b => b.ExpiryTime.ToLocalTime() > DateTime.Now)
-                               .Select(b => $"名称：{b.Name}。效果：{b.Description}。持续到：{b.ExpiryTime.ToLocalTime()}"));
+                               .Select(b => $"{b.Name}：{b.Description}（{b.ExpiryTime.ToLocalTime()}）"));
             }
 
             MsgSender.Instance.PushMsg(MsgDTO, msg, true);

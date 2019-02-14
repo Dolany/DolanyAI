@@ -22,7 +22,7 @@ namespace Dolany.Ai.Core.Ai.SingleCommand.Fortune
     using Model;
 
     [AI(
-        Name = nameof(FortuneAI),
+        Name = "随机运势",
         Description = "AI for Fortune.",
         Enable = true,
         PriorityLevel = 10)]

@@ -13,7 +13,7 @@
     using static API.APIEx;
 
     [AI(
-        Name = nameof(PraiseMeAI),
+        Name = "点赞",
         Description = "AI for Praise someone.",
         Enable = true,
         PriorityLevel = 10)]

@@ -19,7 +19,7 @@ namespace Dolany.Ai.Core.Ai.SingleCommand.Fortune
     using Model;
 
     [AI(
-        Name = nameof(MajFortuneAI),
+        Name = "麻将运势",
         Description = "AI for Getting Daily Maj Fortune.",
         Enable = true,
         PriorityLevel = 10)]

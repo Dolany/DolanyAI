@@ -13,6 +13,10 @@ namespace Dolany.Game.OnlineStore
 
         public IList<OSPersonBuff> Buffs { get; set; }
 
+        public DateTime? LastSignDate { get; set; }
+
+        public int SuccessiveSignDays { get; set; }
+
         public static OSPerson GetPerson(long QQNum)
         {
             var osPerson = MongoService<OSPerson>.Get(p => p.QQNum == QQNum).FirstOrDefault();
