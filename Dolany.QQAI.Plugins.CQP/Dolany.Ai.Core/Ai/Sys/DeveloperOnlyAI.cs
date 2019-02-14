@@ -248,5 +248,31 @@ namespace Dolany.Ai.Core.Ai.Sys
 
             MsgSender.Instance.PushMsg(MsgDTO, "驱散成功！");
         }
+
+        [EnterCommand(
+            Command = "驱散",
+            Description = "清除某人身上的指定buff",
+            Syntax = "[@QQ] [Buff名称]",
+            Tag = "系统命令",
+            SyntaxChecker = "At Word",
+            AuthorityLevel = AuthorityLevel.开发者,
+            IsPrivateAvailable = false)]
+        public void DispelOneBuff(MsgInformationEx MsgDTO, object[] param)
+        {
+            var qqNum = (long) param[0];
+            var buffName = param[1] as string;
+
+            var osPerson = OSPerson.GetPerson(qqNum);
+            if (!osPerson.CheckBuff(buffName))
+            {
+                MsgSender.Instance.PushMsg(MsgDTO, "目标身上没有指定buff！");
+                return;
+            }
+
+            osPerson.RemoveBuff(buffName);
+            MongoService<OSPerson>.Update(osPerson);
+
+            MsgSender.Instance.PushMsg(MsgDTO, "驱散成功！");
+        }
     }
 }

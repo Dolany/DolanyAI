@@ -34,6 +34,13 @@ namespace Dolany.Ai.Core.Ai.Record
             TestingDailyLimit = 3)]
         public void FishingBottle(MsgInformationEx MsgDTO, object[] param)
         {
+            var osPerson = OSPerson.GetPerson(MsgDTO.FromQQ);
+            if (osPerson.CheckBuff("昙天"))
+            {
+                MsgSender.Instance.PushMsg(MsgDTO, "你当前无法捞瓶子！(昙天)");
+                return;
+            }
+
             if (CommonUtil.RandInt(100) < ItemRate)
             {
                 FishItem(MsgDTO);

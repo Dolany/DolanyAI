@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using Dolany.Ai.Common;
 using Dolany.Database;
 
 namespace Dolany.Game.OnlineStore
@@ -12,10 +13,6 @@ namespace Dolany.Game.OnlineStore
         public int Golds { get; set; }
 
         public IList<OSPersonBuff> Buffs { get; set; }
-
-        public DateTime? LastSignDate { get; set; }
-
-        public int SuccessiveSignDays { get; set; }
 
         public static OSPerson GetPerson(long QQNum)
         {
@@ -58,6 +55,22 @@ namespace Dolany.Game.OnlineStore
         public bool CheckBuff(string buffName)
         {
             return Buffs != null && Buffs.Any(b => b.Name == buffName && b.ExpiryTime.ToLocalTime() > DateTime.Now);
+        }
+
+        public void RemoveBuff(string buffName)
+        {
+            if (Buffs.IsNullOrEmpty())
+            {
+                return;
+            }
+
+            var buff = Buffs.FirstOrDefault(b => b.Name == buffName);
+            if (buff == null)
+            {
+                return;
+            }
+
+            Buffs.Remove(buff);
         }
 
         public static void AddBuff(long qqNum, OSPersonBuff osBuff)

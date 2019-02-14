@@ -12,20 +12,16 @@ namespace Dolany.Game.Chess
     public partial class ChessEngine
     {
         [ChessEffect(Name = "昙天",
-            Description = "48小时内不可以捞瓶子")]
+            Description = "36小时内不可以捞瓶子")]
         public void 昙天()
         {
-            var key = $"DailyLimit-捞瓶子-{SelfQQNum}";
-            var cache = SCacheService.Get<DailyLimitCache>(key);
-            if (cache == null)
+            OSPerson.AddBuff(SelfQQNum, new OSPersonBuff
             {
-                SCacheService.Cache(key, new DailyLimitCache{QQNum = SelfQQNum, Count = 3, Command = "捞瓶子"}, DateTime.Now.AddHours(48));
-            }
-            else
-            {
-                cache.Count += 3;
-                SCacheService.Cache(key, cache);
-            }
+                Name = "昙天",
+                Description = "36小时内不可以捞瓶子",
+                ExpiryTime = DateTime.Now.AddHours(36),
+                IsPositive = false
+            });
         }
 
         [ChessEffect(Name = "浓雾",
@@ -173,7 +169,7 @@ namespace Dolany.Game.Chess
         {
             var selfOs = OSPerson.GetPerson(SelfQQNum);
             var effectiveBuffs = selfOs.Buffs?.Where(b => b.ExpiryTime.ToLocalTime() > DateTime.Now).ToArray();
-            var posBuffCount = effectiveBuffs == null ? 0 : effectiveBuffs.Count(b => !b.IsPositive);
+            var posBuffCount = effectiveBuffs?.Count(b => !b.IsPositive) ?? 0;
             if (posBuffCount == 0)
             {
                 MsgCallBack("你没有任何负面状态", GroupNum, SelfQQNum);
@@ -193,7 +189,7 @@ namespace Dolany.Game.Chess
         {
             var oppeOs = OSPerson.GetPerson(AimQQNum);
             var effectiveBuffs = oppeOs.Buffs?.Where(b => b.ExpiryTime.ToLocalTime() > DateTime.Now).ToArray();
-            var posBuffCount = effectiveBuffs == null ? 0 : effectiveBuffs.Count(b => b.IsPositive);
+            var posBuffCount = effectiveBuffs?.Count(b => b.IsPositive) ?? 0;
             if (posBuffCount == 0)
             {
                 MsgCallBack("对手没有增益状态", GroupNum, SelfQQNum);
@@ -226,7 +222,7 @@ namespace Dolany.Game.Chess
         {
             var oppeOs = OSPerson.GetPerson(AimQQNum);
             var effectiveBuffs = oppeOs.Buffs?.Where(b => b.ExpiryTime.ToLocalTime() > DateTime.Now).ToArray();
-            var posBuffCount = effectiveBuffs == null ? 0 : effectiveBuffs.Count(b => !b.IsPositive);
+            var posBuffCount = effectiveBuffs?.Count(b => !b.IsPositive) ?? 0;
             if (posBuffCount == 0)
             {
                 MsgCallBack("对手没有负面状态", GroupNum, SelfQQNum);
@@ -245,7 +241,7 @@ namespace Dolany.Game.Chess
         {
             var oppeOs = OSPerson.GetPerson(AimQQNum);
             var effectiveBuffs = oppeOs.Buffs?.Where(b => b.ExpiryTime.ToLocalTime() > DateTime.Now).ToArray();
-            var posBuffCount = effectiveBuffs == null ? 0 : effectiveBuffs.Count(b => b.IsPositive);
+            var posBuffCount = effectiveBuffs?.Count(b => b.IsPositive) ?? 0;
             if (posBuffCount == 0)
             {
                 MsgCallBack("对手没有增益状态", GroupNum, SelfQQNum);
