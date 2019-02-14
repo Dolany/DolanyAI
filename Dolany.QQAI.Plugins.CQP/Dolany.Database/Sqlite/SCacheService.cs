@@ -48,21 +48,28 @@ namespace Dolany.Database.Sqlite
             {
                 using (var db = new SqliteContext())
                 {
-                    var query = db.SqliteCacheModel.FirstOrDefault(m => m.Key == key);
-                    if (query == null)
+                    try
+                    {
+                        var query = db.SqliteCacheModel.FirstOrDefault(m => m.Key == key);
+                        if (query == null)
+                        {
+                            return default(T);
+                        }
+
+                        if (!string.IsNullOrEmpty(query.Value) && DateTime.TryParse(query.ExpTime, out var time) && time > DateTime.Now)
+                        {
+                            return JsonConvert.DeserializeObject<T>(query.Value);
+                        }
+
+                        db.SqliteCacheModel.Remove(query);
+                        db.SaveChanges();
+
+                        return default(T);
+                    }
+                    catch (Exception)
                     {
                         return default(T);
                     }
-
-                    if (!string.IsNullOrEmpty(query.Value) && DateTime.TryParse(query.ExpTime, out var time) && time > DateTime.Now)
-                    {
-                        return JsonConvert.DeserializeObject<T>(query.Value);
-                    }
-
-                    db.SqliteCacheModel.Remove(query);
-                    db.SaveChanges();
-
-                    return default(T);
                 }
             }
         }
