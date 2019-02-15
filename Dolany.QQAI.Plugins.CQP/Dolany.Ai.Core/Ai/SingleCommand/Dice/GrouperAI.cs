@@ -30,7 +30,7 @@ namespace Dolany.Ai.Core.Ai.SingleCommand.Dice
             Tag = "骰子功能",
             SyntaxChecker = "Long MultiAt",
             IsPrivateAvailable = false)]
-        public void Group(MsgInformationEx MsgDTO, object[] param)
+        public bool Group(MsgInformationEx MsgDTO, object[] param)
         {
             var size = (int)param[0];
             var list = param[1] as List<long>;
@@ -44,6 +44,7 @@ namespace Dolany.Ai.Core.Ai.SingleCommand.Dice
                 var msg = $"第{i / size + 1}组：{string.Join(",", sublist.Select(CodeApi.Code_At))}";
                 MsgSender.Instance.PushMsg(MsgDTO, msg);
             }
+            return true;
         }
     }
 }

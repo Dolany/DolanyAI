@@ -70,14 +70,14 @@ namespace Dolany.Ai.Core.Ai.Sys
             SyntaxChecker = "Empty",
             AuthorityLevel = AuthorityLevel.管理员,
             IsPrivateAvailable = false)]
-        public void PowerOff(MsgInformationEx MsgDTO, object[] param)
+        public bool PowerOff(MsgInformationEx MsgDTO, object[] param)
         {
             var selfNum = SelfQQNum;
             var query = MongoService<ActiveOffGroups>.Get(p => p.AINum == selfNum &&
                                                                p.GroupNum == MsgDTO.FromGroup);
             if (!query.IsNullOrEmpty())
             {
-                return;
+                return false;
             }
 
             MongoService<ActiveOffGroups>.Insert(new ActiveOffGroups
@@ -91,6 +91,7 @@ namespace Dolany.Ai.Core.Ai.Sys
             this.InactiveGroups.Add(MsgDTO.FromGroup);
             MsgSender.Instance.PushMsg(MsgDTO, "关机成功！");
             AIMgr.Instance.OnActiveStateChange(false, MsgDTO.FromGroup);
+            return true;
         }
 
         [EnterCommand(
@@ -101,14 +102,14 @@ namespace Dolany.Ai.Core.Ai.Sys
             SyntaxChecker = "Empty",
             AuthorityLevel = AuthorityLevel.管理员,
             IsPrivateAvailable = false)]
-        public void PowerOn(MsgInformationEx MsgDTO, object[] param)
+        public bool PowerOn(MsgInformationEx MsgDTO, object[] param)
         {
             var selfNum = SelfQQNum;
             var query = MongoService<ActiveOffGroups>.Get(p => p.AINum == selfNum &&
                                                                p.GroupNum == MsgDTO.FromGroup);
             if (query.IsNullOrEmpty())
             {
-                return;
+                return false;
             }
 
             MongoService<ActiveOffGroups>.DeleteMany(query);
@@ -116,6 +117,7 @@ namespace Dolany.Ai.Core.Ai.Sys
             this.InactiveGroups.RemoveAll(p => p == MsgDTO.FromGroup);
             MsgSender.Instance.PushMsg(MsgDTO, "开机成功！");
             AIMgr.Instance.OnActiveStateChange(true, MsgDTO.FromGroup);
+            return true;
         }
 
         [EnterCommand(
@@ -126,7 +128,7 @@ namespace Dolany.Ai.Core.Ai.Sys
             SyntaxChecker = "Empty",
             AuthorityLevel = AuthorityLevel.成员,
             IsPrivateAvailable = true)]
-        public void Status(MsgInformationEx MsgDTO, object[] param)
+        public bool Status(MsgInformationEx MsgDTO, object[] param)
         {
             var startTime = Sys_StartTime.Get();
             var span = DateTime.Now - startTime;
@@ -137,6 +139,7 @@ namespace Dolany.Ai.Core.Ai.Sys
 遇到{Sys_ErrorCount.GetCount()}个错误{PowerState(MsgDTO)}";
 
             MsgSender.Instance.PushMsg(MsgDTO, msg);
+            return true;
         }
 
         private string PowerState(MsgInformationEx MsgDTO)
@@ -157,7 +160,7 @@ namespace Dolany.Ai.Core.Ai.Sys
             SyntaxChecker = "Empty",
             AuthorityLevel = AuthorityLevel.成员,
             IsPrivateAvailable = false)]
-        public void InitAi(MsgInformationEx MsgDTO, object[] param)
+        public bool InitAi(MsgInformationEx MsgDTO, object[] param)
         {
             var key = $"InitInfo-{MsgDTO.FromGroup}";
             var response = SCacheService.Get<InitInfoCache>(key);
@@ -165,19 +168,20 @@ namespace Dolany.Ai.Core.Ai.Sys
             if (response != null)
             {
                 MsgSender.Instance.PushMsg(MsgDTO, "每天只能初始化一次噢~");
-                return;
+                return false;
             }
 
             if (!GroupMemberInfoCacher.RefreshGroupInfo(MsgDTO.FromGroup))
             {
                 MsgSender.Instance.PushMsg(MsgDTO, "初始化失败，请稍后再试！");
-                return;
+                return false;
             }
 
             var model = new InitInfoCache {GroupNum = MsgDTO.FromGroup};
             SCacheService.Cache(key, model);
 
             MsgSender.Instance.PushMsg(MsgDTO, "初始化成功！");
+            return true;
         }
 
         [EnterCommand(
@@ -188,17 +192,18 @@ namespace Dolany.Ai.Core.Ai.Sys
             SyntaxChecker = "Long", 
             AuthorityLevel = AuthorityLevel.成员,
             IsPrivateAvailable = false)]
-        public void ExceptionMonitor(MsgInformationEx MsgDTO, object[] param)
+        public bool ExceptionMonitor(MsgInformationEx MsgDTO, object[] param)
         {
             var index = (long) param[0];
 
             var exMsg = Sys_ErrorCount.GetMsg((int) index);
             if (string.IsNullOrEmpty(exMsg))
             {
-                return;
+                return false;
             }
 
             MsgSender.Instance.PushMsg(MsgDTO, exMsg);
+            return true;
         }
     }
 }

@@ -32,7 +32,7 @@ namespace Dolany.Ai.Core.Net
             }
             catch (Exception e)
             {
-                RuntimeLogger.Log(e);
+                Logger.Log(e);
             }
             return _reqRet;
         }

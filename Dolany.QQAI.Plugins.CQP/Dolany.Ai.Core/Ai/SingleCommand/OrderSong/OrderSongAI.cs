@@ -31,7 +31,7 @@ namespace Dolany.Ai.Core.Ai.SingleCommand.OrderSong
             SyntaxChecker = "Any",
             IsPrivateAvailable = true,
             DailyLimit = 5)]
-        public void OrderASong(MsgInformationEx MsgDTO, object[] param)
+        public bool OrderASong(MsgInformationEx MsgDTO, object[] param)
         {
             var songName = param[0] as string;
             var songId = GetSongId(songName);
@@ -41,10 +41,11 @@ namespace Dolany.Ai.Core.Ai.SingleCommand.OrderSong
                 var responseXml = GetMusicXml(songId);
                 MsgSender.Instance.PushMsg(MsgDTO, responseXml);
 
-                return;
+                return true;
             }
 
             MsgSender.Instance.PushMsg(MsgDTO, "未查找到该歌曲！");
+            return false;
         }
 
         private static string GetSongId(string songName)

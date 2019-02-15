@@ -58,5 +58,10 @@ namespace Dolany.Ai.Common
             array[firstIdx] = array[secondIdx];
             array[secondIdx] = temp;
         }
+
+        public static string ToCommonString(this DateTime dt)
+        {
+            return dt.ToString("yyyy-MM-dd HH:mm:ss");
+        }
     }
 }

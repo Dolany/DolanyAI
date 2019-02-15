@@ -76,7 +76,7 @@
             Tag = "打招呼功能",
             SyntaxChecker = "Any",
             IsPrivateAvailable = false)]
-        public void SaveHelloContent(MsgInformationEx MsgDTO, object[] param)
+        public bool SaveHelloContent(MsgInformationEx MsgDTO, object[] param)
         {
             var content = param[0] as string;
 
@@ -102,6 +102,7 @@
             }
 
             MsgSender.Instance.PushMsg(MsgDTO, "招呼内容设定成功");
+            return true;
         }
 
         [EnterCommand(
@@ -112,16 +113,17 @@
             Tag = "打招呼功能",
             SyntaxChecker = "Empty",
             IsPrivateAvailable = false)]
-        public void SayHello(MsgInformationEx MsgDTO, object[] param)
+        public bool SayHello(MsgInformationEx MsgDTO, object[] param)
         {
             var query = this.HelloList.FirstOrDefault(h => h.GroupNum == MsgDTO.FromGroup && h.QQNum == MsgDTO.FromQQ);
             if (query == null)
             {
                 MsgSender.Instance.PushMsg(MsgDTO, "你还没有设定过招呼内容哦~");
-                return;
+                return false;
             }
 
             MsgSender.Instance.PushMsg(MsgDTO, $"{Code_At(MsgDTO.FromQQ)} {query.Content}");
+            return true;
         }
 
         [EnterCommand(
@@ -132,19 +134,20 @@
             Tag = "打招呼功能",
             SyntaxChecker = "Empty",
             IsPrivateAvailable = false)]
-        public void DeleteHello(MsgInformationEx MsgDTO, object[] param)
+        public bool DeleteHello(MsgInformationEx MsgDTO, object[] param)
         {
             var query = HelloList.FirstOrDefault(h => h.GroupNum == MsgDTO.FromGroup && h.QQNum == MsgDTO.FromQQ);
             if (query == null)
             {
                 MsgSender.Instance.PushMsg(MsgDTO, "你还没有设定过招呼内容哦~");
-                return;
+                return false;
             }
 
             MongoService<Hello>.Delete(query);
             this.HelloList.Remove(query);
 
             MsgSender.Instance.PushMsg(MsgDTO, "删除成功！");
+            return true;
         }
     }
 }

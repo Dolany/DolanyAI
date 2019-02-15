@@ -113,10 +113,11 @@
             Tag = "闹钟与报时功能",
             SyntaxChecker = "Empty",
             IsPrivateAvailable = false)]
-        public void AlertEnable(MsgInformationEx MsgDTO, object[] param)
+        public bool AlertEnable(MsgInformationEx MsgDTO, object[] param)
         {
             AvailableStateChange(MsgDTO.FromGroup, true);
             MsgSender.Instance.PushMsg(MsgDTO, "报时功能已开启！");
+            return true;
         }
 
         [EnterCommand(
@@ -127,10 +128,11 @@
             Tag = "闹钟与报时功能",
             SyntaxChecker = "Empty",
             IsPrivateAvailable = false)]
-        public void AlertDisenable(MsgInformationEx MsgDTO, object[] param)
+        public bool AlertDisenable(MsgInformationEx MsgDTO, object[] param)
         {
             AvailableStateChange(MsgDTO.FromGroup, false);
             MsgSender.Instance.PushMsg(MsgDTO, "报时功能已关闭！");
+            return true;
         }
 
         private static void AvailableStateChange(long groupNumber, bool state)

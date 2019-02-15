@@ -31,11 +31,11 @@
             Tag = "语录功能",
             SyntaxChecker = "Word Word Any",
             IsPrivateAvailable = false)]
-        public void ProcceedMsg(MsgInformationEx MsgDTO, object[] param)
+        public bool ProcceedMsg(MsgInformationEx MsgDTO, object[] param)
         {
             if (IsInSealing(MsgDTO.FromGroup, MsgDTO.FromQQ))
             {
-                return;
+                return false;
             }
 
             var saying = new Saying
@@ -50,6 +50,7 @@
             MongoService<Saying>.Insert(saying);
 
             MsgSender.Instance.PushMsg(MsgDTO, "语录录入成功！");
+            return true;
         }
 
         [EnterCommand(
@@ -62,14 +63,15 @@
             IsPrivateAvailable = false,
             DailyLimit = 10,
             TestingDailyLimit = 20)]
-        public void Sayings(MsgInformationEx MsgDTO, object[] param)
+        public bool Sayings(MsgInformationEx MsgDTO, object[] param)
         {
             if (IsInSealing(MsgDTO.FromGroup, MsgDTO.FromQQ))
             {
-                return;
+                return false;
             }
 
             SayingRequest(MsgDTO);
+            return true;
         }
 
         [EnterCommand(
@@ -82,14 +84,15 @@
             IsPrivateAvailable = false,
             DailyLimit = 10,
             TestingDailyLimit = 20)]
-        public void Sayings_Query(MsgInformationEx MsgDTO, object[] param)
+        public bool Sayings_Query(MsgInformationEx MsgDTO, object[] param)
         {
             if (IsInSealing(MsgDTO.FromGroup, MsgDTO.FromQQ))
             {
-                return;
+                return false;
             }
 
             SayingRequest(MsgDTO, param[0] as string);
+            return true;
         }
 
         private static void SayingRequest(MsgInformationEx MsgDTO, string keyword = null)
@@ -149,7 +152,7 @@
             Tag = "语录功能",
             SyntaxChecker = "Word",
             IsPrivateAvailable = false)]
-        public void ClearSayings(MsgInformationEx MsgDTO, object[] param)
+        public bool ClearSayings(MsgInformationEx MsgDTO, object[] param)
         {
             var query = MongoService<Saying>.Get(s => s.FromGroup == MsgDTO.FromGroup &&
                                                       (s.Content.Contains(MsgDTO.Msg) ||
@@ -159,6 +162,7 @@
             MongoService<Saying>.DeleteMany(query);
 
             MsgSender.Instance.PushMsg(MsgDTO, $"共删除{count}条语录");
+            return true;
         }
 
         [EnterCommand(
@@ -169,7 +173,7 @@
             Tag = "语录功能",
             SyntaxChecker = "At",
             IsPrivateAvailable = false)]
-        public void SayingSeal(MsgInformationEx MsgDTO, object[] param)
+        public bool SayingSeal(MsgInformationEx MsgDTO, object[] param)
         {
             var memberNum = (long)param[0];
 
@@ -178,7 +182,7 @@
             if (!query.IsNullOrEmpty())
             {
                 MsgSender.Instance.PushMsg(MsgDTO, "此成员正在封禁中！");
-                return;
+                return false;
             }
 
             MongoService<SayingSeal>.Insert(new SayingSeal
@@ -190,6 +194,7 @@
                 Content = "封禁"
             });
             MsgSender.Instance.PushMsg(MsgDTO, "封禁成功！");
+            return true;
         }
 
         [EnterCommand(
@@ -200,7 +205,7 @@
             Tag = "语录功能",
             SyntaxChecker = "At",
             IsPrivateAvailable = false)]
-        public void SayingDeseal(MsgInformationEx MsgDTO, object[] param)
+        public bool SayingDeseal(MsgInformationEx MsgDTO, object[] param)
         {
             var memberNum = (long)param[0];
 
@@ -209,11 +214,12 @@
             if (query.IsNullOrEmpty())
             {
                 MsgSender.Instance.PushMsg(MsgDTO, "此成员尚未被封禁！");
-                return;
+                return false;
             }
             MongoService<SayingSeal>.DeleteMany(query);
 
             MsgSender.Instance.PushMsg(MsgDTO, "解封成功！");
+            return true;
         }
     }
 }

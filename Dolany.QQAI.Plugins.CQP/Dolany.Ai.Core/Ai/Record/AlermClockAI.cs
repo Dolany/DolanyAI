@@ -56,11 +56,11 @@
             Tag = "闹钟与报时功能",
             SyntaxChecker = "HourMinute Word",
             IsPrivateAvailable = false)]
-        public void SetClock(MsgInformationEx MsgDTO, object[] param)
+        public bool SetClock(MsgInformationEx MsgDTO, object[] param)
         {
             if (!(param[0] is HourMinuteModel time))
             {
-                return;
+                return false;
             }
 
             var entity = new AlermClock
@@ -76,6 +76,7 @@
             };
 
             InsertClock(entity, MsgDTO);
+            return true;
         }
 
         private void InsertClock(AlermClock entity, MsgInformationEx MsgDTO)
@@ -118,10 +119,11 @@
             Tag = "闹钟与报时功能",
             SyntaxChecker = "Empty",
             IsPrivateAvailable = false)]
-        public void QueryClock(MsgInformationEx MsgDTO, object[] param)
+        public bool QueryClock(MsgInformationEx MsgDTO, object[] param)
         {
             var Msg = QueryClock(MsgDTO);
             MsgSender.Instance.PushMsg(MsgDTO, Msg);
+            return true;
         }
 
         [EnterCommand(
@@ -132,17 +134,18 @@
             Tag = "闹钟与报时功能",
             SyntaxChecker = "HourMinute",
             IsPrivateAvailable = false)]
-        public void DeleteClock(MsgInformationEx MsgDTO, object[] param)
+        public bool DeleteClock(MsgInformationEx MsgDTO, object[] param)
         {
             if (!(param[0] is HourMinuteModel time))
             {
-                return;
+                return false;
             }
 
             var Msg = DeleteClock(time, MsgDTO);
             MsgSender.Instance.PushMsg(MsgDTO, Msg);
 
             ReloadAllClocks();
+            return true;
         }
 
         [EnterCommand(
@@ -153,12 +156,13 @@
             Tag = "闹钟与报时功能",
             SyntaxChecker = "Empty",
             IsPrivateAvailable = false)]
-        public void ClearAllClock(MsgInformationEx MsgDTO, object[] param)
+        public bool ClearAllClock(MsgInformationEx MsgDTO, object[] param)
         {
             var Msg = ClearAllClock(MsgDTO);
             MsgSender.Instance.PushMsg(MsgDTO, Msg);
 
             ReloadAllClocks();
+            return true;
         }
 
         private static double GetNextInterval(int hour, int minute)

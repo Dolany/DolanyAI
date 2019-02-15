@@ -36,18 +36,19 @@
             SyntaxChecker = "Word",
             IsPrivateAvailable = true,
             DailyLimit = 3)]
-        public void KancoleVoice(MsgInformationEx MsgDTO, object[] param)
+        public bool KancoleVoice(MsgInformationEx MsgDTO, object[] param)
         {
             var girlName = param[0] as string;
 
             var voice = GetRandVoiceInfo(girlName);
             if (voice == null)
             {
-                return;
+                return false;
             }
 
             MsgSender.Instance.PushMsg(MsgDTO, Code_Voice(voice.VoiceUrl));
             MsgSender.Instance.PushMsg(MsgDTO, voice.Content);
+            return true;
         }
 
         private static KanColeGirlVoice GetRandVoiceInfo(string name)

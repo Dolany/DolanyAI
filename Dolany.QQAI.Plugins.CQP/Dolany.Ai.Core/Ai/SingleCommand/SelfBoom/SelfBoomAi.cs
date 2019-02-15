@@ -10,7 +10,7 @@ namespace Dolany.Ai.Core.Ai.SingleCommand.SelfBoom
     using Model;
 
     [AI(
-        Name = nameof(SelfBoomAi),
+        Name = "自爆",
         Description = "AI for boom herself.",
         Enable = true,
         PriorityLevel = 10)]
@@ -26,7 +26,7 @@ namespace Dolany.Ai.Core.Ai.SingleCommand.SelfBoom
             Tag = "系统命令",
             SyntaxChecker = "Empty",
             IsPrivateAvailable = false)]
-        public void Boom(MsgInformationEx MsgDTO, object[] param)
+        public bool Boom(MsgInformationEx MsgDTO, object[] param)
         {
             var backInfo = Waiter.Instance.WaitForInformation(
                 new MsgCommand
@@ -39,7 +39,7 @@ namespace Dolany.Ai.Core.Ai.SingleCommand.SelfBoom
             if (backInfo == null)
             {
                 MsgSender.Instance.PushMsg(MsgDTO, "自爆失败！");
-                return;
+                return false;
             }
 
             Thread.Sleep(1000);
@@ -59,6 +59,7 @@ namespace Dolany.Ai.Core.Ai.SingleCommand.SelfBoom
                     {
                         Command = AiCommand.Restart
                     });
+            return true;
         }
 
         [EnterCommand(
@@ -69,9 +70,10 @@ namespace Dolany.Ai.Core.Ai.SingleCommand.SelfBoom
             Tag = "系统功能",
             SyntaxChecker = "Empty",
             IsPrivateAvailable = true)]
-        public void GetBoomCode(MsgInformationEx MsgDTO, object[] param)
+        public bool GetBoomCode(MsgInformationEx MsgDTO, object[] param)
         {
             MsgSender.Instance.PushMsg(MsgDTO, BoomCode.ToString());
+            return true;
         }
 
         public override void Initialization()

@@ -12,14 +12,14 @@ namespace Dolany.Game.Chess
     public partial class ChessEngine
     {
         [ChessEffect(Name = "昙天",
-            Description = "36小时内不可以捞瓶子")]
+            Description = "12小时内不可以捞瓶子")]
         public void 昙天()
         {
             OSPerson.AddBuff(SelfQQNum, new OSPersonBuff
             {
                 Name = "昙天",
-                Description = "36小时内不可以捞瓶子",
-                ExpiryTime = DateTime.Now.AddHours(36),
+                Description = "12小时内不可以捞瓶子",
+                ExpiryTime = DateTime.Now.AddHours(12),
                 IsPositive = false
             });
         }
@@ -70,53 +70,53 @@ namespace Dolany.Game.Chess
         }
 
         [ChessEffect(Name = "极光",
-            Description = "24小时内商店购买享有40%的折扣")]
+            Description = "12小时内商店购买享有20%的折扣")]
         public void 极光()
         {
             OSPerson.AddBuff(SelfQQNum, new OSPersonBuff
             {
                 Name = "极光",
-                Description = "24小时内商店购买享有40%的折扣",
-                ExpiryTime = DateTime.Now.AddHours(24),
+                Description = "12小时内商店购买享有20%的折扣",
+                ExpiryTime = DateTime.Now.AddHours(12),
                 IsPositive = true
             });
         }
 
         [ChessEffect(Name = "黄砂",
-            Description = "48小时内无法再次挑战")]
+            Description = "12小时内无法再次挑战")]
         public void 黄砂()
         {
             OSPerson.AddBuff(SelfQQNum, new OSPersonBuff
             {
                 Name = "黄砂",
-                Description = "48小时内无法再次挑战",
-                ExpiryTime = DateTime.Now.AddHours(48),
+                Description = "12小时内无法再次挑战",
+                ExpiryTime = DateTime.Now.AddHours(12),
                 IsPositive = false
             });
         }
 
         [ChessEffect(Name = "梅雨",
-            Description = "48小时内捞瓶子成功率下降30%")]
+            Description = "12小时内捞瓶子成功率下降30%")]
         public void 梅雨()
         {
             OSPerson.AddBuff(SelfQQNum, new OSPersonBuff
             {
                 Name = "梅雨",
-                Description = "48小时内捞瓶子成功率下降30%",
-                ExpiryTime = DateTime.Now.AddHours(48),
+                Description = "12小时内捞瓶子成功率下降30%",
+                ExpiryTime = DateTime.Now.AddHours(12),
                 IsPositive = false
             });
         }
 
         [ChessEffect(Name = "快晴",
-            Description = "36小时内无法从事商业活动（贩卖/购买/交易）")]
+            Description = "12小时内无法从事商业活动（贩卖/购买/交易）")]
         public void 快晴()
         {
             OSPerson.AddBuff(SelfQQNum, new OSPersonBuff
             {
                 Name = "快晴",
-                Description = "36小时内无法从事商业活动（贩卖/购买/交易）",
-                ExpiryTime = DateTime.Now.AddHours(36),
+                Description = "12小时内无法从事商业活动（贩卖/购买/交易）",
+                ExpiryTime = DateTime.Now.AddHours(12),
                 IsPositive = false
             });
         }
@@ -133,14 +133,14 @@ namespace Dolany.Game.Chess
         }
 
         [ChessEffect(Name = "苍天",
-            Description = "24小时内进行交易时享有40%的折扣")]
+            Description = "12小时内进行交易时免除手续费")]
         public void 苍天()
         {
             OSPerson.AddBuff(SelfQQNum, new OSPersonBuff
             {
                 Name = "苍天",
-                Description = "24小时内进行交易时享有40%的折扣",
-                ExpiryTime = DateTime.Now.AddHours(24),
+                Description = "12小时内进行交易时免除手续费",
+                ExpiryTime = DateTime.Now.AddHours(12),
                 IsPositive = true
             });
         }
@@ -204,14 +204,14 @@ namespace Dolany.Game.Chess
         }
 
         [ChessEffect(Name = "疏雨",
-            Description = "24小时内将物品贩卖给商店时将额外获得40%的金币")]
+            Description = "12小时内将物品贩卖给商店时将额外获得20%的金币")]
         public void 疏雨()
         {
             OSPerson.AddBuff(SelfQQNum, new OSPersonBuff
             {
                 Name = "疏雨",
-                Description = "24小时内将物品贩卖给商店时将额外获得40%的金币",
-                ExpiryTime = DateTime.Now.AddHours(24),
+                Description = "12小时内将物品贩卖给商店时将额外获得20%的金币",
+                ExpiryTime = DateTime.Now.AddHours(12),
                 IsPositive = true
             });
         }
@@ -272,14 +272,14 @@ namespace Dolany.Game.Chess
         }
 
         [ChessEffect(Name = "钻石尘",
-            Description = "48小时内捞瓶子时有50%的概率丢失40金币")]
+            Description = "12小时内捞瓶子时有50%的概率丢失40金币")]
         public void 钻石尘()
         {
             OSPerson.AddBuff(SelfQQNum, new OSPersonBuff
             {
                 Name = "钻石尘",
-                Description = "48小时内捞瓶子时有50%的概率丢失40金币",
-                ExpiryTime = DateTime.Now.AddHours(48),
+                Description = "12小时内捞瓶子时有50%的概率丢失40金币",
+                ExpiryTime = DateTime.Now.AddHours(12),
                 IsPositive = false
             });
         }

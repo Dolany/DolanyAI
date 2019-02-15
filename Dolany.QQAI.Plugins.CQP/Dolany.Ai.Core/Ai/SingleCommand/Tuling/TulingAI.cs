@@ -222,49 +222,5 @@
                 return string.Empty;
             }
         }
-
-        [EnterCommand(
-            Command = "新增语料",
-            AuthorityLevel = AuthorityLevel.开发者,
-            Description = "新增私有语料",
-            Syntax = "[问题] [答案]",
-            Tag = "图灵功能",
-            SyntaxChecker = "Word Word",
-            IsPrivateAvailable = true)]
-        public void AddPrivateQA(MsgInformationEx MsgDTO, object[] param)
-        {
-            MsgSender.Instance.PushMsg(MsgDTO, "暂未开放！");
-            //var question = param[0] as string;
-            //var answer = param[1] as string;
-
-            //var post = new PostReq_Param
-            //{
-            //    InterfaceName = TulingImportUrl,
-            //    data = new TulingImportRequestData
-            //    {
-            //        apikey = ApiKey,
-            //        data = new TulingImportRequestDataData
-            //        {
-            //            list = new[]
-            //            {
-            //                new TulingImportRequestDataQA
-            //                {
-            //                    question = question,
-            //                    answer = answer
-            //                }
-            //            }
-            //        }
-            //    }
-            //};
-
-            //var response = RequestHelper.PostData<TulingImportResponseData>(post);
-            //if (response == null ||
-            //    response.code != 0)
-            //{
-            //    MsgSender.Instance.PushMsg(MsgDTO, "新增失败！");
-            //}
-
-            //MsgSender.Instance.PushMsg(MsgDTO, "新增成功！");
-        }
     }
 }

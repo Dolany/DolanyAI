@@ -15,7 +15,7 @@ namespace Dolany.Ai.Core.Ai.Sys
     using Model;
 
     [AI(
-        Name = nameof(HelperAI),
+        Name = "帮助",
         Description = "AI for Getting Help Infos.",
         Enable = true,
         PriorityLevel = 10)]
@@ -33,9 +33,10 @@ namespace Dolany.Ai.Core.Ai.Sys
             SyntaxChecker = "Empty",
             Tag = "系统命令",
             IsPrivateAvailable = true)]
-        public void HelpMe(MsgInformationEx MsgDTO, object[] param)
+        public bool HelpMe(MsgInformationEx MsgDTO, object[] param)
         {
             HelpSummary(MsgDTO);
+            return true;
         }
 
         [EnterCommand(
@@ -46,14 +47,15 @@ namespace Dolany.Ai.Core.Ai.Sys
             SyntaxChecker = "Word",
             Tag = "系统命令",
             IsPrivateAvailable = true)]
-        public void HelpMe_Command(MsgInformationEx MsgDTO, object[] param)
+        public bool HelpMe_Command(MsgInformationEx MsgDTO, object[] param)
         {
             if (HelpCommand(MsgDTO))
             {
-                return;
+                return true;
             }
 
             HelpTag(MsgDTO);
+            return true;
         }
 
         private static void HelpSummary(MsgInformationEx MsgDTO)

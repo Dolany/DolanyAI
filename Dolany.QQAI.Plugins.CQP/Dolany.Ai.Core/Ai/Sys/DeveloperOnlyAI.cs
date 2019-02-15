@@ -33,7 +33,7 @@ namespace Dolany.Ai.Core.Ai.Sys
             SyntaxChecker = "At Word",
             AuthorityLevel = AuthorityLevel.开发者,
             IsPrivateAvailable = false)]
-        public void TempAuthorize(MsgInformationEx MsgDTO, object[] param)
+        public bool TempAuthorize(MsgInformationEx MsgDTO, object[] param)
         {
             var qqNum = (long)param[0];
             var authName = param[1] as string;
@@ -42,7 +42,7 @@ namespace Dolany.Ai.Core.Ai.Sys
             if (!validNames.Contains(authName))
             {
                 MsgSender.Instance.PushMsg(MsgDTO, "权限名称错误！");
-                return;
+                return false;
             }
 
             var key = $"TempAuthorize-{MsgDTO.FromGroup}-{qqNum}";
@@ -50,6 +50,7 @@ namespace Dolany.Ai.Core.Ai.Sys
             SCacheService.Cache(key, model);
 
             MsgSender.Instance.PushMsg(MsgDTO, "临时授权成功！");
+            return true;
         }
 
         [EnterCommand(
@@ -60,7 +61,7 @@ namespace Dolany.Ai.Core.Ai.Sys
             SyntaxChecker = "Any",
             AuthorityLevel = AuthorityLevel.开发者,
             IsPrivateAvailable = true)]
-        public void Board(MsgInformationEx MsgDTO, object[] param)
+        public bool Board(MsgInformationEx MsgDTO, object[] param)
         {
             var content = param[0] as string;
             var groups = Global.AllGroups;
@@ -74,6 +75,7 @@ namespace Dolany.Ai.Core.Ai.Sys
             }
 
             MsgSender.Instance.PushMsg(MsgDTO, "广播结束！");
+            return true;
         }
 
         [EnterCommand(
@@ -84,13 +86,15 @@ namespace Dolany.Ai.Core.Ai.Sys
             SyntaxChecker = "Long",
             AuthorityLevel = AuthorityLevel.开发者,
             IsPrivateAvailable = true)]
-        public void Questionnaire(MsgInformationEx MsgDTO, object[] param)
+        public bool Questionnaire(MsgInformationEx MsgDTO, object[] param)
         {
             var hourCount = (long)param[0];
 
             const string key = "QuestionnaireDuring-QuestionnaireDuring";
             SCacheService.Cache(key, DateTime.Now.ToString("yyyyMMdd"), DateTime.Now.AddHours(hourCount));
             MsgSender.Instance.PushMsg(MsgDTO, "问卷调查模式开启");
+
+            return true;
         }
 
         [EnterCommand(
@@ -101,7 +105,7 @@ namespace Dolany.Ai.Core.Ai.Sys
             SyntaxChecker = "Long",
             AuthorityLevel = AuthorityLevel.开发者,
             IsPrivateAvailable = true)]
-        public void AuthDisable(MsgInformationEx MsgDTO, object[] param)
+        public bool AuthDisable(MsgInformationEx MsgDTO, object[] param)
         {
             var duringHour = (long) param[0];
 
@@ -109,6 +113,7 @@ namespace Dolany.Ai.Core.Ai.Sys
             SCacheService.Cache(key, "Disable", DateTime.Now.AddHours(duringHour));
 
             MsgSender.Instance.PushMsg(MsgDTO, "验证已关闭！");
+            return true;
         }
 
         [EnterCommand(
@@ -119,12 +124,13 @@ namespace Dolany.Ai.Core.Ai.Sys
             SyntaxChecker = "Empty",
             AuthorityLevel = AuthorityLevel.开发者,
             IsPrivateAvailable = true)]
-        public void AuthEnable(MsgInformationEx MsgDTO, object[] param)
+        public bool AuthEnable(MsgInformationEx MsgDTO, object[] param)
         {
             const string key = "AuthDisable";
             SCacheService.Cache(key, "Disable", DateTime.Now);
 
             MsgSender.Instance.PushMsg(MsgDTO, "验证已开启！");
+            return true;
         }
 
         [EnterCommand(
@@ -135,7 +141,7 @@ namespace Dolany.Ai.Core.Ai.Sys
             SyntaxChecker = "Word At Long",
             AuthorityLevel = AuthorityLevel.开发者,
             IsPrivateAvailable = false)]
-        public void FishingBonus(MsgInformationEx MsgDTO, object[] param)
+        public bool FishingBonus(MsgInformationEx MsgDTO, object[] param)
         {
             var command = param[0] as string;
             var qqNum = (long)param[1];
@@ -154,6 +160,7 @@ namespace Dolany.Ai.Core.Ai.Sys
             }
 
             MsgSender.Instance.PushMsg(MsgDTO, "奖励已生效！");
+            return true;
         }
 
         [EnterCommand(Command = "物品奖励",
@@ -163,7 +170,7 @@ namespace Dolany.Ai.Core.Ai.Sys
             SyntaxChecker = "At Word",
             AuthorityLevel = AuthorityLevel.开发者,
             IsPrivateAvailable = false)]
-        public void ItemBonus(MsgInformationEx MsgDTO, object[] param)
+        public bool ItemBonus(MsgInformationEx MsgDTO, object[] param)
         {
             var qqNum = (long) param[0];
             var itemName = param[1] as string;
@@ -172,7 +179,7 @@ namespace Dolany.Ai.Core.Ai.Sys
             if (item == null)
             {
                 MsgSender.Instance.PushMsg(MsgDTO, "未找到该物品！");
-                return;
+                return false;
             }
 
             var (msg, _) = ItemHelper.Instance.ItemIncome(qqNum, itemName);
@@ -182,6 +189,7 @@ namespace Dolany.Ai.Core.Ai.Sys
             }
 
             MsgSender.Instance.PushMsg(MsgDTO, "奖励已生效！");
+            return true;
         }
 
         [EnterCommand(
@@ -192,7 +200,7 @@ namespace Dolany.Ai.Core.Ai.Sys
             SyntaxChecker = "Long",
             AuthorityLevel = AuthorityLevel.开发者,
             IsPrivateAvailable = true)]
-        public void BlackList(MsgInformationEx MsgDTO, object[] param)
+        public bool BlackList(MsgInformationEx MsgDTO, object[] param)
         {
             var qqNum = (long) param[0];
             var query = MongoService<BlackList>.Get(b => b.QQNum == qqNum).FirstOrDefault();
@@ -207,6 +215,7 @@ namespace Dolany.Ai.Core.Ai.Sys
             }
 
             MsgSender.Instance.PushMsg(MsgDTO, "Success");
+            return true;
         }
 
         [EnterCommand(
@@ -217,18 +226,19 @@ namespace Dolany.Ai.Core.Ai.Sys
             SyntaxChecker = "Long",
             AuthorityLevel = AuthorityLevel.开发者,
             IsPrivateAvailable = true)]
-        public void FreeBlackList(MsgInformationEx MsgDTO, object[] param)
+        public bool FreeBlackList(MsgInformationEx MsgDTO, object[] param)
         {
             var qqNum = (long) param[0];
             var query = MongoService<BlackList>.Get(b => b.QQNum == qqNum).FirstOrDefault();
             if (query == null)
             {
                 MsgSender.Instance.PushMsg(MsgDTO, "Not In BlackList");
-                return;
+                return false;
             }
 
             MongoService<BlackList>.Delete(query);
             MsgSender.Instance.PushMsg(MsgDTO, "Success");
+            return true;
         }
 
         [EnterCommand(
@@ -239,7 +249,7 @@ namespace Dolany.Ai.Core.Ai.Sys
             SyntaxChecker = "At",
             AuthorityLevel = AuthorityLevel.开发者,
             IsPrivateAvailable = false)]
-        public void Dispel(MsgInformationEx MsgDTO, object[] param)
+        public bool Dispel(MsgInformationEx MsgDTO, object[] param)
         {
             var qqNum = (long) param[0];
             var osPerson = OSPerson.GetPerson(qqNum);
@@ -247,6 +257,7 @@ namespace Dolany.Ai.Core.Ai.Sys
             MongoService<OSPerson>.Update(osPerson);
 
             MsgSender.Instance.PushMsg(MsgDTO, "驱散成功！");
+            return true;
         }
 
         [EnterCommand(
@@ -257,7 +268,7 @@ namespace Dolany.Ai.Core.Ai.Sys
             SyntaxChecker = "At Word",
             AuthorityLevel = AuthorityLevel.开发者,
             IsPrivateAvailable = false)]
-        public void DispelOneBuff(MsgInformationEx MsgDTO, object[] param)
+        public bool DispelOneBuff(MsgInformationEx MsgDTO, object[] param)
         {
             var qqNum = (long) param[0];
             var buffName = param[1] as string;
@@ -266,13 +277,14 @@ namespace Dolany.Ai.Core.Ai.Sys
             if (!osPerson.CheckBuff(buffName))
             {
                 MsgSender.Instance.PushMsg(MsgDTO, "目标身上没有指定buff！");
-                return;
+                return false;
             }
 
             osPerson.RemoveBuff(buffName);
             MongoService<OSPerson>.Update(osPerson);
 
             MsgSender.Instance.PushMsg(MsgDTO, "驱散成功！");
+            return true;
         }
     }
 }

@@ -43,7 +43,7 @@ namespace Dolany.Ai.Core.Cache
             var infos = APIEx.GetMemberInfos(GroupNum);
             if (infos?.members == null)
             {
-                RuntimeLogger.Log($"Cannot get Group Member Infos:{GroupNum}");
+                Logger.Log($"Cannot get Group Member Infos:{GroupNum}");
                 return false;
             }
 
@@ -69,7 +69,7 @@ namespace Dolany.Ai.Core.Cache
                 SCacheService.Cache($"GroupMemberInfo-{GroupNum}-{qqnum}", model, DateTime.Now.AddDays(30));
             }
             SCacheService.Cache($"GroupMemberInfoRefresh-{GroupNum}", "Refresh", DateTime.Now.AddDays(30));
-            RuntimeLogger.Log($"Refresh Group Info: {GroupNum} completed");
+            Logger.Log($"Refresh Group Info: {GroupNum} completed");
 
             return true;
         }

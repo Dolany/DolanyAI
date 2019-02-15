@@ -41,25 +41,26 @@ namespace Dolany.Ai.Core.Ai.Game.Shopping
             IsPrivateAvailable = true,
             DailyLimit = 1,
             TestingDailyLimit = 3)]
-        public void DrawLottery(MsgInformationEx MsgDTO, object[] param)
+        public bool DrawLottery(MsgInformationEx MsgDTO, object[] param)
         {
             var osPerson = OSPerson.GetPerson(MsgDTO.FromQQ);
             if (osPerson.Golds < LotteryFee)
             {
                 MsgSender.Instance.PushMsg(MsgDTO, "你没有足够的金币购买彩票！", true);
-                return;
+                return false;
             }
 
             if (!Waiter.Instance.WaitForConfirm(MsgDTO, $"购买彩票将花费 {LotteryFee}金币，是否购买？", 7))
             {
                 MsgSender.Instance.PushMsg(MsgDTO, "操作取消！");
-                return;
+                return false;
             }
 
             var golds = RandomLottery(MsgDTO);
 
             Thread.Sleep(1000);
             MsgSender.Instance.PushMsg(MsgDTO, $"你当前持有金币：{golds}", true);
+            return true;
         }
 
         private int RandomLottery(MsgInformationEx MsgDTO)

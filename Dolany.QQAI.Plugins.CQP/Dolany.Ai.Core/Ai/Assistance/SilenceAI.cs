@@ -36,7 +36,7 @@ namespace Dolany.Ai.Core.Ai.Assistance
             SyntaxChecker = "Word Long",
             Tag = "辅助功能",
             IsPrivateAvailable = true)]
-        public void SetSilence(MsgInformationEx MsgDTO, object[] param)
+        public bool SetSilence(MsgInformationEx MsgDTO, object[] param)
         {
             var rule = param[0] as string;
             var value = (long) param[1];
@@ -44,7 +44,7 @@ namespace Dolany.Ai.Core.Ai.Assistance
             if (value <= 0 )
             {
                 MsgSender.Instance.PushMsg(MsgDTO, "参数异常！");
-                return;
+                return false;
             }
 
             var ruleS = new SilenceRule {GroupNum = MsgDTO.FromGroup, Rule = rule, MinValue = (int) value, MaxValue = (int) value};
@@ -59,6 +59,7 @@ namespace Dolany.Ai.Core.Ai.Assistance
 
             MongoService<SilenceRule>.Insert(ruleS);
             MsgSender.Instance.PushMsg(MsgDTO, "设置成功！");
+            return true;
         }
 
         [EnterCommand(
@@ -69,7 +70,7 @@ namespace Dolany.Ai.Core.Ai.Assistance
             SyntaxChecker = "Word Long Long",
             Tag = "辅助功能",
             IsPrivateAvailable = true)]
-        public void SetSilenceRandom(MsgInformationEx MsgDTO, object[] param)
+        public bool SetSilenceRandom(MsgInformationEx MsgDTO, object[] param)
         {
             var rule = param[0] as string;
             var minValue = (long) param[1];
@@ -78,7 +79,7 @@ namespace Dolany.Ai.Core.Ai.Assistance
             if (minValue <= 0 || maxValue <= 0 || minValue > maxValue)
             {
                 MsgSender.Instance.PushMsg(MsgDTO, "参数异常！");
-                return;
+                return false;
             }
 
             var ruleS = new SilenceRule {GroupNum = MsgDTO.FromGroup, Rule = rule, MinValue = (int) minValue, MaxValue = (int) maxValue};
@@ -93,6 +94,7 @@ namespace Dolany.Ai.Core.Ai.Assistance
 
             MongoService<SilenceRule>.Insert(ruleS);
             MsgSender.Instance.PushMsg(MsgDTO, "设置成功！");
+            return true;
         }
 
         [EnterCommand(Command = "禁言规则列表",
@@ -102,18 +104,19 @@ namespace Dolany.Ai.Core.Ai.Assistance
             SyntaxChecker = "Empty",
             Tag = "辅助功能",
             IsPrivateAvailable = true)]
-        public void SilenceRuleList(MsgInformationEx MsgDTO, object[] param)
+        public bool SilenceRuleList(MsgInformationEx MsgDTO, object[] param)
         {
             if (!RuleDic.Keys.Contains(MsgDTO.FromGroup))
             {
                 MsgSender.Instance.PushMsg(MsgDTO, "当前没有任何禁言规则！");
-                return;
+                return false;
             }
 
             var rules = RuleDic[MsgDTO.FromGroup];
             var msgList = rules.Select((t, i) => $"{i + 1}. {t.Rule} {t.MinValue}-{t.MinValue}").ToList();
 
             MsgSender.Instance.PushMsg(MsgDTO, string.Join("\r", msgList));
+            return true;
         }
 
         [EnterCommand(Command = "删除禁言规则",
@@ -123,19 +126,19 @@ namespace Dolany.Ai.Core.Ai.Assistance
             SyntaxChecker = "Long",
             Tag = "辅助功能",
             IsPrivateAvailable = true)]
-        public void DeleteSilenceRule(MsgInformationEx MsgDTO, object[] param)
+        public bool DeleteSilenceRule(MsgInformationEx MsgDTO, object[] param)
         {
             var idx = (int)((long) param[0] - 1);
             if (!RuleDic.Keys.Contains(MsgDTO.FromGroup))
             {
                 MsgSender.Instance.PushMsg(MsgDTO, "当前没有任何禁言规则！");
-                return;
+                return false;
             }
 
             if (idx < 0 || idx >= RuleDic[MsgDTO.FromGroup].Length)
             {
                 MsgSender.Instance.PushMsg(MsgDTO, "索引号异常！");
-                return;
+                return false;
             }
 
             var rule = RuleDic[MsgDTO.FromGroup][idx];
@@ -152,6 +155,7 @@ namespace Dolany.Ai.Core.Ai.Assistance
 
             MongoService<SilenceRule>.Delete(rule);
             MsgSender.Instance.PushMsg(MsgDTO, "删除成功！");
+            return true;
         }
 
         public override bool OnMsgReceived(MsgInformationEx MsgDTO)

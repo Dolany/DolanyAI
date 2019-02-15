@@ -102,11 +102,12 @@
             Tag = "复读机功能",
             SyntaxChecker = "Empty",
             IsPrivateAvailable = false)]
-        public void Forbidden(MsgInformationEx MsgDTO, object[] param)
+        public bool Forbidden(MsgInformationEx MsgDTO, object[] param)
         {
             ForbiddenStateChange(MsgDTO.FromGroup, false);
 
             MsgSender.Instance.PushMsg(MsgDTO, "+1复读禁用成功！");
+            return true;
         }
 
         [EnterCommand(
@@ -117,11 +118,12 @@
             Tag = "复读机功能",
             SyntaxChecker = "Empty",
             IsPrivateAvailable = false)]
-        public void Unforbidden(MsgInformationEx MsgDTO, object[] param)
+        public bool Unforbidden(MsgInformationEx MsgDTO, object[] param)
         {
             ForbiddenStateChange(MsgDTO.FromGroup, true);
 
             MsgSender.Instance.PushMsg(MsgDTO, "+1复读启用成功！");
+            return true;
         }
 
         private void ForbiddenStateChange(long fromGroup, bool state)

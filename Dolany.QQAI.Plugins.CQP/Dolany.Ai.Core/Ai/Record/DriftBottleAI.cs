@@ -32,26 +32,26 @@ namespace Dolany.Ai.Core.Ai.Record
             IsPrivateAvailable = true,
             DailyLimit = 1,
             TestingDailyLimit = 3)]
-        public void FishingBottle(MsgInformationEx MsgDTO, object[] param)
+        public bool FishingBottle(MsgInformationEx MsgDTO, object[] param)
         {
             var osPerson = OSPerson.GetPerson(MsgDTO.FromQQ);
             if (osPerson.CheckBuff("昙天"))
             {
                 MsgSender.Instance.PushMsg(MsgDTO, "你当前无法捞瓶子！(昙天)");
-                return;
+                return false;
             }
 
             if (CommonUtil.RandInt(100) < ItemRate)
             {
                 FishItem(MsgDTO);
-                return;
+                return true;
             }
 
             var query = MongoService<DriftBottleRecord>.Get(r => r.FromQQ != MsgDTO.FromQQ && r.FromGroup != MsgDTO.FromGroup && !r.ReceivedQQ.HasValue);
             if (query.IsNullOrEmpty())
             {
                 FishItem(MsgDTO);
-                return;
+                return true;
             }
 
             var qcount = query.Count;
@@ -63,6 +63,7 @@ namespace Dolany.Ai.Core.Ai.Record
             bottle.ReceivedTime = DateTime.Now;
 
             MongoService<DriftBottleRecord>.Update(bottle);
+            return true;
         }
 
         [EnterCommand(
@@ -74,13 +75,13 @@ namespace Dolany.Ai.Core.Ai.Record
             Tag = "漂流瓶功能",
             IsPrivateAvailable = true,
             DailyLimit = 3)]
-        public void ThrowBottle(MsgInformationEx MsgDTO, object[] param)
+        public bool ThrowBottle(MsgInformationEx MsgDTO, object[] param)
         {
             var content = param[0] as string;
 
             if (string.IsNullOrEmpty(content))
             {
-                return;
+                return false;
             }
 
             MongoService<DriftBottleRecord>.Insert(
@@ -90,6 +91,7 @@ namespace Dolany.Ai.Core.Ai.Record
                     });
 
             MsgSender.Instance.PushMsg(MsgDTO, "漂流瓶已随波而去，最终将会漂到哪里呢~");
+            return true;
         }
 
         [EnterCommand(Command = "我的物品",
@@ -99,18 +101,19 @@ namespace Dolany.Ai.Core.Ai.Record
             SyntaxChecker = "Empty",
             Tag = "漂流瓶功能",
             IsPrivateAvailable = true)]
-        public void MyItems(MsgInformationEx MsgDTO, object[] param)
+        public bool MyItems(MsgInformationEx MsgDTO, object[] param)
         {
             var query = MongoService<DriftItemRecord>.Get(r => r.QQNum == MsgDTO.FromQQ).FirstOrDefault();
             if (query == null || !query.ItemCount.Any())
             {
                 MsgSender.Instance.PushMsg(MsgDTO, "你的背包空空如也~", true);
-                return;
+                return false;
             }
 
             var itemMsgs = HonorHelper.Instance.GetOrderedItemsStr(query.ItemCount);
             var msg = $"你收集到的物品有：\r{itemMsgs}";
             MsgSender.Instance.PushMsg(MsgDTO, msg, true);
+            return true;
         }
 
         [EnterCommand(
@@ -121,17 +124,18 @@ namespace Dolany.Ai.Core.Ai.Record
             SyntaxChecker = "Empty",
             Tag = "漂流瓶功能",
             IsPrivateAvailable = true)]
-        public void MyHonors(MsgInformationEx MsgDTO, object[] param)
+        public bool MyHonors(MsgInformationEx MsgDTO, object[] param)
         {
             var query = MongoService<DriftItemRecord>.Get(r => r.QQNum == MsgDTO.FromQQ).FirstOrDefault();
             if (query == null || query.HonorList == null || !query.HonorList.Any())
             {
                 MsgSender.Instance.PushMsg(MsgDTO, "你还没有获得任何成就，继续加油吧~", true);
-                return;
+                return false;
             }
 
             var msg = $"你获得的成就有：{string.Join(",", query.HonorList)}";
             MsgSender.Instance.PushMsg(MsgDTO, msg, true);
+            return true;
         }
 
         [EnterCommand(
@@ -142,7 +146,7 @@ namespace Dolany.Ai.Core.Ai.Record
             SyntaxChecker = "Word",
             Tag = "漂流瓶功能",
             IsPrivateAvailable = true)]
-        public void MyItemsByHonor(MsgInformationEx MsgDTO, object[] param)
+        public bool MyItemsByHonor(MsgInformationEx MsgDTO, object[] param)
         {
             var honorName = param[0] as string;
 
@@ -150,25 +154,26 @@ namespace Dolany.Ai.Core.Ai.Record
             if (honorItems.IsNullOrEmpty())
             {
                 MsgSender.Instance.PushMsg(MsgDTO, "没有查找到该成就");
-                return;
+                return false;
             }
 
             var query = MongoService<DriftItemRecord>.Get(r => r.QQNum == MsgDTO.FromQQ).FirstOrDefault();
             if (query == null || !query.ItemCount.Any())
             {
                 MsgSender.Instance.PushMsg(MsgDTO, "你的背包空空如也~", true);
-                return;
+                return false;
             }
 
             var items = query.ItemCount.Where(ic => honorItems.Any(hi => hi.Name == ic.Name)).ToList();
             if (!items.Any())
             {
                 MsgSender.Instance.PushMsg(MsgDTO, "你没有属于该成就的物品", true);
-                return;
+                return false;
             }
 
             var msg = $"属于该成就的你拥有的有：{string.Join(",", items.Select(ic => $"{ic.Name}*{ic.Count}"))}";
             MsgSender.Instance.PushMsg(MsgDTO, msg, true);
+            return true;
         }
 
         private void FishItem(MsgInformationEx MsgDTO)
@@ -217,14 +222,14 @@ namespace Dolany.Ai.Core.Ai.Record
             SyntaxChecker = "Word",
             Tag = "漂流瓶功能",
             IsPrivateAvailable = true)]
-        public void ViewItem(MsgInformationEx MsgDTO, object[] param)
+        public bool ViewItem(MsgInformationEx MsgDTO, object[] param)
         {
             var name = param[0] as string;
             var item = HonorHelper.Instance.FindItem(name);
             if (item == null)
             {
                 MsgSender.Instance.PushMsg(MsgDTO, $"未找到该物品：{name}");
-                return;
+                return false;
             }
 
             var msg = $"物品名称：{item.Name}\r" +
@@ -233,6 +238,7 @@ namespace Dolany.Ai.Core.Ai.Record
                       $"可解锁成就：{item.Honor}\r" +
                       $"你拥有该物品：{ItemHelper.Instance.ItemCount(MsgDTO.FromQQ, item.Name)}";
             MsgSender.Instance.PushMsg(MsgDTO, msg);
+            return true;
         }
 
         [EnterCommand(
@@ -243,18 +249,19 @@ namespace Dolany.Ai.Core.Ai.Record
             SyntaxChecker = "Word",
             Tag = "漂流瓶功能",
             IsPrivateAvailable = true)]
-        public void ViewHonor(MsgInformationEx MsgDTO, object[] param)
+        public bool ViewHonor(MsgInformationEx MsgDTO, object[] param)
         {
             var name = param[0] as string;
             var honorItems = HonorHelper.Instance.FindHonorItems(name);
             if (honorItems.IsNullOrEmpty())
             {
                 MsgSender.Instance.PushMsg(MsgDTO, $"未找到该成就：{name}");
-                return;
+                return false;
             }
 
             var msg = $"解锁成就 {name} 需要集齐：{string.Join(",", honorItems.Select(h => $"{h.Name}({ItemHelper.Instance.ItemCount(MsgDTO.FromQQ, h.Name)})"))}";
             MsgSender.Instance.PushMsg(MsgDTO, msg);
+            return true;
         }
     }
 }

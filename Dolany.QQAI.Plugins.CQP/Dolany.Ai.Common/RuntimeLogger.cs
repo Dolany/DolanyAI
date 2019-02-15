@@ -1,4 +1,4 @@
-﻿namespace Dolany.Ai.Core.Common
+﻿namespace Dolany.Ai.Common
 {
     using System;
     using System.IO;
@@ -15,8 +15,6 @@
             {
                 using (var steam = CheckFile())
                 {
-                    AIMgr.Instance.MessagePublish(log);
-
                     var data = new UTF8Encoding().GetBytes($"{DateTime.Now.ToCommonString()}:{log}\r\n");
                     steam.Write(data, 0, data.Length);
 
@@ -28,7 +26,6 @@
 
         public static void Log(Exception ex)
         {
-            Sys_ErrorCount.Plus(ex.Message + "\r\n" + ex.StackTrace);
             while (true)
             {
                 Log(ex.Message + "\r\n" + ex.StackTrace);

@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using System.Linq;
 using Dolany.Ai.Common;
 using Dolany.Database.Ai;
-using MongoDB.Driver;
 
 namespace Dolany.Game.OnlineStore
 {
@@ -50,7 +49,7 @@ namespace Dolany.Game.OnlineStore
             var osPerson = OSPerson.GetPerson(qqNum);
             if (osPerson.CheckBuff("疏雨"))
             {
-                price += price * 40 / 100;
+                price += price * 20 / 100;
             }
             return price;
         }
@@ -67,7 +66,7 @@ namespace Dolany.Game.OnlineStore
             var osPerson = OSPerson.GetPerson(qqNum);
             if (osPerson.CheckBuff("疏雨"))
             {
-                price += price * 40 / 100;
+                price += price * 20 / 100;
             }
             return price;
         }

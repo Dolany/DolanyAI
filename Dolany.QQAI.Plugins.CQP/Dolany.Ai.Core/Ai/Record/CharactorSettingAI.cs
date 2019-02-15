@@ -35,7 +35,7 @@
             Tag = "设定功能",
             SyntaxChecker = "Word Word Word",
             IsPrivateAvailable = false)]
-        public void SetCharactor(MsgInformationEx MsgDTO, object[] param)
+        public bool SetCharactor(MsgInformationEx MsgDTO, object[] param)
         {
             var charactor = param[0] as string;
             var settingName = param[1] as string;
@@ -49,6 +49,8 @@
             {
                 TryToUpdateChar(MsgDTO, charactor, settingName, content);
             }
+
+            return true;
         }
 
         [EnterCommand(
@@ -59,7 +61,7 @@
             Tag = "设定功能",
             SyntaxChecker = "Word",
             IsPrivateAvailable = false)]
-        public void DeleteCharactor(MsgInformationEx MsgDTO, object[] param)
+        public bool DeleteCharactor(MsgInformationEx MsgDTO, object[] param)
         {
             var charactor = param[0] as string;
 
@@ -68,13 +70,13 @@
             if (query.IsNullOrEmpty())
             {
                 MsgSender.Instance.PushMsg(MsgDTO, "这个人物还没有被创建呢！");
-                return;
+                return false;
             }
 
             if (query.First().Creator != MsgDTO.FromQQ)
             {
                 MsgSender.Instance.PushMsg(MsgDTO, "你只能删除自己创建的人物噢！");
-                return;
+                return false;
             }
 
             foreach (var c in query)
@@ -83,6 +85,7 @@
             }
 
             MsgSender.Instance.PushMsg(MsgDTO, "删除成功！");
+            return true;
         }
 
         [EnterCommand(
@@ -93,7 +96,7 @@
             Tag = "设定功能",
             SyntaxChecker = "Word",
             IsPrivateAvailable = false)]
-        public void ViewCharactor(MsgInformationEx MsgDTO, object[] param)
+        public bool ViewCharactor(MsgInformationEx MsgDTO, object[] param)
         {
             var charactor = param[0] as string;
 
@@ -102,7 +105,7 @@
             if (query.IsNullOrEmpty())
             {
                 MsgSender.Instance.PushMsg(MsgDTO, "这个人物还没有创建哦~");
-                return;
+                return false;
             }
 
             var msg = charactor + ':';
@@ -115,6 +118,7 @@
             msg = builder.ToString();
 
             MsgSender.Instance.PushMsg(MsgDTO, msg);
+            return true;
         }
 
         private static void TryToInsertChar(MsgInformationEx MsgDTO, string charactor, string settingName, string content)

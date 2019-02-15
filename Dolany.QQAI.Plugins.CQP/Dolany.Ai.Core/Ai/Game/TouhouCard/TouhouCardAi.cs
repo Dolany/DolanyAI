@@ -29,15 +29,16 @@ namespace Dolany.Ai.Reborn.DolanyAI.Ai.Game.TouhouCard
         [EnterCommand(
             Command = ".card 幻想乡抽卡",
             AuthorityLevel = AuthorityLevel.成员,
-            Description = "随机获取一张DIY幻想乡卡牌",
+            Description = "随机获取一张DIY幻想乡卡牌(每日刷新)",
             Syntax = "",
             Tag = "游戏功能",
             SyntaxChecker = "Empty",
             IsPrivateAvailable = true)]
-        public void RandomCard(MsgInformationEx MsgDTO, object[] param)
+        public bool RandomCard(MsgInformationEx MsgDTO, object[] param)
         {
             var cardName = RandomCard(MsgDTO.FromQQ);
             MsgSender.Instance.PushMsg(MsgDTO, Code_Image_Relational(cardName));
+            return true;
         }
 
         private static string RandomCard(long FromQQ)

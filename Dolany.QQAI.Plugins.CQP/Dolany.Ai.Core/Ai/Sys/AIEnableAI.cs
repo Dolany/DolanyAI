@@ -20,17 +20,18 @@ namespace Dolany.Ai.Core.Ai.Sys
             SyntaxChecker = "Word",
             Tag = "系统命令",
             IsPrivateAvailable = false)]
-        public void OpenFunction(MsgInformationEx MsgDTO, object[] param)
+        public bool OpenFunction(MsgInformationEx MsgDTO, object[] param)
         {
             var name = param[0] as string;
             if (!AIMgr.Instance.ManulOpenAiNames.Contains(name))
             {
                 MsgSender.Instance.PushMsg(MsgDTO, "未查找到该功能名称，或者该功能无需手动开启！");
-                return;
+                return false;
             }
 
             AIStateMgr.Instance.AddSate(name, MsgDTO.FromGroup);
             MsgSender.Instance.PushMsg(MsgDTO, "开启成功！");
+            return true;
         }
 
         [EnterCommand(Command = "关闭功能",
@@ -40,17 +41,18 @@ namespace Dolany.Ai.Core.Ai.Sys
             SyntaxChecker = "Word",
             Tag = "系统命令",
             IsPrivateAvailable = false)]
-        public void CloseFunction(MsgInformationEx MsgDTO, object[] param)
+        public bool CloseFunction(MsgInformationEx MsgDTO, object[] param)
         {
             var name = param[0] as string;
             if (!AIMgr.Instance.ManulOpenAiNames.Contains(name))
             {
                 MsgSender.Instance.PushMsg(MsgDTO, "未查找到该功能名称，或者该功能无需手动关闭！");
-                return;
+                return false;
             }
 
             AIStateMgr.Instance.RemoveSate(name, MsgDTO.FromGroup);
             MsgSender.Instance.PushMsg(MsgDTO, "关闭成功！");
+            return true;
         }
     }
 }

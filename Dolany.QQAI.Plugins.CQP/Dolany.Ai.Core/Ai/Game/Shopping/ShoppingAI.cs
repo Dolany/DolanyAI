@@ -24,14 +24,16 @@ namespace Dolany.Ai.Core.Ai.Game.Shopping
             Syntax = "[物品名或成就名]",
             Tag = "商店功能",
             SyntaxChecker = "Word",
-            IsPrivateAvailable = false)]
-        public void Sell(MsgInformationEx MsgDTO, object[] param)
+            IsPrivateAvailable = false,
+            DailyLimit = 6,
+            TestingDailyLimit = 8)]
+        public bool Sell(MsgInformationEx MsgDTO, object[] param)
         {
             var osPerson = OSPerson.GetPerson(MsgDTO.FromQQ);
             if (osPerson.CheckBuff("快晴"))
             {
                 MsgSender.Instance.PushMsg(MsgDTO, "你无法进行该操作！(快晴)");
-                return;
+                return false;
             }
 
             var name = param[0] as string;
@@ -40,16 +42,17 @@ namespace Dolany.Ai.Core.Ai.Game.Shopping
             if (item != null)
             {
                 SellItem(MsgDTO, item);
-                return;
+                return true;
             }
 
             if (!HonorHelper.Instance.FindHonorItems(name).IsNullOrEmpty())
             {
                 SellHonor(MsgDTO, name);
-                return;
+                return true;
             }
 
             MsgSender.Instance.PushMsg(MsgDTO, "未查找到相关物品或成就！");
+            return false;
         }
 
         private void SellItem(MsgInformationEx MsgDTO, DriftBottleItemModel item)
@@ -108,7 +111,7 @@ namespace Dolany.Ai.Core.Ai.Game.Shopping
             Tag = "商店功能",
             SyntaxChecker = "Empty",
             IsPrivateAvailable = false)]
-        public void ShopInfo(MsgInformationEx MsgDTO, object[] param)
+        public bool ShopInfo(MsgInformationEx MsgDTO, object[] param)
         {
             var osPerson = OSPerson.GetPerson(MsgDTO.FromQQ);
             var golds = osPerson.Golds;
@@ -117,6 +120,7 @@ namespace Dolany.Ai.Core.Ai.Game.Shopping
             var itemsStr = string.Join("\r", sellItems.Select(si => $"商品名：{si.Name}({HonorHelper.Instance.FindHonor(si.Name)}), 售价：{si.Price}"));
             var msg = $"今日售卖的商品：\r{itemsStr}\r你当前持有金币 {golds}";
             MsgSender.Instance.PushMsg(MsgDTO, msg);
+            return true;
         }
 
         [EnterCommand(Command = "购买",
@@ -125,14 +129,16 @@ namespace Dolany.Ai.Core.Ai.Game.Shopping
             Syntax = "[商品名]",
             Tag = "商店功能",
             SyntaxChecker = "Word",
-            IsPrivateAvailable = false)]
-        public void Buy(MsgInformationEx MsgDTO, object[] param)
+            IsPrivateAvailable = false,
+            DailyLimit = 5,
+            TestingDailyLimit = 7)]
+        public bool Buy(MsgInformationEx MsgDTO, object[] param)
         {
             var osPerson = OSPerson.GetPerson(MsgDTO.FromQQ);
             if (osPerson.CheckBuff("快晴"))
             {
                 MsgSender.Instance.PushMsg(MsgDTO, "你无法进行该操作！(快晴)");
-                return;
+                return false;
             }
 
             var name = param[0] as string;
@@ -140,21 +146,21 @@ namespace Dolany.Ai.Core.Ai.Game.Shopping
             if (sellItem == null)
             {
                 MsgSender.Instance.PushMsg(MsgDTO, "此物品未在商店中售卖！");
-                return;
+                return false;
             }
 
             if (osPerson.Golds < sellItem.Price)
             {
                 MsgSender.Instance.PushMsg(MsgDTO, "你持有的金币不足以购买此物品！");
-                return;
+                return false;
             }
 
-            var price = osPerson.CheckBuff("极光") ? sellItem.Price * 60 / 100 : sellItem.Price;
+            var price = osPerson.CheckBuff("极光") ? sellItem.Price * 80 / 100 : sellItem.Price;
             var msg = $"购买此物品将消耗 {price} 金币，是否确认购买？";
             if (!Waiter.Instance.WaitForConfirm(MsgDTO, msg, 7))
             {
                 MsgSender.Instance.PushMsg(MsgDTO, "交易取消！");
-                return;
+                return false;
             }
 
             var (incomeMsg, _) = ItemHelper.Instance.ItemIncome(MsgDTO.FromQQ, sellItem.Name);
@@ -166,22 +172,25 @@ namespace Dolany.Ai.Core.Ai.Game.Shopping
             OSPerson.GoldConsume(osPerson.QQNum, price);
 
             MsgSender.Instance.PushMsg(MsgDTO, $"购买成功！你当前剩余的金币为 {osPerson.Golds - sellItem.Price}");
+            return true;
         }
 
         [EnterCommand(Command = "交易",
             AuthorityLevel = AuthorityLevel.成员,
-            Description = "向另一个成员求购一个物品，并指定价格",
+            Description = "向另一个成员求购一个物品，并指定价格(系统将收取15%的手续费)",
             Syntax = "[@QQ号] [商品名] [价格]",
             Tag = "商店功能",
             SyntaxChecker = "At Word Long",
-            IsPrivateAvailable = false)]
-        public void DealWith(MsgInformationEx MsgDTO, object[] param)
+            IsPrivateAvailable = false,
+            DailyLimit = 5,
+            TestingDailyLimit = 7)]
+        public bool DealWith(MsgInformationEx MsgDTO, object[] param)
         {
             var osPerson = OSPerson.GetPerson(MsgDTO.FromQQ);
             if (osPerson.CheckBuff("快晴"))
             {
                 MsgSender.Instance.PushMsg(MsgDTO, "你无法进行该操作！(快晴)");
-                return;
+                return false;
             }
 
             var aimQQ = (long) param[0];
@@ -191,20 +200,21 @@ namespace Dolany.Ai.Core.Ai.Game.Shopping
             if (price <= 0)
             {
                 MsgSender.Instance.PushMsg(MsgDTO, "价格异常！");
-                return;
+                return false;
             }
 
             var sourceOSPerson = OSPerson.GetPerson(MsgDTO.FromQQ);
-            if (sourceOSPerson.Golds < price)
+            var fee = sourceOSPerson.CheckBuff("苍天") ? 0 : price / 20;
+            if (sourceOSPerson.Golds < price + fee)
             {
                 MsgSender.Instance.PushMsg(MsgDTO, "你没有足够的金币来支付！");
-                return;
+                return false;
             }
 
             if (!ItemHelper.Instance.CheckItem(aimQQ, itemName))
             {
                 MsgSender.Instance.PushMsg(MsgDTO, "对方没有该物品！");
-                return;
+                return false;
             }
 
             var count = ItemHelper.Instance.ItemCount(aimQQ, itemName);
@@ -215,7 +225,7 @@ namespace Dolany.Ai.Core.Ai.Game.Shopping
             if (!Waiter.Instance.WaitForConfirm(MsgDTO.FromGroup, aimQQ, msg, 10))
             {
                 MsgSender.Instance.PushMsg(MsgDTO, "交易取消！");
-                return;
+                return false;
             }
 
             ItemHelper.Instance.ItemConsume(aimQQ, itemName);
@@ -226,13 +236,14 @@ namespace Dolany.Ai.Core.Ai.Game.Shopping
             }
 
             var aimOSPerson = OSPerson.GetPerson(aimQQ);
-            sourceOSPerson.Golds -= sourceOSPerson.CheckBuff("苍天") ? price - price * 40 / 100 : price;
+            sourceOSPerson.Golds -= price + fee;
             aimOSPerson.Golds += price;
 
             MongoService<OSPerson>.Update(sourceOSPerson);
             MongoService<OSPerson>.Update(aimOSPerson);
 
             MsgSender.Instance.PushMsg(MsgDTO, "交易完毕！");
+            return true;
         }
 
         [EnterCommand(Command = "我的状态",
@@ -242,7 +253,7 @@ namespace Dolany.Ai.Core.Ai.Game.Shopping
             SyntaxChecker = "Empty",
             Tag = "商店功能",
             IsPrivateAvailable = true)]
-        public void ViewItem(MsgInformationEx MsgDTO, object[] param)
+        public bool ViewItem(MsgInformationEx MsgDTO, object[] param)
         {
             var osPerson = OSPerson.GetPerson(MsgDTO.FromQQ);
             var itemRecord = ItemHelper.Instance.GetRecord(MsgDTO.FromQQ);
@@ -257,6 +268,7 @@ namespace Dolany.Ai.Core.Ai.Game.Shopping
             }
 
             MsgSender.Instance.PushMsg(MsgDTO, msg, true);
+            return true;
         }
     }
 }

@@ -37,11 +37,11 @@
             SyntaxChecker = "Empty",
             IsPrivateAvailable = true,
             IsGroupAvailable = true)]
-        public void PraiseMe(MsgInformationEx MsgDTO, object[] param)
+        public bool PraiseMe(MsgInformationEx MsgDTO, object[] param)
         {
             if (!CheckLimit(MsgDTO))
             {
-                return;
+                return false;
             }
 
             var key = $"PraiseRec-{MsgDTO.FromQQ}";
@@ -59,6 +59,7 @@
             {
                 MsgSender.Instance.PushMsg(MsgDTO, "今天已经赞过十次啦！");
             }
+            return true;
         }
 
         private bool CheckLimit(MsgInformationEx MsgDTO)

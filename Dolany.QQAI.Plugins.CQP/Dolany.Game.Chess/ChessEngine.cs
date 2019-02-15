@@ -87,8 +87,9 @@ namespace Dolany.Game.Chess
 
                     MsgCallBack("对决结束！", GroupNum, 0);
                 }
-                catch (Exception)
+                catch (Exception ex)
                 {
+                    RuntimeLogger.Log(ex);
                     MsgCallBack("系统异常，游戏结束！", GroupNum, 0);
                 }
             }).ContinueWith(task => ChessMgr.Instance.GameOver(this));
@@ -101,7 +102,7 @@ namespace Dolany.Game.Chess
 
             if (string.IsNullOrEmpty(response) || !int.TryParse(response, out var selectedNum) || !AvailableNums.Contains(selectedNum))
             {
-                MsgCallBack("异常输入，回合结束！", GroupNum, 0);
+                MsgCallBack("回合结束！", GroupNum, 0);
                 return;
             }
 

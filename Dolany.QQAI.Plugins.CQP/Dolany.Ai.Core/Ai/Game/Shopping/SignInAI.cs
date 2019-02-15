@@ -25,18 +25,19 @@ namespace Dolany.Ai.Core.Ai.Game.Shopping
             Tag = "商店功能",
             SyntaxChecker = "Word",
             IsPrivateAvailable = false)]
-        public void SetSignContent(MsgInformationEx MsgDTO, object[] param)
+        public bool SetSignContent(MsgInformationEx MsgDTO, object[] param)
         {
             var content = param[0] as string;
 
             if (AIMgr.Instance.AllAvailableGroupCommands.Any(comm => comm.Command == content))
             {
                 MsgSender.Instance.PushMsg(MsgDTO, "不能与系统自带命令重复！");
-                return;
+                return false;
             }
 
             SCacheService.Cache($"DailySignIn-{MsgDTO.FromGroup}", content);
             MsgSender.Instance.PushMsg(MsgDTO, "设置成功！");
+            return true;
         }
 
         public override bool OnMsgReceived(MsgInformationEx MsgDTO)

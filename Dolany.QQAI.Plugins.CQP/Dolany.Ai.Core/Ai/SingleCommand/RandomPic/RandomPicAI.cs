@@ -14,8 +14,6 @@
         PriorityLevel = 10)]
     public class RandomPicAI : AIBase
     {
-        private const int DailyLimit = 20;
-
         public override void Initialization()
         {
         }
@@ -29,10 +27,11 @@
             SyntaxChecker = "Empty",
             IsPrivateAvailable = true,
             DailyLimit = 10)]
-        public void RecentPic(MsgInformationEx MsgDTO, object[] param)
+        public bool RecentPic(MsgInformationEx MsgDTO, object[] param)
         {
             var picUrl = PicCacher.Random();
             MsgSender.Instance.PushMsg(MsgDTO, Code_Image(picUrl));
+            return true;
         }
 
         [EnterCommand(
@@ -44,10 +43,11 @@
             SyntaxChecker = "Empty",
             IsPrivateAvailable = true,
             DailyLimit = 10)]
-        public void RecentFlash(MsgInformationEx MsgDTO, object[] param)
+        public bool RecentFlash(MsgInformationEx MsgDTO, object[] param)
         {
             var picUrl = PicCacher.Random();
             MsgSender.Instance.PushMsg(MsgDTO, Code_Flash(picUrl));
+            return true;
         }
     }
 }

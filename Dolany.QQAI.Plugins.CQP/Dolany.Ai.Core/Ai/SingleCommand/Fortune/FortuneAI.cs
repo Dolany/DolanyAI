@@ -42,7 +42,7 @@ namespace Dolany.Ai.Core.Ai.SingleCommand.Fortune
             Tag = "运势功能",
             SyntaxChecker = "Empty",
             IsPrivateAvailable = true)]
-        public void RandomFortune(MsgInformationEx MsgDTO, object[] param)
+        public bool RandomFortune(MsgInformationEx MsgDTO, object[] param)
         {
             var key = $"RandomFortune-{MsgDTO.FromQQ}";
             var response = SCacheService.Get<RandomFortuneCache>(key);
@@ -66,6 +66,7 @@ namespace Dolany.Ai.Core.Ai.SingleCommand.Fortune
             {
                 ShowRandFortune(MsgDTO, response);
             }
+            return true;
         }
 
         private static void RandBless(RandomFortuneCache rf)
@@ -92,10 +93,11 @@ namespace Dolany.Ai.Core.Ai.SingleCommand.Fortune
             Tag = "运势功能",
             SyntaxChecker = "Word",
             IsPrivateAvailable = true)]
-        public void StarFortune(MsgInformationEx MsgDTO, object[] param)
+        public bool StarFortune(MsgInformationEx MsgDTO, object[] param)
         {
             var jr = new FortuneRequestor(MsgDTO, ReportCallBack);
             Task.Run(() => jr.Work());
+            return true;
         }
 
         private static void ReportCallBack(MsgInformationEx MsgDTO, string Report)
@@ -152,7 +154,7 @@ namespace Dolany.Ai.Core.Ai.SingleCommand.Fortune
             Tag = "运势功能",
             SyntaxChecker = "Empty",
             IsPrivateAvailable = true)]
-        public void TarotFortune(MsgInformationEx MsgDTO, object[] param)
+        public bool TarotFortune(MsgInformationEx MsgDTO, object[] param)
         {
             var key = $"TarotFortune-{MsgDTO.FromQQ}";
             var response = SCacheService.Get<TarotFortuneCache>(key);
@@ -168,6 +170,7 @@ namespace Dolany.Ai.Core.Ai.SingleCommand.Fortune
 
             var data = MongoService<TarotFortuneData>.Get(p => p.Id == response.TarotId).First();
             SendTarotFortune(MsgDTO, data);
+            return true;
         }
 
         private static void SendTarotFortune(MsgInformationEx MsgDTO, TarotFortuneData data)
@@ -199,12 +202,13 @@ namespace Dolany.Ai.Core.Ai.SingleCommand.Fortune
             SyntaxChecker = "At",
             IsPrivateAvailable = false,
             DailyLimit = 5)]
-        public void HolyLight(MsgInformationEx MsgDTO, object[] param)
+        public bool HolyLight(MsgInformationEx MsgDTO, object[] param)
         {
             var aimNum = (long)param[0];
 
             Bless(aimNum, "圣光祝福", 80);
             MsgSender.Instance.PushMsg(MsgDTO, "祝福成功！");
+            return true;
         }
 
         [EnterCommand(
@@ -216,12 +220,13 @@ namespace Dolany.Ai.Core.Ai.SingleCommand.Fortune
             SyntaxChecker = "At",
             IsPrivateAvailable = false,
             DailyLimit = 3)]
-        public void CreatorBless(MsgInformationEx MsgDTO, object[] param)
+        public bool CreatorBless(MsgInformationEx MsgDTO, object[] param)
         {
             var aimNum = (long)param[0];
 
             Bless(aimNum, "创世神", 100);
             MsgSender.Instance.PushMsg(MsgDTO, "祝福成功！");
+            return true;
         }
 
         private static void Bless(long QQNum, string BlessName, int BlessValue)
@@ -259,12 +264,13 @@ namespace Dolany.Ai.Core.Ai.SingleCommand.Fortune
             SyntaxChecker = "At",
             IsPrivateAvailable = false,
             DailyLimit = 3)]
-        public void Darkness(MsgInformationEx MsgDTO, object[] param)
+        public bool Darkness(MsgInformationEx MsgDTO, object[] param)
         {
             var aimNum = (long)param[0];
 
             Bless(aimNum, "暗夜诅咒", -GetRandomFortune());
             MsgSender.Instance.PushMsg(MsgDTO, "诅咒成功！");
+            return true;
         }
     }
 }

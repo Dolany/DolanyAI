@@ -64,11 +64,12 @@ namespace Dolany.Ai.Core.Ai.SingleCommand.Fortune
             Tag = "运势功能",
             SyntaxChecker = "Empty",
             IsPrivateAvailable = false)]
-        public void RandomMajFortune(MsgInformationEx MsgDTO, object[] param)
+        public bool RandomMajFortune(MsgInformationEx MsgDTO, object[] param)
         {
             var fortune = TodayFortune(MsgDTO.FromQQ);
             var msg = FortunePrintString(fortune);
             MsgSender.Instance.PushMsg(MsgDTO, msg);
+            return true;
         }
 
         [NotNull]

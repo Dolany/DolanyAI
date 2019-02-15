@@ -28,7 +28,7 @@
             Tag = "翻译功能",
             SyntaxChecker = "Any",
             IsPrivateAvailable = false)]
-        public void Trans(MsgInformationEx MsgDTO, object[] param)
+        public bool Trans(MsgInformationEx MsgDTO, object[] param)
         {
             var word = param[0] as string;
             var res = RequestHelper.PostData<TranslationReceiveModel>(
@@ -41,7 +41,7 @@
             if (res == null)
             {
                 MsgSender.Instance.PushMsg(MsgDTO, "翻译异常！");
-                return;
+                return false;
             }
 
             var msg = string.Empty;
@@ -58,6 +58,7 @@
             }
 
             MsgSender.Instance.PushMsg(MsgDTO, msg);
+            return true;
         }
     }
 }

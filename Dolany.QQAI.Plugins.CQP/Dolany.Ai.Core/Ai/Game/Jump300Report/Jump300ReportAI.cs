@@ -25,11 +25,12 @@ namespace Dolany.Ai.Core.Ai.Game.Jump300Report
             Tag = "游戏功能",
             SyntaxChecker = "Word",
             IsPrivateAvailable = true)]
-        public void JumpReport(MsgInformationEx MsgDTO, object[] param)
+        public bool JumpReport(MsgInformationEx MsgDTO, object[] param)
         {
             MsgSender.Instance.PushMsg(MsgDTO, "查询中，请稍候");
             var jr = new JumpReportRequestor(MsgDTO, ReportCallBack);
             Task.Run(() => jr.Work());
+            return true;
         }
 
         private static void ReportCallBack(MsgInformationEx MsgDTO, string Report)

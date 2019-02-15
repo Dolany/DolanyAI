@@ -38,12 +38,12 @@ namespace Dolany.Ai.Core.API
 
             try
             {
-                RuntimeLogger.Log(ml);
+                Logger.Log(ml);
                 return JsonHelper.DeserializeJsonToObject<GroupMemberListViewModel>(ml);
             }
             catch (Exception ex)
             {
-                RuntimeLogger.Log(ex);
+                Logger.Log(ex);
                 return null;
             }
         }

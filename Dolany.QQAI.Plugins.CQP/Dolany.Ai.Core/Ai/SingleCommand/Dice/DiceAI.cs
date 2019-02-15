@@ -67,11 +67,11 @@
             Tag = "骰子功能",
             SyntaxChecker = "Empty",
             IsPrivateAvailable = false)]
-        public void DiceActive(MsgInformationEx MsgDTO, object[] param)
+        public bool DiceActive(MsgInformationEx MsgDTO, object[] param)
         {
             if (this.DiceActiveGroups.Contains(MsgDTO.FromGroup))
             {
-                return;
+                return false;
             }
 
             MongoService<DiceActiveGroup>.DeleteMany(g => g.GroupNum == MsgDTO.FromGroup);
@@ -80,6 +80,7 @@
             this.DiceActiveGroups.Add(MsgDTO.FromGroup);
 
             MsgSender.Instance.PushMsg(MsgDTO, "骰娘开启成功！");
+            return true;
         }
 
         [EnterCommand(
@@ -90,11 +91,11 @@
             Tag = "骰子功能",
             SyntaxChecker = "Empty",
             IsPrivateAvailable = false)]
-        public void DiceInActive(MsgInformationEx MsgDTO, object[] param)
+        public bool DiceInActive(MsgInformationEx MsgDTO, object[] param)
         {
             if (!this.DiceActiveGroups.Contains(MsgDTO.FromGroup))
             {
-                return;
+                return false;
             }
 
             MongoService<DiceActiveGroup>.DeleteMany(g => g.GroupNum == MsgDTO.FromGroup);
@@ -102,6 +103,7 @@
             this.DiceActiveGroups.RemoveAll(g => g == MsgDTO.FromGroup);
 
             MsgSender.Instance.PushMsg(MsgDTO, "骰娘关闭成功！");
+            return true;
         }
 
         private static DiceModel ParseDice(string msg)
