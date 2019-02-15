@@ -96,6 +96,20 @@ namespace Dolany.Ai.Core.Ai.Game.Shopping
 
             return signCache;
         }
+
+        [EnterCommand(Command = "今日签到内容",
+            AuthorityLevel = AuthorityLevel.成员,
+            Description = "获取今日签到内容",
+            Syntax = "",
+            Tag = "商店功能",
+            SyntaxChecker = "Empty",
+            IsPrivateAvailable = false)]
+        public bool TodaySignContent(MsgInformationEx MsgDTO, object[] param)
+        {
+            var cache = SCacheService.Get<string>($"DailySignIn-{MsgDTO.FromGroup}");
+            MsgSender.Instance.PushMsg(MsgDTO, $"今日签到内容是：{(string.IsNullOrEmpty(cache) ? "签到" : cache)}");
+            return true;
+        }
     }
 
     public class DailySignInCache

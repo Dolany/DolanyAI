@@ -177,7 +177,7 @@ namespace Dolany.Ai.Core.Ai.Game.Shopping
 
         [EnterCommand(Command = "交易",
             AuthorityLevel = AuthorityLevel.成员,
-            Description = "向另一个成员求购一个物品，并指定价格(系统将收取15%的手续费)",
+            Description = "向另一个成员求购一个物品，并指定价格(系统将收取5%的手续费)",
             Syntax = "[@QQ号] [商品名] [价格]",
             Tag = "商店功能",
             SyntaxChecker = "At Word Long",

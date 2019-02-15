@@ -133,13 +133,10 @@ namespace Dolany.Game.OnlineStore
 
         public string GetOrderedItemsStr(IEnumerable<DriftItemCountRecord> items)
         {
-            var itemHonorDic = items.Select(i => new {Honor = FindHonor(i.Name), Name = i.Name, i.Count}).GroupBy(p => p.Honor).ToDictionary(p => p.Key, p => p.ToList());
-            var list = new List<string>();
-            foreach (var (key, value) in itemHonorDic)
-            {
-                list.Add($"{key}:{string.Join(",", value.Select(p => $"{p.Name}({p.Count})"))}");
-            }
-
+            var itemHonorDic = items.Select(i => new {Honor = FindHonor(i.Name), Name = i.Name, i.Count})
+                .GroupBy(p => p.Honor)
+                .ToDictionary(p => p.Key, p => p.ToList());
+            var list = itemHonorDic.Select(kv => $"{kv.Key}:{string.Join(",", kv.Value.Select(p => $"{p.Name}({p.Count})"))}");
             return string.Join("\r", list);
         }
     }

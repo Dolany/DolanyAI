@@ -103,8 +103,8 @@ namespace Dolany.Ai.Core.Ai.Sys
                     range.Add("私聊");
                 }
 
-                var helpMsg = $"命令：{command.Command}\r" + $"格式：{command.Command} {command.Syntax}\r" + $"描述： {command.Description}\r" +
-                              $"权限： {command.AuthorityLevel.ToString()}\r" + $"适用范围：{string.Join("，", range)}\r" + $"次数限制：{command.DailyLimit}";
+                var helpMsg = $"命令：{command.Command}\r" + $"格式：{command.Command} {command.Syntax}\r" + $"描述：{command.Description}\r" +
+                              $"权限：{command.AuthorityLevel.ToString()}\r" + $"适用范围：{string.Join("，", range)}\r" + $"次数限制：{command.DailyLimit}";
 
                 MsgSender.Instance.PushMsg(MsgDTO, helpMsg);
             }
