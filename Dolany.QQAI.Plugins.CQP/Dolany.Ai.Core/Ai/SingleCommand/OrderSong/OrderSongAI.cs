@@ -12,7 +12,7 @@ namespace Dolany.Ai.Core.Ai.SingleCommand.OrderSong
     using Net;
 
     [AI(
-        Name = nameof(OrderSongAI),
+        Name = "点歌",
         Description = "AI for Ordering a song by name.",
         Enable = true,
         PriorityLevel = 10)]

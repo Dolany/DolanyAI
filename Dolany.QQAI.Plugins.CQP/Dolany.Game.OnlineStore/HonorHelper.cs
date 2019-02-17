@@ -21,12 +21,13 @@ namespace Dolany.Game.OnlineStore
             HonorDic = CommonUtil.ReadJsonData<Dictionary<string, DriftBottleItemModel[]>>("driftBottleItemData");
             Items = HonorDic.SelectMany(p =>
             {
-                foreach (var model in p.Value)
+                var (key, value) = p;
+                foreach (var model in value)
                 {
-                    model.Honor = p.Key;
+                    model.Honor = key;
                 }
 
-                return p.Value;
+                return value;
             }).ToList();
 
             SumRate = Items.Sum(p => p.Rate);

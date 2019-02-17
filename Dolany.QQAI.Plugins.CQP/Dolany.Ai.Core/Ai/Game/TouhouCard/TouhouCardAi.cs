@@ -14,7 +14,7 @@ namespace Dolany.Ai.Reborn.DolanyAI.Ai.Game.TouhouCard
     using static Core.API.CodeApi;
 
     [AI(
-        Name = nameof(TouhouCardAi),
+        Name = "幻想乡抽卡",
         Description = "AI for Getting Random TouhouCard.",
         Enable = true,
         PriorityLevel = 10)]
