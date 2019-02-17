@@ -24,10 +24,11 @@
     using static API.CodeApi;
 
     [AI(
-        Name = nameof(AlermClockAI),
+        Name = "闹钟",
         Description = "AI for Alerm Clock.",
         Enable = true,
-        PriorityLevel = 10)]
+        PriorityLevel = 10,
+        NeedManulOpen = true)]
     public class AlermClockAI : AIBase
     {
         private static List<string> ClockIdList => new List<string>();

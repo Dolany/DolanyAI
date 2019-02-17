@@ -44,6 +44,11 @@ namespace Dolany.Game.OnlineStore
 
         public int GetItemPrice(DriftBottleItemModel item, long qqNum)
         {
+            if (item.Rate == 0)
+            {
+                return 1;
+            }
+
             var rate = Math.Round(item.Rate * 1.0 / this.SumRate * 100, 2);
             var price = (int) (100 / rate);
             var osPerson = OSPerson.GetPerson(qqNum);

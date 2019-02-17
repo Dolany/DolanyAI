@@ -26,7 +26,7 @@
     using static API.CodeApi;
 
     [AI(
-        Name = nameof(TulingAI),
+        Name = "图灵",
         Description = "AI for Tuling Robot.",
         Enable = true,
         PriorityLevel = 2)]

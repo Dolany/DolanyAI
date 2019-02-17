@@ -17,7 +17,7 @@
     using Model;
 
     [AI(
-        Name = nameof(DiceAI),
+        Name = "骰娘",
         Description = "AI for dice.",
         Enable = true,
         PriorityLevel = 5)]

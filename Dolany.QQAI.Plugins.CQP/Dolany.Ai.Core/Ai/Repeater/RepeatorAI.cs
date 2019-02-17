@@ -17,7 +17,7 @@
     using SyntaxChecker;
 
     [AI(
-        Name = nameof(RepeatorAI),
+        Name = "随机复读",
         Description = "AI for Repeating Random words.",
         Enable = true,
         PriorityLevel = 1)]

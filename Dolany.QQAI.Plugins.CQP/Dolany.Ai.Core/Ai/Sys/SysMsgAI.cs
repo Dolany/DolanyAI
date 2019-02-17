@@ -7,7 +7,7 @@
     using static Common.Utility;
 
     [AI(
-        Name = nameof(SysMsgAI),
+        Name = "系统消息过滤",
         Description = "AI for System msg consoling.",
         Enable = true,
         PriorityLevel = 20)]

@@ -12,7 +12,7 @@ namespace Dolany.Ai.Core.Ai.SingleCommand.Dice
     using Model;
 
     [AI(
-        Name = nameof(GrouperAI),
+        Name = "分组",
         Description = "AI for grouping some members.",
         Enable = true,
         PriorityLevel = 10)]

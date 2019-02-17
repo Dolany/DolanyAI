@@ -28,7 +28,7 @@
 
         public void Work()
         {
-            RuntimeLogger.Log($"{nameof(CacheCleanerTool)} started.");
+            Logger.Log($"{nameof(CacheCleanerTool)} started.");
             Scheduler.Instance.Add(
                 PicCleanFreq * 1000,
                 TimeUp,

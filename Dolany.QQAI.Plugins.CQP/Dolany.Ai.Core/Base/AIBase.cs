@@ -89,7 +89,7 @@ namespace Dolany.Ai.Core.Base
                     var result = consoler.Value(MsgDTO, param);
                     if (cache != null && result)
                     {
-                        var key = $"DailyLimit-{consoler.Key}-{MsgDTO.FromQQ}";
+                        var key = $"DailyLimit-{consoler.Key.Command}-{MsgDTO.FromQQ}";
                         SCacheService.Cache(key, cache);
                     }
 
@@ -101,7 +101,7 @@ namespace Dolany.Ai.Core.Base
             }
             catch (Exception ex)
             {
-                RuntimeLogger.Log(ex);
+                Logger.Log(ex);
             }
 
             return false;

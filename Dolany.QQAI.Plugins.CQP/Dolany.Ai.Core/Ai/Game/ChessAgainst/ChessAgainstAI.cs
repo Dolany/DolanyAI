@@ -25,39 +25,39 @@ namespace Dolany.Ai.Core.Ai.Game.ChessAgainst
             IsPrivateAvailable = false,
             DailyLimit = 1,
             TestingDailyLimit = 3)]
-        public void Sell(MsgInformationEx MsgDTO, object[] param)
+        public bool Sell(MsgInformationEx MsgDTO, object[] param)
         {
             var aimNum = (long) param[0];
 
             if (ChessMgr.Instance.IsGroupInPlaying(MsgDTO.FromGroup))
             {
                 MsgSender.Instance.PushMsg(MsgDTO, "本群正在进行一场对决，请稍后再试！");
-                return;
+                return false;
             }
 
             if (ChessMgr.Instance.IsQQInPlaying(MsgDTO.FromQQ))
             {
                 MsgSender.Instance.PushMsg(MsgDTO, "你正在进行一场对决，请稍后再试！");
-                return;
+                return false;
             }
 
             if (ChessMgr.Instance.IsQQInPlaying(aimNum))
             {
                 MsgSender.Instance.PushMsg(MsgDTO, "你的对手正在进行一场对决，请稍后再试！");
-                return;
+                return false;
             }
 
             var osPerson = OSPerson.GetPerson(MsgDTO.FromQQ);
             if (osPerson.CheckBuff("黄砂"))
             {
                 MsgSender.Instance.PushMsg(MsgDTO, "你当前无法进行挑战！(黄砂)");
-                return;
+                return false;
             }
 
             if (!Waiter.Instance.WaitForConfirm(MsgDTO.FromGroup, aimNum, $"{CodeApi.Code_At(MsgDTO.FromQQ)} 正在向你发起一场对决，是否接受？", 10))
             {
                 MsgSender.Instance.PushMsg(MsgDTO, "对决取消！");
-                return;
+                return false;
             }
 
             ChessMgr.Instance.StartAGame(MsgDTO.FromGroup, MsgDTO.FromQQ, aimNum, (Msg, GroupNum, QQNum) =>
@@ -77,6 +77,8 @@ namespace Dolany.Ai.Core.Ai.Game.ChessAgainst
                     information => information.FromGroup == GroupNum && information.FromQQ == QQNum && judge(information.Msg), 10, true);
                 return info == null ? string.Empty : info.Msg;
             });
+
+            return true;
         }
     }
 }

@@ -15,7 +15,7 @@ namespace Dolany.Ai.Core.Ai.Sys
     using Database.Sqlite.Model;
     using Database.Sqlite;
 
-    [AI(Name = nameof(DeveloperOnlyAI),
+    [AI(Name = "开发者后台",
         Enable = true,
         Description = "Ai for developer only operations",
         PriorityLevel = 10)]

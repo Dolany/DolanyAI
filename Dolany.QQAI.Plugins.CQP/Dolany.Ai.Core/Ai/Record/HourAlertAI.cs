@@ -20,10 +20,11 @@
     using static API.CodeApi;
 
     [AI(
-        Name = nameof(HourAlertAI),
+        Name = "报时",
         Description = "AI for Hour Alert.",
         Enable = true,
-        PriorityLevel = 10)]
+        PriorityLevel = 10,
+        NeedManulOpen = true)]
     public class HourAlertAI : AIBase
     {
         private static List<long> AvailableGroups

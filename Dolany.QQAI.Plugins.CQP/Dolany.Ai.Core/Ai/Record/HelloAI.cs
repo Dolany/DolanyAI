@@ -18,7 +18,7 @@
     using static API.CodeApi;
 
     [AI(
-        Name = nameof(HelloAI),
+        Name = "打招呼",
         Description = "AI for Saying Hello to you at everyday you say at the first time in one group.",
         Enable = true,
         PriorityLevel = 15)]

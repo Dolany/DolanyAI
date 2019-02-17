@@ -7,10 +7,11 @@ namespace Dolany.Ai.Core.Ai.Game.Jump300Report
     using Dolany.Ai.Core.Model;
 
     [AI(
-        Name = nameof(Jump300ReportAI),
+        Name = "300英雄战绩查询",
         Description = "AI for 300 heros report.",
         Enable = true,
-        PriorityLevel = 10)]
+        PriorityLevel = 10,
+        NeedManulOpen = true)]
     public class Jump300ReportAI : AIBase
     {
         public override void Initialization()

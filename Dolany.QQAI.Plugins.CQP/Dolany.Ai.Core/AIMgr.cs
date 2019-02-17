@@ -54,20 +54,20 @@ namespace Dolany.Ai.Core
             try
             {
                 Init();
+
+                Logger.Log("start up");
+                DbMgr.InitXmls();
+                Logger.Log("加载所有可用AI");
+
+                StartAIs();
+                Waiter.Instance.Listen();
+
+                Sys_StartTime.Set(DateTime.Now);
             }
             catch (Exception ex)
             {
-                RuntimeLogger.Log(ex);
+                Logger.Log(ex);
             }
-
-            RuntimeLogger.Log("start up");
-            DbMgr.InitXmls();
-            RuntimeLogger.Log("加载所有可用AI");
-
-            StartAIs();
-            Waiter.Instance.Listen();
-
-            Sys_StartTime.Set(DateTime.Now);
         }
 
         /// <summary>
@@ -75,7 +75,7 @@ namespace Dolany.Ai.Core
         /// </summary>
         private void StartAIs()
         {
-            AIList = AIList.Where(a => a.Value.Enable).OrderByDescending(a => a.Value.PriorityLevel).ToList();
+            AIList = AIList.Where(a => a.Value != null && a.Value.Enable).OrderByDescending(a => a.Value.PriorityLevel).ToList();
             var count = AIList.Count;
 
             for (var i = 0; i < AIList.Count; i++)
@@ -83,7 +83,7 @@ namespace Dolany.Ai.Core
                 AIList[i].Key.Initialization();
                 ExtractCommands(AIList[i].Key);
 
-                RuntimeLogger.Log($"AI加载进度：{AIList[i].Value.Name}({i + 1}/{count})");
+                Logger.Log($"AI加载进度：{AIList[i].Value.Name}({i + 1}/{count})");
             }
 
             foreach (var tool in Tools)
@@ -121,11 +121,11 @@ namespace Dolany.Ai.Core
         private void LoadCheckers()
         {
             var assembly = Assembly.GetExecutingAssembly();
-            var list = from type in assembly.GetTypes()
-                       where typeof(ISyntaxChecker).IsAssignableFrom(type) && type.IsClass
-                       where type.FullName != null
-                       let checker = assembly.CreateInstance(type.FullName) as ISyntaxChecker
-                       select checker;
+            var list = assembly.GetTypes()
+                .Where(type => typeof(ISyntaxChecker).IsAssignableFrom(type) && type.IsClass)
+                .Where(type => type.FullName != null)
+                .Select(type => new {type, checker = assembly.CreateInstance(type.FullName) as ISyntaxChecker})
+                .Select(@t => @t.checker);
 
             Checkers = list.ToList();
         }
@@ -149,21 +149,22 @@ namespace Dolany.Ai.Core
                 Tools.Add(tool);
             }
 
-            RuntimeLogger.Log($"{Tools.Count} tools created.");
-            RuntimeLogger.Log(Global.IsTesting ? "Mode:Testing" : "Mode:Formal");
+            Logger.Log($"{Tools.Count} tools created.");
+            Logger.Log(Global.IsTesting ? "Mode:Testing" : "Mode:Formal");
         }
 
         private void LoadAis()
         {
             var assembly = Assembly.GetAssembly(typeof(AIBase));
-            var list = from type in assembly.GetTypes()
-                       where type.IsSubclassOf(typeof(AIBase))
-                       where type.FullName != null
-                       let ai = assembly.CreateInstance(type.FullName) as AIBase
-                       let attr = type.GetCustomAttribute(typeof(AIAttribute), false) as AIAttribute
-                       select new KeyValuePair<AIBase, AIAttribute>(ai, attr);
+            var list = assembly.GetTypes()
+                .Where(type => type.IsSubclassOf(typeof(AIBase)))
+                .Where(type => type.FullName != null)
+                .Select(type => new {type, ai = assembly.CreateInstance(type.FullName) as AIBase})
+                .Select(t => new {t, attr = t.type.GetCustomAttribute(typeof(AIAttribute), false) as AIAttribute})
+                .Select(t => new KeyValuePair<AIBase, AIAttribute>(t.t.ai, t.attr));
 
             AIList = list.ToList();
+            Logger.Log($"AIList: {(AIList.IsNullOrEmpty() ? 0 : AIList.Count)}");
         }
 
         [HandleProcessCorruptedStateExceptions]
@@ -205,7 +206,7 @@ namespace Dolany.Ai.Core
             }
             catch (Exception ex)
             {
-                RuntimeLogger.Log(ex);
+                Logger.Log(ex);
             }
         }
 
@@ -227,7 +228,7 @@ namespace Dolany.Ai.Core
                 }
                 catch (Exception ex)
                 {
-                    RuntimeLogger.Log(ex);
+                    Logger.Log(ex);
                 }
             });
         }

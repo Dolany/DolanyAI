@@ -15,7 +15,7 @@
     using SyntaxChecker;
 
     [AI(
-        Name = nameof(PlusOneAI),
+        Name = "+1复读",
         Description = "AI for Auto Plus One.",
         Enable = true,
         PriorityLevel = 1)]

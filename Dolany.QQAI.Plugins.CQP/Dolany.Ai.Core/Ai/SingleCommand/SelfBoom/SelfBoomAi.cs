@@ -1,4 +1,5 @@
-﻿using Dolany.Ai.Common;
+﻿using System;
+using Dolany.Ai.Common;
 
 namespace Dolany.Ai.Core.Ai.SingleCommand.SelfBoom
 {
@@ -16,7 +17,8 @@ namespace Dolany.Ai.Core.Ai.SingleCommand.SelfBoom
         PriorityLevel = 10)]
     public class SelfBoomAi : AIBase
     {
-        private int BoomCode = CommonUtil.RandInt(10000);
+        private int BoomCode = CommonUtil.RandInt(100000);
+        private DateTime CodeDate = DateTime.Now;
 
         [EnterCommand(
             Command = "Boom",
@@ -39,6 +41,12 @@ namespace Dolany.Ai.Core.Ai.SingleCommand.SelfBoom
             if (backInfo == null)
             {
                 MsgSender.Instance.PushMsg(MsgDTO, "自爆失败！");
+                return false;
+            }
+
+            if (CodeDate.AddMinutes(5) < DateTime.Now)
+            {
+                MsgSender.Instance.PushMsg(MsgDTO, "指令码已失效！");
                 return false;
             }
 
@@ -65,13 +73,15 @@ namespace Dolany.Ai.Core.Ai.SingleCommand.SelfBoom
         [EnterCommand(
             Command = "BoomCode",
             AuthorityLevel = AuthorityLevel.开发者,
-            Description = "获取自爆指令码",
+            Description = "获取自爆指令码，有效期5分钟",
             Syntax = "",
             Tag = "系统功能",
             SyntaxChecker = "Empty",
             IsPrivateAvailable = true)]
         public bool GetBoomCode(MsgInformationEx MsgDTO, object[] param)
         {
+            BoomCode = CommonUtil.RandInt(100000);
+            CodeDate = DateTime.Now;
             MsgSender.Instance.PushMsg(MsgDTO, BoomCode.ToString());
             return true;
         }

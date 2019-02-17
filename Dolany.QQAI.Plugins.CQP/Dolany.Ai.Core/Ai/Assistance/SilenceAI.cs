@@ -9,7 +9,7 @@ using Dolany.Database.Ai;
 
 namespace Dolany.Ai.Core.Ai.Assistance
 {
-    [AI(Name = nameof(SilenceAI),
+    [AI(Name = "禁言",
         Description = "Ai for silence someone",
         Enable = false,
         PriorityLevel = 15)]
@@ -35,7 +35,7 @@ namespace Dolany.Ai.Core.Ai.Assistance
             Syntax = "[内容筛选] [禁言时长]",
             SyntaxChecker = "Word Long",
             Tag = "辅助功能",
-            IsPrivateAvailable = true)]
+            IsPrivateAvailable = false)]
         public bool SetSilence(MsgInformationEx MsgDTO, object[] param)
         {
             var rule = param[0] as string;

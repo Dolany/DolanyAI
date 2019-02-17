@@ -18,7 +18,7 @@ namespace Dolany.Ai.Core.Ai.Game.Shopping
         PriorityLevel = 10)]
     public class ShoppingAI : AIBase
     {
-        [EnterCommand(Command = "贩卖",
+        [EnterCommand(Command = "贩卖 出售",
             AuthorityLevel = AuthorityLevel.成员,
             Description = "贩卖物品或者成就",
             Syntax = "[物品名或成就名]",

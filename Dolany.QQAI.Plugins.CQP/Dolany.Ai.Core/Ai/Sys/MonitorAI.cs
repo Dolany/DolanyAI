@@ -24,7 +24,7 @@ namespace Dolany.Ai.Core.Ai.Sys
     using static Common.Utility;
 
     [AI(
-        Name = nameof(MonitorAI),
+        Name = "监视器",
         Description = "AI for Monitoring and managing Ais status.",
         Enable = true,
         PriorityLevel = 100)]
