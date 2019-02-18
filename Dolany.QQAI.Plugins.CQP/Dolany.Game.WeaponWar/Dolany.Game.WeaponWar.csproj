@@ -9,4 +9,13 @@
     <ProjectReference Include="..\Dolany.Database\Dolany.Database.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <None Update="Data\BulletKindData.json">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Update="Data\WeaponData.json">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+  </ItemGroup>
+
 </Project>

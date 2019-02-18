@@ -1,0 +1,62 @@
+{
+  "A型弹药": {
+    "Price": 10,
+    "Code": "A",
+    "IsSpecial": false,
+    "Aim": "手枪"
+  },
+  "B型弹药": {
+    "Price": 15,
+    "Code": "B",
+    "IsSpecial": false,
+    "Aim": "步枪"
+  },
+  "C型弹药": {
+    "Price": 20,
+    "Code": "C",
+    "IsSpecial": false,
+    "Aim": "狙击枪"
+  },
+  "D型弹药": {
+    "Price": 10,
+    "Code": "D",
+    "IsSpecial": false,
+    "Aim": "冲锋枪"
+  },
+  "E型弹药": {
+    "Price": 25,
+    "Code": "E",
+    "IsSpecial": false,
+    "Aim": "手炮"
+  },
+  "SE型特种弹药": {
+    "Price": 35,
+    "Code": "SE",
+    "IsSpecial": true,
+    "Aim": "穿甲弹"
+  },
+  "FFF型特种弹药": {
+    "Price": 35,
+    "Code": "FFF",
+    "IsSpecial": true,
+    "Aim": "燃烧弹"
+  },
+  "ICE型特种弹药": {
+    "Price": 35,
+    "Code": "ICE",
+    "IsSpecial": true,
+    "Aim": "冰冻弹"
+  },
+  "ANM型特种弹药": {
+    "Price": 35,
+    "Code": "ANM",
+    "IsSpecial": true,
+    "Aim": "破魔弹"
+  },
+  "PPP型特种弹药": {
+    "Price": 35,
+    "Code": "PPP",
+    "IsSpecial": true,
+    "Aim": "毒气弹"
+  }
+}

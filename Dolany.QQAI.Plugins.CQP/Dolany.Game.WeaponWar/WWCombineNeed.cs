@@ -4,9 +4,9 @@ namespace Dolany.Game.WeaponWar
 {
     public class WWCombineNeed
     {
-        public IList<string> WWWeaponNeed { get; set; }
+        public IList<string> WeaponNeed { get; set; }
 
-        public IList<string> WWShielderNeed { get; set; }
+        public IList<string> ShieldNeed { get; set; }
 
         public Dictionary<string, int> ItemNeed { get; set; }
 

@@ -1,4 +1,5 @@
 ﻿using System.IO;
+using System.Linq.Expressions;
 using System.Security.Cryptography;
 using Newtonsoft.Json;
 
@@ -62,6 +63,27 @@ namespace Dolany.Ai.Common
         public static string ToCommonString(this DateTime dt)
         {
             return dt.ToString("yyyy-MM-dd HH:mm:ss");
+        }
+
+        public static void Remove<TKey, TValue>(this Dictionary<TKey, TValue> dic, Expression<Predicate<TValue>> valueExpression)
+        {
+            if (dic == null || !dic.Any())
+            {
+                return;
+            }
+
+            var check = valueExpression.Compile();
+            for (var i = 0; i < dic.Keys.Count; i++)
+            {
+                var key = dic.Keys.ElementAt(i);
+                if (!check(dic[key]))
+                {
+                    continue;
+                }
+
+                dic.Remove(key);
+                i--;
+            }
         }
     }
 }

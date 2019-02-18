@@ -1,0 +1,31 @@
+{
+  "警用制式手枪": {
+    "Code": "A001",
+    "Description": "普通的警用制式手枪",
+    "LevelInfo": [
+      {
+        "Lv": 1,
+        "HP": 30,
+        "Attack": 15,
+        "CD": 1,
+        "LvUpNeed": {
+          "GoldNeed": 100 
+        } 
+      },
+      {
+        "Lv": 1,
+        "HP": 30,
+        "Attack": 15,
+        "CD": 1
+      }
+    ],
+    "Weight": 10,
+    "BulletKind": "A",
+    "CombineNeed": {
+      "ItemNeed": {
+        "生锈的剪刀": 1
+      },
+      "GoldNeed": 50 
+    } 
+  } 
+}

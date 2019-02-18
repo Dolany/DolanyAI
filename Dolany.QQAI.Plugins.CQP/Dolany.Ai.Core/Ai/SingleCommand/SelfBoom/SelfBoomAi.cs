@@ -50,8 +50,9 @@ namespace Dolany.Ai.Core.Ai.SingleCommand.SelfBoom
                 return false;
             }
 
-            Thread.Sleep(1000);
             MsgSender.Instance.PushMsg(MsgDTO, "AI即将自爆！");
+            Thread.Sleep(1000);
+
             for (var i = 5; i > 0; i--)
             {
                 MsgSender.Instance.PushMsg(MsgDTO, i.ToString());

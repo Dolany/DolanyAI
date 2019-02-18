@@ -73,6 +73,8 @@ namespace Dolany.Game.Chess
             {
                 try
                 {
+                    MsgCallBack("对决即将开始，请双方做好准备！", GroupNum, 0);
+                    Thread.Sleep(2000);
                     InitChessBoard();
 
                     for (var i = 0; i < 6; i++)
