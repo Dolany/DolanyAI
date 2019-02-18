@@ -127,7 +127,7 @@ namespace Dolany.Game.Chess
         {
             var sellingItems = TransHelper.GetDailySellItems();
             var item = sellingItems[CommonUtil.RandInt(sellingItems.Length)];
-            var msg = ItemHelper.Instance.ItemIncome(SelfQQNum, item.Name);
+            var (msg, _) = ItemHelper.Instance.ItemIncome(SelfQQNum, item.Name);
 
             MsgCallBack($"你获得了：{item.Name}\r{msg}", GroupNum, SelfQQNum);
         }
@@ -168,15 +168,14 @@ namespace Dolany.Game.Chess
         public void 花昙()
         {
             var selfOs = OSPerson.GetPerson(SelfQQNum);
-            var effectiveBuffs = selfOs.Buffs?.Where(b => b.ExpiryTime.ToLocalTime() > DateTime.Now).ToArray();
-            var posBuffCount = effectiveBuffs?.Count(b => !b.IsPositive) ?? 0;
-            if (posBuffCount == 0)
+            var effectiveBuffs = selfOs.Buffs?.Where(b => b.ExpiryTime.ToLocalTime() > DateTime.Now && !b.IsPositive).ToArray();
+            if (effectiveBuffs.IsNullOrEmpty())
             {
                 MsgCallBack("你没有任何负面状态", GroupNum, SelfQQNum);
                 return;
             }
 
-            var buff = effectiveBuffs?[CommonUtil.RandInt(posBuffCount)];
+            var buff = effectiveBuffs?[CommonUtil.RandInt(effectiveBuffs.Length)];
             selfOs.Buffs?.Remove(buff);
             MongoService<OSPerson>.Update(selfOs);
 
@@ -188,15 +187,14 @@ namespace Dolany.Game.Chess
         public void 天气雨()
         {
             var oppeOs = OSPerson.GetPerson(AimQQNum);
-            var effectiveBuffs = oppeOs.Buffs?.Where(b => b.ExpiryTime.ToLocalTime() > DateTime.Now).ToArray();
-            var posBuffCount = effectiveBuffs?.Count(b => b.IsPositive) ?? 0;
-            if (posBuffCount == 0)
+            var effectiveBuffs = oppeOs.Buffs?.Where(b => b.ExpiryTime.ToLocalTime() > DateTime.Now && b.IsPositive).ToArray();
+            if (effectiveBuffs.IsNullOrEmpty())
             {
                 MsgCallBack("对手没有增益状态", GroupNum, SelfQQNum);
                 return;
             }
 
-            var buff = effectiveBuffs?[CommonUtil.RandInt(posBuffCount)];
+            var buff = effectiveBuffs?[CommonUtil.RandInt(effectiveBuffs.Length)];
             oppeOs.Buffs?.Remove(buff);
             MongoService<OSPerson>.Update(oppeOs);
 
@@ -221,15 +219,14 @@ namespace Dolany.Game.Chess
         public void 川雾()
         {
             var oppeOs = OSPerson.GetPerson(AimQQNum);
-            var effectiveBuffs = oppeOs.Buffs?.Where(b => b.ExpiryTime.ToLocalTime() > DateTime.Now).ToArray();
-            var posBuffCount = effectiveBuffs?.Count(b => !b.IsPositive) ?? 0;
-            if (posBuffCount == 0)
+            var effectiveBuffs = oppeOs.Buffs?.Where(b => b.ExpiryTime.ToLocalTime() > DateTime.Now && !b.IsPositive).ToArray();
+            if (effectiveBuffs.IsNullOrEmpty())
             {
                 MsgCallBack("对手没有负面状态", GroupNum, SelfQQNum);
                 return;
             }
 
-            var buff = effectiveBuffs?[CommonUtil.RandInt(posBuffCount)];
+            var buff = effectiveBuffs?[CommonUtil.RandInt(effectiveBuffs.Length)];
             OSPerson.AddBuff(SelfQQNum, buff);
 
             MsgCallBack($"复制到了 {buff?.Name}:{buff?.Description}", GroupNum, SelfQQNum);
@@ -240,15 +237,14 @@ namespace Dolany.Game.Chess
         public void 台风()
         {
             var oppeOs = OSPerson.GetPerson(AimQQNum);
-            var effectiveBuffs = oppeOs.Buffs?.Where(b => b.ExpiryTime.ToLocalTime() > DateTime.Now).ToArray();
-            var posBuffCount = effectiveBuffs?.Count(b => b.IsPositive) ?? 0;
-            if (posBuffCount == 0)
+            var effectiveBuffs = oppeOs.Buffs?.Where(b => b.ExpiryTime.ToLocalTime() > DateTime.Now && b.IsPositive).ToArray();
+            if (effectiveBuffs.IsNullOrEmpty())
             {
                 MsgCallBack("对手没有增益状态", GroupNum, SelfQQNum);
                 return;
             }
 
-            var buff = effectiveBuffs?[CommonUtil.RandInt(posBuffCount)];
+            var buff = effectiveBuffs?[CommonUtil.RandInt(effectiveBuffs.Length)];
             OSPerson.AddBuff(SelfQQNum, buff);
 
             MsgCallBack($"复制到了 {buff?.Name}:{buff?.Description}", GroupNum, SelfQQNum);
