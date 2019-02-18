@@ -177,7 +177,7 @@ namespace Dolany.Game.Chess
 
             var buff = effectiveBuffs?[CommonUtil.RandInt(effectiveBuffs.Length)];
             selfOs.Buffs?.Remove(buff);
-            MongoService<OSPerson>.Update(selfOs);
+            selfOs.Update();
 
             MsgCallBack($"移除了 {buff?.Name}:{buff?.Description}", GroupNum, SelfQQNum);
         }
@@ -196,7 +196,7 @@ namespace Dolany.Game.Chess
 
             var buff = effectiveBuffs?[CommonUtil.RandInt(effectiveBuffs.Length)];
             oppeOs.Buffs?.Remove(buff);
-            MongoService<OSPerson>.Update(oppeOs);
+            oppeOs.Update();
 
             MsgCallBack($"移除了 {buff?.Name}:{buff?.Description}", GroupNum, SelfQQNum);
         }

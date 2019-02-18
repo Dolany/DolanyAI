@@ -87,9 +87,7 @@ namespace Dolany.Ai.Core.Ai.Game.Shopping
             signCache.LastSignDate = DateTime.Today;
             var goldsGen = signCache.SuccessiveSignDays > 5 ? 25 : signCache.SuccessiveSignDays * 5;
 
-            var osPerson = OSPerson.GetPerson(MsgDTO.FromQQ);
-            osPerson.Golds += goldsGen;
-            MongoService<OSPerson>.Update(osPerson);
+            OSPerson.GoldIncome(MsgDTO.FromQQ, goldsGen);
 
             var msg = $"签到成功！你已连续签到 {signCache.SuccessiveSignDays}天，获得 {goldsGen}金币！";
             MsgSender.Instance.PushMsg(MsgDTO, msg, true);

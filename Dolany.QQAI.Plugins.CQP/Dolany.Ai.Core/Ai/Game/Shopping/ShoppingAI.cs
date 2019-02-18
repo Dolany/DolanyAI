@@ -239,8 +239,8 @@ namespace Dolany.Ai.Core.Ai.Game.Shopping
             sourceOSPerson.Golds -= price + fee;
             aimOSPerson.Golds += price;
 
-            MongoService<OSPerson>.Update(sourceOSPerson);
-            MongoService<OSPerson>.Update(aimOSPerson);
+            sourceOSPerson.Update();
+            aimOSPerson.Update();
 
             MsgSender.Instance.PushMsg(MsgDTO, "交易完毕！");
             return true;

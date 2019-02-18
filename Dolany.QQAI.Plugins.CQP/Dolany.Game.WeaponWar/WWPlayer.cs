@@ -22,7 +22,7 @@ namespace Dolany.Game.WeaponWar
 
         public Dictionary<string, int> SpecialMaterialDic { get; set; }
 
-        public IList<DragModel> Drags { get; set; }
+        public IList<MedicineModel> Medicines { get; set; }
     }
 
     public class WeaponModel
@@ -38,6 +38,8 @@ namespace Dolany.Game.WeaponWar
         public int Endurance { get; set; }
 
         public int Volume { get; set; }
+
+        public int ArmedIndex { get; set; }
     }
 
     public class ShielderModel
@@ -53,9 +55,11 @@ namespace Dolany.Game.WeaponWar
         public int Endurance { get; set; }
 
         public int Volume { get; set; }
+
+        public int ArmedIndex { get; set; }
     }
 
-    public class DragModel
+    public class MedicineModel
     {
         public string Name { get; set; }
 

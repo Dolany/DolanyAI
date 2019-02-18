@@ -37,7 +37,7 @@ namespace Dolany.Game.OnlineStore
             else
             {
                 osPerson.Golds += gold;
-                MongoService<OSPerson>.Update(osPerson);
+                osPerson.Update();
             }
 
             return osPerson.Golds;
@@ -47,7 +47,7 @@ namespace Dolany.Game.OnlineStore
         {
             var person = GetPerson(QQNum);
             person.Golds -= gold;
-            MongoService<OSPerson>.Update(person);
+            person.Update();
 
             return person.Golds;
         }
@@ -98,7 +98,21 @@ namespace Dolany.Game.OnlineStore
                 buff.ExpiryTime = osBuff.ExpiryTime;
             }
 
-            MongoService<OSPerson>.Update(osPerson);
+            osPerson.Update();
+        }
+
+        public void Update()
+        {
+            if (!Buffs.IsNullOrEmpty())
+            {
+                var outOfDateBuffs = Buffs.Where(b => b.ExpiryTime.ToLocalTime() < DateTime.Now);
+                foreach (var buff in outOfDateBuffs)
+                {
+                    Buffs.Remove(buff);
+                }
+            }
+
+            MongoService<OSPerson>.Update(this);
         }
     }
 
