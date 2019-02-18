@@ -24,25 +24,16 @@ namespace Dolany.Game.WeaponWar
 
         public string Description { get; set; }
 
-        public IList<WeaponLevelModel> LvlList { get; set; }
-
-        public int Weight { get; set; }
-
-        public string BulletKind { get; set; }
-
-        public WWCombineNeed CombineNeed { get; set; }
-    }
-
-    public class WeaponLevelModel
-    {
-        public int Lv { get; set; }
-
         public int HP { get; set; }
 
         public int Attack { get; set; }
 
         public int CD { get; set; }
 
-        public WWCombineNeed LvUpNeed { get; set; }
+        public int Weight { get; set; }
+
+        public IList<string> BulletKind { get; set; }
+
+        public WWCombineNeed CombineNeed { get; set; }
     }
 }

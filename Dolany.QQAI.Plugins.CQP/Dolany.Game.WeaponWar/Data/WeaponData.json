@@ -1,31 +1,100 @@
 {
   "警用制式手枪": {
-    "Code": "A001",
+    "Code": "WA001",
     "Description": "普通的警用制式手枪",
-    "LevelInfo": [
-      {
-        "Lv": 1,
-        "HP": 30,
-        "Attack": 15,
-        "CD": 1,
-        "LvUpNeed": {
-          "GoldNeed": 100 
-        } 
-      },
-      {
-        "Lv": 1,
-        "HP": 30,
-        "Attack": 15,
-        "CD": 1
-      }
-    ],
+    "HP": 30,
+    "Attack": 10,
+    "CD": 60,
     "Weight": 10,
-    "BulletKind": "A",
+    "BulletKind": [
+      "A",
+      "ICE",
+      "PPP"
+    ],
     "CombineNeed": {
       "ItemNeed": {
         "生锈的剪刀": 1
       },
-      "GoldNeed": 50 
-    } 
-  } 
+      "GoldNeed": 50
+    }
+  },
+  "警用制式手枪lv2": {
+    "Code": "WA001-2",
+    "Description": "普通的警用制式手枪lv2",
+    "HP": 32,
+    "Attack": 12,
+    "CD": 60,
+    "Weight": 10,
+    "BulletKind": [
+      "A",
+      "ICE",
+      "PPP"
+    ],
+    "CombineNeed": {
+      "WeaponNeed": {
+        "WA001": 1
+      },
+      "GoldNeed": 100
+    }
+  },
+  "警用制式手枪lv3": {
+    "Code": "WA001-3",
+    "Description": "普通的警用制式手枪lv3",
+    "HP": 34,
+    "Attack": 14,
+    "CD": 60,
+    "Weight": 10,
+    "BulletKind": [
+      "A",
+      "ICE",
+      "PPP"
+    ],
+    "CombineNeed": {
+      "WeaponNeed": {
+        "WA001-2": 1
+      },
+      "GoldNeed": 150
+    }
+  },
+  "警用制式手枪lv4": {
+    "Code": "WA001-4",
+    "Description": "普通的警用制式手枪lv4",
+    "HP": 36,
+    "Attack": 16,
+    "CD": 60,
+    "Weight": 10,
+    "BulletKind": [
+      "A",
+      "ICE",
+      "PPP"
+    ],
+    "CombineNeed": {
+      "WeaponNeed": {
+        "WA001-3": 1
+      },
+      "GoldNeed": 180
+    }
+  },
+  "警用制式手枪lvMax": {
+    "Code": "WA001-Max",
+    "Description": "普通的警用制式手枪lvMax",
+    "HP": 36,
+    "Attack": 16,
+    "CD": 60,
+    "Weight": 10,
+    "BulletKind": [
+      "A",
+      "ICE",
+      "PPP"
+    ],
+    "CombineNeed": {
+      "WeaponNeed": {
+        "WA001-4": 1
+      },
+      "SMNeed": {
+        "SM001": 1 
+      },
+      "GoldNeed": 200
+    }
+  }
 }

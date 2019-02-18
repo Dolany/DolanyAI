@@ -10,7 +10,7 @@ namespace Dolany.Game.WeaponWar
 
         public Dictionary<string, int> ItemNeed { get; set; }
 
-        public Dictionary<string, int> SpecialMaterialNeed { get; set; }
+        public Dictionary<string, int> SMNeed { get; set; }
 
         public int GoldNeed { get; set; }
     }

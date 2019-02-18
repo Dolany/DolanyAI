@@ -135,7 +135,7 @@ namespace Dolany.Ai.Core
             var assembly = Assembly.GetExecutingAssembly();
             foreach (var type in assembly.GetTypes())
             {
-                if (!type.IsClass || !typeof(IAITool).IsAssignableFrom(type))
+                if (!type.IsClass || !typeof(IAITool).IsAssignableFrom(type) || type.IsAbstract)
                 {
                     continue;
                 }

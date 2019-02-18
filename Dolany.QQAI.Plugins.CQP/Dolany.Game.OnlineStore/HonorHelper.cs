@@ -137,13 +137,13 @@ namespace Dolany.Game.OnlineStore
             return Math.Round(item.Rate * 1.0 / this.SumRate * 100, 2);
         }
 
-        public string GetOrderedItemsStr(IEnumerable<DriftItemCountRecord> items)
+        public IList<string> GetOrderedItemsStr(IEnumerable<DriftItemCountRecord> items)
         {
             var itemHonorDic = items.Select(i => new {Honor = FindHonor(i.Name), Name = i.Name, i.Count})
                 .GroupBy(p => p.Honor)
                 .ToDictionary(p => p.Key, p => p.ToList());
             var list = itemHonorDic.Select(kv => $"{kv.Key}:{string.Join(",", kv.Value.Select(p => $"{p.Name}({p.Count})"))}");
-            return string.Join("\r", list);
+            return list.ToList();
         }
     }
 

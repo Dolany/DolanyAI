@@ -30,7 +30,7 @@ namespace Dolany.Game.WeaponWar
 
         public string Code { get; set; }
 
-        public bool IsSpecial { get; set; }
+        public int Pack { get; set; }
 
         public string Aim { get; set; }
     }

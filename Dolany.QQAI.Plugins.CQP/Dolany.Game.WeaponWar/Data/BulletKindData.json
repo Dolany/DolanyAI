@@ -2,61 +2,67 @@
   "A型弹药": {
     "Price": 10,
     "Code": "A",
-    "IsSpecial": false,
-    "Aim": "手枪"
+    "Aim": "手枪",
+    "Pack": 20 
   },
   "B型弹药": {
     "Price": 15,
     "Code": "B",
-    "IsSpecial": false,
-    "Aim": "步枪"
+    "Aim": "步枪",
+    "Pack": 10 
   },
   "C型弹药": {
     "Price": 20,
     "Code": "C",
-    "IsSpecial": false,
-    "Aim": "狙击枪"
+    "Aim": "狙击枪",
+    "Pack": 5 
   },
   "D型弹药": {
-    "Price": 10,
+    "Price": 5,
     "Code": "D",
-    "IsSpecial": false,
-    "Aim": "冲锋枪"
+    "Aim": "冲锋枪",
+    "Pack": 40 
   },
   "E型弹药": {
     "Price": 25,
     "Code": "E",
-    "IsSpecial": false,
-    "Aim": "手炮"
+    "Aim": "手炮",
+    "Pack": 3 
+  },
+  "F型弹药": {
+    "Price": 15,
+    "Code": "F",
+    "Aim": "电磁炮",
+    "Pack": 20 
   },
   "SE型特种弹药": {
     "Price": 35,
     "Code": "SE",
-    "IsSpecial": true,
-    "Aim": "穿甲弹"
+    "Aim": "穿甲弹",
+    "Pack": 5 
   },
   "FFF型特种弹药": {
     "Price": 35,
     "Code": "FFF",
-    "IsSpecial": true,
-    "Aim": "燃烧弹"
+    "Aim": "燃烧弹",
+    "Pack": 5
   },
   "ICE型特种弹药": {
     "Price": 35,
     "Code": "ICE",
-    "IsSpecial": true,
-    "Aim": "冰冻弹"
+    "Aim": "冰冻弹",
+    "Pack": 5
   },
   "ANM型特种弹药": {
     "Price": 35,
     "Code": "ANM",
-    "IsSpecial": true,
-    "Aim": "破魔弹"
+    "Aim": "破魔弹",
+    "Pack": 5
   },
   "PPP型特种弹药": {
     "Price": 35,
     "Code": "PPP",
-    "IsSpecial": true,
-    "Aim": "毒气弹"
+    "Aim": "毒气弹",
+    "Pack": 5
   }
 }
