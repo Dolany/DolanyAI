@@ -35,7 +35,7 @@ namespace Dolany.Ai.Core.Ai.Game.Shopping
                 return false;
             }
 
-            SCacheService.Cache($"DailySignIn-{MsgDTO.FromGroup}", content);
+            SCacheService.Cache($"DailySignIn-{MsgDTO.FromGroup}", content, DateTime.Today.AddMonths(1));
             MsgSender.Instance.PushMsg(MsgDTO, "设置成功！");
             return true;
         }

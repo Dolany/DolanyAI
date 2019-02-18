@@ -1,21 +1,22 @@
-﻿using Dolany.Ai.Common;
+﻿using System.Collections.Generic;
+using Dolany.Ai.Common;
 
 namespace Dolany.Ai.Core.AITools
 {
-    using System.Timers;
-
     using Cache;
 
-    public class PicCacheTool : IAITool
+    public class PicCacheTool : IScheduleTool
     {
-        public void Work()
+        protected override List<ScheduleDoModel> ModelList { get; set; } =
+            new List<ScheduleDoModel>() {new ScheduleDoModel() {Interval = 10 * SchedulerTimer.MinutelyInterval}};
+
+        public override void Work()
         {
             PicCacher.Load();
-
-            Scheduler.Instance.Add(10 * SchedulerTimer.MinutelyInterval, TimeUp);
+            base.Work();
         }
 
-        private static void TimeUp(object sender, ElapsedEventArgs e)
+        protected override void ScheduleDo(SchedulerTimer timer)
         {
             PicCacher.Save();
         }

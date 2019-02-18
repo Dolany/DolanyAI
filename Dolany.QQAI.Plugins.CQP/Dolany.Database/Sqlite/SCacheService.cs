@@ -66,10 +66,26 @@ namespace Dolany.Database.Sqlite
 
                         return default(T);
                     }
-                    catch (Exception)
+                    catch (Exception ex)
                     {
+                        RuntimeLogger.Log(ex);
                         return default(T);
                     }
+                }
+            }
+        }
+
+        public static void CheckOutOfDate()
+        {
+            lock (Lock_obj)
+            {
+                using (var db = new SqliteContext())
+                {
+                    var nowStr = DateTime.Now.ToString(CultureInfo.CurrentCulture);
+                    var records = db.SqliteCacheModel.Where(m => string.CompareOrdinal(nowStr, m.ExpTime) > 0);
+                    db.SqliteCacheModel.RemoveRange(records);
+
+                    db.SaveChanges();
                 }
             }
         }

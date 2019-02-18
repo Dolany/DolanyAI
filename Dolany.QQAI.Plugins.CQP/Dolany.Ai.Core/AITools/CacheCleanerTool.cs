@@ -1,12 +1,9 @@
-﻿namespace Dolany.Ai.Core.AITools
+﻿using System.Collections.Generic;
+
+namespace Dolany.Ai.Core.AITools
 {
-    using System.Diagnostics;
     using System.IO;
     using System.Linq;
-    using System.Timers;
-
-    using Common;
-
     using Dolany.Ai.Common;
 
     using static API.CodeApi;
@@ -20,57 +17,66 @@
         public int MaxCacheCount { get; set; }
     }
 
-    public class CacheCleanerTool : IAITool
+    public class CacheCleanerTool : IScheduleTool
     {
         private readonly int PicCleanFreq = int.Parse(Configger.Instance["PicCleanFreq"]);
 
-        private static readonly int MaxPicCache = int.Parse(Configger.Instance["MaxOriginPicCache"]);
+        private readonly int MaxPicCache = int.Parse(Configger.Instance["MaxOriginPicCache"]);
 
-        public void Work()
+        protected override List<ScheduleDoModel> ModelList { get; set; } = new List<ScheduleDoModel>();
+
+        private void InitModelList()
         {
-            Logger.Log($"{nameof(CacheCleanerTool)} started.");
-            Scheduler.Instance.Add(
-                PicCleanFreq * 1000,
-                TimeUp,
-                new CacheCleanerDTO
+            ModelList.Add(new ScheduleDoModel()
+            {
+                Interval = PicCleanFreq * 1000,
+                Data = new CacheCleanerDTO
                 {
                     Path = ImagePath,
                     IsCascading = false,
                     MaxCacheCount = MaxPicCache
-                    });
-            Scheduler.Instance.Add(
-                SchedulerTimer.DairlyInterval,
-                TimeUp,
-                new CacheCleanerDTO
+                }
+            });
+            ModelList.Add(new ScheduleDoModel()
+            {
+                Interval = SchedulerTimer.DairlyInterval,
+                Data = new CacheCleanerDTO
                 {
                     Path = "c:/AmandaQQ/logs/",
                     IsCascading = false,
                     MaxCacheCount = 7
-                    });
-            Scheduler.Instance.Add(
-                SchedulerTimer.DairlyInterval,
-                TimeUp,
-                new CacheCleanerDTO
+                }
+            });
+            ModelList.Add(new ScheduleDoModel()
+            {
+                Interval = SchedulerTimer.DairlyInterval,
+                Data = new CacheCleanerDTO
                 {
                     Path = "RuntimeLog/",
                     IsCascading = false,
                     MaxCacheCount = 7
-                    });
-            Scheduler.Instance.Add(
-                SchedulerTimer.HourlyInterval / 2,
-                TimeUp,
-                new CacheCleanerDTO
+                }
+            });
+            ModelList.Add(new ScheduleDoModel()
+            {
+                Interval = SchedulerTimer.HourlyInterval / 2,
+                Data = new CacheCleanerDTO
                 {
                     Path = "c:/AmandaQQ/temp/voice/",
                     IsCascading = false,
                     MaxCacheCount = 50
-                    });
+                }
+            });
         }
 
-        private void TimeUp(object sender, ElapsedEventArgs e)
+        public override void Work()
         {
-            var timer = sender as SchedulerTimer;
-            Debug.Assert(timer != null, nameof(timer) + " != null");
+            InitModelList();
+            base.Work();
+        }
+
+        protected override void ScheduleDo(SchedulerTimer timer)
+        {
             var dto = timer.Data as CacheCleanerDTO;
 
             CleanCache(dto);

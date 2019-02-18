@@ -15,8 +15,10 @@ namespace Dolany.Ai.Core.Cache
 
     using Model;
 
-    public static class GroupMemberInfoCacher
+    public class GroupMemberInfoCacher
     {
+        private static int EffectiveLength = 300;
+
         [CanBeNull]
         public static MemberRoleCache GetMemberInfo(MsgInformationEx MsgDTO)
         {
@@ -66,9 +68,9 @@ namespace Dolany.Ai.Core.Cache
                                     QQNum = qqnum,
                                     Role = role
                                 };
-                SCacheService.Cache($"GroupMemberInfo-{GroupNum}-{qqnum}", model, DateTime.Now.AddDays(30));
+                SCacheService.Cache($"GroupMemberInfo-{GroupNum}-{qqnum}", model, DateTime.Now.AddDays(EffectiveLength));
             }
-            SCacheService.Cache($"GroupMemberInfoRefresh-{GroupNum}", "Refresh", DateTime.Now.AddDays(30));
+            SCacheService.Cache($"GroupMemberInfoRefresh-{GroupNum}", "Refresh", DateTime.Now.AddDays(EffectiveLength));
             Logger.Log($"Refresh Group Info: {GroupNum} completed");
 
             return true;
