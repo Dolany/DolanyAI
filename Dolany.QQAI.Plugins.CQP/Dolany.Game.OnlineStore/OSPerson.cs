@@ -103,14 +103,7 @@ namespace Dolany.Game.OnlineStore
 
         public void Update()
         {
-            if (!Buffs.IsNullOrEmpty())
-            {
-                var outOfDateBuffs = Buffs.Where(b => b.ExpiryTime.ToLocalTime() < DateTime.Now);
-                foreach (var buff in outOfDateBuffs)
-                {
-                    Buffs.Remove(buff);
-                }
-            }
+            Buffs.Remove(b => b.ExpiryTime.ToLocalTime() < DateTime.Now);
 
             MongoService<OSPerson>.Update(this);
         }

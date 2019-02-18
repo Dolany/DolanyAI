@@ -85,5 +85,25 @@ namespace Dolany.Ai.Common
                 i--;
             }
         }
+
+        public static void Remove<T>(this IList<T> list, Expression<Predicate<T>> valueExpression)
+        {
+            if (list.IsNullOrEmpty())
+            {
+                return;
+            }
+
+            var check = valueExpression.Compile();
+            for (var i = 0; i < list.Count; i++)
+            {
+                if (!check(list[i]))
+                {
+                    continue;
+                }
+
+                list.RemoveAt(i);
+                i--;
+            }
+        }
     }
 }
