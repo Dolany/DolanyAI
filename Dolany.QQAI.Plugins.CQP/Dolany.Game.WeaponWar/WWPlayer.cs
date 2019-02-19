@@ -61,6 +61,7 @@ namespace Dolany.Game.WeaponWar
             if (player == null)
             {
                 player = new WWPlayer() {QQNum = QQNum};
+                MongoService<WWPlayer>.Insert(player);
             }
 
             return player;

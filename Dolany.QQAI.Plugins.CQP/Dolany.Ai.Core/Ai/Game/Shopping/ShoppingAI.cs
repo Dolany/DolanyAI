@@ -1,5 +1,4 @@
-﻿using System;
-using System.Linq;
+﻿using System.Linq;
 using Dolany.Ai.Common;
 using Dolany.Ai.Core.API;
 using Dolany.Ai.Core.Base;
@@ -264,11 +263,10 @@ namespace Dolany.Ai.Core.Ai.Game.Shopping
 
             var msg = $"金币：{osPerson.Golds}\r" + $"物品数量：{(itemRecord.ItemCount == null ? 0 : itemRecord.ItemCount.Count)}\r" +
                       $"成就数量：{(itemRecord.HonorList == null ? 0 : itemRecord.HonorList.Count)}";
-            if (!osPerson.Buffs.IsNullOrEmpty())
+            var buffs = osPerson.EffectiveBuffs;
+            if (!buffs.IsNullOrEmpty())
             {
-                msg += "\rBuff列表：\r" + string.Join("\r",
-                           osPerson.Buffs.Where(b => b.ExpiryTime.ToLocalTime() > DateTime.Now)
-                               .Select(b => $"{b.Name}：{b.Description}（{b.ExpiryTime.ToLocalTime()}）"));
+                msg += "\rBuff列表：\r" + string.Join("\r", buffs.Select(b => $"{b.Name}：{b.Description}（{b.ExpiryTime.ToLocalTime()}）"));
             }
 
             MsgSender.Instance.PushMsg(MsgDTO, msg, true);
