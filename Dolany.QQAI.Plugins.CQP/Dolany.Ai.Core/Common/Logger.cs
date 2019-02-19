@@ -13,6 +13,7 @@
         public static void Log(Exception ex)
         {
             Sys_ErrorCount.Plus(ex.Message + "\r\n" + ex.StackTrace);
+            AIMgr.Instance.MessagePublish(ex.Message + "\r\n" + ex.StackTrace);
             Dolany.Ai.Common.RuntimeLogger.Log(ex);
         }
     }

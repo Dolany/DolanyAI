@@ -64,7 +64,7 @@ namespace Dolany.Ai.Core.Ai.Sys
         public bool Board(MsgInformationEx MsgDTO, object[] param)
         {
             var content = param[0] as string;
-            var groups = Global.AllGroups;
+            var groups = AIMgr.Instance.AllGroupsDic.Keys;
 
             foreach (var group in groups)
             {

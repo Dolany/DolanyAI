@@ -134,6 +134,10 @@ namespace Dolany.Game.OnlineStore
 
         public double ItemRate(DriftBottleItemModel item)
         {
+            if (item.Rate == 0)
+            {
+                return 0;
+            }
             return Math.Round(item.Rate * 1.0 / this.SumRate * 100, 2);
         }
 

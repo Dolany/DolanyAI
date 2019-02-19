@@ -25,7 +25,7 @@ namespace Dolany.Ai.Core.Base
         protected readonly Dictionary<EnterCommandAttribute, MsgConsolerDel> Consolers =
             new Dictionary<EnterCommandAttribute, MsgConsolerDel>();
 
-        protected readonly AIAttribute Attr;
+        public readonly AIAttribute Attr;
 
         protected AIBase()
         {

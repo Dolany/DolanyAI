@@ -54,21 +54,13 @@ namespace Dolany.Game.WeaponWar
 
     public class ArmModel
     {
-        public string Name { get; set; }
-
-        public int Level { get; set; }
-
-        //最大耐久
-        public int MaxHP { get; set; }
+        public string Code { get; set; }
 
         //当前耐久
         public int HP { get; set; }
 
         //冷却
         public DateTime CDTime { get; set; }
-
-        //负重
-        public int Weight { get; set; }
     }
 
     public enum ArmType

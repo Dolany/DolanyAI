@@ -19,7 +19,7 @@ namespace Dolany.Ai.Core
     /// </summary>
     public class AIMgr
     {
-        private IList<KeyValuePair<AIBase, AIAttribute>> AIList { get; set; }
+        private List<AIBase> AIList { get; set; }
 
         public string[] ManulOpenAiNames { get; set; }
 
@@ -30,6 +30,8 @@ namespace Dolany.Ai.Core
         public List<EnterCommandAttribute> AllAvailableGroupCommands { get; } = new List<EnterCommandAttribute>();
 
         public List<ISyntaxChecker> Checkers { get; private set; } = new List<ISyntaxChecker>();
+
+        public Dictionary<long, string> AllGroupsDic { get; set; }
 
         private delegate void MessageCallBack(string msg);
 
@@ -46,6 +48,7 @@ namespace Dolany.Ai.Core
 
         public void Load(Action<string> CallBackFunc = null)
         {
+            Logger.Log("start up");
             if (CallBackFunc != null)
             {
                 OnMessageCallBack += new MessageCallBack(CallBackFunc);
@@ -54,11 +57,8 @@ namespace Dolany.Ai.Core
             try
             {
                 Init();
-
-                Logger.Log("start up");
-                DbMgr.InitXmls();
+                AllGroupsDic = CommonUtil.ReadJsonData<Dictionary<long, string>>("RegisterGroupData");
                 Logger.Log("加载所有可用AI");
-
                 StartAIs();
                 Waiter.Instance.Listen();
 
@@ -75,15 +75,15 @@ namespace Dolany.Ai.Core
         /// </summary>
         private void StartAIs()
         {
-            AIList = AIList.Where(a => a.Value != null && a.Value.Enable).OrderByDescending(a => a.Value.PriorityLevel).ToList();
+            AIList = AIList.Where(a => a != null && a.Attr.Enable).OrderByDescending(a => a.Attr.PriorityLevel).ToList();
             var count = AIList.Count;
 
             for (var i = 0; i < AIList.Count; i++)
             {
-                AIList[i].Key.Initialization();
-                ExtractCommands(AIList[i].Key);
+                AIList[i].Initialization();
+                ExtractCommands(AIList[i]);
 
-                Logger.Log($"AI加载进度：{AIList[i].Value.Name}({i + 1}/{count})");
+                Logger.Log($"AI加载进度：{AIList[i].Attr.Name}({i + 1}/{count})");
             }
 
             foreach (var tool in Tools)
@@ -91,7 +91,7 @@ namespace Dolany.Ai.Core
                 tool.Work();
             }
 
-            ManulOpenAiNames = AIList.Where(ai => ai.Value.NeedManulOpen).Select(ai => ai.Value.Name).ToArray();
+            ManulOpenAiNames = AIList.Where(ai => ai.Attr.NeedManulOpen).Select(ai => ai.Attr.Name).ToArray();
         }
 
         private void ExtractCommands(AIBase ai)
@@ -116,6 +116,7 @@ namespace Dolany.Ai.Core
             LoadAis();
             LoadTools();
             LoadCheckers();
+            DbMgr.InitXmls();
         }
 
         private void LoadCheckers()
@@ -125,7 +126,7 @@ namespace Dolany.Ai.Core
                 .Where(type => typeof(ISyntaxChecker).IsAssignableFrom(type) && type.IsClass)
                 .Where(type => type.FullName != null)
                 .Select(type => new {type, checker = assembly.CreateInstance(type.FullName) as ISyntaxChecker})
-                .Select(@t => @t.checker);
+                .Select(t => t.checker);
 
             Checkers = list.ToList();
         }
@@ -159,12 +160,9 @@ namespace Dolany.Ai.Core
             var list = assembly.GetTypes()
                 .Where(type => type.IsSubclassOf(typeof(AIBase)))
                 .Where(type => type.FullName != null)
-                .Select(type => new {type, ai = assembly.CreateInstance(type.FullName) as AIBase})
-                .Select(t => new {t, attr = t.type.GetCustomAttribute(typeof(AIAttribute), false) as AIAttribute})
-                .Select(t => new KeyValuePair<AIBase, AIAttribute>(t.t.ai, t.attr));
+                .Select(type => assembly.CreateInstance(type.FullName) as AIBase);
 
             AIList = list.ToList();
-            Logger.Log($"AIList: {(AIList.IsNullOrEmpty() ? 0 : AIList.Count)}");
         }
 
         [HandleProcessCorruptedStateExceptions]
@@ -172,7 +170,7 @@ namespace Dolany.Ai.Core
         {
             try
             {
-                if (AIList.IsNullOrEmpty())
+                if (MsgDTO.FromGroup != 0 && !AllGroupsDic.Keys.Contains(MsgDTO.FromGroup))
                 {
                     return;
                 }
@@ -217,12 +215,12 @@ namespace Dolany.Ai.Core
             {
                 try
                 {
-                    if (DirtyFilter.Instance.IsInBlackList(MsgDTO.FromQQ) || !DirtyFilter.Instance.Filter(MsgDTO.FromGroup, MsgDTO.FromQQ, MsgDTO.Msg))
+                    if (!DirtyFilter.Instance.Filter(MsgDTO))
                     {
                         return;
                     }
 
-                    if (!AIList.Any(ai => ai.Key.OnMsgReceived(MsgDTO)))
+                    if (!AIList.Any(ai => ai.OnMsgReceived(MsgDTO)))
                     {
                     }
                 }
@@ -241,7 +239,7 @@ namespace Dolany.Ai.Core
             }
 
             var strs = msg.Split(' ');
-            if (strs.Length == 0)
+            if (strs.IsNullOrEmpty())
             {
                 return string.Empty;
             }
@@ -255,7 +253,7 @@ namespace Dolany.Ai.Core
         {
             foreach (var ai in AIList)
             {
-                ai.Key.OnActiveStateChange(state, GroupNum);
+                ai.OnActiveStateChange(state, GroupNum);
             }
         }
     }

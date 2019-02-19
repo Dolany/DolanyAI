@@ -25,13 +25,18 @@
             BlackList = MongoService<BlackList>.Get(p => p.BlackCount >= MaxTolerateCount).Select(p => p.QQNum).ToList();
         }
 
-        public bool Filter(long GroupNum, long QQNum, string msg)
+        public bool Filter(MsgInformationEx MsgDTO)
         {
-            if (!WordList.Any(msg.Contains))
+            if (BlackList.Contains(MsgDTO.FromQQ))
+            {
+                return false;
+            }
+
+            if (!WordList.Any(MsgDTO.Msg.Contains))
             {
                 return true;
             }
-            AddInBlackList(GroupNum, QQNum);
+            AddInBlackList(MsgDTO.FromGroup, MsgDTO.FromQQ);
             return false;
         }
 

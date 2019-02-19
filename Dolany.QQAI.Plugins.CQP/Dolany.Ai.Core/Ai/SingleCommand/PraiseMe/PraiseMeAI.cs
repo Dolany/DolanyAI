@@ -5,9 +5,6 @@
 
     using Cache;
     using Dolany.Ai.Common;
-    using Database.Sqlite;
-    using Database.Sqlite.Model;
-
     using Model;
 
     using static API.APIEx;
@@ -36,7 +33,9 @@
             Tag = "娱乐功能",
             SyntaxChecker = "Empty",
             IsPrivateAvailable = true,
-            IsGroupAvailable = true)]
+            IsGroupAvailable = true,
+            DailyLimit = 1,
+            TestingDailyLimit = 1)]
         public bool PraiseMe(MsgInformationEx MsgDTO, object[] param)
         {
             if (!CheckLimit(MsgDTO))
@@ -44,21 +43,8 @@
                 return false;
             }
 
-            var key = $"PraiseRec-{MsgDTO.FromQQ}";
-            var response = SCacheService.Get<PraiseRecCache>(key);
-
-            if (response == null)
-            {
-                Praise(MsgDTO);
-                var model = new PraiseRecCache { QQNum = MsgDTO.FromQQ };
-                SCacheService.Cache(key, model);
-
-                LastTime = DateTime.Now;
-            }
-            else
-            {
-                MsgSender.Instance.PushMsg(MsgDTO, "今天已经赞过十次啦！");
-            }
+            Praise(MsgDTO);
+            MsgSender.Instance.PushMsg(MsgDTO, "今天已经赞过十次啦！");
             return true;
         }
 

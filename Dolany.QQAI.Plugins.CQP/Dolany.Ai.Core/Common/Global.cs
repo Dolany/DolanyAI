@@ -21,13 +21,6 @@
 
         public static readonly RabbitMQService CacheInfoService =
             new RabbitMQService(Configger.Instance["CacheResponse"]);
-
-        public static readonly long[] AllGroups =
-            {
-                39778531, 213486468, 948676729, 547176147, 158109222, 885795232, 397227892, 458243816, 276179056,
-                922541845, 709460597, 961791187, 273170805, 957668528, 472634946, 469652754, 211922134, 517995259,
-                451197900, 367797407, 423971201, 325210445, 239896071, 626351509
-            };
     }
 
     public class Sys_ErrorCount
