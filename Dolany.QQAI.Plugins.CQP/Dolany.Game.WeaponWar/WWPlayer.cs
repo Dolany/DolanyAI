@@ -19,12 +19,23 @@ namespace Dolany.Game.WeaponWar
         //最大装备仓库数量
         public int MaxArmStoreCount { get; set; }
 
+        //弹药仓库
+        public IList<BulletStoreModel> BulletStore { get; set; }
+
+        //最大特殊材料种类数量
+        public int MaxSMCount { get; set; }
+
+        //最大药品携带量
+        public int MaxMedicineCount { get; set; }
+
         //装备仓库
         public IList<ArmModel> ArmStore { get; set; }
 
-        public IList<ArmModel> Weapons { get; set; } = new List<ArmModel>() {null, null, null};
+        //装备的武器
+        public IList<WeaponArmModel> Weapons { get; set; } = new List<WeaponArmModel> {null, null, null};
 
-        public IList<ArmModel> Shields { get; set; } = new List<ArmModel>() {null, null, null};
+        //装备的防具
+        public IList<ArmModel> Shields { get; set; } = new List<ArmModel> {null, null, null};
 
         //特殊材料
         public Dictionary<string, int> SpecialMDic { get; set; }
@@ -33,11 +44,21 @@ namespace Dolany.Game.WeaponWar
 
         public void Update()
         {
+            if (Weapons == null)
+            {
+                Weapons = new List<WeaponArmModel> {null, null, null};
+            }
+
+            if (Shields == null)
+            {
+                Shields = new List<ArmModel> {null, null, null};
+            }
+
             for (var i = 0; i < 3; i++)
             {
-                if (Weapons[i] != null && Weapons[i].HP == 0)
+                if (Weapons[i] != null && Weapons[i].Weapon.HP == 0)
                 {
-                    Weapons[i] = null;
+                    Weapons[i].Weapon = null;
                 }
                 if (Shields[i] != null && Shields[i].HP == 0)
                 {
@@ -47,8 +68,46 @@ namespace Dolany.Game.WeaponWar
 
             SpecialMDic.Remove(m => m == 0);
             MedicineDic.Remove(m => m.ToLocalTime() < DateTime.Now);
+            BulletStore.Remove(b => b.Count == 0);
 
             MongoService<WWPlayer>.Update(this);
+        }
+
+        public bool CheckWeaponAvailable(int weaponNo, int bulletCount, out string msg)
+        {
+            if (Weapons == null || Weapons.Count < weaponNo || Weapons[weaponNo] == null || Weapons[weaponNo].Weapon == null)
+            {
+                msg = "该武器位没有装备武器！";
+                return false;
+            }
+
+            if (Weapons[weaponNo].Weapon.CDTime.ToLocalTime() > DateTime.Now)
+            {
+                msg = "该武器尚在冷却中！";
+                return false;
+            }
+
+            if (Weapons[weaponNo].Bullet == null || Weapons[weaponNo].Bullet.Count == 0)
+            {
+                msg = "该武器位弹药不足！";
+                return false;
+            }
+
+            var weapon = WWWeaponHelper.Instance.FindWeapon(Weapons[weaponNo].Weapon.Code);
+            if (!weapon.BulletKind.Contains(Weapons[weaponNo].Bullet.Code))
+            {
+                msg = $"武器{weapon.Code}无法使用弹药{Weapons[weaponNo].Bullet.Code}！";
+                return false;
+            }
+
+            if (Weapons[weaponNo].Bullet.Count < bulletCount)
+            {
+                msg = "该武器位弹药不足！";
+                return false;
+            }
+
+            msg = string.Empty;
+            return true;
         }
     }
 
@@ -63,9 +122,23 @@ namespace Dolany.Game.WeaponWar
         public DateTime CDTime { get; set; }
     }
 
+    public class WeaponArmModel
+    {
+        public ArmModel Weapon { get; set; }
+
+        public BulletStoreModel Bullet { get; set; }
+    }
+
     public enum ArmType
     {
         Weapon,
         Shield
+    }
+
+    public class BulletStoreModel
+    {
+        public string Code { get; set; }
+
+        public int Count { get;set; }
     }
 }

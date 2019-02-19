@@ -20,7 +20,7 @@ namespace Dolany.Game.OnlineStore
             var query = MongoService<DriftItemRecord>.Get(r => r.QQNum == QQNum).FirstOrDefault();
             if (query == null)
             {
-                query = new DriftItemRecord()
+                query = new DriftItemRecord
                 {
                     QQNum = QQNum
                 };
@@ -73,59 +73,48 @@ namespace Dolany.Game.OnlineStore
 
         public (string msg, DriftItemRecord record) ItemIncome(long QQNum, string itemName, int count = 1)
         {
-            string msg;
             var query = MongoService<DriftItemRecord>.Get(r => r.QQNum == QQNum).FirstOrDefault();
             if (query == null)
             {
-                query = new DriftItemRecord()
+                query = new DriftItemRecord
                 {
-                    ItemCount = new List<DriftItemCountRecord>() { new DriftItemCountRecord
-                    {
-                        Count = count,
-                        Name = itemName
-                    }},
+                    ItemCount = new List<DriftItemCountRecord> {new DriftItemCountRecord {Count = count, Name = itemName}},
                     QQNum = QQNum,
                     HonorList = new List<string>()
                 };
 
-                var (s, _) = HonorHelper.Instance.CheckHonor(query, itemName);
-                msg = s;
+                var (hs, _) = HonorHelper.Instance.CheckHonor(query, itemName);
                 MongoService<DriftItemRecord>.Insert(query);
+                return (hs, query);
+            }
+
+            var ic = query.ItemCount.FirstOrDefault(p => p.Name == itemName);
+            if (ic != null)
+            {
+                ic.Count += count;
             }
             else
             {
-                var ic = query.ItemCount.FirstOrDefault(p => p.Name == itemName);
-                if (ic != null)
+                query.ItemCount.Add(new DriftItemCountRecord {Count = count, Name = itemName});
+            }
+
+            var (s, isNewHonor) = HonorHelper.Instance.CheckHonor(query, itemName);
+            if (isNewHonor)
+            {
+                var honorName = HonorHelper.Instance.FindHonor(itemName);
+                if (query.HonorList == null)
                 {
-                    ic.Count += count;
+                    query.HonorList = new List<string> {honorName};
                 }
                 else
                 {
-                    query.ItemCount.Add(new DriftItemCountRecord
-                    {
-                        Count = count,
-                        Name = itemName
-                    });
+                    query.HonorList.Add(honorName);
                 }
-
-                var (s, isNewHonor) = HonorHelper.Instance.CheckHonor(query, itemName);
-                msg = s;
-                if (isNewHonor)
-                {
-                    var honorName = HonorHelper.Instance.FindHonor(itemName);
-                    if (query.HonorList == null)
-                    {
-                        query.HonorList = new List<string>() {honorName};
-                    }
-                    else
-                    {
-                        query.HonorList.Add(honorName);
-                    }
-                }
-                MongoService<DriftItemRecord>.Update(query);
             }
 
-            return (msg, query);
+            MongoService<DriftItemRecord>.Update(query);
+
+            return (s, query);
         }
     }
 }
