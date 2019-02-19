@@ -263,10 +263,10 @@ namespace Dolany.Ai.Core.Ai.Game.Shopping
             var itemRecord = ItemHelper.Instance.GetRecord(MsgDTO.FromQQ);
 
             var msg = $"金币：{osPerson.Golds}\r" + $"物品数量：{(itemRecord.ItemCount == null ? 0 : itemRecord.ItemCount.Count)}\r" +
-                      $"成就数量：{(itemRecord.HonorList == null ? 0 : itemRecord.HonorList.Count)}\r";
+                      $"成就数量：{(itemRecord.HonorList == null ? 0 : itemRecord.HonorList.Count)}";
             if (!osPerson.Buffs.IsNullOrEmpty())
             {
-                msg += "Buff列表：\r" + string.Join("\r",
+                msg += "\rBuff列表：\r" + string.Join("\r",
                            osPerson.Buffs.Where(b => b.ExpiryTime.ToLocalTime() > DateTime.Now)
                                .Select(b => $"{b.Name}：{b.Description}（{b.ExpiryTime.ToLocalTime()}）"));
             }
