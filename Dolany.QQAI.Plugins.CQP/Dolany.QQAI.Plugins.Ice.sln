@@ -5,8 +5,6 @@ VisualStudioVersion = 15.0.27703.2042
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DolanyToolControl", "..\DolanyToolControl\DolanyToolControl.csproj", "{20EA6E46-2134-4CA3-AC6F-63865762E1E7}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Dolany.IWS2000.Ai", "Dolany.IWS2000.Ai\Dolany.IWS2000.Ai.csproj", "{D9D60589-0CED-4524-93F5-FA978F3C346A}"
-EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{A5AC21A1-91DE-42C1-9B3B-46EA0FE8C913}"
 	ProjectSection(SolutionItems) = preProject
 		Memo.txt = Memo.txt
@@ -32,8 +30,6 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Game", "Game", "{841A67F2-F
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Infrastructure", "Infrastructure", "{9B6A40A7-85AA-4DE1-A17E-D7CF982D706F}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Dolany.Web", "Dolany.Web\Dolany.Web.csproj", "{F6894AC5-6970-4466-8FE2-957226D2ACF7}"
-EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Dolany.Game.Engine", "Dolany.Game.Engine\Dolany.Game.Engine.csproj", "{79820155-35EB-40C4-A809-C1F22D679C38}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Dolany.Game.FreedomMagic", "Dolany.Game.FreedomMagic\Dolany.Game.FreedomMagic.csproj", "{4DFB1417-5F53-4631-8B6D-1E7929AE1CE1}"
@@ -44,7 +40,7 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Dolany.Test.Information", "
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Dolany.Game.Chess", "Dolany.Game.Chess\Dolany.Game.Chess.csproj", "{4B407C81-FD31-494E-9AE1-49CB9390B918}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Dolany.Game.WeaponWar", "Dolany.Game.WeaponWar\Dolany.Game.WeaponWar.csproj", "{6BEC1D93-E633-4459-A483-9EEA15DA5F92}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Dolany.Game.WeaponWar", "Dolany.Game.WeaponWar\Dolany.Game.WeaponWar.csproj", "{6BEC1D93-E633-4459-A483-9EEA15DA5F92}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -56,10 +52,6 @@ Global
 		{20EA6E46-2134-4CA3-AC6F-63865762E1E7}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{20EA6E46-2134-4CA3-AC6F-63865762E1E7}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{20EA6E46-2134-4CA3-AC6F-63865762E1E7}.Release|Any CPU.Build.0 = Release|Any CPU
-		{D9D60589-0CED-4524-93F5-FA978F3C346A}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{D9D60589-0CED-4524-93F5-FA978F3C346A}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{D9D60589-0CED-4524-93F5-FA978F3C346A}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{D9D60589-0CED-4524-93F5-FA978F3C346A}.Release|Any CPU.Build.0 = Release|Any CPU
 		{006767DB-7A2E-4652-A736-B853BC84C7C9}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{006767DB-7A2E-4652-A736-B853BC84C7C9}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{006767DB-7A2E-4652-A736-B853BC84C7C9}.Release|Any CPU.ActiveCfg = Release|Any CPU
@@ -84,10 +76,6 @@ Global
 		{2B9694E8-00A1-4AA6-A87B-C2009FB97F9B}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{2B9694E8-00A1-4AA6-A87B-C2009FB97F9B}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{2B9694E8-00A1-4AA6-A87B-C2009FB97F9B}.Release|Any CPU.Build.0 = Release|Any CPU
-		{F6894AC5-6970-4466-8FE2-957226D2ACF7}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{F6894AC5-6970-4466-8FE2-957226D2ACF7}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{F6894AC5-6970-4466-8FE2-957226D2ACF7}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{F6894AC5-6970-4466-8FE2-957226D2ACF7}.Release|Any CPU.Build.0 = Release|Any CPU
 		{79820155-35EB-40C4-A809-C1F22D679C38}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{79820155-35EB-40C4-A809-C1F22D679C38}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{79820155-35EB-40C4-A809-C1F22D679C38}.Release|Any CPU.ActiveCfg = Release|Any CPU
