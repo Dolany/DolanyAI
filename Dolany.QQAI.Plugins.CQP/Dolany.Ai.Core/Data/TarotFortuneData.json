@@ -1,0 +1,222 @@
+{
+  "正位魔术师": {
+    "IsPos": true,
+    "Description": "事情的开始，行动的改变，熟练的技术及技巧，贯彻我我的意志，运用自然的力量来达到野心。",
+    "PicSrc": "datasource/tlp/Maj01s.gif"
+  },
+  "正位命运之轮": {
+    "IsPos": true,
+    "Description": "关键性事件，新机会，新潮流，环境变化，幸运的开端，问题解决。",
+    "PicSrc": "datasource/tlp/Maj10s.gif"
+  },
+  "正位倒吊人": {
+    "IsPos": true,
+    "Description": "自我牺牲，试炼，顺从，献身回报，脱离最糟的状态，反省，清心寡欲。",
+    "PicSrc": "datasource/tlp/Maj12s.gif"
+  },
+  "正位死神": {
+    "IsPos": true,
+    "Description": "事件的结束，激烈变化，残局，与过去告别，绝交或败北，惯用的想法或技俩不合时宜，暂时别离。",
+    "PicSrc": "datasource/tlp/Maj13s.gif"
+  },
+  "正位节制": {
+    "IsPos": true,
+    "Description": "自我控制，中立立场，良好家庭，控制得宜的态度，重视实用，克制欲望便能达成愿望。",
+    "PicSrc": "datasource/tlp/Maj14s.gif"
+  },
+  "正位恶魔": {
+    "IsPos": true,
+    "Description": "表示事情严重阻滞，误入歧途，意志薄弱，沈迷情欲，遭人欺骗，犯罪，被朋友出卖，圈套和阴谋，堕落，妄想，诅咒。",
+    "PicSrc": "datasource/tlp/Maj15s.gif"
+  },
+  "正位塔": {
+    "IsPos": true,
+    "Description": "意外的灾难，危险，失败，名誉受损，意想不到之事，骄傲，自大，情况急转直下，失去一切。",
+    "PicSrc": "datasource/tlp/Maj16s.gif"
+  },
+  "正位星星": {
+    "IsPos": true,
+    "Description": "光明的未来，希望，满足，所有东西都能健康地成长，事情进展顺利，美丽，丰收，母性，幸运的夜晚。",
+    "PicSrc": "datasource/tlp/Maj17s.gif"
+  },
+  "正位月亮": {
+    "IsPos": true,
+    "Description": "迷惘，不安，动摇，背叛，暗算，改变心意，泄密，恶意中伤，闲言闲语，敷衍，不安定，暧昧，恐怖，不好的预感。",
+    "PicSrc": "datasource/tlp/Maj18s.gif"
+  },
+  "正位太阳": {
+    "IsPos": true,
+    "Description": "喜悦，幸福，活跃，结交良友，热情，充满活力，成功，完成，得到满意的结果，受人欢迎，成长，信赖，积极。",
+    "PicSrc": "datasource/tlp/Maj19s.gif"
+  },
+  "正位审判": {
+    "IsPos": true,
+    "Description": "全新的出发，复活，发展，下决定会有好结果，找回遗失的重要物品，精神上的觉醒，遇见旧朋友，和好。",
+    "PicSrc": "datasource/tlp/Maj20s.gif"
+  },
+  "正位女祭师": {
+    "IsPos": true,
+    "Description": "开发出内在的神秘潜力，前途将有所变化的预言，深刻地思考，敏锐的洞察力，准确的直觉。",
+    "PicSrc": "datasource/tlp/Maj02s.gif"
+  },
+  "正位世界": {
+    "IsPos": true,
+    "Description": "完成事情，非常幸运，光明的未来，希望与美好，名誉，胜利，国外旅游，成功，人格高尚。",
+    "PicSrc": "datasource/tlp/Maj21s.gif"
+  },
+  "正位愚者": {
+    "IsPos": true,
+    "Description": "指明知是毫无意义的冒险，错误的选择及失败的结果，却一意孤行，盲目地追求梦想而完全忽略现实。",
+    "PicSrc": "datasource/tlp/Maj00s.gif"
+  },
+  "正位正义": {
+    "IsPos": true,
+    "Description": "平衡，光明正大，明理，重视道德，友好的态度，帮助弱者，和平，强烈的正义感。",
+    "PicSrc": "datasource/tlp/Maj11s.gif"
+  },
+  "逆位魔术师": {
+    "IsPos": false,
+    "Description": "意志力薄弱，起头难，走入错误的方向，知识不足，被骗和失败。",
+    "PicSrc": "datasource/tlp/rMaj01s.gif"
+  },
+  "逆位女祭师": {
+    "IsPos": false,
+    "Description": "过於洁癖，无知，贪心，目光短浅，自尊心过高，偏差的判断，有勇无谋，自命不凡。",
+    "PicSrc": "datasource/tlp/rMaj02s.gif"
+  },
+  "逆位皇后": {
+    "IsPos": false,
+    "Description": "不活泼，缺乏上进心，散漫的生活习惯，无法解决的事情，不能看到成果，担於享乐，环境险恶，与家人发生纠纷。",
+    "PicSrc": "datasource/tlp/rMaj03s.gif"
+  },
+  "逆位皇帝": {
+    "IsPos": false,
+    "Description": "幼稚，无力，独裁，撒娇任性，平凡，没有自信，行动力不足，意志薄弱，被支配。",
+    "PicSrc": "datasource/tlp/rMaj04s.gif"
+  },
+  "逆位祭师": {
+    "IsPos": false,
+    "Description": "错误的讯息，恶意的规劝，上当，援助被中断，愿望无法达成，被人利用，被放弃。",
+    "PicSrc": "datasource/tlp/rMaj05s.gif"
+  },
+  "逆位恋人": {
+    "IsPos": false,
+    "Description": "禁不起youhuo，zongyu过度，反覆无常，友情变淡，厌倦，争吵，华丽的打扮，优柔寡断。",
+    "PicSrc": "datasource/tlp/rMaj06s.gif"
+  },
+  "逆位战车": {
+    "IsPos": false,
+    "Description": "争论失败，发生纠纷，阻滞，违返规则，诉诸暴力，顽固的男子，突然的失败，不良少年，挫折和自私自利。",
+    "PicSrc": "datasource/tlp/rMaj07s.gif"
+  },
+  "正位皇后": {
+    "IsPos": true,
+    "Description": "幸福，成功，收获，无忧无虑，圆满的家庭生活，良好的环境，美貌，艺术，与大自然接触，愉快的旅行，休闲。",
+    "PicSrc": "datasource/tlp/Maj03s.gif"
+  },
+  "逆位力量": {
+    "IsPos": false,
+    "Description": "胆小，输给强者，经不起诱惑，屈服在权威与常识之下，没有实践便告放弃，虚荣，懦弱，没有耐性。",
+    "PicSrc": "datasource/tlp/rMaj08s.gif"
+  },
+  "逆位隐者": {
+    "IsPos": false,
+    "Description": "无视劝告，憎恨孤独感，自卑，担心，幼稚的思想，过於谨慎导致失败。",
+    "PicSrc": "datasource/tlp/rMaj09s.gif"
+  },
+  "逆位命运之轮": {
+    "IsPos": false,
+    "Description": "连续的不幸，挫折，计划泡汤，阻碍，无法修正方向，往坏处发展，恶性循环。",
+    "PicSrc": "datasource/tlp/rMaj10s.gif"
+  },
+  "逆位倒吊人": {
+    "IsPos": false,
+    "Description": "没有意义的牺牲，自我中心，计划失败，垂死挣扎，不能解决问题，不安，焦躁，徒劳无功的努力。",
+    "PicSrc": "datasource/tlp/rMaj12s.gif"
+  },
+  "逆位死神": {
+    "IsPos": false,
+    "Description": "新的开始，重新再来，挣脱窘境，焕然一新，改变想法，重生。",
+    "PicSrc": "datasource/tlp/rMaj13s.gif"
+  },
+  "逆位节制": {
+    "IsPos": false,
+    "Description": "无法压抑情感，丧失信用，失去朋友，浪费时间和金钱，欲望过多，没有看清世界险恶，不长进。",
+    "PicSrc": "datasource/tlp/rMaj14s.gif"
+  },
+  "逆位恶魔": {
+    "IsPos": false,
+    "Description": "解脱束缚，离开坏朋友，拒绝邪恶的诱惑，情况好转，忘掉仇恨。",
+    "PicSrc": "datasource/tlp/rMaj15s.gif"
+  },
+  "逆位塔": {
+    "IsPos": false,
+    "Description": "事故或麻烦轻松地解决，解决问题，小灾难，背黑锅，事故或麻烦留下後遗症。",
+    "PicSrc": "datasource/tlp/rMaj16s.gif"
+  },
+  "逆位星星": {
+    "IsPos": false,
+    "Description": "事情过度发展，唠叨，失望，脱离现实，计划更改或停止，不守信用，厌倦，厌世。",
+    "PicSrc": "datasource/tlp/rMaj17s.gif"
+  },
+  "逆位月亮": {
+    "IsPos": false,
+    "Description": "解开误会，反覆无常，除去困难，适时解决问题，遭受报应，遭到惊吓，被揭穿谎言，不必要的操心。",
+    "PicSrc": "datasource/tlp/rMaj18s.gif"
+  },
+  "正位皇帝": {
+    "IsPos": true,
+    "Description": "光荣，权力，胜利，握有　导权，坚强的意志，达成目标，父亲的责任，精神上的孤单。",
+    "PicSrc": "datasource/tlp/Maj04s.gif"
+  },
+  "逆位太阳": {
+    "IsPos": false,
+    "Description": "任而招致失败，过於相信幸运而导致失败，孤独，开始有麻烦，嫉妒他人的成功与才能，意志消沈，绝交，计划或预定延迟，自以为是。",
+    "PicSrc": "datasource/tlp/rMaj19s.gif"
+  },
+  "逆位审判": {
+    "IsPos": false,
+    "Description": "幻灭与失望，优柔寡断，勇气不足，自欺欺人，暧昧，缺点浮现，恐惧，懦弱。",
+    "PicSrc": "datasource/tlp/rMaj20s.gif"
+  },
+  "逆位世界": {
+    "IsPos": false,
+    "Description": "未完成，滞碍难行，计划中止，或遭受挫折，不得已的结果，准备不足，不完全，迟来的帮助，无法履行约定，留恋，半途而废，徒劳无功。",
+    "PicSrc": "datasource/tlp/rMaj21s.gif"
+  },
+  "逆位愚者": {
+    "IsPos": false,
+    "Description": "冒险的行动，追求可能性，重视梦想，无视物质的损失，离开家园，过於信赖别人，为出外旅行而烦恼。",
+    "PicSrc": "datasource/tlp/rMaj00s.gif"
+  },
+  "逆位正义": {
+    "IsPos": false,
+    "Description": "偏袒，不公正，偏心，鲁莽行动，对人过於严厉，败诉，不平衡。",
+    "PicSrc": "datasource/tlp/rMaj11s.gif"
+  },
+  "正位祭师": {
+    "IsPos": true,
+    "Description": "援助，同情，宽宏大量，可信任的人给予的劝告，良好的商量对象，得到精神上的满足，遵守规则，志愿者。",
+    "PicSrc": "datasource/tlp/Maj05s.gif"
+  },
+  "正位恋人": {
+    "IsPos": true,
+    "Description": "撮合，爱情，流行，兴趣，充满希望的未来，魅力，增加朋友。",
+    "PicSrc": "datasource/tlp/Maj06s.gif"
+  },
+  "正位战车": {
+    "IsPos": true,
+    "Description": "努力而获得成功，胜利，克服　碍，行动力，自立，尝试，自我主张，年轻男子，交通工具，旅行运大吉。",
+    "PicSrc": "datasource/tlp/Maj07s.gif"
+  },
+  "正位力量": {
+    "IsPos": true,
+    "Description": "大胆的行动，有勇气的决断，新发展，大转机，异动，以意志力战胜困难，健壮的女人。",
+    "PicSrc": "datasource/tlp/Maj08s.gif"
+  },
+  "正位隐者": {
+    "IsPos": true,
+    "Description": "隐藏的事实，个别的行动，倾听他人的意见，享受孤独，有益的劝戒，年长者。",
+    "PicSrc": "datasource/tlp/Maj09s.gif"
+  } 
+}

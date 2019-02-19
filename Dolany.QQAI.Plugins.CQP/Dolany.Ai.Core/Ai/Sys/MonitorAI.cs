@@ -1,6 +1,4 @@
-﻿using Dolany.Database.Sqlite;
-
-namespace Dolany.Ai.Core.Ai.Sys
+﻿namespace Dolany.Ai.Core.Ai.Sys
 {
     using System;
     using System.Collections.Generic;
@@ -17,8 +15,6 @@ namespace Dolany.Ai.Core.Ai.Sys
     using Dolany.Ai.Common;
     using Database;
     using Dolany.Database.Ai;
-    using Database.Sqlite.Model;
-
     using Model;
 
     using static Common.Utility;
@@ -159,26 +155,16 @@ namespace Dolany.Ai.Core.Ai.Sys
             Tag = "系统命令",
             SyntaxChecker = "Empty",
             AuthorityLevel = AuthorityLevel.成员,
-            IsPrivateAvailable = false)]
+            IsPrivateAvailable = false,
+            DailyLimit = 3,
+            TestingDailyLimit = 3)]
         public bool InitAi(MsgInformationEx MsgDTO, object[] param)
         {
-            var key = $"InitInfo-{MsgDTO.FromGroup}";
-            var response = SCacheService.Get<InitInfoCache>(key);
-
-            if (response != null)
-            {
-                MsgSender.Instance.PushMsg(MsgDTO, "每天只能初始化一次噢~");
-                return false;
-            }
-
             if (!GroupMemberInfoCacher.RefreshGroupInfo(MsgDTO.FromGroup))
             {
                 MsgSender.Instance.PushMsg(MsgDTO, "初始化失败，请稍后再试！");
                 return false;
             }
-
-            var model = new InitInfoCache {GroupNum = MsgDTO.FromGroup};
-            SCacheService.Cache(key, model);
 
             MsgSender.Instance.PushMsg(MsgDTO, "初始化成功！");
             return true;
@@ -189,7 +175,7 @@ namespace Dolany.Ai.Core.Ai.Sys
             Description = "Get Exception Detail",
             Syntax = "[Index]",
             Tag = "系统命令",
-            SyntaxChecker = "Long", 
+            SyntaxChecker = "Long",
             AuthorityLevel = AuthorityLevel.成员,
             IsPrivateAvailable = false)]
         public bool ExceptionMonitor(MsgInformationEx MsgDTO, object[] param)

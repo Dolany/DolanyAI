@@ -1,4 +1,5 @@
-﻿using Dolany.Ai.Common;
+﻿using System.Collections.Generic;
+using Dolany.Ai.Common;
 using Dolany.Database.Sqlite;
 
 namespace Dolany.Ai.Core.Ai.SingleCommand.Fortune
@@ -14,7 +15,6 @@ namespace Dolany.Ai.Core.Ai.SingleCommand.Fortune
 
     using Cache;
 
-    using Common;
     using Database;
     using Dolany.Database.Ai;
     using Database.Sqlite.Model;
@@ -29,9 +29,17 @@ namespace Dolany.Ai.Core.Ai.SingleCommand.Fortune
     public class FortuneAI : AIBase
     {
         private const string TarotServerPath = "https://m.sheup.com/";
+        private List<TarotFortuneDataModel> DataList;
 
         public override void Initialization()
         {
+            var dataDic = CommonUtil.ReadJsonData<Dictionary<string, TarotFortuneDataModel>>("TarotFortuneData");
+            DataList = dataDic.Select(d =>
+            {
+                var (key, value) = d;
+                value.Name = key;
+                return value;
+            }).ToList();
         }
 
         [EnterCommand(
@@ -157,24 +165,30 @@ namespace Dolany.Ai.Core.Ai.SingleCommand.Fortune
         public bool TarotFortune(MsgInformationEx MsgDTO, object[] param)
         {
             var key = $"TarotFortune-{MsgDTO.FromQQ}";
-            var response = SCacheService.Get<TarotFortuneCache>(key);
+            var cache = SCacheService.Get<string>(key);
 
-            if (response == null)
+            TarotFortuneDataModel fortune;
+            if (string.IsNullOrEmpty(cache))
             {
-                var fortune = GetRandTarotFortune();
-                var model = new TarotFortuneCache { QQNum = MsgDTO.FromQQ, TarotId = fortune.Id };
-                SCacheService.Cache(key, model);
-
-                response = model;
+                fortune = GetRandTarotFortune();
+                SCacheService.Cache(key, fortune.Name);
+            }
+            else
+            {
+                fortune = DataList.FirstOrDefault(d => d.Name == cache);
             }
 
-            var data = MongoService<TarotFortuneData>.Get(p => p.Id == response.TarotId).First();
-            SendTarotFortune(MsgDTO, data);
+            SendTarotFortune(MsgDTO, fortune);
             return true;
         }
 
-        private static void SendTarotFortune(MsgInformationEx MsgDTO, TarotFortuneData data)
+        private static void SendTarotFortune(MsgInformationEx MsgDTO, TarotFortuneDataModel data)
         {
+            if (data == null)
+            {
+                return;
+            }
+
             var msg = CodeApi.Code_Image(TarotServerPath + data.PicSrc) + '\r';
             msg += "牌名：" + data.Name + '\r';
             msg += data.IsPos ? "正位解释：" : "逆位解释：";
@@ -183,14 +197,11 @@ namespace Dolany.Ai.Core.Ai.SingleCommand.Fortune
             MsgSender.Instance.PushMsg(MsgDTO, msg, true);
         }
 
-        private static TarotFortuneData GetRandTarotFortune()
+        private TarotFortuneDataModel GetRandTarotFortune()
         {
-            var datas = MongoService<TarotFortuneData>.Get().OrderBy(p => p.Id).ToList();
-            var count = datas.Count;
+            var count = DataList.Count;
 
-            var randData = datas.Skip(CommonUtil.RandInt(count))
-                .First();
-            return randData.Clone();
+            return DataList[CommonUtil.RandInt(count)];
         }
 
         [EnterCommand(
@@ -272,5 +283,13 @@ namespace Dolany.Ai.Core.Ai.SingleCommand.Fortune
             MsgSender.Instance.PushMsg(MsgDTO, "诅咒成功！");
             return true;
         }
+    }
+
+    public class TarotFortuneDataModel
+    {
+        public string Name { get; set; }
+        public bool IsPos { get; set; }
+        public string Description { get; set; }
+        public string PicSrc { get; set; }
     }
 }
