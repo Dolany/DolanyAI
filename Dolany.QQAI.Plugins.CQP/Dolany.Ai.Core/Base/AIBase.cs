@@ -67,6 +67,9 @@ namespace Dolany.Ai.Core.Base
                         continue;
                     }
 
+                    RecentCommandCache.Cache();
+                    Sys_CommandCount.Plus();
+
                     if (MsgDTO.Type == MsgType.Group && Attr.NeedManulOpen && !AIStateMgr.Instance.GetState(Attr.Name, MsgDTO.FromGroup))
                     {
                         MsgSender.Instance.PushMsg(MsgDTO, $"本群尚未开启 {Attr.Name} 功能，请联系群主开启此功能，或者添加冰冰酱好友后使用私聊命令，或者申请加入AI测试群！");
@@ -92,9 +95,6 @@ namespace Dolany.Ai.Core.Base
                         var key = $"DailyLimit-{consoler.Key.Command}-{MsgDTO.FromQQ}";
                         SCacheService.Cache(key, cache);
                     }
-
-                    RecentCommandCache.Cache();
-                    Sys_CommandCount.Plus();
 
                     return true;
                 }

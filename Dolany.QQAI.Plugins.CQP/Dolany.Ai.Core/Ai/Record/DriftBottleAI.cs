@@ -217,7 +217,7 @@ namespace Dolany.Ai.Core.Ai.Record
             var osPerson = OSPerson.GetPerson(MsgDTO.FromQQ);
             if (osPerson.CheckBuff("梅雨") && CommonUtil.RandInt(100) < 30)
             {
-                MsgSender.Instance.PushMsg(MsgDTO, "欸呀呀，捞瓶子失败了！", true);
+                MsgSender.Instance.PushMsg(MsgDTO, "欸呀呀，捞瓶子失败了！(梅雨)", true);
                 return;
             }
 
@@ -229,20 +229,18 @@ namespace Dolany.Ai.Core.Ai.Record
                       $"售价为：{HonorHelper.Instance.GetItemPrice(item, MsgDTO.FromQQ)} 金币\r" +
                       $"你总共拥有该物品 {ItemHelper.Instance.ItemCount(record, item.Name)}个";
 
-            MsgSender.Instance.PushMsg(MsgDTO, msg, true);
-
             if (!string.IsNullOrEmpty(s))
             {
-                MsgSender.Instance.PushMsg(MsgDTO, s, true);
+                msg += $"\r{s}";
             }
 
-            if (!osPerson.CheckBuff("钻石尘"))
+            if (osPerson.CheckBuff("钻石尘"))
             {
-                return;
+                OSPerson.GoldConsume(MsgDTO.FromQQ, 40);
+                msg += "\r欸呀呀，你丢失了40金币";
             }
 
-            OSPerson.GoldConsume(MsgDTO.FromQQ, 40);
-            MsgSender.Instance.PushMsg(MsgDTO, "欸呀呀，你丢失了40金币", true);
+            MsgSender.Instance.PushMsg(MsgDTO, msg, true);
         }
 
         private void PrintBottle(MsgInformationEx MsgDTO, DriftBottleRecord record)
