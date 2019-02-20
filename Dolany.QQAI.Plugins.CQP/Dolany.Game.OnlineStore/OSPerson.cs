@@ -14,7 +14,7 @@ namespace Dolany.Game.OnlineStore
 
         public IList<OSPersonBuff> Buffs { get; set; }
 
-        public IList<OSPersonBuff> EffectiveBuffs => Buffs.IsNullOrEmpty() ? null : Buffs.Where(b => b.ExpiryTime.ToLocalTime() < DateTime.Now).ToList();
+        public IList<OSPersonBuff> EffectiveBuffs => Buffs.IsNullOrEmpty() ? null : Buffs.Where(b => b.ExpiryTime.ToLocalTime() > DateTime.Now).ToList();
 
         public static OSPerson GetPerson(long QQNum)
         {
