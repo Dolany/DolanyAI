@@ -29,6 +29,12 @@ namespace Dolany.Ai.Core.Ai.Game.ChessAgainst
         {
             var aimNum = (long) param[0];
 
+            if (MsgDTO.FromQQ == aimNum)
+            {
+                MsgSender.Instance.PushMsg(MsgDTO, "你无法跟自己对决！");
+                return false;
+            }
+
             if (ChessMgr.Instance.IsGroupInPlaying(MsgDTO.FromGroup))
             {
                 MsgSender.Instance.PushMsg(MsgDTO, "本群正在进行一场对决，请稍后再试！");

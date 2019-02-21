@@ -237,7 +237,7 @@ namespace Dolany.Ai.Core.Ai.Record
             if (osPerson.CheckBuff("钻石尘"))
             {
                 OSPerson.GoldConsume(MsgDTO.FromQQ, 40);
-                msg += "\r欸呀呀，你丢失了40金币";
+                msg += "\r欸呀呀，你丢失了40金币(钻石尘)";
             }
 
             MsgSender.Instance.PushMsg(MsgDTO, msg, true);

@@ -6,7 +6,7 @@ using Dolany.Database;
 
 namespace Dolany.Game.OnlineStore
 {
-    public class OSPerson : BaseEntity
+    public partial class OSPerson : BaseEntity
     {
         public long QQNum { get; set; }
 
@@ -24,6 +24,20 @@ namespace Dolany.Game.OnlineStore
                 osPerson = new OSPerson {QQNum = QQNum};
                 MongoService<OSPerson>.Insert(osPerson);
             }
+
+            if (osPerson.Level != 0)
+            {
+                return osPerson;
+            }
+
+            osPerson.Level = 1;
+            osPerson.MaxHP = 50;
+            osPerson.CurHP = 50;
+            osPerson.MaxMP = 10;
+            osPerson.CurMP = 10;
+            osPerson.MPRestoreRate = 400;
+            osPerson.LastCardTime = DateTime.Now;
+            osPerson.SpellCardDic = new Dictionary<string, int>();
 
             return osPerson;
         }
@@ -106,6 +120,7 @@ namespace Dolany.Game.OnlineStore
         public void Update()
         {
             Buffs.Remove(b => b.ExpiryTime.ToLocalTime() < DateTime.Now);
+            SpellCardDic.Remove(sc => sc == 0);
 
             MongoService<OSPerson>.Update(this);
         }
@@ -117,5 +132,7 @@ namespace Dolany.Game.OnlineStore
         public string Description { get; set; }
         public DateTime ExpiryTime { get; set; }
         public bool IsPositive { get; set; }
+        public int Data { get; set; } = 1;
+        public long Source { get; set; }
     }
 }
