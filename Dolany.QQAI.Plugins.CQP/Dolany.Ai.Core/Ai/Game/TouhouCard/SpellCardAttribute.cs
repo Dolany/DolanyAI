@@ -5,7 +5,7 @@ using System.Text;
 namespace Dolany.Ai.Core.Ai.Game.TouhouCard
 {
     [AttributeUsage(AttributeTargets.Method)]
-    public class SellCardAttribute : Attribute
+    public class SpellCardAttribute : Attribute
     {
         public string Name { get; set; }
 
@@ -14,8 +14,6 @@ namespace Dolany.Ai.Core.Ai.Game.TouhouCard
         public SpellCardKind Kind { get; set; }
 
         public string Description { get; set; }
-
-        public string PicPath { get; set; }
     }
 
     public enum SpellCardKind

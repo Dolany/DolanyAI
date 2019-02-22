@@ -36,7 +36,7 @@ namespace Dolany.Game.OnlineStore
             osPerson.MaxMP = 10;
             osPerson.CurMP = 10;
             osPerson.MPRestoreRate = 400;
-            osPerson.LastCardTime = DateTime.Now;
+            osPerson.MPRestoreTime = DateTime.Now;
             osPerson.SpellCardDic = new Dictionary<string, int>();
 
             return osPerson;
@@ -119,7 +119,7 @@ namespace Dolany.Game.OnlineStore
 
         public void Update()
         {
-            Buffs.Remove(b => b.ExpiryTime.ToLocalTime() < DateTime.Now);
+            Buffs.Remove(b => b.ExpiryTime.ToLocalTime() < DateTime.Now || b.Data == 0);
             SpellCardDic.Remove(sc => sc == 0);
 
             MongoService<OSPerson>.Update(this);

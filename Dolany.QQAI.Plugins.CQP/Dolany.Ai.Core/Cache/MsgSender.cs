@@ -35,5 +35,15 @@
                         ToQQ = MsgInfo.FromQQ
                     });
         }
+
+        public void PushMsg(long GroupNum, long QQNum, string content, bool isNeedAt = false)
+        {
+            PushMsg(new MsgInformationEx
+            {
+                FromGroup = GroupNum,
+                FromQQ = QQNum,
+                Type = GroupNum == 0 ? MsgType.Private : MsgType.Group
+            }, content, isNeedAt);
+        }
     }
 }

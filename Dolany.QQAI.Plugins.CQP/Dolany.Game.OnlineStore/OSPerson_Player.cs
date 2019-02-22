@@ -11,10 +11,32 @@ namespace Dolany.Game.OnlineStore
         public int MaxMP { get; set; }
         public int CurMP { get; set; }
         public int MPRestoreRate { get; set; }
-        public DateTime LastCardTime { get;set; }
+        public DateTime MPRestoreTime { get;set; }
         public int MagicDirt { get; set; }
         public Dictionary<string, int> SpellCardDic { get; set; }
         public bool IsAlive => CurHP > 0;
+
+        public int CurrentMP
+        {
+            get
+            {
+                UpdateMP();
+                return CurMP;
+            }
+        }
+
+        private void UpdateMP()
+        {
+            var span = DateTime.Now - MPRestoreTime.ToLocalTime();
+            var seconds = (int)span.TotalSeconds;
+            var restoreNum = seconds / MPRestoreRate;
+            if (restoreNum == 0)
+            {
+                return;
+            }
+
+            MPRestore(restoreNum);
+        }
 
         public void DoDamage(int value)
         {
@@ -28,7 +50,14 @@ namespace Dolany.Game.OnlineStore
 
         public void MPCost(int value)
         {
-            CurHP = CurHP < value ? 0 : CurHP - value;
+            CurMP = CurMP < value ? 0 : CurMP - value;
+            MPRestoreTime = DateTime.Now;
+        }
+
+        public void MPRestore(int value)
+        {
+            CurMP = CurMP + value > MaxMP ? MaxMP : CurMP + value;
+            MPRestoreTime = DateTime.Now;
         }
     }
 }

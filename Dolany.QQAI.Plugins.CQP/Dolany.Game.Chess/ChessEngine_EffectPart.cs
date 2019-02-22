@@ -20,7 +20,9 @@ namespace Dolany.Game.Chess
                 Name = "昙天",
                 Description = "12小时内不可以捞瓶子",
                 ExpiryTime = DateTime.Now.AddHours(12),
-                IsPositive = false
+                IsPositive = false,
+                Data = 1,
+                Source = AimQQNum
             });
         }
 
@@ -78,7 +80,9 @@ namespace Dolany.Game.Chess
                 Name = "极光",
                 Description = "12小时内商店购买享有20%的折扣",
                 ExpiryTime = DateTime.Now.AddHours(12),
-                IsPositive = true
+                IsPositive = true,
+                Data = 1,
+                Source = AimQQNum
             });
         }
 
@@ -91,7 +95,9 @@ namespace Dolany.Game.Chess
                 Name = "黄砂",
                 Description = "12小时内无法再次挑战",
                 ExpiryTime = DateTime.Now.AddHours(12),
-                IsPositive = false
+                IsPositive = false,
+                Data = 1,
+                Source = AimQQNum
             });
         }
 
@@ -104,7 +110,9 @@ namespace Dolany.Game.Chess
                 Name = "梅雨",
                 Description = "12小时内捞瓶子成功率下降30%",
                 ExpiryTime = DateTime.Now.AddHours(12),
-                IsPositive = false
+                IsPositive = false,
+                Data = 1,
+                Source = AimQQNum
             });
         }
 
@@ -117,7 +125,9 @@ namespace Dolany.Game.Chess
                 Name = "快晴",
                 Description = "12小时内无法从事商业活动（贩卖/购买/交易）",
                 ExpiryTime = DateTime.Now.AddHours(12),
-                IsPositive = false
+                IsPositive = false,
+                Data = 1,
+                Source = AimQQNum
             });
         }
 
@@ -141,7 +151,9 @@ namespace Dolany.Game.Chess
                 Name = "苍天",
                 Description = "12小时内进行交易时免除手续费",
                 ExpiryTime = DateTime.Now.AddHours(12),
-                IsPositive = true
+                IsPositive = true,
+                Data = 1,
+                Source = AimQQNum
             });
         }
 
@@ -210,7 +222,9 @@ namespace Dolany.Game.Chess
                 Name = "疏雨",
                 Description = "12小时内将物品贩卖给商店时将额外获得20%的金币",
                 ExpiryTime = DateTime.Now.AddHours(12),
-                IsPositive = true
+                IsPositive = true,
+                Data = 1,
+                Source = AimQQNum
             });
         }
 
@@ -276,7 +290,9 @@ namespace Dolany.Game.Chess
                 Name = "钻石尘",
                 Description = "12小时内捞瓶子时有50%的概率丢失40金币",
                 ExpiryTime = DateTime.Now.AddHours(12),
-                IsPositive = false
+                IsPositive = false,
+                Data = 1,
+                Source = AimQQNum
             });
         }
     }
