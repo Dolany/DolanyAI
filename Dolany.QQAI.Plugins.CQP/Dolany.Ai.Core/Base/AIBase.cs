@@ -89,7 +89,18 @@ namespace Dolany.Ai.Core.Base
                         return true;
                     }
 
+                    if (consoler.Key.Lock && !OperationLocker.Lock(MsgDTO.FromQQ))
+                    {
+                        MsgSender.Instance.PushMsg(MsgDTO, "你当前无法进行该操作，请稍后再试！(操作互斥)", true);
+                        return true;
+                    }
+
                     var result = consoler.Value(MsgDTO, param);
+                    if (consoler.Key.Lock)
+                    {
+                        OperationLocker.Unlock(MsgDTO.FromQQ);
+                    }
+
                     if (cache != null && result)
                     {
                         var key = $"DailyLimit-{consoler.Key.Command}-{MsgDTO.FromQQ}";

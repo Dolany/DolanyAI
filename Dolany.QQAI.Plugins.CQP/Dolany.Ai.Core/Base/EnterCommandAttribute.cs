@@ -25,6 +25,7 @@ namespace Dolany.Ai.Core.Base
         public bool IsTesting { get; set; } = false;
         public int DailyLimit { get; set; }
         public int TestingDailyLimit { get; set; }
+        public bool Lock { get; set; } = false;
 
         private IEnumerable<string> _CommandsList;
 

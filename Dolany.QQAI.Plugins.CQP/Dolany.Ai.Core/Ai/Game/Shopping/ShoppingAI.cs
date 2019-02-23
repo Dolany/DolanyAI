@@ -3,6 +3,7 @@ using Dolany.Ai.Common;
 using Dolany.Ai.Core.API;
 using Dolany.Ai.Core.Base;
 using Dolany.Ai.Core.Cache;
+using Dolany.Ai.Core.Common;
 using Dolany.Ai.Core.Model;
 using Dolany.Database;
 using Dolany.Database.Ai;
@@ -25,7 +26,8 @@ namespace Dolany.Ai.Core.Ai.Game.Shopping
             SyntaxChecker = "Word",
             IsPrivateAvailable = false,
             DailyLimit = 6,
-            TestingDailyLimit = 8)]
+            TestingDailyLimit = 8,
+            Lock = true)]
         public bool Sell(MsgInformationEx MsgDTO, object[] param)
         {
             var osPerson = OSPerson.GetPerson(MsgDTO.FromQQ);
@@ -134,7 +136,8 @@ namespace Dolany.Ai.Core.Ai.Game.Shopping
             SyntaxChecker = "Word",
             IsPrivateAvailable = false,
             DailyLimit = 5,
-            TestingDailyLimit = 7)]
+            TestingDailyLimit = 7,
+            Lock = true)]
         public bool Buy(MsgInformationEx MsgDTO, object[] param)
         {
             var osPerson = OSPerson.GetPerson(MsgDTO.FromQQ);
@@ -186,7 +189,8 @@ namespace Dolany.Ai.Core.Ai.Game.Shopping
             SyntaxChecker = "At Word Long",
             IsPrivateAvailable = false,
             DailyLimit = 5,
-            TestingDailyLimit = 7)]
+            TestingDailyLimit = 7,
+            Lock = true)]
         public bool DealWith(MsgInformationEx MsgDTO, object[] param)
         {
             var osPerson = OSPerson.GetPerson(MsgDTO.FromQQ);
@@ -214,6 +218,12 @@ namespace Dolany.Ai.Core.Ai.Game.Shopping
                 return false;
             }
 
+            if (!OperationLocker.Lock(aimQQ))
+            {
+                MsgSender.Instance.PushMsg(MsgDTO, "你的对手无法进行该操作，请稍后再试！(操作互斥)", true);
+                return true;
+            }
+
             if (!ItemHelper.Instance.CheckItem(aimQQ, itemName))
             {
                 MsgSender.Instance.PushMsg(MsgDTO, "对方没有该物品！");
@@ -228,6 +238,7 @@ namespace Dolany.Ai.Core.Ai.Game.Shopping
             if (!Waiter.Instance.WaitForConfirm(MsgDTO.FromGroup, aimQQ, msg, 10))
             {
                 MsgSender.Instance.PushMsg(MsgDTO, "交易取消！");
+                OperationLocker.Unlock(aimQQ);
                 return false;
             }
 
@@ -246,6 +257,7 @@ namespace Dolany.Ai.Core.Ai.Game.Shopping
             aimOSPerson.Update();
 
             MsgSender.Instance.PushMsg(MsgDTO, "交易完毕！");
+            OperationLocker.Unlock(aimQQ);
             return true;
         }
 

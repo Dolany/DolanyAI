@@ -69,32 +69,31 @@ namespace Dolany.Game.Chess
 
         public void GameStart()
         {
-            Task.Factory.StartNew(() =>
+            try
             {
-                try
+                MsgCallBack("对决即将开始，请双方做好准备！", GroupNum, 0);
+                Thread.Sleep(2000);
+                InitChessBoard();
+
+                for (var i = 0; i < 6; i++)
                 {
-                    MsgCallBack("对决即将开始，请双方做好准备！", GroupNum, 0);
-                    Thread.Sleep(2000);
-                    InitChessBoard();
+                    ProceedTurn();
+                    Thread.Sleep(1000);
 
-                    for (var i = 0; i < 6; i++)
-                    {
-                        ProceedTurn();
-                        Thread.Sleep(1000);
-
-                        var temp = SelfQQNum;
-                        SelfQQNum = AimQQNum;
-                        AimQQNum = temp;
-                    }
-
-                    MsgCallBack("对决结束！", GroupNum, 0);
+                    var temp = SelfQQNum;
+                    SelfQQNum = AimQQNum;
+                    AimQQNum = temp;
                 }
-                catch (Exception ex)
-                {
-                    RuntimeLogger.Log(ex);
-                    MsgCallBack("系统异常，游戏结束！", GroupNum, 0);
-                }
-            }).ContinueWith(task => ChessMgr.Instance.GameOver(this));
+
+                MsgCallBack("对决结束！", GroupNum, 0);
+            }
+            catch (Exception ex)
+            {
+                RuntimeLogger.Log(ex);
+                MsgCallBack("系统异常，游戏结束！", GroupNum, 0);
+            }
+
+            ChessMgr.Instance.GameOver(this);
         }
 
         private void ProceedTurn()
