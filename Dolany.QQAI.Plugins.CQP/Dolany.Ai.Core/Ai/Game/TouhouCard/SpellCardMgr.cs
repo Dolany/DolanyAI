@@ -56,6 +56,7 @@ namespace Dolany.Ai.Core.Ai.Game.TouhouCard
             Source.MPCost(attr.Cost);
             MsgSender.Instance.PushMsg(GroupNum, Source.QQNum, GetPicMsg(attr.Name));
             CardDic[attr](GroupNum, Source, Aim);
+            Source.MagicDirt++;
 
             Source.Update();
             if (Source.QQNum != Aim.QQNum)

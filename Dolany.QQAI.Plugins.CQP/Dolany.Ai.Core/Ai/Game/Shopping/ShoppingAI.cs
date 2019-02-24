@@ -218,16 +218,16 @@ namespace Dolany.Ai.Core.Ai.Game.Shopping
                 return false;
             }
 
-            if (!OperationLocker.Lock(aimQQ))
-            {
-                MsgSender.Instance.PushMsg(MsgDTO, "你的对手无法进行该操作，请稍后再试！(操作互斥)", true);
-                return true;
-            }
-
             if (!ItemHelper.Instance.CheckItem(aimQQ, itemName))
             {
                 MsgSender.Instance.PushMsg(MsgDTO, "对方没有该物品！");
                 return false;
+            }
+
+            if (!OperationLocker.Lock(aimQQ))
+            {
+                MsgSender.Instance.PushMsg(MsgDTO, "你的对手无法进行该操作，请稍后再试！(操作互斥)", true);
+                return true;
             }
 
             var count = ItemHelper.Instance.ItemCount(aimQQ, itemName);

@@ -30,7 +30,8 @@ namespace Dolany.Ai.Core.Ai.SingleCommand.OrderSong
             Tag = "娱乐功能",
             SyntaxChecker = "Any",
             IsPrivateAvailable = true,
-            DailyLimit = 5)]
+            DailyLimit = 3,
+            TestingDailyLimit = 3)]
         public bool OrderASong(MsgInformationEx MsgDTO, object[] param)
         {
             var songName = param[0] as string;
