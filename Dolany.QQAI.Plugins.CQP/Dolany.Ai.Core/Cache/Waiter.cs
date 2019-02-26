@@ -60,7 +60,7 @@ namespace Dolany.Ai.Core.Cache
                     Global.AuthCode = info.Msg;
                     break;
                 case AiInformation.Error:
-                    Sys_ErrorCount.Plus(info.Msg);
+                    AIAnalyzer.AddError(info.Msg);
                     break;
             }
         }

@@ -21,7 +21,7 @@
 
     public static class Utility
     {
-        private static long DeveloperNumber { get; } = long.Parse(Configger.Instance["DeveloperNumber"]);
+        public static long DeveloperNumber { get; } = long.Parse(Configger.Instance["DeveloperNumber"]);
 
         public static long SysMsgNumber { get; } = long.Parse(Configger.Instance["SysMsgNumber"]);
 

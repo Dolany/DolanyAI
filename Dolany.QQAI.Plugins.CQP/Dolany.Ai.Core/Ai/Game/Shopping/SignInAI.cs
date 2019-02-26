@@ -3,8 +3,8 @@ using System.Linq;
 using Dolany.Ai.Common;
 using Dolany.Ai.Core.Base;
 using Dolany.Ai.Core.Cache;
+using Dolany.Ai.Core.Common;
 using Dolany.Ai.Core.Model;
-using Dolany.Database;
 using Dolany.Database.Sqlite;
 using Dolany.Game.OnlineStore;
 
@@ -20,7 +20,7 @@ namespace Dolany.Ai.Core.Ai.Game.Shopping
     {
         [EnterCommand(Command = "签到",
             AuthorityLevel = AuthorityLevel.管理员,
-            Description = "设置今日签到内容(不能与系统自带命令重复)",
+            Description = "设置签到内容，有效期1个月(不能与系统自带命令重复)",
             Syntax = "[签到内容]",
             Tag = "商店功能",
             SyntaxChecker = "Word",
@@ -45,6 +45,11 @@ namespace Dolany.Ai.Core.Ai.Game.Shopping
             if (base.OnMsgReceived(MsgDTO))
             {
                 return true;
+            }
+
+            if (MsgDTO.Type == MsgType.Private || !AIStateMgr.Instance.GetState(Attr.Name, MsgDTO.FromGroup))
+            {
+                return false;
             }
 
             // 群组签到设置
