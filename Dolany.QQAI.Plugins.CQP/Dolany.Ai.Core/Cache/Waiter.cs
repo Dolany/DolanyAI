@@ -54,6 +54,7 @@ namespace Dolany.Ai.Core.Cache
                     {
                         waitUnit.Signal.Set();
                     }
+                    AIAnalyzer.AddCommandCount();
 
                     break;
                 case AiInformation.AuthCode:

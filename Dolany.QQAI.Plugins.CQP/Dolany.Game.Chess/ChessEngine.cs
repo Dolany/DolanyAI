@@ -115,6 +115,7 @@ namespace Dolany.Game.Chess
             model.Method();
             model.IsChecked = true;
 
+            Thread.Sleep(1000);
             MsgCallBack("回合结束！", GroupNum, 0);
         }
 

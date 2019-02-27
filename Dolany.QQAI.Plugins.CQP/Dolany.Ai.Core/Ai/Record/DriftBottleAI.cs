@@ -74,7 +74,8 @@ namespace Dolany.Ai.Core.Ai.Record
             SyntaxChecker = "Any",
             Tag = "漂流瓶功能",
             IsPrivateAvailable = true,
-            DailyLimit = 3)]
+            DailyLimit = 3,
+            TestingDailyLimit = 3)]
         public bool ThrowBottle(MsgInformationEx MsgDTO, object[] param)
         {
             var content = param[0] as string;
