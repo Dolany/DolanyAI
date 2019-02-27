@@ -231,9 +231,9 @@ namespace Dolany.Ai.Core.Ai.Game.Shopping
             }
 
             var count = ItemHelper.Instance.ItemCount(aimQQ, itemName);
-            var msg = $"{CodeApi.Code_At(aimQQ)} 收到来自 {CodeApi.Code_At(MsgDTO.FromQQ)} 的交易请求：\r" +
+            var msg = $"收到来自 {CodeApi.Code_At(MsgDTO.FromQQ)} 的交易请求：\r" +
                       $"希望得到的物品：{itemName}\r" +
-                      $"价格：{price}\r" +
+                      $"价格：{price}({HonorHelper.Instance.GetItemPrice(HonorHelper.Instance.FindItem(itemName), aimQQ)})\r" +
                       $"你当前持有：{count}个，是否确认交易？";
             if (!Waiter.Instance.WaitForConfirm(MsgDTO.FromGroup, aimQQ, msg, 10))
             {
