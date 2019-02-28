@@ -62,7 +62,7 @@ namespace Dolany.Ai.Core
                 StartAIs();
                 Waiter.Instance.Listen();
 
-                Sys_StartTime.Set(DateTime.Now);
+                AIAnalyzer.Sys_StartTime = DateTime.Now;
             }
             catch (Exception ex)
             {

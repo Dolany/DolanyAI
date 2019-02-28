@@ -44,7 +44,7 @@
             }
 
             Praise(MsgDTO);
-            MsgSender.Instance.PushMsg(MsgDTO, "今天已经赞过十次啦！");
+
             return true;
         }
 
@@ -55,9 +55,8 @@
                 return true;
             }
 
-            var cdMinute = (LastTime.AddMinutes(PraiseLimit) - DateTime.Now).Minutes;
-            var cdSecond = (LastTime.AddMinutes(PraiseLimit) - DateTime.Now).Seconds;
-            MsgSender.Instance.PushMsg(MsgDTO, $"点赞太频繁啦！剩余冷却时间:{cdMinute}分{cdSecond}秒");
+            var cd = LastTime.AddMinutes(PraiseLimit) - DateTime.Now;
+            MsgSender.Instance.PushMsg(MsgDTO, $"点赞太频繁啦！剩余冷却时间:{cd.Minutes}分{cd.Seconds}秒");
             return false;
         }
 

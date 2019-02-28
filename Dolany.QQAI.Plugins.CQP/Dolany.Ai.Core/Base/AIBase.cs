@@ -68,17 +68,11 @@ namespace Dolany.Ai.Core.Base
                     }
 
                     RecentCommandCache.Cache();
-                    Sys_CommandCount.Plus();
+                    AIAnalyzer.AddCommandCount();
 
                     if (MsgDTO.Type == MsgType.Group && Attr.NeedManulOpen && !AIStateMgr.Instance.GetState(Attr.Name, MsgDTO.FromGroup))
                     {
-                        MsgSender.Instance.PushMsg(MsgDTO, $"本群尚未开启 {Attr.Name} 功能，请联系群主开启此功能，或者添加冰冰酱好友后使用私聊命令，或者申请加入AI测试群！");
-                        return true;
-                    }
-
-                    var (checkResult, cache) = DailyLimitCheck(consoler.Key, MsgDTO);
-                    if (!checkResult)
-                    {
+                        MsgSender.Instance.PushMsg(MsgDTO, $"本群尚未开启 {Attr.Name} 功能，请联系群主开启此功能，或者添加我为好友后使用私聊命令，或者申请加入AI测试群！");
                         return true;
                     }
 
@@ -92,6 +86,12 @@ namespace Dolany.Ai.Core.Base
                     if (consoler.Key.Lock && !OperationLocker.Lock(MsgDTO.FromQQ))
                     {
                         MsgSender.Instance.PushMsg(MsgDTO, "你当前无法进行该操作，请稍后再试！(操作互斥)", true);
+                        return true;
+                    }
+
+                    var (checkResult, cache) = DailyLimitCheck(consoler.Key, MsgDTO);
+                    if (!checkResult)
+                    {
                         return true;
                     }
 
@@ -152,7 +152,7 @@ namespace Dolany.Ai.Core.Base
         private static (bool checkResult, DailyLimitCache cache) DailyLimitCheck(EnterCommandAttribute enterAttr, MsgInformationEx MsgDTO)
         {
             var isTestingGroup = Global.TestGroups.Contains(MsgDTO.FromGroup);
-            if ((isTestingGroup && enterAttr.TestingDailyLimit == 0) || (!isTestingGroup && enterAttr.DailyLimit == 0))
+            if (MsgDTO.FromQQ == Utility.DeveloperNumber || (isTestingGroup && enterAttr.TestingDailyLimit == 0) || (!isTestingGroup && enterAttr.DailyLimit == 0))
             {
                 return (true, null);
             }

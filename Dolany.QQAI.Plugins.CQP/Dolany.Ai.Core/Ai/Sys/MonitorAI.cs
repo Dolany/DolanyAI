@@ -126,13 +126,13 @@
             IsPrivateAvailable = true)]
         public bool Status(MsgInformationEx MsgDTO, object[] param)
         {
-            var startTime = Sys_StartTime.Get();
+            var startTime = AIAnalyzer.Sys_StartTime;
             var span = DateTime.Now - startTime;
             var timeStr = span.ToString(@"dd\.hh\:mm\:ss");
 
             var msg = $@"系统已成功运行{timeStr}
-共处理{Sys_CommandCount.Get()}条指令
-遇到{Sys_ErrorCount.GetCount()}个错误{PowerState(MsgDTO)}";
+共处理{AIAnalyzer.GetCommandCount()}条指令
+遇到{AIAnalyzer.GetErrorCount()}个错误{PowerState(MsgDTO)}";
 
             MsgSender.Instance.PushMsg(MsgDTO, msg);
             return true;
@@ -177,18 +177,39 @@
             Tag = "系统命令",
             SyntaxChecker = "Long",
             AuthorityLevel = AuthorityLevel.成员,
-            IsPrivateAvailable = false)]
+            IsPrivateAvailable = true)]
         public bool ExceptionMonitor(MsgInformationEx MsgDTO, object[] param)
         {
             var index = (long) param[0];
 
-            var exMsg = Sys_ErrorCount.GetMsg((int) index);
+            var exMsg = AIAnalyzer.GetErrorMsg((int) index);
             if (string.IsNullOrEmpty(exMsg))
             {
                 return false;
             }
 
             MsgSender.Instance.PushMsg(MsgDTO, exMsg);
+            return true;
+        }
+
+        [EnterCommand(
+            Command = "Analyze",
+            Description = "Get Analyze Information",
+            Syntax = "",
+            Tag = "系统命令",
+            SyntaxChecker = "Empty",
+            AuthorityLevel = AuthorityLevel.成员,
+            IsPrivateAvailable = true)]
+        public bool Analyze(MsgInformationEx MsgDTO, object[] param)
+        {
+            var list = AIAnalyzer.HourlyCommandCount;
+            var msg = string.Empty;
+            for (var i = 0; i < list.Count; i++)
+            {
+                msg += $"{i + 1}.{list[i]}\r";
+            }
+
+            MsgSender.Instance.PushMsg(MsgDTO, msg);
             return true;
         }
     }

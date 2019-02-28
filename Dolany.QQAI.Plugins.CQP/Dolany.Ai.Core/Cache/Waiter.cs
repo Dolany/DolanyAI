@@ -54,13 +54,14 @@ namespace Dolany.Ai.Core.Cache
                     {
                         waitUnit.Signal.Set();
                     }
+                    AIAnalyzer.AddCommandCount();
 
                     break;
                 case AiInformation.AuthCode:
                     Global.AuthCode = info.Msg;
                     break;
                 case AiInformation.Error:
-                    Sys_ErrorCount.Plus(info.Msg);
+                    AIAnalyzer.AddError(info.Msg);
                     break;
             }
         }
