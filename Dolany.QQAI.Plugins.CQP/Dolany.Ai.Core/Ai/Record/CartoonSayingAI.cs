@@ -30,7 +30,8 @@
             Syntax = "[出处] [人物] [内容]",
             Tag = "语录功能",
             SyntaxChecker = "Word Word Any",
-            IsPrivateAvailable = false)]
+            IsPrivateAvailable = false,
+            DailyLimit = 5)]
         public bool ProcceedMsg(MsgInformationEx MsgDTO, object[] param)
         {
             if (IsInSealing(MsgDTO.FromGroup, MsgDTO.FromQQ))
