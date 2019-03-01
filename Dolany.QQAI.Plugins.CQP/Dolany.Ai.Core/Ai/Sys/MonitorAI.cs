@@ -151,16 +151,15 @@
         [EnterCommand(
             Command = "初始化",
             Description = "初始化群成员信息",
-            Syntax = "",
+            Syntax = "[群号]",
             Tag = "系统命令",
-            SyntaxChecker = "Empty",
-            AuthorityLevel = AuthorityLevel.成员,
-            IsPrivateAvailable = false,
-            DailyLimit = 3,
-            TestingDailyLimit = 3)]
+            SyntaxChecker = "Long",
+            AuthorityLevel = AuthorityLevel.开发者,
+            IsPrivateAvailable = true)]
         public bool InitAi(MsgInformationEx MsgDTO, object[] param)
         {
-            if (!GroupMemberInfoCacher.RefreshGroupInfo(MsgDTO.FromGroup))
+            var groupNum = (long) param[0];
+            if (!GroupMemberInfoCacher.RefreshGroupInfo(groupNum))
             {
                 MsgSender.Instance.PushMsg(MsgDTO, "初始化失败，请稍后再试！");
                 return false;
@@ -176,7 +175,7 @@
             Syntax = "[Index]",
             Tag = "系统命令",
             SyntaxChecker = "Long",
-            AuthorityLevel = AuthorityLevel.成员,
+            AuthorityLevel = AuthorityLevel.开发者,
             IsPrivateAvailable = true)]
         public bool ExceptionMonitor(MsgInformationEx MsgDTO, object[] param)
         {
@@ -198,7 +197,7 @@
             Syntax = "",
             Tag = "系统命令",
             SyntaxChecker = "Empty",
-            AuthorityLevel = AuthorityLevel.成员,
+            AuthorityLevel = AuthorityLevel.开发者,
             IsPrivateAvailable = true)]
         public bool Analyze(MsgInformationEx MsgDTO, object[] param)
         {

@@ -83,12 +83,6 @@ namespace Dolany.Ai.Core.Base
                         return true;
                     }
 
-                    //if (consoler.Key.Lock && !OperationLocker.Lock(MsgDTO.FromQQ))
-                    //{
-                    //    MsgSender.Instance.PushMsg(MsgDTO, "你当前无法进行该操作，请稍后再试！(操作互斥)", true);
-                    //    return true;
-                    //}
-
                     var (checkResult, cache) = DailyLimitCheck(consoler.Key, MsgDTO);
                     if (!checkResult)
                     {
@@ -96,10 +90,6 @@ namespace Dolany.Ai.Core.Base
                     }
 
                     var result = consoler.Value(MsgDTO, param);
-                    if (consoler.Key.Lock)
-                    {
-                        OperationLocker.Unlock(MsgDTO.FromQQ);
-                    }
 
                     if (cache != null && result)
                     {
@@ -138,6 +128,7 @@ namespace Dolany.Ai.Core.Base
 
             if (!AuthorityCheck(enterAttr.AuthorityLevel, enterAttr, MsgDTO))
             {
+                MsgSender.Instance.PushMsg(MsgDTO, $"权限不足！需要 {enterAttr.AuthorityLevel.ToString()} 权限！");
                 return false;
             }
 
