@@ -60,6 +60,9 @@ namespace Dolany.Game.Alchemy
                 ? DoMaterialReduce(Item.CombineNeed)
                 : Item.CombineNeed;
 
+            // do consume
+            // todo
+
             if (Item.BaseSuccessRate + SuccessUpRate > CommonUtil.RandInt(10000))
             {
                 result.IsSuccess = true;
