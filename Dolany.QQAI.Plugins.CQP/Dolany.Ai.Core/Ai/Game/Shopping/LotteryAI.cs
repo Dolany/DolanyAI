@@ -40,8 +40,7 @@ namespace Dolany.Ai.Core.Ai.Game.Shopping
             Tag = "商店功能",
             IsPrivateAvailable = true,
             DailyLimit = 1,
-            TestingDailyLimit = 3,
-            Lock = true)]
+            TestingDailyLimit = 3)]
         public bool DrawLottery(MsgInformationEx MsgDTO, object[] param)
         {
             var osPerson = OSPerson.GetPerson(MsgDTO.FromQQ);

@@ -24,8 +24,7 @@ namespace Dolany.Ai.Core.Ai.Game.ChessAgainst
             SyntaxChecker = "At",
             IsPrivateAvailable = false,
             DailyLimit = 1,
-            TestingDailyLimit = 3,
-            Lock = true)]
+            TestingDailyLimit = 3)]
         public bool Sell(MsgInformationEx MsgDTO, object[] param)
         {
             var aimNum = (long) param[0];
@@ -61,16 +60,9 @@ namespace Dolany.Ai.Core.Ai.Game.ChessAgainst
                 return false;
             }
 
-            if (!OperationLocker.Lock(aimNum))
-            {
-                MsgSender.Instance.PushMsg(MsgDTO, "你的对手无法进行该操作，请稍后再试！(操作互斥)", true);
-                return true;
-            }
-
             if (!Waiter.Instance.WaitForConfirm(MsgDTO.FromGroup, aimNum, $"{CodeApi.Code_At(MsgDTO.FromQQ)} 正在向你发起一场对决，是否接受？", 10))
             {
                 MsgSender.Instance.PushMsg(MsgDTO, "对决取消！");
-                OperationLocker.Unlock(aimNum);
                 return false;
             }
 
@@ -92,7 +84,6 @@ namespace Dolany.Ai.Core.Ai.Game.ChessAgainst
                 return info == null ? string.Empty : info.Msg;
             });
 
-            OperationLocker.Unlock(aimNum);
             return true;
         }
     }

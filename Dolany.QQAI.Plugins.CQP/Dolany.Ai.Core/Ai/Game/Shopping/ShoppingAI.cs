@@ -26,8 +26,7 @@ namespace Dolany.Ai.Core.Ai.Game.Shopping
             SyntaxChecker = "Word",
             IsPrivateAvailable = false,
             DailyLimit = 6,
-            TestingDailyLimit = 8,
-            Lock = true)]
+            TestingDailyLimit = 8)]
         public bool Sell(MsgInformationEx MsgDTO, object[] param)
         {
             var osPerson = OSPerson.GetPerson(MsgDTO.FromQQ);
@@ -118,7 +117,7 @@ namespace Dolany.Ai.Core.Ai.Game.Shopping
             var golds = osPerson.Golds;
 
             var sellItems = TransHelper.GetDailySellItems();
-            var record = ItemHelper.Instance.GetRecord(MsgDTO.FromQQ);
+            var record = DriftItemRecord.GetRecord(MsgDTO.FromQQ);
             var itemsStr = string.Join("\r", sellItems.Select(si =>
                 $"商品名：{si.Name}({HonorHelper.Instance.FindHonor(si.Name)})({ItemHelper.Instance.ItemCount(record, si.Name)}), 售价：{si.Price}"));
 
@@ -136,8 +135,7 @@ namespace Dolany.Ai.Core.Ai.Game.Shopping
             SyntaxChecker = "Word",
             IsPrivateAvailable = false,
             DailyLimit = 5,
-            TestingDailyLimit = 7,
-            Lock = true)]
+            TestingDailyLimit = 7)]
         public bool Buy(MsgInformationEx MsgDTO, object[] param)
         {
             var osPerson = OSPerson.GetPerson(MsgDTO.FromQQ);
@@ -189,8 +187,7 @@ namespace Dolany.Ai.Core.Ai.Game.Shopping
             SyntaxChecker = "At Word Long",
             IsPrivateAvailable = false,
             DailyLimit = 5,
-            TestingDailyLimit = 7,
-            Lock = true)]
+            TestingDailyLimit = 7)]
         public bool DealWith(MsgInformationEx MsgDTO, object[] param)
         {
             var osPerson = OSPerson.GetPerson(MsgDTO.FromQQ);
@@ -224,12 +221,6 @@ namespace Dolany.Ai.Core.Ai.Game.Shopping
                 return false;
             }
 
-            if (!OperationLocker.Lock(aimQQ))
-            {
-                MsgSender.Instance.PushMsg(MsgDTO, "你的对手无法进行该操作，请稍后再试！(操作互斥)", true);
-                return true;
-            }
-
             var count = ItemHelper.Instance.ItemCount(aimQQ, itemName);
             var msg = $"收到来自 {CodeApi.Code_At(MsgDTO.FromQQ)} 的交易请求：\r" +
                       $"希望得到的物品：{itemName}\r" +
@@ -238,7 +229,6 @@ namespace Dolany.Ai.Core.Ai.Game.Shopping
             if (!Waiter.Instance.WaitForConfirm(MsgDTO.FromGroup, aimQQ, msg, 10))
             {
                 MsgSender.Instance.PushMsg(MsgDTO, "交易取消！");
-                OperationLocker.Unlock(aimQQ);
                 return false;
             }
 
@@ -257,7 +247,6 @@ namespace Dolany.Ai.Core.Ai.Game.Shopping
             aimOSPerson.Update();
 
             MsgSender.Instance.PushMsg(MsgDTO, "交易完毕！");
-            OperationLocker.Unlock(aimQQ);
             return true;
         }
 
@@ -271,10 +260,10 @@ namespace Dolany.Ai.Core.Ai.Game.Shopping
         public bool ViewItem(MsgInformationEx MsgDTO, object[] param)
         {
             var osPerson = OSPerson.GetPerson(MsgDTO.FromQQ);
-            var itemRecord = ItemHelper.Instance.GetRecord(MsgDTO.FromQQ);
+            var itemRecord = DriftItemRecord.GetRecord(MsgDTO.FromQQ);
 
-            var msg = $"金币：{osPerson.Golds}\r" + $"物品数量：{(itemRecord.ItemCount == null ? 0 : itemRecord.ItemCount.Count)}\r" +
-                      $"成就数量：{(itemRecord.HonorList == null ? 0 : itemRecord.HonorList.Count)}";
+            var msg = $"金币：{osPerson.Golds}\r" + $"物品数量：{itemRecord.ItemCount?.Count ?? 0}\r" +
+                      $"成就数量：{itemRecord.HonorList?.Count ?? 0}";
             var buffs = osPerson.EffectiveBuffs;
             if (!buffs.IsNullOrEmpty())
             {

@@ -15,27 +15,9 @@ namespace Dolany.Game.OnlineStore
 
         }
 
-        public DriftItemRecord GetRecord(long QQNum)
-        {
-            var query = MongoService<DriftItemRecord>.Get(r => r.QQNum == QQNum).FirstOrDefault();
-            if (query == null)
-            {
-                query = new DriftItemRecord
-                {
-                    QQNum = QQNum
-                };
-            }
-
-            return query;
-        }
-
         public bool CheckItem(long QQNum, string itemName)
         {
-            var query = MongoService<DriftItemRecord>.Get(r => r.QQNum == QQNum).FirstOrDefault();
-            if (query == null || query.ItemCount.IsNullOrEmpty())
-            {
-                return false;
-            }
+            var query = DriftItemRecord.GetRecord(QQNum);
 
             var itemRecord = query.ItemCount.FirstOrDefault(i => i.Name == itemName);
             return itemRecord != null && itemRecord.Count > 0;
@@ -43,7 +25,7 @@ namespace Dolany.Game.OnlineStore
 
         public int ItemCount(long QQNum, string itemName)
         {
-            var query = MongoService<DriftItemRecord>.Get(r => r.QQNum == QQNum).FirstOrDefault();
+            var query = DriftItemRecord.GetRecord(QQNum);
             return ItemCount(query, itemName);
         }
 
@@ -55,38 +37,20 @@ namespace Dolany.Game.OnlineStore
             }
 
             var itemRecord = record.ItemCount.FirstOrDefault(i => i.Name == itemName);
-            return itemRecord == null ? 0 : itemRecord.Count;
+            return itemRecord?.Count ?? 0;
         }
 
         public void ItemConsume(long QQNum, string itemName, int count = 1)
         {
-            var query = MongoService<DriftItemRecord>.Get(r => r.QQNum == QQNum).First();
+            var query = DriftItemRecord.GetRecord(QQNum);
             var itemRecord = query.ItemCount.First(i => i.Name == itemName);
             itemRecord.Count -= count;
-            if (itemRecord.Count <= 0)
-            {
-                query.ItemCount.Remove(itemRecord);
-            }
-
-            MongoService<DriftItemRecord>.Update(query);
+            query.Update();
         }
 
         public (string msg, DriftItemRecord record) ItemIncome(long QQNum, string itemName, int count = 1)
         {
-            var query = MongoService<DriftItemRecord>.Get(r => r.QQNum == QQNum).FirstOrDefault();
-            if (query == null)
-            {
-                query = new DriftItemRecord
-                {
-                    ItemCount = new List<DriftItemCountRecord> {new DriftItemCountRecord {Count = count, Name = itemName}},
-                    QQNum = QQNum,
-                    HonorList = new List<string>()
-                };
-
-                var (hs, _) = HonorHelper.Instance.CheckHonor(query, itemName);
-                MongoService<DriftItemRecord>.Insert(query);
-                return (hs, query);
-            }
+            var query = DriftItemRecord.GetRecord(QQNum);
 
             var ic = query.ItemCount.FirstOrDefault(p => p.Name == itemName);
             if (ic != null)
@@ -112,7 +76,7 @@ namespace Dolany.Game.OnlineStore
                 }
             }
 
-            MongoService<DriftItemRecord>.Update(query);
+            query.Update();
 
             return (s, query);
         }

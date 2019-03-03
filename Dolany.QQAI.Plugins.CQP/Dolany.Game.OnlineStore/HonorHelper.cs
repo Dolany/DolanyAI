@@ -65,6 +65,11 @@ namespace Dolany.Game.OnlineStore
             var items = FindHonorItems(honorName);
             var price = items.Sum(item =>
             {
+                if (item.Rate == 0)
+                {
+                    return 1;
+                }
+
                 var rate = Math.Round(item.Rate * 1.0 / this.SumRate * 100, 2);
                 return (int) (100 / rate);
             }) * 3 / 2;
@@ -85,7 +90,7 @@ namespace Dolany.Game.OnlineStore
 
         public (string msg, bool IsNewHonor) CheckHonor(DriftItemRecord record, string itemName)
         {
-            if (record == null || record.ItemCount == null)
+            if (record?.ItemCount == null)
             {
                 return (string.Empty, false);
             }
@@ -143,7 +148,7 @@ namespace Dolany.Game.OnlineStore
 
         public IList<string> GetOrderedItemsStr(IEnumerable<DriftItemCountRecord> items)
         {
-            var itemHonorDic = items.Select(i => new {Honor = FindHonor(i.Name), Name = i.Name, i.Count})
+            var itemHonorDic = items.Select(i => new {Honor = FindHonor(i.Name), i.Name, i.Count})
                 .GroupBy(p => p.Honor)
                 .ToDictionary(p => p.Key, p => p.ToList());
             var list = itemHonorDic.Select(kv => $"{kv.Key}:{string.Join(",", kv.Value.Select(p => $"{p.Name}({p.Count})"))}");
