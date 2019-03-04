@@ -64,6 +64,7 @@ namespace Dolany.Ai.Core.Ai.Game.Shopping
                 return false;
             }
 
+            AIAnalyzer.AddCommandCount();
             // 个人签到记录
             var signCache = SCacheService.Get<DailySignInCache>($"DailySignIn-{MsgDTO.FromGroup}-{MsgDTO.FromQQ}");
             if (signCache != null && signCache.LastSignDate.ToLocalTime() == DateTime.Today)

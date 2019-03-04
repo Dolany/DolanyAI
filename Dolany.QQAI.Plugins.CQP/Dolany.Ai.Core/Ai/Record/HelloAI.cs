@@ -1,4 +1,6 @@
-﻿namespace Dolany.Ai.Core.Ai.Record
+﻿using Dolany.Ai.Core.Common;
+
+namespace Dolany.Ai.Core.Ai.Record
 {
     using System;
     using System.Collections.Generic;
@@ -56,6 +58,7 @@
             }
 
             MsgSender.Instance.PushMsg(MsgDTO, $"{Code_At(MsgDTO.FromQQ)} {hello.Content}");
+            AIAnalyzer.AddCommandCount();
 
             var model = new HelloCache
             {

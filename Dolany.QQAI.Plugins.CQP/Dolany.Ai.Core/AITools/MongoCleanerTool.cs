@@ -18,6 +18,9 @@ namespace Dolany.Ai.Core.AITools
         {
             var outOfDateRecords = MongoService<DriftBottleRecord>.Get(r => r.ReceivedQQ != null);
             MongoService<DriftBottleRecord>.DeleteMany(outOfDateRecords);
+
+            var emptyitemRecords = MongoService<DriftItemRecord>.Get(r => r.QQNum == 0);
+            MongoService<DriftItemRecord>.DeleteMany(emptyitemRecords);
         }
     }
 }

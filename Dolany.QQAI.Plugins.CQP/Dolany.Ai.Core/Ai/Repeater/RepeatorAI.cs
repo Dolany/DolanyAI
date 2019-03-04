@@ -1,4 +1,6 @@
-﻿namespace Dolany.Ai.Core.Ai.Repeater
+﻿using Dolany.Ai.Core.Common;
+
+namespace Dolany.Ai.Core.Ai.Repeater
 {
     using System;
     using System.Collections.Generic;
@@ -73,6 +75,7 @@
 
             CurCount %= RepeatLimit;
             Repeat(MsgDTO);
+            AIAnalyzer.AddCommandCount();
             return true;
         }
 

@@ -56,6 +56,7 @@
 
             var result = ConsoleDice(model);
             SendResult(MsgDTO, result);
+            AIAnalyzer.AddCommandCount();
             return true;
         }
 

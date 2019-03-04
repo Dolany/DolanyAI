@@ -1,4 +1,6 @@
-﻿namespace Dolany.Ai.Core.Ai.Repeater
+﻿using Dolany.Ai.Core.Common;
+
+namespace Dolany.Ai.Core.Ai.Repeater
 {
     using System.Collections.Generic;
     using System.Linq;
@@ -73,6 +75,7 @@
 
             Thread.Sleep(2000);
             Repeat(MsgDTO, query);
+            AIAnalyzer.AddCommandCount();
             return true;
         }
 

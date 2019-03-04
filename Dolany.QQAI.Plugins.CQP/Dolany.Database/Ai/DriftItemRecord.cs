@@ -20,7 +20,7 @@ namespace Dolany.Database.Ai
                 return record;
             }
 
-            record = new DriftItemRecord();
+            record = new DriftItemRecord(){QQNum = QQNum};
             MongoService<DriftItemRecord>.Insert(record);
 
             return record;

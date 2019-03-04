@@ -93,6 +93,7 @@
                 return false;
             }
 
+            AIAnalyzer.AddCommandCount();
             MsgSender.Instance.PushMsg(MsgDTO, response, true);
             return true;
         }
