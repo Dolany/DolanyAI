@@ -93,7 +93,12 @@
                 return false;
             }
 
-            AIAnalyzer.AddCommandCount();
+            AIAnalyzer.AddCommandCount(new CommandAnalyzeDTO()
+            {
+                Ai = Attr.Name,
+                Command = "TulingOverride",
+                GroupNum = MsgDTO.FromGroup
+            });
             MsgSender.Instance.PushMsg(MsgDTO, response, true);
             return true;
         }

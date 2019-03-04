@@ -56,6 +56,11 @@ namespace Dolany.Ai.Core.Ai.Repeater
                 return true;
             }
 
+            if (MsgDTO.Type == MsgType.Private)
+            {
+                return false;
+            }
+
             if (!IsAvailable(MsgDTO.FromGroup))
             {
                 return false;
@@ -75,7 +80,12 @@ namespace Dolany.Ai.Core.Ai.Repeater
 
             CurCount %= RepeatLimit;
             Repeat(MsgDTO);
-            AIAnalyzer.AddCommandCount();
+            AIAnalyzer.AddCommandCount(new CommandAnalyzeDTO()
+            {
+                Ai = Attr.Name,
+                Command = "RepeatorOverride",
+                GroupNum = MsgDTO.FromGroup
+            });
             return true;
         }
 

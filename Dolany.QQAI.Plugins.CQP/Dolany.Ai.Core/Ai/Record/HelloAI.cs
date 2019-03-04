@@ -40,6 +40,11 @@ namespace Dolany.Ai.Core.Ai.Record
                 return true;
             }
 
+            if (MsgDTO.Type == MsgType.Private)
+            {
+                return false;
+            }
+
             var key = $"Hello-{MsgDTO.FromGroup}-{MsgDTO.FromQQ}";
             var response = SCacheService.Get<HelloCache>(key);
 
@@ -58,7 +63,12 @@ namespace Dolany.Ai.Core.Ai.Record
             }
 
             MsgSender.Instance.PushMsg(MsgDTO, $"{Code_At(MsgDTO.FromQQ)} {hello.Content}");
-            AIAnalyzer.AddCommandCount();
+            AIAnalyzer.AddCommandCount(new CommandAnalyzeDTO()
+            {
+                Ai = Attr.Name,
+                Command = "HelloOverride",
+                GroupNum = MsgDTO.FromGroup
+            });
 
             var model = new HelloCache
             {

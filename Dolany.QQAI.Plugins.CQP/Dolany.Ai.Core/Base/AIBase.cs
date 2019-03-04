@@ -68,7 +68,12 @@ namespace Dolany.Ai.Core.Base
                     }
 
                     RecentCommandCache.Cache();
-                    AIAnalyzer.AddCommandCount();
+                    AIAnalyzer.AddCommandCount(new CommandAnalyzeDTO()
+                    {
+                        Ai = Attr.Name,
+                        Command = consoler.Key.Command,
+                        GroupNum = MsgDTO.FromGroup
+                    });
 
                     if (MsgDTO.Type == MsgType.Group && Attr.NeedManulOpen && !AIStateMgr.Instance.GetState(Attr.Name, MsgDTO.FromGroup))
                     {

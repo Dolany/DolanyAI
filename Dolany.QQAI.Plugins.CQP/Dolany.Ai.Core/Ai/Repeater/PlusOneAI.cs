@@ -50,6 +50,11 @@ namespace Dolany.Ai.Core.Ai.Repeater
                 return true;
             }
 
+            if (MsgDTO.Type == MsgType.Private)
+            {
+                return false;
+            }
+
             if (!IsAvailable(MsgDTO.FromGroup))
             {
                 return false;
@@ -75,11 +80,10 @@ namespace Dolany.Ai.Core.Ai.Repeater
 
             Thread.Sleep(2000);
             Repeat(MsgDTO, query);
-            AIAnalyzer.AddCommandCount();
             return true;
         }
 
-        private static void Repeat(MsgInformationEx MsgDTO, PlusOneModel groupCache)
+        private void Repeat(MsgInformationEx MsgDTO, PlusOneModel groupCache)
         {
             if (groupCache.MsgCache != MsgDTO.FullMsg)
             {
@@ -93,6 +97,12 @@ namespace Dolany.Ai.Core.Ai.Repeater
                 return;
             }
 
+            AIAnalyzer.AddCommandCount(new CommandAnalyzeDTO()
+            {
+                Ai = Attr.Name,
+                Command = "PlusOneOverride",
+                GroupNum = MsgDTO.FromGroup
+            });
             MsgSender.Instance.PushMsg(MsgDTO, MsgDTO.FullMsg);
             groupCache.IsAlreadyRepeated = true;
         }

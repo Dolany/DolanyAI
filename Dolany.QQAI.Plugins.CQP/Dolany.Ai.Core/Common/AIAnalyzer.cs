@@ -1,36 +1,24 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 
 namespace Dolany.Ai.Core.Common
 {
     public class AIAnalyzer
     {
-        public static readonly List<int> HourlyCommandCount = new List<int>();
-
         private static readonly object Lock = new object();
 
         public static DateTime Sys_StartTime;
 
-        private static int Sys_CommandCount;
+        private static readonly List<CommandAnalyzeDTO> Commands = new List<CommandAnalyzeDTO>();
 
         private static readonly List<string> ErrorList = new List<string>();
 
-        public const int MaxCommandRecordCount = 12;
-
-        public static void CountRecord(int count)
-        {
-            HourlyCommandCount.Add(count);
-            if (HourlyCommandCount.Count > MaxCommandRecordCount)
-            {
-                HourlyCommandCount.RemoveAt(0);
-            }
-        }
-
-        public static void AddCommandCount()
+        public static void AddCommandCount(CommandAnalyzeDTO model)
         {
             lock (Lock)
             {
-                Sys_CommandCount++;
+                Commands.Add(model);
             }
         }
 
@@ -38,7 +26,55 @@ namespace Dolany.Ai.Core.Common
         {
             lock (Lock)
             {
-                return Sys_CommandCount;
+                return Commands.Count;
+            }
+        }
+
+        public static List<GroupAnalyzeModel> AnalyzeGroup()
+        {
+            lock (Lock)
+            {
+                return Commands.GroupBy(c => c.GroupNum).Select(c => new GroupAnalyzeModel()
+                {
+                    GroupNum = c.Key,
+                    CommandCount = c.Count()
+                }).OrderByDescending(c => c.CommandCount).Take(10).ToList();
+            }
+        }
+
+        public static List<AIAnalyzeModel> AnalyzeAI()
+        {
+            lock (Lock)
+            {
+                return Commands.GroupBy(c => c.Ai).Select(c => new AIAnalyzeModel()
+                {
+                    AIName = c.Key,
+                    CommandCount = c.Count()
+                }).OrderByDescending(c => c.CommandCount).Take(10).ToList();
+            }
+        }
+
+        public static List<TimeAnalyzeModel> AnalyzeTime()
+        {
+            lock (Lock)
+            {
+                return Commands.Where(c => c.Time.AddHours(12) > DateTime.Now).GroupBy(c => c.Time.Hour).Select(c => new TimeAnalyzeModel()
+                {
+                    Hour = c.Key,
+                    CommandCount = c.Count()
+                }).ToList();
+            }
+        }
+
+        public static List<CommandAnalyzeModel> AnalyzeCommand()
+        {
+            lock (Lock)
+            {
+                return Commands.GroupBy(c => c.Command).Select(c => new CommandAnalyzeModel()
+                {
+                    Command = c.Key,
+                    CommandCount = c.Count()
+                }).OrderByDescending(c => c.CommandCount).Take(10).ToList();
             }
         }
 
@@ -70,5 +106,44 @@ namespace Dolany.Ai.Core.Common
                 return ErrorList[index];
             }
         }
+    }
+
+    public class CommandAnalyzeDTO
+    {
+        public long GroupNum { get; set; }
+
+        public string Ai { get; set; }
+
+        public string Command { get; set; }
+
+        public DateTime Time { get; set; } = DateTime.Now;
+    }
+
+    public class GroupAnalyzeModel
+    {
+        public long GroupNum { get; set; }
+
+        public int CommandCount { get; set; }
+    }
+
+    public class AIAnalyzeModel
+    {
+        public string AIName { get; set; }
+
+        public int CommandCount { get; set; }
+    }
+
+    public class TimeAnalyzeModel
+    {
+        public int Hour { get; set; }
+
+        public int CommandCount { get; set; }
+    }
+
+    public class CommandAnalyzeModel
+    {
+        public string Command { get; set; }
+
+        public int CommandCount { get; set; }
     }
 }

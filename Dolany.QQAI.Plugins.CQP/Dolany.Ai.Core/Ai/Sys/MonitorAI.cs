@@ -193,23 +193,41 @@
 
         [EnterCommand(
             Command = "Analyze",
-            Description = "Get Analyze Information",
-            Syntax = "",
+            Description = "Analyze Ais",
+            Syntax = "[Aspect]",
             Tag = "系统命令",
-            SyntaxChecker = "Empty",
+            SyntaxChecker = "Word",
             AuthorityLevel = AuthorityLevel.开发者,
             IsPrivateAvailable = true)]
         public bool Analyze(MsgInformationEx MsgDTO, object[] param)
         {
-            var list = AIAnalyzer.HourlyCommandCount;
-            var msg = string.Empty;
-            for (var i = 0; i < list.Count; i++)
+            var aspect = param[0] as string;
+
+            switch (aspect)
             {
-                msg += $"{i + 1}.{list[i]}\r";
+                case "Group":
+                    var groupList = AIAnalyzer.AnalyzeGroup();
+                    MsgSender.Instance.PushMsg(MsgDTO, string.Join("\r", groupList.Select(g =>
+                    {
+                        var groupNum = g.GroupNum == 0 ? "私聊" : AIMgr.Instance.AllGroupsDic[g.GroupNum];
+                        return $"{groupNum}:{g.CommandCount}";
+                    })));
+                    return true;
+                case "Ai":
+                    var aiList = AIAnalyzer.AnalyzeAI();
+                    MsgSender.Instance.PushMsg(MsgDTO, string.Join("\r", aiList.Select(a => $"{a.AIName}:{a.CommandCount}")));
+                    return true;
+                case "Time":
+                    var timeList = AIAnalyzer.AnalyzeTime();
+                    MsgSender.Instance.PushMsg(MsgDTO, string.Join("\r", timeList.Select(t => $"{t.Hour}:{t.CommandCount}")));
+                    return true;
+                case "Command":
+                    var commandList = AIAnalyzer.AnalyzeCommand();
+                    MsgSender.Instance.PushMsg(MsgDTO, string.Join("\r", commandList.Select(c => $"{c.Command}:{c.CommandCount}")));
+                    return true;
             }
 
-            MsgSender.Instance.PushMsg(MsgDTO, msg);
-            return true;
+            return false;
         }
     }
 }

@@ -41,7 +41,12 @@
                 return true;
             }
 
-            if (MsgDTO.Type == MsgType.Group && !this.DiceActiveGroups.Contains(MsgDTO.FromGroup))
+            if (MsgDTO.Type == MsgType.Private)
+            {
+                return false;
+            }
+
+            if (!this.DiceActiveGroups.Contains(MsgDTO.FromGroup))
             {
                 return false;
             }
@@ -56,7 +61,12 @@
 
             var result = ConsoleDice(model);
             SendResult(MsgDTO, result);
-            AIAnalyzer.AddCommandCount();
+            AIAnalyzer.AddCommandCount(new CommandAnalyzeDTO()
+            {
+                Ai = Attr.Name,
+                Command = "DiceOverride",
+                GroupNum = MsgDTO.FromGroup
+            });
             return true;
         }
 

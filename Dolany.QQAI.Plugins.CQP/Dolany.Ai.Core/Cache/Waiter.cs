@@ -54,7 +54,12 @@ namespace Dolany.Ai.Core.Cache
                     {
                         waitUnit.Signal.Set();
                     }
-                    AIAnalyzer.AddCommandCount();
+                    AIAnalyzer.AddCommandCount(new CommandAnalyzeDTO()
+                    {
+                        Ai = "Waiter",
+                        Command = "WaiterCallBack",
+                        GroupNum = info.FromGroup
+                    });
 
                     break;
                 case AiInformation.AuthCode:

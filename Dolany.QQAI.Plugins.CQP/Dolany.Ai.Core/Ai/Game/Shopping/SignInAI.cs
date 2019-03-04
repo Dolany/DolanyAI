@@ -64,7 +64,12 @@ namespace Dolany.Ai.Core.Ai.Game.Shopping
                 return false;
             }
 
-            AIAnalyzer.AddCommandCount();
+            AIAnalyzer.AddCommandCount(new CommandAnalyzeDTO()
+            {
+                Ai = Attr.Name,
+                Command = "SignInOverride",
+                GroupNum = MsgDTO.FromGroup
+            });
             // 个人签到记录
             var signCache = SCacheService.Get<DailySignInCache>($"DailySignIn-{MsgDTO.FromGroup}-{MsgDTO.FromQQ}");
             if (signCache != null && signCache.LastSignDate.ToLocalTime() == DateTime.Today)
