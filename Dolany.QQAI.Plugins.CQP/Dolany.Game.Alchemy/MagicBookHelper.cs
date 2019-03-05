@@ -1,6 +1,8 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
+using Dolany.Ai.Common;
 using Dolany.Game.Alchemy.MagicBook;
 
 namespace Dolany.Game.Alchemy
@@ -23,11 +25,14 @@ namespace Dolany.Game.Alchemy
         public MagicBookItemModel FindItem(string name)
         {
             var level = 1;
-            var lastChar = name.Last();
-            if (lastChar >= '0' && lastChar <= '9')
+            var strs = name.Split(new[] {"lv"}, StringSplitOptions.RemoveEmptyEntries);
+            if (strs.Length >= 2)
             {
-                level = int.Parse(lastChar.ToString());
-                name = name.Substring(0, name.Length - 1);
+                name = strs[0];
+                if (!int.TryParse(strs[1], out level) || level <= 0)
+                {
+                    return null;
+                }
             }
 
             var magicBook = MagicBooks.FirstOrDefault(mb => mb.Items.Any(i => i.Name == name));
@@ -44,6 +49,15 @@ namespace Dolany.Game.Alchemy
                 Item = item,
                 Level = level
             };
+        }
+
+        public List<IAlItem> GetExamQuestions(string bookName, int count)
+        {
+            var book = MagicBooks.First(mb => mb.Name == bookName);
+            var itemArray = book.Items.ToArray();
+            itemArray = CommonUtil.RandSort(itemArray);
+
+            return itemArray.Take(count).ToList();
         }
     }
 

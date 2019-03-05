@@ -57,11 +57,10 @@ namespace Dolany.Game.Alchemy
             result.MagicDirtCount = AdditionalDirt + 1;
 
             result.Consume = MaterialReduceRate > CommonUtil.RandInt(10000)
-                ? DoMaterialReduce(Item.CombineNeed)
+                ? DoMaterialNeedReduce(Item.CombineNeed)
                 : Item.CombineNeed;
 
-            // do consume
-            // todo
+            DoConsume(player, itemRecord, result.Consume);
 
             if (Item.BaseSuccessRate + SuccessUpRate > CommonUtil.RandInt(10000))
             {
@@ -76,7 +75,8 @@ namespace Dolany.Game.Alchemy
             return result;
         }
 
-        private AlCombineNeed DoMaterialReduce(AlCombineNeed combineNeed)
+        // 计算所需材料减少
+        private AlCombineNeed DoMaterialNeedReduce(AlCombineNeed combineNeed)
         {
             var result = combineNeed;
             var sumRate = result.AlItemNeed.Count + result.MagicDirtNeed.Count + result.NormalItemNeed.Count;
@@ -99,13 +99,35 @@ namespace Dolany.Game.Alchemy
             result.NormalItemNeed.Remove(k);
             return result;
         }
+
+        // 进行材料消耗
+        private void DoConsume(AlPlayer player, DriftItemRecord itemRecord, AlCombineNeed Consume)
+        {
+            foreach (var alitem in Consume.AlItemNeed)
+            {
+                var (key, value) = alitem;
+                player.ItemConsume(key, value);
+            }
+
+            foreach (var magicDirt in Consume.MagicDirtNeed)
+            {
+                var (key, value) = magicDirt;
+                player.MagicDirtConsume(key, value);
+            }
+
+            foreach (var nitem in Consume.NormalItemNeed)
+            {
+                var (key, value) = nitem;
+                itemRecord.ItemConsume(key, value);
+            }
+        }
     }
 
     public class AlchemyResultModel
     {
         public bool IsSuccess { get; set; }
 
-        public AlCombineNeed Consume { private get; set; }
+        public AlCombineNeed Consume {   get; set; }
 
         public int Count { private get; set; } = 1;
 
