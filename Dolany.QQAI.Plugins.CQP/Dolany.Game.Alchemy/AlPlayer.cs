@@ -25,11 +25,11 @@ namespace Dolany.Game.Alchemy
 
         public Dictionary<string, int> MagicDirt { get; set; }
 
-        public IList<string> MagicBookAvailable { get; set; }
+        public List<string> MagicBookAvailable { get; set; }
 
         public string MagicBookLearning { get; set; }
 
-        public IList<string> MagicBookLearned { get; set; }
+        public List<string> MagicBookLearned { get; set; }
 
         public Dictionary<string, int> AlItems { get; set; }
 
