@@ -119,7 +119,7 @@ namespace Dolany.Ai.Core.Ai.Game.Shopping
             var sellItems = TransHelper.GetDailySellItems();
             var record = DriftItemRecord.GetRecord(MsgDTO.FromQQ);
             var itemsStr = string.Join("\r", sellItems.Select(si =>
-                $"商品名：{si.Name}({HonorHelper.Instance.FindHonor(si.Name)})({ItemHelper.Instance.ItemCount(record, si.Name)}), 售价：{si.Price}"));
+                $"{si.Name}({HonorHelper.Instance.FindHonor(si.Name)})({ItemHelper.Instance.ItemCount(record, si.Name)})：{si.Price}金币"));
 
             var msg = $"今日售卖的商品：\r{itemsStr}\r你当前持有金币 {golds}";
             MsgSender.Instance.PushMsg(MsgDTO, msg);
