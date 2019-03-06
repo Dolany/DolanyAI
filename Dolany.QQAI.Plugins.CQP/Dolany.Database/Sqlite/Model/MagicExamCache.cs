@@ -10,6 +10,8 @@ namespace Dolany.Database.Sqlite.Model
 
         public Dictionary<string, bool> Qustions { get; set; } = new Dictionary<string, bool>();
 
+        public string BookName { get; set; }
+
         public bool IsPassed => Qustions.All(q => q.Value);
     }
 }
