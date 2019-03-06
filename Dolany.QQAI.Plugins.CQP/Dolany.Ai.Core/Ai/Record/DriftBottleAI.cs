@@ -175,44 +175,6 @@ namespace Dolany.Ai.Core.Ai.Record
             return true;
         }
 
-        [EnterCommand(
-            Command = "我的物品",
-            AuthorityLevel = AuthorityLevel.成员,
-            Description = "按成就名查看自己的物品",
-            Syntax = "[成就名]",
-            SyntaxChecker = "Word",
-            Tag = "漂流瓶功能",
-            IsPrivateAvailable = true)]
-        public bool MyItemsByHonor(MsgInformationEx MsgDTO, object[] param)
-        {
-            var honorName = param[0] as string;
-
-            var honorItems = HonorHelper.Instance.FindHonorItems(honorName);
-            if (honorItems.IsNullOrEmpty())
-            {
-                MsgSender.Instance.PushMsg(MsgDTO, "没有查找到该成就");
-                return false;
-            }
-
-            var query = MongoService<DriftItemRecord>.Get(r => r.QQNum == MsgDTO.FromQQ).FirstOrDefault();
-            if (query == null || !query.ItemCount.Any())
-            {
-                MsgSender.Instance.PushMsg(MsgDTO, "你的背包空空如也~", true);
-                return false;
-            }
-
-            var items = query.ItemCount.Where(ic => honorItems.Any(hi => hi.Name == ic.Name)).ToList();
-            if (!items.Any())
-            {
-                MsgSender.Instance.PushMsg(MsgDTO, "你没有属于该成就的物品", true);
-                return false;
-            }
-
-            var msg = $"属于该成就的你拥有的有：{string.Join(",", items.Select(ic => $"{ic.Name}*{ic.Count}"))}";
-            MsgSender.Instance.PushMsg(MsgDTO, msg, true);
-            return true;
-        }
-
         private void FishItem(MsgInformationEx MsgDTO)
         {
             var osPerson = OSPerson.GetPerson(MsgDTO.FromQQ);
