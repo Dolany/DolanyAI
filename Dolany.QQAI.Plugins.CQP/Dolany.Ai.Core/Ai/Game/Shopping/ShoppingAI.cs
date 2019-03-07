@@ -201,6 +201,12 @@ namespace Dolany.Ai.Core.Ai.Game.Shopping
             var itemName = param[1] as string;
             var price = (int)(long) param[2];
 
+            if (aimQQ == MsgDTO.FromQQ)
+            {
+                MsgSender.Instance.PushMsg(MsgDTO, "你无法和自己交易！");
+                return false;
+            }
+
             if (price <= 0)
             {
                 MsgSender.Instance.PushMsg(MsgDTO, "价格异常！");
