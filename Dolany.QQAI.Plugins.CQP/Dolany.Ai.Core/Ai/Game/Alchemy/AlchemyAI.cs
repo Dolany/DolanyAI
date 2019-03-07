@@ -7,6 +7,7 @@ using Dolany.Database.Ai;
 using Dolany.Database.Sqlite;
 using Dolany.Database.Sqlite.Model;
 using Dolany.Game.Alchemy;
+using Dolany.Game.OnlineStore;
 
 namespace Dolany.Ai.Core.Ai.Game.Alchemy
 {
@@ -54,7 +55,8 @@ namespace Dolany.Ai.Core.Ai.Game.Alchemy
 
             // check enough material
             var di = DriftItemRecord.GetRecord(MsgDTO.FromQQ);
-            if (!player.CheckMatiral(bookItem.Item.CombineNeed, di, out var msg))
+            var osPerson = OSPerson.GetPerson(MsgDTO.FromQQ);
+            if (!bookItem.Item.CombineNeed.CheckNeed(player, osPerson, di, out var msg))
             {
                 MsgSender.Instance.PushMsg(MsgDTO, $"材料不足！\r{msg}");
                 return false;
@@ -62,7 +64,7 @@ namespace Dolany.Ai.Core.Ai.Game.Alchemy
 
             // do alchemy
             var table = AlTable.GetTable(MsgDTO.FromQQ);
-            var result = table.DoAlchemy(player, di, bookItem.Item);
+            var result = table.DoAlchemy(player, di, bookItem.Item, osPerson);
             MsgSender.Instance.PushMsg(MsgDTO, result.ToString(), true);
 
             // checkExam
@@ -74,6 +76,7 @@ namespace Dolany.Ai.Core.Ai.Game.Alchemy
             // update person
             player.Update();
             di.Update();
+            osPerson.Update();
 
             return true;
         }
@@ -175,7 +178,9 @@ namespace Dolany.Ai.Core.Ai.Game.Alchemy
             IsTesting = true)]
         public bool MyTable(MsgInformationEx MsgDTO, object[] param)
         {
-            
+            var table = AlTable.GetTable(MsgDTO.FromQQ);
+            MsgSender.Instance.PushMsg(MsgDTO, table.ToString(), true);
+
             return true;
         }
 
@@ -189,7 +194,46 @@ namespace Dolany.Ai.Core.Ai.Game.Alchemy
             IsTesting = true)]
         public bool UpgradeTable(MsgInformationEx MsgDTO, object[] param)
         {
-            
+            var table = AlTable.GetTable(MsgDTO.FromQQ);
+            if (!table.CanUpgrade)
+            {
+                MsgSender.Instance.PushMsg(MsgDTO, "你需要将至少三个魔纹升至当前等级的最大值！");
+                return false;
+            }
+
+            if (table.IsMaxLevel)
+            {
+                MsgSender.Instance.PushMsg(MsgDTO, "你的炼成台已经满级！");
+                return false;
+            }
+
+            var osPerson = OSPerson.GetPerson(MsgDTO.FromQQ);
+            var record = DriftItemRecord.GetRecord(MsgDTO.FromQQ);
+            var player = AlPlayer.GetPlayer(MsgDTO.FromQQ);
+
+            var LevelDataModel = AlTableHelper.Instance[table.Level];
+            if (!LevelDataModel.UpgradeNeed.CheckNeed(player, osPerson, record, out var msg))
+            {
+                MsgSender.Instance.PushMsg(MsgDTO, $"材料不足！\r{msg}");
+                return false;
+            }
+
+            if (!Waiter.Instance.WaitForConfirm(MsgDTO, $"升级需要：\r{msg}\r是否确认升级？"))
+            {
+                MsgSender.Instance.PushMsg(MsgDTO, "操作取消");
+                return false;
+            }
+
+            LevelDataModel.UpgradeNeed.DoConsume(player, osPerson, record);
+            table.Level++;
+
+            player.Update();
+            record.Update();
+            osPerson.Update();
+            table.Update();
+
+            MsgSender.Instance.PushMsg(MsgDTO, $"升级成功！");
+
             return true;
         }
 

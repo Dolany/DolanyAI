@@ -1,8 +1,10 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using Dolany.Ai.Common;
 using Dolany.Database;
 using Dolany.Database.Ai;
+using Dolany.Game.OnlineStore;
 
 namespace Dolany.Game.Alchemy
 {
@@ -30,7 +32,8 @@ namespace Dolany.Game.Alchemy
 
             table = new AlTable()
             {
-                QQNum = QQNum
+                QQNum = QQNum,
+                Level = 1
             };
             MongoService<AlTable>.Insert(table);
 
@@ -49,7 +52,39 @@ namespace Dolany.Game.Alchemy
         // 额外的魔尘
         public int AdditionalDirt => ThurnderPattern / 30;
 
-        public AlchemyResultModel DoAlchemy(AlPlayer player, DriftItemRecord itemRecord, IAlItem Item)
+        public bool IsMaxLevel => AlTableHelper.Instance.MaxLevel == Level;
+
+        public bool CanUpgrade
+        {
+            get
+            {
+                var tableLevelData = AlTableHelper.Instance[Level];
+                var fullCount = 0;
+                if (FirePattern == tableLevelData.MaxFire)
+                {
+                    fullCount++;
+                }
+
+                if (WaterPattern == tableLevelData.MaxWater)
+                {
+                    fullCount++;
+                }
+
+                if (SolidPattern == tableLevelData.MaxSolid)
+                {
+                    fullCount++;
+                }
+
+                if (ThurnderPattern == tableLevelData.MaxThurnder)
+                {
+                    fullCount++;
+                }
+
+                return fullCount >= 3;
+            }
+        }
+
+        public AlchemyResultModel DoAlchemy(AlPlayer player, DriftItemRecord itemRecord, IAlItem Item, OSPerson osPerson)
         {
             var result = new AlchemyResultModel(){Name = Item.Name};
             var dirtName = MagicDirtHelper.Instance.RandomDirt();
@@ -60,7 +95,7 @@ namespace Dolany.Game.Alchemy
                 ? DoMaterialNeedReduce(Item.CombineNeed)
                 : Item.CombineNeed;
 
-            DoConsume(player, itemRecord, result.Consume);
+            result.Consume.DoConsume(player, osPerson, itemRecord);
 
             if (Item.BaseSuccessRate + SuccessUpRate > CommonUtil.RandInt(10000))
             {
@@ -100,26 +135,22 @@ namespace Dolany.Game.Alchemy
             return result;
         }
 
-        // 进行材料消耗
-        private void DoConsume(AlPlayer player, DriftItemRecord itemRecord, AlCombineNeed Consume)
+        public override string ToString()
         {
-            foreach (var alitem in Consume.AlItemNeed)
-            {
-                var (key, value) = alitem;
-                player.ItemConsume(key, value);
-            }
+            var tableLevelModel = AlTableHelper.Instance[Level];
 
-            foreach (var magicDirt in Consume.MagicDirtNeed)
-            {
-                var (key, value) = magicDirt;
-                player.MagicDirtConsume(key, value);
-            }
+            var msg = $"Level:{Level}\r";
+            msg += $"火魔纹：{FirePattern}/{tableLevelModel.MaxFire}(暴击率{Math.Round(DoubleRate * 1.0 / 100, 2)}%)\r";
+            msg += $"水魔纹：{WaterPattern}/{tableLevelModel.MaxWater}(材料减免率{Math.Round(MaterialReduceRate * 1.0 / 100, 2)}%)\r";
+            msg += $"土魔纹：{SolidPattern}/{tableLevelModel.MaxSolid}(成功率提升{Math.Round(SuccessUpRate * 1.0 / 100, 2)}%)\r";
+            msg += $"雷魔纹：{ThurnderPattern}/{tableLevelModel.MaxThurnder}(额外的魔尘{AdditionalDirt})";
 
-            foreach (var nitem in Consume.NormalItemNeed)
-            {
-                var (key, value) = nitem;
-                itemRecord.ItemConsume(key, value);
-            }
+            return msg;
+        }
+
+        public void Update()
+        {
+            MongoService<AlTable>.Update(this);
         }
     }
 

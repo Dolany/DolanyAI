@@ -16,13 +16,4 @@ namespace Dolany.Game.Alchemy
 
         public abstract void DeEffect(AlPlayer source, AlPlayer aim, int level);
     }
-
-    public class AlCombineNeed
-    {
-        public Dictionary<string, int> AlItemNeed { get; set; } = new Dictionary<string, int>();
-
-        public Dictionary<string, int> MagicDirtNeed { get; set; } = new Dictionary<string, int>();
-
-        public Dictionary<string, int> NormalItemNeed { get; set; } = new Dictionary<string, int>();
-    }
 }
