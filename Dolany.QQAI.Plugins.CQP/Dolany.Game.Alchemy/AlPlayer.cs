@@ -68,14 +68,34 @@ namespace Dolany.Game.Alchemy
             MongoService<AlPlayer>.Update(this);
         }
 
-        public void MagicDirtConsume(string name, int count)
+        public void MagicDirtConsume(string name, int count = 1)
         {
             MagicDirt[name] -= count;
         }
 
-        public void ItemConsume(string name, int count)
+        public void ItemConsume(string name, int count = 1)
         {
             AlItems[name] -= count;
+        }
+
+        public void ItemGain(string name, int count = 1)
+        {
+            if (AlItems.ContainsKey(name))
+            {
+                AlItems[name] += count;
+            }
+
+            AlItems.Add(name, count);
+        }
+
+        public void MagicDirtGain(string name, int count = 1)
+        {
+            if (MagicDirt.ContainsKey(name))
+            {
+                MagicDirt[name] += count;
+            }
+
+            MagicDirt.Add(name, count);
         }
 
         public bool IsAlive
@@ -85,23 +105,6 @@ namespace Dolany.Game.Alchemy
                 var cache = SCacheService.Get<AlPlayerAliveCache>($"AlPlayerAliveCache-{QQNum}");
                 return cache == null;
             }
-        }
-
-        public bool SufferDamage(int value)
-        {
-            CurHP = Math.Max(CurHP - value, 0);
-            if (CurHP > 0)
-            {
-                return true;
-            }
-
-            SCacheService.Cache($"AlPlayerAliveCache-{QQNum}", new AlPlayerAliveCache
-            {
-                StartTime = DateTime.Now,
-                EndTime = DateTime.Now.AddHours(4),
-                QQNum = QQNum
-            }, DateTime.Now.AddHours(4));
-            return false;
         }
     }
 }
