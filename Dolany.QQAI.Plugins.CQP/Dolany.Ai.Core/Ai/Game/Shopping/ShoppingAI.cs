@@ -186,8 +186,8 @@ namespace Dolany.Ai.Core.Ai.Game.Shopping
             Tag = "商店功能",
             SyntaxChecker = "At Word Long",
             IsPrivateAvailable = false,
-            DailyLimit = 5,
-            TestingDailyLimit = 7)]
+            DailyLimit = 4,
+            TestingDailyLimit = 5)]
         public bool DealWith(MsgInformationEx MsgDTO, object[] param)
         {
             var osPerson = OSPerson.GetPerson(MsgDTO.FromQQ);
@@ -213,6 +213,19 @@ namespace Dolany.Ai.Core.Ai.Game.Shopping
                 return false;
             }
 
+            if (!ItemHelper.Instance.CheckItem(aimQQ, itemName))
+            {
+                MsgSender.Instance.PushMsg(MsgDTO, "对方没有该物品！");
+                return false;
+            }
+
+            var originPrice = HonorHelper.Instance.GetItemPrice(HonorHelper.Instance.FindItem(itemName), aimQQ);
+            if (originPrice > price)
+            {
+                MsgSender.Instance.PushMsg(MsgDTO, $"收购价格无法低于系统价格({originPrice})！(打击黑心商人！)");
+                return false;
+            }
+
             var sourceOSPerson = OSPerson.GetPerson(MsgDTO.FromQQ);
             var fee = sourceOSPerson.CheckBuff("苍天") ? 0 : price / 20;
             if (sourceOSPerson.Golds < price + fee)
@@ -221,16 +234,10 @@ namespace Dolany.Ai.Core.Ai.Game.Shopping
                 return false;
             }
 
-            if (!ItemHelper.Instance.CheckItem(aimQQ, itemName))
-            {
-                MsgSender.Instance.PushMsg(MsgDTO, "对方没有该物品！");
-                return false;
-            }
-
             var count = ItemHelper.Instance.ItemCount(aimQQ, itemName);
             var msg = $"收到来自 {CodeApi.Code_At(MsgDTO.FromQQ)} 的交易请求：\r" +
                       $"希望得到的物品：{itemName}\r" +
-                      $"价格：{price}({HonorHelper.Instance.GetItemPrice(HonorHelper.Instance.FindItem(itemName), aimQQ)})\r" +
+                      $"价格：{price}({originPrice})\r" +
                       $"你当前持有：{count}个，是否确认交易？";
             if (!Waiter.Instance.WaitForConfirm(MsgDTO.FromGroup, aimQQ, msg, 10))
             {

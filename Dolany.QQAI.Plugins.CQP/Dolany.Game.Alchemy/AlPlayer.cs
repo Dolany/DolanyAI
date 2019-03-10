@@ -3,7 +3,8 @@ using System.Collections.Generic;
 using System.Linq;
 using Dolany.Ai.Common;
 using Dolany.Database;
-using Dolany.Database.Ai;
+using Dolany.Database.Sqlite;
+using Dolany.Database.Sqlite.Model;
 
 namespace Dolany.Game.Alchemy
 {
@@ -18,10 +19,6 @@ namespace Dolany.Game.Alchemy
         public long MaxHP { get; set; }
 
         public long CurHP { get; set; }
-
-        public bool IsAlive { get; set; }
-
-        public DateTime RebornTime { get; set; }
 
         public Dictionary<string, int> MagicDirt { get; set; }
 
@@ -38,9 +35,9 @@ namespace Dolany.Game.Alchemy
             var player = MongoService<AlPlayer>.Get(p => p.QQNum == QQNum).FirstOrDefault();
             if (player != null)
             {
-                if (!player.IsAlive && player.RebornTime.ToLocalTime() < DateTime.Now)
+                if (player.CurHP <= 0 && player.IsAlive)
                 {
-                    player.IsAlive = true;
+                    player.CurHP = player.MaxHP;
                 }
 
                 return player;
@@ -53,8 +50,6 @@ namespace Dolany.Game.Alchemy
                 CurHP = 50,
                 MagicDirt = new Dictionary<string, int>(),
                 AlItems = new Dictionary<string, int>(),
-                IsAlive = true,
-                RebornTime = DateTime.Now,
                 MagicBookAvailable = new List<string>(),
                 MagicBookLearning = "初级炼金手册",
                 MagicBookLearned = new List<string>()
@@ -81,6 +76,32 @@ namespace Dolany.Game.Alchemy
         public void ItemConsume(string name, int count)
         {
             AlItems[name] -= count;
+        }
+
+        public bool IsAlive
+        {
+            get
+            {
+                var cache = SCacheService.Get<AlPlayerAliveCache>($"AlPlayerAliveCache-{QQNum}");
+                return cache == null;
+            }
+        }
+
+        public bool SufferDamage(int value)
+        {
+            CurHP = Math.Max(CurHP - value, 0);
+            if (CurHP > 0)
+            {
+                return true;
+            }
+
+            SCacheService.Cache($"AlPlayerAliveCache-{QQNum}", new AlPlayerAliveCache
+            {
+                StartTime = DateTime.Now,
+                EndTime = DateTime.Now.AddHours(4),
+                QQNum = QQNum
+            }, DateTime.Now.AddHours(4));
+            return false;
         }
     }
 }

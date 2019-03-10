@@ -30,7 +30,10 @@ namespace Dolany.Ai.Core.Cache
 
         private void ListenCallBack(MsgInformation info)
         {
-            var msg = $"[Information] {info.Information} {info.FromGroup} {info.FromQQ} {info.Msg}";
+            var msg = $"[Information] {info.Information} " +
+                      $"{(info.FromGroup == 0 ? "私聊" : AIMgr.Instance.AllGroupsDic[info.FromGroup])} " +
+                      $"{info.FromQQ} " +
+                      $"{info.Msg}";
             AIMgr.Instance.MessagePublish(msg);
 
             switch (info.Information)

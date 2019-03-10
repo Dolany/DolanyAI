@@ -79,7 +79,7 @@ namespace Dolany.Ai.Core.Ai.SingleCommand.OrderSong
                         Command = AiCommand.Get163Music,
                         Msg = songId
                     });
-            return song.Msg;
+            return song?.Msg;
         }
     }
 }

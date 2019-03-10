@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Linq;
+using Dolany.Ai.Common;
 using Dolany.Ai.Core.Base;
 using Dolany.Ai.Core.Cache;
 using Dolany.Ai.Core.Model;
@@ -70,7 +71,7 @@ namespace Dolany.Ai.Core.Ai.Game.Alchemy
             // checkExam
             if (result.IsSuccess)
             {
-                CheckExam(player, bookItem.Item.Name, bookItem.Level, MsgDTO);
+                CheckExam(player, bookItem.Item.Name, MsgDTO);
             }
 
             // update person
@@ -81,7 +82,7 @@ namespace Dolany.Ai.Core.Ai.Game.Alchemy
             return true;
         }
 
-        private void CheckExam(AlPlayer player, string itemName, int level, MsgInformationEx MsgDTO)
+        private void CheckExam(AlPlayer player, string itemName, MsgInformationEx MsgDTO)
         {
             var cache = SCacheService.Get<MagicExamCache>($"Examing-{player.QQNum}");
             if (cache == null)
@@ -89,7 +90,7 @@ namespace Dolany.Ai.Core.Ai.Game.Alchemy
                 return;
             }
 
-            var fullName = $"{itemName}lv{level}";
+            var fullName = $"{itemName}";
             if (!cache.Qustions.ContainsKey(fullName))
             {
                 return;
@@ -247,7 +248,15 @@ namespace Dolany.Ai.Core.Ai.Game.Alchemy
             IsTesting = true)]
         public bool ViewMagicBook(MsgInformationEx MsgDTO, object[] param)
         {
-            
+            var name = param[0] as string;
+            var book = MagicBookHelper.Instance[name];
+            if (book == null)
+            {
+                MsgSender.Instance.PushMsg(MsgDTO, "未查找到该魔法书！");
+                return false;
+            }
+
+            MsgSender.Instance.PushMsg(MsgDTO, book.ToString());
             return true;
         }
 
@@ -261,7 +270,15 @@ namespace Dolany.Ai.Core.Ai.Game.Alchemy
             IsTesting = true)]
         public bool ViewAlchemyItem(MsgInformationEx MsgDTO, object[] param)
         {
-            
+            var name = param[0] as string;
+            var bookItem = MagicBookHelper.Instance.FindItem(name);
+            if (bookItem == null)
+            {
+                MsgSender.Instance.PushMsg(MsgDTO, "未找到该炼成品！");
+                return false;
+            }
+
+            MsgSender.Instance.PushMsg(MsgDTO, $"{bookItem.Item}\r《{bookItem.MagicBook.Name}》");
             return true;
         }
 
@@ -275,7 +292,17 @@ namespace Dolany.Ai.Core.Ai.Game.Alchemy
             IsTesting = true)]
         public bool MyAlchemyItem(MsgInformationEx MsgDTO, object[] param)
         {
-            
+            var player = AlPlayer.GetPlayer(MsgDTO.FromQQ);
+            if (player.AlItems.IsNullOrEmpty())
+            {
+                MsgSender.Instance.PushMsg(MsgDTO, "你还没有任何炼成品！");
+                return false;
+            }
+
+            var items = player.AlItems.Select(it => new {Name = it.Key, Count = it.Value}).OrderBy(it => it.Name);
+
+            var msg = $"你的炼成品有：\r{string.Join(",", items.Select(it => $"{it.Name}*{it.Count}"))}";
+            MsgSender.Instance.PushMsg(MsgDTO, msg, true);
             return true;
         }
 
@@ -289,7 +316,17 @@ namespace Dolany.Ai.Core.Ai.Game.Alchemy
             IsTesting = true)]
         public bool MyMagicDirt(MsgInformationEx MsgDTO, object[] param)
         {
-            
+            var player = AlPlayer.GetPlayer(MsgDTO.FromQQ);
+            if (player.MagicDirt.IsNullOrEmpty())
+            {
+                MsgSender.Instance.PushMsg(MsgDTO, "你还没有任何魔尘！");
+                return false;
+            }
+
+            var dirts = player.MagicDirt.Select(md => new {Name = md.Key, Count = md.Value});
+            var msg = $"你的魔尘有：\r{string.Join(",", dirts.Select(md => $"{md.Name}*{md.Count}"))}";
+            MsgSender.Instance.PushMsg(MsgDTO, msg, true);
+
             return true;
         }
 
@@ -303,8 +340,47 @@ namespace Dolany.Ai.Core.Ai.Game.Alchemy
             IsTesting = true)]
         public bool UseAlcheyItem(MsgInformationEx MsgDTO, object[] param)
         {
-            
+            var name = param[0] as string;
+            var aimQQ = (long) param[1];
+
+            UA(MsgDTO.FromQQ, aimQQ, name, MsgDTO.FromGroup);
             return true;
+        }
+
+        [EnterCommand(Command = "ua",
+            AuthorityLevel = AuthorityLevel.成员,
+            Description = "对自己使用某个炼成品",
+            Syntax = "[炼成品名]",
+            SyntaxChecker = "Word",
+            Tag = "炼金",
+            IsPrivateAvailable = false,
+            IsTesting = true)]
+        public bool UseAlcheyItemToSelf(MsgInformationEx MsgDTO, object[] param)
+        {
+            var name = param[0] as string;
+
+            UA(MsgDTO.FromQQ, MsgDTO.FromQQ, name, MsgDTO.FromGroup);
+            return true;
+        }
+
+        private void UA(long sourceQQ, long aimQQ, string name, long GroupNum)
+        {
+            var bookItem = MagicBookHelper.Instance.FindItem(name);
+            if (bookItem == null)
+            {
+                MsgSender.Instance.PushMsg(GroupNum, sourceQQ, "未找到该炼成品！");
+                return;
+            }
+
+            var sourcePlayer = AlPlayer.GetPlayer(sourceQQ);
+            if (!sourcePlayer.AlItems.ContainsKey(name))
+            {
+                MsgSender.Instance.PushMsg(GroupNum, sourceQQ, "你没有该炼成品！");
+                return;
+            }
+
+            var aimPlayer = sourceQQ == aimQQ ? sourcePlayer : AlPlayer.GetPlayer(aimQQ);
+            bookItem.Item.DoEffect(sourcePlayer, aimPlayer, GroupNum);
         }
 
         [EnterCommand(Command = "报名考试",
@@ -334,7 +410,7 @@ namespace Dolany.Ai.Core.Ai.Game.Alchemy
             }
 
             var msg = $"你当前参加的是 {player.MagicBookLearning} 的考试。" +
-                      $"考试将持续一个小时，期间需要你新炼制随机指定的三个最高等级的炼成品，是否确认参加考试？";
+                      $"考试将持续一个小时，期间需要你新炼制随机指定的三个炼成品，是否确认参加考试？";
             if (!Waiter.Instance.WaitForConfirm(MsgDTO, msg))
             {
                 MsgSender.Instance.PushMsg(MsgDTO, "操作取消");
@@ -343,13 +419,13 @@ namespace Dolany.Ai.Core.Ai.Game.Alchemy
 
             var questions = MagicBookHelper.Instance.GetExamQuestions(player.MagicBookLearning, 3);
             msg = $"考试开始！这次考试的题目是：" +
-                  $"{string.Join("，", questions.Select(q => $"{q.Name}lv{q.MaxLevel}"))}";
+                  $"{string.Join("，", questions.Select(q => $"{q.Name}"))}";
             MsgSender.Instance.PushMsg(MsgDTO, msg);
 
             cache = new MagicExamCache
             {
                 EndTime = DateTime.Now.AddHours(1),
-                Qustions = questions.ToDictionary(q => $"{q.Name}lv{q.MaxLevel}", q => false),
+                Qustions = questions.ToDictionary(q => $"{q.Name}", q => false),
                 BookName = player.MagicBookLearning
             };
             SCacheService.Cache($"Examing-{MsgDTO.FromQQ}", cache, cache.EndTime);

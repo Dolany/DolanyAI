@@ -10,4 +10,10 @@
     <ProjectReference Include="..\Dolany.Game.OnlineStore\Dolany.Game.OnlineStore.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <None Update="Data\AlTableData.json">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+  </ItemGroup>
+
 </Project>

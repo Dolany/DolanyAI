@@ -1,19 +1,27 @@
-﻿using System.Collections.Generic;
+﻿using System;
 
 namespace Dolany.Game.Alchemy
 {
     public abstract class IAlItem
     {
-        public abstract string Name { get; }
+        public abstract string Name { get; set; }
 
-        public abstract string Description { get; }
+        public abstract string Description { get;set; }
 
-        public abstract AlCombineNeed CombineNeed { get; }
+        public abstract AlCombineNeed CombineNeed { get;set; }
 
-        public abstract int BaseSuccessRate { get; }
+        public abstract int BaseSuccessRate { get; set; }
 
-        public virtual int MaxLevel { get; } = 5;
+        public abstract void DoEffect(AlPlayer source, AlPlayer aim, long groupNum);
 
-        public abstract void DeEffect(AlPlayer source, AlPlayer aim, int level);
+        public override string ToString()
+        {
+            var msg = $"{Name}\r";
+            msg += $"{Description}\r";
+            msg += $"基础成功率：{Math.Round(BaseSuccessRate * 1.0 / 10000, 2)}%";
+            msg += $"合成材料清单：{CombineNeed}";
+
+            return msg;
+        }
     }
 }

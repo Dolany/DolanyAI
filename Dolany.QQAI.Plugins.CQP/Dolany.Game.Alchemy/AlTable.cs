@@ -20,7 +20,7 @@ namespace Dolany.Game.Alchemy
 
         public int SolidPattern { get; set; }
 
-        public int ThurnderPattern { get; set; }
+        public int ThunderPattern { get; set; }
 
         public static AlTable GetTable(long QQNum)
         {
@@ -50,7 +50,7 @@ namespace Dolany.Game.Alchemy
         public int SuccessUpRate => (int) (1.0 * SolidPattern / (SolidPattern + 200) * 10000);
 
         // 额外的魔尘
-        public int AdditionalDirt => ThurnderPattern / 30;
+        public int AdditionalDirt => ThunderPattern / 30;
 
         public bool IsMaxLevel => AlTableHelper.Instance.MaxLevel == Level;
 
@@ -75,7 +75,7 @@ namespace Dolany.Game.Alchemy
                     fullCount++;
                 }
 
-                if (ThurnderPattern == tableLevelData.MaxThurnder)
+                if (ThunderPattern == tableLevelData.MaxThunder)
                 {
                     fullCount++;
                 }
@@ -143,7 +143,7 @@ namespace Dolany.Game.Alchemy
             msg += $"火魔纹：{FirePattern}/{tableLevelModel.MaxFire}(暴击率{Math.Round(DoubleRate * 1.0 / 100, 2)}%)\r";
             msg += $"水魔纹：{WaterPattern}/{tableLevelModel.MaxWater}(材料减免率{Math.Round(MaterialReduceRate * 1.0 / 100, 2)}%)\r";
             msg += $"土魔纹：{SolidPattern}/{tableLevelModel.MaxSolid}(成功率提升{Math.Round(SuccessUpRate * 1.0 / 100, 2)}%)\r";
-            msg += $"雷魔纹：{ThurnderPattern}/{tableLevelModel.MaxThurnder}(额外的魔尘{AdditionalDirt})";
+            msg += $"雷魔纹：{ThunderPattern}/{tableLevelModel.MaxThunder}(额外的魔尘{AdditionalDirt})";
 
             return msg;
         }
