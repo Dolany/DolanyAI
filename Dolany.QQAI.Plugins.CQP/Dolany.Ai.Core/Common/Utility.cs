@@ -51,21 +51,6 @@
             return new HourMinuteModel { Hour = hour, Minute = minute };
         }
 
-        public static T Clone<T>(this T obj) where T : class, new()
-        {
-            var type = obj.GetType();
-            var copyT = new T();
-            foreach (var prop in type.GetProperties())
-            {
-                if (prop.CanRead && prop.CanWrite)
-                {
-                    prop.SetValue(copyT, prop.GetValue(obj));
-                }
-            }
-
-            return copyT;
-        }
-
         public static string GetAuthName(MsgInformationEx MsgDTO)
         {
             var tempAuth = GetTempAuth(MsgDTO);

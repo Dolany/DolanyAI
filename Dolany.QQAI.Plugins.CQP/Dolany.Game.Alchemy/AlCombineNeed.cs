@@ -122,5 +122,46 @@ namespace Dolany.Game.Alchemy
 
             osPerson.Golds -= GoldsNeed;
         }
+
+        public override string ToString()
+        {
+            var msg = "";
+            var msgList = new List<string>();
+
+            if (!AlItemNeed.IsNullOrEmpty())
+            {
+                foreach (var alitemNeed in AlItemNeed)
+                {
+                    var (name, count) = alitemNeed;
+                    msgList.Add($"{name}*{count}");
+                }
+            }
+
+            if (!MagicDirtNeed.IsNullOrEmpty())
+            {
+                foreach (var dirtNeed in MagicDirtNeed)
+                {
+                    var (name, count) = dirtNeed;
+                    msgList.Add($"{name}*{count}");
+                }
+            }
+
+            if (!NormalItemNeed.IsNullOrEmpty())
+            {
+                foreach (var item in NormalItemNeed)
+                {
+                    var (name, count) = item;
+                    msgList.Add($"{name}*{count}");
+                }
+            }
+
+            if (GoldsNeed > 0)
+            {
+                msgList.Add($"金币{GoldsNeed}");
+            }
+
+            msg += string.Join("，", msgList);
+            return msg;
+        }
     }
 }

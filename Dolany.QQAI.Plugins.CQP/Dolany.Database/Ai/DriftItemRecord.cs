@@ -33,10 +33,25 @@ namespace Dolany.Database.Ai
             MongoService<DriftItemRecord>.Update(this);
         }
 
-        public void ItemConsume(string name, int count)
+        public void ItemConsume(string name, int count = 1)
         {
             var item = ItemCount.First(ic => ic.Name == name);
             item.Count -= count;
+        }
+
+        public void ItemGain(string name, int count = 1)
+        {
+            var item = ItemCount.FirstOrDefault(ic => ic.Name == name);
+            if (item == null)
+            {
+                ItemCount.Add(new DriftItemCountRecord()
+                {
+                    Name = name,
+                    Count = count
+                });
+            }
+
+            item.Count += count;
         }
     }
 

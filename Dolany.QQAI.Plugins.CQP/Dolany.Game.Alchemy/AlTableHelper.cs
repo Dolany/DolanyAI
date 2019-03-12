@@ -6,7 +6,7 @@ namespace Dolany.Game.Alchemy
 {
     public class AlTableHelper
     {
-        private List<AlTableDataModel> DataList;
+        private readonly List<AlTableDataModel> DataList;
 
         public static AlTableHelper Instance { get; } = new AlTableHelper();
 
@@ -36,7 +36,7 @@ namespace Dolany.Game.Alchemy
 
         public int MaxSolid { get; set; }
 
-        public int MaxThurnder { get; set; }
+        public int MaxThunder { get; set; }
 
         public AlCombineNeed UpgradeNeed { get; set; }
     }

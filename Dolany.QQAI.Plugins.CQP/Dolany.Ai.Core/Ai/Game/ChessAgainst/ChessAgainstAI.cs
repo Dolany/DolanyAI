@@ -1,7 +1,7 @@
-﻿using Dolany.Ai.Core.API;
+﻿using Dolany.Ai.Common;
+using Dolany.Ai.Core.API;
 using Dolany.Ai.Core.Base;
 using Dolany.Ai.Core.Cache;
-using Dolany.Ai.Core.Common;
 using Dolany.Ai.Core.Model;
 using Dolany.Game.Chess;
 using Dolany.Game.OnlineStore;
@@ -16,7 +16,7 @@ namespace Dolany.Ai.Core.Ai.Game.ChessAgainst
         NeedManulOpen = true)]
     public class ChessAgainstAI : AIBase
     {
-        [EnterCommand(Command = "对决",
+        [EnterCommand(Command = "对决 决斗",
             AuthorityLevel = AuthorityLevel.成员,
             Description = "指定一名成员进行对决",
             Syntax = "[@QQ号]",

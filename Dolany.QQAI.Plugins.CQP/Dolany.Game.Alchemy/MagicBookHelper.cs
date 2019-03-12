@@ -22,22 +22,13 @@ namespace Dolany.Game.Alchemy
                 .Select(type => assembly.CreateInstance(type.FullName) as IMagicBook).ToList();
         }
 
+        public IMagicBook this[string name] => MagicBooks.FirstOrDefault(m => m.Name == name);
+
         public MagicBookItemModel FindItem(string name)
         {
-            var level = 1;
-            var strs = name.Split(new[] {"lv"}, StringSplitOptions.RemoveEmptyEntries);
-            if (strs.Length >= 2)
-            {
-                name = strs[0];
-                if (!int.TryParse(strs[1], out level) || level <= 0)
-                {
-                    return null;
-                }
-            }
-
             var magicBook = MagicBooks.FirstOrDefault(mb => mb.Items.Any(i => i.Name == name));
 
-            var item = magicBook?.Items.FirstOrDefault(i => i.Name == name && i.MaxLevel >= level);
+            var item = magicBook?.Items.FirstOrDefault(i => i.Name == name);
             if (item == null)
             {
                 return null;
@@ -46,8 +37,7 @@ namespace Dolany.Game.Alchemy
             return new MagicBookItemModel()
             {
                 MagicBook = magicBook,
-                Item = item,
-                Level = level
+                Item = item
             };
         }
 
@@ -66,7 +56,5 @@ namespace Dolany.Game.Alchemy
         public IMagicBook MagicBook { get; set; }
 
         public IAlItem Item { get; set; }
-
-        public int Level { get; set; }
     }
 }

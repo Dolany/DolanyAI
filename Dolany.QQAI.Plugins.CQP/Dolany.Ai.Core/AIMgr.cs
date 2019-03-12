@@ -117,6 +117,8 @@ namespace Dolany.Ai.Core
             LoadTools();
             LoadCheckers();
             DbMgr.InitXmls();
+
+            CommonUtil.MsgSendBack = (groupNum, QQNum, msg, isNeedAt) => MsgSender.Instance.PushMsg(groupNum, QQNum, msg, isNeedAt);
         }
 
         private void LoadCheckers()
