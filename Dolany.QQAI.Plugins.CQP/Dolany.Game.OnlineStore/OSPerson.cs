@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using Dolany.Ai.Common;
 using Dolany.Database;
+using MongoDB.Bson.Serialization.Attributes;
 
 namespace Dolany.Game.OnlineStore
 {
@@ -32,12 +33,7 @@ namespace Dolany.Game.OnlineStore
 
             osPerson.Level = 1;
             osPerson.MaxHP = 50;
-            osPerson.CurHP = 50;
             osPerson.MaxMP = 10;
-            osPerson.CurMP = 10;
-            osPerson.MPRestoreRate = 400;
-            osPerson.MPRestoreTime = DateTime.Now;
-            osPerson.SpellCardDic = new Dictionary<string, int>();
 
             return osPerson;
         }
@@ -120,7 +116,6 @@ namespace Dolany.Game.OnlineStore
         public void Update()
         {
             Buffs.Remove(b => b.ExpiryTime.ToLocalTime() < DateTime.Now || b.Data == 0);
-            SpellCardDic.Remove(sc => sc == 0);
 
             MongoService<OSPerson>.Update(this);
         }
