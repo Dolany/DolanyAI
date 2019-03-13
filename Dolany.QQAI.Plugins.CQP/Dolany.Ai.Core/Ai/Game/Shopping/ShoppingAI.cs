@@ -221,7 +221,7 @@ namespace Dolany.Ai.Core.Ai.Game.Shopping
             var originPrice = HonorHelper.Instance.GetItemPrice(HonorHelper.Instance.FindItem(itemName), aimQQ);
             if (originPrice > price)
             {
-                MsgSender.Instance.PushMsg(MsgDTO, $"收购价格无法低于系统价格({originPrice})！(打击黑心商人！)");
+                MsgSender.Instance.PushMsg(MsgDTO, $"收购价格无法低于系统价格({originPrice})！");
                 return false;
             }
 
@@ -274,7 +274,8 @@ namespace Dolany.Ai.Core.Ai.Game.Shopping
             var osPerson = OSPerson.GetPerson(MsgDTO.FromQQ);
             var itemRecord = DriftItemRecord.GetRecord(MsgDTO.FromQQ);
 
-            var msg = $"金币：{osPerson.Golds}\r" + $"物品数量：{itemRecord.ItemCount?.Count ?? 0}\r" +
+            var msg = $"金币：{osPerson.Golds}\r" +
+                      $"物品数量：{itemRecord.ItemCount?.Count ?? 0}\r" +
                       $"成就数量：{itemRecord.HonorList?.Count ?? 0}";
             var buffs = osPerson.EffectiveBuffs;
             if (!buffs.IsNullOrEmpty())

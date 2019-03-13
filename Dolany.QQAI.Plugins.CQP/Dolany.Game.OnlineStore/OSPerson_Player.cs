@@ -7,6 +7,5 @@ namespace Dolany.Game.OnlineStore
     {
         public int Level { get; set; }
         public int MaxHP { get; set; }
-        public int MaxMP { get; set; }
     }
 }

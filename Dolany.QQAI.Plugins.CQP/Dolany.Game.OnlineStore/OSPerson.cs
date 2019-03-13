@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using System.Linq;
 using Dolany.Ai.Common;
 using Dolany.Database;
-using MongoDB.Bson.Serialization.Attributes;
 
 namespace Dolany.Game.OnlineStore
 {
@@ -13,7 +12,7 @@ namespace Dolany.Game.OnlineStore
 
         public int Golds { get; set; }
 
-        public IList<OSPersonBuff> Buffs { get; set; }
+        public IList<OSPersonBuff> Buffs { get; set; } = new List<OSPersonBuff>();
 
         public IList<OSPersonBuff> EffectiveBuffs => Buffs.IsNullOrEmpty() ? null : Buffs.Where(b => b.ExpiryTime.ToLocalTime() > DateTime.Now).ToList();
 
@@ -33,25 +32,16 @@ namespace Dolany.Game.OnlineStore
 
             osPerson.Level = 1;
             osPerson.MaxHP = 50;
-            osPerson.MaxMP = 10;
 
             return osPerson;
         }
 
         public static int GoldIncome(long QQNum, int gold)
         {
-            var osPerson = MongoService<OSPerson>.Get(p => p.QQNum == QQNum).FirstOrDefault();
-            if (osPerson == null)
-            {
-                osPerson = new OSPerson {QQNum = QQNum, Golds = gold};
-                MongoService<OSPerson>.Insert(osPerson);
-            }
-            else
-            {
-                osPerson.Golds += gold;
-                osPerson.Update();
-            }
+            var osPerson = GetPerson(QQNum);
 
+            osPerson.Golds += gold;
+            osPerson.Update();
             return osPerson.Golds;
         }
 
@@ -87,19 +77,8 @@ namespace Dolany.Game.OnlineStore
 
         public static void AddBuff(long qqNum, OSPersonBuff osBuff)
         {
-            var osPerson = MongoService<OSPerson>.Get(p => p.QQNum == qqNum).FirstOrDefault();
-            if (osPerson == null)
-            {
-                osPerson = new OSPerson {QQNum = qqNum, Buffs = new List<OSPersonBuff>(){osBuff}};
-                MongoService<OSPerson>.Insert(osPerson);
+            var osPerson = GetPerson(qqNum);
 
-                return;
-            }
-
-            if (osPerson.Buffs == null)
-            {
-                osPerson.Buffs = new List<OSPersonBuff>();
-            }
             var buff = osPerson.Buffs.FirstOrDefault(b => b.Name == osBuff.Name);
             if (buff == null)
             {
