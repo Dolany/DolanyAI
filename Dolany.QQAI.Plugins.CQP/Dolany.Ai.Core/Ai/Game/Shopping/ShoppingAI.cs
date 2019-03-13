@@ -3,7 +3,6 @@ using Dolany.Ai.Common;
 using Dolany.Ai.Core.API;
 using Dolany.Ai.Core.Base;
 using Dolany.Ai.Core.Cache;
-using Dolany.Ai.Core.Common;
 using Dolany.Ai.Core.Model;
 using Dolany.Database;
 using Dolany.Database.Ai;
@@ -24,7 +23,7 @@ namespace Dolany.Ai.Core.Ai.Game.Shopping
             Syntax = "[物品名或成就名]",
             Tag = "商店功能",
             SyntaxChecker = "Word",
-            IsPrivateAvailable = false,
+            IsPrivateAvailable = true,
             DailyLimit = 6,
             TestingDailyLimit = 8)]
         public bool Sell(MsgInformationEx MsgDTO, object[] param)
@@ -110,7 +109,7 @@ namespace Dolany.Ai.Core.Ai.Game.Shopping
             Syntax = "",
             Tag = "商店功能",
             SyntaxChecker = "Empty",
-            IsPrivateAvailable = false)]
+            IsPrivateAvailable = true)]
         public bool ShopInfo(MsgInformationEx MsgDTO, object[] param)
         {
             var osPerson = OSPerson.GetPerson(MsgDTO.FromQQ);
@@ -133,7 +132,7 @@ namespace Dolany.Ai.Core.Ai.Game.Shopping
             Syntax = "[商品名]",
             Tag = "商店功能",
             SyntaxChecker = "Word",
-            IsPrivateAvailable = false,
+            IsPrivateAvailable = true,
             DailyLimit = 5,
             TestingDailyLimit = 7)]
         public bool Buy(MsgInformationEx MsgDTO, object[] param)
