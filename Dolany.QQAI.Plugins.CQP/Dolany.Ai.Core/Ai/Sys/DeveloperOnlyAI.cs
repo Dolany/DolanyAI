@@ -9,7 +9,6 @@ namespace Dolany.Ai.Core.Ai.Sys
     using System.Linq;
     using Base;
     using Cache;
-    using Common;
     using Model;
     using Dolany.Database.Ai;
     using Database.Sqlite.Model;
@@ -187,6 +186,26 @@ namespace Dolany.Ai.Core.Ai.Sys
             {
                 MsgSender.Instance.PushMsg(MsgDTO, msg);
             }
+
+            MsgSender.Instance.PushMsg(MsgDTO, "奖励已生效！");
+            return true;
+        }
+
+        [EnterCommand(Command = "金币奖励",
+            Description = "奖励某个人一些金币",
+            Syntax = "[@QQ号] [金币数量]",
+            Tag = "系统命令",
+            SyntaxChecker = "At Long",
+            AuthorityLevel = AuthorityLevel.开发者,
+            IsPrivateAvailable = false)]
+        public bool GoldBonus(MsgInformationEx MsgDTO, object[] param)
+        {
+            var qqNum = (long) param[0];
+            var golds = (int)(long)param[1];
+
+            var osPerson = OSPerson.GetPerson(qqNum);
+            osPerson.Golds += golds;
+            osPerson.Update();
 
             MsgSender.Instance.PushMsg(MsgDTO, "奖励已生效！");
             return true;

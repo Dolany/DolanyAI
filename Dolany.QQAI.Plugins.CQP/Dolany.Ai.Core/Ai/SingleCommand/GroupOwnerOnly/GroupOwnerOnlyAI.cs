@@ -60,7 +60,7 @@ namespace Dolany.Ai.Core.Ai.SingleCommand.GroupOwnerOnly
                 return false;
             }
 
-            var aimPerson = OSPerson.GetPerson(qqNum);
+            var aimPerson = qqNum == MsgDTO.FromQQ ? sourcePerson : OSPerson.GetPerson(qqNum);
             aimPerson.Buffs.Clear();
             aimPerson.Update();
 
@@ -91,7 +91,7 @@ namespace Dolany.Ai.Core.Ai.SingleCommand.GroupOwnerOnly
                 return false;
             }
 
-            var sourcePerson = OSPerson.GetPerson(MsgDTO.FromQQ);
+            var sourcePerson = qqNum == MsgDTO.FromQQ ? aimPerson : OSPerson.GetPerson(MsgDTO.FromQQ);
             if (sourcePerson.Golds < 100)
             {
                 MsgSender.Instance.PushMsg(MsgDTO, "驱散该buff需要100金币，你没有足够的金币！");
