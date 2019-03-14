@@ -18,7 +18,7 @@ namespace Dolany.Game.OnlineStore
 
         public static OSPerson GetPerson(long QQNum)
         {
-            var osPerson = MongoService<OSPerson>.Get(p => p.QQNum == QQNum).FirstOrDefault();
+            var osPerson = MongoService<OSPerson>.GetOnly(p => p.QQNum == QQNum);
             if (osPerson == null)
             {
                 osPerson = new OSPerson {QQNum = QQNum};

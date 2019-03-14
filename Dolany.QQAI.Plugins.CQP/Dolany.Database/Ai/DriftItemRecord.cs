@@ -14,7 +14,7 @@ namespace Dolany.Database.Ai
 
         public static DriftItemRecord GetRecord(long QQNum)
         {
-            var record = MongoService<DriftItemRecord>.Get(r => r.QQNum == QQNum).FirstOrDefault();
+            var record = MongoService<DriftItemRecord>.GetOnly(r => r.QQNum == QQNum);
             if (record != null)
             {
                 return record;

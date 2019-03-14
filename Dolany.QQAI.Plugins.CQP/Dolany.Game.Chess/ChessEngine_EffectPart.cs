@@ -30,7 +30,7 @@ namespace Dolany.Game.Chess
             Description = "随机复制一件对手的物品")]
         public void 浓雾()
         {
-            var query = MongoService<DriftItemRecord>.Get(r => r.QQNum == AimQQNum).FirstOrDefault();
+            var query = DriftItemRecord.GetRecord(AimQQNum);
             if (query == null || query.ItemCount.IsNullOrEmpty())
             {
                 MsgCallBack("对手没有任何物品！", GroupNum, SelfQQNum);
@@ -161,7 +161,7 @@ namespace Dolany.Game.Chess
             Description = "强制贩卖一个随机物品给系统商店")]
         public void 雹()
         {
-            var record = MongoService<DriftItemRecord>.Get(r => r.QQNum == SelfQQNum).FirstOrDefault();
+            var record = DriftItemRecord.GetRecord(SelfQQNum);
             if (record == null || record.ItemCount.IsNullOrEmpty())
             {
                 MsgCallBack("你没有任何物品", GroupNum, SelfQQNum);

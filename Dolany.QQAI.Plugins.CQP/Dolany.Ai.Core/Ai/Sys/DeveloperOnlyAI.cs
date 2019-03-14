@@ -203,7 +203,7 @@ namespace Dolany.Ai.Core.Ai.Sys
         public bool BlackList(MsgInformationEx MsgDTO, object[] param)
         {
             var qqNum = (long) param[0];
-            var query = MongoService<BlackList>.Get(b => b.QQNum == qqNum).FirstOrDefault();
+            var query = MongoService<BlackList>.GetOnly(b => b.QQNum == qqNum);
             if (query == null)
             {
                 MongoService<BlackList>.Insert(new BlackList{QQNum = qqNum, BlackCount = 10, UpdateTime = DateTime.Now});
@@ -229,7 +229,7 @@ namespace Dolany.Ai.Core.Ai.Sys
         public bool FreeBlackList(MsgInformationEx MsgDTO, object[] param)
         {
             var qqNum = (long) param[0];
-            var query = MongoService<BlackList>.Get(b => b.QQNum == qqNum).FirstOrDefault();
+            var query = MongoService<BlackList>.GetOnly(b => b.QQNum == qqNum);
             if (query == null)
             {
                 MsgSender.Instance.PushMsg(MsgDTO, "Not In BlackList");

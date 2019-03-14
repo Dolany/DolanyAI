@@ -214,9 +214,9 @@
 
         private static void ModifySetting(MsgInformationEx MsgDTO, string charactor, string settingName, string content)
         {
-            var cs = MongoService<CharactorSetting>.Get(c => c.GroupNumber == MsgDTO.FromGroup &&
+            var cs = MongoService<CharactorSetting>.GetOnly(c => c.GroupNumber == MsgDTO.FromGroup &&
                                                              c.Charactor == charactor &&
-                                                             c.SettingName == settingName).FirstOrDefault();
+                                                             c.SettingName == settingName);
 
             if (cs != null)
             {

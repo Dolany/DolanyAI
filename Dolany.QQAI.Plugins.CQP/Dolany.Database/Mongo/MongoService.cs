@@ -36,6 +36,11 @@
             return Get(p => true);
         }
 
+        public static T GetOnly(Expression<Func<T, bool>> exp)
+        {
+            return Get(exp).FirstOrDefault();
+        }
+
         /// <summary>
         /// 弱类型查询（适用分页查询）
         /// </summary>

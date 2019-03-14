@@ -76,7 +76,7 @@ namespace Dolany.Ai.Core.Ai.Game.Shopping
 
         private void SellHonor(MsgInformationEx MsgDTO, string honorName)
         {
-            var query = MongoService<DriftItemRecord>.Get(r => r.QQNum == MsgDTO.FromQQ).FirstOrDefault();
+            var query = MongoService<DriftItemRecord>.GetOnly(r => r.QQNum == MsgDTO.FromQQ);
             if (query == null || query.ItemCount.IsNullOrEmpty())
             {
                 MsgSender.Instance.PushMsg(MsgDTO, "你尚未拥有任何物品！");
@@ -159,8 +159,7 @@ namespace Dolany.Ai.Core.Ai.Game.Shopping
             }
 
             var price = osPerson.CheckBuff("极光") ? sellItem.Price * 80 / 100 : sellItem.Price;
-            var msg = $"购买此物品将消耗 {price} 金币，是否确认购买？";
-            if (!Waiter.Instance.WaitForConfirm(MsgDTO, msg, 7))
+            if (!Waiter.Instance.WaitForConfirm(MsgDTO, price, 7))
             {
                 MsgSender.Instance.PushMsg(MsgDTO, "交易取消！");
                 return false;
