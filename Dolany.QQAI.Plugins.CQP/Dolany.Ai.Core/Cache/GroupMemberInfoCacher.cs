@@ -29,14 +29,6 @@ namespace Dolany.Ai.Core.Cache
             {
                 return cacheResponse;
             }
-
-            const string key = "AuthDisable";
-            var cache = SCacheService.Get<string>(key);
-            if (string.IsNullOrEmpty(cache) && !string.IsNullOrEmpty(SCacheService.Get<string>($"GroupMemberInfoRefresh-{MsgDTO.FromGroup}")))
-            {
-                RefreshGroupInfo(MsgDTO.FromGroup);
-            }
-
             return new MemberRoleCache { GroupNum = MsgDTO.FromGroup, QQNum = MsgDTO.FromQQ };
         }
 
