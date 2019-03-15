@@ -66,14 +66,7 @@ namespace Dolany.Ai.Core.Ai.Game.ChessAgainst
                 return false;
             }
 
-            ChessMgr.Instance.StartAGame(MsgDTO.FromGroup, MsgDTO.FromQQ, aimNum, (Msg, GroupNum, QQNum) =>
-            {
-                var msg = MsgDTO.Clone();
-                msg.FromQQ = QQNum;
-                msg.FromGroup = GroupNum;
-
-                MsgSender.Instance.PushMsg(msg, Msg, QQNum != 0);
-            }, (GroupNum, QQNum, Msg, judge) =>
+            ChessMgr.Instance.StartAGame(MsgDTO.FromGroup, MsgDTO.FromQQ, aimNum, (GroupNum, QQNum, Msg, judge) =>
             {
                 var msg = MsgDTO.Clone();
                 msg.FromQQ = QQNum;

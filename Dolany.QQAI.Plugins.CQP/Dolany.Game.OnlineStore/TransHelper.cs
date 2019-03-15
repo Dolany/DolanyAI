@@ -28,14 +28,10 @@ namespace Dolany.Game.OnlineStore
             foreach (var record in itemsOwned)
             {
                 record.Count--;
-                if (record.Count <= 0)
-                {
-                    query.ItemCount.Remove(record);
-                }
             }
 
             query.HonorList.Remove(honorName);
-            MongoService<DriftItemRecord>.Update(query);
+            query.Update();
 
             return golds;
         }

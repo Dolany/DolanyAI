@@ -50,8 +50,10 @@ namespace Dolany.Database.Ai
                     Count = count
                 });
             }
-
-            item.Count += count;
+            else
+            {
+                item.Count += count;
+            }
         }
     }
 

@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Linq;
 using Dolany.Ai.Common;
-using Dolany.Database;
 using Dolany.Database.Ai;
 using Dolany.Database.Sqlite;
 using Dolany.Database.Sqlite.Model;
@@ -15,7 +14,8 @@ namespace Dolany.Game.Chess
             Description = "12小时内不可以捞瓶子")]
         public void 昙天()
         {
-            OSPerson.AddBuff(SelfQQNum, new OSPersonBuff
+            var osPerson = OSPerson.GetPerson(SelfQQNum);
+            osPerson.AddBuff(new OSPersonBuff
             {
                 Name = "昙天",
                 Description = "不可以捞瓶子",
@@ -24,6 +24,7 @@ namespace Dolany.Game.Chess
                 Data = 1,
                 Source = AimQQNum
             });
+            osPerson.Update();
         }
 
         [ChessEffect(Name = "浓雾",
@@ -33,13 +34,13 @@ namespace Dolany.Game.Chess
             var query = DriftItemRecord.GetRecord(AimQQNum);
             if (query == null || query.ItemCount.IsNullOrEmpty())
             {
-                MsgCallBack("对手没有任何物品！", GroupNum, SelfQQNum);
+                CommonUtil.MsgSendBack(GroupNum, 0, "对手没有任何物品！", false);
                 return;
             }
 
             var item = query.ItemCount[CommonUtil.RandInt(query.ItemCount.Count)];
             var (msg, _) = ItemHelper.Instance.ItemIncome(SelfQQNum, item.Name);
-            MsgCallBack($"你获得了 {item.Name}！\r{msg}", GroupNum, SelfQQNum);
+            CommonUtil.MsgSendBack(GroupNum, 0, $"你获得了 {item.Name}！\r{msg}", false);
         }
 
         [ChessEffect(Name = "烈日",
@@ -75,7 +76,8 @@ namespace Dolany.Game.Chess
             Description = "12小时内商店购买享有20%的折扣")]
         public void 极光()
         {
-            OSPerson.AddBuff(SelfQQNum, new OSPersonBuff
+            var osPerson = OSPerson.GetPerson(SelfQQNum);
+            osPerson.AddBuff(new OSPersonBuff
             {
                 Name = "极光",
                 Description = "商店购买享有20%的折扣",
@@ -84,13 +86,15 @@ namespace Dolany.Game.Chess
                 Data = 1,
                 Source = AimQQNum
             });
+            osPerson.Update();
         }
 
         [ChessEffect(Name = "黄砂",
             Description = "12小时内无法再次挑战")]
         public void 黄砂()
         {
-            OSPerson.AddBuff(SelfQQNum, new OSPersonBuff
+            var osPerson = OSPerson.GetPerson(SelfQQNum);
+            osPerson.AddBuff(new OSPersonBuff
             {
                 Name = "黄砂",
                 Description = "无法再次挑战",
@@ -99,13 +103,15 @@ namespace Dolany.Game.Chess
                 Data = 1,
                 Source = AimQQNum
             });
+            osPerson.Update();
         }
 
         [ChessEffect(Name = "梅雨",
             Description = "12小时内捞瓶子成功率下降30%")]
         public void 梅雨()
         {
-            OSPerson.AddBuff(SelfQQNum, new OSPersonBuff
+            var osPerson = OSPerson.GetPerson(SelfQQNum);
+            osPerson.AddBuff(new OSPersonBuff
             {
                 Name = "梅雨",
                 Description = "捞瓶子成功率下降30%",
@@ -114,13 +120,15 @@ namespace Dolany.Game.Chess
                 Data = 1,
                 Source = AimQQNum
             });
+            osPerson.Update();
         }
 
         [ChessEffect(Name = "快晴",
             Description = "12小时内无法从事商业活动（贩卖/购买/交易）")]
         public void 快晴()
         {
-            OSPerson.AddBuff(SelfQQNum, new OSPersonBuff
+            var osPerson = OSPerson.GetPerson(SelfQQNum);
+            osPerson.AddBuff(new OSPersonBuff
             {
                 Name = "快晴",
                 Description = "无法从事商业活动（贩卖/购买/交易）",
@@ -129,6 +137,7 @@ namespace Dolany.Game.Chess
                 Data = 1,
                 Source = AimQQNum
             });
+            osPerson.Update();
         }
 
         [ChessEffect(Name = "雾雨",
@@ -139,14 +148,15 @@ namespace Dolany.Game.Chess
             var item = sellingItems[CommonUtil.RandInt(sellingItems.Length)];
             var (msg, _) = ItemHelper.Instance.ItemIncome(SelfQQNum, item.Name);
 
-            MsgCallBack($"你获得了：{item.Name}\r{msg}", GroupNum, SelfQQNum);
+            CommonUtil.MsgSendBack(GroupNum, 0, $"你获得了：{item.Name}\r{msg}", false);
         }
 
         [ChessEffect(Name = "苍天",
             Description = "12小时内进行交易时免除手续费")]
         public void 苍天()
         {
-            OSPerson.AddBuff(SelfQQNum, new OSPersonBuff
+            var osPerson = OSPerson.GetPerson(SelfQQNum);
+            osPerson.AddBuff(new OSPersonBuff
             {
                 Name = "苍天",
                 Description = "进行交易时免除手续费",
@@ -155,6 +165,7 @@ namespace Dolany.Game.Chess
                 Data = 1,
                 Source = AimQQNum
             });
+            osPerson.Update();
         }
 
         [ChessEffect(Name = "雹",
@@ -164,7 +175,7 @@ namespace Dolany.Game.Chess
             var record = DriftItemRecord.GetRecord(SelfQQNum);
             if (record == null || record.ItemCount.IsNullOrEmpty())
             {
-                MsgCallBack("你没有任何物品", GroupNum, SelfQQNum);
+                CommonUtil.MsgSendBack(GroupNum, 0, "你没有任何物品", false);
                 return;
             }
 
@@ -172,7 +183,7 @@ namespace Dolany.Game.Chess
             var item = record.ItemCount[randIdx];
 
             var golds = TransHelper.SellItemToShop(SelfQQNum, item.Name);
-            MsgCallBack($"你贩卖了 {item.Name}\r你当前拥有金币 {golds}", GroupNum, SelfQQNum);
+            CommonUtil.MsgSendBack(GroupNum, 0, $"你贩卖了 {item.Name}\r你当前拥有金币 {golds}", false);
         }
 
         [ChessEffect(Name = "花昙",
@@ -183,7 +194,7 @@ namespace Dolany.Game.Chess
             var effectiveBuffs = selfOs.Buffs?.Where(b => b.ExpiryTime.ToLocalTime() > DateTime.Now && !b.IsPositive).ToArray();
             if (effectiveBuffs.IsNullOrEmpty())
             {
-                MsgCallBack("你没有任何负面状态", GroupNum, SelfQQNum);
+                CommonUtil.MsgSendBack(GroupNum, 0, "你没有任何负面状态", false);
                 return;
             }
 
@@ -191,7 +202,7 @@ namespace Dolany.Game.Chess
             selfOs.Buffs?.Remove(buff);
             selfOs.Update();
 
-            MsgCallBack($"移除了 {buff?.Name}:{buff?.Description}", GroupNum, SelfQQNum);
+            CommonUtil.MsgSendBack(GroupNum, 0, $"移除了 {buff?.Name}:{buff?.Description}", false);
         }
 
         [ChessEffect(Name = "天气雨",
@@ -202,7 +213,7 @@ namespace Dolany.Game.Chess
             var effectiveBuffs = oppeOs.Buffs?.Where(b => b.ExpiryTime.ToLocalTime() > DateTime.Now && b.IsPositive).ToArray();
             if (effectiveBuffs.IsNullOrEmpty())
             {
-                MsgCallBack("对手没有增益状态", GroupNum, SelfQQNum);
+                CommonUtil.MsgSendBack(GroupNum, 0, "对手没有增益状态", false);
                 return;
             }
 
@@ -210,22 +221,23 @@ namespace Dolany.Game.Chess
             oppeOs.Buffs?.Remove(buff);
             oppeOs.Update();
 
-            MsgCallBack($"移除了 {buff?.Name}:{buff?.Description}", GroupNum, SelfQQNum);
+            CommonUtil.MsgSendBack(GroupNum, 0, $"移除了 {buff?.Name}:{buff?.Description}", false);
         }
 
         [ChessEffect(Name = "疏雨",
             Description = "12小时内将物品贩卖给商店时将额外获得20%的金币")]
         public void 疏雨()
         {
-            OSPerson.AddBuff(SelfQQNum, new OSPersonBuff
+            var osPerson = OSPerson.GetPerson(SelfQQNum);
+            osPerson.AddBuff(new OSPersonBuff
             {
                 Name = "疏雨",
                 Description = "将物品贩卖给商店时将额外获得20%的金币",
                 ExpiryTime = DateTime.Now.AddHours(12),
                 IsPositive = true,
-                Data = 1,
                 Source = AimQQNum
             });
+            osPerson.Update();
         }
 
         [ChessEffect(Name = "川雾",
@@ -236,14 +248,16 @@ namespace Dolany.Game.Chess
             var effectiveBuffs = oppeOs.Buffs?.Where(b => b.ExpiryTime.ToLocalTime() > DateTime.Now && !b.IsPositive).ToArray();
             if (effectiveBuffs.IsNullOrEmpty())
             {
-                MsgCallBack("对手没有负面状态", GroupNum, SelfQQNum);
+                CommonUtil.MsgSendBack(GroupNum, 0, "对手没有负面状态", false);
                 return;
             }
 
             var buff = effectiveBuffs?[CommonUtil.RandInt(effectiveBuffs.Length)];
-            OSPerson.AddBuff(SelfQQNum, buff);
+            var osPerson = OSPerson.GetPerson(SelfQQNum);
+            osPerson.AddBuff(buff);
+            osPerson.Update();
 
-            MsgCallBack($"复制到了 {buff?.Name}:{buff?.Description}", GroupNum, SelfQQNum);
+            CommonUtil.MsgSendBack(GroupNum, 0, $"复制到了 {buff?.Name}:{buff?.Description}", false);
         }
 
         [ChessEffect(Name = "台风",
@@ -254,14 +268,16 @@ namespace Dolany.Game.Chess
             var effectiveBuffs = oppeOs.Buffs?.Where(b => b.ExpiryTime.ToLocalTime() > DateTime.Now && b.IsPositive).ToArray();
             if (effectiveBuffs.IsNullOrEmpty())
             {
-                MsgCallBack("对手没有增益状态", GroupNum, SelfQQNum);
+                CommonUtil.MsgSendBack(GroupNum, 0, "对手没有增益状态", false);
                 return;
             }
 
             var buff = effectiveBuffs?[CommonUtil.RandInt(effectiveBuffs.Length)];
-            OSPerson.AddBuff(SelfQQNum, buff);
+            var osPerson = OSPerson.GetPerson(SelfQQNum);
+            osPerson.AddBuff(buff);
+            osPerson.Update();
 
-            MsgCallBack($"复制到了 {buff?.Name}:{buff?.Description}", GroupNum, SelfQQNum);
+            CommonUtil.MsgSendBack(GroupNum, 0, $"复制到了 {buff?.Name}:{buff?.Description}", false);
         }
 
         [ChessEffect(Name = "凪",
@@ -285,15 +301,16 @@ namespace Dolany.Game.Chess
             Description = "12小时内捞瓶子时有50%的概率丢失40金币")]
         public void 钻石尘()
         {
-            OSPerson.AddBuff(SelfQQNum, new OSPersonBuff
+            var osPerson = OSPerson.GetPerson(SelfQQNum);
+            osPerson.AddBuff(new OSPersonBuff
             {
                 Name = "钻石尘",
                 Description = "捞瓶子时有50%的概率丢失40金币",
                 ExpiryTime = DateTime.Now.AddHours(12),
                 IsPositive = false,
-                Data = 1,
                 Source = AimQQNum
             });
+            osPerson.Update();
         }
     }
 }

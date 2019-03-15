@@ -75,21 +75,21 @@ namespace Dolany.Game.OnlineStore
             Buffs.Remove(buff);
         }
 
-        public static void AddBuff(long qqNum, OSPersonBuff osBuff)
+        public void AddBuff(OSPersonBuff osBuff)
         {
-            var osPerson = GetPerson(qqNum);
-
-            var buff = osPerson.Buffs.FirstOrDefault(b => b.Name == osBuff.Name);
+            var buff = Buffs.FirstOrDefault(b => b.Name == osBuff.Name);
             if (buff == null)
             {
-                osPerson.Buffs.Add(osBuff);
+                if (Buffs == null)
+                {
+                    Buffs = new List<OSPersonBuff>();
+                }
+                Buffs.Add(osBuff);
             }
             else
             {
                 buff.ExpiryTime = osBuff.ExpiryTime;
             }
-
-            osPerson.Update();
         }
 
         public void Update()
