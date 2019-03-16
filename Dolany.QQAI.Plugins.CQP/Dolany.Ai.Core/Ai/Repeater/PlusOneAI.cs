@@ -9,9 +9,6 @@ namespace Dolany.Ai.Core.Ai.Repeater
     using Base;
 
     using Cache;
-    using Database;
-    using Dolany.Database.Ai;
-
     using Model;
 
     using SyntaxChecker;
@@ -25,24 +22,6 @@ namespace Dolany.Ai.Core.Ai.Repeater
     {
         private List<PlusOneModel> Cache { get; } = new List<PlusOneModel>();
 
-        private readonly List<long> InactiveGroups = new List<long>() {0};
-
-        private readonly object List_lock = new object();
-
-        public override void Initialization()
-        {
-            Load();
-        }
-
-        private void Load()
-        {
-            var query = MongoService<PlusOneAvailable>.Get(p => !p.Available);
-            lock (List_lock)
-            {
-                this.InactiveGroups.AddRange(query.Select(p => p.GroupNumber));
-            }
-        }
-
         public override bool OnMsgReceived(MsgInformationEx MsgDTO)
         {
             if (base.OnMsgReceived(MsgDTO))
@@ -55,7 +34,8 @@ namespace Dolany.Ai.Core.Ai.Repeater
                 return false;
             }
 
-            if (!IsAvailable(MsgDTO.FromGroup))
+            var setting = GroupSettingMgr.Instance[MsgDTO.FromGroup];
+            if (!setting.HasFunction("+1复读"))
             {
                 return false;
             }
@@ -105,78 +85,6 @@ namespace Dolany.Ai.Core.Ai.Repeater
             });
             MsgSender.Instance.PushMsg(MsgDTO, MsgDTO.FullMsg);
             groupCache.IsAlreadyRepeated = true;
-        }
-
-        [EnterCommand(
-            Command = "+1复读禁用",
-            AuthorityLevel = AuthorityLevel.群主,
-            Description = "禁用+1复读功能，禁用后将不会在本群进行+1复读",
-            Syntax = "",
-            Tag = "复读机功能",
-            SyntaxChecker = "Empty",
-            IsPrivateAvailable = false)]
-        public bool Forbidden(MsgInformationEx MsgDTO, object[] param)
-        {
-            ForbiddenStateChange(MsgDTO.FromGroup, false);
-
-            MsgSender.Instance.PushMsg(MsgDTO, "+1复读禁用成功！");
-            return true;
-        }
-
-        [EnterCommand(
-            Command = "+1复读启用",
-            AuthorityLevel = AuthorityLevel.群主,
-            Description = "重新启用+1复读功能",
-            Syntax = "",
-            Tag = "复读机功能",
-            SyntaxChecker = "Empty",
-            IsPrivateAvailable = false)]
-        public bool Unforbidden(MsgInformationEx MsgDTO, object[] param)
-        {
-            ForbiddenStateChange(MsgDTO.FromGroup, true);
-
-            MsgSender.Instance.PushMsg(MsgDTO, "+1复读启用成功！");
-            return true;
-        }
-
-        private void ForbiddenStateChange(long fromGroup, bool state)
-        {
-            var query = MongoService<PlusOneAvailable>.Get(r => r.GroupNumber == fromGroup).FirstOrDefault();
-            if (query == null)
-            {
-                var pa = new PlusOneAvailable
-                {
-                    GroupNumber = fromGroup,
-                    Available = state
-                };
-                MongoService<PlusOneAvailable>.Insert(pa);
-            }
-            else
-            {
-                query.Available = state;
-
-                MongoService<PlusOneAvailable>.Update(query);
-            }
-
-            lock (this.List_lock)
-            {
-                if (state)
-                {
-                    this.InactiveGroups.RemoveAll(p => p == fromGroup);
-                }
-                else
-                {
-                    this.InactiveGroups.Add(fromGroup);
-                }
-            }
-        }
-
-        private bool IsAvailable(long GroupNum)
-        {
-            lock (List_lock)
-            {
-                return !this.InactiveGroups.Contains(GroupNum);
-            }
         }
     }
 }

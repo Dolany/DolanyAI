@@ -29,7 +29,10 @@ namespace Dolany.Ai.Core.Ai.Sys
                 return false;
             }
 
-            AIStateMgr.Instance.AddSate(name, MsgDTO.FromGroup);
+            var setting = GroupSettingMgr.Instance[MsgDTO.FromGroup];
+            setting.EnabledFunctions.Add(name);
+            setting.Update();
+
             MsgSender.Instance.PushMsg(MsgDTO, "开启成功！");
             return true;
         }
@@ -50,7 +53,10 @@ namespace Dolany.Ai.Core.Ai.Sys
                 return false;
             }
 
-            AIStateMgr.Instance.RemoveSate(name, MsgDTO.FromGroup);
+            var setting = GroupSettingMgr.Instance[MsgDTO.FromGroup];
+            setting.EnabledFunctions.Remove(name);
+            setting.Update();
+
             MsgSender.Instance.PushMsg(MsgDTO, "关闭成功！");
             return true;
         }

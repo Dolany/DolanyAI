@@ -47,7 +47,7 @@ namespace Dolany.Ai.Core.Ai.Game.Shopping
                 return true;
             }
 
-            if (MsgDTO.Type == MsgType.Private || !AIStateMgr.Instance.GetState(Attr.Name, MsgDTO.FromGroup))
+            if (MsgDTO.Type == MsgType.Private || !GroupSettingMgr.Instance[MsgDTO.FromGroup].HasFunction(Attr.Name))
             {
                 return false;
             }

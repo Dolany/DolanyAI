@@ -75,7 +75,7 @@ namespace Dolany.Ai.Core.Base
                         GroupNum = MsgDTO.FromGroup
                     });
 
-                    if (MsgDTO.Type == MsgType.Group && Attr.NeedManulOpen && !AIStateMgr.Instance.GetState(Attr.Name, MsgDTO.FromGroup))
+                    if (MsgDTO.Type == MsgType.Group && Attr.NeedManulOpen && !GroupSettingMgr.Instance[MsgDTO.FromGroup].HasFunction(Attr.Name))
                     {
                         MsgSender.Instance.PushMsg(MsgDTO, $"本群尚未开启 {Attr.Name} 功能，请联系群主开启此功能，或者添加我为好友后使用私聊命令，或者申请加入AI测试群！");
                         return true;

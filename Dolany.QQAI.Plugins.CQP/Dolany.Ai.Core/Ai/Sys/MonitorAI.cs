@@ -149,27 +149,6 @@
         }
 
         [EnterCommand(
-            Command = "初始化",
-            Description = "初始化群成员信息",
-            Syntax = "[群号]",
-            Tag = "系统命令",
-            SyntaxChecker = "Long",
-            AuthorityLevel = AuthorityLevel.开发者,
-            IsPrivateAvailable = true)]
-        public bool InitAi(MsgInformationEx MsgDTO, object[] param)
-        {
-            var groupNum = (long) param[0];
-            if (!GroupMemberInfoCacher.RefreshGroupInfo(groupNum))
-            {
-                MsgSender.Instance.PushMsg(MsgDTO, "初始化失败，请稍后再试！");
-                return false;
-            }
-
-            MsgSender.Instance.PushMsg(MsgDTO, "初始化成功！");
-            return true;
-        }
-
-        [EnterCommand(
             Command = "Exception",
             Description = "Get Exception Detail",
             Syntax = "[Index]",

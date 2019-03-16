@@ -1,8 +1,8 @@
-﻿namespace Dolany.Ai.Core.Ai.Record
+﻿using Dolany.Ai.Core.Common;
+
+namespace Dolany.Ai.Core.Ai.Record
 {
     using System;
-    using System.Collections.Generic;
-    using System.Diagnostics;
     using System.Linq;
     using System.Threading;
 
@@ -12,32 +12,15 @@
     using Dolany.Ai.Common;
     using Database;
     using Dolany.Database.Ai;
-
-    using Model;
-
-    using static Common.Utility;
-
     using static API.CodeApi;
 
     [AI(
         Name = "报时",
         Description = "AI for Hour Alert.",
         Enable = true,
-        PriorityLevel = 10,
-        NeedManulOpen = true)]
+        PriorityLevel = 10)]
     public class HourAlertAI : AIBase
     {
-        private static List<long> AvailableGroups
-        {
-            get
-            {
-                var selfNum = SelfQQNum;
-                var query = MongoService<AlertRegistedGroup>.Get(a => a.Available.ToLower() == "true" &&
-                                                                      a.AINum == selfNum);
-                return query.IsNullOrEmpty() ? null : query.Select(q => q.GroupNum).ToList();
-            }
-        }
-
         public override void Initialization()
         {
             HourAlertFunc();
@@ -51,11 +34,11 @@
 
         private void TimeUp(object sender, System.Timers.ElapsedEventArgs e)
         {
-            var timer = sender as SchedulerTimer;
-
             HourAlert(DateTime.Now.Hour);
-            Debug.Assert(timer != null, nameof(timer) + " != null");
-            timer.Interval = GetNextHourSpan().TotalMilliseconds;
+            if (sender is SchedulerTimer timer)
+            {
+                timer.Interval = GetNextHourSpan().TotalMilliseconds;
+            }
         }
 
         private static TimeSpan GetNextHourSpan()
@@ -66,7 +49,7 @@
 
         private static void HourAlert(int curHour)
         {
-            var availableList = AvailableGroups;
+            var availableList = GroupSettingMgr.Instance.SettingDic.Where(p => p.Value.HasFunction("报时")).Select(p => p.Key);
             if (availableList.IsNullOrEmpty())
             {
                 return;
@@ -104,59 +87,6 @@
                         Msg = randGirl.Content,
                         ToGroup = groupNum
                     });
-        }
-
-        [EnterCommand(
-            Command = "报时开启",
-            AuthorityLevel = AuthorityLevel.管理员,
-            Description = "设置报时功能开启",
-            Syntax = "",
-            Tag = "闹钟与报时功能",
-            SyntaxChecker = "Empty",
-            IsPrivateAvailable = false)]
-        public bool AlertEnable(MsgInformationEx MsgDTO, object[] param)
-        {
-            AvailableStateChange(MsgDTO.FromGroup, true);
-            MsgSender.Instance.PushMsg(MsgDTO, "报时功能已开启！");
-            return true;
-        }
-
-        [EnterCommand(
-            Command = "报时关闭",
-            AuthorityLevel = AuthorityLevel.管理员,
-            Description = "设置报时功能关闭",
-            Syntax = "",
-            Tag = "闹钟与报时功能",
-            SyntaxChecker = "Empty",
-            IsPrivateAvailable = false)]
-        public bool AlertDisenable(MsgInformationEx MsgDTO, object[] param)
-        {
-            AvailableStateChange(MsgDTO.FromGroup, false);
-            MsgSender.Instance.PushMsg(MsgDTO, "报时功能已关闭！");
-            return true;
-        }
-
-        private static void AvailableStateChange(long groupNumber, bool state)
-        {
-            var query = MongoService<AlertRegistedGroup>.Get(a => a.GroupNum == groupNumber);
-            if (query.IsNullOrEmpty())
-            {
-                MongoService<AlertRegistedGroup>.Insert(new AlertRegistedGroup
-                {
-                    Id = Guid.NewGuid().ToString(),
-                    GroupNum = groupNumber,
-                    Available = state.ToString(),
-                    AINum = SelfQQNum
-                });
-            }
-            else
-            {
-                var arg = query.FirstOrDefault();
-                Debug.Assert(arg != null, nameof(arg) + " != null");
-                arg.Available = state.ToString();
-
-                MongoService<AlertRegistedGroup>.Update(arg);
-            }
         }
 
         private static KanColeGirlVoice GetRanAlertContent(int aimHour)

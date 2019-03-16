@@ -1,5 +1,6 @@
 ﻿using System.Threading;
 using Dolany.Ai.Common;
+using Dolany.Ai.Core.Common;
 using Dolany.Database;
 using Dolany.Game.OnlineStore;
 
@@ -257,6 +258,53 @@ namespace Dolany.Ai.Core.Ai.Sys
 
             MongoService<BlackList>.Delete(query);
             MsgSender.Instance.PushMsg(MsgDTO, "Success");
+            return true;
+        }
+
+        [EnterCommand(
+            Command = "初始化",
+            Description = "初始化群成员信息",
+            Syntax = "[群号]",
+            Tag = "系统命令",
+            SyntaxChecker = "Long",
+            AuthorityLevel = AuthorityLevel.开发者,
+            IsPrivateAvailable = true)]
+        public bool InitAi(MsgInformationEx MsgDTO, object[] param)
+        {
+            var groupNum = (long) param[0];
+            if (!GroupMemberInfoCacher.RefreshGroupInfo(groupNum))
+            {
+                MsgSender.Instance.PushMsg(MsgDTO, "初始化失败，请稍后再试！");
+                return false;
+            }
+
+            MsgSender.Instance.PushMsg(MsgDTO, "初始化成功！");
+            return true;
+        }
+
+        [EnterCommand(
+            Command = "注册",
+            Description = "注册新的群组",
+            Syntax = "[群号] [群名]",
+            Tag = "系统命令",
+            SyntaxChecker = "Long Word",
+            AuthorityLevel = AuthorityLevel.开发者,
+            IsPrivateAvailable = true)]
+        public bool Register(MsgInformationEx MsgDTO, object[] param)
+        {
+            var groupNum = (long) param[0];
+            var name = param[1] as string;
+
+            MongoService<GroupSettings>.DeleteMany(r => r.GroupNum == groupNum);
+            var setting = new GroupSettings()
+            {
+                GroupNum = groupNum,
+                Name = name
+            };
+            MongoService<GroupSettings>.Insert(setting);
+            GroupSettingMgr.Instance.Refresh();
+
+            MsgSender.Instance.PushMsg(MsgDTO, "注册成功！");
             return true;
         }
     }
