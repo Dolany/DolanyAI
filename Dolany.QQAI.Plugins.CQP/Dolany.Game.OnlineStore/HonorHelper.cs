@@ -19,8 +19,12 @@ namespace Dolany.Game.OnlineStore
         private HonorHelper()
         {
             HonorDic = CommonUtil.ReadJsonData<Dictionary<string, DriftBottleItemModel[]>>("driftBottleItemData");
-            HonorDic = (Dictionary<string, DriftBottleItemModel[]>) HonorDic.Union(
-                CommonUtil.ReadJsonData<Dictionary<string, DriftBottleItemModel[]>>("driftBottleItemData_Limit"));
+            var limitDic = CommonUtil.ReadJsonData<Dictionary<string, DriftBottleItemModel[]>>("driftBottleItemData_Limit");
+            foreach (var bim in limitDic)
+            {
+                var (key, value) = bim;
+                HonorDic.Add(key, value);
+            }
             Items = HonorDic.SelectMany(p =>
             {
                 var (key, value) = p;
