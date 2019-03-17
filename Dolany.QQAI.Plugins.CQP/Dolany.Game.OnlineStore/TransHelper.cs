@@ -1,6 +1,5 @@
 ﻿using System.Linq;
 using Dolany.Ai.Common;
-using Dolany.Database;
 using Dolany.Database.Ai;
 using Dolany.Database.Sqlite;
 
@@ -36,10 +35,16 @@ namespace Dolany.Game.OnlineStore
             return golds;
         }
 
-        public static DailySellItemModel[] CreateDailySellItems()
+        private static DailySellItemModel[] CreateDailySellItems()
         {
-            var randSort = CommonUtil.RandSort(HonorHelper.Instance.Items.Where(i => i.Rate > 0).ToArray()).Take(5);
-            return randSort.Select(rs => new DailySellItemModel {Name = rs.Name, Price = HonorHelper.Instance.GetItemPrice(rs, 0) * 2}).ToArray();
+            var limitItems = HonorHelper.Instance.LimitItems;
+            var randSort = CommonUtil.RandSort(HonorHelper.Instance.Items.Where(i => !limitItems.Contains(i.Name))
+                .ToArray()).Take(5);
+            return randSort.Select(rs => new DailySellItemModel
+            {
+                Name = rs.Name,
+                Price = HonorHelper.Instance.GetItemPrice(rs, 0) * 2
+            }).ToArray();
         }
 
         public static DailySellItemModel[] GetDailySellItems()

@@ -19,6 +19,8 @@ namespace Dolany.Game.OnlineStore
         private HonorHelper()
         {
             HonorDic = CommonUtil.ReadJsonData<Dictionary<string, DriftBottleItemModel[]>>("driftBottleItemData");
+            HonorDic = (Dictionary<string, DriftBottleItemModel[]>) HonorDic.Union(
+                CommonUtil.ReadJsonData<Dictionary<string, DriftBottleItemModel[]>>("driftBottleItemData_Limit"));
             Items = HonorDic.SelectMany(p =>
             {
                 var (key, value) = p;
@@ -30,8 +32,12 @@ namespace Dolany.Game.OnlineStore
                 return value;
             }).ToList();
 
-            SumRate = Items.Sum(p => p.Rate);
+            SumRate = Items.Sum(p => p.Rate); 
+            LimitItems = HonorDic.Where(p => p.Key.Contains("限定"))
+                .SelectMany(p => p.Value.Select(item => item.Name)).ToList();
         }
+
+        public List<string> LimitItems { get; set; }
 
         public DriftBottleItemModel FindItem(string name)
         {

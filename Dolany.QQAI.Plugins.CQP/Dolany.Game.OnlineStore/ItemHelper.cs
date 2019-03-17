@@ -1,7 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
 using Dolany.Ai.Common;
-using Dolany.Database;
 using Dolany.Database.Ai;
 
 namespace Dolany.Game.OnlineStore

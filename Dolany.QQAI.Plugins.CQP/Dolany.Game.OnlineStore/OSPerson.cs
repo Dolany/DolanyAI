@@ -77,13 +77,14 @@ namespace Dolany.Game.OnlineStore
 
         public void AddBuff(OSPersonBuff osBuff)
         {
+            if (Buffs == null)
+            {
+                Buffs = new List<OSPersonBuff>();
+            }
+
             var buff = Buffs.FirstOrDefault(b => b.Name == osBuff.Name);
             if (buff == null)
             {
-                if (Buffs == null)
-                {
-                    Buffs = new List<OSPersonBuff>();
-                }
                 Buffs.Add(osBuff);
             }
             else
