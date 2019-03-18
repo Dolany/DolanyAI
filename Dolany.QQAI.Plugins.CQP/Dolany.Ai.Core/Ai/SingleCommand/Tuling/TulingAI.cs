@@ -67,12 +67,7 @@
                 return true;
             }
 
-            if (MsgDTO.Type == MsgType.Private)
-            {
-                return false;
-            }
-
-            if (!MsgDTO.FullMsg.Contains(Code_SelfAt()))
+            if (MsgDTO.Type == MsgType.Group && !MsgDTO.FullMsg.Contains(Code_SelfAt()))
             {
                 return false;
             }
@@ -99,7 +94,7 @@
                 Command = "TulingOverride",
                 GroupNum = MsgDTO.FromGroup
             });
-            MsgSender.Instance.PushMsg(MsgDTO, response, true);
+            MsgSender.Instance.PushMsg(MsgDTO, response, MsgDTO.Type == MsgType.Group);
             return true;
         }
 
