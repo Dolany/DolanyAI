@@ -180,7 +180,7 @@ namespace Dolany.Game.Chess
                 return;
             }
 
-            var commonItems = record.ItemCount.Where(ic => !limitItems.Contains(ic.Name)).ToList();
+            var commonItems = record.ItemCount.Where(ic => limitItems.All(li => li.Name != ic.Name)).ToList();
             if (commonItems.IsNullOrEmpty())
             {
                 CommonUtil.MsgSendBack(GroupNum, 0, "你没有任何非限定物品", false);

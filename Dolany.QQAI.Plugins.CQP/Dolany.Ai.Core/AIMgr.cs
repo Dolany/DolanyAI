@@ -31,7 +31,7 @@ namespace Dolany.Ai.Core
 
         public List<ISyntaxChecker> Checkers { get; private set; } = new List<ISyntaxChecker>();
 
-        public Dictionary<long, string> AllGroupsDic { get; set; }
+        public Dictionary<long, string> AllGroupsDic => GroupSettingMgr.Instance.SettingDic.ToDictionary(p => p.Key, p => p.Value.Name);
 
         private delegate void MessageCallBack(string msg);
 
@@ -57,7 +57,6 @@ namespace Dolany.Ai.Core
             try
             {
                 Init();
-                AllGroupsDic = CommonUtil.ReadJsonData<Dictionary<long, string>>("RegisterGroupData");
                 Logger.Log("加载所有可用AI");
                 StartAIs();
                 Waiter.Instance.Listen();

@@ -8,23 +8,28 @@ namespace Dolany.Game.OnlineStore
 {
     public class HonorHelper
     {
-        public static HonorHelper Instance { get; } = new HonorHelper();
+        public static HonorHelper Instance { get; set; } = new HonorHelper();
 
-        public readonly List<DriftBottleItemModel> Items;
+        public List<DriftBottleItemModel> Items { get; set; }
 
-        private readonly Dictionary<string, DriftBottleItemModel[]> HonorDic;
+        public List<DriftBottleLimitItemModel> LimitItems { get; set; }
 
-        private readonly int SumRate;
+        private Dictionary<string, DriftBottleItemModel[]> HonorDic;
+
+        private Dictionary<string, DriftBottleLimitItemModel[]> LimitHonorDic;
+
+        private int SumRate;
 
         private HonorHelper()
         {
+            Refresh();
+        }
+
+        public void Refresh()
+        {
             HonorDic = CommonUtil.ReadJsonData<Dictionary<string, DriftBottleItemModel[]>>("driftBottleItemData");
-            var limitDic = CommonUtil.ReadJsonData<Dictionary<string, DriftBottleItemModel[]>>("driftBottleItemData_Limit");
-            foreach (var bim in limitDic)
-            {
-                var (key, value) = bim;
-                HonorDic.Add(key, value);
-            }
+            LimitHonorDic = CommonUtil.ReadJsonData<Dictionary<string, DriftBottleLimitItemModel[]>>("driftBottleItemData_Limit");
+
             Items = HonorDic.SelectMany(p =>
             {
                 var (key, value) = p;
@@ -36,21 +41,33 @@ namespace Dolany.Game.OnlineStore
                 return value;
             }).ToList();
 
-            SumRate = Items.Sum(p => p.Rate); 
-            LimitItems = HonorDic.Where(p => p.Key.Contains("限定"))
-                .SelectMany(p => p.Value.Select(item => item.Name)).ToList();
-        }
+            LimitItems = LimitHonorDic.SelectMany(p =>
+            {
+                var (key, value) = p;
+                foreach (var model in value)
+                {
+                    model.Honor = key;
+                }
 
-        public List<string> LimitItems { get; set; }
+                return value;
+            }).ToList();
+
+            SumRate = Items.Sum(p => p.Rate) + LimitItems.Sum(p => p.Rate); 
+        }
 
         public DriftBottleItemModel FindItem(string name)
         {
-            return Items.FirstOrDefault(i => i.Name == name);
+            return Items.FirstOrDefault(i => i.Name == name) ?? LimitItems.FirstOrDefault(li => li.Name == name);
         }
 
         public DriftBottleItemModel[] FindHonorItems(string name)
         {
-            return HonorDic.Keys.Contains(name) ? HonorDic[name] : null;
+            if (HonorDic.ContainsKey(name))
+            {
+                return HonorDic[name];
+            }
+
+            return LimitHonorDic.ContainsKey(name) ? LimitHonorDic[name] : null;
         }
 
         public int GetItemPrice(DriftBottleItemModel item, long qqNum)
@@ -139,6 +156,16 @@ namespace Dolany.Game.OnlineStore
                 totalSum += item.Rate;
             }
 
+            foreach (var item in LimitItems)
+            {
+                if (index < totalSum + item.Rate)
+                {
+                    return item;
+                }
+
+                totalSum += item.Rate;
+            }
+
             return this.Items.First();
         }
 
@@ -164,20 +191,5 @@ namespace Dolany.Game.OnlineStore
             var list = itemHonorDic.Select(kv => $"{kv.Key}:{string.Join(",", kv.Value.Select(p => $"{p.Name}({p.Count})"))}");
             return list.ToList();
         }
-    }
-
-    public class DriftBottleItemModel
-    {
-        public string Name { get; set; }
-
-        public string Description { get; set; }
-
-        public int Rate { get; set; }
-
-        public string Honor { get; set; }
-
-        public DateTime StartTime { get; set; }
-
-        public DateTime EndTime { get; set; }
     }
 }
