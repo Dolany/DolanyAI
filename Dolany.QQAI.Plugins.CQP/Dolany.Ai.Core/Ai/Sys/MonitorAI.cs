@@ -1,7 +1,6 @@
 ﻿namespace Dolany.Ai.Core.Ai.Sys
 {
     using System;
-    using System.Collections.Generic;
     using System.Linq;
 
     using Base;
@@ -11,10 +10,6 @@
     using Common;
 
     using Core;
-
-    using Dolany.Ai.Common;
-    using Database;
-    using Dolany.Database.Ai;
     using Model;
 
     using static Common.Utility;
@@ -26,14 +21,6 @@
         PriorityLevel = 100)]
     public class MonitorAI : AIBase
     {
-        private List<long> InactiveGroups = new List<long>();
-
-        public override void Initialization()
-        {
-            var query = GroupSettingMgr.Instance.SettingDic.Where(p => !p.Value.IsPowerOn);
-            this.InactiveGroups = query.Select(p => p.Value.GroupNum).ToList();
-        }
-
         public override bool OnMsgReceived(MsgInformationEx MsgDTO)
         {
             if (base.OnMsgReceived(MsgDTO))
@@ -43,7 +30,7 @@
 
             FiltPicMsg(MsgDTO);
 
-            return this.InactiveGroups.Contains(MsgDTO.FromGroup);
+            return !GroupSettingMgr.Instance[MsgDTO.FromGroup].IsPowerOn;
         }
 
         private static void FiltPicMsg(MsgInformationEx MsgDTO)
@@ -133,7 +120,7 @@
                 return string.Empty;
             }
 
-            return InactiveGroups.Contains(MsgDTO.FromGroup) ? "\r电源状态：关机" : "\r电源状态：开机";
+            return GroupSettingMgr.Instance[MsgDTO.FromGroup].IsPowerOn ? "\r电源状态：开机" : "\r电源状态：关机";
         }
 
         [EnterCommand(

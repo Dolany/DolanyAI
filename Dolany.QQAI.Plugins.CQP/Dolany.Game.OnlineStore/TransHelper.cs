@@ -21,7 +21,7 @@ namespace Dolany.Game.OnlineStore
         {
             var price = HonorHelper.Instance.GetHonorPrice(honorName, qqNum);
             var golds = OSPerson.GoldIncome(qqNum, price);
-            var items = HonorHelper.Instance.FindHonorItems(honorName);
+            var items = HonorHelper.Instance.FindHonor(honorName).Items;
             var itemsOwned = query.ItemCount.Where(ic => items.Any(i => i.Name == ic.Name)).ToList();
 
             foreach (var record in itemsOwned)
@@ -37,9 +37,9 @@ namespace Dolany.Game.OnlineStore
 
         private static DailySellItemModel[] CreateDailySellItems()
         {
-            var limitItems = HonorHelper.Instance.LimitItems;
-            var randSort = CommonUtil.RandSort(HonorHelper.Instance.Items.Where(i => limitItems.All(li => li.Name != i.Name))
-                .ToArray()).Take(5);
+            var honors = HonorHelper.Instance.HonorList.Where(h => !(h is LimitHonorModel));
+            var items = honors.SelectMany(h => h.Items).ToArray();
+            var randSort = CommonUtil.RandSort(items).Take(5);
             return randSort.Select(rs => new DailySellItemModel
             {
                 Name = rs.Name,

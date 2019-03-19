@@ -112,7 +112,7 @@ namespace Dolany.Ai.Core.Ai.Record
             }
 
             var itemMsgs = HonorHelper.Instance.GetOrderedItemsStr(
-                query.ItemCount.Where(p => HonorHelper.Instance.LimitItems.All(li => li.Name != p.Name)));
+                query.ItemCount.Where(p => !HonorHelper.Instance.IsLimit(p.Name)));
             var msg = $"你收集到的物品有：\r{string.Join("\r", itemMsgs.Take(7))}";
             if (itemMsgs.Count > 7)
             {
@@ -139,7 +139,7 @@ namespace Dolany.Ai.Core.Ai.Record
             }
 
             var itemMsgs = HonorHelper.Instance.GetOrderedItemsStr(
-                query.ItemCount.Where(p => HonorHelper.Instance.LimitItems.Any(li => li.Name == p.Name)));
+                query.ItemCount.Where(p => HonorHelper.Instance.IsLimit(p.Name)));
             var msg = $"你收集到的限定物品有：\r{string.Join("\r", itemMsgs.Take(7))}";
             MsgSender.Instance.PushMsg(MsgDTO, msg, true);
             return true;
@@ -164,7 +164,7 @@ namespace Dolany.Ai.Core.Ai.Record
             }
 
             var itemMsgs = HonorHelper.Instance.GetOrderedItemsStr(
-                query.ItemCount.Where(p => HonorHelper.Instance.LimitItems.All(li => li.Name != p.Name)));
+                query.ItemCount.Where(p => !HonorHelper.Instance.IsLimit(p.Name)));
             var totalPageCount = (itemMsgs.Count - 1) / 7 + 1;
             if (pageNo <= 0 || pageNo > totalPageCount)
             {
@@ -275,14 +275,16 @@ namespace Dolany.Ai.Core.Ai.Record
         public bool ViewHonor(MsgInformationEx MsgDTO, object[] param)
         {
             var name = param[0] as string;
-            var honorItems = HonorHelper.Instance.FindHonorItems(name);
-            if (honorItems.IsNullOrEmpty())
+            var honor = HonorHelper.Instance.FindHonor(name);
+            if (honor == null)
             {
                 MsgSender.Instance.PushMsg(MsgDTO, $"未找到该成就：{name}");
                 return false;
             }
 
-            var msg = $"解锁成就 {name} 需要集齐：{string.Join(",", honorItems.Select(h => $"{h.Name}({ItemHelper.Instance.ItemCount(MsgDTO.FromQQ, h.Name)})"))}";
+            var items = honor.Items.Select(h => $"{h.Name}({ItemHelper.Instance.ItemCount(MsgDTO.FromQQ, h.Name)})");
+            var itemsMsg = string.Join(",", items);
+            var msg = $"解锁成就 {honor.FullName} 需要集齐：{itemsMsg}";
             MsgSender.Instance.PushMsg(MsgDTO, msg);
             return true;
         }

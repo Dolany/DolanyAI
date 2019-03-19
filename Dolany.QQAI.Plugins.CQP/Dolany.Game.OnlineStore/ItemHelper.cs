@@ -64,7 +64,7 @@ namespace Dolany.Game.OnlineStore
             var (s, isNewHonor) = HonorHelper.Instance.CheckHonor(query, itemName);
             if (isNewHonor)
             {
-                var honorName = HonorHelper.Instance.FindHonor(itemName);
+                var honorName = HonorHelper.Instance.FindHonorName(itemName);
                 if (query.HonorList == null)
                 {
                     query.HonorList = new List<string> {honorName};

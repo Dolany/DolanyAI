@@ -10,13 +10,9 @@ namespace Dolany.Game.OnlineStore
     {
         public static HonorHelper Instance { get; set; } = new HonorHelper();
 
-        public List<DriftBottleItemModel> Items { get; set; }
+        public readonly List<HonorModel> HonorList = new List<HonorModel>();
 
-        public List<DriftBottleLimitItemModel> LimitItems { get; set; }
-
-        private Dictionary<string, DriftBottleItemModel[]> HonorDic;
-
-        private Dictionary<string, DriftBottleLimitItemModel[]> LimitHonorDic;
+        private List<DriftBottleItemModel> Items = new List<DriftBottleItemModel>();
 
         private int SumRate;
 
@@ -27,47 +23,47 @@ namespace Dolany.Game.OnlineStore
 
         public void Refresh()
         {
-            HonorDic = CommonUtil.ReadJsonData<Dictionary<string, DriftBottleItemModel[]>>("driftBottleItemData");
-            LimitHonorDic = CommonUtil.ReadJsonData<Dictionary<string, DriftBottleLimitItemModel[]>>("driftBottleItemData_Limit");
+            var HonorDic = CommonUtil.ReadJsonData<Dictionary<string, DriftBottleItemModel[]>>("driftBottleItemData");
+            var LimitHonors = CommonUtil.ReadJsonData<Dictionary<string, LimitHonorModel>>("driftBottleItemData_Limit");
 
-            Items = HonorDic.SelectMany(p =>
+            HonorList.AddRange(HonorDic.Select(hd => new HonorModel()
             {
-                var (key, value) = p;
-                foreach (var model in value)
+                Name = hd.Key,
+                Items = hd.Value.ToList()
+            }));
+
+            foreach (var (key, value) in LimitHonors)
+            {
+                if (value.Year != DateTime.Now.Year || value.Month != DateTime.Now.Month)
                 {
-                    model.Honor = key;
+                    foreach (var item in value.Items)
+                    {
+                        item.Rate = 0;
+                    }
                 }
 
-                return value;
-            }).ToList();
+                value.Name = key;
+                HonorList.Add(value);
+            }
 
-            LimitItems = LimitHonorDic.SelectMany(p =>
-            {
-                var (key, value) = p;
-                foreach (var model in value)
-                {
-                    model.Honor = key;
-                }
-
-                return value;
-            }).ToList();
-
-            SumRate = Items.Sum(p => p.Rate) + LimitItems.Sum(p => p.Rate); 
+            Items = HonorList.SelectMany(p => p.Items).ToList();
+            SumRate = HonorList.Sum(h => h.Items.Sum(hi => hi.Rate)); 
         }
 
         public DriftBottleItemModel FindItem(string name)
         {
-            return Items.FirstOrDefault(i => i.Name == name) ?? LimitItems.FirstOrDefault(li => li.Name == name);
+            return Items.FirstOrDefault(i => i.Name == name);
         }
 
-        public DriftBottleItemModel[] FindHonorItems(string name)
+        public HonorModel FindHonor(string name)
         {
-            if (HonorDic.ContainsKey(name))
-            {
-                return HonorDic[name];
-            }
+            return HonorList.FirstOrDefault(h => h.Name == name);
+        }
 
-            return LimitHonorDic.ContainsKey(name) ? LimitHonorDic[name] : null;
+        public bool IsLimit(string itemName)
+        {
+            var honor = HonorList.First(h => h.Items.Any(p => p.Name == itemName));
+            return honor is LimitHonorModel;
         }
 
         public int GetItemPrice(DriftBottleItemModel item, long qqNum)
@@ -89,8 +85,8 @@ namespace Dolany.Game.OnlineStore
 
         public int GetHonorPrice(string honorName, long qqNum)
         {
-            var items = FindHonorItems(honorName);
-            var price = items.Sum(item =>
+            var honor = FindHonor(honorName);
+            var price = honor.Items.Sum(item =>
             {
                 if (item.Rate == 0)
                 {
@@ -109,10 +105,9 @@ namespace Dolany.Game.OnlineStore
             return price;
         }
 
-        public string FindHonor(string itemName)
+        public string FindHonorName(string itemName)
         {
-            var item = FindItem(itemName);
-            return item == null ? string.Empty : item.Honor;
+            return HonorList.FirstOrDefault(p => p.Items.Any(i => i.Name == itemName))?.FullName;
         }
 
         public (string msg, bool IsNewHonor) CheckHonor(DriftItemRecord record, string itemName)
@@ -121,19 +116,13 @@ namespace Dolany.Game.OnlineStore
             {
                 return (string.Empty, false);
             }
-
-            var honorName = FindHonor(itemName);
+            
+            var honorName = FindHonorName(itemName);
             var honorCount = 0;
+            var honor = HonorList.First(p => p.Name == honorName);
             if (record.HonorList == null || !record.HonorList.Contains(honorName))
             {
-                if (HonorDic.ContainsKey(honorName))
-                {
-                    honorCount = record.ItemCount.Count(p => this.HonorDic[honorName].Any(ps => ps.Name == p.Name));
-                }
-                else if(LimitHonorDic.ContainsKey(honorName))
-                {
-                    honorCount = record.ItemCount.Count(p => this.LimitHonorDic[honorName].Any(ps => ps.Name == p.Name));
-                }
+                honorCount = record.ItemCount.Count(p => honor.Items.Any(ps => ps.Name == p.Name));
             }
 
             if (honorCount == 0)
@@ -141,29 +130,18 @@ namespace Dolany.Game.OnlineStore
                 return (string.Empty, false);
             }
 
-            var honorItems = FindHonorItems(honorName);
-            if (honorCount < honorItems.Length)
+            if (honorCount < honor.Items.Count)
             {
-                return ($"成就 {honorName} 完成度：{honorCount}/{honorItems.Length}", false);
+                return ($"成就 {honor.FullName} 完成度：{honorCount}/{honor.Items.Count}", false);
             }
 
-            return ($"恭喜你解锁了成就 {honorName}! (集齐物品：{string.Join("，", honorItems.Select(p => p.Name))})", true);
+            return ($"恭喜你解锁了成就 {honor.FullName}! (集齐物品：{string.Join("，", honor.Items.Select(p => p.Name))})", true);
         }
 
         private DriftBottleItemModel LocalateItem(int index)
         {
             var totalSum = 0;
             foreach (var item in this.Items)
-            {
-                if (index < totalSum + item.Rate)
-                {
-                    return item;
-                }
-
-                totalSum += item.Rate;
-            }
-
-            foreach (var item in LimitItems)
             {
                 if (index < totalSum + item.Rate)
                 {
@@ -192,7 +170,7 @@ namespace Dolany.Game.OnlineStore
 
         public IList<string> GetOrderedItemsStr(IEnumerable<DriftItemCountRecord> items)
         {
-            var itemHonorDic = items.Select(i => new {Honor = FindHonor(i.Name), i.Name, i.Count})
+            var itemHonorDic = items.Select(i => new {Honor = FindHonorName(i.Name), i.Name, i.Count})
                 .GroupBy(p => p.Honor)
                 .ToDictionary(p => p.Key, p => p.ToList());
             var list = itemHonorDic.Select(kv => $"{kv.Key}:{string.Join(",", kv.Value.Select(p => $"{p.Name}({p.Count})"))}");

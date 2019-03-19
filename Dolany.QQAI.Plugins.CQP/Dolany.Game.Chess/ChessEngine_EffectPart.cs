@@ -173,14 +173,13 @@ namespace Dolany.Game.Chess
         public void 雹()
         {
             var record = DriftItemRecord.GetRecord(SelfQQNum);
-            var limitItems = HonorHelper.Instance.LimitItems;
             if (record.ItemCount.IsNullOrEmpty())
             {
                 CommonUtil.MsgSendBack(GroupNum, 0, "你没有任何物品", false);
                 return;
             }
 
-            var commonItems = record.ItemCount.Where(ic => limitItems.All(li => li.Name != ic.Name)).ToList();
+            var commonItems = record.ItemCount.Where(ic => !HonorHelper.Instance.IsLimit(ic.Name)).ToList();
             if (commonItems.IsNullOrEmpty())
             {
                 CommonUtil.MsgSendBack(GroupNum, 0, "你没有任何非限定物品", false);

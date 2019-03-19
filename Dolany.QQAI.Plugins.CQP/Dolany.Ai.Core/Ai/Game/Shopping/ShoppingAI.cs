@@ -44,7 +44,7 @@ namespace Dolany.Ai.Core.Ai.Game.Shopping
                 return true;
             }
 
-            if (!HonorHelper.Instance.FindHonorItems(name).IsNullOrEmpty())
+            if (HonorHelper.Instance.FindHonor(name) != null)
             {
                 SellHonor(MsgDTO, name);
                 return true;
@@ -83,9 +83,9 @@ namespace Dolany.Ai.Core.Ai.Game.Shopping
                 return;
             }
 
-            var items = HonorHelper.Instance.FindHonorItems(honorName);
+            var items = HonorHelper.Instance.FindHonor(honorName).Items;
             var itemsOwned = query.ItemCount.Where(ic => items.Any(i => i.Name == ic.Name)).ToList();
-            if (itemsOwned.Count < items.Length || itemsOwned.Any(io => io.Count <= 0))
+            if (itemsOwned.Count < items.Count || itemsOwned.Any(io => io.Count <= 0))
             {
                 MsgSender.Instance.PushMsg(MsgDTO, "你尚未集齐该成就下的所有物品！");
                 return;
@@ -118,7 +118,7 @@ namespace Dolany.Ai.Core.Ai.Game.Shopping
             var sellItems = TransHelper.GetDailySellItems();
             var record = DriftItemRecord.GetRecord(MsgDTO.FromQQ);
             var itemsStr = string.Join("\r", sellItems.Select(si =>
-                $"{si.Name}({HonorHelper.Instance.FindHonor(si.Name)})({ItemHelper.Instance.ItemCount(record, si.Name)})：{si.Price}金币"));
+                $"{si.Name}({HonorHelper.Instance.FindHonorName(si.Name)})({ItemHelper.Instance.ItemCount(record, si.Name)})：{si.Price}金币"));
 
             var msg = $"今日售卖的商品：\r{itemsStr}\r你当前持有金币 {golds}";
             MsgSender.Instance.PushMsg(MsgDTO, msg);
