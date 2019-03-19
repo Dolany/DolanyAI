@@ -272,9 +272,5 @@ namespace Dolany.Ai.Core.Base
         {
             return enterAttr.IsPrivateAvailable;
         }
-
-        public virtual void OnActiveStateChange(bool state, long GroupNum)
-        {
-        }
     }
 }

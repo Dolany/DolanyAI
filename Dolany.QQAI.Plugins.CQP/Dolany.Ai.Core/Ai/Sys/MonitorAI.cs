@@ -30,8 +30,8 @@
 
         public override void Initialization()
         {
-            var query = MongoService<ActiveOffGroups>.Get(p => p.AINum == SelfQQNum);
-            this.InactiveGroups = query.Select(p => p.GroupNum).ToList();
+            var query = GroupSettingMgr.Instance.SettingDic.Where(p => !p.Value.IsPowerOn);
+            this.InactiveGroups = query.Select(p => p.Value.GroupNum).ToList();
         }
 
         public override bool OnMsgReceived(MsgInformationEx MsgDTO)
@@ -68,25 +68,16 @@
             IsPrivateAvailable = false)]
         public bool PowerOff(MsgInformationEx MsgDTO, object[] param)
         {
-            var selfNum = SelfQQNum;
-            var query = MongoService<ActiveOffGroups>.Get(p => p.AINum == selfNum &&
-                                                               p.GroupNum == MsgDTO.FromGroup);
-            if (!query.IsNullOrEmpty())
+            var groupInfo = GroupSettingMgr.Instance[MsgDTO.FromGroup];
+            if (!groupInfo.IsPowerOn)
             {
                 return false;
             }
 
-            MongoService<ActiveOffGroups>.Insert(new ActiveOffGroups
-            {
-                Id = Guid.NewGuid().ToString(),
-                AINum = selfNum,
-                GroupNum = MsgDTO.FromGroup,
-                UpdateTime = DateTime.Now
-            });
+            groupInfo.IsPowerOn = false;
+            groupInfo.Update();
 
-            this.InactiveGroups.Add(MsgDTO.FromGroup);
             MsgSender.Instance.PushMsg(MsgDTO, "关机成功！");
-            AIMgr.Instance.OnActiveStateChange(false, MsgDTO.FromGroup);
             return true;
         }
 
@@ -100,19 +91,16 @@
             IsPrivateAvailable = false)]
         public bool PowerOn(MsgInformationEx MsgDTO, object[] param)
         {
-            var selfNum = SelfQQNum;
-            var query = MongoService<ActiveOffGroups>.Get(p => p.AINum == selfNum &&
-                                                               p.GroupNum == MsgDTO.FromGroup);
-            if (query.IsNullOrEmpty())
+            var groupInfo = GroupSettingMgr.Instance[MsgDTO.FromGroup];
+            if (groupInfo.IsPowerOn)
             {
                 return false;
             }
 
-            MongoService<ActiveOffGroups>.DeleteMany(query);
+            groupInfo.IsPowerOn = true;
+            groupInfo.Update();
 
-            this.InactiveGroups.RemoveAll(p => p == MsgDTO.FromGroup);
             MsgSender.Instance.PushMsg(MsgDTO, "开机成功！");
-            AIMgr.Instance.OnActiveStateChange(true, MsgDTO.FromGroup);
             return true;
         }
 

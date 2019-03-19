@@ -1,4 +1,6 @@
-﻿namespace Dolany.Ai.Core.Ai.Record
+﻿using Dolany.Ai.Core.Common;
+
+namespace Dolany.Ai.Core.Ai.Record
 {
     using System;
     using System.Collections.Generic;
@@ -98,13 +100,16 @@
             var entity = timer.Data as AlermClock;
 
             Debug.Assert(entity != null, nameof(entity) + " != null");
-            MsgSender.Instance.PushMsg(
-                new MsgCommand
+            if (GroupSettingMgr.Instance[entity.GroupNumber].IsPowerOn)
+            {
+                MsgSender.Instance.PushMsg(
+                    new MsgCommand
                     {
                         Command = AiCommand.SendGroup,
                         Msg = $@"{Code_At(entity.Creator)} {entity.Content}",
                         ToGroup = entity.GroupNumber
                     });
+            }
 
             timer.Interval = GetNextInterval(entity.AimHourt, entity.AimMinute);
         }
@@ -181,7 +186,7 @@
             var clocks = MongoService<AlermClock>.Get(p => p.AINum == selfNum);
             foreach (var clock in clocks)
             {
-                var isActiveOff = MongoService<ActiveOffGroups>.Get(p => p.GroupNum == clock.GroupNumber).Any();
+                var isActiveOff = !GroupSettingMgr.Instance[clock.GroupNumber].IsPowerOn;
                 if (isActiveOff)
                 {
                     continue;
@@ -260,13 +265,6 @@
             MongoService<AlermClock>.DeleteMany(query);
 
             return "清空闹钟成功！";
-        }
-
-        public override void OnActiveStateChange(bool state, long GroupNum)
-        {
-            base.OnActiveStateChange(state, GroupNum);
-
-            ReloadAllClocks();
         }
     }
 }

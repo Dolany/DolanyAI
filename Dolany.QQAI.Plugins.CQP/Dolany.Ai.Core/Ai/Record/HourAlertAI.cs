@@ -56,10 +56,9 @@ namespace Dolany.Ai.Core.Ai.Record
                 return;
             }
 
-            var groups = MongoService<ActiveOffGroups>.Get();
             foreach (var groupNum in availableList)
             {
-                var isActiveOff = groups.Any(p => p.GroupNum == groupNum);
+                var isActiveOff = !GroupSettingMgr.Instance[groupNum].IsPowerOn;
                 if (isActiveOff)
                 {
                     continue;
