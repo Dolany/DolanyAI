@@ -16,7 +16,7 @@
         {
             msg.AiNum = Utility.SelfQQNum;
             msg.Time = DateTime.Now;
-            var callback = $"[Command] {GroupSettingMgr.Instance[msg.ToGroup].Name} {msg.ToQQ} {msg.Id} {msg.Command} {msg.Msg}";
+            var callback = $"[Command] {(msg.ToGroup == 0 ? "私聊" : GroupSettingMgr.Instance[msg.ToGroup].Name)} {msg.ToQQ} {msg.Id} {msg.Command} {msg.Msg}";
             AIMgr.Instance.MessagePublish(callback);
 
             Global.CommandInfoService.Send(msg, Configger.Instance["CommandQueueName"]);

@@ -104,19 +104,43 @@ namespace Dolany.Ai.Core.Ai.Record
             IsPrivateAvailable = true)]
         public bool MyItems(MsgInformationEx MsgDTO, object[] param)
         {
-            var query = MongoService<DriftItemRecord>.Get(r => r.QQNum == MsgDTO.FromQQ).FirstOrDefault();
-            if (query == null || !query.ItemCount.Any())
+            var query = DriftItemRecord.GetRecord(MsgDTO.FromQQ);
+            if (!query.ItemCount.Any())
             {
                 MsgSender.Instance.PushMsg(MsgDTO, "你的背包空空如也~", true);
                 return false;
             }
 
-            var itemMsgs = HonorHelper.Instance.GetOrderedItemsStr(query.ItemCount);
+            var itemMsgs = HonorHelper.Instance.GetOrderedItemsStr(
+                query.ItemCount.Where(p => HonorHelper.Instance.LimitItems.All(li => li.Name != p.Name)));
             var msg = $"你收集到的物品有：\r{string.Join("\r", itemMsgs.Take(7))}";
             if (itemMsgs.Count > 7)
             {
                 msg += $"\r当前显示第 1/{(itemMsgs.Count - 1) / 7 + 1}页，请使用 我的物品 [页码] 命令查看更多物品！";
             }
+            MsgSender.Instance.PushMsg(MsgDTO, msg, true);
+            return true;
+        }
+
+        [EnterCommand(Command = "我的限定物品",
+            AuthorityLevel = AuthorityLevel.成员,
+            Description = "查看自己的期间限定物品",
+            Syntax = "",
+            SyntaxChecker = "Empty",
+            Tag = "漂流瓶功能",
+            IsPrivateAvailable = true)]
+        public bool MyLimitItems(MsgInformationEx MsgDTO, object[] param)
+        {
+            var query = DriftItemRecord.GetRecord(MsgDTO.FromQQ);
+            if (!query.ItemCount.Any())
+            {
+                MsgSender.Instance.PushMsg(MsgDTO, "你的背包空空如也~", true);
+                return false;
+            }
+
+            var itemMsgs = HonorHelper.Instance.GetOrderedItemsStr(
+                query.ItemCount.Where(p => HonorHelper.Instance.LimitItems.Any(li => li.Name == p.Name)));
+            var msg = $"你收集到的限定物品有：\r{string.Join("\r", itemMsgs.Take(7))}";
             MsgSender.Instance.PushMsg(MsgDTO, msg, true);
             return true;
         }
@@ -132,14 +156,15 @@ namespace Dolany.Ai.Core.Ai.Record
         {
             var pageNo = (int) (long) param[0];
 
-            var query = MongoService<DriftItemRecord>.Get(r => r.QQNum == MsgDTO.FromQQ).FirstOrDefault();
-            if (query == null || !query.ItemCount.Any())
+            var query = DriftItemRecord.GetRecord(MsgDTO.FromQQ);
+            if (!query.ItemCount.Any())
             {
                 MsgSender.Instance.PushMsg(MsgDTO, "你的背包空空如也~", true);
                 return false;
             }
 
-            var itemMsgs = HonorHelper.Instance.GetOrderedItemsStr(query.ItemCount);
+            var itemMsgs = HonorHelper.Instance.GetOrderedItemsStr(
+                query.ItemCount.Where(p => HonorHelper.Instance.LimitItems.All(li => li.Name != p.Name)));
             var totalPageCount = (itemMsgs.Count - 1) / 7 + 1;
             if (pageNo <= 0 || pageNo > totalPageCount)
             {
@@ -163,8 +188,8 @@ namespace Dolany.Ai.Core.Ai.Record
             IsPrivateAvailable = true)]
         public bool MyHonors(MsgInformationEx MsgDTO, object[] param)
         {
-            var query = MongoService<DriftItemRecord>.Get(r => r.QQNum == MsgDTO.FromQQ).FirstOrDefault();
-            if (query == null || query.HonorList == null || !query.HonorList.Any())
+            var query = DriftItemRecord.GetRecord(MsgDTO.FromQQ);
+            if (query.HonorList == null || !query.HonorList.Any())
             {
                 MsgSender.Instance.PushMsg(MsgDTO, "你还没有获得任何成就，继续加油吧~", true);
                 return false;
