@@ -17,7 +17,8 @@
         Name = "骰娘",
         Description = "AI for dice.",
         Enable = true,
-        PriorityLevel = 5)]
+        PriorityLevel = 5,
+        NeedManulOpen = true)]
     public class DiceAI : AIBase
     {
         private readonly int DiceCountMaxLimit = int.Parse(Configger.Instance["DiceCountMaxLimit"]);

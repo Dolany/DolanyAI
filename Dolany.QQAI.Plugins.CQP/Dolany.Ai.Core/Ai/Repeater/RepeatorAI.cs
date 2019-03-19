@@ -15,7 +15,8 @@ namespace Dolany.Ai.Core.Ai.Repeater
         Name = "随机复读",
         Description = "AI for Repeating Random words.",
         Enable = true,
-        PriorityLevel = 1)]
+        PriorityLevel = 1,
+        NeedManulOpen = true)]
     public class RepeatorAI : AIBase
     {
         private const long RepeatLimit = 30;

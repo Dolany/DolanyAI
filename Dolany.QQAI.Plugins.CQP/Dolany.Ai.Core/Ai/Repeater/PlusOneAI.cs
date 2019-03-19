@@ -17,7 +17,8 @@ namespace Dolany.Ai.Core.Ai.Repeater
         Name = "+1复读",
         Description = "AI for Auto Plus One.",
         Enable = true,
-        PriorityLevel = 1)]
+        PriorityLevel = 1,
+        NeedManulOpen = true)]
     public class PlusOneAI : AIBase
     {
         private List<PlusOneModel> Cache { get; } = new List<PlusOneModel>();
