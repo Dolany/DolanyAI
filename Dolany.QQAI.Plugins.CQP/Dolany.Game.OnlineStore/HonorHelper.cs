@@ -126,7 +126,14 @@ namespace Dolany.Game.OnlineStore
             var honorCount = 0;
             if (record.HonorList == null || !record.HonorList.Contains(honorName))
             {
-                honorCount = record.ItemCount.Count(p => this.HonorDic[honorName].Any(ps => ps.Name == p.Name));
+                if (HonorDic.ContainsKey(honorName))
+                {
+                    honorCount = record.ItemCount.Count(p => this.HonorDic[honorName].Any(ps => ps.Name == p.Name));
+                }
+                else if(LimitHonorDic.ContainsKey(honorName))
+                {
+                    honorCount = record.ItemCount.Count(p => this.LimitHonorDic[honorName].Any(ps => ps.Name == p.Name));
+                }
             }
 
             if (honorCount == 0)
