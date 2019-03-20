@@ -1,5 +1,7 @@
-﻿using Dolany.Ai.Core.Base;
+﻿using System.Linq;
+using Dolany.Ai.Core.Base;
 using Dolany.Ai.Core.Cache;
+using Dolany.Ai.Core.Common;
 using Dolany.Ai.Core.Model;
 using Dolany.Database.Sqlite;
 using Dolany.Database.Sqlite.Model;
@@ -111,6 +113,43 @@ namespace Dolany.Ai.Core.Ai.SingleCommand.GroupOwnerOnly
             sourcePerson.Update();
 
             MsgSender.Instance.PushMsg(MsgDTO, "驱散成功！");
+            return true;
+        }
+
+        [EnterCommand(
+            Command = "开启所有功能",
+            AuthorityLevel = AuthorityLevel.群主,
+            Description = "开启机器人的所有功能",
+            Syntax = "",
+            Tag = "群主特权",
+            SyntaxChecker = "Empty",
+            IsPrivateAvailable = false)]
+        public bool EnableAllModules(MsgInformationEx MsgDTO, object[] param)
+        {
+            var setting = GroupSettingMgr.Instance[MsgDTO.FromGroup];
+            setting.EnabledFunctions = AIMgr.Instance.OptionalAINames;
+            setting.Update();
+
+            MsgSender.Instance.PushMsg(MsgDTO, "开启成功！");
+            return true;
+        }
+
+        [EnterCommand(
+            Command = "可选功能列表",
+            AuthorityLevel = AuthorityLevel.群主,
+            Description = "查看机器人的所有可选功能",
+            Syntax = "",
+            Tag = "群主特权",
+            SyntaxChecker = "Empty",
+            IsPrivateAvailable = false)]
+        public bool ViewAllOptionalModules(MsgInformationEx MsgDTO, object[] param)
+        {
+            var setting = GroupSettingMgr.Instance[MsgDTO.FromGroup];
+            var allModules = AIMgr.Instance.OptionalAINames;
+
+            var msgs = allModules.Select(m => $"{m}  {(setting.EnabledFunctions.Contains(m) ? "√" : "×")}");
+            var msg = $"{string.Join("\r", msgs)}\r可以使用 开启功能 [功能名] 来开启对应的功能；或使用 关闭功能 [功能名] 来关闭对应的功能";
+            MsgSender.Instance.PushMsg(MsgDTO, msg);
             return true;
         }
     }

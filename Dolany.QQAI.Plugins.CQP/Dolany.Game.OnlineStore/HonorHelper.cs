@@ -47,7 +47,7 @@ namespace Dolany.Game.OnlineStore
             }
 
             Items = HonorList.SelectMany(p => p.Items).ToList();
-            SumRate = HonorList.Sum(h => h.Items.Sum(hi => hi.Rate)); 
+            SumRate = HonorList.Sum(h => h.Items.Sum(hi => hi.Rate));
         }
 
         public DriftBottleItemModel FindItem(string name)
