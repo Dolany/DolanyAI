@@ -30,7 +30,7 @@
 
             FiltPicMsg(MsgDTO);
 
-            return !GroupSettingMgr.Instance[MsgDTO.FromGroup].IsPowerOn;
+            return MsgDTO.Type == MsgType.Group && !GroupSettingMgr.Instance[MsgDTO.FromGroup].IsPowerOn;
         }
 
         private static void FiltPicMsg(MsgInformationEx MsgDTO)
