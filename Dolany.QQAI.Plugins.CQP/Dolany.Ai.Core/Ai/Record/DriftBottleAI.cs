@@ -317,7 +317,7 @@ namespace Dolany.Ai.Core.Ai.Record
                 }
             }
 
-            var honorCount = allRecord.Count(r => r.HonorList.Contains(LimitHonor.Name));
+            var honorCount = allRecord.Count(r => r.HonorList != null && r.HonorList.Contains(LimitHonor.Name));
             var msg = $"限定物品收集情况：\r{string.Join("\r", itemDic.Select(p => $"{p.Key}:{p.Value}"))}\r";
             msg += $"共有 {honorCount} 人达成了本月限定成就";
 
