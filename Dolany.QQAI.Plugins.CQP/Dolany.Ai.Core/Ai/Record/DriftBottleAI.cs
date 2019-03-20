@@ -288,5 +288,41 @@ namespace Dolany.Ai.Core.Ai.Record
             MsgSender.Instance.PushMsg(MsgDTO, msg);
             return true;
         }
+
+        [EnterCommand(
+            Command = "限定物品收集报告",
+            AuthorityLevel = AuthorityLevel.成员,
+            Description = "获取当月限定物品的收集报告",
+            Syntax = "",
+            SyntaxChecker = "Empty",
+            Tag = "漂流瓶功能",
+            IsPrivateAvailable = true)]
+        public bool LimitItemReport(MsgInformationEx MsgDTO, object[] param)
+        {
+            var LimitHonor = HonorHelper.Instance.HonorList.First(h =>
+                h is LimitHonorModel && ((LimitHonorModel) h).Year == DateTime.Now.Year && ((LimitHonorModel) h).Month == DateTime.Now.Month);
+            var LimitItemsNames = LimitHonor.Items.Select(i => i.Name);
+
+            var allRecord = MongoService<DriftItemRecord>.Get(r => r.ItemCount.Any(p => LimitItemsNames.Contains(p.Name)) || r.HonorList.Contains(LimitHonor.Name));
+            var itemDic = LimitItemsNames.ToDictionary(p => p, p => 0);
+
+            foreach (var record in allRecord)
+            {
+                foreach (var countRecord in record.ItemCount)
+                {
+                    if (itemDic.ContainsKey(countRecord.Name))
+                    {
+                        itemDic[countRecord.Name] += countRecord.Count;
+                    }
+                }
+            }
+
+            var honorCount = allRecord.Count(r => r.HonorList.Contains(LimitHonor.Name));
+            var msg = $"限定物品收集情况：\r{string.Join("\r", itemDic.Select(p => $"{p.Key}:{p.Value}"))}\r";
+            msg += $"共有 {honorCount} 人达成了本月限定成就";
+
+            MsgSender.Instance.PushMsg(MsgDTO, msg);
+            return true;
+        }
     }
 }

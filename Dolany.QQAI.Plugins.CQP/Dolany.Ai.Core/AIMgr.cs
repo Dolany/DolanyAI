@@ -33,6 +33,8 @@ namespace Dolany.Ai.Core
 
         public Dictionary<long, string> AllGroupsDic => GroupSettingMgr.Instance.SettingDic.ToDictionary(p => p.Key, p => p.Value.Name);
 
+        public List<string> OptionalAINames => AIList.Where(ai => ai.Attr.NeedManulOpen).Select(ai => ai.Attr.Name).ToList();
+
         private delegate void MessageCallBack(string msg);
 
         private event MessageCallBack OnMessageCallBack;
