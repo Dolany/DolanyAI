@@ -44,6 +44,7 @@
             }
 
             Praise(MsgDTO);
+            LastTime = DateTime.Now;
 
             return true;
         }
