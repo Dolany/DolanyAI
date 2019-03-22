@@ -1,7 +1,7 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio Version 16
-VisualStudioVersion = 16.0.28714.193
+# Visual Studio 15
+VisualStudioVersion = 15.0.28307.489
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DolanyToolControl", "..\DolanyToolControl\DolanyToolControl.csproj", "{20EA6E46-2134-4CA3-AC6F-63865762E1E7}"
 EndProject
@@ -37,8 +37,6 @@ EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Dolany.Game.Chess", "Dolany.Game.Chess\Dolany.Game.Chess.csproj", "{4B407C81-FD31-494E-9AE1-49CB9390B918}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Dolany.Temp", "Dolany.Temp\Dolany.Temp.csproj", "{9AE0C7FF-BACB-4B71-94F6-58A089E29DC9}"
-EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Dolany.Game.CardGame", "Dolany.Game.CardGame\Dolany.Game.CardGame.csproj", "{F782EC3A-52DE-474A-9A0E-878DBC951589}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -90,10 +88,6 @@ Global
 		{9AE0C7FF-BACB-4B71-94F6-58A089E29DC9}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{9AE0C7FF-BACB-4B71-94F6-58A089E29DC9}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{9AE0C7FF-BACB-4B71-94F6-58A089E29DC9}.Release|Any CPU.Build.0 = Release|Any CPU
-		{F782EC3A-52DE-474A-9A0E-878DBC951589}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{F782EC3A-52DE-474A-9A0E-878DBC951589}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{F782EC3A-52DE-474A-9A0E-878DBC951589}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{F782EC3A-52DE-474A-9A0E-878DBC951589}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -112,7 +106,6 @@ Global
 		{E403102B-5108-456F-8A61-B033C895EE67} = {3D1D748A-8A7B-446B-8AFB-97877F34CCED}
 		{4B407C81-FD31-494E-9AE1-49CB9390B918} = {841A67F2-F572-4526-9E62-312351CACFE5}
 		{9AE0C7FF-BACB-4B71-94F6-58A089E29DC9} = {3D1D748A-8A7B-446B-8AFB-97877F34CCED}
-		{F782EC3A-52DE-474A-9A0E-878DBC951589} = {841A67F2-F572-4526-9E62-312351CACFE5}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {16A16387-5510-46DA-B392-7152AF4264E7}
