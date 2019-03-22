@@ -54,6 +54,60 @@ namespace Dolany.Ai.Core.Ai.Game.Shopping
             return false;
         }
 
+        [EnterCommand(Command = "贩卖多余物品",
+            AuthorityLevel = AuthorityLevel.成员,
+            Description = "一键贩卖自己多余的物品",
+            Syntax = "",
+            Tag = "商店功能",
+            SyntaxChecker = "Empty",
+            IsPrivateAvailable = true,
+            DailyLimit = 2,
+            TestingDailyLimit = 2)]
+        public bool SellRedundant(MsgInformationEx MsgDTO, object[] param)
+        {
+            var osPerson = OSPerson.GetPerson(MsgDTO.FromQQ);
+            if (osPerson.CheckBuff("快晴"))
+            {
+                MsgSender.Instance.PushMsg(MsgDTO, "你无法进行该操作！(快晴)");
+                return false;
+            }
+
+            var record = DriftItemRecord.GetRecord(MsgDTO.FromQQ);
+            var ics = record.ItemCount?.Where(p => p.Count > 1);
+            if (ics.IsNullOrEmpty())
+            {
+                MsgSender.Instance.PushMsg(MsgDTO, "你没有任何多余的物品！");
+                return false;
+            }
+
+            var ictm = ics.Select(p => new
+            {
+                p.Name,
+                Count = p.Count - 1,
+                IsLimit = HonorHelper.Instance.IsLimit(p.Name),
+                Price = HonorHelper.Instance.GetItemPrice(HonorHelper.Instance.FindItem(p.Name), MsgDTO.FromQQ)
+            });
+            var msg = $"你即将贩卖{ictm.Sum(i => i.Count)}件物品，" +
+                      $"其中有{ictm.Count(i => i.IsLimit)}件限定物品，" +
+                      $"共价值{ictm.Sum(p => p.Price)}金币，是否继续？";
+            if (!Waiter.Instance.WaitForConfirm(MsgDTO, msg, 7))
+            {
+                MsgSender.Instance.PushMsg(MsgDTO, "操作取消！");
+                return false;
+            }
+
+            foreach (var ic in ictm)
+            {
+                record.ItemConsume(ic.Name, ic.Count);
+            }
+            record.Update();
+            osPerson.Golds += ictm.Sum(p => p.Price);
+            osPerson.Update();
+
+            MsgSender.Instance.PushMsg(MsgDTO, $"贩卖成功，你当前拥有{osPerson.Golds}金币！");
+            return true;
+        }
+
         private void SellItem(MsgInformationEx MsgDTO, DriftBottleItemModel item)
         {
             if (!ItemHelper.Instance.CheckItem(MsgDTO.FromQQ, item.Name))

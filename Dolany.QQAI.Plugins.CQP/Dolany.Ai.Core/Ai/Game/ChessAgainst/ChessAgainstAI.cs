@@ -41,18 +41,6 @@ namespace Dolany.Ai.Core.Ai.Game.ChessAgainst
                 return false;
             }
 
-            if (ChessMgr.Instance.IsQQInPlaying(MsgDTO.FromQQ))
-            {
-                MsgSender.Instance.PushMsg(MsgDTO, "你正在进行一场对决，请稍后再试！");
-                return false;
-            }
-
-            if (ChessMgr.Instance.IsQQInPlaying(aimNum))
-            {
-                MsgSender.Instance.PushMsg(MsgDTO, "你的对手正在进行一场对决，请稍后再试！");
-                return false;
-            }
-
             var osPerson = OSPerson.GetPerson(MsgDTO.FromQQ);
             if (osPerson.CheckBuff("黄砂"))
             {
@@ -63,6 +51,18 @@ namespace Dolany.Ai.Core.Ai.Game.ChessAgainst
             if (!Waiter.Instance.WaitForConfirm(MsgDTO.FromGroup, aimNum, $"{CodeApi.Code_At(MsgDTO.FromQQ)} 正在向你发起一场对决，是否接受？", 10))
             {
                 MsgSender.Instance.PushMsg(MsgDTO, "对决取消！");
+                return false;
+            }
+
+            if (ChessMgr.Instance.IsQQInPlaying(MsgDTO.FromQQ))
+            {
+                MsgSender.Instance.PushMsg(MsgDTO, "你正在进行一场对决，请稍后再试！");
+                return false;
+            }
+
+            if (ChessMgr.Instance.IsQQInPlaying(aimNum))
+            {
+                MsgSender.Instance.PushMsg(MsgDTO, "你的对手正在进行一场对决，请稍后再试！");
                 return false;
             }
 
