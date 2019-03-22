@@ -73,7 +73,7 @@ namespace Dolany.Ai.Core.Ai.Game.Shopping
             }
 
             var record = DriftItemRecord.GetRecord(MsgDTO.FromQQ);
-            var ics = record.ItemCount?.Where(p => p.Count > 1);
+            var ics = record.ItemCount?.Where(p => p.Count > 1).ToList();
             if (ics.IsNullOrEmpty())
             {
                 MsgSender.Instance.PushMsg(MsgDTO, "你没有任何多余的物品！");
@@ -86,7 +86,7 @@ namespace Dolany.Ai.Core.Ai.Game.Shopping
                 Count = p.Count - 1,
                 IsLimit = HonorHelper.Instance.IsLimit(p.Name),
                 Price = HonorHelper.Instance.GetItemPrice(HonorHelper.Instance.FindItem(p.Name), MsgDTO.FromQQ)
-            });
+            }).ToList();
             var msg = $"你即将贩卖{ictm.Sum(i => i.Count)}件物品，" +
                       $"其中有{ictm.Count(i => i.IsLimit)}件限定物品，" +
                       $"共价值{ictm.Sum(p => p.Price)}金币，是否继续？";
