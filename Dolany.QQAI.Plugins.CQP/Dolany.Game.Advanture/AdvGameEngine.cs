@@ -116,7 +116,7 @@ namespace Dolany.Game.Advanture
             {
                 OtherPlayer.HP = Math.Max(OtherPlayer.HP - cave.Atk, 0);
                 CommonUtil.MsgSendBack(GroupNum, OtherPlayer.QQNum, 
-                    $"你收到了{cave.Atk}点伤害，你剩余{OtherPlayer.HP}{Emoji.心}");
+                    $"你受到了{cave.Atk}点伤害，你剩余{OtherPlayer.HP}{Emoji.心}");
             }
         }
 
