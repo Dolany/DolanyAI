@@ -5,16 +5,11 @@
     using Base;
 
     using Cache;
-
-    using Common;
-
     using Dolany.Ai.Common;
     using Database;
     using Dolany.Database.Ai;
 
     using Model;
-
-    using static API.CodeApi;
 
     [AI(
         Name = "舰娘语音",
@@ -46,7 +41,7 @@
                 return false;
             }
 
-            MsgSender.Instance.PushMsg(MsgDTO, Code_Voice(voice.VoiceUrl));
+            MsgSender.Instance.PushMsg(MsgDTO, CodeApi.Code_Voice(voice.VoiceUrl));
             MsgSender.Instance.PushMsg(MsgDTO, voice.Content);
             return true;
         }

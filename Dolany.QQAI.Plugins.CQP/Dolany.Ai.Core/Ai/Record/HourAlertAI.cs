@@ -12,7 +12,6 @@ namespace Dolany.Ai.Core.Ai.Record
     using Dolany.Ai.Common;
     using Database;
     using Dolany.Database.Ai;
-    using static API.CodeApi;
 
     [AI(
         Name = "报时",
@@ -77,7 +76,7 @@ namespace Dolany.Ai.Core.Ai.Record
                 new MsgCommand
                     {
                         Command = AiCommand.SendGroup,
-                        Msg = Code_Voice(randGirl.VoiceUrl),
+                        Msg = CodeApi.Code_Voice(randGirl.VoiceUrl),
                         ToGroup = groupNum
                 });
             MsgSender.Instance.PushMsg(

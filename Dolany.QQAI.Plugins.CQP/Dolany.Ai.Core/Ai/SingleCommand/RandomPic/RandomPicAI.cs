@@ -1,11 +1,11 @@
-﻿namespace Dolany.Ai.Core.Ai.SingleCommand.RandomPic
+﻿using Dolany.Ai.Common;
+
+namespace Dolany.Ai.Core.Ai.SingleCommand.RandomPic
 {
     using Base;
     using Cache;
 
     using Model;
-
-    using static API.CodeApi;
 
     [AI(
         Name = "随机图片",
@@ -30,7 +30,7 @@
         public bool RecentPic(MsgInformationEx MsgDTO, object[] param)
         {
             var picUrl = PicCacher.Random();
-            MsgSender.Instance.PushMsg(MsgDTO, Code_Image(picUrl));
+            MsgSender.Instance.PushMsg(MsgDTO, CodeApi.Code_Image(picUrl));
             return true;
         }
 
@@ -46,7 +46,7 @@
         public bool RecentFlash(MsgInformationEx MsgDTO, object[] param)
         {
             var picUrl = PicCacher.Random();
-            MsgSender.Instance.PushMsg(MsgDTO, Code_Flash(picUrl));
+            MsgSender.Instance.PushMsg(MsgDTO, CodeApi.Code_Flash(picUrl));
             return true;
         }
     }

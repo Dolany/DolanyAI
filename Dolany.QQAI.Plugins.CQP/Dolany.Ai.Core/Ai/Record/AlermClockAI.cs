@@ -18,9 +18,7 @@ namespace Dolany.Ai.Core.Ai.Record
 
     using Model;
 
-    using static Common.Utility;
-
-    using static API.CodeApi;
+    using static Utility;
 
     [AI(
         Name = "闹钟",
@@ -106,7 +104,7 @@ namespace Dolany.Ai.Core.Ai.Record
                     new MsgCommand
                     {
                         Command = AiCommand.SendGroup,
-                        Msg = $@"{Code_At(entity.Creator)} {entity.Content}",
+                        Msg = $@"{CodeApi.Code_At(entity.Creator)} {entity.Content}",
                         ToGroup = entity.GroupNumber
                     });
             }
@@ -222,10 +220,10 @@ namespace Dolany.Ai.Core.Ai.Record
                                                               q.Creator == MsgDTO.FromQQ);
             if (allClocks.IsNullOrEmpty())
             {
-                return $@"{Code_At(MsgDTO.FromQQ)} 你还没有设定闹钟呢！";
+                return $@"{CodeApi.Code_At(MsgDTO.FromQQ)} 你还没有设定闹钟呢！";
             }
 
-            var Msg = $@"{Code_At(MsgDTO.FromQQ)} 你当前共设定了{allClocks.Count()}个闹钟";
+            var Msg = $@"{CodeApi.Code_At(MsgDTO.FromQQ)} 你当前共设定了{allClocks.Count()}个闹钟";
             var builder = new StringBuilder();
             builder.Append(Msg);
             foreach (var clock in allClocks)

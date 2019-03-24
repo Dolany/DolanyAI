@@ -1,21 +1,12 @@
 ﻿using System.IO;
 
-namespace Dolany.Ai.Core.API
+namespace Dolany.Ai.Common
 {
-    using Common;
-
-    using Dolany.Ai.Common;
-
     public class CodeApi
     {
         public static string Code_At(long qqNumber)
         {
             return $"[QQ:at={qqNumber}]";
-        }
-
-        public static string Code_SelfAt()
-        {
-            return Code_At(Utility.SelfQQNum);
         }
 
         public static string Code_Image(string fileName)

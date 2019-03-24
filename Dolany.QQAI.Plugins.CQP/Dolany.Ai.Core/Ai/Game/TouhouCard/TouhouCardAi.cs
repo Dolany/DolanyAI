@@ -1,17 +1,14 @@
 ﻿using Dolany.Ai.Common;
+using Dolany.Ai.Core.Base;
+using Dolany.Ai.Core.Cache;
+using Dolany.Ai.Core.Model;
+using Dolany.Database.Sqlite;
+using Dolany.Database.Sqlite.Model;
 
-namespace Dolany.Ai.Reborn.DolanyAI.Ai.Game.TouhouCard
+namespace DolanyAI.Ai.Game.TouhouCard
 {
     using System.IO;
     using System.Linq;
-
-    using Core.Base;
-    using Core.Cache;
-    using Core.Model;
-    using Database.Sqlite;
-    using Database.Sqlite.Model;
-
-    using static Core.API.CodeApi;
 
     [AI(
         Name = "幻想乡抽卡",
@@ -37,7 +34,7 @@ namespace Dolany.Ai.Reborn.DolanyAI.Ai.Game.TouhouCard
         public bool RandomCard(MsgInformationEx MsgDTO, object[] param)
         {
             var cardName = RandomCard(MsgDTO.FromQQ);
-            MsgSender.Instance.PushMsg(MsgDTO, Code_Image_Relational(cardName));
+            MsgSender.Instance.PushMsg(MsgDTO, CodeApi.Code_Image_Relational(cardName));
             return true;
         }
 

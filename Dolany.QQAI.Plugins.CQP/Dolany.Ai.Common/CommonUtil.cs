@@ -11,7 +11,9 @@ namespace Dolany.Ai.Common
 
     public static class CommonUtil
     {
-        public static Action<long, long, string, bool> MsgSendBack;
+        public static Action<long, long, string> MsgSendBack;
+
+        public static Func<long, long, string, Predicate<int>, int> WaitForNumFunc;
 
         private static readonly RNGCryptoServiceProvider RngCsp = new RNGCryptoServiceProvider();
 

@@ -1,11 +1,11 @@
 ﻿using System.Linq;
 using Dolany.Ai.Common;
-using Dolany.Ai.Core.API;
 using Dolany.Ai.Core.Base;
 using Dolany.Ai.Core.Cache;
 using Dolany.Ai.Core.Model;
 using Dolany.Database;
 using Dolany.Database.Ai;
+using Dolany.Game.Advanture;
 using Dolany.Game.OnlineStore;
 
 namespace Dolany.Ai.Core.Ai.Game.Shopping
@@ -326,14 +326,21 @@ namespace Dolany.Ai.Core.Ai.Game.Shopping
         {
             var osPerson = OSPerson.GetPerson(MsgDTO.FromQQ);
             var itemRecord = DriftItemRecord.GetRecord(MsgDTO.FromQQ);
+            var advPlayer = AdvPlayer.GetPlayer(MsgDTO.FromQQ);
 
-            var msg = $"金币：{osPerson.Golds}\r" +
+            var msg = $"等级：{advPlayer.Level}\r" +
+                      $"经验值：{advPlayer.Exp}\r" +
+                      $"HP：{advPlayer.HP}{Emoji.心}\r" +
+                      $"攻击力：{advPlayer.MinAtk}-{advPlayer.MaxAtk}{Emoji.剑}\r"+
+                      $"金币：{osPerson.Golds}{Emoji.钱}\r" +
+                      $"战绩：{advPlayer.WinTotal}/{advPlayer.GameTotal}\r" +
                       $"物品数量：{itemRecord.ItemCount?.Count ?? 0}\r" +
                       $"成就数量：{itemRecord.HonorList?.Count ?? 0}";
             var buffs = osPerson.EffectiveBuffs;
             if (!buffs.IsNullOrEmpty())
             {
-                msg += "\rBuff列表：\r" + string.Join("\r", buffs.Select(b => $"{b.Name}：{b.Description}（{b.ExpiryTime.ToLocalTime()}）"));
+                msg += "\rBuff列表：\r" + string.Join("\r", 
+                           buffs.Select(b => $"{b.Name}：{b.Description}（{b.ExpiryTime.ToLocalTime()}）"));
             }
 
             MsgSender.Instance.PushMsg(MsgDTO, msg, true);

@@ -1,4 +1,5 @@
-﻿using Dolany.Ai.Core.Common;
+﻿using Dolany.Ai.Common;
+using Dolany.Ai.Core.Common;
 
 namespace Dolany.Ai.Core.Ai.Record
 {
@@ -16,8 +17,6 @@ namespace Dolany.Ai.Core.Ai.Record
     using Database.Sqlite.Model;
 
     using Model;
-
-    using static API.CodeApi;
 
     [AI(
         Name = "打招呼",
@@ -62,7 +61,7 @@ namespace Dolany.Ai.Core.Ai.Record
                 return false;
             }
 
-            MsgSender.Instance.PushMsg(MsgDTO, $"{Code_At(MsgDTO.FromQQ)} {hello.Content}");
+            MsgSender.Instance.PushMsg(MsgDTO, $"{CodeApi.Code_At(MsgDTO.FromQQ)} {hello.Content}");
             AIAnalyzer.AddCommandCount(new CommandAnalyzeDTO()
             {
                 Ai = Attr.Name,
@@ -135,7 +134,7 @@ namespace Dolany.Ai.Core.Ai.Record
                 return false;
             }
 
-            MsgSender.Instance.PushMsg(MsgDTO, $"{Code_At(MsgDTO.FromQQ)} {query.Content}");
+            MsgSender.Instance.PushMsg(MsgDTO, $"{CodeApi.Code_At(MsgDTO.FromQQ)} {query.Content}");
             return true;
         }
 

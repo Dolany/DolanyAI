@@ -23,8 +23,6 @@
 
     using static Common.Utility;
 
-    using static API.CodeApi;
-
     [AI(
         Name = "图灵",
         Description = "AI for Tuling Robot.",
@@ -67,12 +65,12 @@
                 return true;
             }
 
-            if (MsgDTO.Type == MsgType.Group && !MsgDTO.FullMsg.Contains(Code_SelfAt()))
+            if (MsgDTO.Type == MsgType.Group && !MsgDTO.FullMsg.Contains(CodeApi.Code_At(SelfQQNum)))
             {
                 return false;
             }
 
-            MsgDTO.FullMsg = MsgDTO.FullMsg.Replace(Code_SelfAt(), string.Empty);
+            MsgDTO.FullMsg = MsgDTO.FullMsg.Replace(CodeApi.Code_At(SelfQQNum), string.Empty);
 
             var cacheResponse = SCacheService.Get<string>("QuestionnaireDuring-QuestionnaireDuring");
 
@@ -192,11 +190,11 @@
                         break;
 
                     case "image":
-                        builder.Append(Code_Image(res.Values.Image));
+                        builder.Append(CodeApi.Code_Image(res.Values.Image));
                         break;
 
                     case "voice":
-                        builder.Append(Code_Voice(res.Values.Voice));
+                        builder.Append(CodeApi.Code_Voice(res.Values.Voice));
                         break;
 
                     case "url":

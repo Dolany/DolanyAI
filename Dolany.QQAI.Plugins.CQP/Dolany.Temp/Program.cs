@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Linq;
+using Dolany.Ai.Common;
 using Dolany.Database;
 using Dolany.Database.Ai;
 
@@ -9,17 +10,11 @@ namespace Dolany.Temp
     {
         static void Main(string[] args)
         {
-            var limitRecords = MongoService<DriftItemRecord>.Get(p => p.HonorList.Any(h => h.Contains("限定")));
-            foreach (var record in limitRecords)
-            {
-                var honor = record.HonorList.First(h => h.Contains("限定"));
-                var strs = honor.Split(new char[]{'(', ')'});
-                record.HonorList.Remove(honor);
-                record.HonorList.Add(strs[0]);
+            var record = MongoService<DriftItemRecord>.Get(p => p.QQNum == 601844608).First();
+            record.ItemCount = CommonUtil.RandSort(record.ItemCount.ToArray());
+            record.Update();
 
-                record.Update();
-            }
-
+            Console.WriteLine("Completed");
             Console.ReadKey();
         }
     }

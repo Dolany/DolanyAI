@@ -26,6 +26,7 @@ namespace Dolany.Game.OnlineStore
             var HonorDic = CommonUtil.ReadJsonData<Dictionary<string, DriftBottleItemModel[]>>("driftBottleItemData");
             var LimitHonors = CommonUtil.ReadJsonData<Dictionary<string, LimitHonorModel>>("driftBottleItemData_Limit");
 
+            HonorList.Clear();
             HonorList.AddRange(HonorDic.Select(hd => new HonorModel()
             {
                 Name = hd.Key,
@@ -48,6 +49,14 @@ namespace Dolany.Game.OnlineStore
 
             Items = HonorList.SelectMany(p => p.Items).ToList();
             SumRate = HonorList.Sum(h => h.Items.Sum(hi => hi.Rate));
+        }
+
+        public DriftBottleItemModel[] CurMonthLimitItems()
+        {
+            return HonorList.First(h => h is LimitHonorModel limitHonor 
+                                        && limitHonor.Year == DateTime.Now.Year 
+                                        && limitHonor.Month == DateTime.Now.Month).Items
+                .ToArray();
         }
 
         public DriftBottleItemModel FindItem(string name)

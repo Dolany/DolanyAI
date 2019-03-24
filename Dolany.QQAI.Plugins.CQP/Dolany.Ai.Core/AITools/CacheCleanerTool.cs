@@ -6,8 +6,6 @@ namespace Dolany.Ai.Core.AITools
     using System.Linq;
     using Dolany.Ai.Common;
 
-    using static API.CodeApi;
-
     public class CacheCleanerDTO
     {
         public string Path { get; set; }
@@ -32,7 +30,7 @@ namespace Dolany.Ai.Core.AITools
                 Interval = PicCleanFreq * 1000,
                 Data = new CacheCleanerDTO
                 {
-                    Path = ImagePath,
+                    Path = CodeApi.ImagePath,
                     IsCascading = false,
                     MaxCacheCount = MaxPicCache
                 }

@@ -2,6 +2,7 @@
 using Dolany.Ai.Core.API;
 using Dolany.Ai.Core.Base;
 using Dolany.Ai.Core.Cache;
+using Dolany.Ai.Core.Common;
 using Dolany.Ai.Core.Model;
 using Dolany.Game.Chess;
 using Dolany.Game.OnlineStore;
@@ -32,6 +33,12 @@ namespace Dolany.Ai.Core.Ai.Game.ChessAgainst
             if (MsgDTO.FromQQ == aimNum)
             {
                 MsgSender.Instance.PushMsg(MsgDTO, "你无法跟自己对决！");
+                return false;
+            }
+
+            if (aimNum == Utility.SelfQQNum)
+            {
+                MsgSender.Instance.PushMsg(MsgDTO, "鱼唇的人类，你无法挑战ai的威严！");
                 return false;
             }
 

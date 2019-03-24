@@ -6,8 +6,6 @@
     using Dolany.Ai.Common;
     using Model;
 
-    using static API.CodeApi;
-
     public class MsgSender
     {
         public static MsgSender Instance { get; } = new MsgSender();
@@ -29,7 +27,7 @@
                     {
                         Command = MsgInfo.Type == MsgType.Group ? AiCommand.SendGroup : AiCommand.SendPrivate,
                         Msg = MsgInfo.Type == MsgType.Group && isNeedAt
-                                  ? $"{Code_At(MsgInfo.FromQQ)} {Content}"
+                                  ? $"{CodeApi.Code_At(MsgInfo.FromQQ)} {Content}"
                                   : Content,
                         ToGroup = MsgInfo.FromGroup,
                         ToQQ = MsgInfo.FromQQ
