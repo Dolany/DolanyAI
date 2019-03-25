@@ -23,7 +23,7 @@ namespace Dolany.Ai.Core.Ai.Game.Advanture
             Tag = "游戏功能",
             IsPrivateAvailable = false,
             DailyLimit = 1,
-            TestingDailyLimit = 3,
+            TestingDailyLimit = 2,
             IsTesting = true)]
         public bool AdvantureAgainst(MsgInformationEx MsgDTO, object[] param)
         {

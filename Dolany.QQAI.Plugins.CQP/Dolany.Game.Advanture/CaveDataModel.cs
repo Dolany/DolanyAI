@@ -23,27 +23,13 @@ namespace Dolany.Game.Advanture
             {
                 case "Monster":
                     var monster = Monsters[CommonUtil.RandInt(Monsters.Count)];
-                    return new MonsterCave()
-                    {
-                        Name = monster.Name,
-                        Atk = monster.Atk,
-                        HP = monster.HP
-                    };
-                    case "Treasure":
-                        var treasure = Treasures[CommonUtil.RandInt(Treasures.Count)];
-                        return new TreasureCave()
-                        {
-                            Name = treasure.Name,
-                            Golds = treasure.Golds,
-                            HP = treasure.HP
-                        };
-                    case "Trap":
-                        var trap = Traps[CommonUtil.RandInt(Traps.Count)];
-                        return new TrapCave()
-                        {
-                            Name = trap.Name,
-                            Atk = trap.Atk
-                        };
+                    return new MonsterCave() {Name = monster.Name, Atk = monster.Atk, HP = monster.HP};
+                case "Treasure":
+                    var treasure = Treasures[CommonUtil.RandInt(Treasures.Count)];
+                    return new TreasureCave() {Name = treasure.Name, Golds = treasure.Golds, HP = treasure.HP};
+                case "Trap":
+                    var trap = Traps[CommonUtil.RandInt(Traps.Count)];
+                    return new TrapCave() {Name = trap.Name, Atk = trap.Atk};
             }
 
             return null;

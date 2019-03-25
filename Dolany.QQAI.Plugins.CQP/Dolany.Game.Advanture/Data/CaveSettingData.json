@@ -6,78 +6,78 @@
       "Max": 3
     },
     "Rates": {
-      "Monster": 7,
+      "Monster": 10,
       "Treasure": 2,
-      "Trap": 1 
+      "Trap": 2 
     }, 
     "Monsters": [
       {
         "Name": "阿尔贝岩虫",
         "Description": "",
-        "Atk": 2,
+        "Atk": 3,
         "HP": 4,
         "Skill": ""
       },
       {
         "Name": "蓝眼蝙蝠",
         "Description": "",
-        "Atk": 3,
+        "Atk": 4,
         "HP": 4,
         "Skill": ""
       },
       {
         "Name": "通道岩虫",
         "Description": "",
-        "Atk": 1,
+        "Atk": 2,
         "HP": 5,
         "Skill": ""
       },
       {
         "Name": "阿尔贝爬行者",
         "Description": "",
-        "Atk": 3,
+        "Atk": 4,
         "HP": 4,
         "Skill": ""
       },
       {
         "Name": "石皮兽",
         "Description": "",
-        "Atk": 1,
+        "Atk": 2,
         "HP": 8,
         "Skill": ""
       },
       {
         "Name": "食人鱼",
         "Description": "",
-        "Atk": 3,
+        "Atk": 4,
         "HP": 1,
         "Skill": ""
       },
       {
         "Name": "石皮兽头领",
         "Description": "",
-        "Atk": 2,
+        "Atk": 3,
         "HP": 8,
         "Skill": ""
       },
       {
         "Name": "尖牙蝙蝠",
         "Description": "",
-        "Atk": 4,
+        "Atk": 5,
         "HP": 2,
         "Skill": ""
       },
       {
         "Name": "阿尔贝蓝眼蜘蛛",
         "Description": "",
-        "Atk": 3,
+        "Atk": 4,
         "HP": 5,
         "Skill": ""
       },
       {
         "Name": "微光元素",
         "Description": "",
-        "Atk": 1,
+        "Atk": 2,
         "HP": 1,
         "Skill": ""
       }
@@ -85,7 +85,7 @@
     "Boss": {
       "Name": "阿尔贝地穴领主",
       "Description": "",
-      "Atk": 5,
+      "Atk": 7,
       "HP": 15,
       "Skill": ""
     },
