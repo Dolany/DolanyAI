@@ -109,19 +109,19 @@
     "Treasures": [
       {
         "Name": "破烂的宝箱",
-        "Golds": 100,
+        "Golds": 50,
         "Description": "",
         "HP": 3
       },
       {
         "Name": "陈旧的宝箱",
         "Description": "",
-        "Golds": 200,
+        "Golds": 100,
         "HP": 4
       },
       {
         "Name": "石质宝箱",
-        "Golds": 300,
+        "Golds": 150,
         "Description": "",
         "HP": 6
       }
