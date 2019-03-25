@@ -104,16 +104,16 @@ namespace Dolany.Game.Advanture
             var msg = "";
             var atk = CurPlayer.GetAtk();
             cave.HP = Math.Max(cave.HP - atk, 0);
-            msg += $"你打出了 {atk} 点伤害，{cave.Name}剩余{cave.HP}{Emoji.心}\r";
+            msg += $"你打出了 {atk} 点伤害，{cave.Name}剩余{cave.HP}生命值\r";
             if (cave.HP > 0)
             {
                 CurPlayer.HP = Math.Max(CurPlayer.HP - cave.Atk, 0);
-                msg += $"{cave.Name}对你造成了{cave.Atk}点伤害，你剩余{CurPlayer.HP}{Emoji.心}";
+                msg += $"{cave.Name}对你造成了{cave.Atk}点伤害，你剩余{CurPlayer.HP}生命值";
             }
             else
             {
                 OtherPlayer.HP = Math.Max(OtherPlayer.HP - cave.Atk, 0);
-                msg += $"{CodeApi.Code_At(OtherPlayer.QQNum)} 你受到了{cave.Atk}点伤害，你剩余{OtherPlayer.HP}{Emoji.心}";
+                msg += $"{CodeApi.Code_At(OtherPlayer.QQNum)} 你受到了{cave.Atk}点伤害，你剩余{OtherPlayer.HP}生命值";
             }
 
             return msg;
@@ -124,7 +124,7 @@ namespace Dolany.Game.Advanture
             var msg = "";
             var atk = CurPlayer.GetAtk();
             cave.HP = Math.Max(cave.HP - atk, 0);
-            msg += $"你打出了 {atk} 点伤害，{cave.Name}剩余{cave.HP}{Emoji.心}";
+            msg += $"你打出了 {atk} 点伤害，{cave.Name}剩余{cave.HP}生命值";
             Thread.Sleep(1000);
             if (cave.HP > 0)
             {
@@ -132,14 +132,14 @@ namespace Dolany.Game.Advanture
             }
 
             Bonus += cave.Golds;
-            msg += $"\r你击碎了宝箱！当前赏金为 {Bonus}{Emoji.钱}！赢得对决的人将获得全部赏金！";
+            msg += $"\r你击碎了宝箱！当前赏金为 {Bonus}金币！赢得对决的人将获得全部赏金！";
             return msg;
         }
 
         private string ProcessTrapCave(TrapCave cave)
         {
             CurPlayer.HP = Math.Max(CurPlayer.HP -= cave.Atk, 0);
-            return $"你受到了 {cave.Atk}点伤害，剩余生命值 {CurPlayer.HP}{Emoji.心}";
+            return $"你受到了 {cave.Atk}点伤害，剩余生命值 {CurPlayer.HP}生命值";
         }
 
         private void RefreshCave(int idx)
@@ -175,7 +175,7 @@ namespace Dolany.Game.Advanture
             
             if (Bonus > 0)
             {
-                msg += $"\r获得了全部赏金 {Bonus}{Emoji.钱}！";
+                msg += $"\r获得了全部赏金 {Bonus}金币！";
                 var osPerson = OSPerson.GetPerson(Winner.QQNum);
                 osPerson.Golds += Bonus;
                 osPerson.Update();
@@ -187,7 +187,17 @@ namespace Dolany.Game.Advanture
                 var p = AdvPlayer.GetPlayer(player.QQNum);
                 p.BattleRecord(p.QQNum == Winner.QQNum);
                 p.Update();
-                if (p.QQNum != Winner.QQNum || p.WinTotal % 5 != 0)
+                if (p.QQNum != Winner.QQNum)
+                {
+                    var osPerson = OSPerson.GetPerson(p.QQNum);
+                    osPerson.Golds -= 200;
+                    osPerson.Update();
+                    CommonUtil.MsgSendBack(GroupNum, p.QQNum, 
+                        $"你不幸输掉了对决，扣除200金币，你剩余金币为 {osPerson.Golds}");
+                    continue;
+                }
+
+                if (p.WinTotal % 10 != 0)
                 {
                     continue;
                 }

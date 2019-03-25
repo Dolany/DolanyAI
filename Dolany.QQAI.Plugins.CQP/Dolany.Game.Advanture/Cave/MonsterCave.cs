@@ -1,10 +1,8 @@
-﻿using Dolany.Ai.Common;
-
-namespace Dolany.Game.Advanture.Cave
+﻿namespace Dolany.Game.Advanture.Cave
 {
     public class MonsterCave : ICave
     {
-        public override string Description => $"{Emoji.怪兽}{Name}({Emoji.剑}{Atk} {Emoji.心}{HP})";
+        public override string Description => $"[怪物]{Name}(攻击力{Atk} 生命值{HP})";
         public override CaveType Type { get; set; } = CaveType.怪兽;
         public override bool IsNeedRefresh => HP <= 0;
 

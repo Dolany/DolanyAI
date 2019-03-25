@@ -17,6 +17,10 @@ namespace Dolany.Database.Ai
             var record = MongoService<DriftItemRecord>.GetOnly(r => r.QQNum == QQNum);
             if (record != null)
             {
+                if (record.ItemCount == null)
+                {
+                    record.ItemCount = new List<DriftItemCountRecord>();
+                }
                 return record;
             }
 

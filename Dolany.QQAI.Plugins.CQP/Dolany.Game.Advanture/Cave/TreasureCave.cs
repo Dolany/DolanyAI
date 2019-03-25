@@ -1,10 +1,8 @@
-﻿using Dolany.Ai.Common;
-
-namespace Dolany.Game.Advanture.Cave
+﻿namespace Dolany.Game.Advanture.Cave
 {
     public class TreasureCave : ICave
     {
-        public override string Description => $"{Emoji.礼物}{Name}({Emoji.心}{HP})";
+        public override string Description => $"[宝箱]{Name}(生命值{HP})";
         public override CaveType Type { get; set; } = CaveType.宝箱;
         public override bool IsNeedRefresh => HP <= 0;
 

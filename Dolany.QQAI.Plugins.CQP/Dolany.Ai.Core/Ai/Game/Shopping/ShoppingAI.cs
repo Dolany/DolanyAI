@@ -330,9 +330,9 @@ namespace Dolany.Ai.Core.Ai.Game.Shopping
 
             var msg = $"等级：{advPlayer.Level}\r" +
                       $"经验值：{advPlayer.Exp}\r" +
-                      $"HP：{advPlayer.HP}{Emoji.心}\r" +
-                      $"攻击力：{advPlayer.MinAtk}-{advPlayer.MaxAtk}{Emoji.剑}\r"+
-                      $"金币：{osPerson.Golds}{Emoji.钱}\r" +
+                      $"HP：{advPlayer.HP}生命值\r" +
+                      $"攻击力：{advPlayer.MinAtk}-{advPlayer.MaxAtk}\r"+
+                      $"金币：{osPerson.Golds}\r" +
                       $"战绩：{advPlayer.WinTotal}/{advPlayer.GameTotal}\r" +
                       $"物品数量：{itemRecord.ItemCount?.Count ?? 0}\r" +
                       $"成就数量：{itemRecord.HonorList?.Count ?? 0}";
@@ -344,6 +344,50 @@ namespace Dolany.Ai.Core.Ai.Game.Shopping
             }
 
             MsgSender.Instance.PushMsg(MsgDTO, msg, true);
+            return true;
+        }
+
+        [EnterCommand(Command = "赠送",
+            AuthorityLevel = AuthorityLevel.成员,
+            Description = "赠送一件物品给其他成员，需要支付5%的手续费",
+            Syntax = "[@QQ号] [物品名]",
+            Tag = "商店功能",
+            SyntaxChecker = "At Word",
+            IsPrivateAvailable = false,
+            DailyLimit = 1,
+            TestingDailyLimit = 1)]
+        public bool Present(MsgInformationEx MsgDTO, object[] param)
+        {
+            var aimNum = (long) param[0];
+            var name = param[1] as string;
+
+            var sourceRecord = DriftItemRecord.GetRecord(MsgDTO.FromQQ);
+            var ic = sourceRecord.ItemCount.FirstOrDefault(p => p.Name == name);
+            if (ic == null)
+            {
+                MsgSender.Instance.PushMsg(MsgDTO, "你没有此物品", true);
+                return false;
+            }
+
+            var itemModel = HonorHelper.Instance.FindItem(name);
+            var price = HonorHelper.Instance.GetItemPrice(itemModel, MsgDTO.FromQQ);
+            if (!Waiter.Instance.WaitForConfirm(MsgDTO, price, 7))
+            {
+                MsgSender.Instance.PushMsg(MsgDTO, "操作取消!");
+                return false;
+            }
+
+            var osPerson = OSPerson.GetPerson(MsgDTO.FromQQ);
+            osPerson.Golds -= price;
+            osPerson.Update();
+
+            ItemHelper.Instance.ItemConsume(MsgDTO.FromQQ, name);
+            var (msg, _) = ItemHelper.Instance.ItemIncome(aimNum, name);
+            if (!string.IsNullOrEmpty(msg))
+            {
+                MsgSender.Instance.PushMsg(MsgDTO, msg);
+            }
+
             return true;
         }
     }
