@@ -370,7 +370,7 @@ namespace Dolany.Ai.Core.Ai.Game.Shopping
             }
 
             var itemModel = HonorHelper.Instance.FindItem(name);
-            var price = HonorHelper.Instance.GetItemPrice(itemModel, MsgDTO.FromQQ);
+            var price = HonorHelper.Instance.GetItemPrice(itemModel, MsgDTO.FromQQ) * 5 / 100; 
             if (!Waiter.Instance.WaitForConfirm(MsgDTO, price, 7))
             {
                 MsgSender.Instance.PushMsg(MsgDTO, "操作取消!");
