@@ -5,9 +5,6 @@ namespace Dolany.Ai.Core.Base
     using System;
     using System.Collections.Generic;
     using System.Linq;
-
-    using API;
-
     using Cache;
 
     using Common;

@@ -10,9 +10,12 @@ namespace Dolany.Temp
     {
         static void Main(string[] args)
         {
-            var record = MongoService<DriftItemRecord>.Get(p => p.QQNum == 601844608).First();
-            record.ItemCount = CommonUtil.RandSort(record.ItemCount.ToArray());
-            record.Update();
+            var settings = MongoService<GroupSettings>.Get();
+            foreach (var setting in settings)
+            {
+                setting.ForcedShutDown = true;
+                MongoService<GroupSettings>.Update(setting);
+            }
 
             Console.WriteLine("Completed");
             Console.ReadKey();
