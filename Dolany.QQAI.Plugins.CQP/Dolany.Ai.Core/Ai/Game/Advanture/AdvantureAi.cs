@@ -9,7 +9,7 @@ namespace Dolany.Ai.Core.Ai.Game.Advanture
 {
     [AI(Name = "冒险对决",
         Description = "AI for Advanture Fight.",
-        Enable = false,
+        Enable = true,
         PriorityLevel = 10,
         NeedManulOpen = true)]
     public class AdvantureAi : AIBase
