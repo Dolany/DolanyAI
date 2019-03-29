@@ -307,5 +307,24 @@ namespace Dolany.Ai.Core.Ai.Sys
             MsgSender.Instance.PushMsg(MsgDTO, "注册成功！");
             return true;
         }
+
+        [EnterCommand(
+            Command = "抽奖奖励",
+            Description = "奖励某个人一次抽奖机会",
+            Syntax = "[QQ号]",
+            Tag = "系统命令",
+            SyntaxChecker = "At",
+            AuthorityLevel = AuthorityLevel.开发者,
+            IsPrivateAvailable = false)]
+        public bool BonusChance(MsgInformationEx MsgDTO, object[] param)
+        {
+            var aimNum = (long) param[0];
+            var key = $"LimitBonus-{aimNum}";
+            SCacheService.Cache(key, "nothing");
+
+            MsgSender.Instance.PushMsg(MsgDTO, "奖励已生效！");
+
+            return true;
+        }
     }
 }

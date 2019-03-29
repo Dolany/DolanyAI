@@ -1,10 +1,12 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Threading;
 using Dolany.Ai.Common;
 using Dolany.Ai.Core.Base;
 using Dolany.Ai.Core.Cache;
 using Dolany.Ai.Core.Model;
+using Dolany.Database.Sqlite;
 using Dolany.Game.OnlineStore;
 
 namespace Dolany.Ai.Core.Ai.Game.Shopping
@@ -84,6 +86,41 @@ namespace Dolany.Ai.Core.Ai.Game.Shopping
 
             var golds = OSPerson.GoldConsume(MsgDTO.FromQQ, LotteryFee - bonus);
             return golds;
+        }
+
+        [EnterCommand(
+            Command = "抽奖",
+            AuthorityLevel = AuthorityLevel.成员,
+            Description = "抽取一件随机当月限定物品",
+            Syntax = "",
+            SyntaxChecker = "Empty",
+            Tag = "商店功能",
+            IsPrivateAvailable = true)]
+        public bool LimitBonus(MsgInformationEx MsgDTO, object[] param)
+        {
+            var key = $"LimitBonus-{MsgDTO.FromQQ}";
+            var cache = SCacheService.Get<string>(key);
+            if (string.IsNullOrEmpty(cache))
+            {
+                MsgSender.Instance.PushMsg(MsgDTO, "你没有抽奖机会！");
+                return false;
+            }
+
+            SCacheService.Cache(key, "", DateTime.Now);
+
+            var items = HonorHelper.Instance.CurMonthLimitItems();
+            var item = items[CommonUtil.RandInt(items.Length)];
+
+            var msg = $"恭喜你抽到了 {item.Name}*1";
+            var (m, _) = ItemHelper.Instance.ItemIncome(MsgDTO.FromQQ, item.Name);
+            if (!string.IsNullOrEmpty(m))
+            {
+                msg += '\r' + m;
+            }
+
+            MsgSender.Instance.PushMsg(MsgDTO, msg, true);
+
+            return true;
         }
     }
 }

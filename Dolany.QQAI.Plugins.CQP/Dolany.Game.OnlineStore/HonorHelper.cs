@@ -53,9 +53,7 @@ namespace Dolany.Game.OnlineStore
 
         public DriftBottleItemModel[] CurMonthLimitItems()
         {
-            return HonorList.First(h => h is LimitHonorModel limitHonor 
-                                        && limitHonor.Year == DateTime.Now.Year 
-                                        && limitHonor.Month == DateTime.Now.Month).Items
+            return HonorList.First(h => h is LimitHonorModel limitHonor && limitHonor.Year == DateTime.Now.Year && limitHonor.Month == DateTime.Now.Month).Items
                 .ToArray();
         }
 
