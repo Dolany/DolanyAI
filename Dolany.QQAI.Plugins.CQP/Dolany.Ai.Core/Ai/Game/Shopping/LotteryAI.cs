@@ -106,7 +106,7 @@ namespace Dolany.Ai.Core.Ai.Game.Shopping
                 return false;
             }
 
-            SCacheService.Cache(key, "", DateTime.Now);
+            SCacheService.Cache(key, "nothing", DateTime.Now);
 
             var items = HonorHelper.Instance.CurMonthLimitItems();
             var item = items[CommonUtil.RandInt(items.Length)];
