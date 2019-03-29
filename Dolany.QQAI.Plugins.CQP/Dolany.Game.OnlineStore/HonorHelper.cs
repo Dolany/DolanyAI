@@ -82,8 +82,7 @@ namespace Dolany.Game.OnlineStore
                 return 1;
             }
 
-            var rate = Math.Round(item.Rate * 1.0 / this.SumRate * 100, 2);
-            var price = (int) (100 / rate);
+            var price = item.Price;
             var osPerson = OSPerson.GetPerson(qqNum);
             if (osPerson.CheckBuff("疏雨"))
             {
@@ -102,8 +101,7 @@ namespace Dolany.Game.OnlineStore
                     return 1;
                 }
 
-                var rate = Math.Round(item.Rate * 1.0 / this.SumRate * 100, 2);
-                return (int) (100 / rate);
+                return item.Price;
             }) * 3 / 2;
 
             var osPerson = OSPerson.GetPerson(qqNum);
@@ -125,7 +123,7 @@ namespace Dolany.Game.OnlineStore
             {
                 return (string.Empty, false);
             }
-            
+
             var honorCount = 0;
             var honor = HonorList.First(h => h.Items.Any(i => i.Name == itemName));
             if (record.HonorList == null || !record.HonorList.Contains(honor.Name))

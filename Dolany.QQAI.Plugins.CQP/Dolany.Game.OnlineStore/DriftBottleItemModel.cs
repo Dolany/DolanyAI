@@ -11,6 +11,8 @@ namespace Dolany.Game.OnlineStore
         public int Rate { get; set; }
 
         public string Honor { get; set; }
+
+        public int Price { get; set; }
     }
 
     public class HonorModel
