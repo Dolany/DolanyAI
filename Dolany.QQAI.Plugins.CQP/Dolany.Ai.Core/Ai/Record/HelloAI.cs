@@ -46,16 +46,12 @@ namespace Dolany.Ai.Core.Ai.Record
 
             var key = $"Hello-{MsgDTO.FromGroup}-{MsgDTO.FromQQ}";
             var response = SCacheService.Get<HelloCache>(key);
-
             if (response != null)
             {
                 return false;
             }
 
-            var query = HelloList.Where(h => h.GroupNum == MsgDTO.FromGroup &&
-                                                     h.QQNum == MsgDTO.FromQQ);
-
-            var hello = query.FirstOrDefault();
+            var hello = HelloList.FirstOrDefault(h => h.GroupNum == MsgDTO.FromGroup && h.QQNum == MsgDTO.FromQQ);
             if (hello == null)
             {
                 return false;

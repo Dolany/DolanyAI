@@ -191,9 +191,18 @@ namespace Dolany.Ai.Core
         {
             try
             {
-                if (MsgDTO.FromGroup != 0 && !AllGroupsDic.Keys.Contains(MsgDTO.FromGroup))
+                if (MsgDTO.FromGroup != 0)
                 {
-                    return;
+                    if (!AllGroupsDic.ContainsKey(MsgDTO.FromGroup))
+                    {
+                        return;
+                    }
+
+                    var setting = GroupSettingMgr.Instance[MsgDTO.FromGroup];
+                    if (setting.ForcedShutDown)
+                    {
+                        return;
+                    }
                 }
 
                 if (Global.IsTesting && !Global.TestGroups.Contains(MsgDTO.FromGroup))

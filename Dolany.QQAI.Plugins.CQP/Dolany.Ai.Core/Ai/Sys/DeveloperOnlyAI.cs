@@ -326,5 +326,57 @@ namespace Dolany.Ai.Core.Ai.Sys
 
             return true;
         }
+
+        [EnterCommand(
+            Command = "冻结",
+            Description = "冻结某个群的机器人",
+            Syntax = "[群组号]",
+            Tag = "系统命令",
+            SyntaxChecker = "Long",
+            AuthorityLevel = AuthorityLevel.开发者,
+            IsPrivateAvailable = true)]
+        public bool Freeze(MsgInformationEx MsgDTO, object[] param)
+        {
+            var groupNum = (long) param[0];
+            if (!GroupSettingMgr.Instance.SettingDic.ContainsKey(groupNum))
+            {
+                MsgSender.Instance.PushMsg(MsgDTO, "未找到相关群组");
+                return false;
+            }
+
+            var setting = GroupSettingMgr.Instance[groupNum];
+            setting.ForcedShutDown = true;
+            setting.Update();
+
+            MsgSender.Instance.PushMsg(MsgDTO, "冻结成功");
+
+            return true;
+        }
+
+        [EnterCommand(
+            Command = "解冻",
+            Description = "解冻某个群的机器人",
+            Syntax = "[群组号]",
+            Tag = "系统命令",
+            SyntaxChecker = "Long",
+            AuthorityLevel = AuthorityLevel.开发者,
+            IsPrivateAvailable = true)]
+        public bool Defreeze(MsgInformationEx MsgDTO, object[] param)
+        {
+            var groupNum = (long) param[0];
+            if (!GroupSettingMgr.Instance.SettingDic.ContainsKey(groupNum))
+            {
+                MsgSender.Instance.PushMsg(MsgDTO, "未找到相关群组");
+                return false;
+            }
+
+            var setting = GroupSettingMgr.Instance[groupNum];
+            setting.ForcedShutDown = false;
+            setting.Update();
+
+            MsgSender.Instance.PushMsg(MsgDTO, "解冻成功");
+
+            return true;
+        }
     }
 }
