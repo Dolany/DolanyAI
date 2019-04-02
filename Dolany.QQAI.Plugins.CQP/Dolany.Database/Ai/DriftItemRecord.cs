@@ -59,6 +59,11 @@ namespace Dolany.Database.Ai
                 item.Count += count;
             }
         }
+
+        public int TotalItemCount()
+        {
+            return ItemCount.Sum(ic => ic.Count);
+        }
     }
 
     public class DriftItemCountRecord

@@ -334,7 +334,7 @@ namespace Dolany.Ai.Core.Ai.Game.Shopping
                       $"攻击力：{advPlayer.MinAtk}-{advPlayer.MaxAtk}\r"+
                       $"金币：{osPerson.Golds}\r" +
                       $"战绩：{advPlayer.WinTotal}/{advPlayer.GameTotal}\r" +
-                      $"物品数量：{itemRecord.ItemCount?.Count ?? 0}\r" +
+                      $"物品数量：{itemRecord.TotalItemCount()}\r" +
                       $"成就数量：{itemRecord.HonorList?.Count ?? 0}";
             var buffs = osPerson.EffectiveBuffs;
             if (!buffs.IsNullOrEmpty())
@@ -370,7 +370,7 @@ namespace Dolany.Ai.Core.Ai.Game.Shopping
             }
 
             var itemModel = HonorHelper.Instance.FindItem(name);
-            var price = HonorHelper.Instance.GetItemPrice(itemModel, MsgDTO.FromQQ) * 5 / 100; 
+            var price = HonorHelper.Instance.GetItemPrice(itemModel, MsgDTO.FromQQ) * 5 / 100;
             if (!Waiter.Instance.WaitForConfirm(MsgDTO, price, 7))
             {
                 MsgSender.Instance.PushMsg(MsgDTO, "操作取消!");
@@ -383,10 +383,13 @@ namespace Dolany.Ai.Core.Ai.Game.Shopping
 
             ItemHelper.Instance.ItemConsume(MsgDTO.FromQQ, name);
             var (msg, _) = ItemHelper.Instance.ItemIncome(aimNum, name);
+
+            var res = "赠送成功！";
             if (!string.IsNullOrEmpty(msg))
             {
-                MsgSender.Instance.PushMsg(MsgDTO, msg);
+                res += $"\r{msg}";
             }
+            MsgSender.Instance.PushMsg(MsgDTO, res);
 
             return true;
         }
