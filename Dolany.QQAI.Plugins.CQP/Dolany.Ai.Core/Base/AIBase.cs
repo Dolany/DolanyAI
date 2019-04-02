@@ -64,7 +64,6 @@ namespace Dolany.Ai.Core.Base
                         continue;
                     }
 
-                    RecentCommandCache.Cache();
                     AIAnalyzer.AddCommandCount(new CommandAnalyzeDTO()
                     {
                         Ai = Attr.Name,
