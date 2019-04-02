@@ -63,11 +63,11 @@ namespace Dolany.Ai.Core.Ai.SingleCommand.SelfBoom
 
             BoomCode = CommonUtil.RandInt(10000);
             Thread.Sleep(1000);
-            MsgSender.Instance.PushMsg(
-                new MsgCommand
-                    {
-                        Command = AiCommand.Restart
-                    });
+            //MsgSender.Instance.PushMsg(
+            //    new MsgCommand
+            //        {
+            //            Command = AiCommand.Restart
+            //        });
             return true;
         }
 

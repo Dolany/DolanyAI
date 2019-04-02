@@ -51,8 +51,7 @@ namespace Dolany.Ai.Core.Common
 
         public static void Insert(EntityBase entity)
         {
-            var EntityName = entity.GetType().Name.Replace("Entity", string.Empty);
-            InitXml(EntityName);
+            var EntityName = entity.EntityName;
             var root = XElement.Load(EntityFilePath(EntityName));
             var ele = entity.ToElement();
             root.Add(ele);
@@ -61,7 +60,7 @@ namespace Dolany.Ai.Core.Common
 
         public static bool Update(EntityBase entity)
         {
-            var EntityName = entity.GetType().Name.Replace("Entity", string.Empty);
+            var EntityName = entity.EntityName;
             var root = XElement.Load(EntityFilePath(EntityName));
             foreach (var ele in root.Elements())
             {

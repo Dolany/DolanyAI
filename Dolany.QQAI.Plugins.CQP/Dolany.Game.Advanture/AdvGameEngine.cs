@@ -189,6 +189,11 @@ namespace Dolany.Game.Advanture
                 p.Update();
                 if (p.QQNum != Winner.QQNum)
                 {
+                    var osPerson = OSPerson.GetPerson(p.QQNum);
+                    osPerson.Golds -= 200;
+                    osPerson.Update();
+                    CommonUtil.MsgSendBack(GroupNum, p.QQNum, 
+                        $"你不幸输掉了对决，扣除200金币，你剩余金币为 {osPerson.Golds}");
                     continue;
                 }
 

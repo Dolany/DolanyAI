@@ -3,8 +3,6 @@
     using System;
     using System.IO;
     using System.Linq;
-    using API;
-
     using Cache;
 
     using Database.Sqlite.Model;
