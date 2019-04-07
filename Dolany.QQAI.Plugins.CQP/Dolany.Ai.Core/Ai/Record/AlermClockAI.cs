@@ -180,8 +180,8 @@ namespace Dolany.Ai.Core.Ai.Record
 
         private static void LoadAlerms(Action<AlermClock> StartClock)
         {
-            var selfNum = SelfQQNum;
-            var clocks = MongoService<AlermClock>.Get(p => p.AINum == selfNum);
+            var Groups = AIMgr.Instance.AllGroupsDic.Keys.ToArray();
+            var clocks = MongoService<AlermClock>.Get(p => Groups.Contains(p.GroupNumber));
             foreach (var clock in clocks)
             {
                 var isActiveOff = !GroupSettingMgr.Instance[clock.GroupNumber].IsPowerOn;
@@ -235,7 +235,7 @@ namespace Dolany.Ai.Core.Ai.Record
             return Msg;
         }
 
-        private static string DeleteClock(HourMinuteModel time, MsgInformationEx MsgDTO)
+        private static string DeleteClock(HourMinuteModel time, MsgInformation MsgDTO)
         {
             var query = MongoService<AlermClock>.Get(q => q.GroupNumber == MsgDTO.FromGroup &&
                                                           q.Creator == MsgDTO.FromQQ &&
@@ -251,7 +251,7 @@ namespace Dolany.Ai.Core.Ai.Record
             return "删除闹钟成功！";
         }
 
-        private static string ClearAllClock(MsgInformationEx MsgDTO)
+        private static string ClearAllClock(MsgInformation MsgDTO)
         {
             var query = MongoService<AlermClock>.Get(q => q.GroupNumber == MsgDTO.FromGroup &&
                                                           q.Creator == MsgDTO.FromQQ);

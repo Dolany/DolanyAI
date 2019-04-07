@@ -29,7 +29,8 @@ namespace Dolany.Ai.Core.Ai.Record
 
         public override void Initialization()
         {
-            this.HelloList = MongoService<Hello>.Get();
+            var Groups = AIMgr.Instance.AllGroupsDic.Keys.ToArray();
+            this.HelloList = MongoService<Hello>.Get(p => Groups.Contains(p.GroupNum));
         }
 
         public override bool OnMsgReceived(MsgInformationEx MsgDTO)
