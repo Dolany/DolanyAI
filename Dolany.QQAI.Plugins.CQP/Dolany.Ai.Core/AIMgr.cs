@@ -45,6 +45,7 @@ namespace Dolany.Ai.Core
 
         public void MessagePublish(string message)
         {
+            Console.Title = Configger.Instance["BindAi"];
             OnMessageCallBack?.Invoke($"{DateTime.Now}: {message}");
         }
 
@@ -191,15 +192,10 @@ namespace Dolany.Ai.Core
         {
             try
             {
+                // 群聊消息
                 if (MsgDTO.FromGroup != 0)
                 {
                     if (!AllGroupsDic.ContainsKey(MsgDTO.FromGroup))
-                    {
-                        return;
-                    }
-
-                    var setting = GroupSettingMgr.Instance[MsgDTO.FromGroup];
-                    if (setting.ForcedShutDown)
                     {
                         return;
                     }

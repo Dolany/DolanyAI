@@ -1,4 +1,6 @@
-﻿namespace Dolany.Ai.Core.Common
+﻿using Dolany.Ai.Common;
+
+namespace Dolany.Ai.Core.Common
 {
     using System;
 
@@ -7,14 +9,14 @@
         public static void Log(string log)
         {
             AIMgr.Instance.MessagePublish(log);
-            Dolany.Ai.Common.RuntimeLogger.Log(log);
+            RuntimeLogger.Log(log);
         }
 
         public static void Log(Exception ex)
         {
             AIAnalyzer.AddError(ex.Message + "\r\n" + ex.StackTrace);
             AIMgr.Instance.MessagePublish(ex.Message + "\r\n" + ex.StackTrace);
-            Dolany.Ai.Common.RuntimeLogger.Log(ex);
+            RuntimeLogger.Log(ex);
         }
     }
 }

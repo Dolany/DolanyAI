@@ -31,6 +31,8 @@ namespace Dolany.Ai.MQ
 
             var connection = this.factory.CreateConnection();
             channel = connection.CreateModel();
+            channel.QueueDeclare(routingKey, false, false, false);
+            channel.QueueDeclare(UtTools.GetConfig("CommandQueueName"), false, false, false);
         }
 
         public void Send(MsgInformation information)

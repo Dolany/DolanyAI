@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using MongoDB.Bson.Serialization.Attributes;
 
 namespace Dolany.Database.Ai
@@ -15,6 +16,10 @@ namespace Dolany.Database.Ai
         public bool ForcedShutDown { get; set; } = false;
 
         public IList<string> EnabledFunctions { get; set; } = new List<string>();
+
+        public string BindAi { get; set; }
+
+        public DateTime? ExpiryTime { get; set; }
 
         public void Update()
         {

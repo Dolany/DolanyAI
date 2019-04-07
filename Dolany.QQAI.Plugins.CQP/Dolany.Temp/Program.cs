@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Linq;
-using Dolany.Ai.Common;
 using Dolany.Database;
 using Dolany.Database.Ai;
 
@@ -11,10 +10,16 @@ namespace Dolany.Temp
         static void Main(string[] args)
         {
             var settings = MongoService<GroupSettings>.Get();
-            foreach (var setting in settings)
+            var groups = new long[] {645265752};
+            var selfGroups = settings.Where(p => groups.Contains(p.GroupNum));
+
+            var days = 30;
+
+            foreach (var selfGroup in selfGroups)
             {
-                setting.ForcedShutDown = true;
-                MongoService<GroupSettings>.Update(setting);
+                selfGroup.BindAi = "Cirno";
+                selfGroup.ExpiryTime = selfGroup.ExpiryTime?.AddDays(days) ?? DateTime.Now.AddDays(days);
+                selfGroup.Update();
             }
 
             Console.WriteLine("Completed");
