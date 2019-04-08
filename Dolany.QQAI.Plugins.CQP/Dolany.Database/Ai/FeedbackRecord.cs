@@ -1,11 +1,11 @@
 ﻿using System;
+using MongoDB.Bson.Serialization.Attributes;
 
 namespace Dolany.Database.Ai
 {
-    public class QuestionnaireRecord : BaseEntity
+    [BsonIgnoreExtraElements]
+    public class FeedbackRecord : BaseEntity
     {
-        public string QNo { get; set; }
-
         public long GroupNum { get; set; }
 
         public long QQNum { get; set; }

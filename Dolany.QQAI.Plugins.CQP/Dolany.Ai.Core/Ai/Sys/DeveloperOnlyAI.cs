@@ -79,25 +79,6 @@ namespace Dolany.Ai.Core.Ai.Sys
         }
 
         [EnterCommand(
-            Command = "问卷调查",
-            Description = "开启问卷调查模式",
-            Syntax = "持续小时数",
-            Tag = "系统命令",
-            SyntaxChecker = "Long",
-            AuthorityLevel = AuthorityLevel.开发者,
-            IsPrivateAvailable = true)]
-        public bool Questionnaire(MsgInformationEx MsgDTO, object[] param)
-        {
-            var hourCount = (long)param[0];
-
-            const string key = "QuestionnaireDuring-QuestionnaireDuring";
-            SCacheService.Cache(key, DateTime.Now.ToString("yyyyMMdd"), DateTime.Now.AddHours(hourCount));
-            MsgSender.Instance.PushMsg(MsgDTO, "问卷调查模式开启");
-
-            return true;
-        }
-
-        [EnterCommand(
             Command = "功能奖励",
             Description = "奖励某个人某个功能若个使用次数（当日有效）",
             Syntax = "[命令名] [@QQ号] [奖励个数]",
@@ -263,7 +244,8 @@ namespace Dolany.Ai.Core.Ai.Sys
             var setting = new GroupSettings()
             {
                 GroupNum = groupNum,
-                Name = name
+                Name = name,
+                BindAi = Configger.Instance["BindAi"]
             };
             MongoService<GroupSettings>.Insert(setting);
             GroupSettingMgr.Instance.Refresh();
@@ -339,6 +321,53 @@ namespace Dolany.Ai.Core.Ai.Sys
             setting.Update();
 
             MsgSender.Instance.PushMsg(MsgDTO, "解冻成功");
+
+            return true;
+        }
+
+        [EnterCommand(
+            Command = "充值时间",
+            Description = "给某个群组充值时间(单位天)",
+            Syntax = "[群组号] [天数]",
+            Tag = "系统命令",
+            SyntaxChecker = "Long Long",
+            AuthorityLevel = AuthorityLevel.开发者,
+            IsPrivateAvailable = true)]
+        public bool ChargeTime(MsgInformationEx MsgDTO, object[] param)
+        {
+            var groupNum = (long) param[0];
+            var days = (int) (long) param[1];
+
+            var setting = MongoService<GroupSettings>.GetOnly(p => p.GroupNum == groupNum);
+            setting.ExpiryTime = setting.ExpiryTime?.AddDays(days) ?? DateTime.Now.AddDays(days);
+            setting.Update();
+
+            GroupSettingMgr.Instance.Refresh();
+
+            MsgSender.Instance.PushMsg(MsgDTO, "充值成功");
+
+            return true;
+        }
+
+        [EnterCommand(
+            Command = "绑定",
+            Description = "将机器人绑定某个群组",
+            Syntax = "[群组号]",
+            Tag = "系统命令",
+            SyntaxChecker = "Long",
+            AuthorityLevel = AuthorityLevel.开发者,
+            IsPrivateAvailable = true)]
+        public bool BindAi(MsgInformationEx MsgDTO, object[] param)
+        {
+            var groupNum = (long) param[0];
+
+            var setting = MongoService<GroupSettings>.GetOnly(p => p.GroupNum == groupNum);
+            setting.BindAi = Configger.Instance["BindAi"];
+            setting.Update();
+
+            GroupSettingMgr.Instance.Refresh();
+
+            MsgSender.Instance.PushMsg(MsgDTO, "绑定成功");
 
             return true;
         }

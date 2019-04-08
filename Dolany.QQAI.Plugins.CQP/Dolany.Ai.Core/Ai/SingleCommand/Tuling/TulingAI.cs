@@ -72,17 +72,10 @@
 
             MsgDTO.FullMsg = MsgDTO.FullMsg.Replace(CodeApi.Code_At(SelfQQNum), string.Empty);
 
-            var cacheResponse = SCacheService.Get<string>("QuestionnaireDuring-QuestionnaireDuring");
-
-            if (cacheResponse != null)
-            {
-                Questionnaire(MsgDTO, cacheResponse);
-                return true;
-            }
-
             var response = RequestMsg(MsgDTO);
             if (string.IsNullOrEmpty(response))
             {
+                MsgSender.Instance.PushMsg(MsgDTO, "...", MsgDTO.Type == MsgType.Group);
                 return false;
             }
 
@@ -94,32 +87,6 @@
             });
             MsgSender.Instance.PushMsg(MsgDTO, response, MsgDTO.Type == MsgType.Group);
             return true;
-        }
-
-        private void Questionnaire(MsgInformationEx MsgDTO, string QNo)
-        {
-            var cacheResponse = SCacheService.Get<QuestionnaireLimitCache>($"QuestionnaireLimit-{MsgDTO.FromQQ}");
-            if (cacheResponse != null && cacheResponse.Count > QLimit)
-            {
-                MsgSender.Instance.PushMsg(MsgDTO, $"每天最多可以反馈{QLimit}哦~", true);
-                return;
-            }
-
-            if (string.IsNullOrEmpty(MsgDTO.FullMsg))
-            {
-                return;
-            }
-
-            MongoService<QuestionnaireRecord>.Insert(new QuestionnaireRecord
-            {
-                GroupNum = MsgDTO.FromGroup,
-                QQNum = MsgDTO.FromQQ,
-                QNo = QNo,
-                UpdateTime = DateTime.Now,
-                Content = MsgDTO.FullMsg
-            });
-
-            MsgSender.Instance.PushMsg(MsgDTO, ResponseWord, true);
         }
 
         private string RequestMsg(MsgInformationEx MsgDTO)
