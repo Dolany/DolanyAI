@@ -10,7 +10,7 @@ namespace Dolany.Temp
         static void Main(string[] args)
         {
             var settings = MongoService<GroupSettings>.Get();
-            var groups = new long[] {273170805};
+            var groups = new long[] {239896071};
             var selfGroups = settings.Where(p => groups.Contains(p.GroupNum));
 
             var days = 30;
