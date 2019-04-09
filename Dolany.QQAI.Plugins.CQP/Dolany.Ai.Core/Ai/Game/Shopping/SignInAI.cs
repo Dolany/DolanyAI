@@ -94,7 +94,16 @@ namespace Dolany.Ai.Core.Ai.Game.Shopping
                 };
             }
 
-            signCache.SuccessiveSignDays++;
+            var key = "SignInAcc";
+            if (string.IsNullOrEmpty(SCacheService.Get<string>(key)))
+            {
+                signCache.SuccessiveSignDays++;
+            }
+            else
+            {
+                signCache.SuccessiveSignDays += 2;
+            }
+
             signCache.LastSignDate = DateTime.Today;
             var goldsGen = signCache.SuccessiveSignDays > 5 ? 25 : signCache.SuccessiveSignDays * 5;
 

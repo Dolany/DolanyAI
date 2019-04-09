@@ -371,5 +371,25 @@ namespace Dolany.Ai.Core.Ai.Sys
 
             return true;
         }
+
+        [EnterCommand(
+            Command = "签到加速",
+            Description = "开启签到加速活动",
+            Syntax = "[天数]",
+            Tag = "系统命令",
+            SyntaxChecker = "Long",
+            AuthorityLevel = AuthorityLevel.开发者,
+            IsPrivateAvailable = true)]
+        public bool SignInAcc(MsgInformationEx MsgDTO, object[] param)
+        {
+            var days = (int) (long) param[0];
+
+            var key = "SignInAcc";
+            SCacheService.Cache(key, "SignInAcc", DateTime.Now.AddDays(days));
+
+            MsgSender.Instance.PushMsg(MsgDTO, "开启成功");
+
+            return true;
+        }
     }
 }
