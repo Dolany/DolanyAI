@@ -1,14 +1,19 @@
 ﻿namespace Dolany.Database.Sqlite
 {
-    using Dolany.Ai.Common;
-
     using Microsoft.EntityFrameworkCore;
 
     public class SqliteContext : DbContext
     {
+        private readonly string source;
+
+        public SqliteContext(string source)
+        {
+            this.source = source;
+        }
+
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
-            optionsBuilder.UseSqlite($"Data Source={Configger.Instance["CacheDb"]}");
+            optionsBuilder.UseSqlite($"Data Source={source}");
         }
 
         public DbSet<SqliteCacheModel> SqliteCacheModel { get; set; }

@@ -12,11 +12,12 @@ namespace Dolany.Database.Sqlite
     public class SCacheService
     {
         private static readonly Mutex mutex = new Mutex(false, Configger.Instance["Mutex"]);
+        private static readonly string dataSource = Configger.Instance["CacheDb"];
 
         public static void Cache<T>(string key, T data, DateTime expTime)
         {
             mutex.WaitOne();
-            using (var db = new SqliteContext())
+            using (var db = new SqliteContext(dataSource))
             {
                 var query = db.SqliteCacheModel.FirstOrDefault(m => m.Key == key);
                 if (query == null)
@@ -46,7 +47,7 @@ namespace Dolany.Database.Sqlite
         public static T Get<T>(string key)
         {
             mutex.WaitOne();
-            using (var db = new SqliteContext())
+            using (var db = new SqliteContext(dataSource))
             {
                 try
                 {
@@ -81,7 +82,7 @@ namespace Dolany.Database.Sqlite
         public static void CheckOutOfDate()
         {
             mutex.WaitOne();
-            using (var db = new SqliteContext())
+            using (var db = new SqliteContext(dataSource))
             {
                 var nowStr = DateTime.Now.ToString(CultureInfo.CurrentCulture);
                 var records = db.SqliteCacheModel.Where(m => string.CompareOrdinal(nowStr, m.ExpTime) > 0);

@@ -12,11 +12,6 @@
 
     using Dolany.Ai.Common;
     using Dolany.Ai.Core.Model.Tuling;
-    using Database;
-    using Dolany.Database.Ai;
-    using Database.Sqlite.Model;
-    using Database.Sqlite;
-
     using Model;
 
     using Net;
@@ -32,27 +27,11 @@
     {
         private readonly string RequestUrl = Configger.Instance["TulingRequestUrl"];
         private readonly string ApiKey = Configger.Instance["TulingApiKey"];
-        private const int QLimit = 5;
 
         private readonly int[] ErroCodes =
             {
                 5000, 6000, 4000, 4001, 4002, 4003, 4005, 4007, 4100, 4200, 4300, 4400, 4500, 4600, 4602, 7002, 8008
             };
-
-        private string ResponseWord
-        {
-            get
-            {
-                var words = new[]
-                                {
-                                    "感谢你的支持！冰冰会变得更强的！", "嗯嗯~冰冰听到啦~",
-                                    "瓦卡利马西塔~", "汝的诉求，余已经听闻", "はい！マスター！",
-                                    "已收录AI记忆节点", "（拿出小本本记上）", "哇~这就是你的愿望吗？"
-                                };
-
-                return words[CommonUtil.RandInt(words.Length)];
-            }
-        }
 
         public override void Initialization()
         {
