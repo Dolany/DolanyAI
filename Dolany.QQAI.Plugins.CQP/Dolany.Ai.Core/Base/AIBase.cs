@@ -224,12 +224,17 @@ namespace Dolany.Ai.Core.Base
 
         private static bool AuthorityCheck(AuthorityLevel authorityLevel, EnterCommandAttribute enterAttr, MsgInformationEx MsgDTO)
         {
+            if (MsgDTO.Type == MsgType.Private)
+            {
+                return PrivateAuthCheck(enterAttr);
+            }
+
             if (string.IsNullOrEmpty(MsgDTO.AuthName))
             {
                 MsgDTO.AuthName = Utility.GetAuthName(MsgDTO);
             }
 
-            return MsgDTO.Type == MsgType.Group ? GroupAuthCheck(authorityLevel, MsgDTO) : PrivateAuthCheck(enterAttr);
+            return GroupAuthCheck(authorityLevel, MsgDTO);
         }
 
         private static bool GroupAuthCheck(AuthorityLevel authorityLevel, MsgInformationEx MsgDTO)
