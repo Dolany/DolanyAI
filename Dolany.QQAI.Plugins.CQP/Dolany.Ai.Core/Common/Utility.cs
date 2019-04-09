@@ -3,12 +3,9 @@
     using System;
     using System.IO;
     using System.Linq;
-    using Cache;
-
     using Database.Sqlite.Model;
 
     using Dolany.Ai.Common;
-    using Dolany.Database.Ai;
     using Database.Sqlite;
 
     using Entities;
@@ -57,21 +54,23 @@
                 return "开发者";
             }
 
-            var mi = GetMemberInfo(MsgDTO);
-            if (mi == null)
+            if (MsgDTO.Type == MsgType.Private)
             {
-                MsgSender.Instance.PushMsg(
-                    MsgDTO, "获取权限信息失败！请联系开发者！");
                 return "成员";
             }
 
-            var authority = mi.Role;
-            if (authority == 0 || tempAuth == "群主")
+            var setting = GroupSettingMgr.Instance[MsgDTO.FromGroup];
+            if (setting.AuthInfo == null)
+            {
+                return "成员";
+            }
+
+            if (setting.AuthInfo.Owner == MsgDTO.FromQQ || tempAuth == "群主")
             {
                 return "群主";
             }
 
-            if (authority == 1 || tempAuth == "管理员")
+            if (setting.AuthInfo.Mgrs.Contains(MsgDTO.FromQQ) || tempAuth == "管理员")
             {
                 return "管理员";
             }
@@ -85,12 +84,6 @@
                 SCacheService.Get<TempAuthorizeCache>($"TempAuthorize-{MsgDTO.FromGroup}-{MsgDTO.FromQQ}");
 
             return response != null ? response.AuthName : string.Empty;
-        }
-
-        [CanBeNull]
-        public static MemberRoleCache GetMemberInfo(MsgInformationEx MsgDTO)
-        {
-            return GroupMemberInfoCacher.GetMemberInfo(MsgDTO);
         }
 
         [NotNull]
@@ -132,11 +125,6 @@
             {
                 prop.SetValue(obj, Convert.ChangeType(propValue, prop.PropertyType));
             }
-        }
-
-        public static string ToCommonString(this DateTime dt)
-        {
-            return dt.ToString("yyyy-MM-dd HH:mm:ss");
         }
 
         public static string ParsePicName(string msg)

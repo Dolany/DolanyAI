@@ -10,15 +10,15 @@ namespace Dolany.Temp
         static void Main(string[] args)
         {
             var settings = MongoService<GroupSettings>.Get();
-            var groups = new long[] {239896071};
+            var groups = new long[] {547176147};
             var selfGroups = settings.Where(p => groups.Contains(p.GroupNum));
 
-            var days = 30;
+            var days = 250;
 
             foreach (var selfGroup in selfGroups)
             {
-                selfGroup.BindAi = "Flandre";
-                selfGroup.ExpiryTime = selfGroup.ExpiryTime?.AddDays(days) ?? DateTime.Now.AddDays(days);
+                selfGroup.BindAi = "IWS2000";
+                selfGroup.ExpiryTime = DateTime.Now.AddDays(days);
                 selfGroup.Update();
             }
 

@@ -1,8 +1,5 @@
-﻿using Dolany.Database.Sqlite;
-
-namespace Dolany.Ai.Core.Cache
+﻿namespace Dolany.Ai.Core.Cache
 {
-    using System;
     using System.Linq;
 
     using API;
@@ -11,27 +8,8 @@ namespace Dolany.Ai.Core.Cache
 
     using Dolany.Database.Ai;
 
-    using JetBrains.Annotations;
-
-    using Model;
-
     public class GroupMemberInfoCacher
     {
-        private static int EffectiveLength = 300;
-
-        [CanBeNull]
-        public static MemberRoleCache GetMemberInfo(MsgInformationEx MsgDTO)
-        {
-            var cacheResponse =
-                SCacheService.Get<MemberRoleCache>($"GroupMemberInfo-{MsgDTO.FromGroup}-{MsgDTO.FromQQ}");
-
-            if (cacheResponse != null)
-            {
-                return cacheResponse;
-            }
-            return new MemberRoleCache { GroupNum = MsgDTO.FromGroup, QQNum = MsgDTO.FromQQ };
-        }
-
         public static bool RefreshGroupInfo(long GroupNum)
         {
             var infos = APIEx.GetMemberInfos(GroupNum);
@@ -41,28 +19,25 @@ namespace Dolany.Ai.Core.Cache
                 return false;
             }
 
-            foreach (var (key, value) in infos.members)
+            var setting = GroupSettingMgr.Instance[GroupNum];
+            setting.AuthInfo = new GroupAuthInfoModel();
+
+            foreach (var (key, _) in infos.members)
             {
                 var qqnum = long.Parse(key);
-                var role = 2;
                 if (infos.owner == qqnum)
                 {
-                    role = 0;
+                    setting.AuthInfo.Owner = qqnum;
+                    continue;
                 }
-                else if (infos.adm != null && infos.adm.Contains(qqnum))
+
+                if (infos.adm != null && infos.adm.Contains(qqnum))
                 {
-                    role = 1;
+                    setting.AuthInfo.Mgrs.Add(qqnum);
                 }
-                var model = new MemberRoleCache
-                                {
-                                    GroupNum = GroupNum,
-                                    Nickname = value.nk,
-                                    QQNum = qqnum,
-                                    Role = role
-                                };
-                SCacheService.Cache($"GroupMemberInfo-{GroupNum}-{qqnum}", model, DateTime.Now.AddDays(EffectiveLength));
             }
-            SCacheService.Cache($"GroupMemberInfoRefresh-{GroupNum}", "Refresh", DateTime.Now.AddDays(EffectiveLength));
+            setting.Update();
+            GroupSettingMgr.Instance.Refresh();
             Logger.Log($"Refresh Group Info: {GroupNum} completed");
 
             return true;

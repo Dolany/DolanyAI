@@ -58,20 +58,11 @@
                 return;
             }
 
-            var mi = GroupNum == 0
-                ? null
-                : Utility.GetMemberInfo(new MsgInformationEx
-                {
-                    FromGroup = GroupNum,
-                    FromQQ = QQNum
-                });
-
             MongoService<BlackList>.Insert(new BlackList
             {
                 BlackCount = 1,
                 UpdateTime = DateTime.Now,
-                QQNum = QQNum,
-                NickName = mi == null ? string.Empty : mi.Nickname
+                QQNum = QQNum
             });
         }
 

@@ -21,6 +21,8 @@ namespace Dolany.Database.Ai
 
         public DateTime? ExpiryTime { get; set; }
 
+        public GroupAuthInfoModel AuthInfo { get; set; }
+
         public void Update()
         {
             MongoService<GroupSettings>.Update(this);
@@ -30,5 +32,13 @@ namespace Dolany.Database.Ai
         {
             return EnabledFunctions.Contains(name);
         }
+    }
+
+    [BsonIgnoreExtraElements]
+    public class GroupAuthInfoModel
+    {
+        public long Owner { get; set; }
+
+        public List<long> Mgrs { get; set; } = new List<long>();
     }
 }
