@@ -52,6 +52,9 @@ namespace Dolany.Ai.Core.Ai.Sys
             IsPrivateAvailable = true)]
         public bool ViewFeedback(MsgInformationEx MsgDTO, object[] param)
         {
+            var expiryDate = DateTime.Now.AddDays(-7);
+            MongoService<FeedbackRecord>.DeleteMany(p => p.UpdateTime <= expiryDate);
+
             var endTime = DateTime.Now.Date;
             var startTime = endTime.AddDays(-1);
             var records = MongoService<FeedbackRecord>.Get(p => p.UpdateTime >= startTime && p.UpdateTime < endTime);
