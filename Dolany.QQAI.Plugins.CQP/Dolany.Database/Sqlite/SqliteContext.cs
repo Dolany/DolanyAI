@@ -17,5 +17,6 @@
         }
 
         public DbSet<SqliteCacheModel> SqliteCacheModel { get; set; }
+        public DbSet<SqliteFixedSet> SqliteFixedSet { get; set; }
     }
 }

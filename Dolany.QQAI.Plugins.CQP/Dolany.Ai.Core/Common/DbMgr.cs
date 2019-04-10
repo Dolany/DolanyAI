@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using Dolany.Ai.Common;
 
 namespace Dolany.Ai.Core.Common
 {
@@ -12,9 +13,9 @@ namespace Dolany.Ai.Core.Common
 
     using Entities;
 
-    public static class DbMgr
+    public class DbMgr
     {
-        private const string DateFolderPath = "./DbData/";
+        private static readonly string FolderPath = Configger.Instance["XmlDataPath"];
 
         public static void InitXmls()
         {
@@ -161,7 +162,7 @@ namespace Dolany.Ai.Core.Common
 
         private static string EntityFilePath(string EntityName)
         {
-            return DateFolderPath + EntityName + ".xml";
+            return FolderPath + EntityName + ".xml";
         }
     }
 }

@@ -54,7 +54,7 @@ namespace Dolany.Database.Sqlite
                     var query = db.SqliteCacheModel.FirstOrDefault(m => m.Key == key);
                     if (query == null)
                     {
-                        return default(T);
+                        return default;
                     }
 
                     if (!string.IsNullOrEmpty(query.Value) && DateTime.TryParse(query.ExpTime, out var time) && time > DateTime.Now)
@@ -65,12 +65,12 @@ namespace Dolany.Database.Sqlite
                     db.SqliteCacheModel.Remove(query);
                     db.SaveChanges();
 
-                    return default(T);
+                    return default;
                 }
                 catch (Exception ex)
                 {
                     RuntimeLogger.Log(ex);
-                    return default(T);
+                    return default;
                 }
                 finally
                 {

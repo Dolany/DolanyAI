@@ -12,14 +12,14 @@ namespace Dolany.Temp
     {
         static void Main(string[] args)
         {
-            //using (var mainDb = new SqliteContext(Configger.Instance["mainDb"]))
-            //{
-            //    var mm = mainDb.SqliteCacheModel;
-            //    using (var secondaryDb = new SqliteContext(Configger.Instance["secondaryDb"]))
-            //    {
-            //        var 
-            //    }
-            //}
+            var records = MongoService<DriftItemRecord>.Get(p => p.HonorList != null && p.HonorList.Contains("镀金骑士(201903限定)"));
+            foreach (var record in records)
+            {
+                record.HonorList.Remove("镀金骑士(201903限定)");
+                record.HonorList.Add("镀金骑士");
+
+                record.Update();
+            }
 
             Console.WriteLine("Completed");
             Console.ReadKey();
