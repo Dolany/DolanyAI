@@ -24,34 +24,7 @@
                 return true;
             }
 
-            if (MsgDTO.FromQQ == AnonymousNumber)
-            {
-                return true;
-            }
-
-            if (MsgDTO.FromQQ != SysMsgNumber)
-            {
-                return false;
-            }
-
-            ParseRollBack(MsgDTO);
-            return false;
-        }
-
-        private static void ParseRollBack(MsgInformationEx MsgDTO)
-        {
-            if (!MsgDTO.FullMsg.Contains("撤回"))
-            {
-                return;
-            }
-
-            var picName = ParsePicName(MsgDTO.FullMsg);
-            if (string.IsNullOrEmpty(picName))
-            {
-                return;
-            }
-
-            RemovePicCache(picName);
+            return MsgDTO.FromQQ == AnonymousNumber || MsgDTO.FromQQ == SysMsgNumber;
         }
     }
 }

@@ -142,21 +142,6 @@
             return picName;
         }
 
-        public static void RemovePicCache(string picName)
-        {
-            var picShortName = picName.Split('.').First();
-            var dir = new DirectoryInfo(CodeApi.ImagePath);
-            foreach (var file in dir.GetFiles())
-            {
-                if (file.Name.Contains(picShortName))
-                {
-                    file.Delete();
-                }
-            }
-
-            DbMgr.Delete<PicCacheEntity>(p => p.Content == picName);
-        }
-
         public static string ParsePicGuid(string msg)
         {
             if (!msg.Contains("QQ:pic="))

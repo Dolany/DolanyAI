@@ -1,7 +1,8 @@
 ﻿using System;
+using System.Linq;
+using Dolany.Ai.Common;
 using Dolany.Ai.Core.Base;
 using Dolany.Ai.Core.Cache;
-using Dolany.Ai.Core.Common;
 using Dolany.Ai.Core.Model;
 using Dolany.Database;
 using Dolany.Database.Ai;
@@ -38,6 +39,29 @@ namespace Dolany.Ai.Core.Ai.Sys
             MongoService<FeedbackRecord>.Insert(feedback);
 
             MsgSender.Instance.PushMsg(MsgDTO, "感谢你的反馈，我会变得更强！");
+            return true;
+        }
+
+        [EnterCommand(
+            Command = "昨日反馈",
+            Description = "查看昨日反馈",
+            Syntax = "",
+            Tag = "系统命令",
+            SyntaxChecker = "Empty",
+            AuthorityLevel = AuthorityLevel.开发者,
+            IsPrivateAvailable = true)]
+        public bool ViewFeedback(MsgInformationEx MsgDTO, object[] param)
+        {
+            var endTime = DateTime.Now.Date;
+            var startTime = endTime.AddDays(-1);
+            var records = MongoService<FeedbackRecord>.Get(p => p.UpdateTime >= startTime && p.UpdateTime < endTime);
+            if (records.IsNullOrEmpty())
+            {
+                MsgSender.Instance.PushMsg(MsgDTO, "没有任何反馈内容！");
+                return false;
+            }
+
+            MsgSender.Instance.PushMsg(MsgDTO, string.Join("    ", records.Select(p => p.Content)));
             return true;
         }
     }
