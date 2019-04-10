@@ -120,7 +120,9 @@
                 return string.Empty;
             }
 
-            return GroupSettingMgr.Instance[MsgDTO.FromGroup].IsPowerOn ? "\r电源状态：开机" : "\r电源状态：关机";
+            var setting = GroupSettingMgr.Instance[MsgDTO.FromGroup];
+            var expiryDate = $"\r有效期至：{setting.ExpiryTime?.ToLocalTime()}";
+            return (setting.IsPowerOn ? "\r电源状态：开机" : "\r电源状态：关机") + expiryDate;
         }
 
         [EnterCommand(
