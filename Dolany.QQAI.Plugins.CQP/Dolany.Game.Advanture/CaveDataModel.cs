@@ -22,13 +22,13 @@ namespace Dolany.Game.Advanture
             switch (type)
             {
                 case "Monster":
-                    var monster = Monsters[CommonUtil.RandInt(Monsters.Count)];
+                    var monster = Monsters.RandElement();
                     return new MonsterCave() {Name = monster.Name, Atk = monster.Atk, HP = monster.HP};
                 case "Treasure":
-                    var treasure = Treasures[CommonUtil.RandInt(Treasures.Count)];
+                    var treasure = Treasures.RandElement();
                     return new TreasureCave() {Name = treasure.Name, Golds = treasure.Golds, HP = treasure.HP};
                 case "Trap":
-                    var trap = Traps[CommonUtil.RandInt(Traps.Count)];
+                    var trap = Traps.RandElement();
                     return new TrapCave() {Name = trap.Name, Atk = trap.Atk};
             }
 

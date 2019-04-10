@@ -203,8 +203,8 @@ namespace Dolany.Game.Advanture
                 }
 
                 var items = HonorHelper.Instance.CurMonthLimitItems();
-                var item = items[CommonUtil.RandInt(items.Length)];
-                CommonUtil.MsgSendBack(GroupNum, p.QQNum, 
+                var item = items.RandElement();
+                CommonUtil.MsgSendBack(GroupNum, p.QQNum,
                     $"你已经累计赢得 {p.WinTotal}场对决，获取额外奖励 {item.Name}*1");
 
                 var (honorMsg, _) = ItemHelper.Instance.ItemIncome(p.QQNum, item.Name);

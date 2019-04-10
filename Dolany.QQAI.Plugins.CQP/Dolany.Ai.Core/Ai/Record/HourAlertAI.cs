@@ -92,10 +92,7 @@ namespace Dolany.Ai.Core.Ai.Record
         {
             var tag = HourToTag(aimHour);
             var query = MongoService<KanColeGirlVoice>.Get(a => a.Tag == tag).OrderBy(a => a.Id).ToList();
-
-            var randIdx = CommonUtil.RandInt(query.Count);
-
-            return query[randIdx];
+            return query.RandElement();
         }
 
         private static string HourToTag(int aimHour)

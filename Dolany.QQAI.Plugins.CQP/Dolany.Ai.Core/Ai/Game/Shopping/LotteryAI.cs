@@ -109,7 +109,7 @@ namespace Dolany.Ai.Core.Ai.Game.Shopping
             SCacheService.Cache(key, "nothing", DateTime.Now);
 
             var items = HonorHelper.Instance.CurMonthLimitItems();
-            var item = items[CommonUtil.RandInt(items.Length)];
+            var item = items.RandElement();
 
             var msg = $"恭喜你抽到了 {item.Name}*1";
             var (m, _) = ItemHelper.Instance.ItemIncome(MsgDTO.FromQQ, item.Name);

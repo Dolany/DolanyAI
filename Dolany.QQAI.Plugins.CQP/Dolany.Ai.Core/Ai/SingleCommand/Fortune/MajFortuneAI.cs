@@ -103,16 +103,14 @@ namespace Dolany.Ai.Core.Ai.SingleCommand.Fortune
         private MajFortuneCache NewFortune(long QQNum)
         {
             var fortuneStar = CommonUtil.RandInt(11);
-            var position = PosArray[CommonUtil.RandInt(PosArray.Length)];
+            var position = PosArray.RandElement();
             var kind = GetRandKind();
-            var dicIdx = CommonUtil.RandInt(CharactorsDic.Count);
-            var charactorName = CharactorsDic.Keys.ElementAt(dicIdx);
-            var charactorPath = CharactorsDic.Values.ElementAt(dicIdx);
+            var (key, value) = CharactorsDic.RandElement();
 
             return new MajFortuneCache
             {
-                CharactorName = charactorName,
-                CharactorPath = charactorPath,
+                CharactorName = key,
+                CharactorPath = value,
                 FortuneStar = fortuneStar,
                 Kind = kind,
                 Position = position,

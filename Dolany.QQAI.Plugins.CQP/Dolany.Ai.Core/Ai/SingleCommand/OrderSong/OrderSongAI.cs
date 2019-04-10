@@ -61,9 +61,14 @@ namespace Dolany.Ai.Core.Ai.SingleCommand.OrderSong
                 return string.Empty;
             }
 
-            var songs = response.Result.Songs.ToList();
-            var idx = CommonUtil.RandInt(songs.Count);
-            return songs[idx].Id;
+            var songs = response.Result.Songs;
+            if (songs.IsNullOrEmpty())
+            {
+                return string.Empty;
+            }
+
+            var song = songs.RandElement();
+            return song.Id;
         }
 
         private static string GetMusicXml(string songId)

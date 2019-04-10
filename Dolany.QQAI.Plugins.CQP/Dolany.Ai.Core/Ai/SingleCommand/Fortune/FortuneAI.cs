@@ -85,10 +85,7 @@ namespace Dolany.Ai.Core.Ai.SingleCommand.Fortune
             }
 
             var filist = MongoService<FortuneItem>.Get();
-            var idx = CommonUtil.RandInt(filist.Count());
-            var item = filist.OrderBy(p => p.Id)
-                .Skip(idx)
-                .First();
+            var item = filist.RandElement();
             rf.BlessName = item.Name;
             rf.BlessValue = item.Value;
         }
@@ -201,7 +198,7 @@ namespace Dolany.Ai.Core.Ai.SingleCommand.Fortune
         {
             var count = DataList.Count;
 
-            return DataList[CommonUtil.RandInt(count)];
+            return DataList.RandElement();
         }
 
         [EnterCommand(

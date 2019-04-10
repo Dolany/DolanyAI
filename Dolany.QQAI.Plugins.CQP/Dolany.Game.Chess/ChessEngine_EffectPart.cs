@@ -38,7 +38,7 @@ namespace Dolany.Game.Chess
                 return;
             }
 
-            var item = query.ItemCount[CommonUtil.RandInt(query.ItemCount.Count)];
+            var item = query.ItemCount.RandElement();
             var (msg, _) = ItemHelper.Instance.ItemIncome(SelfQQNum, item.Name);
             CommonUtil.MsgSendBack(GroupNum, 0, $"你获得了 {item.Name}！\r{msg}");
         }
@@ -145,7 +145,7 @@ namespace Dolany.Game.Chess
         public void 雾雨()
         {
             var sellingItems = TransHelper.GetDailySellItems();
-            var item = sellingItems[CommonUtil.RandInt(sellingItems.Length)];
+            var item = sellingItems.RandElement();
             var (msg, _) = ItemHelper.Instance.ItemIncome(SelfQQNum, item.Name);
 
             CommonUtil.MsgSendBack(GroupNum, 0, $"你获得了：{item.Name}\r{msg}");
@@ -186,8 +186,7 @@ namespace Dolany.Game.Chess
                 return;
             }
 
-            var randIdx = CommonUtil.RandInt(commonItems.Count);
-            var item = commonItems[randIdx];
+            var item = commonItems.RandElement();
 
             var golds = TransHelper.SellItemToShop(SelfQQNum, item.Name);
             CommonUtil.MsgSendBack(GroupNum, 0, $"你贩卖了 {item.Name}\r你当前拥有金币 {golds}");
@@ -205,7 +204,7 @@ namespace Dolany.Game.Chess
                 return;
             }
 
-            var buff = effectiveBuffs?[CommonUtil.RandInt(effectiveBuffs.Length)];
+            var buff = effectiveBuffs?.RandElement();
             selfOs.Buffs?.Remove(buff);
             selfOs.Update();
 
@@ -224,7 +223,7 @@ namespace Dolany.Game.Chess
                 return;
             }
 
-            var buff = effectiveBuffs?[CommonUtil.RandInt(effectiveBuffs.Length)];
+            var buff = effectiveBuffs?.RandElement();
             oppeOs.Buffs?.Remove(buff);
             oppeOs.Update();
 
@@ -259,7 +258,7 @@ namespace Dolany.Game.Chess
                 return;
             }
 
-            var buff = effectiveBuffs?[CommonUtil.RandInt(effectiveBuffs.Length)];
+            var buff = effectiveBuffs?.RandElement();
             var osPerson = OSPerson.GetPerson(SelfQQNum);
             osPerson.AddBuff(buff);
             osPerson.Update();
@@ -279,7 +278,7 @@ namespace Dolany.Game.Chess
                 return;
             }
 
-            var buff = effectiveBuffs?[CommonUtil.RandInt(effectiveBuffs.Length)];
+            var buff = effectiveBuffs?.RandElement();
             var osPerson = OSPerson.GetPerson(SelfQQNum);
             osPerson.AddBuff(buff);
             osPerson.Update();

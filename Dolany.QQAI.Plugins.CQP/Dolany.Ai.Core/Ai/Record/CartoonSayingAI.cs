@@ -129,9 +129,7 @@
                 return string.Empty;
             }
 
-            query = query.OrderBy(p => p.Id).ToList();
-            var randIdx = CommonUtil.RandInt(query.Count());
-            var saying = query.Skip(randIdx).FirstOrDefault();
+            var saying = query.RandElement();
             return GetShownSaying(saying);
         }
 

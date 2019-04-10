@@ -54,8 +54,7 @@ namespace Dolany.Ai.Core.Ai.Record
                 return true;
             }
 
-            var qcount = query.Count;
-            var bottle = query[CommonUtil.RandInt(qcount)];
+            var bottle = query.RandElement();
             PrintBottle(MsgDTO, bottle);
 
             bottle.ReceivedGroup = MsgDTO.FromGroup;

@@ -57,8 +57,8 @@ namespace DolanyAI.Ai.Game.TouhouCard
         {
             var dir = new DirectoryInfo(PicPath);
             var files = dir.GetFiles();
-            var rIdx = CommonUtil.RandInt(files.Length);
-            return files.ElementAt(rIdx).Name;
+            var file = files.RandElement();
+            return file.Name;
         }
     }
 }

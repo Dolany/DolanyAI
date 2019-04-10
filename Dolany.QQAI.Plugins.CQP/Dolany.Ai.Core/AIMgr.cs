@@ -11,6 +11,7 @@ using Dolany.Ai.Core.Cache;
 using Dolany.Ai.Core.Common;
 using Dolany.Ai.Core.Model;
 using Dolany.Ai.Core.SyntaxChecker;
+using Dolany.Database.Sqlite;
 
 namespace Dolany.Ai.Core
 {
@@ -120,7 +121,7 @@ namespace Dolany.Ai.Core
             LoadCheckers();
             DbMgr.InitXmls();
 
-            CommonUtil.MsgSendBack = 
+            CommonUtil.MsgSendBack =
                 (groupNum, QQNum, msg) => MsgSender.Instance.PushMsg(groupNum, QQNum, msg, QQNum != 0);
             CommonUtil.WaitForNumFunc = (groupNum, QQNum, msg, predicate) =>
             {
@@ -128,9 +129,9 @@ namespace Dolany.Ai.Core
                     {
                         FromGroup = groupNum,
                         FromQQ = QQNum
-                    }, msg, info => info.FromGroup == groupNum 
-                                    && info.FromQQ == QQNum 
-                                    && int.TryParse(info.Msg, out var res) 
+                    }, msg, info => info.FromGroup == groupNum
+                                    && info.FromQQ == QQNum
+                                    && int.TryParse(info.Msg, out var res)
                                     && predicate(res), 7, QQNum != 0);
                 if (msgInfo != null && int.TryParse(msgInfo.Msg, out var aimr))
                 {
@@ -139,6 +140,8 @@ namespace Dolany.Ai.Core
 
                 return -1;
             };
+
+            SFixedSetService.SetMaxCount("PicCache", int.Parse(Configger.Instance["MaxPicCacheCount"]));
         }
 
         private void LoadCheckers()

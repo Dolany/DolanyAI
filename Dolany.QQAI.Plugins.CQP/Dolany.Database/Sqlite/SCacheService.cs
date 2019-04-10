@@ -17,25 +17,35 @@ namespace Dolany.Database.Sqlite
         public static void Cache<T>(string key, T data, DateTime expTime)
         {
             mutex.WaitOne();
-            using (var db = new SqliteContext(dataSource))
+            try
             {
-                var query = db.SqliteCacheModel.FirstOrDefault(m => m.Key == key);
-                if (query == null)
+                using (var db = new SqliteContext(dataSource))
                 {
-                    db.SqliteCacheModel.Add(new SqliteCacheModel
+                    var query = db.SqliteCacheModel.FirstOrDefault(m => m.Key == key);
+                    if (query == null)
                     {
-                        Key = key, Value = JsonConvert.SerializeObject(data), ExpTime = expTime.ToString(CultureInfo.CurrentCulture)
-                    });
-                }
-                else
-                {
-                    query.Value = JsonConvert.SerializeObject(data);
-                    query.ExpTime = expTime.ToString(CultureInfo.CurrentCulture);
-                }
+                        db.SqliteCacheModel.Add(new SqliteCacheModel
+                        {
+                            Key = key, Value = JsonConvert.SerializeObject(data), ExpTime = expTime.ToString(CultureInfo.CurrentCulture)
+                        });
+                    }
+                    else
+                    {
+                        query.Value = JsonConvert.SerializeObject(data);
+                        query.ExpTime = expTime.ToString(CultureInfo.CurrentCulture);
+                    }
 
-                db.SaveChanges();
+                    db.SaveChanges();
+                }
             }
-            mutex.ReleaseMutex();
+            catch (Exception e)
+            {
+                RuntimeLogger.Log(e);
+            }
+            finally
+            {
+                mutex.ReleaseMutex();
+            }
         }
 
         public static void Cache<T>(string key, T data)
@@ -82,15 +92,25 @@ namespace Dolany.Database.Sqlite
         public static void CheckOutOfDate()
         {
             mutex.WaitOne();
-            using (var db = new SqliteContext(dataSource))
+            try
             {
-                var nowStr = DateTime.Now.ToString(CultureInfo.CurrentCulture);
-                var records = db.SqliteCacheModel.Where(m => string.CompareOrdinal(nowStr, m.ExpTime) > 0);
-                db.SqliteCacheModel.RemoveRange(records);
+                using (var db = new SqliteContext(dataSource))
+                {
+                    var nowStr = DateTime.Now.ToString(CultureInfo.CurrentCulture);
+                    var records = db.SqliteCacheModel.Where(m => string.CompareOrdinal(nowStr, m.ExpTime) > 0);
+                    db.SqliteCacheModel.RemoveRange(records);
 
-                db.SaveChanges();
+                    db.SaveChanges();
+                }
             }
-            mutex.ReleaseMutex();
+            catch (Exception e)
+            {
+                RuntimeLogger.Log(e);
+            }
+            finally
+            {
+                mutex.ReleaseMutex();
+            }
         }
     }
 }

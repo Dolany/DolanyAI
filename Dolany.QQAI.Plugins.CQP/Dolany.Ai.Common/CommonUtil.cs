@@ -45,6 +45,14 @@ namespace Dolany.Ai.Common
             return (int)(Math.Abs(BitConverter.ToInt32(bytes, 0)) / _base * MaxValue);
         }
 
+        public static T RandElement<T>(this IEnumerable<T> collection)
+        {
+            var enumerable = collection.ToList();
+            var length = enumerable.Count();
+            var idx = RandInt(length);
+            return enumerable.ElementAt(idx);
+        }
+
         public static T[] RandSort<T>(T[] array)
         {
             for (var i = 0; i < array.Length; i++)

@@ -15,7 +15,7 @@ namespace Dolany.Ai.Core.AITools
         };
         protected override void ScheduleDo(SchedulerTimer timer)
         {
-            //SCacheService.CheckOutOfDate();
+            SCacheService.CheckOutOfDate();
         }
     }
 }

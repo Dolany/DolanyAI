@@ -16,7 +16,7 @@ namespace Dolany.Ai.Core.Model
     public class NeteaseResponse_Result
     {
         [JsonProperty("songs")]
-        public IEnumerable<NeteaseResponse_Song> Songs { get; set; }
+        public IList<NeteaseResponse_Song> Songs { get; set; }
 
         [JsonProperty("songCount")]
         public int? SongCount { get; set; }
