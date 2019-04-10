@@ -7,9 +7,6 @@
 
     using Dolany.Ai.Common;
     using Database.Sqlite;
-
-    using Entities;
-
     using JetBrains.Annotations;
 
     using Model;
