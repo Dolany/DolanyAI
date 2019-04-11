@@ -50,7 +50,7 @@
 
             MongoService<Saying>.Insert(saying);
 
-            MsgSender.Instance.PushMsg(MsgDTO, "语录录入成功！");
+            MsgSender.PushMsg(MsgDTO, "语录录入成功！");
             return true;
         }
 
@@ -104,7 +104,7 @@
                 return;
             }
 
-            MsgSender.Instance.PushMsg(MsgDTO, ranSaying);
+            MsgSender.PushMsg(MsgDTO, ranSaying);
         }
 
         private static bool IsInSealing(long groupNum, long memberNum)
@@ -160,7 +160,7 @@
             var count = query.Count();
             MongoService<Saying>.DeleteMany(query);
 
-            MsgSender.Instance.PushMsg(MsgDTO, $"共删除{count}条语录");
+            MsgSender.PushMsg(MsgDTO, $"共删除{count}条语录");
             return true;
         }
 
@@ -180,7 +180,7 @@
                                                           s.SealMember == memberNum);
             if (!query.IsNullOrEmpty())
             {
-                MsgSender.Instance.PushMsg(MsgDTO, "此成员正在封禁中！");
+                MsgSender.PushMsg(MsgDTO, "此成员正在封禁中！");
                 return false;
             }
 
@@ -192,7 +192,7 @@
                 GroupNum = MsgDTO.FromGroup,
                 Content = "封禁"
             });
-            MsgSender.Instance.PushMsg(MsgDTO, "封禁成功！");
+            MsgSender.PushMsg(MsgDTO, "封禁成功！");
             return true;
         }
 
@@ -212,12 +212,12 @@
                                                           s.SealMember == memberNum);
             if (query.IsNullOrEmpty())
             {
-                MsgSender.Instance.PushMsg(MsgDTO, "此成员尚未被封禁！");
+                MsgSender.PushMsg(MsgDTO, "此成员尚未被封禁！");
                 return false;
             }
             MongoService<SayingSeal>.DeleteMany(query);
 
-            MsgSender.Instance.PushMsg(MsgDTO, "解封成功！");
+            MsgSender.PushMsg(MsgDTO, "解封成功！");
             return true;
         }
     }

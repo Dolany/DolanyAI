@@ -121,8 +121,6 @@ namespace Dolany.Ai.Core
             LoadCheckers();
             DbMgr.InitXmls();
 
-            CommonUtil.MsgSendBack =
-                (groupNum, QQNum, msg) => MsgSender.Instance.PushMsg(groupNum, QQNum, msg, QQNum != 0);
             CommonUtil.WaitForNumFunc = (groupNum, QQNum, msg, predicate) =>
             {
                 var msgInfo = Waiter.Instance.WaitForInformation(new MsgInformationEx()

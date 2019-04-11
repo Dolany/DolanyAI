@@ -25,7 +25,7 @@ namespace Dolany.Ai.Core.Ai.Sys
             var name = param[0] as string;
             if (!AIMgr.Instance.ManulOpenAiNames.Contains(name))
             {
-                MsgSender.Instance.PushMsg(MsgDTO, "未查找到该功能名称，或者该功能无需手动开启！");
+                MsgSender.PushMsg(MsgDTO, "未查找到该功能名称，或者该功能无需手动开启！");
                 return false;
             }
 
@@ -33,7 +33,7 @@ namespace Dolany.Ai.Core.Ai.Sys
             setting.EnabledFunctions.Add(name);
             setting.Update();
 
-            MsgSender.Instance.PushMsg(MsgDTO, "开启成功！");
+            MsgSender.PushMsg(MsgDTO, "开启成功！");
             return true;
         }
 
@@ -49,7 +49,7 @@ namespace Dolany.Ai.Core.Ai.Sys
             var name = param[0] as string;
             if (!AIMgr.Instance.ManulOpenAiNames.Contains(name))
             {
-                MsgSender.Instance.PushMsg(MsgDTO, "未查找到该功能名称，或者该功能无需手动关闭！");
+                MsgSender.PushMsg(MsgDTO, "未查找到该功能名称，或者该功能无需手动关闭！");
                 return false;
             }
 
@@ -57,7 +57,7 @@ namespace Dolany.Ai.Core.Ai.Sys
             setting.EnabledFunctions.Remove(name);
             setting.Update();
 
-            MsgSender.Instance.PushMsg(MsgDTO, "关闭成功！");
+            MsgSender.PushMsg(MsgDTO, "关闭成功！");
             return true;
         }
     }

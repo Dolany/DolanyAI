@@ -40,7 +40,7 @@
 
             if (res == null)
             {
-                MsgSender.Instance.PushMsg(MsgDTO, "翻译异常！");
+                MsgSender.PushMsg(MsgDTO, "翻译异常！");
                 return false;
             }
 
@@ -57,7 +57,7 @@
                     break;
             }
 
-            MsgSender.Instance.PushMsg(MsgDTO, msg);
+            MsgSender.PushMsg(MsgDTO, msg);
             return true;
         }
     }

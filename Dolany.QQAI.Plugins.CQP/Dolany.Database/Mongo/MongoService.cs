@@ -9,7 +9,7 @@
 
     public class MongoService<T> where T : BaseEntity
     {
-        private static MongoContext Repo { get; set; } = MongoContext.Instance;
+        private static MongoContext Repo => MongoContext.Instance;
 
         /// <summary>
         /// 获取集合（表）

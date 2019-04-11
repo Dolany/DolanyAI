@@ -1,8 +1,8 @@
 ﻿using System.Threading;
 using Dolany.Ai.Common;
 using Dolany.Ai.Core.Common;
+using Dolany.Ai.Core.OnlineStore;
 using Dolany.Database;
-using Dolany.Game.OnlineStore;
 
 namespace Dolany.Ai.Core.Ai.Sys
 {
@@ -41,7 +41,7 @@ namespace Dolany.Ai.Core.Ai.Sys
             var validNames = new[] { "开发者", "群主", "管理员", "成员" };
             if (!validNames.Contains(authName))
             {
-                MsgSender.Instance.PushMsg(MsgDTO, "权限名称错误！");
+                MsgSender.PushMsg(MsgDTO, "权限名称错误！");
                 return false;
             }
 
@@ -49,7 +49,7 @@ namespace Dolany.Ai.Core.Ai.Sys
             var model = new TempAuthorizeCache { AuthName = authName, GroupNum = MsgDTO.FromGroup, QQNum = qqNum };
             SCacheService.Cache(key, model);
 
-            MsgSender.Instance.PushMsg(MsgDTO, "临时授权成功！");
+            MsgSender.PushMsg(MsgDTO, "临时授权成功！");
             return true;
         }
 
@@ -68,13 +68,13 @@ namespace Dolany.Ai.Core.Ai.Sys
 
             foreach (var group in groups)
             {
-                MsgSender.Instance.PushMsg(
+                MsgSender.PushMsg(
                     new MsgCommand { Command = AiCommand.SendGroup, Msg = content, ToGroup = group });
 
                 Thread.Sleep(2000);
             }
 
-            MsgSender.Instance.PushMsg(MsgDTO, "广播结束！");
+            MsgSender.PushMsg(MsgDTO, "广播结束！");
             return true;
         }
 
@@ -104,7 +104,7 @@ namespace Dolany.Ai.Core.Ai.Sys
                 SCacheService.Cache(key, cache);
             }
 
-            MsgSender.Instance.PushMsg(MsgDTO, "奖励已生效！");
+            MsgSender.PushMsg(MsgDTO, "奖励已生效！");
             return true;
         }
 
@@ -123,17 +123,17 @@ namespace Dolany.Ai.Core.Ai.Sys
             var item = HonorHelper.Instance.FindItem(itemName);
             if (item == null)
             {
-                MsgSender.Instance.PushMsg(MsgDTO, "未找到该物品！");
+                MsgSender.PushMsg(MsgDTO, "未找到该物品！");
                 return false;
             }
 
             var (msg, _) = ItemHelper.Instance.ItemIncome(qqNum, itemName);
             if (!string.IsNullOrEmpty(msg))
             {
-                MsgSender.Instance.PushMsg(MsgDTO, msg);
+                MsgSender.PushMsg(MsgDTO, msg);
             }
 
-            MsgSender.Instance.PushMsg(MsgDTO, "奖励已生效！");
+            MsgSender.PushMsg(MsgDTO, "奖励已生效！");
             return true;
         }
 
@@ -153,7 +153,7 @@ namespace Dolany.Ai.Core.Ai.Sys
             osPerson.Golds += golds;
             osPerson.Update();
 
-            MsgSender.Instance.PushMsg(MsgDTO, "奖励已生效！");
+            MsgSender.PushMsg(MsgDTO, "奖励已生效！");
             return true;
         }
 
@@ -179,7 +179,7 @@ namespace Dolany.Ai.Core.Ai.Sys
                 MongoService<BlackList>.Update(query);
             }
 
-            MsgSender.Instance.PushMsg(MsgDTO, "Success");
+            MsgSender.PushMsg(MsgDTO, "Success");
             return true;
         }
 
@@ -197,12 +197,12 @@ namespace Dolany.Ai.Core.Ai.Sys
             var query = MongoService<BlackList>.GetOnly(b => b.QQNum == qqNum);
             if (query == null)
             {
-                MsgSender.Instance.PushMsg(MsgDTO, "Not In BlackList");
+                MsgSender.PushMsg(MsgDTO, "Not In BlackList");
                 return false;
             }
 
             MongoService<BlackList>.Delete(query);
-            MsgSender.Instance.PushMsg(MsgDTO, "Success");
+            MsgSender.PushMsg(MsgDTO, "Success");
             return true;
         }
 
@@ -219,11 +219,11 @@ namespace Dolany.Ai.Core.Ai.Sys
             var groupNum = (long) param[0];
             if (!GroupMemberInfoCacher.RefreshGroupInfo(groupNum))
             {
-                MsgSender.Instance.PushMsg(MsgDTO, "初始化失败，请稍后再试！");
+                MsgSender.PushMsg(MsgDTO, "初始化失败，请稍后再试！");
                 return false;
             }
 
-            MsgSender.Instance.PushMsg(MsgDTO, "初始化成功！");
+            MsgSender.PushMsg(MsgDTO, "初始化成功！");
             return true;
         }
 
@@ -250,7 +250,7 @@ namespace Dolany.Ai.Core.Ai.Sys
             MongoService<GroupSettings>.Insert(setting);
             GroupSettingMgr.Instance.Refresh();
 
-            MsgSender.Instance.PushMsg(MsgDTO, "注册成功！");
+            MsgSender.PushMsg(MsgDTO, "注册成功！");
             return true;
         }
 
@@ -268,7 +268,7 @@ namespace Dolany.Ai.Core.Ai.Sys
             var key = $"LimitBonus-{aimNum}";
             SCacheService.Cache(key, "nothing");
 
-            MsgSender.Instance.PushMsg(MsgDTO, "奖励已生效！");
+            MsgSender.PushMsg(MsgDTO, "奖励已生效！");
 
             return true;
         }
@@ -286,7 +286,7 @@ namespace Dolany.Ai.Core.Ai.Sys
             var groupNum = (long) param[0];
             if (!GroupSettingMgr.Instance.SettingDic.ContainsKey(groupNum))
             {
-                MsgSender.Instance.PushMsg(MsgDTO, "未找到相关群组");
+                MsgSender.PushMsg(MsgDTO, "未找到相关群组");
                 return false;
             }
 
@@ -294,7 +294,7 @@ namespace Dolany.Ai.Core.Ai.Sys
             setting.ForcedShutDown = true;
             setting.Update();
 
-            MsgSender.Instance.PushMsg(MsgDTO, "冻结成功");
+            MsgSender.PushMsg(MsgDTO, "冻结成功");
 
             return true;
         }
@@ -312,7 +312,7 @@ namespace Dolany.Ai.Core.Ai.Sys
             var groupNum = (long) param[0];
             if (!GroupSettingMgr.Instance.SettingDic.ContainsKey(groupNum))
             {
-                MsgSender.Instance.PushMsg(MsgDTO, "未找到相关群组");
+                MsgSender.PushMsg(MsgDTO, "未找到相关群组");
                 return false;
             }
 
@@ -320,7 +320,7 @@ namespace Dolany.Ai.Core.Ai.Sys
             setting.ForcedShutDown = false;
             setting.Update();
 
-            MsgSender.Instance.PushMsg(MsgDTO, "解冻成功");
+            MsgSender.PushMsg(MsgDTO, "解冻成功");
 
             return true;
         }
@@ -344,7 +344,7 @@ namespace Dolany.Ai.Core.Ai.Sys
 
             GroupSettingMgr.Instance.Refresh();
 
-            MsgSender.Instance.PushMsg(MsgDTO, "充值成功");
+            MsgSender.PushMsg(MsgDTO, "充值成功");
 
             return true;
         }
@@ -367,7 +367,7 @@ namespace Dolany.Ai.Core.Ai.Sys
 
             GroupSettingMgr.Instance.Refresh();
 
-            MsgSender.Instance.PushMsg(MsgDTO, "绑定成功");
+            MsgSender.PushMsg(MsgDTO, "绑定成功");
 
             return true;
         }
@@ -387,7 +387,7 @@ namespace Dolany.Ai.Core.Ai.Sys
             var key = "SignInAcc";
             SCacheService.Cache(key, "SignInAcc", DateTime.Now.AddDays(days));
 
-            MsgSender.Instance.PushMsg(MsgDTO, "开启成功");
+            MsgSender.PushMsg(MsgDTO, "开启成功");
 
             return true;
         }

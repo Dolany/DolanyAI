@@ -1,7 +1,7 @@
 ﻿using Dolany.Ai.Common;
 using Dolany.Database;
 
-namespace Dolany.Game.Advanture
+namespace Dolany.Ai.Core.Ai.Game.Advanture
 {
     public class AdvPlayer : BaseEntity
     {

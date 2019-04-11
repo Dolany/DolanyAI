@@ -3,7 +3,7 @@ using Dolany.Ai.Common;
 using Dolany.Database.Ai;
 using Dolany.Database.Sqlite;
 
-namespace Dolany.Game.OnlineStore
+namespace Dolany.Ai.Core.OnlineStore
 {
     public class TransHelper
     {

@@ -28,7 +28,7 @@ namespace Dolany.Ai.Core.Ai.Game.Jump300Report
             IsPrivateAvailable = true)]
         public bool JumpReport(MsgInformationEx MsgDTO, object[] param)
         {
-            MsgSender.Instance.PushMsg(MsgDTO, "查询中，请稍候");
+            MsgSender.PushMsg(MsgDTO, "查询中，请稍候");
             var jr = new JumpReportRequestor(MsgDTO, ReportCallBack);
             Task.Run(() => jr.Work());
             return true;
@@ -36,7 +36,7 @@ namespace Dolany.Ai.Core.Ai.Game.Jump300Report
 
         private static void ReportCallBack(MsgInformationEx MsgDTO, string Report)
         {
-            MsgSender.Instance.PushMsg(MsgDTO, Report);
+            MsgSender.PushMsg(MsgDTO, Report);
         }
     }
 }

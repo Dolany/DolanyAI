@@ -2,8 +2,6 @@
 
 namespace Dolany.Ai.Core.Ai.SingleCommand.OrderSong
 {
-    using System.Linq;
-
     using Base;
 
     using Cache;
@@ -40,12 +38,12 @@ namespace Dolany.Ai.Core.Ai.SingleCommand.OrderSong
             if (!string.IsNullOrEmpty(songId))
             {
                 var responseXml = GetMusicXml(songId);
-                MsgSender.Instance.PushMsg(MsgDTO, responseXml);
+                MsgSender.PushMsg(MsgDTO, responseXml);
 
                 return true;
             }
 
-            MsgSender.Instance.PushMsg(MsgDTO, "未查找到该歌曲！");
+            MsgSender.PushMsg(MsgDTO, "未查找到该歌曲！");
             return false;
         }
 

@@ -2,7 +2,7 @@
 using System.Linq;
 using Dolany.Ai.Common;
 
-namespace Dolany.Game.Advanture
+namespace Dolany.Ai.Core.Ai.Game.Advanture
 {
     public class AdvGameMgr
     {

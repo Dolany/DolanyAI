@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace Dolany.Game.Chess
+namespace Dolany.Ai.Core.Ai.Game.ChessAgainst
 {
     public class ChessEffectModel
     {

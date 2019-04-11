@@ -3,10 +3,11 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading;
 using Dolany.Ai.Common;
-using Dolany.Game.Advanture.Cave;
-using Dolany.Game.OnlineStore;
+using Dolany.Ai.Core.Ai.Game.Advanture.Cave;
+using Dolany.Ai.Core.Cache;
+using Dolany.Ai.Core.OnlineStore;
 
-namespace Dolany.Game.Advanture
+namespace Dolany.Ai.Core.Ai.Game.Advanture
 {
     public class AdvGameEngine
     {
@@ -41,7 +42,7 @@ namespace Dolany.Game.Advanture
 
         public void GameStart()
         {
-            CommonUtil.MsgSendBack(GroupNum, 0, $"冒险开始！当前副本是 {CaveModel.Name} ！");
+            MsgSender.PushMsg(GroupNum, 0, $"冒险开始！当前副本是 {CaveModel.Name} ！");
             Thread.Sleep(1000);
 
             try
@@ -57,7 +58,7 @@ namespace Dolany.Game.Advanture
             }
             catch(Exception ex)
             {
-                CommonUtil.MsgSendBack(GroupNum, 0, "游戏异常，对决结束！");
+                MsgSender.PushMsg(GroupNum, 0, "游戏异常，对决结束！");
                 RuntimeLogger.Log(ex);
             }
         }
@@ -95,7 +96,7 @@ namespace Dolany.Game.Advanture
                     break;
             }
 
-            CommonUtil.MsgSendBack(GroupNum, CurPlayer.QQNum, msg);
+            MsgSender.PushMsg(GroupNum, CurPlayer.QQNum, msg);
             cave.Visible = true;
         }
 
@@ -180,7 +181,7 @@ namespace Dolany.Game.Advanture
                 osPerson.Golds += Bonus;
                 osPerson.Update();
             }
-            CommonUtil.MsgSendBack(GroupNum, 0, msg);
+            MsgSender.PushMsg(GroupNum, 0, msg);
 
             foreach (var player in players)
             {
@@ -192,7 +193,7 @@ namespace Dolany.Game.Advanture
                     var osPerson = OSPerson.GetPerson(p.QQNum);
                     osPerson.Golds -= 200;
                     osPerson.Update();
-                    CommonUtil.MsgSendBack(GroupNum, p.QQNum, 
+                    MsgSender.PushMsg(GroupNum, p.QQNum, 
                         $"你不幸输掉了对决，扣除200金币，你剩余金币为 {osPerson.Golds}");
                     continue;
                 }
@@ -204,13 +205,13 @@ namespace Dolany.Game.Advanture
 
                 var items = HonorHelper.Instance.CurMonthLimitItems();
                 var item = items.RandElement();
-                CommonUtil.MsgSendBack(GroupNum, p.QQNum,
+                MsgSender.PushMsg(GroupNum, p.QQNum,
                     $"你已经累计赢得 {p.WinTotal}场对决，获取额外奖励 {item.Name}*1");
 
                 var (honorMsg, _) = ItemHelper.Instance.ItemIncome(p.QQNum, item.Name);
                 if (!string.IsNullOrEmpty(honorMsg))
                 {
-                    CommonUtil.MsgSendBack(GroupNum, 0, honorMsg);
+                    MsgSender.PushMsg(GroupNum, 0, honorMsg);
                 }
             }
         }

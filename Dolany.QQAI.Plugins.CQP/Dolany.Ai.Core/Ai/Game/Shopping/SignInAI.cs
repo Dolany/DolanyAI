@@ -5,8 +5,8 @@ using Dolany.Ai.Core.Base;
 using Dolany.Ai.Core.Cache;
 using Dolany.Ai.Core.Common;
 using Dolany.Ai.Core.Model;
+using Dolany.Ai.Core.OnlineStore;
 using Dolany.Database.Sqlite;
-using Dolany.Game.OnlineStore;
 
 namespace Dolany.Ai.Core.Ai.Game.Shopping
 {
@@ -31,12 +31,12 @@ namespace Dolany.Ai.Core.Ai.Game.Shopping
 
             if (AIMgr.Instance.AllAvailableGroupCommands.Any(comm => comm.Command == content))
             {
-                MsgSender.Instance.PushMsg(MsgDTO, "不能与系统自带命令重复！");
+                MsgSender.PushMsg(MsgDTO, "不能与系统自带命令重复！");
                 return false;
             }
 
             SCacheService.Cache($"DailySignIn-{MsgDTO.FromGroup}", content, DateTime.Today.AddMonths(1));
-            MsgSender.Instance.PushMsg(MsgDTO, "设置成功！");
+            MsgSender.PushMsg(MsgDTO, "设置成功！");
             return true;
         }
 
@@ -74,7 +74,7 @@ namespace Dolany.Ai.Core.Ai.Game.Shopping
             var signCache = SCacheService.Get<DailySignInCache>($"DailySignIn-{MsgDTO.FromGroup}-{MsgDTO.FromQQ}");
             if (signCache != null && signCache.LastSignDate.ToLocalTime() == DateTime.Today)
             {
-                MsgSender.Instance.PushMsg(MsgDTO, "你今天已经签到过了！", true);
+                MsgSender.PushMsg(MsgDTO, "你今天已经签到过了！", true);
                 return false;
             }
 
@@ -110,7 +110,7 @@ namespace Dolany.Ai.Core.Ai.Game.Shopping
             OSPerson.GoldIncome(MsgDTO.FromQQ, goldsGen);
 
             var msg = $"签到成功！你已连续签到 {signCache.SuccessiveSignDays}天，获得 {goldsGen}金币！";
-            MsgSender.Instance.PushMsg(MsgDTO, msg, true);
+            MsgSender.PushMsg(MsgDTO, msg, true);
 
             return signCache;
         }
@@ -125,7 +125,7 @@ namespace Dolany.Ai.Core.Ai.Game.Shopping
         public bool TodaySignContent(MsgInformationEx MsgDTO, object[] param)
         {
             var cache = SCacheService.Get<string>($"DailySignIn-{MsgDTO.FromGroup}");
-            MsgSender.Instance.PushMsg(MsgDTO, $"今日签到内容是：{(string.IsNullOrEmpty(cache) ? "签到" : cache)}");
+            MsgSender.PushMsg(MsgDTO, $"今日签到内容是：{(string.IsNullOrEmpty(cache) ? "签到" : cache)}");
             return true;
         }
     }

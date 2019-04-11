@@ -6,8 +6,8 @@ using Dolany.Ai.Common;
 using Dolany.Ai.Core.Base;
 using Dolany.Ai.Core.Cache;
 using Dolany.Ai.Core.Model;
+using Dolany.Ai.Core.OnlineStore;
 using Dolany.Database.Sqlite;
-using Dolany.Game.OnlineStore;
 
 namespace Dolany.Ai.Core.Ai.Game.Shopping
 {
@@ -48,20 +48,20 @@ namespace Dolany.Ai.Core.Ai.Game.Shopping
             var osPerson = OSPerson.GetPerson(MsgDTO.FromQQ);
             if (osPerson.Golds < LotteryFee)
             {
-                MsgSender.Instance.PushMsg(MsgDTO, "你没有足够的金币购买彩票！", true);
+                MsgSender.PushMsg(MsgDTO, "你没有足够的金币购买彩票！", true);
                 return false;
             }
 
             if (!Waiter.Instance.WaitForConfirm(MsgDTO, LotteryFee, 7))
             {
-                MsgSender.Instance.PushMsg(MsgDTO, "操作取消！");
+                MsgSender.PushMsg(MsgDTO, "操作取消！");
                 return false;
             }
 
             var golds = RandomLottery(MsgDTO);
 
             Thread.Sleep(1000);
-            MsgSender.Instance.PushMsg(MsgDTO, $"你当前持有金币：{golds}", true);
+            MsgSender.PushMsg(MsgDTO, $"你当前持有金币：{golds}", true);
             return true;
         }
 
@@ -82,7 +82,7 @@ namespace Dolany.Ai.Core.Ai.Game.Shopping
                 totalSum += value;
             }
 
-            MsgSender.Instance.PushMsg(MsgDTO, bonus == 0 ? "谢谢参与！" : $"恭喜你中奖啦！奖金：{bonus}", true);
+            MsgSender.PushMsg(MsgDTO, bonus == 0 ? "谢谢参与！" : $"恭喜你中奖啦！奖金：{bonus}", true);
 
             var golds = OSPerson.GoldConsume(MsgDTO.FromQQ, LotteryFee - bonus);
             return golds;
@@ -102,7 +102,7 @@ namespace Dolany.Ai.Core.Ai.Game.Shopping
             var cache = SCacheService.Get<string>(key);
             if (string.IsNullOrEmpty(cache))
             {
-                MsgSender.Instance.PushMsg(MsgDTO, "你没有抽奖机会！");
+                MsgSender.PushMsg(MsgDTO, "你没有抽奖机会！");
                 return false;
             }
 
@@ -118,7 +118,7 @@ namespace Dolany.Ai.Core.Ai.Game.Shopping
                 msg += '\r' + m;
             }
 
-            MsgSender.Instance.PushMsg(MsgDTO, msg, true);
+            MsgSender.PushMsg(MsgDTO, msg, true);
 
             return true;
         }

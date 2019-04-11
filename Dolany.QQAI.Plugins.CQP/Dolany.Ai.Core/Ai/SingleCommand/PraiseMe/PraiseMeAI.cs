@@ -57,14 +57,14 @@
             }
 
             var cd = LastTime.AddMinutes(PraiseLimit) - DateTime.Now;
-            MsgSender.Instance.PushMsg(MsgDTO, $"点赞太频繁啦！剩余冷却时间:{cd.Minutes}分{cd.Seconds}秒");
+            MsgSender.PushMsg(MsgDTO, $"点赞太频繁啦！剩余冷却时间:{cd.Minutes}分{cd.Seconds}秒");
             return false;
         }
 
         private static void Praise(MsgInformationEx MsgDTO)
         {
             SendPraise(MsgDTO.FromQQ);
-            MsgSender.Instance.PushMsg(MsgDTO, "已赞十次！", true);
+            MsgSender.PushMsg(MsgDTO, "已赞十次！", true);
         }
     }
 }

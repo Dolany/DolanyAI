@@ -49,7 +49,7 @@ namespace Dolany.Ai.Core.Ai.Record
 
         private static void HourAlert(int curHour)
         {
-            var availableList = GroupSettingMgr.Instance.SettingDic.Where(p => p.Value.HasFunction("报时")).Select(p => p.Key);
+            var availableList = GroupSettingMgr.Instance.SettingDic.Where(p => p.Value.HasFunction("报时")).Select(p => p.Key).ToList();
             if (availableList.IsNullOrEmpty())
             {
                 return;
@@ -72,14 +72,14 @@ namespace Dolany.Ai.Core.Ai.Record
 
         private static void SendAlertMsg(KanColeGirlVoice randGirl, long groupNum)
         {
-            MsgSender.Instance.PushMsg(
+            MsgSender.PushMsg(
                 new MsgCommand
                     {
                         Command = AiCommand.SendGroup,
                         Msg = CodeApi.Code_Voice(randGirl.VoiceUrl),
                         ToGroup = groupNum
                 });
-            MsgSender.Instance.PushMsg(
+            MsgSender.PushMsg(
                 new MsgCommand
                     {
                         Command = AiCommand.SendGroup,

@@ -5,9 +5,6 @@ namespace Dolany.Ai.Core.Ai.SingleCommand.Fortune
     using System.Collections.Generic;
     using System.IO;
     using System.Linq;
-
-    using API;
-
     using Base;
 
     using Cache;
@@ -68,7 +65,7 @@ namespace Dolany.Ai.Core.Ai.SingleCommand.Fortune
         {
             var fortune = TodayFortune(MsgDTO.FromQQ);
             var msg = FortunePrintString(fortune);
-            MsgSender.Instance.PushMsg(MsgDTO, msg);
+            MsgSender.PushMsg(MsgDTO, msg);
             return true;
         }
 

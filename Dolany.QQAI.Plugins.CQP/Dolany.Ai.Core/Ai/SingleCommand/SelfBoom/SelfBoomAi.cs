@@ -40,26 +40,26 @@ namespace Dolany.Ai.Core.Ai.SingleCommand.SelfBoom
                 info => info.Msg == BoomCode.ToString());
             if (backInfo == null)
             {
-                MsgSender.Instance.PushMsg(MsgDTO, "自爆失败！");
+                MsgSender.PushMsg(MsgDTO, "自爆失败！");
                 return false;
             }
 
             if (CodeDate.AddMinutes(5) < DateTime.Now)
             {
-                MsgSender.Instance.PushMsg(MsgDTO, "指令码已失效！");
+                MsgSender.PushMsg(MsgDTO, "指令码已失效！");
                 return false;
             }
 
-            MsgSender.Instance.PushMsg(MsgDTO, "AI即将自爆！");
+            MsgSender.PushMsg(MsgDTO, "AI即将自爆！");
             Thread.Sleep(1000);
 
             for (var i = 5; i > 0; i--)
             {
-                MsgSender.Instance.PushMsg(MsgDTO, i.ToString());
+                MsgSender.PushMsg(MsgDTO, i.ToString());
                 Thread.Sleep(1000);
             }
 
-            MsgSender.Instance.PushMsg(MsgDTO, CodeApi.Code_Image_Relational("images/boom.jpg"));
+            MsgSender.PushMsg(MsgDTO, CodeApi.Code_Image_Relational("images/boom.jpg"));
 
             BoomCode = CommonUtil.RandInt(10000);
             Thread.Sleep(1000);
@@ -83,7 +83,7 @@ namespace Dolany.Ai.Core.Ai.SingleCommand.SelfBoom
         {
             BoomCode = CommonUtil.RandInt(100000);
             CodeDate = DateTime.Now;
-            MsgSender.Instance.PushMsg(MsgDTO, BoomCode.ToString());
+            MsgSender.PushMsg(MsgDTO, BoomCode.ToString());
             return true;
         }
 

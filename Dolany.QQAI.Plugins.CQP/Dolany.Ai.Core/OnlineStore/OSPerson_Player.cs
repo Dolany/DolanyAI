@@ -1,6 +1,6 @@
 ﻿using MongoDB.Bson.Serialization.Attributes;
 
-namespace Dolany.Game.OnlineStore
+namespace Dolany.Ai.Core.OnlineStore
 {
     [BsonIgnoreExtraElements]
     public partial class OSPerson

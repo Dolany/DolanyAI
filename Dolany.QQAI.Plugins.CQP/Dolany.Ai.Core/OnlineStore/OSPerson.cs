@@ -4,7 +4,7 @@ using System.Linq;
 using Dolany.Ai.Common;
 using Dolany.Database;
 
-namespace Dolany.Game.OnlineStore
+namespace Dolany.Ai.Core.OnlineStore
 {
     public partial class OSPerson : BaseEntity
     {

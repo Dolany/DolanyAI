@@ -69,13 +69,13 @@
                                                                 c.Charactor == charactor);
             if (query.IsNullOrEmpty())
             {
-                MsgSender.Instance.PushMsg(MsgDTO, "这个人物还没有被创建呢！");
+                MsgSender.PushMsg(MsgDTO, "这个人物还没有被创建呢！");
                 return false;
             }
 
             if (query.First().Creator != MsgDTO.FromQQ)
             {
-                MsgSender.Instance.PushMsg(MsgDTO, "你只能删除自己创建的人物噢！");
+                MsgSender.PushMsg(MsgDTO, "你只能删除自己创建的人物噢！");
                 return false;
             }
 
@@ -84,7 +84,7 @@
                 MongoService<CharactorSetting>.Delete(c);
             }
 
-            MsgSender.Instance.PushMsg(MsgDTO, "删除成功！");
+            MsgSender.PushMsg(MsgDTO, "删除成功！");
             return true;
         }
 
@@ -104,7 +104,7 @@
                                                                 c.Charactor == charactor);
             if (query.IsNullOrEmpty())
             {
-                MsgSender.Instance.PushMsg(MsgDTO, "这个人物还没有创建哦~");
+                MsgSender.PushMsg(MsgDTO, "这个人物还没有创建哦~");
                 return false;
             }
 
@@ -117,7 +117,7 @@
             }
             msg = builder.ToString();
 
-            MsgSender.Instance.PushMsg(MsgDTO, msg);
+            MsgSender.PushMsg(MsgDTO, msg);
             return true;
         }
 
@@ -125,7 +125,7 @@
         {
             if (IsQQFullChar(MsgDTO))
             {
-                MsgSender.Instance.PushMsg(MsgDTO, $"每个QQ号只能设定{MaxCharNumPerQQ}个人物哦~");
+                MsgSender.PushMsg(MsgDTO, $"每个QQ号只能设定{MaxCharNumPerQQ}个人物哦~");
             }
             else
             {
@@ -137,13 +137,13 @@
         {
             if (!IsCharactorCreator(MsgDTO, charactor))
             {
-                MsgSender.Instance.PushMsg(MsgDTO, "只能修改自己创建的人物哦~");
+                MsgSender.PushMsg(MsgDTO, "只能修改自己创建的人物哦~");
                 return;
             }
 
             if (IsSettingFull(MsgDTO.FromGroup, charactor, settingName))
             {
-                MsgSender.Instance.PushMsg(MsgDTO, $"每个人物只能设定{MaxSettingPerChar}个属性哦~");
+                MsgSender.PushMsg(MsgDTO, $"每个人物只能设定{MaxSettingPerChar}个属性哦~");
                 return;
             }
 
@@ -209,7 +209,7 @@
             };
             MongoService<CharactorSetting>.Insert(cs);
 
-            MsgSender.Instance.PushMsg(MsgDTO, "设定成功！", true);
+            MsgSender.PushMsg(MsgDTO, "设定成功！", true);
         }
 
         private static void ModifySetting(MsgInformationEx MsgDTO, string charactor, string settingName, string content)
@@ -224,7 +224,7 @@
             }
             MongoService<CharactorSetting>.Update(cs);
 
-            MsgSender.Instance.PushMsg(MsgDTO, "修改设定成功！");
+            MsgSender.PushMsg(MsgDTO, "修改设定成功！");
         }
 
         private static bool IsExistCharactor(long groupNumber, string charactor)

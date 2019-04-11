@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using Dolany.Ai.Common;
 
-namespace Dolany.Game.Chess
+namespace Dolany.Ai.Core.Ai.Game.ChessAgainst
 {
     public class ChessMgr
     {

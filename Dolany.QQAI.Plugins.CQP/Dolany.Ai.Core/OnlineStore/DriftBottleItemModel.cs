@@ -1,6 +1,6 @@
 ﻿using System.Collections.Generic;
 
-namespace Dolany.Game.OnlineStore
+namespace Dolany.Ai.Core.OnlineStore
 {
     public class DriftBottleItemModel
     {

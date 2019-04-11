@@ -3,9 +3,9 @@ using Dolany.Ai.Core.Base;
 using Dolany.Ai.Core.Cache;
 using Dolany.Ai.Core.Common;
 using Dolany.Ai.Core.Model;
+using Dolany.Ai.Core.OnlineStore;
 using Dolany.Database.Sqlite;
 using Dolany.Database.Sqlite.Model;
-using Dolany.Game.OnlineStore;
 
 namespace Dolany.Ai.Core.Ai.SingleCommand.GroupOwnerOnly
 {
@@ -32,7 +32,7 @@ namespace Dolany.Ai.Core.Ai.SingleCommand.GroupOwnerOnly
 
             var key = $"DailyLimit-{command}-{aimQQ}";
             SCacheService.Cache(key, new DailyLimitCache {Count = 0, QQNum = aimQQ, Command = command});
-            MsgSender.Instance.PushMsg(MsgDTO, "刷新成功！");
+            MsgSender.PushMsg(MsgDTO, "刷新成功！");
 
             return true;
         }
@@ -52,13 +52,13 @@ namespace Dolany.Ai.Core.Ai.SingleCommand.GroupOwnerOnly
             var sourcePerson = OSPerson.GetPerson(MsgDTO.FromQQ);
             if (sourcePerson.Golds < 500)
             {
-                MsgSender.Instance.PushMsg(MsgDTO, "驱散全部buff需要500金币，你没有足够的金币！");
+                MsgSender.PushMsg(MsgDTO, "驱散全部buff需要500金币，你没有足够的金币！");
                 return false;
             }
 
             if (!Waiter.Instance.WaitForConfirm(MsgDTO, 500))
             {
-                MsgSender.Instance.PushMsg(MsgDTO, "操作取消！");
+                MsgSender.PushMsg(MsgDTO, "操作取消！");
                 return false;
             }
 
@@ -69,7 +69,7 @@ namespace Dolany.Ai.Core.Ai.SingleCommand.GroupOwnerOnly
             sourcePerson.Golds -= 500;
             sourcePerson.Update();
 
-            MsgSender.Instance.PushMsg(MsgDTO, "驱散成功！");
+            MsgSender.PushMsg(MsgDTO, "驱散成功！");
             return true;
         }
 
@@ -89,20 +89,20 @@ namespace Dolany.Ai.Core.Ai.SingleCommand.GroupOwnerOnly
             var aimPerson = OSPerson.GetPerson(qqNum);
             if (!aimPerson.CheckBuff(buffName))
             {
-                MsgSender.Instance.PushMsg(MsgDTO, "目标身上没有指定buff！");
+                MsgSender.PushMsg(MsgDTO, "目标身上没有指定buff！");
                 return false;
             }
 
             var sourcePerson = qqNum == MsgDTO.FromQQ ? aimPerson : OSPerson.GetPerson(MsgDTO.FromQQ);
             if (sourcePerson.Golds < 100)
             {
-                MsgSender.Instance.PushMsg(MsgDTO, "驱散该buff需要100金币，你没有足够的金币！");
+                MsgSender.PushMsg(MsgDTO, "驱散该buff需要100金币，你没有足够的金币！");
                 return false;
             }
 
             if (!Waiter.Instance.WaitForConfirm(MsgDTO, 100))
             {
-                MsgSender.Instance.PushMsg(MsgDTO, "操作取消！");
+                MsgSender.PushMsg(MsgDTO, "操作取消！");
                 return false;
             }
 
@@ -112,7 +112,7 @@ namespace Dolany.Ai.Core.Ai.SingleCommand.GroupOwnerOnly
             sourcePerson.Golds -= 100;
             sourcePerson.Update();
 
-            MsgSender.Instance.PushMsg(MsgDTO, "驱散成功！");
+            MsgSender.PushMsg(MsgDTO, "驱散成功！");
             return true;
         }
 
@@ -130,7 +130,7 @@ namespace Dolany.Ai.Core.Ai.SingleCommand.GroupOwnerOnly
             setting.EnabledFunctions = AIMgr.Instance.OptionalAINames;
             setting.Update();
 
-            MsgSender.Instance.PushMsg(MsgDTO, "开启成功！");
+            MsgSender.PushMsg(MsgDTO, "开启成功！");
             return true;
         }
 
@@ -149,7 +149,7 @@ namespace Dolany.Ai.Core.Ai.SingleCommand.GroupOwnerOnly
 
             var msgs = allModules.Select(m => $"{m}  {(setting.EnabledFunctions.Contains(m) ? "√" : "×")}");
             var msg = $"{string.Join("\r", msgs)}\r可以使用 开启功能 [功能名] 来开启对应的功能；或使用 关闭功能 [功能名] 来关闭对应的功能";
-            MsgSender.Instance.PushMsg(MsgDTO, msg);
+            MsgSender.PushMsg(MsgDTO, msg);
             return true;
         }
     }

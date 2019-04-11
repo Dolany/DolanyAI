@@ -1,4 +1,4 @@
-﻿namespace Dolany.Game.Advanture.Cave
+﻿namespace Dolany.Ai.Core.Ai.Game.Advanture.Cave
 {
     public class MonsterCave : ICave
     {

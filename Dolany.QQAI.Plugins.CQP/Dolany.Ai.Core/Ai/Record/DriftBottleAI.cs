@@ -1,4 +1,4 @@
-﻿using Dolany.Game.OnlineStore;
+﻿using Dolany.Ai.Core.OnlineStore;
 
 namespace Dolany.Ai.Core.Ai.Record
 {
@@ -37,7 +37,7 @@ namespace Dolany.Ai.Core.Ai.Record
             var osPerson = OSPerson.GetPerson(MsgDTO.FromQQ);
             if (osPerson.CheckBuff("昙天"))
             {
-                MsgSender.Instance.PushMsg(MsgDTO, "你当前无法捞瓶子！(昙天)");
+                MsgSender.PushMsg(MsgDTO, "你当前无法捞瓶子！(昙天)");
                 return false;
             }
 
@@ -90,7 +90,7 @@ namespace Dolany.Ai.Core.Ai.Record
                         FromGroup = MsgDTO.FromGroup, FromQQ = MsgDTO.FromQQ, Content = content, SendTime = DateTime.Now
                     });
 
-            MsgSender.Instance.PushMsg(MsgDTO, "漂流瓶已随波而去，最终将会漂到哪里呢~");
+            MsgSender.PushMsg(MsgDTO, "漂流瓶已随波而去，最终将会漂到哪里呢~");
             return true;
         }
 
@@ -106,7 +106,7 @@ namespace Dolany.Ai.Core.Ai.Record
             var query = DriftItemRecord.GetRecord(MsgDTO.FromQQ);
             if (!query.ItemCount.Any())
             {
-                MsgSender.Instance.PushMsg(MsgDTO, "你的背包空空如也~", true);
+                MsgSender.PushMsg(MsgDTO, "你的背包空空如也~", true);
                 return false;
             }
 
@@ -117,7 +117,7 @@ namespace Dolany.Ai.Core.Ai.Record
             {
                 msg += $"\r当前显示第 1/{(itemMsgs.Count - 1) / 7 + 1}页，请使用 我的物品 [页码] 命令查看更多物品！";
             }
-            MsgSender.Instance.PushMsg(MsgDTO, msg, true);
+            MsgSender.PushMsg(MsgDTO, msg, true);
             return true;
         }
 
@@ -133,14 +133,14 @@ namespace Dolany.Ai.Core.Ai.Record
             var query = DriftItemRecord.GetRecord(MsgDTO.FromQQ);
             if (!query.ItemCount.Any())
             {
-                MsgSender.Instance.PushMsg(MsgDTO, "你的背包空空如也~", true);
+                MsgSender.PushMsg(MsgDTO, "你的背包空空如也~", true);
                 return false;
             }
 
             var itemMsgs = HonorHelper.Instance.GetOrderedItemsStr(
                 query.ItemCount.Where(p => HonorHelper.Instance.IsLimit(p.Name)));
             var msg = $"你收集到的限定物品有：\r{string.Join("\r", itemMsgs.Take(7))}";
-            MsgSender.Instance.PushMsg(MsgDTO, msg, true);
+            MsgSender.PushMsg(MsgDTO, msg, true);
             return true;
         }
 
@@ -158,7 +158,7 @@ namespace Dolany.Ai.Core.Ai.Record
             var query = DriftItemRecord.GetRecord(MsgDTO.FromQQ);
             if (!query.ItemCount.Any())
             {
-                MsgSender.Instance.PushMsg(MsgDTO, "你的背包空空如也~", true);
+                MsgSender.PushMsg(MsgDTO, "你的背包空空如也~", true);
                 return false;
             }
 
@@ -167,13 +167,13 @@ namespace Dolany.Ai.Core.Ai.Record
             var totalPageCount = (itemMsgs.Count - 1) / 7 + 1;
             if (pageNo <= 0 || pageNo > totalPageCount)
             {
-                MsgSender.Instance.PushMsg(MsgDTO, "页码错误！", true);
+                MsgSender.PushMsg(MsgDTO, "页码错误！", true);
                 return false;
             }
 
             var msg = $"该页的物品有：\r{string.Join("\r", itemMsgs.Skip((pageNo - 1) * 7).Take(7))}";
             msg += $"\r当前显示第 {pageNo}/{(itemMsgs.Count - 1) / 7 + 1}页，请使用 我的物品 [页码] 命令查看更多物品！";
-            MsgSender.Instance.PushMsg(MsgDTO, msg, true);
+            MsgSender.PushMsg(MsgDTO, msg, true);
             return true;
         }
 
@@ -190,12 +190,12 @@ namespace Dolany.Ai.Core.Ai.Record
             var query = DriftItemRecord.GetRecord(MsgDTO.FromQQ);
             if (query.HonorList == null || !query.HonorList.Any())
             {
-                MsgSender.Instance.PushMsg(MsgDTO, "你还没有获得任何成就，继续加油吧~", true);
+                MsgSender.PushMsg(MsgDTO, "你还没有获得任何成就，继续加油吧~", true);
                 return false;
             }
 
             var msg = $"你获得的成就有：{string.Join(",", query.HonorList)}";
-            MsgSender.Instance.PushMsg(MsgDTO, msg, true);
+            MsgSender.PushMsg(MsgDTO, msg, true);
             return true;
         }
 
@@ -204,7 +204,7 @@ namespace Dolany.Ai.Core.Ai.Record
             var osPerson = OSPerson.GetPerson(MsgDTO.FromQQ);
             if (osPerson.CheckBuff("梅雨") && CommonUtil.RandInt(100) < 30)
             {
-                MsgSender.Instance.PushMsg(MsgDTO, "欸呀呀，捞瓶子失败了！(梅雨)", true);
+                MsgSender.PushMsg(MsgDTO, "欸呀呀，捞瓶子失败了！(梅雨)", true);
                 return;
             }
 
@@ -227,13 +227,13 @@ namespace Dolany.Ai.Core.Ai.Record
                 msg += "\r欸呀呀，你丢失了40金币(钻石尘)";
             }
 
-            MsgSender.Instance.PushMsg(MsgDTO, msg, true);
+            MsgSender.PushMsg(MsgDTO, msg, true);
         }
 
         private void PrintBottle(MsgInformationEx MsgDTO, DriftBottleRecord record)
         {
             var msg = $"你捞到了一个漂流瓶 \r    {record.Content}\r   by 陌生人";
-            MsgSender.Instance.PushMsg(MsgDTO, msg);
+            MsgSender.PushMsg(MsgDTO, msg);
         }
 
         [EnterCommand(Command = "查看物品",
@@ -249,7 +249,7 @@ namespace Dolany.Ai.Core.Ai.Record
             var item = HonorHelper.Instance.FindItem(name);
             if (item == null)
             {
-                MsgSender.Instance.PushMsg(MsgDTO, $"未找到该物品：{name}");
+                MsgSender.PushMsg(MsgDTO, $"未找到该物品：{name}");
                 return false;
             }
 
@@ -259,7 +259,7 @@ namespace Dolany.Ai.Core.Ai.Record
                       $"价格：{HonorHelper.Instance.GetItemPrice(item, MsgDTO.FromQQ)}\r" +
                       $"可解锁成就：{HonorHelper.Instance.FindHonorName(item.Name)}\r" +
                       $"你拥有该物品：{ItemHelper.Instance.ItemCount(MsgDTO.FromQQ, item.Name)}";
-            MsgSender.Instance.PushMsg(MsgDTO, msg);
+            MsgSender.PushMsg(MsgDTO, msg);
             return true;
         }
 
@@ -277,14 +277,14 @@ namespace Dolany.Ai.Core.Ai.Record
             var honor = HonorHelper.Instance.FindHonor(name);
             if (honor == null)
             {
-                MsgSender.Instance.PushMsg(MsgDTO, $"未找到该成就：{name}");
+                MsgSender.PushMsg(MsgDTO, $"未找到该成就：{name}");
                 return false;
             }
 
             var items = honor.Items.Select(h => $"{h.Name}({ItemHelper.Instance.ItemCount(MsgDTO.FromQQ, h.Name)})");
             var itemsMsg = string.Join(",", items);
             var msg = $"解锁成就 {honor.FullName} 需要集齐：{itemsMsg}";
-            MsgSender.Instance.PushMsg(MsgDTO, msg);
+            MsgSender.PushMsg(MsgDTO, msg);
             return true;
         }
 
@@ -320,7 +320,7 @@ namespace Dolany.Ai.Core.Ai.Record
             var msg = $"限定物品收集情况：\r{string.Join("\r", itemDic.Select(p => $"{p.Key}:{p.Value}"))}\r";
             msg += $"共有 {honorCount} 人达成了本月限定成就";
 
-            MsgSender.Instance.PushMsg(MsgDTO, msg);
+            MsgSender.PushMsg(MsgDTO, msg);
             return true;
         }
     }

@@ -81,7 +81,7 @@ namespace Dolany.Ai.Core.Ai.Record
         {
             InsertClock(entity, MsgDTO, StartClock);
 
-            MsgSender.Instance.PushMsg(MsgDTO, "闹钟设定成功！");
+            MsgSender.PushMsg(MsgDTO, "闹钟设定成功！");
         }
 
         private void StartClock(AlermClock entity)
@@ -100,7 +100,7 @@ namespace Dolany.Ai.Core.Ai.Record
             Debug.Assert(entity != null, nameof(entity) + " != null");
             if (GroupSettingMgr.Instance[entity.GroupNumber].IsPowerOn)
             {
-                MsgSender.Instance.PushMsg(
+                MsgSender.PushMsg(
                     new MsgCommand
                     {
                         Command = AiCommand.SendGroup,
@@ -123,7 +123,7 @@ namespace Dolany.Ai.Core.Ai.Record
         public bool QueryClock(MsgInformationEx MsgDTO, object[] param)
         {
             var Msg = QueryClock(MsgDTO);
-            MsgSender.Instance.PushMsg(MsgDTO, Msg);
+            MsgSender.PushMsg(MsgDTO, Msg);
             return true;
         }
 
@@ -143,7 +143,7 @@ namespace Dolany.Ai.Core.Ai.Record
             }
 
             var Msg = DeleteClock(time, MsgDTO);
-            MsgSender.Instance.PushMsg(MsgDTO, Msg);
+            MsgSender.PushMsg(MsgDTO, Msg);
 
             ReloadAllClocks();
             return true;
@@ -160,7 +160,7 @@ namespace Dolany.Ai.Core.Ai.Record
         public bool ClearAllClock(MsgInformationEx MsgDTO, object[] param)
         {
             var Msg = ClearAllClock(MsgDTO);
-            MsgSender.Instance.PushMsg(MsgDTO, Msg);
+            MsgSender.PushMsg(MsgDTO, Msg);
 
             ReloadAllClocks();
             return true;

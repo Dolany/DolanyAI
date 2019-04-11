@@ -4,8 +4,9 @@ using System.Linq;
 using System.Reflection;
 using System.Threading;
 using Dolany.Ai.Common;
+using Dolany.Ai.Core.Cache;
 
-namespace Dolany.Game.Chess
+namespace Dolany.Ai.Core.Ai.Game.ChessAgainst
 {
     public partial class ChessEngine
     {
@@ -67,7 +68,7 @@ namespace Dolany.Game.Chess
         {
             try
             {
-                CommonUtil.MsgSendBack(GroupNum, 0, "对决即将开始，请双方做好准备！");
+                MsgSender.PushMsg(GroupNum, 0, "对决即将开始，请双方做好准备！");
                 Thread.Sleep(2000);
                 InitChessBoard();
 
@@ -81,12 +82,12 @@ namespace Dolany.Game.Chess
                     AimQQNum = temp;
                 }
 
-                CommonUtil.MsgSendBack(GroupNum, 0, "对决结束！");
+                MsgSender.PushMsg(GroupNum, 0, "对决结束！");
             }
             catch (Exception ex)
             {
                 RuntimeLogger.Log(ex);
-                CommonUtil.MsgSendBack(GroupNum, 0, "系统异常，游戏结束！");
+                MsgSender.PushMsg(GroupNum, 0, "系统异常，游戏结束！");
             }
 
             ChessMgr.Instance.GameOver(this);
@@ -99,20 +100,20 @@ namespace Dolany.Game.Chess
 
             if (string.IsNullOrEmpty(response) || !int.TryParse(response, out var selectedNum) || !AvailableNums.Contains(selectedNum))
             {
-                CommonUtil.MsgSendBack(GroupNum, 0, "回合结束！");
+                MsgSender.PushMsg(GroupNum, 0, "回合结束！");
                 return;
             }
 
             var model = Chessborad[selectedNum - 1];
 
-            CommonUtil.MsgSendBack(GroupNum, 0, $"随机效果已生效：{model.Name}！\r{model.Description}");
+            MsgSender.PushMsg(GroupNum, 0, $"随机效果已生效：{model.Name}！\r{model.Description}");
             Thread.Sleep(1000);
 
             model.Method();
             model.IsChecked = true;
 
             Thread.Sleep(1000);
-            CommonUtil.MsgSendBack(GroupNum, 0, "回合结束！");
+            MsgSender.PushMsg(GroupNum, 0, "回合结束！");
         }
 
         private void InitChessBoard()

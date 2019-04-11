@@ -74,7 +74,7 @@ namespace Dolany.Ai.Core.Ai.Sys
 
             helpMsg += '\r' + "可以使用 帮助 [标签名] 来查询标签中的具体命令名 或者使用 帮助 [命令名] 来查询具体命令信息。";
 
-            MsgSender.Instance.PushMsg(MsgDTO, helpMsg);
+            MsgSender.PushMsg(MsgDTO, helpMsg);
         }
 
         private static bool HelpCommand(MsgInformationEx MsgDTO)
@@ -110,7 +110,7 @@ namespace Dolany.Ai.Core.Ai.Sys
                               $"适用范围：{string.Join("，", range)}\r" +
                               $"次数限制：{(Global.TestGroups.Contains(MsgDTO.FromGroup) ? command.TestingDailyLimit : command.DailyLimit)}";
 
-                MsgSender.Instance.PushMsg(MsgDTO, helpMsg);
+                MsgSender.PushMsg(MsgDTO, helpMsg);
             }
 
             return true;
@@ -141,7 +141,7 @@ namespace Dolany.Ai.Core.Ai.Sys
             helpMsg = builder.ToString();
             helpMsg += '\r' + "可以使用 帮助 [命令名] 来查询具体命令信息。";
 
-            MsgSender.Instance.PushMsg(MsgDTO, helpMsg);
+            MsgSender.PushMsg(MsgDTO, helpMsg);
         }
     }
 }

@@ -30,7 +30,7 @@ namespace Dolany.Ai.Core.Ai.SingleCommand.RandomPic
         public bool RecentPic(MsgInformationEx MsgDTO, object[] param)
         {
             var picUrl = PicCacher.Random();
-            MsgSender.Instance.PushMsg(MsgDTO, CodeApi.Code_Image(picUrl));
+            MsgSender.PushMsg(MsgDTO, CodeApi.Code_Image(picUrl));
             return true;
         }
 
@@ -46,7 +46,7 @@ namespace Dolany.Ai.Core.Ai.SingleCommand.RandomPic
         public bool RecentFlash(MsgInformationEx MsgDTO, object[] param)
         {
             var picUrl = PicCacher.Random();
-            MsgSender.Instance.PushMsg(MsgDTO, CodeApi.Code_Flash(picUrl));
+            MsgSender.PushMsg(MsgDTO, CodeApi.Code_Flash(picUrl));
             return true;
         }
     }

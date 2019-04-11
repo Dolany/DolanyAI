@@ -8,9 +8,7 @@
 
     public class MsgSender
     {
-        public static MsgSender Instance { get; } = new MsgSender();
-
-        public void PushMsg(MsgCommand msg)
+        public static void PushMsg(MsgCommand msg)
         {
             msg.AiNum = Utility.SelfQQNum;
             msg.Time = DateTime.Now;
@@ -20,7 +18,7 @@
             Global.CommandInfoService.Send(msg, Configger.Instance["CommandQueueName"]);
         }
 
-        public void PushMsg(MsgInformationEx MsgInfo, string Content, bool isNeedAt = false)
+        public static void PushMsg(MsgInformationEx MsgInfo, string Content, bool isNeedAt = false)
         {
             PushMsg(
                 new MsgCommand
@@ -34,14 +32,14 @@
                     });
         }
 
-        public void PushMsg(long GroupNum, long QQNum, string content, bool isNeedAt = false)
+        public static void PushMsg(long GroupNum, long QQNum, string content)
         {
             PushMsg(new MsgInformationEx
             {
                 FromGroup = GroupNum,
                 FromQQ = QQNum,
                 Type = GroupNum == 0 ? MsgType.Private : MsgType.Group
-            }, content, isNeedAt);
+            }, content, QQNum != 0);
         }
     }
 }

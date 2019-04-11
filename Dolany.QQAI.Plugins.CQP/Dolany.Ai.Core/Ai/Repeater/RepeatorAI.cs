@@ -70,7 +70,7 @@ namespace Dolany.Ai.Core.Ai.Repeater
         {
             Thread.Sleep(SleepTime);
 
-            MsgSender.Instance.PushMsg(MsgDTO, MsgDTO.FullMsg);
+            MsgSender.PushMsg(MsgDTO, MsgDTO.FullMsg);
         }
     }
 }

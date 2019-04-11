@@ -1,11 +1,9 @@
 ﻿using Dolany.Ai.Common;
-using Dolany.Ai.Core.API;
 using Dolany.Ai.Core.Base;
 using Dolany.Ai.Core.Cache;
 using Dolany.Ai.Core.Common;
 using Dolany.Ai.Core.Model;
-using Dolany.Game.Chess;
-using Dolany.Game.OnlineStore;
+using Dolany.Ai.Core.OnlineStore;
 
 namespace Dolany.Ai.Core.Ai.Game.ChessAgainst
 {
@@ -32,44 +30,44 @@ namespace Dolany.Ai.Core.Ai.Game.ChessAgainst
 
             if (MsgDTO.FromQQ == aimNum)
             {
-                MsgSender.Instance.PushMsg(MsgDTO, "你无法跟自己对决！");
+                MsgSender.PushMsg(MsgDTO, "你无法跟自己对决！");
                 return false;
             }
 
             if (aimNum == Utility.SelfQQNum)
             {
-                MsgSender.Instance.PushMsg(MsgDTO, "鱼唇的人类，你无法挑战ai的威严！");
+                MsgSender.PushMsg(MsgDTO, "鱼唇的人类，你无法挑战ai的威严！");
                 return false;
             }
 
             if (ChessMgr.Instance.IsGroupInPlaying(MsgDTO.FromGroup))
             {
-                MsgSender.Instance.PushMsg(MsgDTO, "本群正在进行一场对决，请稍后再试！");
+                MsgSender.PushMsg(MsgDTO, "本群正在进行一场对决，请稍后再试！");
                 return false;
             }
 
             var osPerson = OSPerson.GetPerson(MsgDTO.FromQQ);
             if (osPerson.CheckBuff("黄砂"))
             {
-                MsgSender.Instance.PushMsg(MsgDTO, "你当前无法进行挑战！(黄砂)");
+                MsgSender.PushMsg(MsgDTO, "你当前无法进行挑战！(黄砂)");
                 return false;
             }
 
             if (!Waiter.Instance.WaitForConfirm(MsgDTO.FromGroup, aimNum, $"{CodeApi.Code_At(MsgDTO.FromQQ)} 正在向你发起一场对决，是否接受？", 10))
             {
-                MsgSender.Instance.PushMsg(MsgDTO, "对决取消！");
+                MsgSender.PushMsg(MsgDTO, "对决取消！");
                 return false;
             }
 
             if (ChessMgr.Instance.IsQQInPlaying(MsgDTO.FromQQ))
             {
-                MsgSender.Instance.PushMsg(MsgDTO, "你正在进行一场对决，请稍后再试！");
+                MsgSender.PushMsg(MsgDTO, "你正在进行一场对决，请稍后再试！");
                 return false;
             }
 
             if (ChessMgr.Instance.IsQQInPlaying(aimNum))
             {
-                MsgSender.Instance.PushMsg(MsgDTO, "你的对手正在进行一场对决，请稍后再试！");
+                MsgSender.PushMsg(MsgDTO, "你的对手正在进行一场对决，请稍后再试！");
                 return false;
             }
 

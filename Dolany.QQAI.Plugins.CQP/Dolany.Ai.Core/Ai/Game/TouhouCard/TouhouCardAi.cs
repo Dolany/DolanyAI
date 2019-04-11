@@ -8,7 +8,6 @@ using Dolany.Database.Sqlite.Model;
 namespace DolanyAI.Ai.Game.TouhouCard
 {
     using System.IO;
-    using System.Linq;
 
     [AI(
         Name = "幻想乡抽卡",
@@ -34,7 +33,7 @@ namespace DolanyAI.Ai.Game.TouhouCard
         public bool RandomCard(MsgInformationEx MsgDTO, object[] param)
         {
             var cardName = RandomCard(MsgDTO.FromQQ);
-            MsgSender.Instance.PushMsg(MsgDTO, CodeApi.Code_Image_Relational(cardName));
+            MsgSender.PushMsg(MsgDTO, CodeApi.Code_Image_Relational(cardName));
             return true;
         }
 

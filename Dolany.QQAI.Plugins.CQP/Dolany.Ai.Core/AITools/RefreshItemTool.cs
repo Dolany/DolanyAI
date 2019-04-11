@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using Dolany.Ai.Common;
-using Dolany.Game.OnlineStore;
+using Dolany.Ai.Core.OnlineStore;
 
 namespace Dolany.Ai.Core.AITools
 {

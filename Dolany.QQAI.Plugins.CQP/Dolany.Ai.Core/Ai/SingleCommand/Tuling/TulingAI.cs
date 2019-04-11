@@ -54,7 +54,7 @@
             var response = RequestMsg(MsgDTO);
             if (string.IsNullOrEmpty(response))
             {
-                MsgSender.Instance.PushMsg(MsgDTO, "...", MsgDTO.Type == MsgType.Group);
+                MsgSender.PushMsg(MsgDTO, "...", MsgDTO.Type == MsgType.Group);
                 return false;
             }
 
@@ -64,7 +64,7 @@
                 Command = "TulingOverride",
                 GroupNum = MsgDTO.FromGroup
             });
-            MsgSender.Instance.PushMsg(MsgDTO, response, MsgDTO.Type == MsgType.Group);
+            MsgSender.PushMsg(MsgDTO, response, MsgDTO.Type == MsgType.Group);
             return true;
         }
 

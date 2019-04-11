@@ -1,7 +1,5 @@
 ﻿namespace Dolany.Ai.Core.Ai.SingleCommand.Voice
 {
-    using System.Linq;
-
     using Base;
 
     using Cache;
@@ -41,8 +39,8 @@
                 return false;
             }
 
-            MsgSender.Instance.PushMsg(MsgDTO, CodeApi.Code_Voice(voice.VoiceUrl));
-            MsgSender.Instance.PushMsg(MsgDTO, voice.Content);
+            MsgSender.PushMsg(MsgDTO, CodeApi.Code_Voice(voice.VoiceUrl));
+            MsgSender.PushMsg(MsgDTO, voice.Content);
             return true;
         }
 

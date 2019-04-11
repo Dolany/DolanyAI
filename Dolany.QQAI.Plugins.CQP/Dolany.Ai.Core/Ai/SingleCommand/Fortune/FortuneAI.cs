@@ -107,7 +107,7 @@ namespace Dolany.Ai.Core.Ai.SingleCommand.Fortune
 
         private static void ReportCallBack(MsgInformationEx MsgDTO, string Report)
         {
-            MsgSender.Instance.PushMsg(MsgDTO, Report);
+            MsgSender.PushMsg(MsgDTO, Report);
         }
 
         private static int GetRandomFortune()
@@ -148,7 +148,7 @@ namespace Dolany.Ai.Core.Ai.SingleCommand.Fortune
 
             msg = builder.ToString();
 
-            MsgSender.Instance.PushMsg(MsgDTO, msg, true);
+            MsgSender.PushMsg(MsgDTO, msg, true);
         }
 
         [EnterCommand(
@@ -191,7 +191,7 @@ namespace Dolany.Ai.Core.Ai.SingleCommand.Fortune
             msg += data.IsPos ? "正位解释：" : "逆位解释：";
             msg += data.Description;
 
-            MsgSender.Instance.PushMsg(MsgDTO, msg, true);
+            MsgSender.PushMsg(MsgDTO, msg, true);
         }
 
         private TarotFortuneDataModel GetRandTarotFortune()
@@ -215,7 +215,7 @@ namespace Dolany.Ai.Core.Ai.SingleCommand.Fortune
             var aimNum = (long)param[0];
 
             Bless(aimNum, "圣光祝福", 80);
-            MsgSender.Instance.PushMsg(MsgDTO, "祝福成功！");
+            MsgSender.PushMsg(MsgDTO, "祝福成功！");
             return true;
         }
 
@@ -233,7 +233,7 @@ namespace Dolany.Ai.Core.Ai.SingleCommand.Fortune
             var aimNum = (long)param[0];
 
             Bless(aimNum, "创世神", 100);
-            MsgSender.Instance.PushMsg(MsgDTO, "祝福成功！");
+            MsgSender.PushMsg(MsgDTO, "祝福成功！");
             return true;
         }
 
@@ -277,7 +277,7 @@ namespace Dolany.Ai.Core.Ai.SingleCommand.Fortune
             var aimNum = (long)param[0];
 
             Bless(aimNum, "暗夜诅咒", -GetRandomFortune());
-            MsgSender.Instance.PushMsg(MsgDTO, "诅咒成功！");
+            MsgSender.PushMsg(MsgDTO, "诅咒成功！");
             return true;
         }
     }

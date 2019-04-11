@@ -64,7 +64,7 @@
             groupInfo.IsPowerOn = false;
             groupInfo.Update();
 
-            MsgSender.Instance.PushMsg(MsgDTO, "关机成功！");
+            MsgSender.PushMsg(MsgDTO, "关机成功！");
             return true;
         }
 
@@ -87,7 +87,7 @@
             groupInfo.IsPowerOn = true;
             groupInfo.Update();
 
-            MsgSender.Instance.PushMsg(MsgDTO, "开机成功！");
+            MsgSender.PushMsg(MsgDTO, "开机成功！");
             return true;
         }
 
@@ -109,7 +109,7 @@
 共处理{AIAnalyzer.GetCommandCount()}条指令
 遇到{AIAnalyzer.GetErrorCount()}个错误{PowerState(MsgDTO)}";
 
-            MsgSender.Instance.PushMsg(MsgDTO, msg);
+            MsgSender.PushMsg(MsgDTO, msg);
             return true;
         }
 
@@ -143,7 +143,7 @@
                 return false;
             }
 
-            MsgSender.Instance.PushMsg(MsgDTO, exMsg);
+            MsgSender.PushMsg(MsgDTO, exMsg);
             return true;
         }
 
@@ -163,7 +163,7 @@
             {
                 case "Group":
                     var groupList = AIAnalyzer.AnalyzeGroup();
-                    MsgSender.Instance.PushMsg(MsgDTO, string.Join("\r", groupList.Select(g =>
+                    MsgSender.PushMsg(MsgDTO, string.Join("\r", groupList.Select(g =>
                     {
                         var groupNum = g.GroupNum == 0 ? "私聊" : AIMgr.Instance.AllGroupsDic[g.GroupNum];
                         return $"{groupNum}:{g.CommandCount}";
@@ -171,15 +171,15 @@
                     return true;
                 case "Ai":
                     var aiList = AIAnalyzer.AnalyzeAI();
-                    MsgSender.Instance.PushMsg(MsgDTO, string.Join("\r", aiList.Select(a => $"{a.AIName}:{a.CommandCount}")));
+                    MsgSender.PushMsg(MsgDTO, string.Join("\r", aiList.Select(a => $"{a.AIName}:{a.CommandCount}")));
                     return true;
                 case "Time":
                     var timeList = AIAnalyzer.AnalyzeTime();
-                    MsgSender.Instance.PushMsg(MsgDTO, string.Join("\r", timeList.Select(t => $"{t.Hour}:{t.CommandCount}")));
+                    MsgSender.PushMsg(MsgDTO, string.Join("\r", timeList.Select(t => $"{t.Hour}:{t.CommandCount}")));
                     return true;
                 case "Command":
                     var commandList = AIAnalyzer.AnalyzeCommand();
-                    MsgSender.Instance.PushMsg(MsgDTO, string.Join("\r", commandList.Select(c => $"{c.Command}:{c.CommandCount}")));
+                    MsgSender.PushMsg(MsgDTO, string.Join("\r", commandList.Select(c => $"{c.Command}:{c.CommandCount}")));
                     return true;
             }
 

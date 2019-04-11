@@ -1,9 +1,9 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
 using Dolany.Ai.Common;
-using Dolany.Game.Advanture.Cave;
+using Dolany.Ai.Core.Ai.Game.Advanture.Cave;
 
-namespace Dolany.Game.Advanture
+namespace Dolany.Ai.Core.Ai.Game.Advanture
 {
     public class CaveDataModel
     {

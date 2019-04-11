@@ -58,7 +58,7 @@ namespace Dolany.Ai.Core.Ai.Record
                 return false;
             }
 
-            MsgSender.Instance.PushMsg(MsgDTO, $"{CodeApi.Code_At(MsgDTO.FromQQ)} {hello.Content}");
+            MsgSender.PushMsg(MsgDTO, $"{CodeApi.Code_At(MsgDTO.FromQQ)} {hello.Content}");
             AIAnalyzer.AddCommandCount(new CommandAnalyzeDTO()
             {
                 Ai = Attr.Name,
@@ -110,7 +110,7 @@ namespace Dolany.Ai.Core.Ai.Record
                 MongoService<Hello>.Update(query);
             }
 
-            MsgSender.Instance.PushMsg(MsgDTO, "招呼内容设定成功");
+            MsgSender.PushMsg(MsgDTO, "招呼内容设定成功");
             return true;
         }
 
@@ -127,11 +127,11 @@ namespace Dolany.Ai.Core.Ai.Record
             var query = this.HelloList.FirstOrDefault(h => h.GroupNum == MsgDTO.FromGroup && h.QQNum == MsgDTO.FromQQ);
             if (query == null)
             {
-                MsgSender.Instance.PushMsg(MsgDTO, "你还没有设定过招呼内容哦~");
+                MsgSender.PushMsg(MsgDTO, "你还没有设定过招呼内容哦~");
                 return false;
             }
 
-            MsgSender.Instance.PushMsg(MsgDTO, $"{CodeApi.Code_At(MsgDTO.FromQQ)} {query.Content}");
+            MsgSender.PushMsg(MsgDTO, $"{CodeApi.Code_At(MsgDTO.FromQQ)} {query.Content}");
             return true;
         }
 
@@ -148,14 +148,14 @@ namespace Dolany.Ai.Core.Ai.Record
             var query = HelloList.FirstOrDefault(h => h.GroupNum == MsgDTO.FromGroup && h.QQNum == MsgDTO.FromQQ);
             if (query == null)
             {
-                MsgSender.Instance.PushMsg(MsgDTO, "你还没有设定过招呼内容哦~");
+                MsgSender.PushMsg(MsgDTO, "你还没有设定过招呼内容哦~");
                 return false;
             }
 
             MongoService<Hello>.Delete(query);
             this.HelloList.Remove(query);
 
-            MsgSender.Instance.PushMsg(MsgDTO, "删除成功！");
+            MsgSender.PushMsg(MsgDTO, "删除成功！");
             return true;
         }
     }

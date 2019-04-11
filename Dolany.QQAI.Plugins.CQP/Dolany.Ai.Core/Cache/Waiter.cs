@@ -83,7 +83,7 @@ namespace Dolany.Ai.Core.Cache
                 Units.Add(unit);
             }
 
-            MsgSender.Instance.PushMsg(MsgDTO, msg, isNeedAt);
+            MsgSender.PushMsg(MsgDTO, msg, isNeedAt);
             signal.WaitOne(timeout * 1000);
 
             lock (_lockObj)
@@ -104,7 +104,7 @@ namespace Dolany.Ai.Core.Cache
                 Units.Add(unit);
             }
 
-            MsgSender.Instance.PushMsg(command);
+            MsgSender.PushMsg(command);
             signal.WaitOne(timeout * 1000);
 
             lock (_lockObj)
@@ -118,7 +118,7 @@ namespace Dolany.Ai.Core.Cache
 
         public IEnumerable<MsgInformation> WaitForInformations(MsgInformationEx MsgDTO, string msg, IEnumerable<Predicate<MsgInformation>> judgeFuncs, int timeout = 5)
         {
-            MsgSender.Instance.PushMsg(MsgDTO, msg);
+            MsgSender.PushMsg(MsgDTO, msg);
 
             var tasks = judgeFuncs.Select(func => Task.Factory.StartNew(() =>
             {
@@ -154,7 +154,7 @@ namespace Dolany.Ai.Core.Cache
                 Units.Add(unit);
             }
 
-            MsgSender.Instance.PushMsg(MsgDTO, msg);
+            MsgSender.PushMsg(MsgDTO, msg);
             signal.WaitOne(timeout * 1000);
 
             lock (_lockObj)

@@ -164,7 +164,7 @@
 
             sb += $"={sum}";
 
-            MsgSender.Instance.PushMsg(MsgDTO, sb, true);
+            MsgSender.PushMsg(MsgDTO, sb, true);
         }
     }
 

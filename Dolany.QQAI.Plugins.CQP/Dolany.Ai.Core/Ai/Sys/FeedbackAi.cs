@@ -31,14 +31,14 @@ namespace Dolany.Ai.Core.Ai.Sys
             var content = param[0] as string;
             if (string.IsNullOrEmpty(content))
             {
-                MsgSender.Instance.PushMsg(MsgDTO, "反馈内容不能为空！");
+                MsgSender.PushMsg(MsgDTO, "反馈内容不能为空！");
                 return false;
             }
 
             var feedback = new FeedbackRecord {GroupNum = MsgDTO.FromGroup, QQNum = MsgDTO.FromQQ, Content = content, UpdateTime = DateTime.Now};
             MongoService<FeedbackRecord>.Insert(feedback);
 
-            MsgSender.Instance.PushMsg(MsgDTO, "感谢你的反馈，我会变得更强！");
+            MsgSender.PushMsg(MsgDTO, "感谢你的反馈，我会变得更强！");
             return true;
         }
 
@@ -60,11 +60,11 @@ namespace Dolany.Ai.Core.Ai.Sys
             var records = MongoService<FeedbackRecord>.Get(p => p.UpdateTime >= startTime && p.UpdateTime < endTime);
             if (records.IsNullOrEmpty())
             {
-                MsgSender.Instance.PushMsg(MsgDTO, "没有任何反馈内容！");
+                MsgSender.PushMsg(MsgDTO, "没有任何反馈内容！");
                 return false;
             }
 
-            MsgSender.Instance.PushMsg(MsgDTO, string.Join("    ", records.Select(p => p.Content)));
+            MsgSender.PushMsg(MsgDTO, string.Join("    ", records.Select(p => p.Content)));
             return true;
         }
     }
