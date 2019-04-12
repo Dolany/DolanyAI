@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-
-namespace Dolany.Database.Sqlite.Model
+﻿namespace Dolany.Database.Sqlite.Model
 {
     public class QuestionnaireLimitCache
     {

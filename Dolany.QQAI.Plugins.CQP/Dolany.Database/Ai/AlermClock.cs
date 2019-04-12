@@ -2,7 +2,7 @@
 
 namespace Dolany.Database.Ai
 {
-    public partial class AlermClock : BaseEntity
+    public class AlermClock : BaseEntity
     {
         public long GroupNumber { get; set; }
         public long Creator { get; set; }

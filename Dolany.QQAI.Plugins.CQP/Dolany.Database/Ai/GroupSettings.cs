@@ -13,7 +13,7 @@ namespace Dolany.Database.Ai
 
         public bool IsPowerOn { get; set; } = true;
 
-        public bool ForcedShutDown { get; set; } = false;
+        public bool ForcedShutDown { get; set; }
 
         public IList<string> EnabledFunctions { get; set; } = new List<string>();
 

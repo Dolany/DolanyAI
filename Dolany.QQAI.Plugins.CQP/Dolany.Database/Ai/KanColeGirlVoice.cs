@@ -1,10 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-
-namespace Dolany.Database.Ai
+﻿namespace Dolany.Database.Ai
 {
-    public partial class KanColeGirlVoice : BaseEntity
+    public class KanColeGirlVoice : BaseEntity
     {
         public string Name { get; set; }
         public string VoiceUrl { get; set; }

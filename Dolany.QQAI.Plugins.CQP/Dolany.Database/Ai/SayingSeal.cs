@@ -1,10 +1,8 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Text;
 
 namespace Dolany.Database.Ai
 {
-    public partial class SayingSeal : BaseEntity
+    public class SayingSeal : BaseEntity
     {
         public long GroupNum { get; set; }
         public long SealMember { get; set; }

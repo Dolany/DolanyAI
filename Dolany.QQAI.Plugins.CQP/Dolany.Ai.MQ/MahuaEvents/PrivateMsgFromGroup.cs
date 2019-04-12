@@ -10,12 +10,12 @@ namespace Dolany.Ai.MQ.MahuaEvents
     public class PrivateMsgFromGroup
         : IPrivateMessageFromGroupReceivedMahuaEvent
     {
-        private readonly IMahuaApi _mahuaApi;
+        public IMahuaApi MahuaApi { get; }
 
         public PrivateMsgFromGroup(
             IMahuaApi mahuaApi)
         {
-            _mahuaApi = mahuaApi;
+            MahuaApi = mahuaApi;
         }
 
         public void ProcessGroupMessage(PrivateMessageFromGroupReceivedContext context)

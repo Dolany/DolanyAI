@@ -19,8 +19,6 @@ namespace Dolany.Ai.MQ
 
         private readonly IModel channel;
 
-        private readonly object Lock = new object();
-
         private readonly string routingKey = UtTools.GetConfig("InformationQueueName");
 
         private RabbitMQService()
@@ -37,17 +35,14 @@ namespace Dolany.Ai.MQ
 
         public void Send(MsgInformation information)
         {
-            lock (Lock)
+            try
             {
-                try
-                {
-                    var body = Encoding.UTF8.GetBytes(JsonConvert.SerializeObject(information));
-                    channel.BasicPublish(string.Empty, routingKey, null, body); //开始传递
-                }
-                catch (Exception e)
-                {
-                    MahuaModule.RuntimeLogger.Log(e);
-                }
+                var body = Encoding.UTF8.GetBytes(JsonConvert.SerializeObject(information));
+                channel.BasicPublish(string.Empty, routingKey, null, body); //开始传递
+            }
+            catch (Exception e)
+            {
+                MahuaModule.RuntimeLogger.Log(e);
             }
         }
 

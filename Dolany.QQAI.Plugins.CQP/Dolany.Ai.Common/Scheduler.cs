@@ -81,7 +81,7 @@
             {
                 job.CallBack(sender, e);
             }
-            catch (Exception exception)
+            catch (Exception)
             {
                 //RuntimeLogger.Log(exception);
             }

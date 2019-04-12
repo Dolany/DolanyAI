@@ -31,7 +31,7 @@ namespace Dolany.Ai.MQ
         /// <summary>
         /// 基本模块
         /// </summary>
-        private class PluginModule : Module
+        private sealed class PluginModule : Module
         {
             protected override void Load(ContainerBuilder builder)
             {
@@ -48,7 +48,7 @@ namespace Dolany.Ai.MQ
         /// <summary>
         /// <see cref="IMahuaEvent"/> 事件处理模块
         /// </summary>
-        private class MahuaEventsModule : Module
+        private sealed class MahuaEventsModule : Module
         {
             protected override void Load(ContainerBuilder builder)
             {
@@ -61,7 +61,7 @@ namespace Dolany.Ai.MQ
             }
         }
 
-        private class DolanyModule : Module
+        private sealed class DolanyModule : Module
         {
             protected override void Load(ContainerBuilder builder)
             {

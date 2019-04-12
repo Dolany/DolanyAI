@@ -1,10 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace Dolany.Ai.Core.Model
+﻿namespace Dolany.Ai.Core.Model
 {
     public class HourMinuteModel
     {

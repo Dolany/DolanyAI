@@ -1,7 +1,5 @@
 ﻿namespace Dolany.Ai.Core.API.ViewModel
 {
-    using Newtonsoft.Json;
-
     public class GroupMemberInfoViewModel
     {
         public string cd { get; set; }

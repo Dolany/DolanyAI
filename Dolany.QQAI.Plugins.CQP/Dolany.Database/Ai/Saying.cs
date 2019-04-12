@@ -1,10 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-
-namespace Dolany.Database.Ai
+﻿namespace Dolany.Database.Ai
 {
-    public partial class Saying : BaseEntity
+    public class Saying : BaseEntity
     {
         public string Cartoon { get; set; }
         public string Charactor { get; set; }

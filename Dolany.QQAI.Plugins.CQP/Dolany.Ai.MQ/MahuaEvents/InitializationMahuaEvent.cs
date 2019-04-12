@@ -11,12 +11,12 @@
     public class InitializationMahuaEvent
         : IInitializationMahuaEvent
     {
-        private readonly IMahuaApi _mahuaApi;
+        public IMahuaApi MahuaApi { get; }
 
         public InitializationMahuaEvent(
             IMahuaApi mahuaApi)
         {
-            _mahuaApi = mahuaApi;
+            MahuaApi = mahuaApi;
         }
 
         public void Initialized(InitializedContext context)

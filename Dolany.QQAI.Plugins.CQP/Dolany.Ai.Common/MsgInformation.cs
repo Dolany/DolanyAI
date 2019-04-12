@@ -1,6 +1,6 @@
 ﻿namespace Dolany.Ai.Common
 {
-    public partial class MsgInformation
+    public class MsgInformation
     {
         public string Id { get; set; }
         public string Msg { get; set; }

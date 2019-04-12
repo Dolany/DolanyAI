@@ -155,18 +155,18 @@
             var playerName = PlayerName;
             foreach (var detail in Details)
             {
-                var query = detail.PlayersInfo.Where(p => p.PlayerName == playerName);
-                if (query.IsNullOrEmpty())
+                var query = detail.PlayersInfo.FirstOrDefault(p => p.PlayerName == playerName);
+                if (query == null)
                 {
                     continue;
                 }
 
-                var g = query.FirstOrDefault()?.MoneyGen;
+                var g = query.MoneyGen;
                 if (g < 0)
                 {
                     continue;
                 }
-                gold += g ?? 0;
+                gold += g;
                 validMatch++;
             }
 
@@ -197,18 +197,13 @@
                     continue;
                 }
 
-                var query = detail.PlayersInfo.Where(p => p.PlayerName == PlayerName);
-                if (query.IsNullOrEmpty())
+                var query = detail.PlayersInfo.FirstOrDefault(p => p.PlayerName == PlayerName);
+                if (query == null)
                 {
                     continue;
                 }
 
-                var first = query.FirstOrDefault();
-
-                if (first != null)
-                {
-                    grade += first.Grade;
-                }
+                grade += query.Grade;
             }
 
             return (grade / Details.Count).ToString();

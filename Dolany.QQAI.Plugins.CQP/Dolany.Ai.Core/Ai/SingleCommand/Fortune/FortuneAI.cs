@@ -8,9 +8,6 @@ namespace Dolany.Ai.Core.Ai.SingleCommand.Fortune
     using System.Linq;
     using System.Text;
     using System.Threading.Tasks;
-
-    using API;
-
     using Base;
 
     using Cache;
@@ -196,8 +193,6 @@ namespace Dolany.Ai.Core.Ai.SingleCommand.Fortune
 
         private TarotFortuneDataModel GetRandTarotFortune()
         {
-            var count = DataList.Count;
-
             return DataList.RandElement();
         }
 

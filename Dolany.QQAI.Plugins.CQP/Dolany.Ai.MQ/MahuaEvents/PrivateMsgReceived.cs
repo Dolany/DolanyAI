@@ -11,12 +11,12 @@
     public class PrivateMsgReceived
         : IPrivateMessageReceivedMahuaEvent
     {
-        private readonly IMahuaApi _mahuaApi;
+        public IMahuaApi MahuaApi { get; }
 
         public PrivateMsgReceived(
             IMahuaApi mahuaApi)
         {
-            _mahuaApi = mahuaApi;
+            MahuaApi = mahuaApi;
         }
 
         public void ProcessPrivateMessage(PrivateMessageReceivedContext context)

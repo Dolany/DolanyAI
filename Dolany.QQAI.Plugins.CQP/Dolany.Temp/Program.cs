@@ -1,10 +1,6 @@
 ﻿using System;
-using System.Linq;
-using Dolany.Ai.Common;
 using Dolany.Database;
 using Dolany.Database.Ai;
-using Dolany.Database.Sqlite;
-using Newtonsoft.Json;
 
 namespace Dolany.Temp
 {

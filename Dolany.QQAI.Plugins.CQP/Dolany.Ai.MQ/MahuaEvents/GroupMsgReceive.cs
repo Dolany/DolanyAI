@@ -13,12 +13,12 @@ namespace Dolany.Ai.MQ.MahuaEvents
     public class GroupMsgReceive
         : IGroupMessageReceivedMahuaEvent
     {
-        private readonly IMahuaApi _mahuaApi;
+        public IMahuaApi MahuaApi { get; }
 
         public GroupMsgReceive(
             IMahuaApi mahuaApi)
         {
-            _mahuaApi = mahuaApi;
+            MahuaApi = mahuaApi;
         }
 
         public void ProcessGroupMessage(GroupMessageReceivedContext context)

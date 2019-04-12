@@ -17,7 +17,7 @@
 
         private readonly IDatabase database;
 
-        private class CacheObject<T>
+        private sealed class CacheObject<T>
         {
             public int ExpireTime { get; set; }
             public bool ForceOutofDate { get; set; }

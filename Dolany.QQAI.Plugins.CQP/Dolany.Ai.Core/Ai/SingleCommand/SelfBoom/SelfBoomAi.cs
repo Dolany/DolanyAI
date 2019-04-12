@@ -4,8 +4,6 @@ using Dolany.Ai.Common;
 namespace Dolany.Ai.Core.Ai.SingleCommand.SelfBoom
 {
     using System.Threading;
-
-    using API;
     using Base;
     using Cache;
     using Model;
