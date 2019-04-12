@@ -124,21 +124,6 @@
             }
         }
 
-        public static string ParsePicName(string msg)
-        {
-            var picIdx = msg.IndexOf("[QQ:pic=", StringComparison.Ordinal);
-            if (picIdx < 0)
-            {
-                return string.Empty;
-            }
-
-            var startIdx = picIdx + "[QQ:pic=".Length;
-            var endIdx = msg.IndexOf("]", startIdx, StringComparison.Ordinal);
-            var picName = msg.Substring(startIdx, endIdx - startIdx);
-
-            return picName;
-        }
-
         public static string ParsePicGuid(string msg)
         {
             if (!msg.Contains("QQ:pic="))

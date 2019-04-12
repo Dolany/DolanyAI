@@ -1,4 +1,5 @@
 ﻿using Dolany.Ai.Common;
+using Dolany.Ai.Core.Cache;
 
 namespace Dolany.Ai.Core.Common
 {
@@ -14,9 +15,12 @@ namespace Dolany.Ai.Core.Common
 
         public static void Log(Exception ex)
         {
-            AIAnalyzer.AddError(ex.Message + "\r\n" + ex.StackTrace);
-            AIMgr.Instance.MessagePublish(ex.Message + "\r\n" + ex.StackTrace);
+            var error = ex.Message + "\r\n" + ex.StackTrace;
+            AIAnalyzer.AddError(error);
+            AIMgr.Instance.MessagePublish(error);
             RuntimeLogger.Log(ex);
+
+            MsgSender.PushMsg(0, Utility.DeveloperNumber, error);
         }
     }
 }
