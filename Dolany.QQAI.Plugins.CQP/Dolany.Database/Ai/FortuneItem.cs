@@ -1,6 +1,6 @@
 ﻿namespace Dolany.Database.Ai
 {
-    public class FortuneItem : BaseEntity
+    public class FortuneItem : DbBaseEntity
     {
         public string Name { get; set; }
         public string Description { get; set; }

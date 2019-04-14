@@ -4,7 +4,7 @@ using Dolany.Ai.Common;
 
 namespace Dolany.Database.Ai
 {
-    public class DriftItemRecord : BaseEntity
+    public class DriftItemRecord : DbBaseEntity
     {
         public long QQNum { get; set; }
 

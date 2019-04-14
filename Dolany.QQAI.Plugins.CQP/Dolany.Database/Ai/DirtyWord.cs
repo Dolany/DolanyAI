@@ -1,6 +1,6 @@
 ﻿namespace Dolany.Database.Ai
 {
-    public class DirtyWord : BaseEntity
+    public class DirtyWord : DbBaseEntity
     {
         public string Content { get; set; }
     }

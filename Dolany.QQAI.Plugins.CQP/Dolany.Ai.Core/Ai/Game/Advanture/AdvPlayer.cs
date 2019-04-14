@@ -3,7 +3,7 @@ using Dolany.Database;
 
 namespace Dolany.Ai.Core.Ai.Game.Advanture
 {
-    public class AdvPlayer : BaseEntity
+    public class AdvPlayer : DbBaseEntity
     {
         public long QQNum { get; set; }
 

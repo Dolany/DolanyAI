@@ -5,7 +5,7 @@ using MongoDB.Bson.Serialization.Attributes;
 namespace Dolany.Database.Ai
 {
     [BsonIgnoreExtraElements]
-    public class GroupSettings : BaseEntity
+    public class GroupSettings : DbBaseEntity
     {
         public long GroupNum { get; set; }
 

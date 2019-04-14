@@ -2,7 +2,7 @@
 
 namespace Dolany.Database.Ai
 {
-    public class Hello : BaseEntity
+    public class Hello : DbBaseEntity
     {
         public long GroupNum { get; set; }
         public long QQNum { get; set; }

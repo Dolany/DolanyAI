@@ -2,7 +2,7 @@
 
 namespace Dolany.Database.Ai
 {
-    public class CharactorSetting : BaseEntity
+    public class CharactorSetting : DbBaseEntity
     {
         public long GroupNumber { get; set; }
         public long Creator { get; set; }

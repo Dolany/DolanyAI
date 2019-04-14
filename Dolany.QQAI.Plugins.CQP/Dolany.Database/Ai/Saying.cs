@@ -1,6 +1,6 @@
 ﻿namespace Dolany.Database.Ai
 {
-    public class Saying : BaseEntity
+    public class Saying : DbBaseEntity
     {
         public string Cartoon { get; set; }
         public string Charactor { get; set; }

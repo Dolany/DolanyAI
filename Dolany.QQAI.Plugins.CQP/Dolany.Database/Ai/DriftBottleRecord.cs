@@ -2,7 +2,7 @@
 {
     using System;
 
-    public class DriftBottleRecord : BaseEntity
+    public class DriftBottleRecord : DbBaseEntity
     {
         public long FromGroup { get; set; }
 

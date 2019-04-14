@@ -9,7 +9,7 @@
     [Serializable]
     [BsonIgnoreExtraElements]
     [JsonObject(MemberSerialization.OptIn)]
-    public abstract class BaseEntity
+    public abstract class DbBaseEntity
     {
         public string Id { get; set; } = Guid.NewGuid().ToString();
     }

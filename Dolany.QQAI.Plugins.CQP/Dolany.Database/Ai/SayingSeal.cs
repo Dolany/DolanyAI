@@ -2,7 +2,7 @@
 
 namespace Dolany.Database.Ai
 {
-    public class SayingSeal : BaseEntity
+    public class SayingSeal : DbBaseEntity
     {
         public long GroupNum { get; set; }
         public long SealMember { get; set; }

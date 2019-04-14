@@ -2,7 +2,7 @@
 
 namespace Dolany.Database.Ai
 {
-    public class BlackList : BaseEntity
+    public class BlackList : DbBaseEntity
     {
         public DateTime UpdateTime { get; set; }
         public long QQNum { get; set; }

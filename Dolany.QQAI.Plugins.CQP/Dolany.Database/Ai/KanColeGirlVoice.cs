@@ -1,6 +1,6 @@
 ﻿namespace Dolany.Database.Ai
 {
-    public class KanColeGirlVoice : BaseEntity
+    public class KanColeGirlVoice : DbBaseEntity
     {
         public string Name { get; set; }
         public string VoiceUrl { get; set; }

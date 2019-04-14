@@ -8,6 +8,10 @@ namespace Dolany.Ai.Core.Cache
     {
         public static void Cache(string picUrl)
         {
+            if (picUrl.Contains("/0/0-0-/0?"))
+            {
+                return;
+            }
             SFixedSetService.Cache("PicCache", picUrl);
         }
 

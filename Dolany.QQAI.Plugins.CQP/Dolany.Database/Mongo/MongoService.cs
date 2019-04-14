@@ -7,7 +7,7 @@
 
     using MongoDB.Driver;
 
-    public class MongoService<T> where T : BaseEntity
+    public class MongoService<T> where T : DbBaseEntity
     {
         private static MongoContext Repo => MongoContext.Instance;
 

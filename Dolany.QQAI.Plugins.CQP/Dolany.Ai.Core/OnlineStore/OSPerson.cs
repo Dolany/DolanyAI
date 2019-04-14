@@ -6,7 +6,7 @@ using Dolany.Database;
 
 namespace Dolany.Ai.Core.OnlineStore
 {
-    public partial class OSPerson : BaseEntity
+    public partial class OSPerson : DbBaseEntity
     {
         public long QQNum { get; set; }
 
