@@ -20,22 +20,8 @@
             }
 
             var setting = GroupSettingMgr.Instance[GroupNum];
-            setting.AuthInfo = new GroupAuthInfoModel();
+            setting.AuthInfo = new GroupAuthInfoModel {Owner = infos.owner, Mgrs = infos.adm.ToList()};
 
-            foreach (var (key, _) in infos.members)
-            {
-                var qqnum = long.Parse(key);
-                if (infos.owner == qqnum)
-                {
-                    setting.AuthInfo.Owner = qqnum;
-                    continue;
-                }
-
-                if (infos.adm != null && infos.adm.Contains(qqnum))
-                {
-                    setting.AuthInfo.Mgrs.Add(qqnum);
-                }
-            }
             setting.Update();
             GroupSettingMgr.Instance.Refresh();
             Logger.Log($"Refresh Group Info: {GroupNum} completed");
