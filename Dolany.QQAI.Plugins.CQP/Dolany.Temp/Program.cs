@@ -1,4 +1,6 @@
 ﻿using System;
+using Dolany.Ai.Core.Ai.SingleCommand.Fortune;
+using Dolany.Ai.Core.Model;
 using Dolany.Database;
 using Dolany.Database.Ai;
 
@@ -8,14 +10,8 @@ namespace Dolany.Temp
     {
         static void Main(string[] args)
         {
-            var records = MongoService<DriftItemRecord>.Get(p => p.HonorList != null && p.HonorList.Contains("镀金骑士(201903限定)"));
-            foreach (var record in records)
-            {
-                record.HonorList.Remove("镀金骑士(201903限定)");
-                record.HonorList.Add("镀金骑士");
-
-                record.Update();
-            }
+            var requestor = new FortuneRequestor(new MsgInformationEx() {Msg = "白羊"}, ((msg, s) => { }));
+            requestor.Work();
 
             Console.WriteLine("Completed");
             Console.ReadKey();
