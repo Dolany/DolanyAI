@@ -13,7 +13,7 @@ namespace Dolany.Ai.Core.Common
 
         private static readonly List<CommandAnalyzeDTO> Commands = new List<CommandAnalyzeDTO>();
 
-        private static readonly List<string> ErrorList = new List<string>();
+        private static readonly List<ErrorModel> ErrorList = new List<ErrorModel>();
 
         public static void AddCommandCount(CommandAnalyzeDTO model)
         {
@@ -92,7 +92,17 @@ namespace Dolany.Ai.Core.Common
         {
             lock (Lock)
             {
-                ErrorList.Add(msg);
+                var model = ErrorList.FirstOrDefault(p => p.Msg == msg);
+                if (model == null)
+                {
+                    ErrorList.Add(new ErrorModel(){Msg = msg, Time = DateTime.Now, Count = 1});
+                }
+                else
+                {
+                    ErrorList.Remove(model);
+                    model.Count++;
+                    ErrorList.Add(model);
+                }
             }
         }
 
@@ -105,9 +115,18 @@ namespace Dolany.Ai.Core.Common
                     return string.Empty;
                 }
 
-                return ErrorList[index];
+                return $"{ErrorList[index].Time}\r{ErrorList[index].Msg}\r{ErrorList[index].Count}";
             }
         }
+    }
+
+    public class ErrorModel
+    {
+        public DateTime Time { get; set; }
+
+        public string Msg { get; set; }
+
+        public int Count { get; set; }
     }
 
     public class CommandAnalyzeDTO

@@ -15,7 +15,7 @@ namespace Dolany.Ai.Core.Cache
     {
         private readonly object _lockObj = new object();
 
-        private readonly List<WaiterUnit> Units = new List<WaiterUnit>();
+        private readonly Dictionary<long, List<WaiterUnit>> UnitsDic = new Dictionary<long, List<WaiterUnit>>();
 
         public static Waiter Instance { get; } = new Waiter();
 
@@ -40,10 +40,13 @@ namespace Dolany.Ai.Core.Cache
             {
                 case AiInformation.Message:
                 case AiInformation.CommandBack:
-                    WaiterUnit waitUnit;
+                    WaiterUnit waitUnit = null;
                     lock (_lockObj)
                     {
-                        waitUnit = Units.FirstOrDefault(u => u.JudgePredicate(info));
+                        if (UnitsDic.ContainsKey(info.FromGroup) && !UnitsDic[info.FromGroup].IsNullOrEmpty())
+                        {
+                            waitUnit = UnitsDic[info.FromGroup].FirstOrDefault(u => u.JudgePredicate(info));
+                        }
                     }
 
                     if (waitUnit == null)
@@ -80,7 +83,14 @@ namespace Dolany.Ai.Core.Cache
             var unit = new WaiterUnit {JudgePredicate = judgeFunc, Signal = signal};
             lock (_lockObj)
             {
-                Units.Add(unit);
+                if (UnitsDic.ContainsKey(MsgDTO.FromGroup))
+                {
+                    UnitsDic[MsgDTO.FromGroup].Add(unit);
+                }
+                else
+                {
+                    UnitsDic.Add(MsgDTO.FromGroup, new List<WaiterUnit>() {unit});
+                }
             }
 
             MsgSender.PushMsg(MsgDTO, msg, isNeedAt);
@@ -88,8 +98,8 @@ namespace Dolany.Ai.Core.Cache
 
             lock (_lockObj)
             {
-                unit = Units.FirstOrDefault(u => u.Id == unit.Id);
-                Units.Remove(unit);
+                unit = UnitsDic[MsgDTO.FromGroup].FirstOrDefault(u => u.Id == unit.Id);
+                UnitsDic[MsgDTO.FromGroup].Remove(unit);
             }
 
             return unit?.ResultInfos.FirstOrDefault();
@@ -101,7 +111,14 @@ namespace Dolany.Ai.Core.Cache
             var unit = new WaiterUnit {JudgePredicate = judgeFunc, Signal = signal};
             lock (_lockObj)
             {
-                Units.Add(unit);
+                if (UnitsDic.ContainsKey(command.ToGroup))
+                {
+                    UnitsDic[command.ToGroup].Add(unit);
+                }
+                else
+                {
+                    UnitsDic.Add(command.ToGroup, new List<WaiterUnit>() {unit});
+                }
             }
 
             MsgSender.PushMsg(command);
@@ -109,8 +126,8 @@ namespace Dolany.Ai.Core.Cache
 
             lock (_lockObj)
             {
-                unit = Units.FirstOrDefault(u => u.Id == unit.Id);
-                Units.Remove(unit);
+                unit = UnitsDic[command.ToGroup].FirstOrDefault(u => u.Id == unit.Id);
+                UnitsDic[command.ToGroup].Remove(unit);
             }
 
             return unit?.ResultInfos.FirstOrDefault();
@@ -126,20 +143,26 @@ namespace Dolany.Ai.Core.Cache
                 var unit = new WaiterUnit {JudgePredicate = func, Signal = signal};
                 lock (_lockObj)
                 {
-                    Units.Add(unit);
+                    if (UnitsDic.ContainsKey(MsgDTO.FromGroup))
+                    {
+                        UnitsDic[MsgDTO.FromGroup].Add(unit);
+                    }
+                    else
+                    {
+                        UnitsDic.Add(MsgDTO.FromGroup, new List<WaiterUnit>() {unit});
+                    }
                 }
 
                 signal.WaitOne(timeout * 1000);
 
                 lock (_lockObj)
                 {
-                    unit = Units.FirstOrDefault(u => u.Id == unit.Id);
-                    Units.Remove(unit);
+                    unit = UnitsDic[MsgDTO.FromGroup].FirstOrDefault(u => u.Id == unit.Id);
+                    UnitsDic[MsgDTO.FromGroup].Remove(unit);
                 }
 
                 return unit?.ResultInfos.FirstOrDefault();
             })).ToArray();
-            // ReSharper disable once CoVariantArrayConversion
             Task.WaitAll(tasks, timeout * 1000);
 
             return tasks.Select(task => task.Result);
@@ -151,7 +174,14 @@ namespace Dolany.Ai.Core.Cache
             var unit = new WaiterUnit { JudgePredicate = judgeFunc, Signal = signal, Type = WaiterUnitType.Multi};
             lock (_lockObj)
             {
-                Units.Add(unit);
+                if (UnitsDic.ContainsKey(MsgDTO.FromGroup))
+                {
+                    UnitsDic[MsgDTO.FromGroup].Add(unit);
+                }
+                else
+                {
+                    UnitsDic.Add(MsgDTO.FromGroup, new List<WaiterUnit>() {unit});
+                }
             }
 
             MsgSender.PushMsg(MsgDTO, msg);
@@ -159,8 +189,8 @@ namespace Dolany.Ai.Core.Cache
 
             lock (_lockObj)
             {
-                unit = Units.FirstOrDefault(u => u.Id == unit.Id);
-                Units.Remove(unit);
+                unit = UnitsDic[MsgDTO.FromGroup].FirstOrDefault(u => u.Id == unit.Id);
+                UnitsDic[MsgDTO.FromGroup].Remove(unit);
             }
 
             return unit?.ResultInfos;
