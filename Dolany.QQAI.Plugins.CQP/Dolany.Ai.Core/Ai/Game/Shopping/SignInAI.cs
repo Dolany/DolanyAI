@@ -110,6 +110,13 @@ namespace Dolany.Ai.Core.Ai.Game.Shopping
             OSPerson.GoldIncome(MsgDTO.FromQQ, goldsGen);
 
             var msg = $"签到成功！你已连续签到 {signCache.SuccessiveSignDays}天，获得 {goldsGen}金币！";
+            if (signCache.SuccessiveSignDays % 10 == 0)
+            {
+                key = $"LimitBonus-{MsgDTO.FromQQ}";
+                SCacheService.Cache(key, "nothing");
+
+                msg += "\r恭喜你获得一次抽奖机会，快去试试吧（当日有效！）";
+            }
             MsgSender.PushMsg(MsgDTO, msg, true);
 
             return signCache;
