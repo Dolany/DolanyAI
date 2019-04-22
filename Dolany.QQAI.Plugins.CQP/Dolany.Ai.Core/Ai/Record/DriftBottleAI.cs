@@ -214,7 +214,7 @@ namespace Dolany.Ai.Core.Ai.Record
                       $"    {item.Description} \r" +
                       $"稀有率为 {HonorHelper.Instance.ItemRate(item)}%\r" +
                       $"售价为：{HonorHelper.Instance.GetItemPrice(item, MsgDTO.FromQQ)} 金币\r" +
-                      $"你总共拥有该物品 {ItemHelper.Instance.ItemCount(record, item.Name)}个";
+                      $"你总共拥有该物品 {record.GetCount(item.Name)}个";
 
             if (!string.IsNullOrEmpty(s))
             {
@@ -253,12 +253,13 @@ namespace Dolany.Ai.Core.Ai.Record
                 return false;
             }
 
+            var record = DriftItemRecord.GetRecord(MsgDTO.FromQQ);
             var msg = $"物品名称：{item.Name}\r" +
                       $"物品描述：{item.Description}\r" +
                       $"稀有率：{HonorHelper.Instance.ItemRate(item)}%\r" +
                       $"价格：{HonorHelper.Instance.GetItemPrice(item, MsgDTO.FromQQ)}\r" +
                       $"可解锁成就：{HonorHelper.Instance.FindHonorName(item.Name)}\r" +
-                      $"你拥有该物品：{ItemHelper.Instance.ItemCount(MsgDTO.FromQQ, item.Name)}";
+                      $"你拥有该物品：{record.GetCount(item.Name)}";
             MsgSender.PushMsg(MsgDTO, msg);
             return true;
         }
@@ -281,7 +282,8 @@ namespace Dolany.Ai.Core.Ai.Record
                 return false;
             }
 
-            var items = honor.Items.Select(h => $"{h.Name}({ItemHelper.Instance.ItemCount(MsgDTO.FromQQ, h.Name)})");
+            var record = DriftItemRecord.GetRecord(MsgDTO.FromQQ);
+            var items = honor.Items.Select(h => $"{h.Name}*{record.GetCount(h.Name)}");
             var itemsMsg = string.Join(",", items);
             var msg = $"解锁成就 {honor.FullName} 需要集齐：{itemsMsg}";
             MsgSender.PushMsg(MsgDTO, msg);

@@ -115,11 +115,12 @@ namespace Dolany.Ai.Core.OnlineStore
             return HonorList.FirstOrDefault(p => p.Items.Any(i => i.Name == itemName))?.FullName;
         }
 
-        public (string msg, bool IsNewHonor) CheckHonor(DriftItemRecord record, string itemName)
+        public bool CheckHonor(DriftItemRecord record, string itemName, out string msg)
         {
+            msg = string.Empty;
             if (record?.ItemCount == null)
             {
-                return (string.Empty, false);
+                return false;
             }
 
             var honorCount = 0;
@@ -131,15 +132,17 @@ namespace Dolany.Ai.Core.OnlineStore
 
             if (honorCount == 0)
             {
-                return (string.Empty, false);
+                return false;
             }
 
             if (honorCount < honor.Items.Count)
             {
-                return ($"成就 {honor.FullName} 完成度：{honorCount}/{honor.Items.Count}", false);
+                msg = $"成就 {honor.FullName} 完成度：{honorCount}/{honor.Items.Count}";
+                return false;
             }
 
-            return ($"恭喜你解锁了成就 {honor.FullName}! (集齐物品：{string.Join("，", honor.Items.Select(p => p.Name))})", true);
+            msg = $"恭喜你解锁了成就 {honor.FullName}! (集齐物品：{string.Join("，", honor.Items.Select(p => p.Name))})";
+            return true;
         }
 
         private DriftBottleItemModel LocalateItem(int index)
@@ -177,7 +180,7 @@ namespace Dolany.Ai.Core.OnlineStore
             var itemHonorDic = items.Select(i => new {Honor = FindHonorName(i.Name), i.Name, i.Count})
                 .GroupBy(p => p.Honor)
                 .ToDictionary(p => p.Key, p => p.ToList());
-            var list = itemHonorDic.Select(kv => $"{kv.Key}:{string.Join(",", kv.Value.Select(p => $"{p.Name}({p.Count})"))}");
+            var list = itemHonorDic.Select(kv => $"{kv.Key}:{string.Join(",", kv.Value.Select(p => $"{p.Name}*{p.Count}"))}");
             return list.ToList();
         }
     }

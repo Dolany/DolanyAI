@@ -12,7 +12,9 @@ namespace Dolany.Ai.Core.OnlineStore
             var price = HonorHelper.Instance.GetItemPrice(HonorHelper.Instance.FindItem(itemName), QQNum);
 
             var golds = OSPerson.GoldIncome(QQNum, price);
-            ItemHelper.Instance.ItemConsume(QQNum, itemName);
+            var record = DriftItemRecord.GetRecord(QQNum);
+            record.ItemConsume(itemName);
+            record.Update();
 
             return golds;
         }

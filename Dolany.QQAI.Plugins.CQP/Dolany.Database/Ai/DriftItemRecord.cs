@@ -43,26 +43,26 @@ namespace Dolany.Database.Ai
             item.Count -= count;
         }
 
-        public void ItemGain(string name, int count = 1)
-        {
-            var item = ItemCount.FirstOrDefault(ic => ic.Name == name);
-            if (item == null)
-            {
-                ItemCount.Add(new DriftItemCountRecord()
-                {
-                    Name = name,
-                    Count = count
-                });
-            }
-            else
-            {
-                item.Count += count;
-            }
-        }
-
         public int TotalItemCount()
         {
             return ItemCount.Sum(ic => ic.Count);
+        }
+
+        public int GetCount(string itemName)
+        {
+            if (ItemCount.IsNullOrEmpty())
+            {
+                return 0;
+            }
+
+            var itemRecord = ItemCount.FirstOrDefault(i => i.Name == itemName);
+            return itemRecord?.Count ?? 0;
+        }
+
+        public bool CheckItem(string itemName)
+        {
+            var itemRecord = ItemCount.FirstOrDefault(i => i.Name == itemName);
+            return itemRecord != null && itemRecord.Count > 0;
         }
     }
 
@@ -71,5 +71,10 @@ namespace Dolany.Database.Ai
         public string Name { get; set; }
 
         public int Count { get; set; }
+
+        public override string ToString()
+        {
+            return $"{Name}*{Count}";
+        }
     }
 }

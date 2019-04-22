@@ -110,7 +110,8 @@ namespace Dolany.Ai.Core.Ai.Game.Shopping
 
         private void SellItem(MsgInformationEx MsgDTO, DriftBottleItemModel item)
         {
-            if (!ItemHelper.Instance.CheckItem(MsgDTO.FromQQ, item.Name))
+            var record = DriftItemRecord.GetRecord(MsgDTO.FromQQ);
+            if (!record.CheckItem(item.Name))
             {
                 MsgSender.PushMsg(MsgDTO, "你的背包里没有该物品！");
                 return;
@@ -172,7 +173,7 @@ namespace Dolany.Ai.Core.Ai.Game.Shopping
             var sellItems = TransHelper.GetDailySellItems();
             var record = DriftItemRecord.GetRecord(MsgDTO.FromQQ);
             var itemsStr = string.Join("\r", sellItems.Select(si =>
-                $"{si.Name}({HonorHelper.Instance.FindHonorName(si.Name)})({ItemHelper.Instance.ItemCount(record, si.Name)})：{si.Price}金币"));
+                $"{si.Name}({HonorHelper.Instance.FindHonorName(si.Name)})({record.GetCount(si.Name)})：{si.Price}金币"));
 
             var msg = $"今日售卖的商品：\r{itemsStr}\r你当前持有金币 {golds}";
             MsgSender.PushMsg(MsgDTO, msg);
@@ -265,7 +266,8 @@ namespace Dolany.Ai.Core.Ai.Game.Shopping
                 return false;
             }
 
-            if (!ItemHelper.Instance.CheckItem(aimQQ, itemName))
+            var aimRecord = DriftItemRecord.GetRecord(aimQQ);
+            if (!aimRecord.CheckItem(itemName))
             {
                 MsgSender.PushMsg(MsgDTO, "对方没有该物品！");
                 return false;
@@ -286,7 +288,7 @@ namespace Dolany.Ai.Core.Ai.Game.Shopping
                 return false;
             }
 
-            var count = ItemHelper.Instance.ItemCount(aimQQ, itemName);
+            var count = aimRecord.GetCount(itemName);
             var msg = $"收到来自 {CodeApi.Code_At(MsgDTO.FromQQ)} 的交易请求：\r" +
                       $"希望得到的物品：{itemName}\r" +
                       $"价格：{price}({originPrice})\r" +
@@ -297,7 +299,9 @@ namespace Dolany.Ai.Core.Ai.Game.Shopping
                 return false;
             }
 
-            ItemHelper.Instance.ItemConsume(aimQQ, itemName);
+            aimRecord.ItemConsume(itemName);
+            aimRecord.Update();
+
             var (content, _) = ItemHelper.Instance.ItemIncome(MsgDTO.FromQQ, itemName);
             if (!string.IsNullOrEmpty(content))
             {
@@ -362,8 +366,7 @@ namespace Dolany.Ai.Core.Ai.Game.Shopping
             var name = param[1] as string;
 
             var sourceRecord = DriftItemRecord.GetRecord(MsgDTO.FromQQ);
-            var ic = sourceRecord.ItemCount.FirstOrDefault(p => p.Name == name);
-            if (ic == null)
+            if (!sourceRecord.CheckItem(name))
             {
                 MsgSender.PushMsg(MsgDTO, "你没有此物品", true);
                 return false;
@@ -381,8 +384,10 @@ namespace Dolany.Ai.Core.Ai.Game.Shopping
             osPerson.Golds -= price;
             osPerson.Update();
 
-            ItemHelper.Instance.ItemConsume(MsgDTO.FromQQ, name);
-            var (msg, _) = ItemHelper.Instance.ItemIncome(aimNum, name);
+            sourceRecord.ItemConsume(name);
+            sourceRecord.Update();
+            var aimRecord = DriftItemRecord.GetRecord(aimNum);
+            var msg = aimRecord.ItemIncome(name);
 
             var res = "赠送成功！";
             if (!string.IsNullOrEmpty(msg))
