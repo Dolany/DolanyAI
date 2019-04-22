@@ -127,7 +127,8 @@ namespace Dolany.Ai.Core.Ai.Sys
                 return false;
             }
 
-            var (msg, _) = ItemHelper.Instance.ItemIncome(qqNum, itemName);
+            var record = DriftItemRecord.GetRecord(qqNum);
+            var msg = record.ItemIncome(itemName);
             if (!string.IsNullOrEmpty(msg))
             {
                 MsgSender.PushMsg(MsgDTO, msg);

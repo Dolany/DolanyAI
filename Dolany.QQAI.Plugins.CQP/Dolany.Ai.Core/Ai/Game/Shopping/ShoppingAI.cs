@@ -220,7 +220,8 @@ namespace Dolany.Ai.Core.Ai.Game.Shopping
                 return false;
             }
 
-            var (incomeMsg, _) = ItemHelper.Instance.ItemIncome(MsgDTO.FromQQ, sellItem.Name);
+            var record = DriftItemRecord.GetRecord(MsgDTO.FromQQ);
+            var incomeMsg = record.ItemIncome(sellItem.Name);
             if (!string.IsNullOrEmpty(incomeMsg))
             {
                 MsgSender.PushMsg(MsgDTO, incomeMsg, true);
@@ -302,7 +303,8 @@ namespace Dolany.Ai.Core.Ai.Game.Shopping
             aimRecord.ItemConsume(itemName);
             aimRecord.Update();
 
-            var (content, _) = ItemHelper.Instance.ItemIncome(MsgDTO.FromQQ, itemName);
+            var sourceRecord = DriftItemRecord.GetRecord(MsgDTO.FromQQ);
+            var content = sourceRecord.ItemIncome(itemName);
             if (!string.IsNullOrEmpty(content))
             {
                 MsgSender.PushMsg(MsgDTO, content, true);

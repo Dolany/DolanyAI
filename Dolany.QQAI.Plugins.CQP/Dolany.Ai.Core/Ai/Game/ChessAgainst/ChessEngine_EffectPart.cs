@@ -40,7 +40,8 @@ namespace Dolany.Ai.Core.Ai.Game.ChessAgainst
             }
 
             var item = query.ItemCount.RandElement();
-            var (msg, _) = ItemHelper.Instance.ItemIncome(SelfQQNum, item.Name);
+            var record = DriftItemRecord.GetRecord(SelfQQNum);
+            var msg = record.ItemIncome(item.Name);
             MsgSender.PushMsg(GroupNum, 0, $"你获得了 {item.Name}！\r{msg}");
         }
 
@@ -147,7 +148,8 @@ namespace Dolany.Ai.Core.Ai.Game.ChessAgainst
         {
             var sellingItems = TransHelper.GetDailySellItems();
             var item = sellingItems.RandElement();
-            var (msg, _) = ItemHelper.Instance.ItemIncome(SelfQQNum, item.Name);
+            var record = DriftItemRecord.GetRecord(SelfQQNum);
+            var msg = record.ItemIncome(item.Name);
 
             MsgSender.PushMsg(GroupNum, 0, $"你获得了：{item.Name}\r{msg}");
         }

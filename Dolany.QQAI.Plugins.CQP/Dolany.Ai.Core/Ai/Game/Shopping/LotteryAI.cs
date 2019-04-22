@@ -7,6 +7,7 @@ using Dolany.Ai.Core.Base;
 using Dolany.Ai.Core.Cache;
 using Dolany.Ai.Core.Model;
 using Dolany.Ai.Core.OnlineStore;
+using Dolany.Database.Ai;
 using Dolany.Database.Sqlite;
 
 namespace Dolany.Ai.Core.Ai.Game.Shopping
@@ -112,7 +113,8 @@ namespace Dolany.Ai.Core.Ai.Game.Shopping
             var item = items.RandElement();
 
             var msg = $"恭喜你抽到了 {item.Name}*1";
-            var (m, _) = ItemHelper.Instance.ItemIncome(MsgDTO.FromQQ, item.Name);
+            var record = DriftItemRecord.GetRecord(MsgDTO.FromQQ);
+            var m = record.ItemIncome(item.Name);
             if (!string.IsNullOrEmpty(m))
             {
                 msg += '\r' + m;
