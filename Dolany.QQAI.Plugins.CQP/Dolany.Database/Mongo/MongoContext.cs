@@ -11,7 +11,8 @@ namespace Dolany.Database
         private MongoContext()
         {
             var client = new MongoClient(
-                "mongodb://dolany:2160727@dolanycluster-shard-00-00-qm6a0.azure.mongodb.net:27017,dolanycluster-shard-00-01-qm6a0.azure.mongodb.net:27017,dolanycluster-shard-00-02-qm6a0.azure.mongodb.net:27017/test?ssl=true&replicaSet=DolanyCluster-shard-0&authSource=admin&retryWrites=true");
+                //"mongodb://dolany:2160727@dolanycluster-shard-00-00-qm6a0.azure.mongodb.net:27017,dolanycluster-shard-00-01-qm6a0.azure.mongodb.net:27017,dolanycluster-shard-00-02-qm6a0.azure.mongodb.net:27017/test?ssl=true&replicaSet=DolanyCluster-shard-0&authSource=admin&retryWrites=true");
+                "mongodb://localhost");
             _Database = client.GetDatabase("DolanyAI");
         }
 
