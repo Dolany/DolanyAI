@@ -17,10 +17,8 @@ namespace Dolany.Ai.Core.Base
 
     public abstract class AIBase
     {
-        protected delegate bool MsgConsolerDel(MsgInformationEx msgDTO, object[] para);
-
-        protected readonly Dictionary<EnterCommandAttribute, MsgConsolerDel> Consolers =
-            new Dictionary<EnterCommandAttribute, MsgConsolerDel>();
+        protected readonly Dictionary<EnterCommandAttribute, MethodInfo> FuntionMethods =
+            new Dictionary<EnterCommandAttribute, MethodInfo>();
 
         public readonly AIAttribute Attr;
 
@@ -35,7 +33,7 @@ namespace Dolany.Ai.Core.Base
                     {
                         var attrClone = attr.Clone();
                         attrClone.Command = command;
-                        Consolers.Add(attrClone, method.CreateDelegate(typeof(MsgConsolerDel), this) as MsgConsolerDel);
+                        FuntionMethods.Add(attrClone, method);
                     }
                 }
             }
@@ -49,7 +47,7 @@ namespace Dolany.Ai.Core.Base
 
         public virtual bool OnMsgReceived(MsgInformationEx MsgDTO)
         {
-            var query = Consolers.Where(c => c.Key.Command == MsgDTO.Command).ToList();
+            var query = FuntionMethods.Where(c => c.Key.Command == MsgDTO.Command).ToList();
             if (query.IsNullOrEmpty())
             {
                 return false;
@@ -57,9 +55,9 @@ namespace Dolany.Ai.Core.Base
 
             try
             {
-                foreach (var consoler in query)
+                foreach (var valuePair in query)
                 {
-                    if (!Check(consoler.Key, MsgDTO, out var param))
+                    if (!Check(valuePair.Key, MsgDTO, out var param))
                     {
                         continue;
                     }
@@ -67,7 +65,7 @@ namespace Dolany.Ai.Core.Base
                     AIAnalyzer.AddCommandCount(new CommandAnalyzeDTO()
                     {
                         Ai = Attr.Name,
-                        Command = consoler.Key.Command,
+                        Command = valuePair.Key.Command,
                         GroupNum = MsgDTO.FromGroup
                     });
 
@@ -84,17 +82,17 @@ namespace Dolany.Ai.Core.Base
                         return true;
                     }
 
-                    var (checkResult, cache) = DailyLimitCheck(consoler.Key, MsgDTO);
+                    var (checkResult, cache) = DailyLimitCheck(valuePair.Key, MsgDTO);
                     if (!checkResult)
                     {
                         return true;
                     }
 
-                    var result = consoler.Value(MsgDTO, param);
+                    var result = (bool)valuePair.Value.Invoke(this, new object[]{MsgDTO, param});
 
                     if (cache != null && result)
                     {
-                        var key = $"DailyLimit-{consoler.Key.Command}-{MsgDTO.FromQQ}";
+                        var key = $"DailyLimit-{valuePair.Key.Command}-{MsgDTO.FromQQ}";
                         SCacheService.Cache(key, cache);
                     }
 

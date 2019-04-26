@@ -115,7 +115,7 @@ namespace Dolany.Ai.Core.OnlineStore
             return HonorList.FirstOrDefault(p => p.Items.Any(i => i.Name == itemName))?.FullName;
         }
 
-        public bool CheckHonor(DriftItemRecord record, string itemName, out string msg)
+        public bool CheckHonor(DriftItemRecord record, string honorName, out string msg)
         {
             msg = string.Empty;
             if (record?.ItemCount == null)
@@ -124,7 +124,7 @@ namespace Dolany.Ai.Core.OnlineStore
             }
 
             var honorCount = 0;
-            var honor = HonorList.First(h => h.Items.Any(i => i.Name == itemName));
+            var honor = FindHonor(honorName);
             if (record.HonorList == null || !record.HonorList.Contains(honor.Name))
             {
                 honorCount = record.ItemCount.Count(p => honor.Items.Any(ps => ps.Name == p.Name));

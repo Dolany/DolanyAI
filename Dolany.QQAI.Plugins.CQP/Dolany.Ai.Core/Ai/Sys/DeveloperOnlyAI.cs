@@ -3,6 +3,7 @@ using Dolany.Ai.Common;
 using Dolany.Ai.Core.Common;
 using Dolany.Ai.Core.OnlineStore;
 using Dolany.Database;
+using Newtonsoft.Json;
 
 namespace Dolany.Ai.Core.Ai.Sys
 {
@@ -389,6 +390,33 @@ namespace Dolany.Ai.Core.Ai.Sys
             SCacheService.Cache(key, "SignInAcc", DateTime.Now.AddDays(days));
 
             MsgSender.PushMsg(MsgDTO, "开启成功");
+
+            return true;
+        }
+
+        [EnterCommand(
+            Command = "查询缓存",
+            Description = "根据key值查询缓存信息",
+            Syntax = "[key]",
+            Tag = "系统命令",
+            SyntaxChecker = "Word",
+            AuthorityLevel = AuthorityLevel.开发者,
+            IsPrivateAvailable = true)]
+        public bool GetCache(MsgInformationEx MsgDTO, object[] param)
+        {
+            var key = param[0] as string;
+            using (var cache = new SqliteContext(Configger.Instance["CacheDb"]))
+            {
+                var content = cache.SqliteCacheModel.FirstOrDefault(p => p.Key == key);
+                if (content == null)
+                {
+                    MsgSender.PushMsg(MsgDTO, "nothing");
+                    return false;
+                }
+
+                var json = JsonConvert.SerializeObject(content);
+                MsgSender.PushMsg(MsgDTO, json);
+            }
 
             return true;
         }

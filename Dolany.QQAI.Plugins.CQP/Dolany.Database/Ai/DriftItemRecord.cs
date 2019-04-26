@@ -21,6 +21,11 @@ namespace Dolany.Database.Ai
                 {
                     record.ItemCount = new List<DriftItemCountRecord>();
                 }
+
+                if (record.HonorList == null)
+                {
+                    record.HonorList = new List<string>();
+                }
                 return record;
             }
 

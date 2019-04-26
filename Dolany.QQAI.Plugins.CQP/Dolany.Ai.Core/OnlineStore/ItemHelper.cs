@@ -1,5 +1,4 @@
-﻿using System.Collections.Generic;
-using System.Linq;
+﻿using System.Linq;
 using Dolany.Database.Ai;
 
 namespace Dolany.Ai.Core.OnlineStore
@@ -18,19 +17,12 @@ namespace Dolany.Ai.Core.OnlineStore
                 record.ItemCount.Add(new DriftItemCountRecord {Count = count, Name = itemName});
             }
 
+            var honorName = HonorHelper.Instance.FindHonorName(itemName);
             string msg;
-            var isNewHonor = HonorHelper.Instance.CheckHonor(record, itemName, out msg);
+            var isNewHonor = HonorHelper.Instance.CheckHonor(record, honorName, out msg);
             if (isNewHonor)
             {
-                var honorName = HonorHelper.Instance.FindHonorName(itemName);
-                if (record.HonorList == null)
-                {
-                    record.HonorList = new List<string> {honorName};
-                }
-                else
-                {
-                    record.HonorList.Add(honorName);
-                }
+                record.HonorList.Add(honorName);
             }
 
             record.Update();
