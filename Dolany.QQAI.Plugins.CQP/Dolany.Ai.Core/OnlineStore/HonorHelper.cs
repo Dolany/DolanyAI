@@ -110,9 +110,14 @@ namespace Dolany.Ai.Core.OnlineStore
             return price;
         }
 
-        public string FindHonorName(string itemName)
+        public string FindHonorFullName(string itemName)
         {
             return HonorList.FirstOrDefault(p => p.Items.Any(i => i.Name == itemName))?.FullName;
+        }
+
+        public string FindHonorName(string itemName)
+        {
+            return HonorList.FirstOrDefault(p => p.Items.Any(i => i.Name == itemName))?.Name;
         }
 
         public bool CheckHonor(DriftItemRecord record, string honorName, out string msg)
@@ -177,7 +182,7 @@ namespace Dolany.Ai.Core.OnlineStore
 
         public IList<string> GetOrderedItemsStr(IEnumerable<DriftItemCountRecord> items)
         {
-            var itemHonorDic = items.Select(i => new {Honor = FindHonorName(i.Name), i.Name, i.Count})
+            var itemHonorDic = items.Select(i => new {Honor = FindHonorFullName(i.Name), i.Name, i.Count})
                 .GroupBy(p => p.Honor)
                 .ToDictionary(p => p.Key, p => p.ToList());
             var list = itemHonorDic.Select(kv => $"{kv.Key}:{string.Join(",", kv.Value.Select(p => $"{p.Name}*{p.Count}"))}");

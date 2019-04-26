@@ -259,7 +259,7 @@ namespace Dolany.Ai.Core.Ai.Record
                       $"物品描述：{item.Description}\r" +
                       $"稀有率：{HonorHelper.Instance.ItemRate(item)}%\r" +
                       $"价格：{HonorHelper.Instance.GetItemPrice(item, MsgDTO.FromQQ)}\r" +
-                      $"可解锁成就：{HonorHelper.Instance.FindHonorName(item.Name)}\r" +
+                      $"可解锁成就：{HonorHelper.Instance.FindHonorFullName(item.Name)}\r" +
                       $"你拥有该物品：{record.GetCount(item.Name)}";
             MsgSender.PushMsg(MsgDTO, msg);
             return true;
