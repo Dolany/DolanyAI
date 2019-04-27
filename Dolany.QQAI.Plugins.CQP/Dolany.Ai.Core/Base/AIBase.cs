@@ -55,9 +55,9 @@ namespace Dolany.Ai.Core.Base
 
             try
             {
-                foreach (var valuePair in query)
+                foreach (var (enterCommandAttribute, methodInfo) in query)
                 {
-                    if (!Check(valuePair.Key, MsgDTO, out var param))
+                    if (!Check(enterCommandAttribute, MsgDTO, out var param))
                     {
                         continue;
                     }
@@ -65,7 +65,7 @@ namespace Dolany.Ai.Core.Base
                     AIAnalyzer.AddCommandCount(new CommandAnalyzeDTO()
                     {
                         Ai = Attr.Name,
-                        Command = valuePair.Key.Command,
+                        Command = enterCommandAttribute.Command,
                         GroupNum = MsgDTO.FromGroup
                     });
 
@@ -82,17 +82,17 @@ namespace Dolany.Ai.Core.Base
                         return true;
                     }
 
-                    var (checkResult, cache) = DailyLimitCheck(valuePair.Key, MsgDTO);
+                    var checkResult = DailyLimitCheck(enterCommandAttribute, MsgDTO, out var cache);
                     if (!checkResult)
                     {
                         return true;
                     }
 
-                    var result = (bool)valuePair.Value.Invoke(this, new object[]{MsgDTO, param});
+                    var result = (bool)methodInfo.Invoke(this, new object[]{MsgDTO, param});
 
                     if (cache != null && result)
                     {
-                        var key = $"DailyLimit-{valuePair.Key.Command}-{MsgDTO.FromQQ}";
+                        var key = $"DailyLimit-{enterCommandAttribute.Command}-{MsgDTO.FromQQ}";
                         SCacheService.Cache(key, cache);
                     }
 
@@ -139,16 +139,17 @@ namespace Dolany.Ai.Core.Base
             return true;
         }
 
-        private static (bool checkResult, DailyLimitCache cache) DailyLimitCheck(EnterCommandAttribute enterAttr, MsgInformationEx MsgDTO)
+        private static bool DailyLimitCheck(EnterCommandAttribute enterAttr, MsgInformationEx MsgDTO, out DailyLimitCache cache)
         {
+            cache = null;
             var isTestingGroup = Global.TestGroups.Contains(MsgDTO.FromGroup);
             if (MsgDTO.FromQQ == Utility.DeveloperNumber || (isTestingGroup && enterAttr.TestingDailyLimit == 0) || (!isTestingGroup && enterAttr.DailyLimit == 0))
             {
-                return (true, null);
+                return true;
             }
 
             var key = $"DailyLimit-{enterAttr.Command}-{MsgDTO.FromQQ}";
-            var cache = SCacheService.Get<DailyLimitCache>(key);
+            cache = SCacheService.Get<DailyLimitCache>(key);
 
             if (cache == null)
             {
@@ -159,13 +160,13 @@ namespace Dolany.Ai.Core.Base
                 if ((isTestingGroup && cache.Count >= enterAttr.TestingDailyLimit) || (!isTestingGroup && cache.Count >= enterAttr.DailyLimit))
                 {
                     MsgSender.PushMsg(MsgDTO, $"今天 {enterAttr.Command} 的次数已用完，请明天再试~", true);
-                    return (false, null);
+                    return false;
                 }
 
                 cache.Count++;
             }
 
-            return (true, cache);
+            return true;
         }
 
         private static bool SyntaxCheck(string SyntaxChecker, string msg, out object[] param)
