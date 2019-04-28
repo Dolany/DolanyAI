@@ -56,7 +56,7 @@ namespace Dolany.Ai.Core.Ai.Game.Cooking
             RebornTime = null;
         }
 
-        public void Upgrade()
+        public void LevelUp()
         {
             Level++;
             MaxSAN += 5;

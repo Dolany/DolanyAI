@@ -121,24 +121,6 @@ namespace Dolany.Ai.Core
             LoadCheckers();
             DbMgr.InitXmls();
 
-            CommonUtil.WaitForNumFunc = (groupNum, QQNum, msg, predicate) =>
-            {
-                var msgInfo = Waiter.Instance.WaitForInformation(new MsgInformationEx()
-                    {
-                        FromGroup = groupNum,
-                        FromQQ = QQNum
-                    }, msg, info => info.FromGroup == groupNum
-                                    && info.FromQQ == QQNum
-                                    && int.TryParse(info.Msg, out var res)
-                                    && predicate(res), 7, QQNum != 0);
-                if (msgInfo != null && int.TryParse(msgInfo.Msg, out var aimr))
-                {
-                    return aimr;
-                }
-
-                return -1;
-            };
-
             SFixedSetService.SetMaxCount("PicCache", int.Parse(Configger.Instance["MaxPicCacheCount"]));
         }
 

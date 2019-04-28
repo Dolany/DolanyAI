@@ -11,8 +11,6 @@ namespace Dolany.Ai.Common
 
     public static class CommonUtil
     {
-        public static Func<long, long, string, Predicate<int>, int> WaitForNumFunc;
-
         private static readonly RNGCryptoServiceProvider RngCsp = new RNGCryptoServiceProvider();
 
         public static bool IsNullOrEmpty<T>(this IEnumerable<T> objs)

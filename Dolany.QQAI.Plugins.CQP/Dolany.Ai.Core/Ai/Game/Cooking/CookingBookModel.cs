@@ -21,6 +21,10 @@ namespace Dolany.Ai.Core.Ai.Game.Cooking
 
         public Dictionary<string, int> Materials { get; set; }
 
+        public Dictionary<string, int> Flavorings { get; set; }
+
+        public Dictionary<CookToolTypeEnum, int> ToolLevelRequire { get; set; }
+
         public int Sugar { get; set; }
 
         public int SAN { get; set; }

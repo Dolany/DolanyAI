@@ -224,6 +224,24 @@ namespace Dolany.Ai.Core.Cache
         {
             return WaitForConfirm(new MsgInformationEx {FromQQ = ToQQ, FromGroup = ToGroup, Type = MsgType.Group}, msg, timeout, ConfirmTxt, CancelTxt);
         }
+
+        public int WaitForNum(long ToGroup, long ToQQ, string msg, Predicate<int> predicate)
+        {
+            var msgInfo = WaitForInformation(new MsgInformationEx()
+                {
+                    FromGroup = ToGroup,
+                    FromQQ = ToQQ
+                }, msg, info => info.FromGroup == ToGroup
+                                && info.FromQQ == ToQQ
+                                && int.TryParse(info.Msg, out var res)
+                                && predicate(res), 7, ToQQ != 0);
+            if (msgInfo != null && int.TryParse(msgInfo.Msg, out var aimr))
+            {
+                return aimr;
+            }
+
+            return -1;
+        }
     }
 
     public class WaiterUnit
