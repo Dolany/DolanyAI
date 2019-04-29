@@ -2,9 +2,9 @@
 using System.Collections.Generic;
 using Dolany.Database;
 
-namespace Dolany.Ai.Core.Ai.Game.Cooking
+namespace Dolany.Ai.Core.Ai.Game.Alchemy
 {
-    public class Cooker : DbBaseEntity
+    public class Alchemier : DbBaseEntity
     {
         public long QQNum { get; set; }
 
@@ -22,26 +22,26 @@ namespace Dolany.Ai.Core.Ai.Game.Cooking
 
         public int MaxHealth { get; set; } = 50;
 
-        public List<string> CookBooks { get; set; } = new List<string>();
+        public List<string> AlchemyBooks { get; set; } = new List<string>();
 
         public DateTime? RebornTime { get; set; }
 
-        public static Cooker GetCooker(long QQNum)
+        public static Alchemier GetAlchemier(long QQNum)
         {
-            var cooker = MongoService<Cooker>.GetOnly(p => p.QQNum == QQNum);
-            if (cooker != null)
+            var alchemier = MongoService<Alchemier>.GetOnly(p => p.QQNum == QQNum);
+            if (alchemier != null)
             {
-                if (cooker.RebornTime != null && cooker.RebornTime < DateTime.Now)
+                if (alchemier.RebornTime != null && alchemier.RebornTime < DateTime.Now)
                 {
-                    cooker.Reborn();
+                    alchemier.Reborn();
                 }
-                return cooker;
+                return alchemier;
             }
 
-            cooker = new Cooker() {QQNum = QQNum};
-            MongoService<Cooker>.Insert(cooker);
+            alchemier = new Alchemier() {QQNum = QQNum};
+            MongoService<Alchemier>.Insert(alchemier);
 
-            return cooker;
+            return alchemier;
         }
 
         public void Reborn()
@@ -64,7 +64,7 @@ namespace Dolany.Ai.Core.Ai.Game.Cooking
 
         public void Update()
         {
-            MongoService<Cooker>.Update(this);
+            MongoService<Alchemier>.Update(this);
         }
     }
 }

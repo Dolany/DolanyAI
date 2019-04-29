@@ -56,7 +56,7 @@ namespace Dolany.Ai.Core.Ai.SingleCommand.GroupOwnerOnly
                 return false;
             }
 
-            if (!Waiter.Instance.WaitForConfirm(MsgDTO, 500))
+            if (!Waiter.Instance.WaitForConfirm_Gold(MsgDTO, 500))
             {
                 MsgSender.PushMsg(MsgDTO, "操作取消！");
                 return false;
@@ -100,7 +100,7 @@ namespace Dolany.Ai.Core.Ai.SingleCommand.GroupOwnerOnly
                 return false;
             }
 
-            if (!Waiter.Instance.WaitForConfirm(MsgDTO, 100))
+            if (!Waiter.Instance.WaitForConfirm_Gold(MsgDTO, 100))
             {
                 MsgSender.PushMsg(MsgDTO, "操作取消！");
                 return false;

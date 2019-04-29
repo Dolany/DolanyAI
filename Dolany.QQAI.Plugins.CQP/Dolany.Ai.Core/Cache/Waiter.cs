@@ -215,7 +215,7 @@ namespace Dolany.Ai.Core.Cache
             return response != null && int.TryParse(response.Msg, out var ri) && ri == 1;
         }
 
-        public bool WaitForConfirm(MsgInformationEx MsgDTO, int golds, int timeout = 5)
+        public bool WaitForConfirm_Gold(MsgInformationEx MsgDTO, int golds, int timeout = 5)
         {
             return WaitForConfirm(MsgDTO, $"此操作将花费 {golds} 金币，是否继续？", timeout);
         }

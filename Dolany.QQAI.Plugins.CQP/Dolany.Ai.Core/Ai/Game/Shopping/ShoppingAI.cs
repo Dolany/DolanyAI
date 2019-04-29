@@ -214,7 +214,7 @@ namespace Dolany.Ai.Core.Ai.Game.Shopping
             }
 
             var price = osPerson.CheckBuff("极光") ? sellItem.Price * 80 / 100 : sellItem.Price;
-            if (!Waiter.Instance.WaitForConfirm(MsgDTO, price, 7))
+            if (!Waiter.Instance.WaitForConfirm_Gold(MsgDTO, price, 7))
             {
                 MsgSender.PushMsg(MsgDTO, "交易取消！");
                 return false;
@@ -376,7 +376,7 @@ namespace Dolany.Ai.Core.Ai.Game.Shopping
 
             var itemModel = HonorHelper.Instance.FindItem(name);
             var price = HonorHelper.Instance.GetItemPrice(itemModel, MsgDTO.FromQQ) * 5 / 100;
-            if (!Waiter.Instance.WaitForConfirm(MsgDTO, price, 7))
+            if (!Waiter.Instance.WaitForConfirm_Gold(MsgDTO, price, 7))
             {
                 MsgSender.PushMsg(MsgDTO, "操作取消!");
                 return false;

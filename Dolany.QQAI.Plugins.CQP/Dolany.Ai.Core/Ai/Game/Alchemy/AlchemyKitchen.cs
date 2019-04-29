@@ -3,19 +3,19 @@ using System.Linq;
 using Dolany.Ai.Common;
 using Dolany.Database;
 
-namespace Dolany.Ai.Core.Ai.Game.Cooking
+namespace Dolany.Ai.Core.Ai.Game.Alchemy
 {
-    public class CookKitchen : DbBaseEntity
+    public class AlchemyKitchen : DbBaseEntity
     {
         public long QQNum { get; set; }
 
-        public List<CookTool> Tools { get; set; } = new List<CookTool>();
+        public List<AlchemyTool> Tools { get; set; } = new List<AlchemyTool>();
 
-        public List<CookFood> Foods { get; set; } = new List<CookFood>();
+        public List<AlchemyFood> Foods { get; set; } = new List<AlchemyFood>();
 
         public Dictionary<string, int> Flavorings { get; set; } = new Dictionary<string, int>();
 
-        public CookTool this[CookToolTypeEnum type]
+        public AlchemyTool this[AlchemyToolTypeEnum type]
         {
             get { return Tools.FirstOrDefault(p => p.ToolType == type && p.IsInUse); }
         }
@@ -27,16 +27,16 @@ namespace Dolany.Ai.Core.Ai.Game.Cooking
             tool.IsInUse = true;
         }
 
-        public static CookKitchen GetKitchen(long QQNum)
+        public static AlchemyKitchen GetKitchen(long QQNum)
         {
-            var record = MongoService<CookKitchen>.GetOnly(p => p.QQNum == QQNum);
+            var record = MongoService<AlchemyKitchen>.GetOnly(p => p.QQNum == QQNum);
             if (record != null)
             {
                 return record;
             }
 
-            record = new CookKitchen(){QQNum = QQNum};
-            MongoService<CookKitchen>.Insert(record);
+            record = new AlchemyKitchen(){QQNum = QQNum};
+            MongoService<AlchemyKitchen>.Insert(record);
             return record;
         }
 
@@ -44,11 +44,11 @@ namespace Dolany.Ai.Core.Ai.Game.Cooking
         {
             Flavorings.Remove(p => p == 0);
 
-            MongoService<CookKitchen>.Update(this);
+            MongoService<AlchemyKitchen>.Update(this);
         }
     }
 
-    public class CookFood
+    public class AlchemyFood
     {
         public string Name { get; set; }
 
@@ -61,11 +61,11 @@ namespace Dolany.Ai.Core.Ai.Game.Cooking
         public string[] Additions { get; set; }
     }
 
-    public class CookTool
+    public class AlchemyTool
     {
         public string Name { get; set; }
 
-        public CookToolTypeEnum ToolType { get; set; }
+        public AlchemyToolTypeEnum ToolType { get; set; }
 
         public int Level { get; set; }
 
@@ -76,10 +76,10 @@ namespace Dolany.Ai.Core.Ai.Game.Cooking
         public string[] Additions { get; set; }
     }
 
-    public enum CookToolTypeEnum
+    public enum AlchemyToolTypeEnum
     {
-        炒锅 = 1,
-        菜刀 = 2,
-        砧板 = 3
+        坩埚 = 1,
+        研钵 = 2,
+        点金棒 = 3
     }
 }

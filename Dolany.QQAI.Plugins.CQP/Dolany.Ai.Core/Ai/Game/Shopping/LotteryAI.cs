@@ -53,7 +53,7 @@ namespace Dolany.Ai.Core.Ai.Game.Shopping
                 return false;
             }
 
-            if (!Waiter.Instance.WaitForConfirm(MsgDTO, LotteryFee, 7))
+            if (!Waiter.Instance.WaitForConfirm_Gold(MsgDTO, LotteryFee, 7))
             {
                 MsgSender.PushMsg(MsgDTO, "操作取消！");
                 return false;

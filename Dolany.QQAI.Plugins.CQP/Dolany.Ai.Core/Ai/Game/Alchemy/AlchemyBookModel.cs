@@ -1,19 +1,19 @@
 ﻿using System.Collections.Generic;
 
-namespace Dolany.Ai.Core.Ai.Game.Cooking
+namespace Dolany.Ai.Core.Ai.Game.Alchemy
 {
-    public class CookingBookModel
+    public class AlchemyBookModel
     {
         public string Name { get; set; }
 
         public string Description { get; set; }
 
-        public CookingDietModel[] Diets { get; set; }
+        public AlchemyDietModel[] Diets { get; set; }
 
         public string[] ExchangeHonors { get; set; }
     }
 
-    public class CookingDietModel
+    public class AlchemyDietModel
     {
         public string Name { get; set; }
 
@@ -23,7 +23,7 @@ namespace Dolany.Ai.Core.Ai.Game.Cooking
 
         public Dictionary<string, int> Flavorings { get; set; }
 
-        public Dictionary<CookToolTypeEnum, int> ToolLevelRequire { get; set; }
+        public Dictionary<AlchemyToolTypeEnum, int> ToolLevelRequire { get; set; }
 
         public int Sugar { get; set; }
 
