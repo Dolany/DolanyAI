@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using Dolany.Ai.Common;
 using Dolany.Database;
 
 namespace Dolany.Ai.Core.Ai.Game.Cooking
@@ -24,8 +23,6 @@ namespace Dolany.Ai.Core.Ai.Game.Cooking
         public int MaxHealth { get; set; } = 50;
 
         public List<string> CookBooks { get; set; } = new List<string>();
-
-        public Dictionary<string, int> Foods { get; set; } = new Dictionary<string, int>();
 
         public DateTime? RebornTime { get; set; }
 
@@ -67,29 +64,7 @@ namespace Dolany.Ai.Core.Ai.Game.Cooking
 
         public void Update()
         {
-            Foods.Remove(p => p <= 0);
-
             MongoService<Cooker>.Update(this);
-        }
-
-        public void AddFood(string name, int count = 1)
-        {
-            if (Foods.ContainsKey(name))
-            {
-                Foods[name] += count;
-            }
-            else
-            {
-                Foods.Add(name, count);
-            }
-        }
-
-        public void RemoveFood(string name, int count = 0)
-        {
-            if (Foods.ContainsKey(name))
-            {
-                Foods[name] -= count;
-            }
         }
     }
 }
