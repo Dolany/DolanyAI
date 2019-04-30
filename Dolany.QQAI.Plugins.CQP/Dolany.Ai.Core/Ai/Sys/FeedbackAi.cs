@@ -16,6 +16,8 @@ namespace Dolany.Ai.Core.Ai.Sys
         PriorityLevel = 10)]
     public class FeedbackAi : AIBase
     {
+        private readonly string[] ForbidenWords = {"啪师姐"};
+
         [EnterCommand(
             Command = "反馈",
             Description = "向开发者提供反馈建议",
@@ -32,6 +34,12 @@ namespace Dolany.Ai.Core.Ai.Sys
             if (string.IsNullOrEmpty(content))
             {
                 MsgSender.PushMsg(MsgDTO, "反馈内容不能为空！");
+                return false;
+            }
+
+            if (ForbidenWords.Any(fw => content.Contains(fw)))
+            {
+                MsgSender.PushMsg(MsgDTO, "哔哔，禁止事项！");
                 return false;
             }
 
