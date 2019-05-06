@@ -173,48 +173,41 @@ namespace Dolany.Ai.Core
         [HandleProcessCorruptedStateExceptions]
         public void OnMsgReceived(MsgInformation MsgDTO)
         {
-            try
+            // 群聊消息
+            if (MsgDTO.FromGroup != 0)
             {
-                // 群聊消息
-                if (MsgDTO.FromGroup != 0)
-                {
-                    if (!AllGroupsDic.ContainsKey(MsgDTO.FromGroup))
-                    {
-                        return;
-                    }
-                }
-
-                if (Global.IsTesting && !Global.TestGroups.Contains(MsgDTO.FromGroup))
+                if (!AllGroupsDic.ContainsKey(MsgDTO.FromGroup))
                 {
                     return;
                 }
-
-                var msgEx = new MsgInformationEx
-                                {
-                                    Id = MsgDTO.Id,
-                                    Msg = MsgDTO.Msg,
-                                    RelationId = MsgDTO.RelationId,
-                                    Time = MsgDTO.Time,
-                                    FromGroup = MsgDTO.FromGroup,
-                                    FromQQ = MsgDTO.FromQQ
-                                };
-                if (msgEx.FromQQ < 0)
-                {
-                    msgEx.FromQQ = msgEx.FromQQ & 0xFFFFFFFF;
-                }
-
-                var msg = msgEx.Msg;
-                msgEx.FullMsg = msg;
-                msgEx.Command = GenCommand(ref msg);
-                msgEx.Msg = msg;
-                msgEx.Type = msgEx.FromGroup == 0 ? MsgType.Private : MsgType.Group;
-
-                MsgCallBack(msgEx);
             }
-            catch (Exception ex)
+
+            if (Global.IsTesting && !Global.TestGroups.Contains(MsgDTO.FromGroup))
             {
-                Logger.Log(ex);
+                return;
             }
+
+            var msgEx = new MsgInformationEx
+            {
+                Id = MsgDTO.Id,
+                Msg = MsgDTO.Msg,
+                RelationId = MsgDTO.RelationId,
+                Time = MsgDTO.Time,
+                FromGroup = MsgDTO.FromGroup,
+                FromQQ = MsgDTO.FromQQ
+            };
+            if (msgEx.FromQQ < 0)
+            {
+                msgEx.FromQQ = msgEx.FromQQ & 0xFFFFFFFF;
+            }
+
+            var msg = msgEx.Msg;
+            msgEx.FullMsg = msg;
+            msgEx.Command = GenCommand(ref msg);
+            msgEx.Msg = msg;
+            msgEx.Type = msgEx.FromGroup == 0 ? MsgType.Private : MsgType.Group;
+
+            MsgCallBack(msgEx);
         }
 
         [HandleProcessCorruptedStateExceptions]
