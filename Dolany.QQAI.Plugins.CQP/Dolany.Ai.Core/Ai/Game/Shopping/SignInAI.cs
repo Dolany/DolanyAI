@@ -1,11 +1,13 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Linq;
-using Dolany.Ai.Common;
 using Dolany.Ai.Core.Base;
 using Dolany.Ai.Core.Cache;
 using Dolany.Ai.Core.Common;
 using Dolany.Ai.Core.Model;
 using Dolany.Ai.Core.OnlineStore;
+using Dolany.Database;
+using Dolany.Database.Ai;
 using Dolany.Database.Sqlite;
 
 namespace Dolany.Ai.Core.Ai.Game.Shopping
@@ -18,6 +20,16 @@ namespace Dolany.Ai.Core.Ai.Game.Shopping
         NeedManulOpen = true)]
     public class SignInAI : AIBase
     {
+        private Dictionary<long, SignInGroupRecord> GroupSignInDic = new Dictionary<long, SignInGroupRecord>();
+
+        public override void Initialization()
+        {
+            base.Initialization();
+
+            var records = MongoService<SignInGroupRecord>.Get();
+            GroupSignInDic = records.ToDictionary(p => p.GroupNum, p => p);
+        }
+
         [EnterCommand(Command = "签到",
             AuthorityLevel = AuthorityLevel.管理员,
             Description = "设置签到内容，有效期1个月(不能与系统自带命令重复)",
@@ -35,7 +47,18 @@ namespace Dolany.Ai.Core.Ai.Game.Shopping
                 return false;
             }
 
-            SCacheService.Cache($"DailySignIn-{MsgDTO.FromGroup}", content, DateTime.Today.AddMonths(1));
+            if (GroupSignInDic.ContainsKey(MsgDTO.FromGroup))
+            {
+                var groupSignIn = GroupSignInDic[MsgDTO.FromGroup];
+                groupSignIn.Content = content;
+                groupSignIn.Update();
+            }
+            else
+            {
+                var groupSignIn = new SignInGroupRecord(){GroupNum = MsgDTO.FromGroup, Content = content};
+                MongoService<SignInGroupRecord>.Insert(groupSignIn);
+                GroupSignInDic.Add(MsgDTO.FromGroup, groupSignIn);
+            }
             MsgSender.PushMsg(MsgDTO, "设置成功！");
             return true;
         }
@@ -47,79 +70,78 @@ namespace Dolany.Ai.Core.Ai.Game.Shopping
                 return true;
             }
 
-            if (MsgDTO.Type == MsgType.Private || !GroupSettingMgr.Instance[MsgDTO.FromGroup].HasFunction(Attr.Name))
+            if (MsgDTO.Type == MsgType.Private || !GroupSettingMgr.Instance[MsgDTO.FromGroup].HasFunction(AIAttr.Name))
             {
                 return false;
             }
 
-            // 群组签到设置
-            var cache = SCacheService.Get<string>($"DailySignIn-{MsgDTO.FromGroup}");
-            if (string.IsNullOrEmpty(cache) && MsgDTO.FullMsg != "签到")
+            // 群组签到验证
+            var groupInfo = GroupSignInDic.ContainsKey(MsgDTO.FromGroup) ? GroupSignInDic[MsgDTO.FromGroup] : null;
+            if (groupInfo == null && MsgDTO.FullMsg != "签到")
             {
                 return false;
             }
 
-            if (!string.IsNullOrEmpty(cache) && MsgDTO.FullMsg != cache)
+            if (groupInfo != null && MsgDTO.FullMsg != groupInfo.Content)
             {
                 return false;
             }
 
             AIAnalyzer.AddCommandCount(new CommandAnalyzeDTO()
             {
-                Ai = Attr.Name,
+                Ai = AIAttr.Name,
                 Command = "SignInOverride",
                 GroupNum = MsgDTO.FromGroup
             });
-            // 个人签到记录
-            var signCache = SCacheService.Get<DailySignInCache>($"DailySignIn-{MsgDTO.FromGroup}-{MsgDTO.FromQQ}");
-            if (signCache != null && signCache.LastSignDate.ToLocalTime() == DateTime.Today)
-            {
-                MsgSender.PushMsg(MsgDTO, "你今天已经签到过了！", true);
-                return false;
-            }
 
-            signCache = Sign(MsgDTO, signCache);
-            SCacheService.Cache($"DailySignIn-{MsgDTO.FromGroup}-{MsgDTO.FromQQ}", signCache, CommonUtil.UntilTommorow().AddDays(1));
-            return true;
-        }
-
-        private DailySignInCache Sign(MsgInformationEx MsgDTO, DailySignInCache signCache)
-        {
-            if (signCache == null)
+            // 个人签到验证
+            var personRecord = SignInPersonRecord.Get(MsgDTO.FromQQ);
+            SignInGroupInfo ginfo;
+            if (personRecord.GroupInfos.ContainsKey(MsgDTO.FromGroup))
             {
-                signCache = new DailySignInCache()
-                {
-                    GroupNum = MsgDTO.FromGroup,
-                    QQNum = MsgDTO.FromQQ
-                };
-            }
-
-            var key = "SignInAcc";
-            if (string.IsNullOrEmpty(SCacheService.Get<string>(key)))
-            {
-                signCache.SuccessiveSignDays++;
+                ginfo = personRecord.GroupInfos[MsgDTO.FromGroup];
             }
             else
             {
-                signCache.SuccessiveSignDays += 2;
+                ginfo = new SignInGroupInfo();
+                personRecord.GroupInfos.Add(MsgDTO.FromGroup, ginfo);
             }
 
-            signCache.LastSignDate = DateTime.Today;
-            var goldsGen = signCache.SuccessiveSignDays > 5 ? 25 : signCache.SuccessiveSignDays * 5;
+            Sign(ginfo, MsgDTO);
+            personRecord.Update();
+            return true;
+        }
+
+        private void Sign(SignInGroupInfo ginfo, MsgInformationEx MsgDTO)
+        {
+            if (ginfo.LastSignInDate == null || ginfo.LastSignInDate.Value.Date < DateTime.Today.AddDays(-1))
+            {
+                ginfo.SuccessiveDays = 0;
+            }
+
+            if (string.IsNullOrEmpty(SCacheService.Get<string>("SignInAcc")))
+            {
+                ginfo.SuccessiveDays++;
+            }
+            else
+            {
+                ginfo.SuccessiveDays += 2;
+            }
+
+            ginfo.LastSignInDate = DateTime.Today;
+            var goldsGen = ginfo.SuccessiveDays > 5 ? 25 : ginfo.SuccessiveDays * 5;
 
             OSPerson.GoldIncome(MsgDTO.FromQQ, goldsGen);
 
-            var msg = $"签到成功！你已连续签到 {signCache.SuccessiveSignDays}天，获得 {goldsGen}金币！";
-            if (signCache.SuccessiveSignDays % 10 == 0)
+            var msg = $"签到成功！你已连续签到 {ginfo.SuccessiveDays}天，获得 {goldsGen}金币！";
+            if (ginfo.SuccessiveDays % 10 == 0)
             {
-                key = $"LimitBonus-{MsgDTO.FromQQ}";
+                var key = $"LimitBonus-{MsgDTO.FromQQ}";
                 SCacheService.Cache(key, "nothing");
 
                 msg += "\r恭喜你获得一次抽奖机会，快去试试吧（当日有效！）";
             }
             MsgSender.PushMsg(MsgDTO, msg, true);
-
-            return signCache;
         }
 
         [EnterCommand(Command = "今日签到内容",
@@ -131,8 +153,8 @@ namespace Dolany.Ai.Core.Ai.Game.Shopping
             IsPrivateAvailable = false)]
         public bool TodaySignContent(MsgInformationEx MsgDTO, object[] param)
         {
-            var cache = SCacheService.Get<string>($"DailySignIn-{MsgDTO.FromGroup}");
-            MsgSender.PushMsg(MsgDTO, $"今日签到内容是：{(string.IsNullOrEmpty(cache) ? "签到" : cache)}");
+            var content = GroupSignInDic.ContainsKey(MsgDTO.FromGroup) ? GroupSignInDic[MsgDTO.FromGroup].Content : "签到";
+            MsgSender.PushMsg(MsgDTO, $"今日签到内容是：{content}");
             return true;
         }
     }

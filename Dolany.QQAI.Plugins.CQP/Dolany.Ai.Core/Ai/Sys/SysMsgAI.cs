@@ -1,10 +1,10 @@
-﻿namespace Dolany.Ai.Core.Ai.Sys
+﻿using Dolany.Ai.Core.Common;
+
+namespace Dolany.Ai.Core.Ai.Sys
 {
     using Base;
 
     using Model;
-
-    using static Common.Utility;
 
     [AI(
         Name = "系统消息过滤",
@@ -24,7 +24,7 @@
                 return true;
             }
 
-            return MsgDTO.FromQQ == AnonymousNumber || MsgDTO.FromQQ == SysMsgNumber;
+            return MsgDTO.FromQQ == Global.AnonymousNumber || MsgDTO.FromQQ == Global.SysMsgNumber;
         }
     }
 }

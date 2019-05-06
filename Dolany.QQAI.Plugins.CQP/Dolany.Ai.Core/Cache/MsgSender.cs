@@ -10,7 +10,7 @@
     {
         public static void PushMsg(MsgCommand msg)
         {
-            msg.AiNum = Utility.SelfQQNum;
+            msg.AiNum = Global.SelfQQNum;
             msg.Time = DateTime.Now;
             var callback = $"[Command] {(msg.ToGroup == 0 ? "私聊" : GroupSettingMgr.Instance[msg.ToGroup].Name)} {msg.ToQQ} {msg.Id} {msg.Command} {msg.Msg}";
             AIMgr.Instance.MessagePublish(callback);

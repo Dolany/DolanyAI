@@ -61,7 +61,7 @@ namespace Dolany.Ai.Core.Ai.Record
             MsgSender.PushMsg(MsgDTO, $"{CodeApi.Code_At(MsgDTO.FromQQ)} {hello.Content}");
             AIAnalyzer.AddCommandCount(new CommandAnalyzeDTO()
             {
-                Ai = Attr.Name,
+                Ai = AIAttr.Name,
                 Command = "HelloOverride",
                 GroupNum = MsgDTO.FromGroup
             });

@@ -54,7 +54,7 @@
             SendResult(MsgDTO, result);
             AIAnalyzer.AddCommandCount(new CommandAnalyzeDTO()
             {
-                Ai = Attr.Name,
+                Ai = AIAttr.Name,
                 Command = "DiceOverride",
                 GroupNum = MsgDTO.FromGroup
             });

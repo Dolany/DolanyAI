@@ -44,12 +44,12 @@
                 return true;
             }
 
-            if (MsgDTO.Type == MsgType.Group && !MsgDTO.FullMsg.Contains(CodeApi.Code_At(SelfQQNum)))
+            if (MsgDTO.Type == MsgType.Group && !MsgDTO.FullMsg.Contains(CodeApi.Code_At(Global.SelfQQNum)))
             {
                 return false;
             }
 
-            MsgDTO.FullMsg = MsgDTO.FullMsg.Replace(CodeApi.Code_At(SelfQQNum), string.Empty);
+            MsgDTO.FullMsg = MsgDTO.FullMsg.Replace(CodeApi.Code_At(Global.SelfQQNum), string.Empty);
 
             var response = RequestMsg(MsgDTO);
             if (string.IsNullOrEmpty(response))
@@ -60,7 +60,7 @@
 
             AIAnalyzer.AddCommandCount(new CommandAnalyzeDTO()
             {
-                Ai = Attr.Name,
+                Ai = AIAttr.Name,
                 Command = "TulingOverride",
                 GroupNum = MsgDTO.FromGroup
             });

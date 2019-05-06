@@ -34,7 +34,7 @@ namespace Dolany.Ai.Core.Ai.Game.ChessAgainst
                 return false;
             }
 
-            if (aimNum == Utility.SelfQQNum)
+            if (aimNum == Global.SelfQQNum)
             {
                 MsgSender.PushMsg(MsgDTO, "鱼唇的人类，你无法挑战ai的威严！");
                 return false;

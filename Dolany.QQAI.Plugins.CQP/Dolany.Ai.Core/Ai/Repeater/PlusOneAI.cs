@@ -80,7 +80,7 @@ namespace Dolany.Ai.Core.Ai.Repeater
 
             AIAnalyzer.AddCommandCount(new CommandAnalyzeDTO()
             {
-                Ai = Attr.Name,
+                Ai = AIAttr.Name,
                 Command = "PlusOneOverride",
                 GroupNum = MsgDTO.FromGroup
             });

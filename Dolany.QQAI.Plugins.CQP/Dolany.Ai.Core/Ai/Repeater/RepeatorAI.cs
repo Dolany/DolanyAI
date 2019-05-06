@@ -59,7 +59,7 @@ namespace Dolany.Ai.Core.Ai.Repeater
             Repeat(MsgDTO);
             AIAnalyzer.AddCommandCount(new CommandAnalyzeDTO()
             {
-                Ai = Attr.Name,
+                Ai = AIAttr.Name,
                 Command = "RepeatorOverride",
                 GroupNum = MsgDTO.FromGroup
             });

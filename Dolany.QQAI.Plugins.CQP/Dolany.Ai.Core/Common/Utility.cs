@@ -13,14 +13,6 @@
 
     public static class Utility
     {
-        public static long DeveloperNumber { get; } = long.Parse(Configger.Instance["DeveloperNumber"]);
-
-        public static long SysMsgNumber { get; } = long.Parse(Configger.Instance["SysMsgNumber"]);
-
-        public static long AnonymousNumber { get; } = long.Parse(Configger.Instance["AnonymousNumber"]);
-
-        public static long SelfQQNum { get; } = long.Parse(Configger.Instance["SelfQQNum"]);
-
         [CanBeNull]
         public static HourMinuteModel GenTimeFromStr(string timeStr)
         {
@@ -46,7 +38,7 @@
         public static string GetAuthName(MsgInformationEx MsgDTO)
         {
             var tempAuth = GetTempAuth(MsgDTO);
-            if (MsgDTO.FromQQ == DeveloperNumber || tempAuth == "开发者")
+            if (MsgDTO.FromQQ == Global.DeveloperNumber || tempAuth == "开发者")
             {
                 return "开发者";
             }

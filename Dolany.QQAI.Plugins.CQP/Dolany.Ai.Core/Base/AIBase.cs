@@ -20,7 +20,7 @@ namespace Dolany.Ai.Core.Base
         protected readonly Dictionary<EnterCommandAttribute, MethodInfo> FuntionMethods =
             new Dictionary<EnterCommandAttribute, MethodInfo>();
 
-        public readonly AIAttribute Attr;
+        public readonly AIAttribute AIAttr;
 
         protected AIBase()
         {
@@ -38,7 +38,7 @@ namespace Dolany.Ai.Core.Base
                 }
             }
 
-            Attr = t.GetCustomAttribute(typeof(AIAttribute), false) as AIAttribute;
+            AIAttr = t.GetCustomAttribute(typeof(AIAttribute), false) as AIAttribute;
         }
 
         public virtual void Initialization()
@@ -64,14 +64,14 @@ namespace Dolany.Ai.Core.Base
 
                     AIAnalyzer.AddCommandCount(new CommandAnalyzeDTO()
                     {
-                        Ai = Attr.Name,
+                        Ai = AIAttr.Name,
                         Command = enterCommandAttribute.Command,
                         GroupNum = MsgDTO.FromGroup
                     });
 
-                    if (MsgDTO.Type == MsgType.Group && Attr.NeedManulOpen && !GroupSettingMgr.Instance[MsgDTO.FromGroup].HasFunction(Attr.Name))
+                    if (MsgDTO.Type == MsgType.Group && AIAttr.NeedManulOpen && !GroupSettingMgr.Instance[MsgDTO.FromGroup].HasFunction(AIAttr.Name))
                     {
-                        MsgSender.PushMsg(MsgDTO, $"本群尚未开启 {Attr.Name} 功能，请联系群主开启此功能，或者添加我为好友后使用私聊命令，或者申请加入AI测试群！");
+                        MsgSender.PushMsg(MsgDTO, $"本群尚未开启 {AIAttr.Name} 功能，请联系群主开启此功能，或者添加我为好友后使用私聊命令，或者申请加入AI测试群！");
                         return true;
                     }
 
@@ -143,7 +143,7 @@ namespace Dolany.Ai.Core.Base
         {
             cache = null;
             var isTestingGroup = Global.TestGroups.Contains(MsgDTO.FromGroup);
-            if (MsgDTO.FromQQ == Utility.DeveloperNumber || (isTestingGroup && enterAttr.TestingDailyLimit == 0) || (!isTestingGroup && enterAttr.DailyLimit == 0))
+            if (MsgDTO.FromQQ == Global.DeveloperNumber || (isTestingGroup && enterAttr.TestingDailyLimit == 0) || (!isTestingGroup && enterAttr.DailyLimit == 0))
             {
                 return true;
             }

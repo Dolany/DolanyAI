@@ -10,22 +10,10 @@ namespace Dolany.Temp
     {
         static void Main(string[] args)
         {
-            var requestor = new FortuneRequestor(new MsgInformationEx() {Msg = "白羊"}, ((msg, s) => { }));
-            requestor.Work();
+            
 
             Console.WriteLine("Completed");
             Console.ReadKey();
         }
-    }
-
-    public class AuthModel
-    {
-        public long QQNum { get;set; }
-
-        public long GroupNum { get; set; }
-
-        public int Role { get; set; }
-
-        public string Nickname { get; set; }
     }
 }

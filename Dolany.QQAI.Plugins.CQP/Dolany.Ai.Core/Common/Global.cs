@@ -13,6 +13,14 @@
 
         public static bool IsTesting { get; } = bool.Parse(Configger.Instance["IsTesting"]);
 
+        public static long DeveloperNumber { get; } = long.Parse(Configger.Instance["DeveloperNumber"]);
+
+        public static long SysMsgNumber { get; } = long.Parse(Configger.Instance["SysMsgNumber"]);
+
+        public static long AnonymousNumber { get; } = long.Parse(Configger.Instance["AnonymousNumber"]);
+
+        public static long SelfQQNum { get; } = long.Parse(Configger.Instance["SelfQQNum"]);
+
         public static IEnumerable<long> TestGroups { get; } = Configger.Instance["TestGroups"].Split(" ").Select(long.Parse);
 
         public static readonly RabbitMQService CommandInfoService =

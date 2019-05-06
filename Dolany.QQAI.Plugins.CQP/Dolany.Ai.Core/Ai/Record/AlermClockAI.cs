@@ -18,8 +18,6 @@ namespace Dolany.Ai.Core.Ai.Record
 
     using Model;
 
-    using static Utility;
-
     [AI(
         Name = "闹钟",
         Description = "AI for Alerm Clock.",
@@ -70,7 +68,7 @@ namespace Dolany.Ai.Core.Ai.Record
                 Creator = MsgDTO.FromQQ,
                 GroupNumber = MsgDTO.FromGroup,
                 CreateTime = DateTime.Now,
-                AINum = SelfQQNum
+                AINum = Global.SelfQQNum
             };
 
             InsertClock(entity, MsgDTO);

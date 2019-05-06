@@ -1,5 +1,7 @@
-﻿using System.Threading;
+﻿using System.Collections.Generic;
+using System.Threading;
 using Dolany.Ai.Common;
+using Dolany.Ai.Core.Ai.Game.Shopping;
 using Dolany.Ai.Core.Common;
 using Dolany.Ai.Core.OnlineStore;
 using Dolany.Database;
@@ -395,7 +397,7 @@ namespace Dolany.Ai.Core.Ai.Sys
         }
 
         [EnterCommand(
-            Command = "查询缓存",
+            Command = "查询缓存 查看缓存",
             Description = "根据key值查询缓存信息",
             Syntax = "[key]",
             Tag = "系统命令",
@@ -417,6 +419,75 @@ namespace Dolany.Ai.Core.Ai.Sys
                 var json = JsonConvert.SerializeObject(content);
                 MsgSender.PushMsg(MsgDTO, json);
             }
+
+            return true;
+        }
+
+        [EnterCommand(
+            Command = "签到升级",
+            Description = "升级签到系统",
+            Syntax = "",
+            Tag = "系统命令",
+            SyntaxChecker = "Empty",
+            AuthorityLevel = AuthorityLevel.开发者,
+            IsPrivateAvailable = true)]
+        public bool UpdateSignIn(MsgInformationEx MsgDTO, object[] param)
+        {
+            MsgSender.PushMsg(MsgDTO, "Updating...");
+            using (var cache = new SqliteContext(Configger.Instance["CacheDb"]))
+            {
+                var contents = cache.SqliteCacheModel.Where(p => p.Key.Contains("DailySignIn"));
+                foreach (var model in contents)
+                {
+                    var strs = model.Key.Split(new[] {'-'});
+                    if (strs.Length == 2)
+                    {
+                        var groupNum = long.Parse(strs[1]);
+                        var groupRecord = MongoService<SignInGroupRecord>.GetOnly(p => p.GroupNum == groupNum);
+                        if (groupRecord == null)
+                        {
+                            groupRecord = new SignInGroupRecord(){GroupNum = groupNum, Content = model.Value};
+                            MongoService<SignInGroupRecord>.Insert(groupRecord);
+                        }
+                        else
+                        {
+                            groupRecord.Content = model.Value;
+                            MongoService<SignInGroupRecord>.Update(groupRecord);
+                        }
+                    }
+                    else
+                    {
+                        var cacheModel = JsonConvert.DeserializeObject<DailySignInCache>(model.Value);
+                        var personRecord = MongoService<SignInPersonRecord>.GetOnly(p => p.QQNum == cacheModel.QQNum);
+                        var groupInfo = new SignInGroupInfo() {SuccessiveDays = cacheModel.SuccessiveSignDays, LastSignInDate = cacheModel.LastSignDate};
+                        if (personRecord == null)
+                        {
+                            personRecord = new SignInPersonRecord()
+                            {
+                                QQNum = cacheModel.QQNum,
+                                GroupInfos = new Dictionary<long, SignInGroupInfo>()
+                                {
+                                    {cacheModel.GroupNum, groupInfo}
+                                }
+                            };
+                            MongoService<SignInPersonRecord>.Insert(personRecord);
+                        }
+                        else
+                        {
+                            if (personRecord.GroupInfos.ContainsKey(cacheModel.GroupNum))
+                            {
+                                personRecord.GroupInfos[cacheModel.GroupNum] = groupInfo;
+                            }
+                            else
+                            {
+                                personRecord.GroupInfos.Add(cacheModel.GroupNum, groupInfo);
+                            }
+                            MongoService<SignInPersonRecord>.Update(personRecord);
+                        }
+                    }
+                }
+            }
+            MsgSender.PushMsg(MsgDTO, "Updated.");
 
             return true;
         }
