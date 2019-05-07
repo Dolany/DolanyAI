@@ -65,6 +65,27 @@ namespace Dolany.Database.Ai
             }
             dailyLimitCommand.LastTime = DateTime.Now;
         }
+
+        public void Decache(string command, int count = 1)
+        {
+            if (!Commands.ContainsKey(command))
+            {
+                Commands.Add(command, new DailyLimitCommand(){Times = -count, LastTime = DateTime.Now});
+                return;
+            }
+
+            var refreshTime = DateTime.Now.Hour > 4 ? DateTime.Now.Date.AddHours(4) : DateTime.Now.Date.AddHours(4).AddDays(-1);
+            var dailyLimitCommand = Commands[command];
+            if (dailyLimitCommand.LastTime == null || dailyLimitCommand.LastTime.Value < refreshTime)
+            {
+                dailyLimitCommand.Times = -count;
+            }
+            else
+            {
+                dailyLimitCommand.Times -= count;
+            }
+            dailyLimitCommand.LastTime = DateTime.Now;
+        }
     }
 
     public class DailyLimitCommand

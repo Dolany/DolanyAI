@@ -93,19 +93,11 @@ namespace Dolany.Ai.Core.Ai.Sys
         {
             var command = param[0] as string;
             var qqNum = (long)param[1];
-            var count = (long)param[2];
+            var count = (int) (long) param[2];
 
-            var key = $"DailyLimit-{command}-{qqNum}";
-            var cache = SCacheService.Get<DailyLimitCache>(key);
-            if (cache == null)
-            {
-                SCacheService.Cache(key, new DailyLimitCache{QQNum = qqNum, Count = (int)-count, Command = command});
-            }
-            else
-            {
-                cache.Count -= (int)count;
-                SCacheService.Cache(key, cache);
-            }
+            var dailyLimit = DailyLimitMgr.Instance[qqNum];
+            dailyLimit.Decache(command, count);
+            dailyLimit.Update();
 
             MsgSender.PushMsg(MsgDTO, "奖励已生效！");
             return true;

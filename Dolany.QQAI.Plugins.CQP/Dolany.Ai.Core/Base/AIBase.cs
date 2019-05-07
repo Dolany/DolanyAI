@@ -89,10 +89,13 @@ namespace Dolany.Ai.Core.Base
 
                     var result = (bool)methodInfo.Invoke(this, new object[]{MsgDTO, param});
 
-                    if (result)
+                    if (!result)
                     {
-                        limitRecord.Cache(enterCommandAttribute.Command);
+                        return true;
                     }
+
+                    limitRecord.Cache(enterCommandAttribute.Command);
+                    limitRecord.Update();
 
                     return true;
                 }

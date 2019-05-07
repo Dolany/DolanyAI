@@ -4,8 +4,6 @@ using Dolany.Ai.Common;
 using Dolany.Ai.Core.Cache;
 using Dolany.Ai.Core.OnlineStore;
 using Dolany.Database.Ai;
-using Dolany.Database.Sqlite;
-using Dolany.Database.Sqlite.Model;
 
 namespace Dolany.Ai.Core.Ai.Game.ChessAgainst
 {
@@ -293,17 +291,9 @@ namespace Dolany.Ai.Core.Ai.Game.ChessAgainst
             Description = "增加一次捞瓶子的机会(当日有效)")]
         public void 凪()
         {
-            var key = $"DailyLimit-捞瓶子-{SelfQQNum}";
-            var cache = SCacheService.Get<DailyLimitCache>(key);
-            if (cache == null)
-            {
-                SCacheService.Cache(key, new DailyLimitCache{QQNum = SelfQQNum, Count = -1, Command = "捞瓶子"});
-            }
-            else
-            {
-                cache.Count -= 1;
-                SCacheService.Cache(key, cache);
-            }
+            var dailyLimit = DailyLimitMgr.Instance[SelfQQNum];
+            dailyLimit.Decache("捞瓶子");
+            dailyLimit.Update();
         }
 
         [ChessEffect(Name = "钻石尘",
