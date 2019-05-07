@@ -4,8 +4,6 @@ using Dolany.Ai.Core.Cache;
 using Dolany.Ai.Core.Common;
 using Dolany.Ai.Core.Model;
 using Dolany.Ai.Core.OnlineStore;
-using Dolany.Database.Sqlite;
-using Dolany.Database.Sqlite.Model;
 
 namespace Dolany.Ai.Core.Ai.SingleCommand.GroupOwnerOnly
 {
@@ -30,8 +28,12 @@ namespace Dolany.Ai.Core.Ai.SingleCommand.GroupOwnerOnly
             var aimQQ = (long) param[0];
             var command = param[1] as string;
 
-            var key = $"DailyLimit-{command}-{aimQQ}";
-            SCacheService.Cache(key, new DailyLimitCache {Count = 0, QQNum = aimQQ, Command = command});
+            var dailyLimit = DailyLimitMgr.Instance[aimQQ];
+            if (dailyLimit.Commands.ContainsKey(command))
+            {
+                dailyLimit.Commands[command].Times = 0;
+                dailyLimit.Update();
+            }
             MsgSender.PushMsg(MsgDTO, "刷新成功！");
 
             return true;
