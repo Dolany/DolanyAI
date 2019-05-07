@@ -5,9 +5,9 @@ using HtmlAgilityPack;
 
 namespace Dolany.Ai.Core.Net
 {
-    public class HtmlParser
+    public abstract class HtmlParser
     {
-        protected HtmlDocument document = new HtmlDocument();
+        protected readonly HtmlDocument document = new HtmlDocument();
 
         public void Load(string html)
         {
@@ -16,9 +16,7 @@ namespace Dolany.Ai.Core.Net
             Parse();
         }
 
-        protected virtual void Parse()
-        {
-        }
+        protected abstract void Parse();
 
         protected List<HtmlNode> SearchNodes(HtmlNode root, Expression<Func<HtmlNode, bool>> express)
         {

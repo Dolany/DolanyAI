@@ -1,5 +1,6 @@
 ﻿using System.Net;
 using System.Text;
+using Newtonsoft.Json;
 
 namespace Dolany.Ai.Core.Net
 {
@@ -21,13 +22,13 @@ namespace Dolany.Ai.Core.Net
                 using (var wc = new WebClient())
                 {
                     //post
-                    var postData = JsonHelper.SerializeObject(p.data);
+                    var postData = JsonConvert.SerializeObject(p.data);
                     var bytes = Encoding.UTF8.GetBytes(postData);
                     wc.Headers.Add("Content-Type", "application/json; charset=utf-8");
                     wc.Headers.Add("ContentLength", postData.Length.ToString());
                     var responseData = wc.UploadData($"{p.InterfaceName}", "POST", bytes);
                     var re = Encoding.UTF8.GetString(responseData);
-                    _reqRet = JsonHelper.DeserializeJsonToObject<ResultType>(re);
+                    _reqRet = JsonConvert.DeserializeObject<ResultType>(re);
                 }
             }
             catch (Exception e)

@@ -3,11 +3,11 @@ using System.IO;
 using System.Net;
 using System.Security.Cryptography;
 using System.Text;
+using Newtonsoft.Json;
 
 namespace Dolany.Ai.Core.Ai.SingleCommand.Tuling
 {
     using Model;
-    using Net;
 
     public class XfyunRequestHelper
     {
@@ -68,7 +68,7 @@ namespace Dolany.Ai.Core.Ai.SingleCommand.Tuling
                 Auf = "audio/L16;rate=16000",
                 Voice_name = voiceName
             };
-            var postData = JsonHelper.SerializeObject(request);
+            var postData = JsonConvert.SerializeObject(request);
             return Convert.ToBase64String(Encoding.UTF8.GetBytes(postData));
         }
 

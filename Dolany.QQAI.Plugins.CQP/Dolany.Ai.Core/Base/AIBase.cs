@@ -1,4 +1,5 @@
 ﻿using System.Reflection;
+using Dolany.Database.Ai;
 
 namespace Dolany.Ai.Core.Base
 {
@@ -10,9 +11,6 @@ namespace Dolany.Ai.Core.Base
     using Common;
 
     using Dolany.Ai.Common;
-    using Database.Sqlite;
-    using Dolany.Database.Sqlite.Model;
-
     using Model;
 
     public abstract class AIBase
@@ -82,7 +80,8 @@ namespace Dolany.Ai.Core.Base
                         return true;
                     }
 
-                    var checkResult = DailyLimitCheck(enterCommandAttribute, MsgDTO, out var cache);
+                    var limitRecord = DailyLimitMgr.Instance[MsgDTO.FromQQ];
+                    var checkResult = DailyLimitCheck(enterCommandAttribute, MsgDTO, limitRecord);
                     if (!checkResult)
                     {
                         return true;
@@ -90,10 +89,9 @@ namespace Dolany.Ai.Core.Base
 
                     var result = (bool)methodInfo.Invoke(this, new object[]{MsgDTO, param});
 
-                    if (cache != null && result)
+                    if (result)
                     {
-                        var key = $"DailyLimit-{enterCommandAttribute.Command}-{MsgDTO.FromQQ}";
-                        SCacheService.Cache(key, cache);
+                        limitRecord.Cache(enterCommandAttribute.Command);
                     }
 
                     return true;
@@ -139,34 +137,16 @@ namespace Dolany.Ai.Core.Base
             return true;
         }
 
-        private static bool DailyLimitCheck(EnterCommandAttribute enterAttr, MsgInformationEx MsgDTO, out DailyLimitCache cache)
+        private static bool DailyLimitCheck(EnterCommandAttribute enterAttr, MsgInformationEx MsgDTO, DailyLimitRecord limitRecord)
         {
-            cache = null;
             var isTestingGroup = Global.TestGroups.Contains(MsgDTO.FromGroup);
             if (MsgDTO.FromQQ == Global.DeveloperNumber || (isTestingGroup && enterAttr.TestingDailyLimit == 0) || (!isTestingGroup && enterAttr.DailyLimit == 0))
             {
                 return true;
             }
 
-            var key = $"DailyLimit-{enterAttr.Command}-{MsgDTO.FromQQ}";
-            cache = SCacheService.Get<DailyLimitCache>(key);
-
-            if (cache == null)
-            {
-                cache = new DailyLimitCache {Count = 1, QQNum = MsgDTO.FromQQ, Command = enterAttr.Command};
-            }
-            else
-            {
-                if ((isTestingGroup && cache.Count >= enterAttr.TestingDailyLimit) || (!isTestingGroup && cache.Count >= enterAttr.DailyLimit))
-                {
-                    MsgSender.PushMsg(MsgDTO, $"今天 {enterAttr.Command} 的次数已用完，请明天再试~", true);
-                    return false;
-                }
-
-                cache.Count++;
-            }
-
-            return true;
+            var timesLimit = isTestingGroup ? enterAttr.TestingDailyLimit : enterAttr.DailyLimit;
+            return limitRecord.Check(enterAttr.Command, timesLimit);
         }
 
         private static bool SyntaxCheck(string SyntaxChecker, string msg, out object[] param)

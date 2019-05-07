@@ -1,4 +1,5 @@
 ﻿using Dolany.Ai.Common;
+using Newtonsoft.Json;
 
 namespace Dolany.Ai.Core.API
 {
@@ -39,7 +40,7 @@ namespace Dolany.Ai.Core.API
             try
             {
                 Logger.Log(ml);
-                return JsonHelper.DeserializeJsonToObject<GroupMemberListViewModel>(ml);
+                return JsonConvert.DeserializeObject<GroupMemberListViewModel>(ml);
             }
             catch (Exception ex)
             {
