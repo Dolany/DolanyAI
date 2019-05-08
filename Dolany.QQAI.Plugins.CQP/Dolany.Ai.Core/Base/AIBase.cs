@@ -80,7 +80,7 @@ namespace Dolany.Ai.Core.Base
                         return true;
                     }
 
-                    var limitRecord = DailyLimitMgr.Instance[MsgDTO.FromQQ];
+                    var limitRecord = DailyLimitRecord.Get(MsgDTO.FromQQ);
                     var checkResult = DailyLimitCheck(enterCommandAttribute, MsgDTO, limitRecord);
                     if (!checkResult)
                     {

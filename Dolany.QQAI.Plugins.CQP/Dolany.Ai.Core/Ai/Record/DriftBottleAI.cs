@@ -30,8 +30,8 @@ namespace Dolany.Ai.Core.Ai.Record
             SyntaxChecker = "Empty",
             Tag = "漂流瓶功能",
             IsPrivateAvailable = true,
-            DailyLimit = 1,
-            TestingDailyLimit = 3)]
+            DailyLimit = 3,
+            TestingDailyLimit = 5)]
         public bool FishingBottle(MsgInformationEx MsgDTO, object[] param)
         {
             var osPerson = OSPerson.GetPerson(MsgDTO.FromQQ);

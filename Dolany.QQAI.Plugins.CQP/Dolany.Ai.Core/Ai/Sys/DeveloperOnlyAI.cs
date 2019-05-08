@@ -95,7 +95,7 @@ namespace Dolany.Ai.Core.Ai.Sys
             var qqNum = (long)param[1];
             var count = (int) (long) param[2];
 
-            var dailyLimit = DailyLimitMgr.Instance[qqNum];
+            var dailyLimit = DailyLimitRecord.Get(qqNum);
             dailyLimit.Decache(command, count);
             dailyLimit.Update();
 

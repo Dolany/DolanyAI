@@ -4,6 +4,7 @@ using Dolany.Ai.Core.Cache;
 using Dolany.Ai.Core.Common;
 using Dolany.Ai.Core.Model;
 using Dolany.Ai.Core.OnlineStore;
+using Dolany.Database.Ai;
 
 namespace Dolany.Ai.Core.Ai.SingleCommand.GroupOwnerOnly
 {
@@ -28,7 +29,7 @@ namespace Dolany.Ai.Core.Ai.SingleCommand.GroupOwnerOnly
             var aimQQ = (long) param[0];
             var command = param[1] as string;
 
-            var dailyLimit = DailyLimitMgr.Instance[aimQQ];
+            var dailyLimit = DailyLimitRecord.Get(aimQQ);
             if (dailyLimit.Commands.ContainsKey(command))
             {
                 dailyLimit.Commands[command].Times = 0;

@@ -99,15 +99,12 @@ namespace Dolany.Ai.Core.Ai.Game.Shopping
             IsPrivateAvailable = true)]
         public bool LimitBonus(MsgInformationEx MsgDTO, object[] param)
         {
-            var key = $"LimitBonus-{MsgDTO.FromQQ}";
-            var cache = SCacheService.Get<string>(key);
-            if (string.IsNullOrEmpty(cache))
+            var cache = PersonCacheRecord.Get(MsgDTO.FromQQ, "抽奖");
+            if (string.IsNullOrEmpty(cache.Value) || !int.TryParse(cache.Value, out var times) || times <= 0)
             {
                 MsgSender.PushMsg(MsgDTO, "你没有抽奖机会！");
                 return false;
             }
-
-            SCacheService.Cache(key, "nothing", DateTime.Now);
 
             var items = HonorHelper.Instance.CurMonthLimitItems();
             var item = items.RandElement();
@@ -121,6 +118,8 @@ namespace Dolany.Ai.Core.Ai.Game.Shopping
             }
 
             MsgSender.PushMsg(MsgDTO, msg, true);
+
+            cache.Value = (times - 1).ToString();
 
             return true;
         }
