@@ -37,6 +37,7 @@ namespace Dolany.Ai.MQ
         {
             try
             {
+                information.AiName = UtTools.GetConfig("BindAi");
                 var body = Encoding.UTF8.GetBytes(JsonConvert.SerializeObject(information));
                 channel.BasicPublish(string.Empty, routingKey, null, body); //开始传递
             }

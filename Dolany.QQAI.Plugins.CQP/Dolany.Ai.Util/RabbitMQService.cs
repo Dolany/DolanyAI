@@ -26,6 +26,7 @@
 
         public void Send(MsgInformation information)
         {
+            information.AiName = UtTools.GetConfig("BindAi");
             var body = Encoding.UTF8.GetBytes(JsonConvert.SerializeObject(information));
             channel.BasicPublish(string.Empty, UtTools.GetConfig("InformationQueueName"), null, body); //开始传递
         }
