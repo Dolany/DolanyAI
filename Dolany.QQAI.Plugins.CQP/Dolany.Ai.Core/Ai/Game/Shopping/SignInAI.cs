@@ -107,6 +107,12 @@ namespace Dolany.Ai.Core.Ai.Game.Shopping
                 personRecord.GroupInfos.Add(MsgDTO.FromGroup.ToString(), ginfo);
             }
 
+            if (ginfo.LastSignInDate.HasValue && ginfo.LastSignInDate.Value.ToLocalTime() > DateTime.Now.Date)
+            {
+                MsgSender.PushMsg(MsgDTO, "你今天已经签过到啦！");
+                return true;
+            }
+
             Sign(ginfo, MsgDTO);
             personRecord.Update();
             return true;
@@ -114,7 +120,7 @@ namespace Dolany.Ai.Core.Ai.Game.Shopping
 
         private void Sign(SignInGroupInfo ginfo, MsgInformationEx MsgDTO)
         {
-            if (ginfo.LastSignInDate == null || ginfo.LastSignInDate.Value.Date < DateTime.Today.AddDays(-1))
+            if (ginfo.LastSignInDate == null || ginfo.LastSignInDate.Value.ToLocalTime().Date < DateTime.Today.AddDays(-1))
             {
                 ginfo.SuccessiveDays = 0;
             }
@@ -128,7 +134,7 @@ namespace Dolany.Ai.Core.Ai.Game.Shopping
                 ginfo.SuccessiveDays += 2;
             }
 
-            ginfo.LastSignInDate = DateTime.Today;
+            ginfo.LastSignInDate = DateTime.Now;
             var goldsGen = ginfo.SuccessiveDays > 5 ? 25 : ginfo.SuccessiveDays * 5;
 
             OSPerson.GoldIncome(MsgDTO.FromQQ, goldsGen);
