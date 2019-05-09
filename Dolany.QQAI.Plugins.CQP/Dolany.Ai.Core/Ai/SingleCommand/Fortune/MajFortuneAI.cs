@@ -53,7 +53,7 @@ namespace Dolany.Ai.Core.Ai.SingleCommand.Fortune
             SumRate = KindDic.Sum(p => p.Value);
         }
 
-        [EnterCommand(
+        [EnterCommand(ID = "MajFortuneAI_RandomMajFortune",
             Command = ".maj 麻将运势",
             AuthorityLevel = AuthorityLevel.成员,
             Description = "获取每天麻将运势",

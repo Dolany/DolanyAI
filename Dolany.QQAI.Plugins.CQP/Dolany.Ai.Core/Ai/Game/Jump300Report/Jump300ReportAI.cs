@@ -18,7 +18,7 @@ namespace Dolany.Ai.Core.Ai.Game.Jump300Report
         {
         }
 
-        [EnterCommand(
+        [EnterCommand(ID = "Jump300ReportAI_JumpReport",
             Command = "战绩查询",
             AuthorityLevel = AuthorityLevel.成员,
             Description = "查询300英雄战绩信息",

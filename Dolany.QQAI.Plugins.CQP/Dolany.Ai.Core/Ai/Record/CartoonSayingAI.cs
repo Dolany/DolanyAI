@@ -23,7 +23,7 @@
         {
         }
 
-        [EnterCommand(
+        [EnterCommand(ID = "CartoonSayingAI_ProcceedMsg",
             Command = "语录",
             AuthorityLevel = AuthorityLevel.成员,
             Description = "录入一条语录",
@@ -54,7 +54,7 @@
             return true;
         }
 
-        [EnterCommand(
+        [EnterCommand(ID = "CartoonSayingAI_Sayings",
             Command = "语录",
             AuthorityLevel = AuthorityLevel.成员,
             Description = "返回一条随机语录",
@@ -75,7 +75,7 @@
             return true;
         }
 
-        [EnterCommand(
+        [EnterCommand(ID = "CartoonSayingAI_Sayings_Query",
             Command = "语录",
             AuthorityLevel = AuthorityLevel.成员,
             Description = "按关键字检索语录",
@@ -143,7 +143,7 @@
             return shownSaying;
         }
 
-        [EnterCommand(
+        [EnterCommand(ID = "CartoonSayingAI_ClearSayings",
             Command = "删除语录",
             AuthorityLevel = AuthorityLevel.群主,
             Description = "按关键字删除语录",
@@ -164,7 +164,7 @@
             return true;
         }
 
-        [EnterCommand(
+        [EnterCommand(ID = "CartoonSayingAI_SayingSeal",
             Command = "语录封禁",
             AuthorityLevel = AuthorityLevel.群主,
             Description = "封禁一个群员，让他无法使用语录功能",
@@ -196,7 +196,7 @@
             return true;
         }
 
-        [EnterCommand(
+        [EnterCommand(ID = "CartoonSayingAI_SayingDeseal",
             Command = "语录解封",
             AuthorityLevel = AuthorityLevel.群主,
             Description = "解封一个群员，让他可以继续使用语录功能",

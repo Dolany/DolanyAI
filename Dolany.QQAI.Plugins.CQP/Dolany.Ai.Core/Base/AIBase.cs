@@ -95,7 +95,7 @@ namespace Dolany.Ai.Core.Base
                         return true;
                     }
 
-                    limitRecord.Cache(enterCommandAttribute.Command);
+                    limitRecord.Cache(enterCommandAttribute.ID);
                     limitRecord.Update();
 
                     return true;
@@ -150,7 +150,7 @@ namespace Dolany.Ai.Core.Base
             }
 
             var timesLimit = isTestingGroup ? enterAttr.TestingDailyLimit : enterAttr.DailyLimit;
-            return limitRecord.Check(enterAttr.Command, timesLimit);
+            return limitRecord.Check(enterAttr.ID, timesLimit);
         }
 
         private static bool SyntaxCheck(string SyntaxChecker, string msg, out object[] param)

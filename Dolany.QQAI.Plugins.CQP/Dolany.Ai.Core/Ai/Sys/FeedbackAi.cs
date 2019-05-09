@@ -18,7 +18,7 @@ namespace Dolany.Ai.Core.Ai.Sys
     {
         private readonly string[] ForbidenWords = {"啪师姐"};
 
-        [EnterCommand(
+        [EnterCommand(ID = "FeedbackAi_Feedback",
             Command = "反馈",
             Description = "向开发者提供反馈建议",
             Syntax = "[反馈内容]",
@@ -50,7 +50,7 @@ namespace Dolany.Ai.Core.Ai.Sys
             return true;
         }
 
-        [EnterCommand(
+        [EnterCommand(ID = "FeedbackAi_ViewFeedback",
             Command = "昨日反馈",
             Description = "查看昨日反馈",
             Syntax = "",

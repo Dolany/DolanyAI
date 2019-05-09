@@ -20,7 +20,7 @@
         {
         }
 
-        [EnterCommand(
+        [EnterCommand(ID = "TranslateAI_Trans",
             Command = "翻译",
             AuthorityLevel = AuthorityLevel.成员,
             Description = "翻译指定内容",

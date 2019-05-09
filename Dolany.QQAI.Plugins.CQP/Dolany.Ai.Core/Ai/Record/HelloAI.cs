@@ -77,7 +77,7 @@ namespace Dolany.Ai.Core.Ai.Record
             return false;
         }
 
-        [EnterCommand(
+        [EnterCommand(ID = "HelloAI_SaveHelloContent",
             Command = "打招呼设定",
             AuthorityLevel = AuthorityLevel.成员,
             Description = "设定每天打招呼的内容",
@@ -114,7 +114,7 @@ namespace Dolany.Ai.Core.Ai.Record
             return true;
         }
 
-        [EnterCommand(
+        [EnterCommand(ID = "HelloAI_SayHello",
             Command = "打招呼",
             AuthorityLevel = AuthorityLevel.成员,
             Description = "发送打招呼的内容",
@@ -135,7 +135,7 @@ namespace Dolany.Ai.Core.Ai.Record
             return true;
         }
 
-        [EnterCommand(
+        [EnterCommand(ID = "HelloAI_DeleteHello",
             Command = "打招呼删除",
             AuthorityLevel = AuthorityLevel.成员,
             Description = "删除打招呼的内容",

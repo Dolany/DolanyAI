@@ -27,7 +27,7 @@
         {
         }
 
-        [EnterCommand(
+        [EnterCommand(ID = "CharactorSettingAI_SetCharactor",
             Command = "人物设定",
             AuthorityLevel = AuthorityLevel.成员,
             Description = "设定一个人物",
@@ -53,7 +53,7 @@
             return true;
         }
 
-        [EnterCommand(
+        [EnterCommand(ID = "CharactorSettingAI_DeleteCharactor",
             Command = "删除人物",
             AuthorityLevel = AuthorityLevel.成员,
             Description = "删除一个人物",
@@ -88,7 +88,7 @@
             return true;
         }
 
-        [EnterCommand(
+        [EnterCommand(ID = "CharactorSettingAI_ViewCharactor",
             Command = "人物设定浏览",
             AuthorityLevel = AuthorityLevel.成员,
             Description = "浏览一个人物的全部设定",

@@ -18,7 +18,7 @@ namespace Dolany.Ai.Core.Ai.SingleCommand.RandomPic
         {
         }
 
-        [EnterCommand(
+        [EnterCommand(ID = "RandomPicAI_RecentPic",
             Command = "随机图片 一键盗图",
             AuthorityLevel = AuthorityLevel.成员,
             Description = "随机发送近期内所有群组内发过的图片",
@@ -34,7 +34,7 @@ namespace Dolany.Ai.Core.Ai.SingleCommand.RandomPic
             return true;
         }
 
-        [EnterCommand(
+        [EnterCommand(ID = "RandomPicAI_RecentFlash",
             Command = "随机闪照",
             AuthorityLevel = AuthorityLevel.成员,
             Description = "随机发送近期内所有群组内发过的图片（以闪照的形式）",

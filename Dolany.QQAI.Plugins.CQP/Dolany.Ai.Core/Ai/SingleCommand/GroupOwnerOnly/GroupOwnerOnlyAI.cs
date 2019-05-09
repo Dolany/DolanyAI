@@ -15,7 +15,7 @@ namespace Dolany.Ai.Core.Ai.SingleCommand.GroupOwnerOnly
         PriorityLevel = 10)]
     public class GroupOwnerOnlyAI : AIBase
     {
-        [EnterCommand(
+        [EnterCommand(ID = "GroupOwnerOnlyAI_RefreshCommand",
             Command = "刷新",
             AuthorityLevel = AuthorityLevel.群主,
             Description = "刷新某人某个功能的CD",
@@ -40,7 +40,7 @@ namespace Dolany.Ai.Core.Ai.SingleCommand.GroupOwnerOnly
             return true;
         }
 
-        [EnterCommand(
+        [EnterCommand(ID = "GroupOwnerOnlyAI_Dispel",
             Command = "驱散",
             Description = "清除某人身上的所有buff",
             Syntax = "[@QQ]",
@@ -76,7 +76,7 @@ namespace Dolany.Ai.Core.Ai.SingleCommand.GroupOwnerOnly
             return true;
         }
 
-        [EnterCommand(
+        [EnterCommand(ID = "GroupOwnerOnlyAI_DispelOneBuff",
             Command = "驱散",
             Description = "清除某人身上的指定buff",
             Syntax = "[@QQ] [Buff名称]",
@@ -119,7 +119,7 @@ namespace Dolany.Ai.Core.Ai.SingleCommand.GroupOwnerOnly
             return true;
         }
 
-        [EnterCommand(
+        [EnterCommand(ID = "GroupOwnerOnlyAI_EnableAllModules",
             Command = "开启所有功能",
             AuthorityLevel = AuthorityLevel.群主,
             Description = "开启机器人的所有功能",
@@ -137,7 +137,7 @@ namespace Dolany.Ai.Core.Ai.SingleCommand.GroupOwnerOnly
             return true;
         }
 
-        [EnterCommand(
+        [EnterCommand(ID = "GroupOwnerOnlyAI_ViewAllOptionalModules",
             Command = "可选功能列表",
             AuthorityLevel = AuthorityLevel.群主,
             Description = "查看机器人的所有可选功能",

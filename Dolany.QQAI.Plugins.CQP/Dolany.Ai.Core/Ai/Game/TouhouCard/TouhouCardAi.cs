@@ -22,7 +22,7 @@ namespace DolanyAI.Ai.Game.TouhouCard
         {
         }
 
-        [EnterCommand(
+        [EnterCommand(ID = "TouhouCardAi_RandomCard",
             Command = ".card 幻想乡抽卡",
             AuthorityLevel = AuthorityLevel.成员,
             Description = "随机获取一张DIY幻想乡卡牌(每日刷新)",

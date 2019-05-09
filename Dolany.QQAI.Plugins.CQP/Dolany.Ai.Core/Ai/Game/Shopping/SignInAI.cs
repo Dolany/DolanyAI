@@ -30,7 +30,8 @@ namespace Dolany.Ai.Core.Ai.Game.Shopping
             GroupSignInDic = records.ToDictionary(p => p.GroupNum, p => p);
         }
 
-        [EnterCommand(Command = "签到",
+        [EnterCommand(ID = "SignInAI_SetSignContent",
+            Command = "签到",
             AuthorityLevel = AuthorityLevel.管理员,
             Description = "设置签到内容，有效期1个月(不能与系统自带命令重复)",
             Syntax = "[签到内容]",
@@ -144,7 +145,8 @@ namespace Dolany.Ai.Core.Ai.Game.Shopping
             MsgSender.PushMsg(MsgDTO, msg, true);
         }
 
-        [EnterCommand(Command = "今日签到内容",
+        [EnterCommand(ID = "SignInAI_TodaySignContent",
+            Command = "今日签到内容",
             AuthorityLevel = AuthorityLevel.成员,
             Description = "获取今日签到内容",
             Syntax = "",

@@ -27,7 +27,8 @@ namespace Dolany.Ai.Core.Ai.Sys.BonusCenter
             BonusDic = list.ToDictionary(p => p.Code, p => p);
         }
 
-        [EnterCommand(Command = "兑奖",
+        [EnterCommand(ID = "BonusCenterAI_AutoBonus",
+            Command = "兑奖",
             AuthorityLevel = AuthorityLevel.成员,
             Description = "根据兑换码兑换奖励",
             Syntax = "[兑换码]",

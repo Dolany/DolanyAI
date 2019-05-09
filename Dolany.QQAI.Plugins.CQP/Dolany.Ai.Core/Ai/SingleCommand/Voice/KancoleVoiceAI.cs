@@ -20,7 +20,7 @@
         {
         }
 
-        [EnterCommand(
+        [EnterCommand(ID = "KancoleVoiceAI_KancoleVoice",
             Command = "舰娘语音",
             AuthorityLevel = AuthorityLevel.成员,
             Description = "获取随机舰娘语音",

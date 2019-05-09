@@ -14,13 +14,14 @@ namespace Dolany.Ai.Core.Base
     [AttributeUsage(AttributeTargets.Method, AllowMultiple = true)]
     public sealed class EnterCommandAttribute : Attribute
     {
+        public string ID { get; set; }
         public string Command { get; set; }
         public AuthorityLevel AuthorityLevel { get; set; }
         public string Description { get; set; }
         public string Syntax { get; set; }
         public string Tag { get; set; }
         public string SyntaxChecker { get; set; }
-        public bool IsPrivateAvailable { get; set; } = false;
+        public bool IsPrivateAvailable { get; set; }
         public bool IsGroupAvailable { get; set; } = true;
         public bool IsTesting { get; set; } = false;
         public int DailyLimit { get; set; }

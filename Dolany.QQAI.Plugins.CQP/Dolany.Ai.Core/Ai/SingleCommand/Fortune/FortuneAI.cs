@@ -39,7 +39,7 @@ namespace Dolany.Ai.Core.Ai.SingleCommand.Fortune
             }).ToList();
         }
 
-        [EnterCommand(
+        [EnterCommand(ID = "FortuneAI_RandomFortune",
             Command = ".luck 祈愿运势",
             AuthorityLevel = AuthorityLevel.成员,
             Description = "获取每天运势",
@@ -87,7 +87,7 @@ namespace Dolany.Ai.Core.Ai.SingleCommand.Fortune
             rf.BlessValue = item.Value;
         }
 
-        [EnterCommand(
+        [EnterCommand(ID = "FortuneAI_StarFortune",
             Command = "星座运势",
             AuthorityLevel = AuthorityLevel.成员,
             Description = "获取星座运势",
@@ -148,7 +148,7 @@ namespace Dolany.Ai.Core.Ai.SingleCommand.Fortune
             MsgSender.PushMsg(MsgDTO, msg, true);
         }
 
-        [EnterCommand(
+        [EnterCommand(ID = "FortuneAI_TarotFortune",
             Command = ".zhan 塔罗牌占卜",
             AuthorityLevel = AuthorityLevel.成员,
             Description = "获取每日塔罗牌占卜",
@@ -196,7 +196,7 @@ namespace Dolany.Ai.Core.Ai.SingleCommand.Fortune
             return DataList.RandElement();
         }
 
-        [EnterCommand(
+        [EnterCommand(ID = "FortuneAI_HolyLight",
             Command = "圣光祝福",
             AuthorityLevel = AuthorityLevel.群主,
             Description = "祝福一个成员，让其随机运势增加80%（最高100%），当日有效",
@@ -214,7 +214,7 @@ namespace Dolany.Ai.Core.Ai.SingleCommand.Fortune
             return true;
         }
 
-        [EnterCommand(
+        [EnterCommand(ID = "FortuneAI_CreatorBless",
             Command = "创世神祝福",
             AuthorityLevel = AuthorityLevel.群主,
             Description = "祝福一个成员，让其随机运势增加100%，当日有效",
@@ -258,7 +258,7 @@ namespace Dolany.Ai.Core.Ai.SingleCommand.Fortune
             }
         }
 
-        [EnterCommand(
+        [EnterCommand(ID = "FortuneAI_Darkness",
             Command = "暗夜诅咒",
             AuthorityLevel = AuthorityLevel.群主,
             Description = "诅咒一个成员，让其随机运势减少若干点（最低0%），当日有效",

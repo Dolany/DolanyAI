@@ -13,7 +13,7 @@ namespace Dolany.Ai.Core.Ai.Game.Advanture
         NeedManulOpen = true)]
     public class AdvantureAi : AIBase
     {
-        [EnterCommand(
+        [EnterCommand(ID = "AdvantureAi_AdvantureAgainst",
             Command = "冒险对决",
             AuthorityLevel = AuthorityLevel.成员,
             Description = "和一名成员进行冒险对决",

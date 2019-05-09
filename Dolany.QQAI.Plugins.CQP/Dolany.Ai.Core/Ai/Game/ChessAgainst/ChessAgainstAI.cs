@@ -15,7 +15,8 @@ namespace Dolany.Ai.Core.Ai.Game.ChessAgainst
         NeedManulOpen = true)]
     public class ChessAgainstAI : AIBase
     {
-        [EnterCommand(Command = "对决 决斗",
+        [EnterCommand(ID = "ChessAgainstAI_Fight",
+            Command = "对决 决斗",
             AuthorityLevel = AuthorityLevel.成员,
             Description = "指定一名成员进行对决",
             Syntax = "[@QQ号]",
@@ -24,7 +25,7 @@ namespace Dolany.Ai.Core.Ai.Game.ChessAgainst
             IsPrivateAvailable = false,
             DailyLimit = 1,
             TestingDailyLimit = 3)]
-        public bool Sell(MsgInformationEx MsgDTO, object[] param)
+        public bool Fight(MsgInformationEx MsgDTO, object[] param)
         {
             var aimNum = (long) param[0];
 

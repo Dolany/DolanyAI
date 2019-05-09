@@ -45,7 +45,7 @@
             PicCacher.Cache(cacheInfo.url);
         }
 
-        [EnterCommand(
+        [EnterCommand(ID = "MonitorAI_PowerOff",
             Command = "关机 PowerOff",
             Description = "让机器人休眠",
             Syntax = "",
@@ -68,7 +68,7 @@
             return true;
         }
 
-        [EnterCommand(
+        [EnterCommand(ID = "MonitorAI_PowerOn",
             Command = "开机 PowerOn",
             Description = "唤醒机器人",
             Syntax = "",
@@ -91,7 +91,7 @@
             return true;
         }
 
-        [EnterCommand(
+        [EnterCommand(ID = "MonitorAI_Status",
             Command = "系统状态 .State",
             Description = "获取机器人当前状态",
             Syntax = "",
@@ -125,7 +125,7 @@
             return (setting.IsPowerOn ? "\r电源状态：开机" : "\r电源状态：关机") + expiryDate;
         }
 
-        [EnterCommand(
+        [EnterCommand(ID = "MonitorAI_ExceptionMonitor",
             Command = "Exception",
             Description = "Get Exception Detail",
             Syntax = "[Index]",
@@ -147,7 +147,7 @@
             return true;
         }
 
-        [EnterCommand(
+        [EnterCommand(ID = "MonitorAI_Analyze",
             Command = "Analyze",
             Description = "Analyze Ais",
             Syntax = "[Aspect]",

@@ -22,7 +22,7 @@ namespace Dolany.Ai.Core.Ai.Record
     {
         private const int ItemRate = 60;
 
-        [EnterCommand(
+        [EnterCommand(ID = "DriftBottleAI_FishingBottle",
             Command = "捞瓶子",
             AuthorityLevel = AuthorityLevel.成员,
             Description = "捞一个漂流瓶",
@@ -30,8 +30,8 @@ namespace Dolany.Ai.Core.Ai.Record
             SyntaxChecker = "Empty",
             Tag = "漂流瓶功能",
             IsPrivateAvailable = true,
-            DailyLimit = 3,
-            TestingDailyLimit = 5)]
+            DailyLimit = 1,
+            TestingDailyLimit = 3)]
         public bool FishingBottle(MsgInformationEx MsgDTO, object[] param)
         {
             var osPerson = OSPerson.GetPerson(MsgDTO.FromQQ);
@@ -65,7 +65,7 @@ namespace Dolany.Ai.Core.Ai.Record
             return true;
         }
 
-        [EnterCommand(
+        [EnterCommand(ID = "DriftBottleAI_ThrowBottle",
             Command = "扔瓶子",
             AuthorityLevel = AuthorityLevel.成员,
             Description = "扔一个漂流瓶",
@@ -94,7 +94,8 @@ namespace Dolany.Ai.Core.Ai.Record
             return true;
         }
 
-        [EnterCommand(Command = "我的物品",
+        [EnterCommand(ID = "DriftBottleAI_MyItems",
+            Command = "我的物品",
             AuthorityLevel = AuthorityLevel.成员,
             Description = "查看自己的物品",
             Syntax = "",
@@ -121,7 +122,8 @@ namespace Dolany.Ai.Core.Ai.Record
             return true;
         }
 
-        [EnterCommand(Command = "我的限定物品",
+        [EnterCommand(ID = "DriftBottleAI_MyLimitItems",
+            Command = "我的限定物品",
             AuthorityLevel = AuthorityLevel.成员,
             Description = "查看自己的期间限定物品",
             Syntax = "",
@@ -144,7 +146,8 @@ namespace Dolany.Ai.Core.Ai.Record
             return true;
         }
 
-        [EnterCommand(Command = "我的物品",
+        [EnterCommand(ID = "DriftBottleAI_MyItems_Paged",
+            Command = "我的物品",
             AuthorityLevel = AuthorityLevel.成员,
             Description = "按页码查看自己的物品",
             Syntax = "[页码]",
@@ -177,7 +180,7 @@ namespace Dolany.Ai.Core.Ai.Record
             return true;
         }
 
-        [EnterCommand(
+        [EnterCommand(ID = "DriftBottleAI_MyHonors",
             Command = "我的成就",
             AuthorityLevel = AuthorityLevel.成员,
             Description = "查看自己的成就",
@@ -237,7 +240,8 @@ namespace Dolany.Ai.Core.Ai.Record
             MsgSender.PushMsg(MsgDTO, msg);
         }
 
-        [EnterCommand(Command = "查看物品",
+        [EnterCommand(ID = "DriftBottleAI_ViewItem",
+            Command = "查看物品",
             AuthorityLevel = AuthorityLevel.成员,
             Description = "查看某件物品的详情",
             Syntax = "[物品名称]",
@@ -265,7 +269,7 @@ namespace Dolany.Ai.Core.Ai.Record
             return true;
         }
 
-        [EnterCommand(
+        [EnterCommand(ID = "DriftBottleAI_ViewHonor",
             Command = "查看成就",
             AuthorityLevel = AuthorityLevel.成员,
             Description = "查看某个成就的详情",
@@ -291,7 +295,7 @@ namespace Dolany.Ai.Core.Ai.Record
             return true;
         }
 
-        [EnterCommand(
+        [EnterCommand(ID = "DriftBottleAI_LimitItemReport",
             Command = "限定物品收集报告",
             AuthorityLevel = AuthorityLevel.成员,
             Description = "获取当月限定物品的收集报告",

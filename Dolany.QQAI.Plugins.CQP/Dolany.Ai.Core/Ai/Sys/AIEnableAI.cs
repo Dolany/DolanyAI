@@ -13,7 +13,8 @@ namespace Dolany.Ai.Core.Ai.Sys
         PriorityLevel = 12)]
     public class AIEnableAI : AIBase
     {
-        [EnterCommand(Command = "开启功能",
+        [EnterCommand(ID = "AIEnableAI_OpenFunction",
+            Command = "开启功能",
             AuthorityLevel = AuthorityLevel.群主,
             Description = "开启某个AI功能",
             Syntax = "[功能名称]",
@@ -37,7 +38,8 @@ namespace Dolany.Ai.Core.Ai.Sys
             return true;
         }
 
-        [EnterCommand(Command = "关闭功能",
+        [EnterCommand(ID = "AIEnableAI_CloseFunction",
+            Command = "关闭功能",
             AuthorityLevel = AuthorityLevel.群主,
             Description = "关闭某个AI功能",
             Syntax = "[功能名称]",
