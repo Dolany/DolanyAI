@@ -90,6 +90,8 @@ namespace Dolany.Database.Ai
 
     public class DailyLimitCommand
     {
+        public string Command { get; set; }
+
         public int Times { get; set; }
 
         public DateTime? LastTime { get; set; }

@@ -84,6 +84,7 @@ namespace Dolany.Ai.Core.Base
                     var checkResult = DailyLimitCheck(enterCommandAttribute, MsgDTO, limitRecord);
                     if (!checkResult)
                     {
+                        MsgSender.PushMsg(MsgDTO, $"你今天 {enterCommandAttribute.Command} 的次数已用完");
                         return true;
                     }
 

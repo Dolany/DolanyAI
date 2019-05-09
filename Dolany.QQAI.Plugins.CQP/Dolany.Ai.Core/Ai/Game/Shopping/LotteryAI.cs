@@ -1,5 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
 using System.Threading;
 using Dolany.Ai.Common;
@@ -8,7 +7,6 @@ using Dolany.Ai.Core.Cache;
 using Dolany.Ai.Core.Model;
 using Dolany.Ai.Core.OnlineStore;
 using Dolany.Database.Ai;
-using Dolany.Database.Sqlite;
 
 namespace Dolany.Ai.Core.Ai.Game.Shopping
 {
@@ -120,6 +118,7 @@ namespace Dolany.Ai.Core.Ai.Game.Shopping
             MsgSender.PushMsg(MsgDTO, msg, true);
 
             cache.Value = (times - 1).ToString();
+            cache.Update();
 
             return true;
         }

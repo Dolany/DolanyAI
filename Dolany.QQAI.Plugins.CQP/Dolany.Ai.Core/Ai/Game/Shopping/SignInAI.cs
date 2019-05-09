@@ -97,14 +97,14 @@ namespace Dolany.Ai.Core.Ai.Game.Shopping
             // 个人签到验证
             var personRecord = SignInPersonRecord.Get(MsgDTO.FromQQ);
             SignInGroupInfo ginfo;
-            if (personRecord.GroupInfos.ContainsKey(MsgDTO.FromGroup))
+            if (personRecord.GroupInfos.ContainsKey(MsgDTO.FromGroup.ToString()))
             {
-                ginfo = personRecord.GroupInfos[MsgDTO.FromGroup];
+                ginfo = personRecord.GroupInfos[MsgDTO.FromGroup.ToString()];
             }
             else
             {
                 ginfo = new SignInGroupInfo();
-                personRecord.GroupInfos.Add(MsgDTO.FromGroup, ginfo);
+                personRecord.GroupInfos.Add(MsgDTO.FromGroup.ToString(), ginfo);
             }
 
             Sign(ginfo, MsgDTO);

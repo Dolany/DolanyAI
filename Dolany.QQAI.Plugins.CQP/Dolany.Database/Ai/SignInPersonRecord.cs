@@ -7,7 +7,7 @@ namespace Dolany.Database.Ai
     {
         public long QQNum { get; set; }
 
-        public Dictionary<long, SignInGroupInfo> GroupInfos { get; set; } = new Dictionary<long, SignInGroupInfo>();
+        public Dictionary<string, SignInGroupInfo> GroupInfos { get; set; } = new Dictionary<string, SignInGroupInfo>();
 
         public static SignInPersonRecord Get(long QQNum)
         {
