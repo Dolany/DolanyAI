@@ -22,7 +22,7 @@ namespace Dolany.Ai.Core.Cache
                 MongoService<PersonCacheRecord>.Insert(record);
             }
 
-            if (record.ExpiryTime.HasValue && record.ExpiryTime.Value < DateTime.Now)
+            if (record.ExpiryTime.HasValue && record.ExpiryTime.Value.ToLocalTime() < DateTime.Now)
             {
                 record.Value = string.Empty;
             }
