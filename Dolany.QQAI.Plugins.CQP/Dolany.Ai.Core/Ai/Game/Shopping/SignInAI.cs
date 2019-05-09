@@ -8,7 +8,6 @@ using Dolany.Ai.Core.Model;
 using Dolany.Ai.Core.OnlineStore;
 using Dolany.Database;
 using Dolany.Database.Ai;
-using Dolany.Database.Sqlite;
 
 namespace Dolany.Ai.Core.Ai.Game.Shopping
 {
@@ -120,7 +119,7 @@ namespace Dolany.Ai.Core.Ai.Game.Shopping
                 ginfo.SuccessiveDays = 0;
             }
 
-            if (string.IsNullOrEmpty(SCacheService.Get<string>("SignInAcc")))
+            if (string.IsNullOrEmpty(GlobalVarRecord.Get("SignInAcc").Value))
             {
                 ginfo.SuccessiveDays++;
             }
@@ -137,8 +136,9 @@ namespace Dolany.Ai.Core.Ai.Game.Shopping
             var msg = $"签到成功！你已连续签到 {ginfo.SuccessiveDays}天，获得 {goldsGen}金币！";
             if (ginfo.SuccessiveDays % 10 == 0)
             {
-                var key = $"LimitBonus-{MsgDTO.FromQQ}";
-                SCacheService.Cache(key, "nothing");
+                var cache = PersonCacheRecord.Get(MsgDTO.FromQQ, "抽奖");
+                cache.Value = !string.IsNullOrEmpty(cache.Value) && int.TryParse(cache.Value, out var times) ? (times + 1).ToString() : 1.ToString();
+                cache.Update();
 
                 msg += "\r恭喜你获得一次抽奖机会，快去试试吧（当日有效！）";
             }

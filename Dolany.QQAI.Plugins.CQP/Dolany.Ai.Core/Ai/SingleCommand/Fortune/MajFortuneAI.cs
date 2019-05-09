@@ -1,4 +1,5 @@
 ﻿using Dolany.Ai.Common;
+using Newtonsoft.Json;
 
 namespace Dolany.Ai.Core.Ai.SingleCommand.Fortune
 {
@@ -8,7 +9,6 @@ namespace Dolany.Ai.Core.Ai.SingleCommand.Fortune
     using Base;
 
     using Cache;
-    using Database.Sqlite;
     using Database.Sqlite.Model;
 
     using JetBrains.Annotations;
@@ -82,16 +82,16 @@ namespace Dolany.Ai.Core.Ai.SingleCommand.Fortune
         [NotNull]
         private MajFortuneCache TodayFortune(long QQNum)
         {
-            var key = $"MajFortune-{QQNum}";
-            var response = SCacheService.Get<MajFortuneCache>(key);
+            var cache = PersonCacheRecord.Get(QQNum, "MajFortune");
 
-            if (response != null)
+            if (!string.IsNullOrEmpty(cache.Value))
             {
-                return response;
+                return JsonConvert.DeserializeObject<MajFortuneCache>(cache.Value);
             }
 
             var newFortune = this.NewFortune(QQNum);
-            SCacheService.Cache(key, newFortune);
+            cache.Value = JsonConvert.SerializeObject(newFortune);
+            cache.Update();
 
             return newFortune;
         }

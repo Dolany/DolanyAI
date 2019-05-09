@@ -37,8 +37,7 @@
 
         public static string GetAuthName(MsgInformationEx MsgDTO)
         {
-            var tempAuth = GetTempAuth(MsgDTO);
-            if (MsgDTO.FromQQ == Global.DeveloperNumber || tempAuth == "开发者")
+            if (MsgDTO.FromQQ == Global.DeveloperNumber)
             {
                 return "开发者";
             }
@@ -54,25 +53,17 @@
                 return "成员";
             }
 
-            if (setting.AuthInfo.Owner == MsgDTO.FromQQ || tempAuth == "群主")
+            if (setting.AuthInfo.Owner == MsgDTO.FromQQ)
             {
                 return "群主";
             }
 
-            if (setting.AuthInfo.Mgrs.Contains(MsgDTO.FromQQ) || tempAuth == "管理员")
+            if (setting.AuthInfo.Mgrs.Contains(MsgDTO.FromQQ))
             {
                 return "管理员";
             }
 
             return "成员";
-        }
-
-        private static string GetTempAuth(MsgInformation MsgDTO)
-        {
-            var response =
-                SCacheService.Get<TempAuthorizeCache>($"TempAuthorize-{MsgDTO.FromGroup}-{MsgDTO.FromQQ}");
-
-            return response != null ? response.AuthName : string.Empty;
         }
 
         [NotNull]

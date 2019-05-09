@@ -35,9 +35,9 @@ namespace Dolany.Ai.Core.Cache
             {
                 source = "私聊";
             }
-            else if(AIMgr.Instance.AllGroupsDic.ContainsKey(info.FromGroup))
+            else if(Global.AllGroupsDic.ContainsKey(info.FromGroup))
             {
-                source = AIMgr.Instance.AllGroupsDic[info.FromGroup];
+                source = Global.AllGroupsDic[info.FromGroup];
             }
             var msg = $"[Information] {info.Information} " +
                       $"{source} " +

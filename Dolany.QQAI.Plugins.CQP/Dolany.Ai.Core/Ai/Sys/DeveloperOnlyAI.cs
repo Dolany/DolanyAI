@@ -1,7 +1,5 @@
-﻿using System.Collections.Generic;
-using System.Threading;
+﻿using System.Threading;
 using Dolany.Ai.Common;
-using Dolany.Ai.Core.Ai.Game.Shopping;
 using Dolany.Ai.Core.Common;
 using Dolany.Ai.Core.OnlineStore;
 using Dolany.Database;
@@ -15,7 +13,6 @@ namespace Dolany.Ai.Core.Ai.Sys
     using Cache;
     using Model;
     using Dolany.Database.Ai;
-    using Database.Sqlite.Model;
     using Database.Sqlite;
 
     [AI(Name = "开发者后台",
@@ -24,38 +21,6 @@ namespace Dolany.Ai.Core.Ai.Sys
         PriorityLevel = 10)]
     public class DeveloperOnlyAI : AIBase
     {
-        public override void Initialization()
-        {
-        }
-
-        [EnterCommand(ID = "DeveloperOnlyAI_TempAuthorize",
-            Command = "临时授权",
-            Description = "临时变更某个成员的权限等级，当日有效",
-            Syntax = "[@QQ号] 权限名称",
-            Tag = "系统命令",
-            SyntaxChecker = "At Word",
-            AuthorityLevel = AuthorityLevel.开发者,
-            IsPrivateAvailable = false)]
-        public bool TempAuthorize(MsgInformationEx MsgDTO, object[] param)
-        {
-            var qqNum = (long)param[0];
-            var authName = param[1] as string;
-
-            var validNames = new[] { "开发者", "群主", "管理员", "成员" };
-            if (!validNames.Contains(authName))
-            {
-                MsgSender.PushMsg(MsgDTO, "权限名称错误！");
-                return false;
-            }
-
-            var key = $"TempAuthorize-{MsgDTO.FromGroup}-{qqNum}";
-            var model = new TempAuthorizeCache { AuthName = authName, GroupNum = MsgDTO.FromGroup, QQNum = qqNum };
-            SCacheService.Cache(key, model);
-
-            MsgSender.PushMsg(MsgDTO, "临时授权成功！");
-            return true;
-        }
-
         [EnterCommand(ID = "DeveloperOnlyAI_Board",
             Command = "广播",
             Description = "在所有群组广播消息",
@@ -67,7 +32,7 @@ namespace Dolany.Ai.Core.Ai.Sys
         public bool Board(MsgInformationEx MsgDTO, object[] param)
         {
             var content = param[0] as string;
-            var groups = AIMgr.Instance.AllGroupsDic.Keys;
+            var groups = Global.AllGroupsDic.Keys;
 
             foreach (var group in groups)
             {
@@ -263,8 +228,9 @@ namespace Dolany.Ai.Core.Ai.Sys
         public bool BonusChance(MsgInformationEx MsgDTO, object[] param)
         {
             var aimNum = (long) param[0];
-            var key = $"LimitBonus-{aimNum}";
-            SCacheService.Cache(key, "nothing");
+            var personCache = PersonCacheRecord.Get(aimNum, "抽奖");
+            personCache.Value = int.TryParse(personCache.Value, out var times) ? (times + 1).ToString() : 1.ToString();
+            personCache.Update();
 
             MsgSender.PushMsg(MsgDTO, "奖励已生效！");
 

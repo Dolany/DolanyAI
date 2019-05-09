@@ -8,8 +8,6 @@
     using Cache;
 
     using Common;
-
-    using Core;
     using Model;
 
     using static Common.Utility;
@@ -165,7 +163,7 @@
                     var groupList = AIAnalyzer.AnalyzeGroup();
                     MsgSender.PushMsg(MsgDTO, string.Join("\r", groupList.Select(g =>
                     {
-                        var groupNum = g.GroupNum == 0 ? "私聊" : AIMgr.Instance.AllGroupsDic[g.GroupNum];
+                        var groupNum = g.GroupNum == 0 ? "私聊" : Global.AllGroupsDic[g.GroupNum];
                         return $"{groupNum}:{g.CommandCount}";
                     })));
                     return true;

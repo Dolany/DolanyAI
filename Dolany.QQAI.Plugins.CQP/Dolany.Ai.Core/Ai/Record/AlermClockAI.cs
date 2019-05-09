@@ -178,7 +178,7 @@ namespace Dolany.Ai.Core.Ai.Record
 
         private static void LoadAlerms(Action<AlermClock> StartClock)
         {
-            var Groups = AIMgr.Instance.AllGroupsDic.Keys.ToArray();
+            var Groups = Global.AllGroupsDic.Keys.ToArray();
             var clocks = MongoService<AlermClock>.Get(p => Groups.Contains(p.GroupNumber));
             foreach (var clock in clocks)
             {

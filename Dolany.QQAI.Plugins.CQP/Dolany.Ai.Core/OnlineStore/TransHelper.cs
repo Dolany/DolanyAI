@@ -1,7 +1,9 @@
-﻿using System.Linq;
+﻿using System.Collections.Generic;
+using System.Linq;
 using Dolany.Ai.Common;
+using Dolany.Ai.Core.Cache;
 using Dolany.Database.Ai;
-using Dolany.Database.Sqlite;
+using Newtonsoft.Json;
 
 namespace Dolany.Ai.Core.OnlineStore
 {
@@ -49,17 +51,17 @@ namespace Dolany.Ai.Core.OnlineStore
             }).ToArray();
         }
 
-        public static DailySellItemModel[] GetDailySellItems()
+        public static IEnumerable<DailySellItemModel> GetDailySellItems()
         {
-            const string key = "DailySellItems";
-            var cache = SCacheService.Get<DailySellItemModel[]>(key);
-            if (cache != null)
+            var cache = GlobalVarRecord.Get("DailySellItems");
+            if (!string.IsNullOrEmpty(cache.Value))
             {
-                return cache;
+                return JsonConvert.DeserializeObject<DailySellItemModel[]>(cache.Value);
             }
 
             var newitems = CreateDailySellItems();
-            SCacheService.Cache(key, newitems);
+            cache.Value = JsonConvert.SerializeObject(newitems);
+            cache.Update();
 
             return newitems;
         }
