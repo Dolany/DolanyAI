@@ -91,6 +91,7 @@ namespace Dolany.Ai.Core.Ai.SingleCommand.Fortune
 
             var newFortune = this.NewFortune(QQNum);
             cache.Value = JsonConvert.SerializeObject(newFortune);
+            cache.ExpiryTime = CommonUtil.UntilTommorow();
             cache.Update();
 
             return newFortune;

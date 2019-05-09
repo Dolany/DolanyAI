@@ -348,8 +348,10 @@ namespace Dolany.Ai.Core.Ai.Sys
         {
             var days = (int) (long) param[0];
 
-            var key = "SignInAcc";
-            SCacheService.Cache(key, "SignInAcc", DateTime.Now.AddDays(days));
+            var record = GlobalVarRecord.Get("SignInAcc");
+            record.Value = "any";
+            record.ExpiryTime = DateTime.Now.AddDays(days);
+            record.Update();
 
             MsgSender.PushMsg(MsgDTO, "开启成功");
 
