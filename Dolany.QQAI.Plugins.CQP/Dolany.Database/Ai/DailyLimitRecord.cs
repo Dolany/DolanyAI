@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using Dolany.Ai.Common;
 
 namespace Dolany.Database.Ai
 {
@@ -35,9 +36,8 @@ namespace Dolany.Database.Ai
                 return true;
             }
 
-            var refreshTime = DateTime.Now.Hour > 4 ? DateTime.Now.Date.AddHours(4) : DateTime.Now.Date.AddHours(4).AddDays(-1);
             var dailyLimitCommand = Commands[command];
-            if (dailyLimitCommand.LastTime == null || dailyLimitCommand.LastTime.Value < refreshTime)
+            if (dailyLimitCommand.ExpiryTime == null || dailyLimitCommand.ExpiryTime.Value.ToLocalTime() < DateTime.Now)
             {
                 return true;
             }
@@ -49,13 +49,12 @@ namespace Dolany.Database.Ai
         {
             if (!Commands.ContainsKey(command))
             {
-                Commands.Add(command, new DailyLimitCommand(){Times = 1, LastTime = DateTime.Now});
+                Commands.Add(command, new DailyLimitCommand(){Times = 1, ExpiryTime = CommonUtil.UntilTommorow()});
                 return;
             }
 
-            var refreshTime = DateTime.Now.Hour > 4 ? DateTime.Now.Date.AddHours(4) : DateTime.Now.Date.AddHours(4).AddDays(-1);
             var dailyLimitCommand = Commands[command];
-            if (dailyLimitCommand.LastTime == null || dailyLimitCommand.LastTime.Value < refreshTime)
+            if (dailyLimitCommand.ExpiryTime == null || dailyLimitCommand.ExpiryTime.Value.ToLocalTime() < DateTime.Now)
             {
                 dailyLimitCommand.Times = 1;
             }
@@ -63,20 +62,19 @@ namespace Dolany.Database.Ai
             {
                 dailyLimitCommand.Times++;
             }
-            dailyLimitCommand.LastTime = DateTime.Now;
+            dailyLimitCommand.ExpiryTime = CommonUtil.UntilTommorow();
         }
 
         public void Decache(string command, int count = 1)
         {
             if (!Commands.ContainsKey(command))
             {
-                Commands.Add(command, new DailyLimitCommand(){Times = -count, LastTime = DateTime.Now});
+                Commands.Add(command, new DailyLimitCommand(){Times = -count, ExpiryTime = CommonUtil.UntilTommorow()});
                 return;
             }
 
-            var refreshTime = DateTime.Now.Hour > 4 ? DateTime.Now.Date.AddHours(4) : DateTime.Now.Date.AddHours(4).AddDays(-1);
             var dailyLimitCommand = Commands[command];
-            if (dailyLimitCommand.LastTime == null || dailyLimitCommand.LastTime.Value < refreshTime)
+            if (dailyLimitCommand.ExpiryTime == null || dailyLimitCommand.ExpiryTime.Value.ToLocalTime() < DateTime.Now)
             {
                 dailyLimitCommand.Times = -count;
             }
@@ -84,7 +82,8 @@ namespace Dolany.Database.Ai
             {
                 dailyLimitCommand.Times -= count;
             }
-            dailyLimitCommand.LastTime = DateTime.Now;
+
+            dailyLimitCommand.ExpiryTime = CommonUtil.UntilTommorow();
         }
     }
 
@@ -94,6 +93,6 @@ namespace Dolany.Database.Ai
 
         public int Times { get; set; }
 
-        public DateTime? LastTime { get; set; }
+        public DateTime? ExpiryTime { get; set; }
     }
 }

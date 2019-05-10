@@ -1,10 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using Dolany.Ai.Core.Ai.SingleCommand.Fortune;
-using Dolany.Ai.Core.Model;
-using Dolany.Ai.Core.OnlineStore;
-using Dolany.Database;
+using Dolany.Ai.Common;
 using Dolany.Database.Ai;
 
 namespace Dolany.Temp
@@ -15,15 +11,15 @@ namespace Dolany.Temp
         {
             var record = new DailyLimitRecord()
             {
-                QQNum = 123, Commands = new Dictionary<string, DailyLimitCommand>() {{"a", new DailyLimitCommand() {Times = 0, LastTime = DateTime.Now.AddDays(-1)}}}
+                QQNum = 123, Commands = new Dictionary<string, DailyLimitCommand>() {{"a", new DailyLimitCommand() {Times = 0, ExpiryTime = CommonUtil.UntilTommorow().AddDays(-1)}}}
             };
-            var rr = record.Check("a", 2);
+            var rr = record.Check("a", 1);
             record.Cache("a");
 
-            rr = record.Check("a", 2);
+            rr = record.Check("a", 1);
             record.Cache("a");
 
-            rr = record.Check("a", 2);
+            rr = record.Check("a", 1);
             record.Cache("a");
 
             Console.WriteLine("Completed");
