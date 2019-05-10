@@ -60,8 +60,15 @@ namespace Dolany.Ai.Core.Ai.Sys
             var qqNum = (long)param[1];
             var count = (int) (long) param[2];
 
-            var dailyLimit = DailyLimitRecord.Get(qqNum);
-            dailyLimit.Decache(command, count);
+            var enter = AIMgr.Instance.AllAvailableGroupCommands.FirstOrDefault(p => p.CommandsList.Contains(command));
+            if (enter == null)
+            {
+                MsgSender.PushMsg(MsgDTO, "未找到该功能！", true);
+                return false;
+            }
+
+            var dailyLimit = DailyLimitRecord.Get(qqNum, enter.ID);
+            dailyLimit.Decache(count);
             dailyLimit.Update();
 
             MsgSender.PushMsg(MsgDTO, "奖励已生效！");

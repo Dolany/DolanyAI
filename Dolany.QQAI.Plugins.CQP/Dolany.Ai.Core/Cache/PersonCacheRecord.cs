@@ -11,21 +11,18 @@ namespace Dolany.Ai.Core.Cache
 
         public string Value { get; set; }
 
-        public DateTime? ExpiryTime { get; set; }
+        public DateTime ExpiryTime { get; set; }
 
         public static PersonCacheRecord Get(long QQNum, string Key)
         {
             var record = MongoService<PersonCacheRecord>.GetOnly(p => p.QQNum == QQNum && p.Key == Key);
-            if (record == null)
+            if (record != null)
             {
-                record = new PersonCacheRecord(){QQNum = QQNum, Key = Key};
-                MongoService<PersonCacheRecord>.Insert(record);
+                return record;
             }
 
-            if (record.ExpiryTime.HasValue && record.ExpiryTime.Value.ToLocalTime() < DateTime.Now)
-            {
-                record.Value = string.Empty;
-            }
+            record = new PersonCacheRecord(){QQNum = QQNum, Key = Key};
+            MongoService<PersonCacheRecord>.Insert(record);
 
             return record;
         }

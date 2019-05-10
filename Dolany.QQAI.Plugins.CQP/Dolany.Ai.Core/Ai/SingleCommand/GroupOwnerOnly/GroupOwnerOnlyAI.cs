@@ -28,13 +28,17 @@ namespace Dolany.Ai.Core.Ai.SingleCommand.GroupOwnerOnly
         {
             var aimQQ = (long) param[0];
             var command = param[1] as string;
-
-            var dailyLimit = DailyLimitRecord.Get(aimQQ);
-            if (dailyLimit.Commands.ContainsKey(command))
+            var enter = AIMgr.Instance.AllAvailableGroupCommands.FirstOrDefault(p => p.CommandsList.Contains(command));
+            if (enter == null)
             {
-                dailyLimit.Commands[command].Times = 0;
-                dailyLimit.Update();
+                MsgSender.PushMsg(MsgDTO, "未找到该功能！", true);
+                return false;
             }
+
+            var dailyLimit = DailyLimitRecord.Get(aimQQ, enter.ID);
+            dailyLimit.Times = 0;
+            dailyLimit.Update();
+
             MsgSender.PushMsg(MsgDTO, "刷新成功！");
 
             return true;
