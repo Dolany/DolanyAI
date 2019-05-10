@@ -1,7 +1,7 @@
 ﻿using Dolany.Ai.Common;
 using Dolany.Ai.Core.Common;
 
-namespace Dolany.Ai.Core.Ai.Record
+namespace Dolany.Ai.Core.Ai.Record.Hello
 {
     using System;
     using System.Collections.Generic;
@@ -25,12 +25,12 @@ namespace Dolany.Ai.Core.Ai.Record
         PriorityLevel = 15)]
     public class HelloAI : AIBase
     {
-        private List<Hello> HelloList = new List<Hello>();
+        private List<HelloRecord> HelloList = new List<HelloRecord>();
 
         public override void Initialization()
         {
             var Groups = Global.AllGroupsDic.Keys.ToArray();
-            this.HelloList = MongoService<Hello>.Get(p => Groups.Contains(p.GroupNum));
+            this.HelloList = MongoService<HelloRecord>.Get(p => Groups.Contains(p.GroupNum));
         }
 
         public override bool OnMsgReceived(MsgInformationEx MsgDTO)
@@ -92,22 +92,21 @@ namespace Dolany.Ai.Core.Ai.Record
             var query = HelloList.FirstOrDefault(h => h.GroupNum == MsgDTO.FromGroup && h.QQNum == MsgDTO.FromQQ);
             if (query == null)
             {
-                var hello = new Hello
+                var hello = new HelloRecord
                 {
                     Id = Guid.NewGuid().ToString(),
                     GroupNum = MsgDTO.FromGroup,
                     QQNum = MsgDTO.FromQQ,
-                    LastHelloDate = DateTime.Now.Date,
                     Content = content
                 };
-                MongoService<Hello>.Insert(hello);
+                MongoService<HelloRecord>.Insert(hello);
 
                 this.HelloList.Add(hello);
             }
             else
             {
                 query.Content = content;
-                MongoService<Hello>.Update(query);
+                MongoService<HelloRecord>.Update(query);
             }
 
             MsgSender.PushMsg(MsgDTO, "招呼内容设定成功");
@@ -152,7 +151,7 @@ namespace Dolany.Ai.Core.Ai.Record
                 return false;
             }
 
-            MongoService<Hello>.Delete(query);
+            MongoService<HelloRecord>.Delete(query);
             this.HelloList.Remove(query);
 
             MsgSender.PushMsg(MsgDTO, "删除成功！");
