@@ -141,11 +141,11 @@ namespace Dolany.Ai.Core.Base
             return true;
         }
 
-        private static bool DailyLimitCheck(EnterCommandAttribute enterAttr, MsgInformationEx MsgDTO, DailyLimitRecord limitRecord)
+        private static bool DailyLimitCheck(EnterCommandAttribute enterAttr, MsgInformation MsgDTO, DailyLimitRecord limitRecord)
         {
             var isTestingGroup = Global.TestGroups.Contains(MsgDTO.FromGroup);
             var timesLimit = isTestingGroup ? enterAttr.TestingDailyLimit : enterAttr.DailyLimit;
-            if (MsgDTO.FromQQ == Global.DeveloperNumber || timesLimit == 0)
+            if (/*MsgDTO.FromQQ == Global.DeveloperNumber || */timesLimit == 0)
             {
                 return true;
             }
