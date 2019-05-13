@@ -17,7 +17,8 @@ namespace Dolany.Ai.Core.Ai.Game.Shopping
         PriorityLevel = 10)]
     public class ShoppingAI : AIBase
     {
-        [EnterCommand(Command = "贩卖 出售",
+        [EnterCommand(ID = "ShoppingAI_Sell",
+            Command = "贩卖 出售",
             AuthorityLevel = AuthorityLevel.成员,
             Description = "贩卖物品或者成就",
             Syntax = "[物品名或成就名]",
@@ -54,7 +55,8 @@ namespace Dolany.Ai.Core.Ai.Game.Shopping
             return false;
         }
 
-        [EnterCommand(Command = "贩卖多余物品",
+        [EnterCommand(ID = "ShoppingAI_SellRedundant",
+            Command = "贩卖多余物品",
             AuthorityLevel = AuthorityLevel.成员,
             Description = "一键贩卖自己多余的物品",
             Syntax = "",
@@ -158,7 +160,8 @@ namespace Dolany.Ai.Core.Ai.Game.Shopping
             MsgSender.PushMsg(MsgDTO, $"贩卖成功！你当前拥有金币 {golds}");
         }
 
-        [EnterCommand(Command = "逛商店 .shopping",
+        [EnterCommand(ID = "ShoppingAI_ShopInfo",
+            Command = "逛商店 .shopping",
             AuthorityLevel = AuthorityLevel.成员,
             Description = "获取当前售卖的商品信息",
             Syntax = "",
@@ -181,7 +184,8 @@ namespace Dolany.Ai.Core.Ai.Game.Shopping
             return true;
         }
 
-        [EnterCommand(Command = "购买",
+        [EnterCommand(ID = "ShoppingAI_Buy",
+            Command = "购买",
             AuthorityLevel = AuthorityLevel.成员,
             Description = "购买指定（在商店中售卖的）商品",
             Syntax = "[商品名]",
@@ -233,7 +237,8 @@ namespace Dolany.Ai.Core.Ai.Game.Shopping
             return true;
         }
 
-        [EnterCommand(Command = "交易",
+        [EnterCommand(ID = "ShoppingAI_DealWith",
+            Command = "交易",
             AuthorityLevel = AuthorityLevel.成员,
             Description = "向另一个成员求购一个物品，并指定价格(系统将收取5%的手续费)",
             Syntax = "[@QQ号] [商品名] [价格]",
@@ -321,7 +326,8 @@ namespace Dolany.Ai.Core.Ai.Game.Shopping
             return true;
         }
 
-        [EnterCommand(Command = "我的状态",
+        [EnterCommand(ID = "ShoppingAI_ViewItem",
+            Command = "我的状态",
             AuthorityLevel = AuthorityLevel.成员,
             Description = "查看自己的当前的状态（包括金币，物品数量，buff等）",
             Syntax = "",
@@ -353,7 +359,8 @@ namespace Dolany.Ai.Core.Ai.Game.Shopping
             return true;
         }
 
-        [EnterCommand(Command = "赠送",
+        [EnterCommand(ID = "ShoppingAI_Present",
+            Command = "赠送",
             AuthorityLevel = AuthorityLevel.成员,
             Description = "赠送一件物品给其他成员，需要支付5%的手续费",
             Syntax = "[@QQ号] [物品名]",

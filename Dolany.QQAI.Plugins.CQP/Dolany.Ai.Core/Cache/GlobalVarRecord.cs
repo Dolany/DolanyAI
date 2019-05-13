@@ -14,16 +14,13 @@ namespace Dolany.Ai.Core.Cache
         public static GlobalVarRecord Get(string key)
         {
             var record = MongoService<GlobalVarRecord>.GetOnly(p => p.Key == key);
-            if (record == null)
+            if (record != null)
             {
-                record = new GlobalVarRecord(){Key = key};
-                MongoService<GlobalVarRecord>.Insert(record);
+                return record;
             }
 
-            if (record.ExpiryTime.HasValue && record.ExpiryTime.Value < DateTime.Now)
-            {
-                record.Value = string.Empty;
-            }
+            record = new GlobalVarRecord(){Key = key};
+            MongoService<GlobalVarRecord>.Insert(record);
 
             return record;
         }

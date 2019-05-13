@@ -25,7 +25,7 @@
             LastTime = DateTime.Now.AddMinutes(-PraiseLimit);
         }
 
-        [EnterCommand(
+        [EnterCommand(ID = "PraiseMeAI_PraiseMe",
             Command = "赞我",
             AuthorityLevel = AuthorityLevel.成员,
             Description = "发送十个赞",

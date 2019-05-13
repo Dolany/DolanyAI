@@ -44,7 +44,7 @@ namespace Dolany.Ai.Core.Ai.Record
             LoadAlerms(StartClock);
         }
 
-        [EnterCommand(
+        [EnterCommand(ID = "AlermClockAI_SetClock",
             Command = "设定闹钟 设置闹钟",
             AuthorityLevel = AuthorityLevel.成员,
             Description = "设定在指定时间的闹钟，我会到时候艾特你并显示提醒内容",
@@ -110,7 +110,7 @@ namespace Dolany.Ai.Core.Ai.Record
             timer.Interval = GetNextInterval(entity.AimHourt, entity.AimMinute);
         }
 
-        [EnterCommand(
+        [EnterCommand(ID = "AlermClockAI_QueryClock",
             Command = "我的闹钟",
             AuthorityLevel = AuthorityLevel.成员,
             Description = "查询你当前设置的闹钟",
@@ -125,7 +125,7 @@ namespace Dolany.Ai.Core.Ai.Record
             return true;
         }
 
-        [EnterCommand(
+        [EnterCommand(ID = "AlermClockAI_DeleteClock",
             Command = "删除闹钟",
             AuthorityLevel = AuthorityLevel.成员,
             Description = "删除指定时间的已经设置好的闹钟",
@@ -147,7 +147,7 @@ namespace Dolany.Ai.Core.Ai.Record
             return true;
         }
 
-        [EnterCommand(
+        [EnterCommand(ID = "AlermClockAI_ClearAllClock",
             Command = "清空闹钟",
             AuthorityLevel = AuthorityLevel.成员,
             Description = "清空设置过的所有闹钟",
@@ -178,7 +178,7 @@ namespace Dolany.Ai.Core.Ai.Record
 
         private static void LoadAlerms(Action<AlermClock> StartClock)
         {
-            var Groups = AIMgr.Instance.AllGroupsDic.Keys.ToArray();
+            var Groups = Global.AllGroupsDic.Keys.ToArray();
             var clocks = MongoService<AlermClock>.Get(p => Groups.Contains(p.GroupNumber));
             foreach (var clock in clocks)
             {

@@ -15,5 +15,7 @@
         public long lst { get; set; }
 
         public string nk { get; set; }
+
+        public int rm { get; set; }
     }
 }

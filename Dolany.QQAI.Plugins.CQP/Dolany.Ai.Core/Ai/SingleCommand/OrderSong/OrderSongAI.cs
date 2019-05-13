@@ -20,7 +20,7 @@ namespace Dolany.Ai.Core.Ai.SingleCommand.OrderSong
         {
         }
 
-        [EnterCommand(
+        [EnterCommand(ID = "OrderSongAI_OrderASong",
             Command = "点歌",
             AuthorityLevel = AuthorityLevel.成员,
             Description = "根据歌名点歌",

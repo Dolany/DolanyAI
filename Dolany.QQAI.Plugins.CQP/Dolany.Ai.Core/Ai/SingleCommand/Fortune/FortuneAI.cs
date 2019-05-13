@@ -1,6 +1,6 @@
 ﻿using System.Collections.Generic;
 using Dolany.Ai.Common;
-using Dolany.Database.Sqlite;
+using Newtonsoft.Json;
 
 namespace Dolany.Ai.Core.Ai.SingleCommand.Fortune
 {
@@ -39,7 +39,7 @@ namespace Dolany.Ai.Core.Ai.SingleCommand.Fortune
             }).ToList();
         }
 
-        [EnterCommand(
+        [EnterCommand(ID = "FortuneAI_RandomFortune",
             Command = ".luck 祈愿运势",
             AuthorityLevel = AuthorityLevel.成员,
             Description = "获取每天运势",
@@ -49,10 +49,9 @@ namespace Dolany.Ai.Core.Ai.SingleCommand.Fortune
             IsPrivateAvailable = true)]
         public bool RandomFortune(MsgInformationEx MsgDTO, object[] param)
         {
-            var key = $"RandomFortune-{MsgDTO.FromQQ}";
-            var response = SCacheService.Get<RandomFortuneCache>(key);
+            var response = PersonCacheRecord.Get(MsgDTO.FromQQ, "RandomFortune");
 
-            if (response == null)
+            if (string.IsNullOrEmpty(response.Value))
             {
                 var randFor = GetRandomFortune();
                 var rf = new RandomFortuneCache
@@ -65,11 +64,13 @@ namespace Dolany.Ai.Core.Ai.SingleCommand.Fortune
                 RandBless(rf);
                 ShowRandFortune(MsgDTO, rf);
 
-                SCacheService.Cache(key, rf);
+                response.Value = JsonConvert.SerializeObject(rf);
+                response.ExpiryTime = CommonUtil.UntilTommorow();
+                response.Update();
             }
             else
             {
-                ShowRandFortune(MsgDTO, response);
+                ShowRandFortune(MsgDTO, JsonConvert.DeserializeObject<RandomFortuneCache>(response.Value));
             }
             return true;
         }
@@ -87,7 +88,7 @@ namespace Dolany.Ai.Core.Ai.SingleCommand.Fortune
             rf.BlessValue = item.Value;
         }
 
-        [EnterCommand(
+        [EnterCommand(ID = "FortuneAI_StarFortune",
             Command = "星座运势",
             AuthorityLevel = AuthorityLevel.成员,
             Description = "获取星座运势",
@@ -148,7 +149,7 @@ namespace Dolany.Ai.Core.Ai.SingleCommand.Fortune
             MsgSender.PushMsg(MsgDTO, msg, true);
         }
 
-        [EnterCommand(
+        [EnterCommand(ID = "FortuneAI_TarotFortune",
             Command = ".zhan 塔罗牌占卜",
             AuthorityLevel = AuthorityLevel.成员,
             Description = "获取每日塔罗牌占卜",
@@ -158,18 +159,19 @@ namespace Dolany.Ai.Core.Ai.SingleCommand.Fortune
             IsPrivateAvailable = true)]
         public bool TarotFortune(MsgInformationEx MsgDTO, object[] param)
         {
-            var key = $"TarotFortune-{MsgDTO.FromQQ}";
-            var cache = SCacheService.Get<string>(key);
+            var cache = PersonCacheRecord.Get(MsgDTO.FromQQ, "TarotFortune");
 
             TarotFortuneDataModel fortune;
-            if (string.IsNullOrEmpty(cache))
+            if (string.IsNullOrEmpty(cache.Value))
             {
                 fortune = GetRandTarotFortune();
-                SCacheService.Cache(key, fortune.Name);
+                cache.Value = fortune.Name;
+                cache.ExpiryTime = CommonUtil.UntilTommorow();
+                cache.Update();
             }
             else
             {
-                fortune = DataList.FirstOrDefault(d => d.Name == cache);
+                fortune = DataList.FirstOrDefault(d => d.Name == cache.Value);
             }
 
             SendTarotFortune(MsgDTO, fortune);
@@ -196,7 +198,7 @@ namespace Dolany.Ai.Core.Ai.SingleCommand.Fortune
             return DataList.RandElement();
         }
 
-        [EnterCommand(
+        [EnterCommand(ID = "FortuneAI_HolyLight",
             Command = "圣光祝福",
             AuthorityLevel = AuthorityLevel.群主,
             Description = "祝福一个成员，让其随机运势增加80%（最高100%），当日有效",
@@ -214,7 +216,7 @@ namespace Dolany.Ai.Core.Ai.SingleCommand.Fortune
             return true;
         }
 
-        [EnterCommand(
+        [EnterCommand(ID = "FortuneAI_CreatorBless",
             Command = "创世神祝福",
             AuthorityLevel = AuthorityLevel.群主,
             Description = "祝福一个成员，让其随机运势增加100%，当日有效",
@@ -234,10 +236,9 @@ namespace Dolany.Ai.Core.Ai.SingleCommand.Fortune
 
         private static void Bless(long QQNum, string BlessName, int BlessValue)
         {
-            var key = $"RandomFortune-{QQNum}";
-            var response = SCacheService.Get<RandomFortuneCache>(key);
+            var response = PersonCacheRecord.Get(QQNum, "RandomFortune");
 
-            if (response == null)
+            if (string.IsNullOrEmpty(response.Value))
             {
                 var randFor = GetRandomFortune();
                 var rf = new RandomFortuneCache()
@@ -247,18 +248,23 @@ namespace Dolany.Ai.Core.Ai.SingleCommand.Fortune
                     BlessName = BlessName,
                     BlessValue = BlessValue
                 };
-                SCacheService.Cache(key, rf);
+                response.Value = JsonConvert.SerializeObject(rf);
+                response.ExpiryTime = CommonUtil.UntilTommorow();
+                response.Update();
             }
             else
             {
-                response.BlessName = BlessName;
-                response.BlessValue = BlessValue;
+                var model = JsonConvert.DeserializeObject<RandomFortuneCache>(response.Value);
+                model.BlessName = BlessName;
+                model.BlessValue = BlessValue;
 
-                SCacheService.Cache(key, response);
+                response.Value = JsonConvert.SerializeObject(model);
+                response.ExpiryTime = CommonUtil.UntilTommorow();
+                response.Update();
             }
         }
 
-        [EnterCommand(
+        [EnterCommand(ID = "FortuneAI_Darkness",
             Command = "暗夜诅咒",
             AuthorityLevel = AuthorityLevel.群主,
             Description = "诅咒一个成员，让其随机运势减少若干点（最低0%），当日有效",

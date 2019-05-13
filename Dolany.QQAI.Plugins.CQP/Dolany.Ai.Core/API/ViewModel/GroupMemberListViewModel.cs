@@ -6,6 +6,10 @@ namespace Dolany.Ai.Core.API.ViewModel
     {
         public long[] adm { get; set; }
 
+        public int errcode { get; set; }
+
+        public string em { get; set; }
+
         public int ec { get; set; }
 
         public int ext_num { get; set; }

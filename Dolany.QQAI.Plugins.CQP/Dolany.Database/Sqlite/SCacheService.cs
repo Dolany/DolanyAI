@@ -88,29 +88,5 @@ namespace Dolany.Database.Sqlite
                 }
             }
         }
-
-        public static void CheckOutOfDate()
-        {
-            mutex.WaitOne();
-            try
-            {
-                using (var db = new SqliteContext(dataSource))
-                {
-                    var nowStr = DateTime.Now.ToString(CultureInfo.CurrentCulture);
-                    var records = db.SqliteCacheModel.Where(m => string.CompareOrdinal(nowStr, m.ExpTime) > 0);
-                    db.SqliteCacheModel.RemoveRange(records);
-
-                    db.SaveChanges();
-                }
-            }
-            catch (Exception e)
-            {
-                RuntimeLogger.Log(e);
-            }
-            finally
-            {
-                mutex.ReleaseMutex();
-            }
-        }
     }
 }

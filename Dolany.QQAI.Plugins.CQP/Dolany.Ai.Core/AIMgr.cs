@@ -32,8 +32,6 @@ namespace Dolany.Ai.Core
 
         public List<ISyntaxChecker> Checkers { get; private set; } = new List<ISyntaxChecker>();
 
-        public Dictionary<long, string> AllGroupsDic => GroupSettingMgr.Instance.SettingDic.ToDictionary(p => p.Key, p => p.Value.Name);
-
         public List<string> OptionalAINames => AIList.Where(ai => ai.AIAttr.NeedManulOpen).Select(ai => ai.AIAttr.Name).ToList();
 
         private delegate void MessageCallBack(string msg);
@@ -176,7 +174,7 @@ namespace Dolany.Ai.Core
             // 群聊消息
             if (MsgDTO.FromGroup != 0)
             {
-                if (!AllGroupsDic.ContainsKey(MsgDTO.FromGroup))
+                if (!Global.AllGroupsDic.ContainsKey(MsgDTO.FromGroup))
                 {
                     return;
                 }

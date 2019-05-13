@@ -1,5 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
 using System.Threading;
 using Dolany.Ai.Common;
@@ -8,7 +7,6 @@ using Dolany.Ai.Core.Cache;
 using Dolany.Ai.Core.Model;
 using Dolany.Ai.Core.OnlineStore;
 using Dolany.Database.Ai;
-using Dolany.Database.Sqlite;
 
 namespace Dolany.Ai.Core.Ai.Game.Shopping
 {
@@ -34,7 +32,7 @@ namespace Dolany.Ai.Core.Ai.Game.Shopping
             SumRate = LotteryDic.Values.Sum();
         }
 
-        [EnterCommand(
+        [EnterCommand(ID = "LotteryAI_DrawLottery",
             Command = "买彩票",
             AuthorityLevel = AuthorityLevel.成员,
             Description = "买一张彩票获得随机效果",
@@ -89,7 +87,7 @@ namespace Dolany.Ai.Core.Ai.Game.Shopping
             return golds;
         }
 
-        [EnterCommand(
+        [EnterCommand(ID = "LotteryAI_LimitBonus",
             Command = "抽奖",
             AuthorityLevel = AuthorityLevel.成员,
             Description = "抽取一件随机当月限定物品",
@@ -120,6 +118,7 @@ namespace Dolany.Ai.Core.Ai.Game.Shopping
             MsgSender.PushMsg(MsgDTO, msg, true);
 
             cache.Value = (times - 1).ToString();
+            cache.Update();
 
             return true;
         }

@@ -8,7 +8,6 @@ using Dolany.Ai.Core.Model;
 using Dolany.Ai.Core.OnlineStore;
 using Dolany.Database;
 using Dolany.Database.Ai;
-using Dolany.Database.Sqlite;
 
 namespace Dolany.Ai.Core.Ai.Game.Shopping
 {
@@ -30,7 +29,8 @@ namespace Dolany.Ai.Core.Ai.Game.Shopping
             GroupSignInDic = records.ToDictionary(p => p.GroupNum, p => p);
         }
 
-        [EnterCommand(Command = "签到",
+        [EnterCommand(ID = "SignInAI_SetSignContent",
+            Command = "签到",
             AuthorityLevel = AuthorityLevel.管理员,
             Description = "设置签到内容，有效期1个月(不能与系统自带命令重复)",
             Syntax = "[签到内容]",
@@ -97,14 +97,20 @@ namespace Dolany.Ai.Core.Ai.Game.Shopping
             // 个人签到验证
             var personRecord = SignInPersonRecord.Get(MsgDTO.FromQQ);
             SignInGroupInfo ginfo;
-            if (personRecord.GroupInfos.ContainsKey(MsgDTO.FromGroup))
+            if (personRecord.GroupInfos.ContainsKey(MsgDTO.FromGroup.ToString()))
             {
-                ginfo = personRecord.GroupInfos[MsgDTO.FromGroup];
+                ginfo = personRecord.GroupInfos[MsgDTO.FromGroup.ToString()];
             }
             else
             {
                 ginfo = new SignInGroupInfo();
-                personRecord.GroupInfos.Add(MsgDTO.FromGroup, ginfo);
+                personRecord.GroupInfos.Add(MsgDTO.FromGroup.ToString(), ginfo);
+            }
+
+            if (ginfo.LastSignInDate.HasValue && ginfo.LastSignInDate.Value.ToLocalTime() > DateTime.Now.Date)
+            {
+                MsgSender.PushMsg(MsgDTO, "你今天已经签过到啦！");
+                return true;
             }
 
             Sign(ginfo, MsgDTO);
@@ -114,12 +120,12 @@ namespace Dolany.Ai.Core.Ai.Game.Shopping
 
         private void Sign(SignInGroupInfo ginfo, MsgInformationEx MsgDTO)
         {
-            if (ginfo.LastSignInDate == null || ginfo.LastSignInDate.Value.Date < DateTime.Today.AddDays(-1))
+            if (ginfo.LastSignInDate == null || ginfo.LastSignInDate.Value.ToLocalTime().Date < DateTime.Today.AddDays(-1))
             {
                 ginfo.SuccessiveDays = 0;
             }
 
-            if (string.IsNullOrEmpty(SCacheService.Get<string>("SignInAcc")))
+            if (string.IsNullOrEmpty(GlobalVarRecord.Get("SignInAcc").Value))
             {
                 ginfo.SuccessiveDays++;
             }
@@ -128,7 +134,7 @@ namespace Dolany.Ai.Core.Ai.Game.Shopping
                 ginfo.SuccessiveDays += 2;
             }
 
-            ginfo.LastSignInDate = DateTime.Today;
+            ginfo.LastSignInDate = DateTime.Now;
             var goldsGen = ginfo.SuccessiveDays > 5 ? 25 : ginfo.SuccessiveDays * 5;
 
             OSPerson.GoldIncome(MsgDTO.FromQQ, goldsGen);
@@ -136,15 +142,17 @@ namespace Dolany.Ai.Core.Ai.Game.Shopping
             var msg = $"签到成功！你已连续签到 {ginfo.SuccessiveDays}天，获得 {goldsGen}金币！";
             if (ginfo.SuccessiveDays % 10 == 0)
             {
-                var key = $"LimitBonus-{MsgDTO.FromQQ}";
-                SCacheService.Cache(key, "nothing");
+                var cache = PersonCacheRecord.Get(MsgDTO.FromQQ, "抽奖");
+                cache.Value = !string.IsNullOrEmpty(cache.Value) && int.TryParse(cache.Value, out var times) ? (times + 1).ToString() : 1.ToString();
+                cache.Update();
 
                 msg += "\r恭喜你获得一次抽奖机会，快去试试吧（当日有效！）";
             }
             MsgSender.PushMsg(MsgDTO, msg, true);
         }
 
-        [EnterCommand(Command = "今日签到内容",
+        [EnterCommand(ID = "SignInAI_TodaySignContent",
+            Command = "今日签到内容",
             AuthorityLevel = AuthorityLevel.成员,
             Description = "获取今日签到内容",
             Syntax = "",

@@ -1,7 +1,5 @@
-﻿using System.Collections.Generic;
-using System.Threading;
+﻿using System.Threading;
 using Dolany.Ai.Common;
-using Dolany.Ai.Core.Ai.Game.Shopping;
 using Dolany.Ai.Core.Common;
 using Dolany.Ai.Core.OnlineStore;
 using Dolany.Database;
@@ -15,7 +13,6 @@ namespace Dolany.Ai.Core.Ai.Sys
     using Cache;
     using Model;
     using Dolany.Database.Ai;
-    using Database.Sqlite.Model;
     using Database.Sqlite;
 
     [AI(Name = "开发者后台",
@@ -24,39 +21,7 @@ namespace Dolany.Ai.Core.Ai.Sys
         PriorityLevel = 10)]
     public class DeveloperOnlyAI : AIBase
     {
-        public override void Initialization()
-        {
-        }
-
-        [EnterCommand(
-            Command = "临时授权",
-            Description = "临时变更某个成员的权限等级，当日有效",
-            Syntax = "[@QQ号] 权限名称",
-            Tag = "系统命令",
-            SyntaxChecker = "At Word",
-            AuthorityLevel = AuthorityLevel.开发者,
-            IsPrivateAvailable = false)]
-        public bool TempAuthorize(MsgInformationEx MsgDTO, object[] param)
-        {
-            var qqNum = (long)param[0];
-            var authName = param[1] as string;
-
-            var validNames = new[] { "开发者", "群主", "管理员", "成员" };
-            if (!validNames.Contains(authName))
-            {
-                MsgSender.PushMsg(MsgDTO, "权限名称错误！");
-                return false;
-            }
-
-            var key = $"TempAuthorize-{MsgDTO.FromGroup}-{qqNum}";
-            var model = new TempAuthorizeCache { AuthName = authName, GroupNum = MsgDTO.FromGroup, QQNum = qqNum };
-            SCacheService.Cache(key, model);
-
-            MsgSender.PushMsg(MsgDTO, "临时授权成功！");
-            return true;
-        }
-
-        [EnterCommand(
+        [EnterCommand(ID = "DeveloperOnlyAI_Board",
             Command = "广播",
             Description = "在所有群组广播消息",
             Syntax = "广播内容",
@@ -67,7 +32,7 @@ namespace Dolany.Ai.Core.Ai.Sys
         public bool Board(MsgInformationEx MsgDTO, object[] param)
         {
             var content = param[0] as string;
-            var groups = AIMgr.Instance.AllGroupsDic.Keys;
+            var groups = Global.AllGroupsDic.Keys;
 
             foreach (var group in groups)
             {
@@ -81,7 +46,7 @@ namespace Dolany.Ai.Core.Ai.Sys
             return true;
         }
 
-        [EnterCommand(
+        [EnterCommand(ID = "DeveloperOnlyAI_FishingBonus",
             Command = "功能奖励",
             Description = "奖励某个人某个功能若个使用次数（当日有效）",
             Syntax = "[命令名] [@QQ号] [奖励个数]",
@@ -95,15 +60,23 @@ namespace Dolany.Ai.Core.Ai.Sys
             var qqNum = (long)param[1];
             var count = (int) (long) param[2];
 
-            var dailyLimit = DailyLimitRecord.Get(qqNum);
-            dailyLimit.Decache(command, count);
+            var enter = AIMgr.Instance.AllAvailableGroupCommands.FirstOrDefault(p => p.CommandsList.Contains(command));
+            if (enter == null)
+            {
+                MsgSender.PushMsg(MsgDTO, "未找到该功能！", true);
+                return false;
+            }
+
+            var dailyLimit = DailyLimitRecord.Get(qqNum, enter.ID);
+            dailyLimit.Decache(count);
             dailyLimit.Update();
 
             MsgSender.PushMsg(MsgDTO, "奖励已生效！");
             return true;
         }
 
-        [EnterCommand(Command = "物品奖励",
+        [EnterCommand(ID = "DeveloperOnlyAI_ItemBonus",
+            Command = "物品奖励",
             Description = "奖励某个人某个物品",
             Syntax = "[@QQ号] [物品名]",
             Tag = "系统命令",
@@ -133,7 +106,8 @@ namespace Dolany.Ai.Core.Ai.Sys
             return true;
         }
 
-        [EnterCommand(Command = "金币奖励",
+        [EnterCommand(ID = "DeveloperOnlyAI_GoldBonus",
+            Command = "金币奖励",
             Description = "奖励某个人一些金币",
             Syntax = "[@QQ号] [金币数量]",
             Tag = "系统命令",
@@ -153,7 +127,7 @@ namespace Dolany.Ai.Core.Ai.Sys
             return true;
         }
 
-        [EnterCommand(
+        [EnterCommand(ID = "DeveloperOnlyAI_BlackList",
             Command = "BlackList",
             Description = "Put someone to blacklist",
             Syntax = "qqnum",
@@ -179,7 +153,7 @@ namespace Dolany.Ai.Core.Ai.Sys
             return true;
         }
 
-        [EnterCommand(
+        [EnterCommand(ID = "DeveloperOnlyAI_FreeBlackList",
             Command = "FreeBlackList",
             Description = "Pull someone out from blacklist",
             Syntax = "qqnum",
@@ -202,7 +176,7 @@ namespace Dolany.Ai.Core.Ai.Sys
             return true;
         }
 
-        [EnterCommand(
+        [EnterCommand(ID = "DeveloperOnlyAI_InitAi",
             Command = "初始化",
             Description = "初始化群成员信息",
             Syntax = "[群号]",
@@ -223,7 +197,7 @@ namespace Dolany.Ai.Core.Ai.Sys
             return true;
         }
 
-        [EnterCommand(
+        [EnterCommand(ID = "DeveloperOnlyAI_Register",
             Command = "注册",
             Description = "注册新的群组",
             Syntax = "[群号] [群名]",
@@ -250,7 +224,7 @@ namespace Dolany.Ai.Core.Ai.Sys
             return true;
         }
 
-        [EnterCommand(
+        [EnterCommand(ID = "DeveloperOnlyAI_BonusChance",
             Command = "抽奖奖励",
             Description = "奖励某个人一次抽奖机会",
             Syntax = "[QQ号]",
@@ -261,15 +235,16 @@ namespace Dolany.Ai.Core.Ai.Sys
         public bool BonusChance(MsgInformationEx MsgDTO, object[] param)
         {
             var aimNum = (long) param[0];
-            var key = $"LimitBonus-{aimNum}";
-            SCacheService.Cache(key, "nothing");
+            var personCache = PersonCacheRecord.Get(aimNum, "抽奖");
+            personCache.Value = int.TryParse(personCache.Value, out var times) ? (times + 1).ToString() : 1.ToString();
+            personCache.Update();
 
             MsgSender.PushMsg(MsgDTO, "奖励已生效！");
 
             return true;
         }
 
-        [EnterCommand(
+        [EnterCommand(ID = "DeveloperOnlyAI_Freeze",
             Command = "冻结",
             Description = "冻结某个群的机器人",
             Syntax = "[群组号]",
@@ -295,7 +270,7 @@ namespace Dolany.Ai.Core.Ai.Sys
             return true;
         }
 
-        [EnterCommand(
+        [EnterCommand(ID = "DeveloperOnlyAI_Defreeze",
             Command = "解冻",
             Description = "解冻某个群的机器人",
             Syntax = "[群组号]",
@@ -321,7 +296,7 @@ namespace Dolany.Ai.Core.Ai.Sys
             return true;
         }
 
-        [EnterCommand(
+        [EnterCommand(ID = "DeveloperOnlyAI_ChargeTime",
             Command = "充值时间",
             Description = "给某个群组充值时间(单位天)",
             Syntax = "[群组号] [天数]",
@@ -345,7 +320,7 @@ namespace Dolany.Ai.Core.Ai.Sys
             return true;
         }
 
-        [EnterCommand(
+        [EnterCommand(ID = "DeveloperOnlyAI_BindAi",
             Command = "绑定",
             Description = "将机器人绑定某个群组",
             Syntax = "[群组号]",
@@ -368,7 +343,7 @@ namespace Dolany.Ai.Core.Ai.Sys
             return true;
         }
 
-        [EnterCommand(
+        [EnterCommand(ID = "DeveloperOnlyAI_SignInAcc",
             Command = "签到加速",
             Description = "开启签到加速活动",
             Syntax = "[天数]",
@@ -380,15 +355,17 @@ namespace Dolany.Ai.Core.Ai.Sys
         {
             var days = (int) (long) param[0];
 
-            var key = "SignInAcc";
-            SCacheService.Cache(key, "SignInAcc", DateTime.Now.AddDays(days));
+            var record = GlobalVarRecord.Get("SignInAcc");
+            record.Value = "any";
+            record.ExpiryTime = DateTime.Now.AddDays(days);
+            record.Update();
 
             MsgSender.PushMsg(MsgDTO, "开启成功");
 
             return true;
         }
 
-        [EnterCommand(
+        [EnterCommand(ID = "DeveloperOnlyAI_GetCache",
             Command = "查询缓存 查看缓存",
             Description = "根据key值查询缓存信息",
             Syntax = "[key]",
@@ -411,75 +388,6 @@ namespace Dolany.Ai.Core.Ai.Sys
                 var json = JsonConvert.SerializeObject(content);
                 MsgSender.PushMsg(MsgDTO, json);
             }
-
-            return true;
-        }
-
-        [EnterCommand(
-            Command = "签到升级",
-            Description = "升级签到系统",
-            Syntax = "",
-            Tag = "系统命令",
-            SyntaxChecker = "Empty",
-            AuthorityLevel = AuthorityLevel.开发者,
-            IsPrivateAvailable = true)]
-        public bool UpdateSignIn(MsgInformationEx MsgDTO, object[] param)
-        {
-            MsgSender.PushMsg(MsgDTO, "Updating...");
-            using (var cache = new SqliteContext(Configger.Instance["CacheDb"]))
-            {
-                var contents = cache.SqliteCacheModel.Where(p => p.Key.Contains("DailySignIn"));
-                foreach (var model in contents)
-                {
-                    var strs = model.Key.Split(new[] {'-'});
-                    if (strs.Length == 2)
-                    {
-                        var groupNum = long.Parse(strs[1]);
-                        var groupRecord = MongoService<SignInGroupRecord>.GetOnly(p => p.GroupNum == groupNum);
-                        if (groupRecord == null)
-                        {
-                            groupRecord = new SignInGroupRecord(){GroupNum = groupNum, Content = model.Value};
-                            MongoService<SignInGroupRecord>.Insert(groupRecord);
-                        }
-                        else
-                        {
-                            groupRecord.Content = model.Value;
-                            MongoService<SignInGroupRecord>.Update(groupRecord);
-                        }
-                    }
-                    else
-                    {
-                        var cacheModel = JsonConvert.DeserializeObject<DailySignInCache>(model.Value);
-                        var personRecord = MongoService<SignInPersonRecord>.GetOnly(p => p.QQNum == cacheModel.QQNum);
-                        var groupInfo = new SignInGroupInfo() {SuccessiveDays = cacheModel.SuccessiveSignDays, LastSignInDate = cacheModel.LastSignDate};
-                        if (personRecord == null)
-                        {
-                            personRecord = new SignInPersonRecord()
-                            {
-                                QQNum = cacheModel.QQNum,
-                                GroupInfos = new Dictionary<long, SignInGroupInfo>()
-                                {
-                                    {cacheModel.GroupNum, groupInfo}
-                                }
-                            };
-                            MongoService<SignInPersonRecord>.Insert(personRecord);
-                        }
-                        else
-                        {
-                            if (personRecord.GroupInfos.ContainsKey(cacheModel.GroupNum))
-                            {
-                                personRecord.GroupInfos[cacheModel.GroupNum] = groupInfo;
-                            }
-                            else
-                            {
-                                personRecord.GroupInfos.Add(cacheModel.GroupNum, groupInfo);
-                            }
-                            MongoService<SignInPersonRecord>.Update(personRecord);
-                        }
-                    }
-                }
-            }
-            MsgSender.PushMsg(MsgDTO, "Updated.");
 
             return true;
         }

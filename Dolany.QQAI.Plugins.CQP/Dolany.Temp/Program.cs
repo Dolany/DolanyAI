@@ -1,9 +1,6 @@
 ﻿using System;
-using System.Linq;
-using Dolany.Ai.Core.Ai.SingleCommand.Fortune;
-using Dolany.Ai.Core.Model;
-using Dolany.Ai.Core.OnlineStore;
-using Dolany.Database;
+using System.Collections.Generic;
+using Dolany.Ai.Common;
 using Dolany.Database.Ai;
 
 namespace Dolany.Temp
@@ -12,28 +9,18 @@ namespace Dolany.Temp
     {
         static void Main(string[] args)
         {
-            var records = MongoService<DriftItemRecord>.Get().GroupBy(p => p.QQNum).Where(p => p.Count() >= 2);
-            foreach (var record in records)
-            {
-                var ar = record.First();
-                var br = record.Last();
+            //var record = new DailyLimitRecord()
+            //{
+            //    QQNum = 123, Commands = new Dictionary<string, DailyLimitCommand>() {{"a", new DailyLimitCommand() {Times = 0, ExpiryTime = CommonUtil.UntilTommorow().AddDays(-1)}}}
+            //};
+            //var rr = record.Check("a", 1);
+            //record.Cache("a");
 
-                foreach (var ic in ar.ItemCount)
-                {
-                    var bic = br.ItemCount.FirstOrDefault(p => p.Name == ic.Name);
-                    if (bic == null)
-                    {
-                        br.ItemCount.Add(ic);
-                    }
-                    else
-                    {
-                        bic.Count += ic.Count;
-                    }
-                }
-                br.Update();
+            //rr = record.Check("a", 1);
+            //record.Cache("a");
 
-                MongoService<DriftItemRecord>.Delete(ar);
-            }
+            //rr = record.Check("a", 1);
+            //record.Cache("a");
 
             Console.WriteLine("Completed");
             Console.ReadKey();

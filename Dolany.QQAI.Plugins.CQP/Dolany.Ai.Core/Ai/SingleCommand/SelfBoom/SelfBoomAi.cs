@@ -18,7 +18,7 @@ namespace Dolany.Ai.Core.Ai.SingleCommand.SelfBoom
         private int BoomCode = CommonUtil.RandInt(100000);
         private DateTime CodeDate = DateTime.Now;
 
-        [EnterCommand(
+        [EnterCommand(ID = "SelfBoomAi_Boom",
             Command = "Boom",
             AuthorityLevel = AuthorityLevel.成员,
             Description = "自爆",
@@ -69,7 +69,7 @@ namespace Dolany.Ai.Core.Ai.SingleCommand.SelfBoom
             return true;
         }
 
-        [EnterCommand(
+        [EnterCommand(ID = "SelfBoomAi_GetBoomCode",
             Command = "BoomCode",
             AuthorityLevel = AuthorityLevel.开发者,
             Description = "获取自爆指令码，有效期5分钟",

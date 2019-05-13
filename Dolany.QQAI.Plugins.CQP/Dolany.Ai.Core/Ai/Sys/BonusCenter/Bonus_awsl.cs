@@ -10,7 +10,7 @@ namespace Dolany.Ai.Core.Ai.Sys.BonusCenter
     public class Bonus_awsl : BonusBase
     {
         public override string Code { get; } = "awsl";
-        public override bool IsExpiried => DateTime.Now > new DateTime(2019, 5, 16);
+        public override bool IsExpiried => DateTime.Now > new DateTime(2019, 5, 8);
         public override bool SendBonus(MsgInformationEx MsgDTO)
         {
             var honors = HonorHelper.Instance.HonorList.Where(p => !(p is LimitHonorModel)).Select(p => p.Name).ToList();

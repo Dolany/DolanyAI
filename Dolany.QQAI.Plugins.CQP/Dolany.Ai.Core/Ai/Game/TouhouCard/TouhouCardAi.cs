@@ -2,8 +2,6 @@
 using Dolany.Ai.Core.Base;
 using Dolany.Ai.Core.Cache;
 using Dolany.Ai.Core.Model;
-using Dolany.Database.Sqlite;
-using Dolany.Database.Sqlite.Model;
 
 namespace DolanyAI.Ai.Game.TouhouCard
 {
@@ -22,7 +20,7 @@ namespace DolanyAI.Ai.Game.TouhouCard
         {
         }
 
-        [EnterCommand(
+        [EnterCommand(ID = "TouhouCardAi_RandomCard",
             Command = ".card 幻想乡抽卡",
             AuthorityLevel = AuthorityLevel.成员,
             Description = "随机获取一张DIY幻想乡卡牌(每日刷新)",
@@ -40,16 +38,18 @@ namespace DolanyAI.Ai.Game.TouhouCard
         private static string RandomCard(long FromQQ)
         {
             var key = $"TouhouCard-{FromQQ}";
-            var cache = SCacheService.Get<TouhouCardCache>(key);
-            if (cache != null)
+            var cache = PersonCacheRecord.Get(FromQQ, "TouhouCard");
+            if (!string.IsNullOrEmpty(cache.Value))
             {
-                return PicPath + cache.CardName;
+                return PicPath + cache.Value;
             }
 
-            var tcr = new TouhouCardCache { QQNum = FromQQ, CardName = GetRandCard() };
-            SCacheService.Cache(key, tcr);
+            var card = GetRandCard();
+            cache.Value = card;
+            cache.ExpiryTime = CommonUtil.UntilTommorow();
+            cache.Update();
 
-            return PicPath + tcr.CardName;
+            return PicPath + card;
         }
 
         private static string GetRandCard()

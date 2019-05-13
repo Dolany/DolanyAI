@@ -25,7 +25,7 @@ namespace Dolany.Ai.Core.Ai.Sys
         {
         }
 
-        [EnterCommand(
+        [EnterCommand(ID = "HelperAI_HelpMe",
             Command = "帮助",
             AuthorityLevel = AuthorityLevel.成员,
             Description = "获取帮助列表",
@@ -39,7 +39,7 @@ namespace Dolany.Ai.Core.Ai.Sys
             return true;
         }
 
-        [EnterCommand(
+        [EnterCommand(ID = "HelperAI_HelpMe_Command",
             Command = "帮助",
             AuthorityLevel = AuthorityLevel.成员,
             Description = "获取特定命令或标签的帮助信息",

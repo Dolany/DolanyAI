@@ -80,10 +80,11 @@ namespace Dolany.Ai.Core.Base
                         return true;
                     }
 
-                    var limitRecord = DailyLimitRecord.Get(MsgDTO.FromQQ);
+                    var limitRecord = DailyLimitRecord.Get(MsgDTO.FromQQ, enterCommandAttribute.ID);
                     var checkResult = DailyLimitCheck(enterCommandAttribute, MsgDTO, limitRecord);
                     if (!checkResult)
                     {
+                        MsgSender.PushMsg(MsgDTO, $"你今天 {enterCommandAttribute.Command} 的次数已用完");
                         return true;
                     }
 
@@ -94,7 +95,7 @@ namespace Dolany.Ai.Core.Base
                         return true;
                     }
 
-                    limitRecord.Cache(enterCommandAttribute.Command);
+                    limitRecord.Cache();
                     limitRecord.Update();
 
                     return true;
@@ -140,16 +141,16 @@ namespace Dolany.Ai.Core.Base
             return true;
         }
 
-        private static bool DailyLimitCheck(EnterCommandAttribute enterAttr, MsgInformationEx MsgDTO, DailyLimitRecord limitRecord)
+        private static bool DailyLimitCheck(EnterCommandAttribute enterAttr, MsgInformation MsgDTO, DailyLimitRecord limitRecord)
         {
             var isTestingGroup = Global.TestGroups.Contains(MsgDTO.FromGroup);
-            if (MsgDTO.FromQQ == Global.DeveloperNumber || (isTestingGroup && enterAttr.TestingDailyLimit == 0) || (!isTestingGroup && enterAttr.DailyLimit == 0))
+            var timesLimit = isTestingGroup ? enterAttr.TestingDailyLimit : enterAttr.DailyLimit;
+            if (/*MsgDTO.FromQQ == Global.DeveloperNumber || */timesLimit == 0)
             {
                 return true;
             }
 
-            var timesLimit = isTestingGroup ? enterAttr.TestingDailyLimit : enterAttr.DailyLimit;
-            return limitRecord.Check(enterAttr.Command, timesLimit);
+            return limitRecord.Check(timesLimit);
         }
 
         private static bool SyntaxCheck(string SyntaxChecker, string msg, out object[] param)

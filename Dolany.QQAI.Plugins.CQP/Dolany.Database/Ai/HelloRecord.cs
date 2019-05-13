@@ -1,12 +1,12 @@
-﻿using System;
+﻿using MongoDB.Bson.Serialization.Attributes;
 
 namespace Dolany.Database.Ai
 {
-    public class Hello : DbBaseEntity
+    [BsonIgnoreExtraElements]
+    public class HelloRecord : DbBaseEntity
     {
         public long GroupNum { get; set; }
         public long QQNum { get; set; }
-        public DateTime LastHelloDate { get; set; }
         public string Content { get; set; }
     }
 }
