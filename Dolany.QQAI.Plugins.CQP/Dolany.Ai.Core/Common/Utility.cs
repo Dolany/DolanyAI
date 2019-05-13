@@ -1,12 +1,11 @@
-﻿namespace Dolany.Ai.Core.Common
+﻿using Dolany.Ai.Core.Base;
+
+namespace Dolany.Ai.Core.Common
 {
     using System;
     using System.IO;
     using System.Linq;
-    using Database.Sqlite.Model;
-
     using Dolany.Ai.Common;
-    using Database.Sqlite;
     using JetBrains.Annotations;
 
     using Model;
@@ -35,35 +34,35 @@
             return new HourMinuteModel { Hour = hour, Minute = minute };
         }
 
-        public static string GetAuthName(MsgInformationEx MsgDTO)
+        public static AuthorityLevel GetAuth(MsgInformationEx MsgDTO)
         {
             if (MsgDTO.FromQQ == Global.DeveloperNumber)
             {
-                return "开发者";
+                return AuthorityLevel.开发者;
             }
 
             if (MsgDTO.Type == MsgType.Private)
             {
-                return "成员";
+                return AuthorityLevel.成员;
             }
 
             var setting = GroupSettingMgr.Instance[MsgDTO.FromGroup];
             if (setting.AuthInfo == null)
             {
-                return "成员";
+                return AuthorityLevel.成员;
             }
 
             if (setting.AuthInfo.Owner == MsgDTO.FromQQ)
             {
-                return "群主";
+                return AuthorityLevel.群主;
             }
 
             if (setting.AuthInfo.Mgrs.Contains(MsgDTO.FromQQ))
             {
-                return "管理员";
+                return AuthorityLevel.管理员;
             }
 
-            return "成员";
+            return AuthorityLevel.成员;
         }
 
         [NotNull]

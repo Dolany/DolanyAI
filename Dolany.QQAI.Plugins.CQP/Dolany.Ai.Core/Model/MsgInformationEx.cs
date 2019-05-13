@@ -1,4 +1,5 @@
 ﻿using Dolany.Ai.Common;
+using Dolany.Ai.Core.Base;
 
 namespace Dolany.Ai.Core.Model
 {
@@ -9,6 +10,6 @@ namespace Dolany.Ai.Core.Model
         public string FullMsg { get; set; }
         public string Command { get; set; }
         public MsgType Type { get; set; }
-        public string AuthName { get; set; }
+        public AuthorityLevel Auth { get; set; }
     }
 }
