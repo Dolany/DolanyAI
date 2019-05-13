@@ -63,7 +63,7 @@
 
         private static void Praise(MsgInformationEx MsgDTO)
         {
-            SendPraise(MsgDTO.FromQQ);
+            SendPraise(MsgDTO.FromQQ, MsgDTO.BindAi);
             MsgSender.PushMsg(MsgDTO, "已赞十次！", true);
         }
     }

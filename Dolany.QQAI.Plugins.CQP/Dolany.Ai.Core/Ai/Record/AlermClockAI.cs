@@ -68,34 +68,35 @@ namespace Dolany.Ai.Core.Ai.Record
                 Creator = MsgDTO.FromQQ,
                 GroupNumber = MsgDTO.FromGroup,
                 CreateTime = DateTime.Now,
-                AINum = Global.SelfQQNum
+                BindAi = MsgDTO.BindAi
             };
 
             InsertClock(entity, MsgDTO);
             return true;
         }
 
-        private void InsertClock(AlermClock entity, MsgInformationEx MsgDTO)
+        private static void InsertClock(AlermClock entity, MsgInformationEx MsgDTO)
         {
             InsertClock(entity, MsgDTO, StartClock);
 
             MsgSender.PushMsg(MsgDTO, "闹钟设定成功！");
         }
 
-        private void StartClock(AlermClock entity)
+        private static void StartClock(AlermClock entity)
         {
             var interval = GetNextInterval(entity.AimHourt, entity.AimMinute);
             var clockId = Scheduler.Instance.Add(interval, TimeUp, entity);
             ClockIdList.Add(clockId);
         }
 
-        private void TimeUp(object sender, ElapsedEventArgs e)
+        private static void TimeUp(object sender, ElapsedEventArgs e)
         {
             var timer = sender as SchedulerTimer;
-            Debug.Assert(timer != null, nameof(timer) + " != null");
-            var entity = timer.Data as AlermClock;
+            if (!(timer?.Data is AlermClock entity))
+            {
+                return;
+            }
 
-            Debug.Assert(entity != null, nameof(entity) + " != null");
             if (GroupSettingMgr.Instance[entity.GroupNumber].IsPowerOn)
             {
                 MsgSender.PushMsg(
@@ -103,7 +104,8 @@ namespace Dolany.Ai.Core.Ai.Record
                     {
                         Command = AiCommand.SendGroup,
                         Msg = $@"{CodeApi.Code_At(entity.Creator)} {entity.Content}",
-                        ToGroup = entity.GroupNumber
+                        ToGroup = entity.GroupNumber,
+                        BindAi = entity.BindAi
                     });
             }
 

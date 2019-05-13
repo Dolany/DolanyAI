@@ -25,12 +25,12 @@ namespace Dolany.Ai.Core.Ai.Game.Advanture
             return Engines.All(p => p.players.All(player => player.QQNum != QQNum));
         }
 
-        public void GameStart(long groupNum, long firstPlayer, long secondPlayer, int CaveNo)
+        public void GameStart(long groupNum, long firstPlayer, long secondPlayer, int CaveNo, string BindAi)
         {
             var players = new[] {AdvPlayer.GetPlayer(firstPlayer), AdvPlayer.GetPlayer(secondPlayer)};
             players = CommonUtil.RandSort(players);
 
-            var engine = new AdvGameEngine(players, groupNum, CaveNo);
+            var engine = new AdvGameEngine(players, groupNum, CaveNo, BindAi);
             Engines.Add(engine);
             engine.GameStart();
 

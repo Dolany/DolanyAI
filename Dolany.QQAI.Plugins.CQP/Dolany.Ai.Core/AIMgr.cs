@@ -192,7 +192,8 @@ namespace Dolany.Ai.Core
                 RelationId = MsgDTO.RelationId,
                 Time = MsgDTO.Time,
                 FromGroup = MsgDTO.FromGroup,
-                FromQQ = MsgDTO.FromQQ
+                FromQQ = MsgDTO.FromQQ,
+                BindAi = MsgDTO.BindAi
             };
             if (msgEx.FromQQ < 0)
             {

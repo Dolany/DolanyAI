@@ -33,14 +33,14 @@ namespace Dolany.Ai.Core.Ai.Game.ChessAgainst
             var query = DriftItemRecord.GetRecord(AimQQNum);
             if (query == null || query.ItemCount.IsNullOrEmpty())
             {
-                MsgSender.PushMsg(GroupNum, 0, "对手没有任何物品！");
+                MsgSender.PushMsg(GroupNum, 0, "对手没有任何物品！", BindAi);
                 return;
             }
 
             var item = query.ItemCount.RandElement();
             var record = DriftItemRecord.GetRecord(SelfQQNum);
             var msg = record.ItemIncome(item.Name);
-            MsgSender.PushMsg(GroupNum, 0, $"你获得了 {item.Name}！\r{msg}");
+            MsgSender.PushMsg(GroupNum, 0, $"你获得了 {item.Name}！\r{msg}", BindAi);
         }
 
         [ChessEffect(Name = "烈日",
@@ -149,7 +149,7 @@ namespace Dolany.Ai.Core.Ai.Game.ChessAgainst
             var record = DriftItemRecord.GetRecord(SelfQQNum);
             var msg = record.ItemIncome(item.Name);
 
-            MsgSender.PushMsg(GroupNum, 0, $"你获得了：{item.Name}\r{msg}");
+            MsgSender.PushMsg(GroupNum, 0, $"你获得了：{item.Name}\r{msg}", BindAi);
         }
 
         [ChessEffect(Name = "苍天",
@@ -176,21 +176,21 @@ namespace Dolany.Ai.Core.Ai.Game.ChessAgainst
             var record = DriftItemRecord.GetRecord(SelfQQNum);
             if (record.ItemCount.IsNullOrEmpty())
             {
-                MsgSender.PushMsg(GroupNum, 0, "你没有任何物品");
+                MsgSender.PushMsg(GroupNum, 0, "你没有任何物品", BindAi);
                 return;
             }
 
             var commonItems = record.ItemCount.Where(ic => !HonorHelper.Instance.IsLimit(ic.Name)).ToList();
             if (commonItems.IsNullOrEmpty())
             {
-                MsgSender.PushMsg(GroupNum, 0, "你没有任何非限定物品");
+                MsgSender.PushMsg(GroupNum, 0, "你没有任何非限定物品", BindAi);
                 return;
             }
 
             var item = commonItems.RandElement();
 
             var golds = TransHelper.SellItemToShop(SelfQQNum, item.Name);
-            MsgSender.PushMsg(GroupNum, 0, $"你贩卖了 {item.Name}\r你当前拥有金币 {golds}");
+            MsgSender.PushMsg(GroupNum, 0, $"你贩卖了 {item.Name}\r你当前拥有金币 {golds}", BindAi);
         }
 
         [ChessEffect(Name = "花昙",
@@ -201,7 +201,7 @@ namespace Dolany.Ai.Core.Ai.Game.ChessAgainst
             var effectiveBuffs = selfOs.Buffs?.Where(b => b.ExpiryTime.ToLocalTime() > DateTime.Now && !b.IsPositive).ToArray();
             if (effectiveBuffs.IsNullOrEmpty())
             {
-                MsgSender.PushMsg(GroupNum, 0, "你没有任何负面状态");
+                MsgSender.PushMsg(GroupNum, 0, "你没有任何负面状态", BindAi);
                 return;
             }
 
@@ -209,7 +209,7 @@ namespace Dolany.Ai.Core.Ai.Game.ChessAgainst
             selfOs.Buffs?.Remove(buff);
             selfOs.Update();
 
-            MsgSender.PushMsg(GroupNum, 0, $"移除了 {buff?.Name}:{buff?.Description}");
+            MsgSender.PushMsg(GroupNum, 0, $"移除了 {buff?.Name}:{buff?.Description}", BindAi);
         }
 
         [ChessEffect(Name = "天气雨",
@@ -220,7 +220,7 @@ namespace Dolany.Ai.Core.Ai.Game.ChessAgainst
             var effectiveBuffs = oppeOs.Buffs?.Where(b => b.ExpiryTime.ToLocalTime() > DateTime.Now && b.IsPositive).ToArray();
             if (effectiveBuffs.IsNullOrEmpty())
             {
-                MsgSender.PushMsg(GroupNum, 0, "对手没有增益状态");
+                MsgSender.PushMsg(GroupNum, 0, "对手没有增益状态", BindAi);
                 return;
             }
 
@@ -228,7 +228,7 @@ namespace Dolany.Ai.Core.Ai.Game.ChessAgainst
             oppeOs.Buffs?.Remove(buff);
             oppeOs.Update();
 
-            MsgSender.PushMsg(GroupNum, 0, $"移除了 {buff?.Name}:{buff?.Description}");
+            MsgSender.PushMsg(GroupNum, 0, $"移除了 {buff?.Name}:{buff?.Description}", BindAi);
         }
 
         [ChessEffect(Name = "疏雨",
@@ -255,7 +255,7 @@ namespace Dolany.Ai.Core.Ai.Game.ChessAgainst
             var effectiveBuffs = oppeOs.Buffs?.Where(b => b.ExpiryTime.ToLocalTime() > DateTime.Now && !b.IsPositive).ToArray();
             if (effectiveBuffs.IsNullOrEmpty())
             {
-                MsgSender.PushMsg(GroupNum, 0, "对手没有负面状态");
+                MsgSender.PushMsg(GroupNum, 0, "对手没有负面状态", BindAi);
                 return;
             }
 
@@ -264,7 +264,7 @@ namespace Dolany.Ai.Core.Ai.Game.ChessAgainst
             osPerson.AddBuff(buff);
             osPerson.Update();
 
-            MsgSender.PushMsg(GroupNum, 0, $"复制到了 {buff?.Name}:{buff?.Description}");
+            MsgSender.PushMsg(GroupNum, 0, $"复制到了 {buff?.Name}:{buff?.Description}", BindAi);
         }
 
         [ChessEffect(Name = "台风",
@@ -275,7 +275,7 @@ namespace Dolany.Ai.Core.Ai.Game.ChessAgainst
             var effectiveBuffs = oppeOs.Buffs?.Where(b => b.ExpiryTime.ToLocalTime() > DateTime.Now && b.IsPositive).ToArray();
             if (effectiveBuffs.IsNullOrEmpty())
             {
-                MsgSender.PushMsg(GroupNum, 0, "对手没有增益状态");
+                MsgSender.PushMsg(GroupNum, 0, "对手没有增益状态", BindAi);
                 return;
             }
 
@@ -284,7 +284,7 @@ namespace Dolany.Ai.Core.Ai.Game.ChessAgainst
             osPerson.AddBuff(buff);
             osPerson.Update();
 
-            MsgSender.PushMsg(GroupNum, 0, $"复制到了 {buff?.Name}:{buff?.Description}");
+            MsgSender.PushMsg(GroupNum, 0, $"复制到了 {buff?.Name}:{buff?.Description}", BindAi);
         }
 
         [ChessEffect(Name = "凪",

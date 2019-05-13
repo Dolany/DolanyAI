@@ -16,6 +16,8 @@ namespace Dolany.Ai.Core.Ai.Game.ChessAgainst
 
         public long GroupNum { get; }
 
+        public string BindAi { get; set; }
+
         private readonly Func<long, long, string, Predicate<string>, string> WaitCallBack;
 
         private readonly List<ChessEffectModel> EffectsList = new List<ChessEffectModel>();
@@ -39,12 +41,13 @@ namespace Dolany.Ai.Core.Ai.Game.ChessAgainst
             }
         }
 
-        public ChessEngine(long GroupNum, long SelfQQNum, long AimQQNum, Func<long, long, string, Predicate<string>, string> WaitCallBack)
+        public ChessEngine(long GroupNum, long SelfQQNum, long AimQQNum, Func<long, long, string, Predicate<string>, string> WaitCallBack, string BindAi)
         {
             this.SelfQQNum = SelfQQNum;
             this.AimQQNum = AimQQNum;
             this.GroupNum = GroupNum;
             this.WaitCallBack = WaitCallBack;
+            this.BindAi = BindAi;
 
             var type = GetType();
             var methods = type.GetMethods();
@@ -68,7 +71,7 @@ namespace Dolany.Ai.Core.Ai.Game.ChessAgainst
         {
             try
             {
-                MsgSender.PushMsg(GroupNum, 0, "对决即将开始，请双方做好准备！");
+                MsgSender.PushMsg(GroupNum, 0, "对决即将开始，请双方做好准备！", BindAi);
                 Thread.Sleep(2000);
                 InitChessBoard();
 
@@ -82,12 +85,12 @@ namespace Dolany.Ai.Core.Ai.Game.ChessAgainst
                     AimQQNum = temp;
                 }
 
-                MsgSender.PushMsg(GroupNum, 0, "对决结束！");
+                MsgSender.PushMsg(GroupNum, 0, "对决结束！", BindAi);
             }
             catch (Exception ex)
             {
                 RuntimeLogger.Log(ex);
-                MsgSender.PushMsg(GroupNum, 0, "系统异常，游戏结束！");
+                MsgSender.PushMsg(GroupNum, 0, "系统异常，游戏结束！", BindAi);
             }
 
             ChessMgr.Instance.GameOver(this);
@@ -100,20 +103,20 @@ namespace Dolany.Ai.Core.Ai.Game.ChessAgainst
 
             if (string.IsNullOrEmpty(response) || !int.TryParse(response, out var selectedNum) || !AvailableNums.Contains(selectedNum))
             {
-                MsgSender.PushMsg(GroupNum, 0, "回合结束！");
+                MsgSender.PushMsg(GroupNum, 0, "回合结束！", BindAi);
                 return;
             }
 
             var model = Chessborad[selectedNum - 1];
 
-            MsgSender.PushMsg(GroupNum, 0, $"随机效果已生效：{model.Name}！\r{model.Description}");
+            MsgSender.PushMsg(GroupNum, 0, $"随机效果已生效：{model.Name}！\r{model.Description}", BindAi);
             Thread.Sleep(1000);
 
             model.Method();
             model.IsChecked = true;
 
             Thread.Sleep(1000);
-            MsgSender.PushMsg(GroupNum, 0, "回合结束！");
+            MsgSender.PushMsg(GroupNum, 0, "回合结束！", BindAi);
         }
 
         private void InitChessBoard()

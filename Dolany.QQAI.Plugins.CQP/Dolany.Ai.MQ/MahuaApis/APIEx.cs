@@ -68,7 +68,7 @@ namespace Dolany.Ai.MQ.MahuaApis
         // 	禁言
         public static int Ban(string 群号, string QQ, int 禁言时长)
         {
-            return Api_Ban(群号, QQ, 禁言时长 * 60, Utility.GetAuthCode()); 
+            return Api_Ban(群号, QQ, 禁言时长 * 60, Utility.GetAuthCode());
         }
     }
 }

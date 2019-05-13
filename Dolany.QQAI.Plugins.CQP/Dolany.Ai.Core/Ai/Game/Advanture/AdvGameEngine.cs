@@ -14,6 +14,8 @@ namespace Dolany.Ai.Core.Ai.Game.Advanture
     {
         public readonly long GroupNum;
 
+        public string BindAi;
+
         public readonly AdvPlayer[] players;
 
         private readonly CaveDataModel CaveModel;
@@ -29,11 +31,12 @@ namespace Dolany.Ai.Core.Ai.Game.Advanture
 
         private int Bonus;
 
-        public AdvGameEngine(AdvPlayer[] players, long GroupNum, int CaveNo)
+        public AdvGameEngine(AdvPlayer[] players, long GroupNum, int CaveNo, string BindAi)
         {
             this.players = players;
             this.GroupNum = GroupNum;
             this.CaveModel = CaveSettingHelper.Instance.GetCaveByNo(CaveNo);
+            this.BindAi = BindAi;
 
             for (var i = 0; i < 3; i++)
             {
@@ -43,7 +46,7 @@ namespace Dolany.Ai.Core.Ai.Game.Advanture
 
         public void GameStart()
         {
-            MsgSender.PushMsg(GroupNum, 0, $"冒险开始！当前副本是 {CaveModel.Name} ！");
+            MsgSender.PushMsg(GroupNum, 0, $"冒险开始！当前副本是 {CaveModel.Name} ！", BindAi);
             Thread.Sleep(1000);
 
             try
@@ -59,7 +62,7 @@ namespace Dolany.Ai.Core.Ai.Game.Advanture
             }
             catch(Exception ex)
             {
-                MsgSender.PushMsg(GroupNum, 0, "游戏异常，对决结束！");
+                MsgSender.PushMsg(GroupNum, 0, "游戏异常，对决结束！", BindAi);
                 RuntimeLogger.Log(ex);
             }
         }
@@ -97,7 +100,7 @@ namespace Dolany.Ai.Core.Ai.Game.Advanture
                     break;
             }
 
-            MsgSender.PushMsg(GroupNum, CurPlayer.QQNum, msg);
+            MsgSender.PushMsg(GroupNum, CurPlayer.QQNum, msg, BindAi);
             cave.Visible = true;
         }
 
@@ -182,7 +185,7 @@ namespace Dolany.Ai.Core.Ai.Game.Advanture
                 osPerson.Golds += Bonus;
                 osPerson.Update();
             }
-            MsgSender.PushMsg(GroupNum, 0, msg);
+            MsgSender.PushMsg(GroupNum, 0, msg, BindAi);
 
             foreach (var player in players)
             {
@@ -194,8 +197,7 @@ namespace Dolany.Ai.Core.Ai.Game.Advanture
                     var osPerson = OSPerson.GetPerson(p.QQNum);
                     osPerson.Golds -= 200;
                     osPerson.Update();
-                    MsgSender.PushMsg(GroupNum, p.QQNum, 
-                        $"你不幸输掉了对决，扣除200金币，你剩余金币为 {osPerson.Golds}");
+                    MsgSender.PushMsg(GroupNum, p.QQNum, $"你不幸输掉了对决，扣除200金币，你剩余金币为 {osPerson.Golds}", BindAi);
                     continue;
                 }
 
@@ -206,14 +208,13 @@ namespace Dolany.Ai.Core.Ai.Game.Advanture
 
                 var items = HonorHelper.Instance.CurMonthLimitItems();
                 var item = items.RandElement();
-                MsgSender.PushMsg(GroupNum, p.QQNum,
-                    $"你已经累计赢得 {p.WinTotal}场对决，获取额外奖励 {item.Name}*1");
+                MsgSender.PushMsg(GroupNum, p.QQNum, $"你已经累计赢得 {p.WinTotal}场对决，获取额外奖励 {item.Name}*1", BindAi);
 
                 var record = DriftItemRecord.GetRecord(p.QQNum);
                 var honorMsg = record.ItemIncome(item.Name);
                 if (!string.IsNullOrEmpty(honorMsg))
                 {
-                    MsgSender.PushMsg(GroupNum, 0, honorMsg);
+                    MsgSender.PushMsg(GroupNum, 0, honorMsg, BindAi);
                 }
             }
         }

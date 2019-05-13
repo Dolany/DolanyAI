@@ -26,13 +26,13 @@ namespace Dolany.Ai.Core.Ai.Game.ChessAgainst
             return WorkingEngine.Any(e => e.AimQQNum == QQNum || e.SelfQQNum == QQNum);
         }
 
-        public void StartAGame(long GroupNum, long FirstQQ, long SecondQQ, Func<long, long, string, Predicate<string>, string> WaitCallBack)
+        public void StartAGame(long GroupNum, long FirstQQ, long SecondQQ, Func<long, long, string, Predicate<string>, string> WaitCallBack, string BindAi)
         {
             var ran = CommonUtil.RandInt(2);
             var SelfQQNum = ran == 0 ? FirstQQ : SecondQQ;
             var AimQQNum = ran == 1 ? FirstQQ : SecondQQ;
 
-            var engine = new ChessEngine(GroupNum, SelfQQNum, AimQQNum, WaitCallBack);
+            var engine = new ChessEngine(GroupNum, SelfQQNum, AimQQNum, WaitCallBack, BindAi);
             WorkingEngine.Add(engine);
             engine.GameStart();
         }

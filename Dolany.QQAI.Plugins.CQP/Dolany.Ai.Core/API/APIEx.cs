@@ -8,13 +8,12 @@ namespace Dolany.Ai.Core.API
     using ViewModel;
     using Cache;
     using Common;
-    using Net;
     using JetBrains.Annotations;
 
     public class APIEx
     {
         [CanBeNull]
-        private static string GetGroupMemberList(string 群号)
+        private static string GetGroupMemberList(string 群号, string BindAi)
         {
             var info = Waiter.Instance.WaitForRelationId(
                 new MsgCommand
@@ -22,16 +21,17 @@ namespace Dolany.Ai.Core.API
                         Command = AiCommand.GetGroupMemberInfo,
                         Msg = 群号,
                         ToGroup = 0,
-                        ToQQ = 0
+                        ToQQ = 0,
+                        BindAi = BindAi
                     });
 
             return info?.Msg;
         }
 
         [CanBeNull]
-        public static GroupMemberListViewModel GetMemberInfos(long GroupNum)
+        public static GroupMemberListViewModel GetMemberInfos(long GroupNum, string BindAi)
         {
-            var ml = GetGroupMemberList(GroupNum.ToString());
+            var ml = GetGroupMemberList(GroupNum.ToString(), BindAi);
             if (string.IsNullOrEmpty(ml))
             {
                 return null;
@@ -49,14 +49,15 @@ namespace Dolany.Ai.Core.API
             }
         }
 
-        public static void SendPraise(long QQ号, int count = 10)
+        public static void SendPraise(long QQ号, string BindAi, int count = 10)
         {
             Waiter.Instance.WaitForRelationId(
                 new MsgCommand
                     {
                         Command = AiCommand.Praise,
                         Msg = count.ToString(),
-                        ToQQ = QQ号
+                        ToQQ = QQ号,
+                        BindAi = BindAi
                     });
         }
     }

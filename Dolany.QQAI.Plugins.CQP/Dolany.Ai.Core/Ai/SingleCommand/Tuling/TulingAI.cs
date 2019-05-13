@@ -44,17 +44,17 @@
                 return true;
             }
 
-            if (MsgDTO.Type == MsgType.Group && !MsgDTO.FullMsg.Contains(CodeApi.Code_At(Global.SelfQQNum)))
+            if (MsgDTO.Type == MsgType.Group && !MsgDTO.FullMsg.Contains(CodeApi.Code_At(BindAiMgr.Instance[MsgDTO.BindAi].SelfNum)))
             {
                 return false;
             }
 
-            MsgDTO.FullMsg = MsgDTO.FullMsg.Replace(CodeApi.Code_At(Global.SelfQQNum), string.Empty);
+            MsgDTO.FullMsg = MsgDTO.FullMsg.Replace(CodeApi.Code_At(BindAiMgr.Instance[MsgDTO.BindAi].SelfNum), string.Empty);
 
             var response = RequestMsg(MsgDTO);
             if (string.IsNullOrEmpty(response))
             {
-                MsgSender.PushMsg(MsgDTO, "...", MsgDTO.Type == MsgType.Group);
+                MsgSender.PushMsg(MsgDTO, "今天太累了，明天再找我说话吧~", MsgDTO.Type == MsgType.Group);
                 return false;
             }
 

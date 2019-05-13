@@ -1,6 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
+﻿using System.Collections.Generic;
 using Dolany.Ai.Common;
 
 namespace Dolany.Ai.Core.Common
@@ -9,12 +7,14 @@ namespace Dolany.Ai.Core.Common
     {
         public static BindAiMgr Instance { get; } = new BindAiMgr();
 
-        public Dictionary<string, BindAiModel> AiDic;
+        public readonly Dictionary<string, BindAiModel> AiDic;
 
         private BindAiMgr()
         {
             AiDic = CommonUtil.ReadJsonData<Dictionary<string, BindAiModel>>("BindAiData");
         }
+
+        public BindAiModel this[string AiName] => AiDic[AiName];
     }
 
     public class BindAiModel
