@@ -61,6 +61,7 @@ namespace Dolany.Ai.Core.OnlineStore
 
             var newitems = CreateDailySellItems();
             cache.Value = JsonConvert.SerializeObject(newitems);
+            cache.ExpiryTime = CommonUtil.UntilTommorow();
             cache.Update();
 
             return newitems;
