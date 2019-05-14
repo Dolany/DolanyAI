@@ -9,6 +9,6 @@
         public long FromGroup { get; set; }
         public long FromQQ { get; set; }
         public string Information { get; set; }
-        public long AiNum { get; set; }
+        public string BindAi { get; set; }
     }
 }

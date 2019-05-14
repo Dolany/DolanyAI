@@ -145,12 +145,7 @@ namespace Dolany.Ai.Core.Base
         {
             var isTestingGroup = Global.TestGroups.Contains(MsgDTO.FromGroup);
             var timesLimit = isTestingGroup ? enterAttr.TestingDailyLimit : enterAttr.DailyLimit;
-            if (/*MsgDTO.FromQQ == Global.DeveloperNumber || */timesLimit == 0)
-            {
-                return true;
-            }
-
-            return limitRecord.Check(timesLimit);
+            return timesLimit == 0 || limitRecord.Check(timesLimit);
         }
 
         private static bool SyntaxCheck(string SyntaxChecker, string msg, out object[] param)
@@ -212,9 +207,9 @@ namespace Dolany.Ai.Core.Base
                 return PrivateAuthCheck(enterAttr);
             }
 
-            if (string.IsNullOrEmpty(MsgDTO.AuthName))
+            if (MsgDTO.Auth == AuthorityLevel.未知)
             {
-                MsgDTO.AuthName = Utility.GetAuthName(MsgDTO);
+                MsgDTO.Auth = Utility.GetAuth(MsgDTO);
             }
 
             return GroupAuthCheck(authorityLevel, MsgDTO);
@@ -222,9 +217,9 @@ namespace Dolany.Ai.Core.Base
 
         private static bool GroupAuthCheck(AuthorityLevel authorityLevel, MsgInformationEx MsgDTO)
         {
-            var authName = MsgDTO.AuthName;
+            var auth = MsgDTO.Auth;
 
-            if (authName == "开发者")
+            if (auth == AuthorityLevel.开发者)
             {
                 return true;
             }
@@ -232,7 +227,7 @@ namespace Dolany.Ai.Core.Base
             {
                 return false;
             }
-            if (authName == "群主")
+            if (auth == AuthorityLevel.群主)
             {
                 return true;
             }
@@ -240,7 +235,7 @@ namespace Dolany.Ai.Core.Base
             {
                 return false;
             }
-            if (authName == "管理员")
+            if (auth == AuthorityLevel.管理员)
             {
                 return true;
             }

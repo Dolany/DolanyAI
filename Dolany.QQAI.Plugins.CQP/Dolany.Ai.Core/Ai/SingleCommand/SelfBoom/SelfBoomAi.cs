@@ -33,7 +33,8 @@ namespace Dolany.Ai.Core.Ai.SingleCommand.SelfBoom
                     {
                         Command = AiCommand.SendGroup,
                         Msg = "请于5秒内输入指令码！",
-                        ToGroup = MsgDTO.FromGroup
+                        ToGroup = MsgDTO.FromGroup,
+                        BindAi = MsgDTO.BindAi
                     },
                 info => info.Msg == BoomCode.ToString());
             if (backInfo == null)

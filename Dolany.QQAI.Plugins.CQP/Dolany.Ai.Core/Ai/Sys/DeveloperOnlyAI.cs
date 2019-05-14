@@ -32,12 +32,12 @@ namespace Dolany.Ai.Core.Ai.Sys
         public bool Board(MsgInformationEx MsgDTO, object[] param)
         {
             var content = param[0] as string;
-            var groups = Global.AllGroupsDic.Keys;
+            var groups = GroupSettingMgr.Instance.SettingDic;
 
-            foreach (var group in groups)
+            foreach (var (_, value) in groups)
             {
                 MsgSender.PushMsg(
-                    new MsgCommand { Command = AiCommand.SendGroup, Msg = content, ToGroup = group });
+                    new MsgCommand { Command = AiCommand.SendGroup, Msg = content, ToGroup = value.GroupNum, BindAi = value.BindAi});
 
                 Thread.Sleep(2000);
             }
@@ -187,7 +187,7 @@ namespace Dolany.Ai.Core.Ai.Sys
         public bool InitAi(MsgInformationEx MsgDTO, object[] param)
         {
             var groupNum = (long) param[0];
-            if (!GroupMemberInfoCacher.RefreshGroupInfo(groupNum))
+            if (!GroupMemberInfoCacher.RefreshGroupInfo(groupNum, MsgDTO.BindAi))
             {
                 MsgSender.PushMsg(MsgDTO, "初始化失败，请稍后再试！");
                 return false;
@@ -310,7 +310,14 @@ namespace Dolany.Ai.Core.Ai.Sys
             var days = (int) (long) param[1];
 
             var setting = MongoService<GroupSettings>.GetOnly(p => p.GroupNum == groupNum);
-            setting.ExpiryTime = setting.ExpiryTime?.AddDays(days) ?? DateTime.Now.AddDays(days);
+            if (setting.ExpiryTime == null || setting.ExpiryTime.Value < DateTime.Now)
+            {
+                setting.ExpiryTime = DateTime.Now.AddDays(days);
+            }
+            else
+            {
+                setting.ExpiryTime = setting.ExpiryTime.Value.AddDays(days);
+            }
             setting.Update();
 
             GroupSettingMgr.Instance.Refresh();

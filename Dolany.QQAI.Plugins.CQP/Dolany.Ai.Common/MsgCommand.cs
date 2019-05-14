@@ -10,6 +10,6 @@ namespace Dolany.Ai.Common
         public string Command { get; set; }
         public long ToQQ { get; set; }
         public long ToGroup { get; set; }
-        public long AiNum { get; set; }
+        public string BindAi { get; set; }
     }
 }

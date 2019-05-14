@@ -5,7 +5,8 @@ namespace Dolany.Ai.Core.Base
 {
     public enum AuthorityLevel
     {
-        开发者 = 0,
+        未知 = 0,
+        开发者 = 99,
         群主 = 1,
         管理员 = 2,
         成员 = 3
@@ -16,7 +17,7 @@ namespace Dolany.Ai.Core.Base
     {
         public string ID { get; set; }
         public string Command { get; set; }
-        public AuthorityLevel AuthorityLevel { get; set; }
+        public AuthorityLevel AuthorityLevel { get; set; } = AuthorityLevel.未知;
         public string Description { get; set; }
         public string Syntax { get; set; }
         public string Tag { get; set; }

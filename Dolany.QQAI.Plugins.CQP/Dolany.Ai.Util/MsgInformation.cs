@@ -10,5 +10,6 @@
         public long FromGroup { get; set; }
         public long FromQQ { get; set; }
         public string Information { get; set; }
+        public string BindAi { get; set; }
     }
 }

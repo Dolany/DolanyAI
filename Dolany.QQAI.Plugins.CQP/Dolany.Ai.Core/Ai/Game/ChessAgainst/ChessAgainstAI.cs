@@ -35,7 +35,7 @@ namespace Dolany.Ai.Core.Ai.Game.ChessAgainst
                 return false;
             }
 
-            if (aimNum == Global.SelfQQNum)
+            if (aimNum == BindAiMgr.Instance[MsgDTO.BindAi].SelfNum)
             {
                 MsgSender.PushMsg(MsgDTO, "鱼唇的人类，你无法挑战ai的威严！");
                 return false;
@@ -81,7 +81,7 @@ namespace Dolany.Ai.Core.Ai.Game.ChessAgainst
                 var info = Waiter.Instance.WaitForInformation(msg, Msg,
                     information => information.FromGroup == GroupNum && information.FromQQ == QQNum && judge(information.Msg), 10, true);
                 return info == null ? string.Empty : info.Msg;
-            });
+            }, MsgDTO.BindAi);
 
             return true;
         }

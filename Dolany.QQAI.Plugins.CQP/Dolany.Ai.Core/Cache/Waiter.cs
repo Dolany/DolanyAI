@@ -78,7 +78,6 @@ namespace Dolany.Ai.Core.Cache
 
                     break;
                 case AiInformation.AuthCode:
-                    Global.AuthCode = info.Msg;
                     break;
                 case AiInformation.Error:
                     AIAnalyzer.AddError(info.Msg);

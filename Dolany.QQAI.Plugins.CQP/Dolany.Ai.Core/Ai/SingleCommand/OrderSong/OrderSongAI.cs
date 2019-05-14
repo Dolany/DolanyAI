@@ -37,7 +37,7 @@ namespace Dolany.Ai.Core.Ai.SingleCommand.OrderSong
 
             if (!string.IsNullOrEmpty(songId))
             {
-                var responseXml = GetMusicXml(songId);
+                var responseXml = GetMusicXml(songId, MsgDTO.BindAi);
                 MsgSender.PushMsg(MsgDTO, responseXml);
 
                 return true;
@@ -69,7 +69,7 @@ namespace Dolany.Ai.Core.Ai.SingleCommand.OrderSong
             return song.Id;
         }
 
-        private static string GetMusicXml(string songId)
+        private static string GetMusicXml(string songId, string BindAi)
         {
             if (string.IsNullOrEmpty(songId))
             {
@@ -80,7 +80,8 @@ namespace Dolany.Ai.Core.Ai.SingleCommand.OrderSong
                 new MsgCommand
                     {
                         Command = AiCommand.Get163Music,
-                        Msg = songId
+                        Msg = songId,
+                        BindAi = BindAi
                     });
             return song?.Msg;
         }
