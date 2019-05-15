@@ -28,7 +28,7 @@
                         FromQQ = long.Parse(context.FromQq),
                         RelationId = string.Empty,
                         Msg = context.Message,
-                        Information = AiInformation.Message
+                        Information = InformationType.Message
                     });
         }
     }

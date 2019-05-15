@@ -39,29 +39,29 @@
         {
             switch (command.Command)
             {
-                case AiCommand.SendGroup:
-                case AiCommand.SendPrivate:
+                case CommandType.SendGroup:
+                case CommandType.SendPrivate:
                     SendMsg(command);
                     break;
-                case AiCommand.Get163Music:
+                case CommandType.Get163Music:
                     ReturnBackMusic(command.Msg, command.Id);
                     break;
-                case AiCommand.GetGroupMemberInfo:
+                case CommandType.GetGroupMemberInfo:
                     ReturnGroupMemberInfo(command.Msg, command.Id);
                     break;
-                case AiCommand.Praise:
+                case CommandType.Praise:
                     Praise(command.ToQQ, int.Parse(command.Msg), command.Id);
                     break;
-                case AiCommand.Restart:
+                case CommandType.Restart:
                     Restart();
                     break;
-                case AiCommand.GetAuthCode:
+                case CommandType.GetAuthCode:
                     GetAuthCode(command.Id);
                     break;
-                case AiCommand.GetGroups:
+                case CommandType.GetGroups:
                     GetGroups(command.Id);
                     break;
-                case AiCommand.SetSilence:
+                case CommandType.SetSilence:
                     SetSilence(command.Id, command.ToGroup, command.ToQQ, int.Parse(command.Msg));
                     break;
             }
@@ -71,7 +71,7 @@
         {
             APIEx.Ban(GroupNum.ToString(), QQNum.ToString(), DuringTime);
 
-            InfoSender.Send(AiInformation.CommandBack, Utility.GetAuthCode(), relationId);
+            InfoSender.Send(InformationType.CommandBack, Utility.GetAuthCode(), relationId);
         }
 
         private static void GetGroups(string relationId)
@@ -81,13 +81,13 @@
                 var api = robotSession.MahuaApi;
                 var model = api.GetGroups();
 
-                InfoSender.Send(AiInformation.CommandBack, model, relationId);
+                InfoSender.Send(InformationType.CommandBack, model, relationId);
             }
         }
 
         private static void GetAuthCode(string relationId)
         {
-            InfoSender.Send(AiInformation.CommandBack, Utility.GetAuthCode(), relationId);
+            InfoSender.Send(InformationType.CommandBack, Utility.GetAuthCode(), relationId);
         }
 
         private static void Restart()
@@ -104,7 +104,7 @@
                 Thread.Sleep(100);
             }
 
-            InfoSender.Send(AiInformation.CommandBack, RelationId: relationId);
+            InfoSender.Send(InformationType.CommandBack, RelationId: relationId);
         }
 
         private static void ReturnGroupMemberInfo(string groupNum, string relationId)
@@ -115,7 +115,7 @@
                 return;
             }
 
-            InfoSender.Send(AiInformation.CommandBack, info, relationId);
+            InfoSender.Send(InformationType.CommandBack, info, relationId);
         }
 
         private static void ReturnBackMusic(string musicId, string relationId)
@@ -126,7 +126,7 @@
                 return;
             }
 
-            InfoSender.Send(AiInformation.CommandBack, music, relationId);
+            InfoSender.Send(InformationType.CommandBack, music, relationId);
         }
 
         private static void SendMsg(MsgCommand command)
@@ -138,11 +138,11 @@
                     var api = robotSession.MahuaApi;
                     switch (command.Command)
                     {
-                        case AiCommand.SendGroup:
+                        case CommandType.SendGroup:
                             api.SendGroupMessage(command.ToGroup.ToString(), command.Msg);
                             break;
 
-                        case AiCommand.SendPrivate:
+                        case CommandType.SendPrivate:
                             api.SendPrivateMessage(command.ToQQ.ToString(), command.Msg);
                             break;
                     }

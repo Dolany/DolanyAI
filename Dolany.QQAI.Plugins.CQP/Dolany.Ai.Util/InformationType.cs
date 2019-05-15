@@ -1,6 +1,6 @@
 ﻿namespace Dolany.Ai.Util
 {
-    public class AiInformation
+    public class InformationType
     {
         public const string Message = "Message";
 

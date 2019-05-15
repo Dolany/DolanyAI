@@ -50,8 +50,8 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="AiCommand.cs" />
-    <Compile Include="AiInformation.cs" />
+    <Compile Include="CommandType.cs" />
+    <Compile Include="InformationType.cs" />
     <Compile Include="JsonHelper.cs" />
     <Compile Include="MsgCommand.cs" />
     <Compile Include="MsgInformation.cs" />

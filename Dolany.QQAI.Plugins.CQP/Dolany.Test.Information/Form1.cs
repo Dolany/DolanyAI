@@ -17,7 +17,7 @@ namespace Dolany.Test.Information
             {
                 FromGroup = long.Parse(GroupNumTxt.Text),
                 FromQQ = long.Parse(QQNumTxt.Text),
-                Information = AiInformation.Message,
+                Information = InformationType.Message,
                 Msg = MsgTxt.Text
             };
 

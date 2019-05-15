@@ -24,7 +24,7 @@
             RabbitMQService.Instance.Send(
                 new MsgInformation
                     {
-                        Information = AiInformation.AuthCode,
+                        Information = InformationType.AuthCode,
                         Msg = Utility.GetAuthCode()
                     });
         }

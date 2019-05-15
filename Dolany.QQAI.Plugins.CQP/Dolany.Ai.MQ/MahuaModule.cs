@@ -102,7 +102,7 @@ namespace Dolany.Ai.MQ
                     break;
                 }
 
-                InfoSender.Send(AiInformation.Error, ex.Message + "\r\n" + ex.StackTrace);
+                InfoSender.Send(InformationType.Error, ex.Message + "\r\n" + ex.StackTrace);
             }
 
             private static FileStream CheckFile()

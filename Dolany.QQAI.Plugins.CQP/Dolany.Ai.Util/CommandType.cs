@@ -1,6 +1,6 @@
 ﻿namespace Dolany.Ai.Util
 {
-    public static class AiCommand
+    public static class CommandType
     {
         public const string SendGroup = "SendGroup";
 
