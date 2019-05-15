@@ -33,7 +33,7 @@ namespace Dolany.Ai.Core.Ai.Sys.BonusCenter
             Description = "根据兑换码兑换奖励",
             Syntax = "[兑换码]",
             SyntaxChecker = "Word",
-            Tag = "兑奖",
+            Tag = "系统命令",
             IsPrivateAvailable = true)]
         public bool AutoBonus(MsgInformationEx MsgDTO, object[] param)
         {

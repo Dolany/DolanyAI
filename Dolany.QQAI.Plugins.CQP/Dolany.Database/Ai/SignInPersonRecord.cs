@@ -9,7 +9,7 @@ namespace Dolany.Database.Ai
     {
         public long QQNum { get; set; }
 
-        public Dictionary<string, SignInGroupInfo> GroupInfos { get; set; } = new Dictionary<string, SignInGroupInfo>();
+        public Dictionary<string, SignInPersonGroupInfo> GroupInfos { get; set; } = new Dictionary<string, SignInPersonGroupInfo>();
 
         public static SignInPersonRecord Get(long QQNum)
         {
@@ -32,7 +32,7 @@ namespace Dolany.Database.Ai
     }
 
     [BsonIgnoreExtraElements]
-    public class SignInGroupInfo
+    public class SignInPersonGroupInfo
     {
         public int SuccessiveDays { get; set; }
 

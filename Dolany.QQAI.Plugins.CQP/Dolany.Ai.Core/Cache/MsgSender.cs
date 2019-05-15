@@ -1,11 +1,10 @@
-﻿namespace Dolany.Ai.Core.Cache
+﻿using System;
+using Dolany.Ai.Common;
+using Dolany.Ai.Core.Common;
+using Dolany.Ai.Core.Model;
+
+namespace Dolany.Ai.Core.Cache
 {
-    using System;
-
-    using Common;
-    using Dolany.Ai.Common;
-    using Model;
-
     public class MsgSender
     {
         public static void PushMsg(MsgCommand msg)

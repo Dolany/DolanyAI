@@ -195,9 +195,9 @@ namespace Dolany.Ai.Core.Ai.Game.Advanture
                 if (p.QQNum != Winner.QQNum)
                 {
                     var osPerson = OSPerson.GetPerson(p.QQNum);
-                    osPerson.Golds -= 200;
+                    osPerson.Golds -= 100;
                     osPerson.Update();
-                    MsgSender.PushMsg(GroupNum, p.QQNum, $"你不幸输掉了对决，扣除200金币，你剩余金币为 {osPerson.Golds}", BindAi);
+                    MsgSender.PushMsg(GroupNum, p.QQNum, $"你不幸输掉了对决，扣除100金币，你剩余金币为 {osPerson.Golds}", BindAi);
                     continue;
                 }
 
