@@ -1,10 +1,22 @@
 ﻿using System.Collections.Generic;
+using Dolany.Ai.Common;
 
 namespace Dolany.Ai.Core.Ai.Game.Gift
 {
     public class GiftMgr
     {
+        public static GiftMgr Instance { get; } = new GiftMgr();
 
+        public Dictionary<string, GiftModel> GiftDic { get; }
+
+        private GiftMgr()
+        {
+            GiftDic = CommonUtil.ReadJsonData<Dictionary<string, GiftModel>>("GiftData");
+            foreach (var (key, value) in GiftDic)
+            {
+                value.Name = key;
+            }
+        }
     }
 
     public class GiftModel

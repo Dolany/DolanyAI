@@ -17,6 +17,7 @@ namespace Dolany.Ai.Core.Net
         public static ResultType PostData<ResultType>(PostReq_Param p) where ResultType : class
         {
             ResultType _reqRet = null;
+            string re = null;
             try
             {
                 using (var wc = new WebClient())
@@ -27,13 +28,17 @@ namespace Dolany.Ai.Core.Net
                     wc.Headers.Add("Content-Type", "application/json; charset=utf-8");
                     wc.Headers.Add("ContentLength", postData.Length.ToString());
                     var responseData = wc.UploadData($"{p.InterfaceName}", "POST", bytes);
-                    var re = Encoding.UTF8.GetString(responseData);
+                    re = Encoding.UTF8.GetString(responseData);
                     _reqRet = JsonConvert.DeserializeObject<ResultType>(re);
                 }
             }
             catch (Exception e)
             {
                 Logger.Log(e);
+                if (!string.IsNullOrEmpty(re))
+                {
+                    Logger.Log("re:" + re);
+                }
             }
             return _reqRet;
         }
