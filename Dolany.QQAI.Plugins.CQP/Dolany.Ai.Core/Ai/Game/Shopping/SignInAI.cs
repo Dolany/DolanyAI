@@ -118,7 +118,7 @@ namespace Dolany.Ai.Core.Ai.Game.Shopping
             return true;
         }
 
-        private void Sign(SignInGroupInfo ginfo, MsgInformationEx MsgDTO)
+        private static void Sign(SignInGroupInfo ginfo, MsgInformationEx MsgDTO)
         {
             if (ginfo.LastSignInDate == null || ginfo.LastSignInDate.Value.ToLocalTime().Date < DateTime.Today.AddDays(-1))
             {
@@ -165,16 +165,5 @@ namespace Dolany.Ai.Core.Ai.Game.Shopping
             MsgSender.PushMsg(MsgDTO, $"今日签到内容是：{content}");
             return true;
         }
-    }
-
-    public class DailySignInCache
-    {
-        public long GroupNum { get; set; }
-
-        public long QQNum { get; set; }
-
-        public int SuccessiveSignDays { get; set; }
-
-        public DateTime LastSignDate { get; set; }
     }
 }

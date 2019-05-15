@@ -21,7 +21,7 @@ namespace Dolany.Ai.Core.Common
 
         public void Refresh()
         {
-            SettingDic = MongoService<GroupSettings>.Get()
+            SettingDic = MongoService<GroupSettings>.Get(p => !p.ForcedShutDown)
                 .Where(p => p.ExpiryTime != null && p.ExpiryTime.Value >= DateTime.Now)
                 .ToDictionary(p => p.GroupNum, p => p);
         }

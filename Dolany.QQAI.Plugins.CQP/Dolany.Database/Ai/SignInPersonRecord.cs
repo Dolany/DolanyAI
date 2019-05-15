@@ -1,8 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
+using MongoDB.Bson.Serialization.Attributes;
 
 namespace Dolany.Database.Ai
 {
+    [BsonIgnoreExtraElements]
     public class SignInPersonRecord : DbBaseEntity
     {
         public long QQNum { get; set; }
@@ -29,10 +31,13 @@ namespace Dolany.Database.Ai
         }
     }
 
+    [BsonIgnoreExtraElements]
     public class SignInGroupInfo
     {
         public int SuccessiveDays { get; set; }
 
         public DateTime? LastSignInDate { get; set; }
+
+        public int AccumulationDays { get; set; }
     }
 }
