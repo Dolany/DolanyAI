@@ -21,7 +21,7 @@ namespace Dolany.Ai.Core.Cache
             PushMsg(
                 new MsgCommand
                     {
-                        Command = MsgInfo.Type == MsgType.Group ? AiCommand.SendGroup : AiCommand.SendPrivate,
+                        Command = MsgInfo.Type == MsgType.Group ? CommandType.SendGroup : CommandType.SendPrivate,
                         Msg = MsgInfo.Type == MsgType.Group && isNeedAt
                                   ? $"{CodeApi.Code_At(MsgInfo.FromQQ)} {Content}"
                                   : Content,

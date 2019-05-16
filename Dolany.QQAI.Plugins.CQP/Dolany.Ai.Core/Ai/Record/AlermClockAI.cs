@@ -102,7 +102,7 @@ namespace Dolany.Ai.Core.Ai.Record
                 MsgSender.PushMsg(
                     new MsgCommand
                     {
-                        Command = AiCommand.SendGroup,
+                        Command = CommandType.SendGroup,
                         Msg = $@"{CodeApi.Code_At(entity.Creator)} {entity.Content}",
                         ToGroup = entity.GroupNumber,
                         BindAi = entity.BindAi

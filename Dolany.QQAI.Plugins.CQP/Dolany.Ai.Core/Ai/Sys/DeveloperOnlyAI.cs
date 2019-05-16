@@ -37,7 +37,7 @@ namespace Dolany.Ai.Core.Ai.Sys
             foreach (var (_, value) in groups)
             {
                 MsgSender.PushMsg(
-                    new MsgCommand { Command = AiCommand.SendGroup, Msg = content, ToGroup = value.GroupNum, BindAi = value.BindAi});
+                    new MsgCommand { Command = CommandType.SendGroup, Msg = content, ToGroup = value.GroupNum, BindAi = value.BindAi});
 
                 Thread.Sleep(2000);
             }

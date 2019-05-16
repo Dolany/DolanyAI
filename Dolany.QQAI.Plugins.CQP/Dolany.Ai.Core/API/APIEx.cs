@@ -18,7 +18,7 @@ namespace Dolany.Ai.Core.API
             var info = Waiter.Instance.WaitForRelationId(
                 new MsgCommand
                     {
-                        Command = AiCommand.GetGroupMemberInfo,
+                        Command = CommandType.GetGroupMemberInfo,
                         Msg = 群号,
                         ToGroup = 0,
                         ToQQ = 0,
@@ -54,7 +54,7 @@ namespace Dolany.Ai.Core.API
             Waiter.Instance.WaitForRelationId(
                 new MsgCommand
                     {
-                        Command = AiCommand.Praise,
+                        Command = CommandType.Praise,
                         Msg = count.ToString(),
                         ToQQ = QQ号,
                         BindAi = BindAi

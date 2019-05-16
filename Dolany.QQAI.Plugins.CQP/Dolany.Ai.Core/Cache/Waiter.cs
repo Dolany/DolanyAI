@@ -47,8 +47,8 @@ namespace Dolany.Ai.Core.Cache
 
             switch (info.Information)
             {
-                case AiInformation.Message:
-                case AiInformation.CommandBack:
+                case InformationType.Message:
+                case InformationType.CommandBack:
                     WaiterUnit waitUnit = null;
                     lock (_lockObj)
                     {
@@ -77,9 +77,9 @@ namespace Dolany.Ai.Core.Cache
                     });
 
                     break;
-                case AiInformation.AuthCode:
+                case InformationType.AuthCode:
                     break;
-                case AiInformation.Error:
+                case InformationType.Error:
                     AIAnalyzer.AddError(info.Msg);
                     break;
             }

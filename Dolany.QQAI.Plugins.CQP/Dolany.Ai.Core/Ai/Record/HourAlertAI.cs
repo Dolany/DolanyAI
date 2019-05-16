@@ -76,7 +76,7 @@ namespace Dolany.Ai.Core.Ai.Record
             MsgSender.PushMsg(
                 new MsgCommand
                     {
-                        Command = AiCommand.SendGroup,
+                        Command = CommandType.SendGroup,
                         Msg = CodeApi.Code_Voice(randGirl.VoiceUrl),
                         ToGroup = groupNum,
                         BindAi = BindAi
@@ -84,7 +84,7 @@ namespace Dolany.Ai.Core.Ai.Record
             MsgSender.PushMsg(
                 new MsgCommand
                     {
-                        Command = AiCommand.SendGroup,
+                        Command = CommandType.SendGroup,
                         Msg = randGirl.Content,
                         ToGroup = groupNum,
                         BindAi = BindAi

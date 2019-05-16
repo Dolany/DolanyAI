@@ -79,7 +79,7 @@ namespace Dolany.Ai.Core.Ai.SingleCommand.OrderSong
             var song = Waiter.Instance.WaitForRelationId(
                 new MsgCommand
                     {
-                        Command = AiCommand.Get163Music,
+                        Command = CommandType.Get163Music,
                         Msg = songId,
                         BindAi = BindAi
                     });

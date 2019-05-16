@@ -31,7 +31,7 @@ namespace Dolany.Ai.Core.Ai.SingleCommand.SelfBoom
             var backInfo = Waiter.Instance.WaitForInformation(
                 new MsgCommand
                     {
-                        Command = AiCommand.SendGroup,
+                        Command = CommandType.SendGroup,
                         Msg = "请于5秒内输入指令码！",
                         ToGroup = MsgDTO.FromGroup,
                         BindAi = MsgDTO.BindAi
