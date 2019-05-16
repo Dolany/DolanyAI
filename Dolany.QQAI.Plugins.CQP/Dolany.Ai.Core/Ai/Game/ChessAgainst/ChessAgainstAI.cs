@@ -3,7 +3,7 @@ using Dolany.Ai.Core.Base;
 using Dolany.Ai.Core.Cache;
 using Dolany.Ai.Core.Common;
 using Dolany.Ai.Core.Model;
-using Dolany.Ai.Core.OnlineStore;
+using Dolany.Database.Ai;
 
 namespace Dolany.Ai.Core.Ai.Game.ChessAgainst
 {
@@ -47,8 +47,7 @@ namespace Dolany.Ai.Core.Ai.Game.ChessAgainst
                 return false;
             }
 
-            var osPerson = OSPerson.GetPerson(MsgDTO.FromQQ);
-            if (osPerson.CheckBuff("黄砂"))
+            if (OSPersonBuff.CheckBuff(MsgDTO.FromQQ, "黄砂"))
             {
                 MsgSender.PushMsg(MsgDTO, "你当前无法进行挑战！(黄砂)");
                 return false;

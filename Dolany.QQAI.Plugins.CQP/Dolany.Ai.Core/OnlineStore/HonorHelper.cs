@@ -81,8 +81,7 @@ namespace Dolany.Ai.Core.OnlineStore
             }
 
             var price = item.Price;
-            var osPerson = OSPerson.GetPerson(qqNum);
-            if (osPerson.CheckBuff("疏雨"))
+            if (OSPersonBuff.CheckBuff(qqNum, "疏雨"))
             {
                 price += price * 20 / 100;
             }
@@ -92,18 +91,9 @@ namespace Dolany.Ai.Core.OnlineStore
         public int GetHonorPrice(string honorName, long qqNum)
         {
             var honor = FindHonor(honorName);
-            var price = honor.Items.Sum(item =>
-            {
-                if (item.Rate == 0)
-                {
-                    return 1;
-                }
+            var price = honor.Items.Sum(item => item.Rate == 0 ? 1 : item.Price) * 3 / 2;
 
-                return item.Price;
-            }) * 3 / 2;
-
-            var osPerson = OSPerson.GetPerson(qqNum);
-            if (osPerson.CheckBuff("疏雨"))
+            if (OSPersonBuff.CheckBuff(qqNum, "疏雨"))
             {
                 price += price * 20 / 100;
             }

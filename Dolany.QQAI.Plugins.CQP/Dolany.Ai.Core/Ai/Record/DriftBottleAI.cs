@@ -34,8 +34,7 @@ namespace Dolany.Ai.Core.Ai.Record
             TestingDailyLimit = 3)]
         public bool FishingBottle(MsgInformationEx MsgDTO, object[] param)
         {
-            var osPerson = OSPerson.GetPerson(MsgDTO.FromQQ);
-            if (osPerson.CheckBuff("昙天"))
+            if (OSPersonBuff.CheckBuff(MsgDTO.FromQQ, "昙天"))
             {
                 MsgSender.PushMsg(MsgDTO, "你当前无法捞瓶子！(昙天)");
                 return false;
@@ -202,10 +201,9 @@ namespace Dolany.Ai.Core.Ai.Record
             return true;
         }
 
-        private void FishItem(MsgInformationEx MsgDTO)
+        private static void FishItem(MsgInformationEx MsgDTO)
         {
-            var osPerson = OSPerson.GetPerson(MsgDTO.FromQQ);
-            if (osPerson.CheckBuff("梅雨") && CommonUtil.RandInt(100) < 30)
+            if (OSPersonBuff.CheckBuff(MsgDTO.FromQQ, "梅雨") && CommonUtil.RandInt(100) < 30)
             {
                 MsgSender.PushMsg(MsgDTO, "欸呀呀，捞瓶子失败了！(梅雨)", true);
                 return;
@@ -225,7 +223,7 @@ namespace Dolany.Ai.Core.Ai.Record
                 msg += $"\r{s}";
             }
 
-            if (osPerson.CheckBuff("钻石尘"))
+            if (OSPersonBuff.CheckBuff(MsgDTO.FromQQ, "钻石尘"))
             {
                 OSPerson.GoldConsume(MsgDTO.FromQQ, 40);
                 msg += "\r欸呀呀，你丢失了40金币(钻石尘)";
@@ -234,7 +232,7 @@ namespace Dolany.Ai.Core.Ai.Record
             MsgSender.PushMsg(MsgDTO, msg, true);
         }
 
-        private void PrintBottle(MsgInformationEx MsgDTO, DriftBottleRecord record)
+        private static void PrintBottle(MsgInformationEx MsgDTO, DriftBottleRecord record)
         {
             var msg = $"你捞到了一个漂流瓶 \r    {record.Content}\r   by 陌生人";
             MsgSender.PushMsg(MsgDTO, msg);

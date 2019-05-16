@@ -37,7 +37,6 @@ namespace DolanyAI.Ai.Game.TouhouCard
 
         private static string RandomCard(long FromQQ)
         {
-            var key = $"TouhouCard-{FromQQ}";
             var cache = PersonCacheRecord.Get(FromQQ, "TouhouCard");
             if (!string.IsNullOrEmpty(cache.Value))
             {

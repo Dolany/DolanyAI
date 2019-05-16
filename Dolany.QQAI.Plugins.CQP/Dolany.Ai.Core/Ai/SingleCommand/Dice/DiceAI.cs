@@ -13,8 +13,7 @@
     using Dolany.Ai.Common;
     using Model;
 
-    [AI(
-        Name = "骰娘",
+    [AI(Name = "骰娘",
         Description = "AI for dice.",
         Enable = true,
         PriorityLevel = 5,

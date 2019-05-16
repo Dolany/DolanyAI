@@ -29,8 +29,7 @@ namespace Dolany.Ai.Core.Ai.Game.Shopping
             TestingDailyLimit = 8)]
         public bool Sell(MsgInformationEx MsgDTO, object[] param)
         {
-            var osPerson = OSPerson.GetPerson(MsgDTO.FromQQ);
-            if (osPerson.CheckBuff("快晴"))
+            if (OSPersonBuff.CheckBuff(MsgDTO.FromQQ, "快晴"))
             {
                 MsgSender.PushMsg(MsgDTO, "你无法进行该操作！(快晴)");
                 return false;
@@ -67,8 +66,7 @@ namespace Dolany.Ai.Core.Ai.Game.Shopping
             TestingDailyLimit = 2)]
         public bool SellRedundant(MsgInformationEx MsgDTO, object[] param)
         {
-            var osPerson = OSPerson.GetPerson(MsgDTO.FromQQ);
-            if (osPerson.CheckBuff("快晴"))
+            if (OSPersonBuff.CheckBuff(MsgDTO.FromQQ, "快晴"))
             {
                 MsgSender.PushMsg(MsgDTO, "你无法进行该操作！(快晴)");
                 return false;
@@ -76,7 +74,7 @@ namespace Dolany.Ai.Core.Ai.Game.Shopping
 
             var record = DriftItemRecord.GetRecord(MsgDTO.FromQQ);
             var ics = record.ItemCount?.Where(p => p.Count > 1).ToList();
-            if (ics.IsNullOrEmpty())
+            if (ics == null || ics.Count == 0)
             {
                 MsgSender.PushMsg(MsgDTO, "你没有任何多余的物品！");
                 return false;
@@ -103,6 +101,8 @@ namespace Dolany.Ai.Core.Ai.Game.Shopping
                 record.ItemConsume(ic.Name, ic.Count);
             }
             record.Update();
+
+            var osPerson = OSPerson.GetPerson(MsgDTO.FromQQ);
             osPerson.Golds += ictm.Sum(p => p.Price);
             osPerson.Update();
 
@@ -196,8 +196,7 @@ namespace Dolany.Ai.Core.Ai.Game.Shopping
             TestingDailyLimit = 7)]
         public bool Buy(MsgInformationEx MsgDTO, object[] param)
         {
-            var osPerson = OSPerson.GetPerson(MsgDTO.FromQQ);
-            if (osPerson.CheckBuff("快晴"))
+            if (OSPersonBuff.CheckBuff(MsgDTO.FromQQ, "快晴"))
             {
                 MsgSender.PushMsg(MsgDTO, "你无法进行该操作！(快晴)");
                 return false;
@@ -211,13 +210,14 @@ namespace Dolany.Ai.Core.Ai.Game.Shopping
                 return false;
             }
 
+            var osPerson = OSPerson.GetPerson(MsgDTO.FromQQ);
             if (osPerson.Golds < sellItem.Price)
             {
                 MsgSender.PushMsg(MsgDTO, "你持有的金币不足以购买此物品！");
                 return false;
             }
 
-            var price = osPerson.CheckBuff("极光") ? sellItem.Price * 80 / 100 : sellItem.Price;
+            var price = OSPersonBuff.CheckBuff(MsgDTO.FromQQ, "极光") ? sellItem.Price * 80 / 100 : sellItem.Price;
             if (!Waiter.Instance.WaitForConfirm_Gold(MsgDTO, price, 7))
             {
                 MsgSender.PushMsg(MsgDTO, "交易取消！");
@@ -249,8 +249,7 @@ namespace Dolany.Ai.Core.Ai.Game.Shopping
             TestingDailyLimit = 5)]
         public bool DealWith(MsgInformationEx MsgDTO, object[] param)
         {
-            var osPerson = OSPerson.GetPerson(MsgDTO.FromQQ);
-            if (osPerson.CheckBuff("快晴"))
+            if (OSPersonBuff.CheckBuff(MsgDTO.FromQQ, "快晴"))
             {
                 MsgSender.PushMsg(MsgDTO, "你无法进行该操作！(快晴)");
                 return false;
@@ -287,7 +286,7 @@ namespace Dolany.Ai.Core.Ai.Game.Shopping
             }
 
             var sourceOSPerson = OSPerson.GetPerson(MsgDTO.FromQQ);
-            var fee = sourceOSPerson.CheckBuff("苍天") ? 0 : price / 20;
+            var fee = OSPersonBuff.CheckBuff(MsgDTO.FromQQ, "苍天") ? 0 : price / 20;
             if (sourceOSPerson.Golds < price + fee)
             {
                 MsgSender.PushMsg(MsgDTO, "你没有足够的金币来支付！");
@@ -342,16 +341,14 @@ namespace Dolany.Ai.Core.Ai.Game.Shopping
 
             var msg = $"等级：{advPlayer.Level}\r" +
                       $"经验值：{advPlayer.Exp}\r" +
-                      $"HP：{advPlayer.HP}生命值\r" +
-                      $"攻击力：{advPlayer.MinAtk}-{advPlayer.MaxAtk}\r"+
                       $"金币：{osPerson.Golds}\r" +
                       $"战绩：{advPlayer.WinTotal}/{advPlayer.GameTotal}\r" +
                       $"物品数量：{itemRecord.TotalItemCount()}\r" +
                       $"成就数量：{itemRecord.HonorList?.Count ?? 0}";
-            var buffs = osPerson.EffectiveBuffs;
+            var buffs = OSPersonBuff.Get(MsgDTO.FromQQ);
             if (!buffs.IsNullOrEmpty())
             {
-                msg += "\rBuff列表：\r" + string.Join("\r", 
+                msg += "\rBuff列表：\r" + string.Join("\r",
                            buffs.Select(b => $"{b.Name}：{b.Description}（{b.ExpiryTime.ToLocalTime()}）"));
             }
 

@@ -69,9 +69,7 @@ namespace Dolany.Ai.Core.Ai.SingleCommand.GroupOwnerOnly
                 return false;
             }
 
-            var aimPerson = qqNum == MsgDTO.FromQQ ? sourcePerson : OSPerson.GetPerson(qqNum);
-            aimPerson.Buffs.Clear();
-            aimPerson.Update();
+            OSPersonBuff.RemoveAll(qqNum);
 
             sourcePerson.Golds -= 500;
             sourcePerson.Update();
@@ -93,14 +91,13 @@ namespace Dolany.Ai.Core.Ai.SingleCommand.GroupOwnerOnly
             var qqNum = (long) param[0];
             var buffName = param[1] as string;
 
-            var aimPerson = OSPerson.GetPerson(qqNum);
-            if (!aimPerson.CheckBuff(buffName))
+            if (!OSPersonBuff.CheckBuff(qqNum, buffName))
             {
                 MsgSender.PushMsg(MsgDTO, "目标身上没有指定buff！");
                 return false;
             }
 
-            var sourcePerson = qqNum == MsgDTO.FromQQ ? aimPerson : OSPerson.GetPerson(MsgDTO.FromQQ);
+            var sourcePerson = OSPerson.GetPerson(MsgDTO.FromQQ);
             if (sourcePerson.Golds < 100)
             {
                 MsgSender.PushMsg(MsgDTO, "驱散该buff需要100金币，你没有足够的金币！");
@@ -113,8 +110,7 @@ namespace Dolany.Ai.Core.Ai.SingleCommand.GroupOwnerOnly
                 return false;
             }
 
-            aimPerson.RemoveBuff(buffName);
-            aimPerson.Update();
+            OSPersonBuff.Remove(qqNum, buffName);
 
             sourcePerson.Golds -= 100;
             sourcePerson.Update();

@@ -48,6 +48,14 @@ namespace Dolany.Database.Ai
             item.Count -= count;
         }
 
+        public void ItemConsume(Dictionary<string, int> itemDic)
+        {
+            foreach (var (key, value) in itemDic)
+            {
+                ItemConsume(key, value);
+            }
+        }
+
         public int TotalItemCount()
         {
             return ItemCount.Sum(ic => ic.Count);
