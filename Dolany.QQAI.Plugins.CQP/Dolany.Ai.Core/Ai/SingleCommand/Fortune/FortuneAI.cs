@@ -1,25 +1,18 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
 using Dolany.Ai.Common;
+using Dolany.Ai.Core.Base;
+using Dolany.Ai.Core.Cache;
+using Dolany.Ai.Core.Model;
+using Dolany.Database.Sqlite.Model;
 using Newtonsoft.Json;
 
 namespace Dolany.Ai.Core.Ai.SingleCommand.Fortune
 {
-    using System;
-    using System.Linq;
-    using System.Text;
-    using System.Threading.Tasks;
-    using Base;
-
-    using Cache;
-
-    using Database;
-    using Dolany.Database.Ai;
-    using Database.Sqlite.Model;
-
-    using Model;
-
-    [AI(
-        Name = "随机运势",
+    [AI(Name = "随机运势",
         Description = "AI for Fortune.",
         Enable = true,
         PriorityLevel = 10)]
@@ -28,15 +21,12 @@ namespace Dolany.Ai.Core.Ai.SingleCommand.Fortune
         private const string TarotServerPath = "https://m.sheup.com/";
         private List<TarotFortuneDataModel> DataList;
 
+        private List<FortuneItemModel> FortuneItemList;
+
         public override void Initialization()
         {
-            var dataDic = CommonUtil.ReadJsonData<Dictionary<string, TarotFortuneDataModel>>("TarotFortuneData");
-            DataList = dataDic.Select(d =>
-            {
-                var (key, value) = d;
-                value.Name = key;
-                return value;
-            }).ToList();
+            DataList = CommonUtil.ReadJsonData_NamedList<TarotFortuneDataModel>("TarotFortuneData");
+            FortuneItemList = CommonUtil.ReadJsonData_NamedList<FortuneItemModel>("FortuneItemData");
         }
 
         [EnterCommand(ID = "FortuneAI_RandomFortune",
@@ -75,15 +65,14 @@ namespace Dolany.Ai.Core.Ai.SingleCommand.Fortune
             return true;
         }
 
-        private static void RandBless(RandomFortuneCache rf)
+        private void RandBless(RandomFortuneCache rf)
         {
-            if (rf.FortuneValue >= 50 || CommonUtil.RandInt(100) > 10)
+            if (rf.FortuneValue >= 50 || CommonUtil.RandInt(100) > 20)
             {
                 return;
             }
 
-            var filist = MongoService<FortuneItem>.Get();
-            var item = filist.RandElement();
+            var item = FortuneItemList.RandElement();
             rf.BlessName = item.Name;
             rf.BlessValue = item.Value;
         }
@@ -119,14 +108,14 @@ namespace Dolany.Ai.Core.Ai.SingleCommand.Fortune
 
             if (rf.BlessValue > 0)
             {
-                rf.FortuneValue = rf.FortuneValue + rf.BlessValue;
+                rf.FortuneValue += rf.BlessValue;
                 rf.FortuneValue = rf.FortuneValue > 100 ? 100 : rf.FortuneValue;
                 msg += $"恭喜你受到了 {rf.BlessName} 的祝福\r";
                 msg += $"你今天的运势是：{rf.FortuneValue}%({rf.BlessValue}↑)\r";
             }
             else if (rf.BlessValue < 0)
             {
-                rf.FortuneValue = rf.FortuneValue + rf.BlessValue;
+                rf.FortuneValue += rf.BlessValue;
                 rf.FortuneValue = rf.FortuneValue < 0 ? 0 : rf.FortuneValue;
                 msg += $"哎呀呀，你受到了 {rf.BlessName} 的诅咒\r";
                 msg += $"你今天的运势是：{rf.FortuneValue}%({Math.Abs(rf.BlessValue)}↓)\r";
@@ -289,5 +278,13 @@ namespace Dolany.Ai.Core.Ai.SingleCommand.Fortune
         public bool IsPos { get; set; }
         public string Description { get; set; }
         public string PicSrc { get; set; }
+    }
+
+    public class FortuneItemModel
+    {
+        public string Name { get; set; }
+        public string Description { get; set;}
+        public int Value { get; set; }
+        public int Type { get; set; }
     }
 }

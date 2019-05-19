@@ -32,6 +32,24 @@ namespace Dolany.Ai.Common
             }
         }
 
+        public static List<T> ReadJsonData_NamedList<T>(string jsonName)
+        {
+            var dic = ReadJsonData<Dictionary<string, T>>(jsonName);
+            var type = typeof(T);
+            var prop = type.GetProperty("Name");
+            if (prop == null || !prop.CanWrite)
+            {
+                return dic.Values.ToList();
+            }
+
+            foreach (var (key, value) in dic)
+            {
+                prop.SetValue(value, key);
+            }
+
+            return dic.Values.ToList();
+        }
+
         public static int RandInt(int MaxValue)
         {
             const decimal _base = int.MaxValue;

@@ -12,7 +12,7 @@
 
     public class DirtyFilter
     {
-        private readonly List<string> WordList = MongoService<DirtyWord>.Get().Select(d => d.Content).ToList();
+        private readonly string[] WordList;
 
         private readonly List<long> BlackList;
 
@@ -22,6 +22,7 @@
 
         private DirtyFilter()
         {
+            WordList = CommonUtil.ReadJsonData<Dictionary<string, string[]>>("DirtyWordData").First().Value;
             BlackList = MongoService<BlackList>.Get(p => p.BlackCount >= MaxTolerateCount).Select(p => p.QQNum).ToList();
         }
 
@@ -36,11 +37,11 @@
             {
                 return true;
             }
-            AddInBlackList(MsgDTO.FromGroup, MsgDTO.FromQQ);
+            AddInBlackList(MsgDTO.FromQQ);
             return false;
         }
 
-        private void AddInBlackList(long GroupNum, long QQNum)
+        private void AddInBlackList(long QQNum)
         {
             var query = MongoService<BlackList>.Get(b => b.QQNum == QQNum);
             if (!query.IsNullOrEmpty())

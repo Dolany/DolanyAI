@@ -7,7 +7,7 @@ namespace Dolany.Ai.Core.Common
     {
         public static BindAiMgr Instance { get; } = new BindAiMgr();
 
-        public readonly Dictionary<string, BindAiModel> AiDic;
+        private readonly Dictionary<string, BindAiModel> AiDic;
 
         private BindAiMgr()
         {

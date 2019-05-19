@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.Linq;
 using Dolany.Ai.Common;
 
 namespace Dolany.Ai.Core.Ai.Game.Gift
@@ -7,18 +8,14 @@ namespace Dolany.Ai.Core.Ai.Game.Gift
     {
         public static GiftMgr Instance { get; } = new GiftMgr();
 
-        public Dictionary<string, GiftModel> GiftDic { get; }
+        public List<GiftModel> GiftList { get; }
 
         private GiftMgr()
         {
-            GiftDic = CommonUtil.ReadJsonData<Dictionary<string, GiftModel>>("GiftData");
-            foreach (var (key, value) in GiftDic)
-            {
-                value.Name = key;
-            }
+            GiftList = CommonUtil.ReadJsonData_NamedList<GiftModel>("GiftData");
         }
 
-        public GiftModel this[string GiftName] => GiftDic.ContainsKey(GiftName) ? GiftDic[GiftName] : null;
+        public GiftModel this[string GiftName] => GiftList.FirstOrDefault(p => p.Name == GiftName);
     }
 
     public class GiftModel

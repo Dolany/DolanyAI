@@ -1,7 +1,9 @@
 ﻿using System;
+using MongoDB.Bson.Serialization.Attributes;
 
 namespace Dolany.Database.Ai
 {
+    [BsonIgnoreExtraElements]
     public class AlermClock : DbBaseEntity
     {
         public long GroupNumber { get; set; }
