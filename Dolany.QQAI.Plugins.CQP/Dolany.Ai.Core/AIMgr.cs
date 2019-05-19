@@ -197,7 +197,7 @@ namespace Dolany.Ai.Core
             };
             if (msgEx.FromQQ < 0)
             {
-                msgEx.FromQQ = msgEx.FromQQ & 0xFFFFFFFF;
+                msgEx.FromQQ &= 0xFFFFFFFF;
             }
 
             var msg = msgEx.Msg;
