@@ -12,12 +12,7 @@ namespace Dolany.Ai.Core.Ai.Game.Advanture
 
         private CaveSettingHelper()
         {
-            CaveDatas = CommonUtil.ReadJsonData<Dictionary<string, CaveDataModel>>("CaveSettingData").Select(p =>
-            {
-                var (key, value) = p;
-                value.Name = key;
-                return value;
-            }).ToList();
+            CaveDatas = CommonUtil.ReadJsonData_NamedList<CaveDataModel>("CaveSettingData");
         }
 
         public CaveDataModel GetCaveByName(string name)

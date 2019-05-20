@@ -70,7 +70,7 @@ namespace Dolany.Ai.Core.Ai.Game.Advanture
         private void ProcessTurn()
         {
             var msg = $"回合开始！请选择合适的数字！\r{PrintCaves()}";
-            var response = Waiter.Instance.WaitForNum(GroupNum, CurPlayer.QQNum, msg, i => i > 0 && i <= CaveList.Count);
+            var response = Waiter.Instance.WaitForNum(GroupNum, CurPlayer.QQNum, msg, i => i > 0 && i <= CaveList.Count, BindAi);
             if (response < 0)
             {
                 response = 1;

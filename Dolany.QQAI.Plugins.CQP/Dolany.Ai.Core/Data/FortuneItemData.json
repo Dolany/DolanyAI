@@ -1,0 +1,27 @@
+{
+  "祝福圣水": {
+    "Description": "",
+    "Value": 10,
+    "Type": 0
+  },
+  "精灵低语": {
+    "Description": "",
+    "Value": 20,
+    "Type": 0
+  },
+  "月神之吻": {
+    "Description": "",
+    "Value": 30,
+    "Type": 0
+  },
+  "生命之泉": {
+    "Description": "",
+    "Value": 40,
+    "Type": 0
+  },
+  "天使羽翼": {
+    "Description": "",
+    "Value": 50,
+    "Type": 0
+  }
+}

@@ -1,8 +1,10 @@
-﻿using System.Linq;
+﻿using System;
+using System.Linq;
 using Dolany.Ai.Common;
 using Dolany.Ai.Core.Ai.Game.Advanture;
 using Dolany.Ai.Core.Base;
 using Dolany.Ai.Core.Cache;
+using Dolany.Ai.Core.Common;
 using Dolany.Ai.Core.Model;
 using Dolany.Ai.Core.OnlineStore;
 using Dolany.Database;
@@ -249,80 +251,88 @@ namespace Dolany.Ai.Core.Ai.Game.Shopping
             TestingDailyLimit = 5)]
         public bool DealWith(MsgInformationEx MsgDTO, object[] param)
         {
-            if (OSPersonBuff.CheckBuff(MsgDTO.FromQQ, "快晴"))
+            try
             {
-                MsgSender.PushMsg(MsgDTO, "你无法进行该操作！(快晴)");
+                if (OSPersonBuff.CheckBuff(MsgDTO.FromQQ, "快晴"))
+                {
+                    MsgSender.PushMsg(MsgDTO, "你无法进行该操作！(快晴)");
+                    return false;
+                }
+
+                var aimQQ = (long) param[0];
+                var itemName = param[1] as string;
+                var price = (int)(long) param[2];
+
+                if (aimQQ == MsgDTO.FromQQ)
+                {
+                    MsgSender.PushMsg(MsgDTO, "你无法和自己交易！");
+                    return false;
+                }
+
+                if (price <= 0)
+                {
+                    MsgSender.PushMsg(MsgDTO, "价格异常！");
+                    return false;
+                }
+
+                var aimRecord = DriftItemRecord.GetRecord(aimQQ);
+                if (!aimRecord.CheckItem(itemName))
+                {
+                    MsgSender.PushMsg(MsgDTO, "对方没有该物品！");
+                    return false;
+                }
+
+                var originPrice = HonorHelper.Instance.GetItemPrice(HonorHelper.Instance.FindItem(itemName), aimQQ);
+                if (originPrice > price)
+                {
+                    MsgSender.PushMsg(MsgDTO, $"收购价格无法低于系统价格({originPrice})！");
+                    return false;
+                }
+
+                var sourceOSPerson = OSPerson.GetPerson(MsgDTO.FromQQ);
+                var fee = OSPersonBuff.CheckBuff(MsgDTO.FromQQ, "苍天") ? 0 : price / 20;
+                if (sourceOSPerson.Golds < price + fee)
+                {
+                    MsgSender.PushMsg(MsgDTO, "你没有足够的金币来支付！");
+                    return false;
+                }
+
+                var count = aimRecord.GetCount(itemName);
+                var msg = $"收到来自 {CodeApi.Code_At(MsgDTO.FromQQ)} 的交易请求：\r" +
+                          $"希望得到的物品：{itemName}\r" +
+                          $"价格：{price}({originPrice})\r" +
+                          $"你当前持有：{count}个，是否确认交易？";
+                if (!Waiter.Instance.WaitForConfirm(MsgDTO.FromGroup, aimQQ, msg,MsgDTO.BindAi, 10))
+                {
+                    MsgSender.PushMsg(MsgDTO, "交易取消！");
+                    return false;
+                }
+
+                aimRecord.ItemConsume(itemName);
+                aimRecord.Update();
+
+                var sourceRecord = DriftItemRecord.GetRecord(MsgDTO.FromQQ);
+                var content = sourceRecord.ItemIncome(itemName);
+                if (!string.IsNullOrEmpty(content))
+                {
+                    MsgSender.PushMsg(MsgDTO, content, true);
+                }
+
+                var aimOSPerson = OSPerson.GetPerson(aimQQ);
+                sourceOSPerson.Golds -= price + fee;
+                aimOSPerson.Golds += price;
+
+                sourceOSPerson.Update();
+                aimOSPerson.Update();
+
+                MsgSender.PushMsg(MsgDTO, "交易完毕！");
+                return true;
+            }
+            catch (Exception e)
+            {
+                Logger.Log(e);
                 return false;
             }
-
-            var aimQQ = (long) param[0];
-            var itemName = param[1] as string;
-            var price = (int)(long) param[2];
-
-            if (aimQQ == MsgDTO.FromQQ)
-            {
-                MsgSender.PushMsg(MsgDTO, "你无法和自己交易！");
-                return false;
-            }
-
-            if (price <= 0)
-            {
-                MsgSender.PushMsg(MsgDTO, "价格异常！");
-                return false;
-            }
-
-            var aimRecord = DriftItemRecord.GetRecord(aimQQ);
-            if (!aimRecord.CheckItem(itemName))
-            {
-                MsgSender.PushMsg(MsgDTO, "对方没有该物品！");
-                return false;
-            }
-
-            var originPrice = HonorHelper.Instance.GetItemPrice(HonorHelper.Instance.FindItem(itemName), aimQQ);
-            if (originPrice > price)
-            {
-                MsgSender.PushMsg(MsgDTO, $"收购价格无法低于系统价格({originPrice})！");
-                return false;
-            }
-
-            var sourceOSPerson = OSPerson.GetPerson(MsgDTO.FromQQ);
-            var fee = OSPersonBuff.CheckBuff(MsgDTO.FromQQ, "苍天") ? 0 : price / 20;
-            if (sourceOSPerson.Golds < price + fee)
-            {
-                MsgSender.PushMsg(MsgDTO, "你没有足够的金币来支付！");
-                return false;
-            }
-
-            var count = aimRecord.GetCount(itemName);
-            var msg = $"收到来自 {CodeApi.Code_At(MsgDTO.FromQQ)} 的交易请求：\r" +
-                      $"希望得到的物品：{itemName}\r" +
-                      $"价格：{price}({originPrice})\r" +
-                      $"你当前持有：{count}个，是否确认交易？";
-            if (!Waiter.Instance.WaitForConfirm(MsgDTO.FromGroup, aimQQ, msg, 10))
-            {
-                MsgSender.PushMsg(MsgDTO, "交易取消！");
-                return false;
-            }
-
-            aimRecord.ItemConsume(itemName);
-            aimRecord.Update();
-
-            var sourceRecord = DriftItemRecord.GetRecord(MsgDTO.FromQQ);
-            var content = sourceRecord.ItemIncome(itemName);
-            if (!string.IsNullOrEmpty(content))
-            {
-                MsgSender.PushMsg(MsgDTO, content, true);
-            }
-
-            var aimOSPerson = OSPerson.GetPerson(aimQQ);
-            sourceOSPerson.Golds -= price + fee;
-            aimOSPerson.Golds += price;
-
-            sourceOSPerson.Update();
-            aimOSPerson.Update();
-
-            MsgSender.PushMsg(MsgDTO, "交易完毕！");
-            return true;
         }
 
         [EnterCommand(ID = "ShoppingAI_ViewItem",

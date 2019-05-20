@@ -228,17 +228,18 @@ namespace Dolany.Ai.Core.Cache
             return WaitForConfirm(MsgDTO, $"此操作将花费 {golds} 金币，是否继续？", timeout);
         }
 
-        public bool WaitForConfirm(long ToGroup, long ToQQ, string msg, int timeout = 5, string ConfirmTxt = "确认", string CancelTxt = "取消")
+        public bool WaitForConfirm(long ToGroup, long ToQQ, string msg, string BindAi, int timeout = 5, string ConfirmTxt = "确认", string CancelTxt = "取消")
         {
-            return WaitForConfirm(new MsgInformationEx {FromQQ = ToQQ, FromGroup = ToGroup, Type = MsgType.Group}, msg, timeout, ConfirmTxt, CancelTxt);
+            return WaitForConfirm(new MsgInformationEx {FromQQ = ToQQ, FromGroup = ToGroup, Type = MsgType.Group, BindAi = BindAi}, msg, timeout, ConfirmTxt, CancelTxt);
         }
 
-        public int WaitForNum(long ToGroup, long ToQQ, string msg, Predicate<int> predicate)
+        public int WaitForNum(long ToGroup, long ToQQ, string msg, Predicate<int> predicate, string BindAi)
         {
             var msgInfo = WaitForInformation(new MsgInformationEx()
                 {
                     FromGroup = ToGroup,
-                    FromQQ = ToQQ
+                    FromQQ = ToQQ,
+                    BindAi = BindAi
                 }, msg, info => info.FromGroup == ToGroup
                                 && info.FromQQ == ToQQ
                                 && int.TryParse(info.Msg, out var res)
