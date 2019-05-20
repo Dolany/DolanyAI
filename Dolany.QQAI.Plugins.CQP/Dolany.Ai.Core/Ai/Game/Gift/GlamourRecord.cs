@@ -1,6 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
 using Dolany.Database;
 
 namespace Dolany.Ai.Core.Ai.Game.Gift
@@ -32,12 +30,6 @@ namespace Dolany.Ai.Core.Ai.Game.Gift
         public void Update()
         {
             MongoService<GlamourRecord>.Update(this);
-        }
-
-        public static List<GlamourRecord> GetTop(long GroupNum, int topNum)
-        {
-            var records = MongoService<GlamourRecord>.Get(p => p.GroupNum == GroupNum);
-            return records.OrderByDescending(p => p.Glamour).Take(topNum).ToList();
         }
     }
 }

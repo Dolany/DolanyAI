@@ -37,7 +37,5 @@ namespace Dolany.Database.Ai
         public int SuccessiveDays { get; set; }
 
         public DateTime? LastSignInDate { get; set; }
-
-        public int AccumulationDays { get; set; }
     }
 }

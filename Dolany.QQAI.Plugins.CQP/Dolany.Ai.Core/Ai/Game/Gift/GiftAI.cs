@@ -50,8 +50,10 @@ namespace Dolany.Ai.Core.Ai.Game.Gift
             }
 
             itemRecord.ItemConsume(gift.MaterialDic);
+            itemRecord.Update();
             osPerson.Golds -= gift.GoldNeed;
             osPerson.GiftIncome(name);
+            osPerson.Update();
 
             MsgSender.PushMsg(MsgDTO, "制作成功！", true);
 
