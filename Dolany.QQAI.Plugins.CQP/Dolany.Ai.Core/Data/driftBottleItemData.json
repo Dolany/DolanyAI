@@ -748,5 +748,37 @@
       "Rate": 6,
       "Price": 1000
     }
+  ],
+  "五行封印": [
+    {
+      "Name": "从革之金",
+      "Description": "封印着傻白的亵渎之魂...",
+      "Rate": 8,
+      "Price": 800
+    },
+    {
+      "Name": "曲直之木",
+      "Description": "封印着傻白的腐败之躯...",
+      "Rate": 8,
+      "Price": 800
+    },
+    {
+      "Name": "稼穑之土",
+      "Description": "封印着傻白的污秽之血...",
+      "Rate": 8,
+      "Price": 800
+    },
+    {
+      "Name": "润下之水",
+      "Description": "封印着傻白的憎恶之心...",
+      "Rate": 8,
+      "Price": 800
+    },
+    {
+      "Name": "炎上之火",
+      "Description": "封印着傻白的扭曲之貌...",
+      "Rate": 8,
+      "Price": 800
+    }
   ] 
 }
