@@ -11,7 +11,7 @@ namespace Dolany.Ai.Core.Ai.Game.Gift
 {
     [AI(Name = "礼物",
         Description = "AI for Gifts.",
-        Enable = false,
+        Enable = true,
         PriorityLevel = 10,
         NeedManulOpen = true)]
     public class GiftAI : AIBase

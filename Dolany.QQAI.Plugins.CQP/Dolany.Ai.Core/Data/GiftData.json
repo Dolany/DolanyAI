@@ -1,0 +1,136 @@
+﻿{
+  "一盒巧克力": {
+    "Description": "这么一大盒，夹心巧克力~",
+    "MaterialDic": {
+      "一颗鸡蛋": 1,
+      "巨大的剪刀": 1,
+      "三层书柜": 1
+    },
+    "GoldNeed": 20,
+    "Intimate": 60,
+    "IntimateDays": 15,
+    "Glamour": 60
+  },
+  "友情徽章": {
+    "Description": "象征着爱与友情，亮闪闪的徽章~",
+    "MaterialDic": {
+      "银质叉子": 1,
+      "闪亮亮的徽章": 1,
+      "闪光的匕首": 1,
+      "可乐瓶": 1
+    },
+    "GoldNeed": 30,
+    "Intimate": 90,
+    "IntimateDays": 20,
+    "Glamour": 85
+  },
+  "上等果酒": {
+    "Description": "醉人的香气，好像是西瓜酿的~",
+    "MaterialDic": {
+      "精美的餐盘": 1,
+      "黑色丝袜": 2,
+      "周边键盘": 1
+    },
+    "GoldNeed": 13,
+    "Intimate": 49,
+    "IntimateDays": 14,
+    "Glamour": 60
+  },
+  "黄金地球仪": {
+    "Description": "带你去环游世界！",
+    "MaterialDic": {
+      "正方形的宝石": 1,
+      "很轻的扫帚": 1
+    },
+    "GoldNeed": 300,
+    "Intimate": 90,
+    "IntimateDays": 30,
+    "Glamour": 98
+  },
+  "大闸蟹": {
+    "Description": "正宗大闸蟹，市场上可是很难买到的噢~",
+    "MaterialDic": {
+      "周边T恤": 1,
+      "蕾丝文胸": 1,
+      "宽大的腰带": 1,
+      "一罐不明液体": 1
+    },
+    "GoldNeed": 10,
+    "Intimate": 81,
+    "IntimateDays": 21,
+    "Glamour": 50
+  },
+  "初音手办": {
+    "Description": "把你MIKU MIKU掉噢~",
+    "MaterialDic": {
+      "精美的弓": 1,
+      "迷你八卦炉": 2,
+      "鲜美的牡蛎": 3
+    },
+    "GoldNeed": 150,
+    "Intimate": 88,
+    "IntimateDays": 32,
+    "Glamour": 110
+  },
+  "魔法手杖": {
+    "Description": "是魔法手杖，不是魔术手杖！",
+    "MaterialDic": {
+      "宽大的袍子": 1,
+      "黑色宝石": 1,
+      "魔法竖琴": 1
+    },
+    "GoldNeed": 125,
+    "Intimate": 130,
+    "IntimateDays": 23,
+    "Glamour": 130
+  },
+  "愿望果实": {
+    "Description": "据说可以帮你实现任何愿望，但是没人知道怎么使用它...",
+    "MaterialDic": {
+      "金色的羽毛": 1,
+      "青石塑像C": 1,
+      "小巧的扳手": 2,
+      "小狐狸": 1
+    },
+    "GoldNeed": 239,
+    "Intimate": 266,
+    "IntimateDays": 30,
+    "Glamour": 361
+  },
+  "半价优惠券": {
+    "Description": "你应该会用得到的吧，大概...",
+    "MaterialDic": {
+      "年迈的海龟": 2,
+      "鲜美的牡蛎": 1,
+      "可乐瓶": 3
+    },
+    "GoldNeed": 69,
+    "Intimate": 52,
+    "IntimateDays": 17,
+    "Glamour": 46
+  },
+  "名牌运动鞋": {
+    "Description": "时尚时尚最时尚~",
+    "MaterialDic": {
+      "锋利的玻璃碎片": 1,
+      "小螃蟹": 2,
+      "生锈的斧头": 3
+    },
+    "GoldNeed": 23,
+    "Intimate": 40,
+    "IntimateDays": 21,
+    "Glamour": 36
+  },
+  "痛车": {
+    "Description": "上面印的是知名的vtb！",
+    "MaterialDic": {
+      "小巧的盾牌": 1,
+      "青石塑像B": 1,
+      "音": 1
+    },
+    "GoldNeed": 240,
+    "Intimate": 91,
+    "IntimateDays": 16,
+    "Glamour": 85 
+  } 
+}
