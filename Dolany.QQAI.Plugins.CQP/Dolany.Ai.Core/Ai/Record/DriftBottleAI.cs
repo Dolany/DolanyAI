@@ -1,19 +1,16 @@
-﻿using Dolany.Ai.Core.OnlineStore;
+﻿using System;
+using System.Linq;
+using Dolany.Ai.Common;
+using Dolany.Ai.Core.Base;
+using Dolany.Ai.Core.Cache;
+using Dolany.Ai.Core.Model;
+using Dolany.Ai.Core.OnlineStore;
+using Dolany.Database;
+using Dolany.Database.Ai;
 
 namespace Dolany.Ai.Core.Ai.Record
 {
-    using System;
-    using System.Linq;
-
-    using Dolany.Ai.Common;
-    using Base;
-    using Cache;
-    using Model;
-    using Database;
-    using Dolany.Database.Ai;
-
-    [AI(
-        Name = "漂流瓶",
+    [AI(Name = "漂流瓶",
         Description = "AI for drift bottle.",
         Enable = true,
         PriorityLevel = 10,
@@ -29,7 +26,7 @@ namespace Dolany.Ai.Core.Ai.Record
             Syntax = "",
             SyntaxChecker = "Empty",
             Tag = "漂流瓶功能",
-            IsPrivateAvailable = true,
+            IsPrivateAvailable = false,
             DailyLimit = 1,
             TestingDailyLimit = 3)]
         public bool FishingBottle(MsgInformationEx MsgDTO, object[] param)
@@ -223,7 +220,7 @@ namespace Dolany.Ai.Core.Ai.Record
                 msg += $"\r{s}";
             }
 
-            if (OSPersonBuff.CheckBuff(MsgDTO.FromQQ, "钻石尘"))
+            if (OSPersonBuff.CheckBuff(MsgDTO.FromQQ, "钻石尘") && CommonUtil.RandInt(100) < 50)
             {
                 OSPerson.GoldConsume(MsgDTO.FromQQ, 40);
                 msg += "\r欸呀呀，你丢失了40金币(钻石尘)";
