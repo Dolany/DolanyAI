@@ -2,6 +2,7 @@
 using System.Linq;
 using Dolany.Ai.Common;
 using Dolany.Ai.Core.Ai.Game.Advanture;
+using Dolany.Ai.Core.Ai.Game.Gift;
 using Dolany.Ai.Core.Base;
 using Dolany.Ai.Core.Cache;
 using Dolany.Ai.Core.Common;
@@ -348,13 +349,15 @@ namespace Dolany.Ai.Core.Ai.Game.Shopping
             var osPerson = OSPerson.GetPerson(MsgDTO.FromQQ);
             var itemRecord = DriftItemRecord.GetRecord(MsgDTO.FromQQ);
             var advPlayer = AdvPlayer.GetPlayer(MsgDTO.FromQQ);
+            var glamourRecord = GlamourRecord.Get(MsgDTO.FromGroup, MsgDTO.FromQQ);
 
             var msg = $"等级：{advPlayer.Level}\r" +
                       $"经验值：{advPlayer.Exp}\r" +
                       $"金币：{osPerson.Golds}\r" +
                       $"战绩：{advPlayer.WinTotal}/{advPlayer.GameTotal}\r" +
                       $"物品数量：{itemRecord.TotalItemCount()}\r" +
-                      $"成就数量：{itemRecord.HonorList?.Count ?? 0}";
+                      $"成就数量：{itemRecord.HonorList?.Count ?? 0}\r" +
+                      $"本月魅力值：{glamourRecord.Glamour}";
             var buffs = OSPersonBuff.Get(MsgDTO.FromQQ);
             if (!buffs.IsNullOrEmpty())
             {

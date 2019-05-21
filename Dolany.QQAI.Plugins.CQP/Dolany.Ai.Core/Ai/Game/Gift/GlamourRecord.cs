@@ -21,7 +21,7 @@ namespace Dolany.Ai.Core.Ai.Game.Gift
                 return record;
             }
 
-            record = new GlamourRecord(){GroupNum = GroupNum, QQNum = QQNum, ExpiryTime = DateTime.Today.AddDays(7 - (int)DateTime.Now.DayOfWeek)};
+            record = new GlamourRecord(){GroupNum = GroupNum, QQNum = QQNum, ExpiryTime = DateTime.Today.AddDays(1 - DateTime.Now.Day).AddMonths(1)};
             MongoService<GlamourRecord>.Insert(record);
 
             return record;
