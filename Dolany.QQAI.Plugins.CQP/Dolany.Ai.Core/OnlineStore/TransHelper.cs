@@ -11,7 +11,7 @@ namespace Dolany.Ai.Core.OnlineStore
     {
         public static int SellItemToShop(long QQNum, string itemName)
         {
-            var price = HonorHelper.Instance.GetItemPrice(HonorHelper.Instance.FindItem(itemName), QQNum);
+            var price = HonorHelper.GetItemPrice(HonorHelper.Instance.FindItem(itemName), QQNum);
 
             var golds = OSPerson.GoldIncome(QQNum, price);
             var record = DriftItemRecord.GetRecord(QQNum);
@@ -47,7 +47,7 @@ namespace Dolany.Ai.Core.OnlineStore
             return randSort.Select(rs => new DailySellItemModel
             {
                 Name = rs.Name,
-                Price = HonorHelper.Instance.GetItemPrice(rs, 0) * 2
+                Price = HonorHelper.GetItemPrice(rs, 0) * 2
             }).ToArray();
         }
 

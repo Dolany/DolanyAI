@@ -1,16 +1,13 @@
-﻿using System.Net;
+﻿using System;
+using System.Net;
 using System.Text;
+using Dolany.Ai.Core.Common;
+using Dolany.Ai.Core.Model;
+using JetBrains.Annotations;
 using Newtonsoft.Json;
 
 namespace Dolany.Ai.Core.Net
 {
-    using System;
-
-    using Common;
-    using Model;
-
-    using JetBrains.Annotations;
-
     public static class RequestHelper
     {
         [CanBeNull]

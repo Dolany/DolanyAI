@@ -51,7 +51,7 @@ namespace Dolany.Ai.Core.OnlineStore
             SumRate = HonorList.Sum(h => h.Items.Sum(hi => hi.Rate));
         }
 
-        public DriftBottleItemModel[] CurMonthLimitItems()
+        public IEnumerable<DriftBottleItemModel> CurMonthLimitItems()
         {
             return HonorList.First(h => h is LimitHonorModel limitHonor && limitHonor.Year == DateTime.Now.Year && limitHonor.Month == DateTime.Now.Month).Items
                 .ToArray();
@@ -73,7 +73,7 @@ namespace Dolany.Ai.Core.OnlineStore
             return honor is LimitHonorModel;
         }
 
-        public int GetItemPrice(DriftBottleItemModel item, long qqNum)
+        public static int GetItemPrice(DriftBottleItemModel item, long qqNum)
         {
             if (item.Rate == 0)
             {

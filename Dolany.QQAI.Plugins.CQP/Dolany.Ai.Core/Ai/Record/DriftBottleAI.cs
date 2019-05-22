@@ -212,7 +212,7 @@ namespace Dolany.Ai.Core.Ai.Record
             var msg = $"你捞到了 {item.Name} \r" +
                       $"    {item.Description} \r" +
                       $"稀有率为 {HonorHelper.Instance.ItemRate(item)}%\r" +
-                      $"售价为：{HonorHelper.Instance.GetItemPrice(item, MsgDTO.FromQQ)} 金币\r" +
+                      $"售价为：{HonorHelper.GetItemPrice(item, MsgDTO.FromQQ)} 金币\r" +
                       $"你总共拥有该物品 {record.GetCount(item.Name)}个";
 
             if (!string.IsNullOrEmpty(s))
@@ -257,7 +257,7 @@ namespace Dolany.Ai.Core.Ai.Record
             var msg = $"物品名称：{item.Name}\r" +
                       $"物品描述：{item.Description}\r" +
                       $"稀有率：{HonorHelper.Instance.ItemRate(item)}%\r" +
-                      $"价格：{HonorHelper.Instance.GetItemPrice(item, MsgDTO.FromQQ)}\r" +
+                      $"价格：{HonorHelper.GetItemPrice(item, MsgDTO.FromQQ)}\r" +
                       $"可解锁成就：{HonorHelper.Instance.FindHonorFullName(item.Name)}\r" +
                       $"你拥有该物品：{record.GetCount(item.Name)}";
             MsgSender.PushMsg(MsgDTO, msg);

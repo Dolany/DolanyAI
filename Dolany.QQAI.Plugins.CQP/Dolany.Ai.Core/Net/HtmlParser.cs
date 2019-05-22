@@ -18,7 +18,7 @@ namespace Dolany.Ai.Core.Net
 
         protected abstract void Parse();
 
-        protected List<HtmlNode> SearchNodes(HtmlNode root, Expression<Func<HtmlNode, bool>> express)
+        protected static List<HtmlNode> SearchNodes(HtmlNode root, Expression<Func<HtmlNode, bool>> express)
         {
             var result = new List<HtmlNode>();
             if (express.Compile()(root))

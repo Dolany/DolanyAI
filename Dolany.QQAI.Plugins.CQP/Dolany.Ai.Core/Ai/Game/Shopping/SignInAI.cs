@@ -11,8 +11,7 @@ using Dolany.Database.Ai;
 
 namespace Dolany.Ai.Core.Ai.Game.Shopping
 {
-    [AI(
-        Name = "签到",
+    [AI(Name = "签到",
         Description = "AI for Everyday Signing In.",
         Enable = true,
         PriorityLevel = 10,
@@ -32,7 +31,7 @@ namespace Dolany.Ai.Core.Ai.Game.Shopping
         [EnterCommand(ID = "SignInAI_SetSignContent",
             Command = "签到",
             AuthorityLevel = AuthorityLevel.管理员,
-            Description = "设置签到内容，有效期1个月(不能与系统自带命令重复)",
+            Description = "设置签到内容(不能与系统自带命令重复)",
             Syntax = "[签到内容]",
             Tag = "商店功能",
             SyntaxChecker = "Word",

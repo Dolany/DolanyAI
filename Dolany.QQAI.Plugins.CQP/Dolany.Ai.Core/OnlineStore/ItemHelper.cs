@@ -18,8 +18,7 @@ namespace Dolany.Ai.Core.OnlineStore
             }
 
             var honorName = HonorHelper.Instance.FindHonorName(itemName);
-            string msg;
-            var isNewHonor = HonorHelper.Instance.CheckHonor(record, honorName, out msg);
+            var isNewHonor = HonorHelper.Instance.CheckHonor(record, honorName, out var msg);
             if (isNewHonor)
             {
                 record.HonorList.Add(honorName);

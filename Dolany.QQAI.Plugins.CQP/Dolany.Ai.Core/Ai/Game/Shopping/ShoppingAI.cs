@@ -13,8 +13,7 @@ using Dolany.Database.Ai;
 
 namespace Dolany.Ai.Core.Ai.Game.Shopping
 {
-    [AI(
-        Name = "商店",
+    [AI(Name = "商店",
         Description = "AI for Shopping.",
         Enable = true,
         PriorityLevel = 10)]
@@ -88,7 +87,7 @@ namespace Dolany.Ai.Core.Ai.Game.Shopping
                 p.Name,
                 Count = p.Count - 1,
                 IsLimit = HonorHelper.Instance.IsLimit(p.Name),
-                Price = HonorHelper.Instance.GetItemPrice(HonorHelper.Instance.FindItem(p.Name), MsgDTO.FromQQ)
+                Price = HonorHelper.GetItemPrice(HonorHelper.Instance.FindItem(p.Name), MsgDTO.FromQQ)
             }).ToList();
             var msg = $"你即将贩卖{ictm.Sum(i => i.Count)}件物品，" +
                       $"其中有{ictm.Count(i => i.IsLimit)}件限定物品，" +
@@ -113,7 +112,7 @@ namespace Dolany.Ai.Core.Ai.Game.Shopping
             return true;
         }
 
-        private void SellItem(MsgInformationEx MsgDTO, DriftBottleItemModel item)
+        private static void SellItem(MsgInformationEx MsgDTO, DriftBottleItemModel item)
         {
             var record = DriftItemRecord.GetRecord(MsgDTO.FromQQ);
             if (!record.CheckItem(item.Name))
@@ -122,7 +121,7 @@ namespace Dolany.Ai.Core.Ai.Game.Shopping
                 return;
             }
 
-            var price = HonorHelper.Instance.GetItemPrice(item, MsgDTO.FromQQ);
+            var price = HonorHelper.GetItemPrice(item, MsgDTO.FromQQ);
             var msg = $"贩卖此物品将获得 {price} 金币，是否确认贩卖？";
             if (!Waiter.Instance.WaitForConfirm(MsgDTO, msg, 7))
             {
@@ -134,7 +133,7 @@ namespace Dolany.Ai.Core.Ai.Game.Shopping
             MsgSender.PushMsg(MsgDTO, $"贩卖成功！你当前拥有金币 {golds}");
         }
 
-        private void SellHonor(MsgInformationEx MsgDTO, string honorName)
+        private static void SellHonor(MsgInformationEx MsgDTO, string honorName)
         {
             var query = MongoService<DriftItemRecord>.GetOnly(r => r.QQNum == MsgDTO.FromQQ);
             if (query == null || query.ItemCount.IsNullOrEmpty())
@@ -283,7 +282,7 @@ namespace Dolany.Ai.Core.Ai.Game.Shopping
                     return false;
                 }
 
-                var originPrice = HonorHelper.Instance.GetItemPrice(HonorHelper.Instance.FindItem(itemName), aimQQ);
+                var originPrice = HonorHelper.GetItemPrice(HonorHelper.Instance.FindItem(itemName), aimQQ);
                 if (originPrice > price)
                 {
                     MsgSender.PushMsg(MsgDTO, $"收购价格无法低于系统价格({originPrice})！");
@@ -392,7 +391,7 @@ namespace Dolany.Ai.Core.Ai.Game.Shopping
             }
 
             var itemModel = HonorHelper.Instance.FindItem(name);
-            var price = HonorHelper.Instance.GetItemPrice(itemModel, MsgDTO.FromQQ) * 5 / 100;
+            var price = HonorHelper.GetItemPrice(itemModel, MsgDTO.FromQQ) * 5 / 100;
             if (!Waiter.Instance.WaitForConfirm_Gold(MsgDTO, price, 7))
             {
                 MsgSender.PushMsg(MsgDTO, "操作取消!");

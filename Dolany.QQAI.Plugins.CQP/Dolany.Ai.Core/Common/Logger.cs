@@ -1,10 +1,9 @@
 ﻿using Dolany.Ai.Common;
 using Dolany.Ai.Core.Cache;
+using System;
 
 namespace Dolany.Ai.Core.Common
 {
-    using System;
-
     public static class Logger
     {
         public static void Log(string log)

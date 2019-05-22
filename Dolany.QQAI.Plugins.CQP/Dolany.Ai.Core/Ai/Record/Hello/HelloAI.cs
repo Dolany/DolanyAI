@@ -1,25 +1,19 @@
-﻿using Dolany.Ai.Common;
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using Dolany.Ai.Common;
+using Dolany.Ai.Core.Base;
+using Dolany.Ai.Core.Cache;
 using Dolany.Ai.Core.Common;
+using Dolany.Ai.Core.Model;
+using Dolany.Database;
+using Dolany.Database.Ai;
+using Dolany.Database.Sqlite;
+using Dolany.Database.Sqlite.Model;
 
 namespace Dolany.Ai.Core.Ai.Record.Hello
 {
-    using System;
-    using System.Collections.Generic;
-    using System.Linq;
-
-    using Base;
-
-    using Cache;
-
-    using Database;
-    using Dolany.Database.Ai;
-    using Database.Sqlite;
-    using Database.Sqlite.Model;
-
-    using Model;
-
-    [AI(
-        Name = "打招呼",
+    [AI(Name = "打招呼",
         Description = "AI for Saying Hello to you at everyday you say at the first time in one group.",
         Enable = true,
         PriorityLevel = 15)]
