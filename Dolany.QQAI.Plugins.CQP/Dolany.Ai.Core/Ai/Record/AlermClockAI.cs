@@ -1,32 +1,27 @@
-﻿using Dolany.Ai.Core.Common;
+﻿using System;
+using System.Collections.Generic;
+using System.Diagnostics;
+using System.Linq;
+using System.Text;
+using System.Timers;
+using Dolany.Ai.Common;
+using Dolany.Ai.Core.Base;
+using Dolany.Ai.Core.Cache;
+using Dolany.Ai.Core.Common;
+using Dolany.Ai.Core.Model;
+using Dolany.Database;
+using Dolany.Database.Ai;
 
 namespace Dolany.Ai.Core.Ai.Record
 {
-    using System;
-    using System.Collections.Generic;
-    using System.Diagnostics;
-    using System.Linq;
-    using System.Text;
-    using System.Timers;
-
-    using Base;
-
-    using Cache;
-    using Dolany.Ai.Common;
-    using Database;
-    using Dolany.Database.Ai;
-
-    using Model;
-
-    [AI(
-        Name = "闹钟",
+    [AI(Name = "闹钟",
         Description = "AI for Alerm Clock.",
         Enable = true,
         PriorityLevel = 10,
         NeedManulOpen = true)]
     public class AlermClockAI : AIBase
     {
-        private static List<string> ClockIdList => new List<string>();
+        private List<string> ClockIdList { get; } = new List<string>();
 
         public override void Initialization()
         {
@@ -75,14 +70,14 @@ namespace Dolany.Ai.Core.Ai.Record
             return true;
         }
 
-        private static void InsertClock(AlermClock entity, MsgInformationEx MsgDTO)
+        private void InsertClock(AlermClock entity, MsgInformationEx MsgDTO)
         {
             InsertClock(entity, MsgDTO, StartClock);
 
             MsgSender.PushMsg(MsgDTO, "闹钟设定成功！");
         }
 
-        private static void StartClock(AlermClock entity)
+        private void StartClock(AlermClock entity)
         {
             var interval = GetNextInterval(entity.AimHourt, entity.AimMinute);
             var clockId = Scheduler.Instance.Add(interval, TimeUp, entity);

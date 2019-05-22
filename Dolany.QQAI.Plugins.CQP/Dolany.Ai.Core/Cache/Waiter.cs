@@ -1,16 +1,14 @@
-﻿using Dolany.Ai.Common;
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Threading;
+using System.Threading.Tasks;
+using Dolany.Ai.Common;
+using Dolany.Ai.Core.Common;
 using Dolany.Ai.Core.Model;
 
 namespace Dolany.Ai.Core.Cache
 {
-    using System;
-    using System.Collections.Generic;
-    using System.Linq;
-    using System.Threading;
-    using System.Threading.Tasks;
-
-    using Common;
-
     public class Waiter
     {
         private readonly object _lockObj = new object();

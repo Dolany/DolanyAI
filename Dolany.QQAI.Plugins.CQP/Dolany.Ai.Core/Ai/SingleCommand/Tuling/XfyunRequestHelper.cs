@@ -3,21 +3,20 @@ using System.IO;
 using System.Net;
 using System.Security.Cryptography;
 using System.Text;
+using Dolany.Ai.Core.Model;
 using Newtonsoft.Json;
 
 namespace Dolany.Ai.Core.Ai.SingleCommand.Tuling
 {
-    using Model;
-
     public class XfyunRequestHelper
     {
-        private static string appid = "5b62c9d3";
-        private static string apiKey = "1250bc28769bb74ab0aa073a97434058";
-        private static string requestUrl = "http://api.xfyun.cn/v1/service/v1/tts";
+        private const string appid = "5b62c9d3";
+        private const string apiKey = "1250bc28769bb74ab0aa073a97434058";
+        private const string requestUrl = "http://api.xfyun.cn/v1/service/v1/tts";
 
         private static string voicePath => Environment.CurrentDirectory + @"\VoiceCache\";
 
-        private static string voiceName = "xiaoyan";
+        private const string voiceName = "xiaoyan";
 
         public static string PostData(string text)
         {

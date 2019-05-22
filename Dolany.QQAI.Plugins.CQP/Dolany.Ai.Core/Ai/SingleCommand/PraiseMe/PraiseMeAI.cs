@@ -1,16 +1,13 @@
-﻿namespace Dolany.Ai.Core.Ai.SingleCommand.PraiseMe
+﻿using System;
+using Dolany.Ai.Common;
+using Dolany.Ai.Core.API;
+using Dolany.Ai.Core.Base;
+using Dolany.Ai.Core.Cache;
+using Dolany.Ai.Core.Model;
+
+namespace Dolany.Ai.Core.Ai.SingleCommand.PraiseMe
 {
-    using System;
-    using Base;
-
-    using Cache;
-    using Dolany.Ai.Common;
-    using Model;
-
-    using static API.APIEx;
-
-    [AI(
-        Name = "点赞",
+    [AI(Name = "点赞",
         Description = "AI for Praise someone.",
         Enable = true,
         PriorityLevel = 10)]
@@ -63,7 +60,7 @@
 
         private static void Praise(MsgInformationEx MsgDTO)
         {
-            SendPraise(MsgDTO.FromQQ, MsgDTO.BindAi);
+            APIEx.SendPraise(MsgDTO.FromQQ, MsgDTO.BindAi);
             MsgSender.PushMsg(MsgDTO, "已赞十次！", true);
         }
     }

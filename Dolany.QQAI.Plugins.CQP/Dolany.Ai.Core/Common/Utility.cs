@@ -1,15 +1,13 @@
-﻿using Dolany.Ai.Core.Base;
+﻿using System;
+using System.IO;
+using System.Linq;
+using Dolany.Ai.Common;
+using Dolany.Ai.Core.Base;
+using Dolany.Ai.Core.Model;
+using JetBrains.Annotations;
 
 namespace Dolany.Ai.Core.Common
 {
-    using System;
-    using System.IO;
-    using System.Linq;
-    using Dolany.Ai.Common;
-    using JetBrains.Annotations;
-
-    using Model;
-
     public static class Utility
     {
         [CanBeNull]

@@ -1,20 +1,16 @@
-﻿using Dolany.Ai.Core.Common;
+﻿using System;
+using System.Linq;
+using System.Threading;
+using Dolany.Ai.Common;
+using Dolany.Ai.Core.Base;
+using Dolany.Ai.Core.Cache;
+using Dolany.Ai.Core.Common;
+using Dolany.Database;
+using Dolany.Database.Ai;
 
 namespace Dolany.Ai.Core.Ai.Record
 {
-    using System;
-    using System.Linq;
-    using System.Threading;
-
-    using Base;
-
-    using Cache;
-    using Dolany.Ai.Common;
-    using Database;
-    using Dolany.Database.Ai;
-
-    [AI(
-        Name = "报时",
+    [AI(Name = "报时",
         Description = "AI for Hour Alert.",
         Enable = true,
         PriorityLevel = 10,

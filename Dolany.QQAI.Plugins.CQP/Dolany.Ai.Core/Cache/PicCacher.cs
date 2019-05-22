@@ -1,9 +1,8 @@
-﻿using Dolany.Database.Sqlite;
+﻿using Dolany.Ai.Common;
+using Dolany.Database.Sqlite;
 
 namespace Dolany.Ai.Core.Cache
 {
-    using Dolany.Ai.Common;
-
     public class PicCacher
     {
         public static void Cache(string picUrl)

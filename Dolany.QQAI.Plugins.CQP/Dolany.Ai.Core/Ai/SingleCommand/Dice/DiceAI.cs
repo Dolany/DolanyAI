@@ -1,18 +1,14 @@
-﻿namespace Dolany.Ai.Core.Ai.SingleCommand.Dice
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using Dolany.Ai.Common;
+using Dolany.Ai.Core.Base;
+using Dolany.Ai.Core.Cache;
+using Dolany.Ai.Core.Common;
+using Dolany.Ai.Core.Model;
+
+namespace Dolany.Ai.Core.Ai.SingleCommand.Dice
 {
-    using System;
-    using System.Collections.Generic;
-    using System.Linq;
-
-    using Base;
-
-    using Cache;
-
-    using Common;
-
-    using Dolany.Ai.Common;
-    using Model;
-
     [AI(Name = "骰娘",
         Description = "AI for dice.",
         Enable = true,

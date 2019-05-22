@@ -44,7 +44,7 @@ namespace Dolany.Ai.Core
 
         public void MessagePublish(string message)
         {
-            Console.Title = Configger.Instance["BindAi"];
+            Console.Title = "Server";
             OnMessageCallBack?.Invoke($"{DateTime.Now}: {message}");
         }
 
@@ -178,6 +178,12 @@ namespace Dolany.Ai.Core
                 {
                     return;
                 }
+
+                var setting = GroupSettingMgr.Instance[MsgDTO.FromGroup];
+                if (setting.BindAi != MsgDTO.BindAi || (setting.ExpiryTime != null && setting.ExpiryTime < DateTime.Now))
+                {
+                    return;
+                }
             }
 
             if (Global.IsTesting && !Global.TestGroups.Contains(MsgDTO.FromGroup))
@@ -221,7 +227,7 @@ namespace Dolany.Ai.Core
                         return;
                     }
 
-                    if (!AIList.Any(ai => ai.OnMsgReceived(MsgDTO)))
+                    if (AIList.Any(ai => ai.OnMsgReceived(MsgDTO)))
                     {
                     }
                 }

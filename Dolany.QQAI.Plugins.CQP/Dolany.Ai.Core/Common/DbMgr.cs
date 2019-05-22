@@ -1,18 +1,16 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
+using System.Linq;
+using System.Linq.Expressions;
+using System.Reflection;
+using System.Xml;
+using System.Xml.Linq;
 using Dolany.Ai.Common;
+using Dolany.Ai.Core.Entities;
 
 namespace Dolany.Ai.Core.Common
 {
-    using System.IO;
-    using System.Linq;
-    using System.Linq.Expressions;
-    using System.Reflection;
-    using System.Xml;
-    using System.Xml.Linq;
-
-    using Entities;
-
     public class DbMgr
     {
         private static readonly string FolderPath = Configger.Instance["XmlDataPath"];

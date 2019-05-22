@@ -1,25 +1,17 @@
-﻿namespace Dolany.Ai.Core.Ai.SingleCommand.Tuling
+﻿using System;
+using System.Linq;
+using System.Text;
+using Dolany.Ai.Common;
+using Dolany.Ai.Core.Base;
+using Dolany.Ai.Core.Cache;
+using Dolany.Ai.Core.Common;
+using Dolany.Ai.Core.Model;
+using Dolany.Ai.Core.Model.Tuling;
+using Dolany.Ai.Core.Net;
+
+namespace Dolany.Ai.Core.Ai.SingleCommand.Tuling
 {
-    using System;
-    using System.Linq;
-    using System.Text;
-
-    using Base;
-
-    using Cache;
-
-    using Common;
-
-    using Dolany.Ai.Common;
-    using Dolany.Ai.Core.Model.Tuling;
-    using Model;
-
-    using Net;
-
-    using static Common.Utility;
-
-    [AI(
-        Name = "图灵",
+    [AI(Name = "图灵",
         Description = "AI for Tuling Robot.",
         Enable = true,
         PriorityLevel = 2)]
@@ -157,9 +149,9 @@
         {
             try
             {
-                var imageGuid = ParsePicGuid(msg);
+                var imageGuid = Utility.ParsePicGuid(msg);
 
-                var image = ReadImageCacheInfo(imageGuid);
+                var image = Utility.ReadImageCacheInfo(imageGuid);
                 return image == null ? string.Empty : image.url;
             }
             catch (Exception)

@@ -1,18 +1,15 @@
-﻿using System.Reflection;
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Reflection;
+using Dolany.Ai.Common;
+using Dolany.Ai.Core.Cache;
+using Dolany.Ai.Core.Common;
+using Dolany.Ai.Core.Model;
 using Dolany.Database.Ai;
 
 namespace Dolany.Ai.Core.Base
 {
-    using System;
-    using System.Collections.Generic;
-    using System.Linq;
-    using Cache;
-
-    using Common;
-
-    using Dolany.Ai.Common;
-    using Model;
-
     public abstract class AIBase
     {
         protected readonly Dictionary<EnterCommandAttribute, MethodInfo> FuntionMethods =
@@ -181,7 +178,13 @@ namespace Dolany.Ai.Core.Base
 
                 if (checker.Name == "Any")
                 {
-                    list.Add(string.Join(" ", paramStrs.Skip(i)));
+                    var anyValue = string.Join(" ", paramStrs.Skip(i));
+                    if (string.IsNullOrEmpty(anyValue.Trim()))
+                    {
+                        return false;
+                    }
+
+                    list.Add(anyValue);
                     break;
                 }
 

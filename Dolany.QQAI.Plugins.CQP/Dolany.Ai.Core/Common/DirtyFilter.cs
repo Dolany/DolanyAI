@@ -1,15 +1,13 @@
-﻿namespace Dolany.Ai.Core.Common
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using Dolany.Ai.Common;
+using Dolany.Ai.Core.Model;
+using Dolany.Database;
+using Dolany.Database.Ai;
+
+namespace Dolany.Ai.Core.Common
 {
-    using System;
-    using System.Collections.Generic;
-    using System.Linq;
-
-    using Dolany.Ai.Common;
-    using Database;
-    using Dolany.Database.Ai;
-
-    using Model;
-
     public class DirtyFilter
     {
         private readonly string[] WordList;
