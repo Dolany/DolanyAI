@@ -25,8 +25,7 @@ namespace Dolany.Ai.Core.Ai.Game.Gift
             SyntaxChecker = "Word",
             IsPrivateAvailable = true,
             DailyLimit = 3,
-            TestingDailyLimit = 3,
-            IsTesting = true)]
+            TestingDailyLimit = 3)]
         public bool MakeGift(MsgInformationEx MsgDTO, object[] param)
         {
             var name = param[0] as string;
@@ -76,8 +75,7 @@ namespace Dolany.Ai.Core.Ai.Game.Gift
             Syntax = "",
             Tag = "礼物功能",
             SyntaxChecker = "Empty",
-            IsPrivateAvailable = true,
-            IsTesting = true)]
+            IsPrivateAvailable = true)]
         public bool MyGifts(MsgInformationEx MsgDTO, object[] param)
         {
             var osPerson = OSPerson.GetPerson(MsgDTO.FromQQ);
@@ -100,8 +98,7 @@ namespace Dolany.Ai.Core.Ai.Game.Gift
             Syntax = "",
             Tag = "礼物功能",
             SyntaxChecker = "Empty",
-            IsPrivateAvailable = true,
-            IsTesting = true)]
+            IsPrivateAvailable = true)]
         public bool GiftShop(MsgInformationEx MsgDTO, object[] param)
         {
             var sellingGifts = GiftMgr.Instance.SellingGifts;
@@ -120,8 +117,7 @@ namespace Dolany.Ai.Core.Ai.Game.Gift
             Syntax = "[礼物名]",
             Tag = "礼物功能",
             SyntaxChecker = "Word",
-            IsPrivateAvailable = true,
-            IsTesting = true)]
+            IsPrivateAvailable = true)]
         public bool ViewGift(MsgInformationEx MsgDTO, object[] param)
         {
             var name = param[0] as string;
@@ -152,8 +148,7 @@ namespace Dolany.Ai.Core.Ai.Game.Gift
             Syntax = "[@QQ号]",
             Tag = "礼物功能",
             SyntaxChecker = "At",
-            IsPrivateAvailable = false,
-            IsTesting = true)]
+            IsPrivateAvailable = false)]
         public bool ViewRelationship(MsgInformationEx MsgDTO, object[] param)
         {
             var aimQQ = (long) param[0];
@@ -178,8 +173,7 @@ namespace Dolany.Ai.Core.Ai.Game.Gift
             SyntaxChecker = "At Word",
             IsPrivateAvailable = false,
             DailyLimit = 3,
-            TestingDailyLimit = 3,
-            IsTesting = true)]
+            TestingDailyLimit = 3)]
         public bool PresentGift(MsgInformationEx MsgDTO, object[] param)
         {
             var aimQQ = (long) param[0];

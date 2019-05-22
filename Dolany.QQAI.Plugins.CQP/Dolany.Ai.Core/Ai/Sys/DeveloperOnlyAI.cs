@@ -14,6 +14,7 @@ namespace Dolany.Ai.Core.Ai.Sys
     using Model;
     using Dolany.Database.Ai;
     using Database.Sqlite;
+    using Dolany.Ai.Core.Ai.Game.Gift;
 
     [AI(Name = "开发者后台",
         Enable = true,
@@ -121,6 +122,34 @@ namespace Dolany.Ai.Core.Ai.Sys
 
             var osPerson = OSPerson.GetPerson(qqNum);
             osPerson.Golds += golds;
+            osPerson.Update();
+
+            MsgSender.PushMsg(MsgDTO, "奖励已生效！");
+            return true;
+        }
+
+        [EnterCommand(ID = "DeveloperOnlyAI_GiftBonus",
+            Command = "礼物奖励",
+            Description = "奖励某个人一件礼物",
+            Syntax = "[@QQ号] [礼物名称]",
+            Tag = "系统命令",
+            SyntaxChecker = "At Word",
+            AuthorityLevel = AuthorityLevel.开发者,
+            IsPrivateAvailable = false)]
+        public bool GiftBonus(MsgInformationEx MsgDTO, object[] param)
+        {
+            var qqNum = (long) param[0];
+            var name = param[1] as string;
+
+            var gift = GiftMgr.Instance[name];
+            if(gift == null)
+            {
+                MsgSender.PushMsg(MsgDTO, "未找到该礼物！");
+                return false;
+            }
+
+            var osPerson = OSPerson.GetPerson(qqNum);
+            osPerson.GiftIncome(name);
             osPerson.Update();
 
             MsgSender.PushMsg(MsgDTO, "奖励已生效！");
