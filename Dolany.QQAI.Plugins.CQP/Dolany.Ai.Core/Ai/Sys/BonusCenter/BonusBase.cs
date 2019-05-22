@@ -6,8 +6,6 @@ namespace Dolany.Ai.Core.Ai.Sys.BonusCenter
     {
         public abstract string Code { get; }
 
-        public abstract bool IsExpiried { get; }
-
         public abstract bool SendBonus(MsgInformationEx MsgDTO);
     }
 }

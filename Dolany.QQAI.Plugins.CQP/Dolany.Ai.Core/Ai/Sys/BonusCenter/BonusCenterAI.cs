@@ -7,8 +7,7 @@ using Dolany.Ai.Core.Model;
 
 namespace Dolany.Ai.Core.Ai.Sys.BonusCenter
 {
-    [AI(
-        Name = "兑奖中心",
+    [AI(Name = "兑奖中心",
         Description = "AI for auto bonus.",
         Enable = true,
         PriorityLevel = 10)]
@@ -24,7 +23,7 @@ namespace Dolany.Ai.Core.Ai.Sys.BonusCenter
                 .Where(type => type.FullName != null)
                 .Select(type => assembly.CreateInstance(type.FullName) as BonusBase);
 
-            BonusDic = list.ToDictionary(p => p.Code, p => p);
+            BonusDic = list.ToDictionary(p => p?.Code, p => p);
         }
 
         [EnterCommand(ID = "BonusCenterAI_AutoBonus",
@@ -38,33 +37,28 @@ namespace Dolany.Ai.Core.Ai.Sys.BonusCenter
         public bool AutoBonus(MsgInformationEx MsgDTO, object[] param)
         {
             var code = param[0] as string;
-            if (!BonusDic.ContainsKey(code))
+            var codeRef = BonusCodeRef.Get(code);
+            if (codeRef == null)
             {
-                MsgSender.PushMsg(MsgDTO, "兑换码错误");
+                MsgSender.PushMsg(MsgDTO, "无效的兑换码！", true);
                 return false;
             }
 
-            var bonus = BonusDic[code];
-            if (bonus.IsExpiried)
+            if (!BonusDic.ContainsKey(codeRef.Ref))
             {
-                MsgSender.PushMsg(MsgDTO, "兑换码已过期");
+                MsgSender.PushMsg(MsgDTO, "该兑换码对应的奖励已下架！", true);
                 return false;
             }
 
-            if (!AutoBonusRecord.Check(MsgDTO.FromQQ, code))
-            {
-                MsgSender.PushMsg(MsgDTO, "你已经使用过该兑换码");
-                return false;
-            }
-
+            var bonus = BonusDic[codeRef.Ref];
             if (!bonus.SendBonus(MsgDTO))
             {
+                MsgSender.PushMsg(MsgDTO, "操作取消！");
                 return false;
             }
 
-            AutoBonusRecord.Record(MsgDTO.FromQQ, code);
-            MsgSender.PushMsg(MsgDTO, "兑换成功");
-
+            codeRef.Remove();
+            MsgSender.PushMsg(MsgDTO, "兑换成功！", true);
             return true;
         }
     }

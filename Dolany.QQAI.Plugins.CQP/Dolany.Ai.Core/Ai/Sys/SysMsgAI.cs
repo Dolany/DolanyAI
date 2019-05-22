@@ -1,13 +1,10 @@
-﻿using Dolany.Ai.Core.Common;
+﻿using Dolany.Ai.Core.Base;
+using Dolany.Ai.Core.Common;
+using Dolany.Ai.Core.Model;
 
 namespace Dolany.Ai.Core.Ai.Sys
 {
-    using Base;
-
-    using Model;
-
-    [AI(
-        Name = "系统消息过滤",
+    [AI(Name = "系统消息过滤",
         Description = "AI for System msg consoling.",
         Enable = true,
         PriorityLevel = 20)]
