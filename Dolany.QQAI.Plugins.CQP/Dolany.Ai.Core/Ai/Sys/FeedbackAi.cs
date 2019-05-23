@@ -3,21 +3,19 @@ using System.Linq;
 using Dolany.Ai.Common;
 using Dolany.Ai.Core.Base;
 using Dolany.Ai.Core.Cache;
+using Dolany.Ai.Core.Common;
 using Dolany.Ai.Core.Model;
 using Dolany.Database;
 using Dolany.Database.Ai;
 
 namespace Dolany.Ai.Core.Ai.Sys
 {
-    [AI(
-        Name = "反馈",
+    [AI(Name = "反馈",
         Description = "AI for Feedback.",
         Enable = true,
         PriorityLevel = 10)]
     public class FeedbackAi : AIBase
     {
-        private readonly string[] ForbidenWords = {"啪师姐"};
-
         [EnterCommand(ID = "FeedbackAi_Feedback",
             Command = "反馈",
             Description = "向开发者提供反馈建议",
@@ -37,14 +35,13 @@ namespace Dolany.Ai.Core.Ai.Sys
                 return false;
             }
 
-            if (ForbidenWords.Any(fw => content.Contains(fw)))
+            if (content.Contains("啪") && content.Contains("师") && content.Contains("姐"))
             {
                 MsgSender.PushMsg(MsgDTO, "哔哔，禁止事项！");
                 return false;
             }
 
-            var feedback = new FeedbackRecord {GroupNum = MsgDTO.FromGroup, QQNum = MsgDTO.FromQQ, Content = content, UpdateTime = DateTime.Now};
-            MongoService<FeedbackRecord>.Insert(feedback);
+            
 
             MsgSender.PushMsg(MsgDTO, "感谢你的反馈，我会变得更强！");
             return true;

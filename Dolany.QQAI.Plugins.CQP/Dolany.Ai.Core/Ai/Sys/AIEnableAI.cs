@@ -6,8 +6,7 @@ using Dolany.Ai.Core.Model;
 
 namespace Dolany.Ai.Core.Ai.Sys
 {
-    [AI(
-        Name = "AI管理",
+    [AI(Name = "AI管理",
         Description = "AI for ais's state(open or closed).",
         Enable = true,
         PriorityLevel = 12)]
