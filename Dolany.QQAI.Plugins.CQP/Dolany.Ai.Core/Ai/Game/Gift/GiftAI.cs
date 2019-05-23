@@ -40,6 +40,7 @@ namespace Dolany.Ai.Core.Ai.Game.Gift
             if (sellingGifts.All(p => p.Name != name))
             {
                 MsgSender.PushMsg(MsgDTO, "该礼物未在礼物商店中出售，请使用 礼物商店 命令查看今日可兑换的礼物！", true);
+                return false;
             }
 
             var itemRecord = DriftItemRecord.GetRecord(MsgDTO.FromQQ);

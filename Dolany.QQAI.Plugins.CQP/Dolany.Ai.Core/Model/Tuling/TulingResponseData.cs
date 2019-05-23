@@ -10,7 +10,7 @@ namespace Dolany.Ai.Core.Model.Tuling
         public TulingResponseData_Intent Intent { get; set; }
 
         [JsonProperty("results")]
-        public IEnumerable<TulingResponseData_Result> Results { get; set; }
+        public TulingResponseData_Result[] Results { get; set; }
     }
 
     public class TulingResponseData_Intent
@@ -25,7 +25,7 @@ namespace Dolany.Ai.Core.Model.Tuling
         public string ActionName { get; set; }
 
         [JsonProperty("parameters")]
-        public IEnumerable<KeyValuePair<string, string>> Parameters { get; set; }
+        public Dictionary<string, string> Parameters { get; set; }
     }
 
     public class TulingResponseData_Result

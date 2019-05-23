@@ -22,7 +22,7 @@ namespace Dolany.Ai.Core.Ai.Game.Weather
             return WeahterForecast(GroupNum).First();
         }
 
-        public List<WeatherDataModel> WeahterForecast(long GroupNum)
+        public IEnumerable<WeatherDataModel> WeahterForecast(long GroupNum)
         {
             var records = MongoService<WeatherRecord>.Get(p => p.GroupNum == GroupNum).OrderBy(p => p.ExpiryTime).ToList();
             if (records.Count >= 7)
