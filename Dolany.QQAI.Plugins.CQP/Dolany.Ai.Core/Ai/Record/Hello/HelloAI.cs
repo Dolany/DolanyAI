@@ -57,7 +57,8 @@ namespace Dolany.Ai.Core.Ai.Record.Hello
             {
                 Ai = AIAttr.Name,
                 Command = "HelloOverride",
-                GroupNum = MsgDTO.FromGroup
+                GroupNum = MsgDTO.FromGroup,
+                BindAi = MsgDTO.BindAi
             });
 
             var model = new HelloCache

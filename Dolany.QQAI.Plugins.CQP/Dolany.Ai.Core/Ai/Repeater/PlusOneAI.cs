@@ -82,7 +82,8 @@ namespace Dolany.Ai.Core.Ai.Repeater
             {
                 Ai = AIAttr.Name,
                 Command = "PlusOneOverride",
-                GroupNum = MsgDTO.FromGroup
+                GroupNum = MsgDTO.FromGroup,
+                BindAi = MsgDTO.BindAi
             });
             MsgSender.PushMsg(MsgDTO, MsgDTO.FullMsg);
             groupCache.IsAlreadyRepeated = true;

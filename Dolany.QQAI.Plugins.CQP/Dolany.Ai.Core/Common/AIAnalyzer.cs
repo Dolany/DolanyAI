@@ -20,7 +20,7 @@ namespace Dolany.Ai.Core.Common
             lock (Lock)
             {
                 Commands.Add(model);
-                RecentCommandCache.Cache();
+                RecentCommandCache.Cache(model.BindAi);
             }
         }
 
@@ -32,11 +32,11 @@ namespace Dolany.Ai.Core.Common
             }
         }
 
-        public static List<GroupAnalyzeModel> AnalyzeGroup()
+        public static IEnumerable<GroupAnalyzeModel> AnalyzeGroup(string BindAi)
         {
             lock (Lock)
             {
-                return Commands.GroupBy(c => c.GroupNum).Select(c => new GroupAnalyzeModel()
+                return Commands.Where(p => p.BindAi == BindAi).GroupBy(c => c.GroupNum).Select(c => new GroupAnalyzeModel()
                 {
                     GroupNum = c.Key,
                     CommandCount = c.Count()
@@ -44,11 +44,11 @@ namespace Dolany.Ai.Core.Common
             }
         }
 
-        public static List<AIAnalyzeModel> AnalyzeAI()
+        public static IEnumerable<AIAnalyzeModel> AnalyzeAI(string BindAi)
         {
             lock (Lock)
             {
-                return Commands.GroupBy(c => c.Ai).Select(c => new AIAnalyzeModel()
+                return Commands.Where(p => p.BindAi == BindAi).GroupBy(c => c.Ai).Select(c => new AIAnalyzeModel()
                 {
                     AIName = c.Key,
                     CommandCount = c.Count()
@@ -56,11 +56,11 @@ namespace Dolany.Ai.Core.Common
             }
         }
 
-        public static List<TimeAnalyzeModel> AnalyzeTime()
+        public static IEnumerable<TimeAnalyzeModel> AnalyzeTime(string BindAi)
         {
             lock (Lock)
             {
-                return Commands.Where(c => c.Time.AddHours(12) > DateTime.Now).GroupBy(c => c.Time.Hour).Select(c => new TimeAnalyzeModel()
+                return Commands.Where(c => c.BindAi == BindAi && c.Time.AddHours(12) > DateTime.Now).GroupBy(c => c.Time.Hour).Select(c => new TimeAnalyzeModel()
                 {
                     Hour = c.Key,
                     CommandCount = c.Count()
@@ -68,11 +68,11 @@ namespace Dolany.Ai.Core.Common
             }
         }
 
-        public static List<CommandAnalyzeModel> AnalyzeCommand()
+        public static IEnumerable<CommandAnalyzeModel> AnalyzeCommand(string BindAi)
         {
             lock (Lock)
             {
-                return Commands.GroupBy(c => c.Command).Select(c => new CommandAnalyzeModel()
+                return Commands.Where(p => p.BindAi == BindAi).GroupBy(c => c.Command).Select(c => new CommandAnalyzeModel()
                 {
                     Command = c.Key,
                     CommandCount = c.Count()
@@ -138,6 +138,8 @@ namespace Dolany.Ai.Core.Common
         public string Command { get; set; }
 
         public DateTime Time { get; set; } = DateTime.Now;
+
+        public string BindAi { get; set; }
     }
 
     public class GroupAnalyzeModel

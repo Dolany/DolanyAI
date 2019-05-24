@@ -10,32 +10,40 @@
     {
         private static readonly int MaxRecentCommandCacheCount = int.Parse(Configger.Instance["MaxRecentCommandCacheCount"]);
 
-        private static readonly List<DateTime> TimeCache = new List<DateTime>();
+        private static readonly Dictionary<string, List<DateTime>> TimeCacheDic = new Dictionary<string, List<DateTime>>();
 
         private static readonly object Lock_list = new object();
 
-        public static void Cache()
+        public static void Cache(string BindAi)
         {
             lock (Lock_list)
             {
-                TimeCache.Add(DateTime.Now);
-                if (TimeCache.Count > MaxRecentCommandCacheCount)
+                if (TimeCacheDic.ContainsKey(BindAi))
                 {
-                    TimeCache.RemoveAt(0);
+                    var tc = TimeCacheDic[BindAi];
+                    tc.Add(DateTime.Now);
+                    if (tc.Count > MaxRecentCommandCacheCount)
+                    {
+                        tc.RemoveAt(0);
+                    }
+                }
+                else
+                {
+                    TimeCacheDic.Add(BindAi, new List<DateTime>(){DateTime.Now});
                 }
             }
         }
 
-        public static bool IsTooFreq()
+        public static bool IsTooFreq(string BindAi)
         {
             lock (Lock_list)
             {
-                if (!TimeCache.Any())
+                if (!TimeCacheDic.ContainsKey(BindAi) || !TimeCacheDic[BindAi].Any())
                 {
                     return false;
                 }
 
-                if (TimeCache.Count >= MaxRecentCommandCacheCount && TimeCache.First().AddMinutes(1) > DateTime.Now)
+                if (TimeCacheDic[BindAi].Count >= MaxRecentCommandCacheCount && TimeCacheDic[BindAi].First().AddMinutes(1) > DateTime.Now)
                 {
                     return true;
                 }

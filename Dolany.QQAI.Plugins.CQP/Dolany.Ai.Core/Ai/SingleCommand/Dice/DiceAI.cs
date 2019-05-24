@@ -51,7 +51,8 @@ namespace Dolany.Ai.Core.Ai.SingleCommand.Dice
             {
                 Ai = AIAttr.Name,
                 Command = "DiceOverride",
-                GroupNum = MsgDTO.FromGroup
+                GroupNum = MsgDTO.FromGroup,
+                BindAi = MsgDTO.BindAi
             });
             return true;
         }

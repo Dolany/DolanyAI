@@ -41,35 +41,9 @@ namespace Dolany.Ai.Core.Ai.Sys
                 return false;
             }
 
-            
+            MsgSender.PushMsg(0, Global.DeveloperNumber, content, Configger.Instance["MainAi"]);
 
             MsgSender.PushMsg(MsgDTO, "感谢你的反馈，我会变得更强！");
-            return true;
-        }
-
-        [EnterCommand(ID = "FeedbackAi_ViewFeedback",
-            Command = "昨日反馈",
-            Description = "查看昨日反馈",
-            Syntax = "",
-            Tag = "系统命令",
-            SyntaxChecker = "Empty",
-            AuthorityLevel = AuthorityLevel.开发者,
-            IsPrivateAvailable = true)]
-        public bool ViewFeedback(MsgInformationEx MsgDTO, object[] param)
-        {
-            var expiryDate = DateTime.Now.AddDays(-7);
-            MongoService<FeedbackRecord>.DeleteMany(p => p.UpdateTime <= expiryDate);
-
-            var endTime = DateTime.Now.Date;
-            var startTime = endTime.AddDays(-1);
-            var records = MongoService<FeedbackRecord>.Get(p => p.UpdateTime >= startTime && p.UpdateTime < endTime);
-            if (records.IsNullOrEmpty())
-            {
-                MsgSender.PushMsg(MsgDTO, "没有任何反馈内容！");
-                return false;
-            }
-
-            MsgSender.PushMsg(MsgDTO, string.Join("    ", records.Select(p => p.Content)));
             return true;
         }
     }

@@ -71,7 +71,8 @@ namespace Dolany.Ai.Core.Cache
                     {
                         Ai = "Waiter",
                         Command = "WaiterCallBack",
-                        GroupNum = info.FromGroup
+                        GroupNum = info.FromGroup,
+                        BindAi = info.BindAi
                     });
 
                     break;

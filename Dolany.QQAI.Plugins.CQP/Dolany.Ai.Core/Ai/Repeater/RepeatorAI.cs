@@ -61,7 +61,8 @@ namespace Dolany.Ai.Core.Ai.Repeater
             {
                 Ai = AIAttr.Name,
                 Command = "RepeatorOverride",
-                GroupNum = MsgDTO.FromGroup
+                GroupNum = MsgDTO.FromGroup,
+                BindAi = MsgDTO.BindAi
             });
             return true;
         }

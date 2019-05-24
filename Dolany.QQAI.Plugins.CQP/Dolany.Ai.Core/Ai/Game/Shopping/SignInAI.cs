@@ -90,7 +90,8 @@ namespace Dolany.Ai.Core.Ai.Game.Shopping
             {
                 Ai = AIAttr.Name,
                 Command = "SignInOverride",
-                GroupNum = MsgDTO.FromGroup
+                GroupNum = MsgDTO.FromGroup,
+                BindAi = MsgDTO.BindAi
             });
 
             // 个人签到验证

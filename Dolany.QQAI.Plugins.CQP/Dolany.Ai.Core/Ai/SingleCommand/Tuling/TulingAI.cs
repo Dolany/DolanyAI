@@ -54,7 +54,8 @@ namespace Dolany.Ai.Core.Ai.SingleCommand.Tuling
             {
                 Ai = AIAttr.Name,
                 Command = "TulingOverride",
-                GroupNum = MsgDTO.FromGroup
+                GroupNum = MsgDTO.FromGroup,
+                BindAi = MsgDTO.BindAi
             });
             MsgSender.PushMsg(MsgDTO, response, MsgDTO.Type == MsgType.Group);
             return true;

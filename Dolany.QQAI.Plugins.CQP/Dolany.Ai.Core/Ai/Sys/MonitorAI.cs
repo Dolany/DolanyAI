@@ -160,7 +160,7 @@
             switch (aspect)
             {
                 case "Group":
-                    var groupList = AIAnalyzer.AnalyzeGroup();
+                    var groupList = AIAnalyzer.AnalyzeGroup(MsgDTO.BindAi);
                     MsgSender.PushMsg(MsgDTO, string.Join("\r", groupList.Select(g =>
                     {
                         var groupNum = g.GroupNum == 0 ? "私聊" : Global.AllGroupsDic[g.GroupNum];
@@ -168,15 +168,15 @@
                     })));
                     return true;
                 case "Ai":
-                    var aiList = AIAnalyzer.AnalyzeAI();
+                    var aiList = AIAnalyzer.AnalyzeAI(MsgDTO.BindAi);
                     MsgSender.PushMsg(MsgDTO, string.Join("\r", aiList.Select(a => $"{a.AIName}:{a.CommandCount}")));
                     return true;
                 case "Time":
-                    var timeList = AIAnalyzer.AnalyzeTime();
+                    var timeList = AIAnalyzer.AnalyzeTime(MsgDTO.BindAi);
                     MsgSender.PushMsg(MsgDTO, string.Join("\r", timeList.Select(t => $"{t.Hour}:{t.CommandCount}")));
                     return true;
                 case "Command":
-                    var commandList = AIAnalyzer.AnalyzeCommand();
+                    var commandList = AIAnalyzer.AnalyzeCommand(MsgDTO.BindAi);
                     MsgSender.PushMsg(MsgDTO, string.Join("\r", commandList.Select(c => $"{c.Command}:{c.CommandCount}")));
                     return true;
             }

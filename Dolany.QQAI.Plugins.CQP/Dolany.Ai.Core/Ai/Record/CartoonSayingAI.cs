@@ -30,11 +30,6 @@ namespace Dolany.Ai.Core.Ai.Record
             DailyLimit = 5)]
         public bool ProcceedMsg(MsgInformationEx MsgDTO, object[] param)
         {
-            if (IsInSealing(MsgDTO.FromGroup, MsgDTO.FromQQ))
-            {
-                return false;
-            }
-
             var saying = new Saying
             {
                 Id = Guid.NewGuid().ToString(),
@@ -62,11 +57,6 @@ namespace Dolany.Ai.Core.Ai.Record
             TestingDailyLimit = 20)]
         public bool Sayings(MsgInformationEx MsgDTO, object[] param)
         {
-            if (IsInSealing(MsgDTO.FromGroup, MsgDTO.FromQQ))
-            {
-                return false;
-            }
-
             SayingRequest(MsgDTO);
             return true;
         }
@@ -83,11 +73,6 @@ namespace Dolany.Ai.Core.Ai.Record
             TestingDailyLimit = 20)]
         public bool Sayings_Query(MsgInformationEx MsgDTO, object[] param)
         {
-            if (IsInSealing(MsgDTO.FromGroup, MsgDTO.FromQQ))
-            {
-                return false;
-            }
-
             SayingRequest(MsgDTO, param[0] as string);
             return true;
         }
@@ -101,13 +86,6 @@ namespace Dolany.Ai.Core.Ai.Record
             }
 
             MsgSender.PushMsg(MsgDTO, ranSaying);
-        }
-
-        private static bool IsInSealing(long groupNum, long memberNum)
-        {
-            var query = MongoService<SayingSeal>.Get(s => s.GroupNum == groupNum &&
-                                                          s.SealMember == memberNum);
-            return !query.IsNullOrEmpty();
         }
 
         private static string GetRanSaying(long fromGroup, string keyword = null)
@@ -157,63 +135,6 @@ namespace Dolany.Ai.Core.Ai.Record
             MongoService<Saying>.DeleteMany(query);
 
             MsgSender.PushMsg(MsgDTO, $"共删除{count}条语录");
-            return true;
-        }
-
-        [EnterCommand(ID = "CartoonSayingAI_SayingSeal",
-            Command = "语录封禁",
-            AuthorityLevel = AuthorityLevel.群主,
-            Description = "封禁一个群员，让他无法使用语录功能",
-            Syntax = "[@qq号码]",
-            Tag = "语录功能",
-            SyntaxChecker = "At",
-            IsPrivateAvailable = false)]
-        public bool SayingSeal(MsgInformationEx MsgDTO, object[] param)
-        {
-            var memberNum = (long)param[0];
-
-            var query = MongoService<SayingSeal>.Get(s => s.GroupNum == MsgDTO.FromGroup &&
-                                                          s.SealMember == memberNum);
-            if (!query.IsNullOrEmpty())
-            {
-                MsgSender.PushMsg(MsgDTO, "此成员正在封禁中！");
-                return false;
-            }
-
-            MongoService<SayingSeal>.Insert(new SayingSeal
-            {
-                Id = Guid.NewGuid().ToString(),
-                CreateTime = DateTime.Now,
-                SealMember = memberNum,
-                GroupNum = MsgDTO.FromGroup,
-                Content = "封禁"
-            });
-            MsgSender.PushMsg(MsgDTO, "封禁成功！");
-            return true;
-        }
-
-        [EnterCommand(ID = "CartoonSayingAI_SayingDeseal",
-            Command = "语录解封",
-            AuthorityLevel = AuthorityLevel.群主,
-            Description = "解封一个群员，让他可以继续使用语录功能",
-            Syntax = "[@qq号码]",
-            Tag = "语录功能",
-            SyntaxChecker = "At",
-            IsPrivateAvailable = false)]
-        public bool SayingDeseal(MsgInformationEx MsgDTO, object[] param)
-        {
-            var memberNum = (long)param[0];
-
-            var query = MongoService<SayingSeal>.Get(s => s.GroupNum == MsgDTO.FromGroup &&
-                                                          s.SealMember == memberNum);
-            if (query.IsNullOrEmpty())
-            {
-                MsgSender.PushMsg(MsgDTO, "此成员尚未被封禁！");
-                return false;
-            }
-            MongoService<SayingSeal>.DeleteMany(query);
-
-            MsgSender.PushMsg(MsgDTO, "解封成功！");
             return true;
         }
     }

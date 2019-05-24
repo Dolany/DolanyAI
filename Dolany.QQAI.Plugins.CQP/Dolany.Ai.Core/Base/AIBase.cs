@@ -61,7 +61,8 @@ namespace Dolany.Ai.Core.Base
                     {
                         Ai = AIAttr.Name,
                         Command = enterCommandAttribute.Command,
-                        GroupNum = MsgDTO.FromGroup
+                        GroupNum = MsgDTO.FromGroup,
+                        BindAi = MsgDTO.BindAi
                     });
 
                     if (MsgDTO.Type == MsgType.Group && AIAttr.NeedManulOpen && !GroupSettingMgr.Instance[MsgDTO.FromGroup].HasFunction(AIAttr.Name))
@@ -70,7 +71,7 @@ namespace Dolany.Ai.Core.Base
                         return true;
                     }
 
-                    if (RecentCommandCache.IsTooFreq())
+                    if (RecentCommandCache.IsTooFreq(MsgDTO.BindAi))
                     {
                         MsgSender.PushMsg(MsgDTO, "哇哇哇~~，AI过热中......");
                         MsgSender.PushMsg(MsgDTO, CodeApi.Code_Image_Relational("images/过热.jpg"));
