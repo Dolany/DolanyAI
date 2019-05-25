@@ -1,14 +1,14 @@
-﻿using Dolany.Ai.Common;
+﻿using System.Collections.Generic;
+using System.IO;
+using System.Linq;
+using Dolany.Ai.Common;
 using Dolany.Ai.Core.Base;
 using Dolany.Ai.Core.Cache;
 using Dolany.Ai.Core.Model;
 
 namespace DolanyAI.Ai.Game.TouhouCard
 {
-    using System.IO;
-
-    [AI(
-        Name = "幻想乡抽卡",
+    [AI(Name = "幻想乡抽卡",
         Description = "AI for Getting Random TouhouCard.",
         Enable = true,
         PriorityLevel = 10)]
@@ -16,8 +16,12 @@ namespace DolanyAI.Ai.Game.TouhouCard
     {
         private const string PicPath = "TouhouCard/";
 
+        private List<FileInfo> AllFiles;
+
         public override void Initialization()
         {
+            var dir = new DirectoryInfo(PicPath);
+            AllFiles = dir.GetFiles().ToList();
         }
 
         [EnterCommand(ID = "TouhouCardAi_RandomCard",
@@ -35,7 +39,7 @@ namespace DolanyAI.Ai.Game.TouhouCard
             return true;
         }
 
-        private static string RandomCard(long FromQQ)
+        private string RandomCard(long FromQQ)
         {
             var cache = PersonCacheRecord.Get(FromQQ, "TouhouCard");
             if (!string.IsNullOrEmpty(cache.Value))
@@ -51,11 +55,9 @@ namespace DolanyAI.Ai.Game.TouhouCard
             return PicPath + card;
         }
 
-        private static string GetRandCard()
+        private string GetRandCard()
         {
-            var dir = new DirectoryInfo(PicPath);
-            var files = dir.GetFiles();
-            var file = files.RandElement();
+            var file = AllFiles.RandElement();
             return file.Name;
         }
     }

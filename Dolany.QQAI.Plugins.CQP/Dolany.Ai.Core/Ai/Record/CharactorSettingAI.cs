@@ -1,20 +1,16 @@
-﻿namespace Dolany.Ai.Core.Ai.Record
+﻿using System;
+using System.Linq;
+using System.Text;
+using Dolany.Ai.Common;
+using Dolany.Ai.Core.Base;
+using Dolany.Ai.Core.Cache;
+using Dolany.Ai.Core.Model;
+using Dolany.Database;
+using Dolany.Database.Ai;
+
+namespace Dolany.Ai.Core.Ai.Record
 {
-    using System;
-    using System.Linq;
-    using System.Text;
-
-    using Base;
-
-    using Cache;
-    using Dolany.Ai.Common;
-    using Database;
-    using Dolany.Database.Ai;
-
-    using Model;
-
-    [AI(
-        Name = "人物设定",
+    [AI(Name = "人物设定",
         Description = "AI for Setting a Charactor.",
         Enable = true,
         PriorityLevel = 10)]

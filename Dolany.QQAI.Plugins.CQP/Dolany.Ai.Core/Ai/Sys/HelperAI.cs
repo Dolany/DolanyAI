@@ -1,21 +1,15 @@
 ﻿using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using Dolany.Ai.Common;
+using Dolany.Ai.Core.Base;
+using Dolany.Ai.Core.Cache;
+using Dolany.Ai.Core.Common;
+using Dolany.Ai.Core.Model;
 
 namespace Dolany.Ai.Core.Ai.Sys
 {
-    using System.Linq;
-    using System.Text;
-
-    using Core;
-    using Base;
-    using Cache;
-    using Common;
-
-    using Dolany.Ai.Common;
-
-    using Model;
-
-    [AI(
-        Name = "帮助",
+    [AI(Name = "帮助",
         Description = "AI for Getting Help Infos.",
         Enable = true,
         PriorityLevel = 10)]
