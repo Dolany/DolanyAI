@@ -67,7 +67,7 @@ namespace Dolany.Ai.Core.Base
 
                     if (MsgDTO.Type == MsgType.Group && AIAttr.NeedManulOpen && !GroupSettingMgr.Instance[MsgDTO.FromGroup].HasFunction(AIAttr.Name))
                     {
-                        MsgSender.PushMsg(MsgDTO, $"本群尚未开启 {AIAttr.Name} 功能，请联系群主开启此功能，或者添加我为好友后使用私聊命令，或者申请加入AI测试群！");
+                        MsgSender.PushMsg(MsgDTO, $"本群尚未开启 {AIAttr.Name} 功能，请联系群主使用 开启功能 命令来开启此功能！");
                         return true;
                     }
 

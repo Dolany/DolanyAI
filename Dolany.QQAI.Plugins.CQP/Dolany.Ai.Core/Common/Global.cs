@@ -1,12 +1,10 @@
-﻿namespace Dolany.Ai.Core.Common
+﻿using System.Collections.Generic;
+using System.Linq;
+using Dolany.Ai.Common;
+using Dolany.Database;
+
+namespace Dolany.Ai.Core.Common
 {
-    using System.Collections.Generic;
-    using System.Linq;
-
-    using Database;
-
-    using Dolany.Ai.Common;
-
     public class Global
     {
         public static bool IsTesting { get; } = bool.Parse(Configger.Instance["IsTesting"]);

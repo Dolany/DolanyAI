@@ -1,11 +1,10 @@
-﻿namespace Dolany.Ai.Core.SyntaxChecker
+﻿using System;
+using System.Collections.Generic;
+using System.Text.RegularExpressions;
+using Dolany.Ai.Common;
+
+namespace Dolany.Ai.Core.SyntaxChecker
 {
-    using System;
-    using System.Collections.Generic;
-    using System.Text.RegularExpressions;
-
-    using Dolany.Ai.Common;
-
     public class MultiAtChecker : ISyntaxChecker
     {
         public string Name { get; } = "MultiAt";

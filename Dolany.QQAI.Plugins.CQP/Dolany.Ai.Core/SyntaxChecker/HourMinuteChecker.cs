@@ -1,7 +1,7 @@
-﻿namespace Dolany.Ai.Core.SyntaxChecker
-{
-    using Common;
+﻿using Dolany.Ai.Core.Common;
 
+namespace Dolany.Ai.Core.SyntaxChecker
+{
     public class HourMinuteChecker : ISyntaxChecker
     {
         public string Name { get; } = "HourMinute";
