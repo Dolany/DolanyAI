@@ -283,7 +283,7 @@ namespace Dolany.Ai.Core.Ai.Game.ChessAgainst
             Description = "增加一次捞瓶子的机会(当日有效)")]
         public void 凪()
         {
-            var dailyLimit = DailyLimitRecord.Get(SelfQQNum, "捞瓶子");
+            var dailyLimit = DailyLimitRecord.Get(SelfQQNum, "DriftBottleAI_FishingBottle");
             dailyLimit.Decache();
             dailyLimit.Update();
         }
