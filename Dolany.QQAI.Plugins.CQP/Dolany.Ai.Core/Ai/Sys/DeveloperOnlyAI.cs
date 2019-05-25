@@ -1,21 +1,20 @@
-﻿using System.Threading;
+﻿using System;
+using System.Linq;
+using System.Threading;
 using Dolany.Ai.Common;
+using Dolany.Ai.Core.Ai.Game.Gift;
+using Dolany.Ai.Core.Base;
+using Dolany.Ai.Core.Cache;
 using Dolany.Ai.Core.Common;
+using Dolany.Ai.Core.Model;
 using Dolany.Ai.Core.OnlineStore;
 using Dolany.Database;
+using Dolany.Database.Ai;
+using Dolany.Database.Sqlite;
 using Newtonsoft.Json;
 
 namespace Dolany.Ai.Core.Ai.Sys
 {
-    using System;
-    using System.Linq;
-    using Base;
-    using Cache;
-    using Model;
-    using Dolany.Database.Ai;
-    using Database.Sqlite;
-    using Dolany.Ai.Core.Ai.Game.Gift;
-
     [AI(Name = "开发者后台",
         Enable = true,
         Description = "Ai for developer only operations",
@@ -78,16 +77,17 @@ namespace Dolany.Ai.Core.Ai.Sys
 
         [EnterCommand(ID = "DeveloperOnlyAI_ItemBonus",
             Command = "物品奖励",
-            Description = "奖励某个人某个物品",
-            Syntax = "[@QQ号] [物品名]",
+            Description = "奖励某个人若干个物品",
+            Syntax = "[@QQ号] [物品名] [物品数量]",
             Tag = "系统命令",
-            SyntaxChecker = "At Word",
+            SyntaxChecker = "At Word Long",
             AuthorityLevel = AuthorityLevel.开发者,
             IsPrivateAvailable = false)]
         public bool ItemBonus(MsgInformationEx MsgDTO, object[] param)
         {
             var qqNum = (long) param[0];
             var itemName = param[1] as string;
+            var count = (int) (long) param[2];
 
             var item = HonorHelper.Instance.FindItem(itemName);
             if (item == null)
@@ -97,7 +97,7 @@ namespace Dolany.Ai.Core.Ai.Sys
             }
 
             var record = DriftItemRecord.GetRecord(qqNum);
-            var msg = record.ItemIncome(itemName);
+            var msg = record.ItemIncome(itemName, count);
             if (!string.IsNullOrEmpty(msg))
             {
                 MsgSender.PushMsg(MsgDTO, msg);
@@ -130,16 +130,17 @@ namespace Dolany.Ai.Core.Ai.Sys
 
         [EnterCommand(ID = "DeveloperOnlyAI_GiftBonus",
             Command = "礼物奖励",
-            Description = "奖励某个人一件礼物",
-            Syntax = "[@QQ号] [礼物名称]",
+            Description = "奖励某个人若干件礼物",
+            Syntax = "[@QQ号] [礼物名称] [礼物数量]",
             Tag = "系统命令",
-            SyntaxChecker = "At Word",
+            SyntaxChecker = "At Word Long",
             AuthorityLevel = AuthorityLevel.开发者,
             IsPrivateAvailable = false)]
         public bool GiftBonus(MsgInformationEx MsgDTO, object[] param)
         {
             var qqNum = (long) param[0];
             var name = param[1] as string;
+            var count = (int) (long) param[2];
 
             var gift = GiftMgr.Instance[name];
             if(gift == null)
@@ -149,7 +150,7 @@ namespace Dolany.Ai.Core.Ai.Sys
             }
 
             var osPerson = OSPerson.GetPerson(qqNum);
-            osPerson.GiftIncome(name);
+            osPerson.GiftIncome(name, count);
             osPerson.Update();
 
             MsgSender.PushMsg(MsgDTO, "奖励已生效！");
@@ -352,7 +353,6 @@ namespace Dolany.Ai.Core.Ai.Sys
             GroupSettingMgr.Instance.Refresh();
 
             MsgSender.PushMsg(MsgDTO, "充值成功");
-
             return true;
         }
 
@@ -375,7 +375,6 @@ namespace Dolany.Ai.Core.Ai.Sys
             GroupSettingMgr.Instance.Refresh();
 
             MsgSender.PushMsg(MsgDTO, "绑定成功");
-
             return true;
         }
 
@@ -397,7 +396,6 @@ namespace Dolany.Ai.Core.Ai.Sys
             record.Update();
 
             MsgSender.PushMsg(MsgDTO, "开启成功");
-
             return true;
         }
 

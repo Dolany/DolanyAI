@@ -67,11 +67,6 @@ namespace Dolany.Ai.Core.Ai.Game.Gift
         public int Intimate { get; set; }
 
         /// <summary>
-        /// 羁绊值持续天数
-        /// </summary>
-        public int IntimateDays { get; set; }
-
-        /// <summary>
         /// 魅力值
         /// </summary>
         public int Glamour { get; set; }

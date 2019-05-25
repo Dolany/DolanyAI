@@ -12,7 +12,7 @@ namespace Dolany.Ai.Core.Ai.Game.Gift
 
         public int Value { get; set; }
 
-        public DateTime ExpiryTime { get; set; }
+        public DateTime? ExpiryTime { get; set; }
 
         public string Name { get; set; }
 

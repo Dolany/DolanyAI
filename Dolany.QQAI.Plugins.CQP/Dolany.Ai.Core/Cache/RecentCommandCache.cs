@@ -1,11 +1,10 @@
-﻿namespace Dolany.Ai.Core.Cache
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using Dolany.Ai.Common;
+
+namespace Dolany.Ai.Core.Cache
 {
-    using System;
-    using System.Collections.Generic;
-    using System.Linq;
-
-    using Dolany.Ai.Common;
-
     public class RecentCommandCache
     {
         private static readonly int MaxRecentCommandCacheCount = int.Parse(Configger.Instance["MaxRecentCommandCacheCount"]);

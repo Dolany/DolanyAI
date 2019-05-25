@@ -1,7 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using Dolany.Ai.Common;
-using Dolany.Database.Ai;
 
 namespace Dolany.Temp
 {

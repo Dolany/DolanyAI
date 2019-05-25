@@ -1,8 +1,10 @@
 ﻿using System;
 using Dolany.Database;
+using MongoDB.Bson.Serialization.Attributes;
 
 namespace Dolany.Ai.Core.Ai.Game.Gift
 {
+    [BsonIgnoreExtraElements]
     public class GlamourRecord : DbBaseEntity
     {
         public long GroupNum { get; set; }
@@ -11,7 +13,7 @@ namespace Dolany.Ai.Core.Ai.Game.Gift
 
         public int Glamour { get; set; }
 
-        public DateTime ExpiryTime { get; set; }
+        public DateTime? ExpiryTime { get; set; }
 
         public static GlamourRecord Get(long GroupNum, long QQNum)
         {
@@ -21,7 +23,7 @@ namespace Dolany.Ai.Core.Ai.Game.Gift
                 return record;
             }
 
-            record = new GlamourRecord(){GroupNum = GroupNum, QQNum = QQNum, ExpiryTime = DateTime.Today.AddDays(1 - DateTime.Now.Day).AddMonths(1)};
+            record = new GlamourRecord(){GroupNum = GroupNum, QQNum = QQNum};
             MongoService<GlamourRecord>.Insert(record);
 
             return record;

@@ -8,7 +8,6 @@
     },
     "GoldNeed": 20,
     "Intimate": 60,
-    "IntimateDays": 15,
     "Glamour": 60
   },
   "友情徽章": {
@@ -21,7 +20,6 @@
     },
     "GoldNeed": 30,
     "Intimate": 90,
-    "IntimateDays": 20,
     "Glamour": 85
   },
   "上等果酒": {
@@ -33,7 +31,6 @@
     },
     "GoldNeed": 13,
     "Intimate": 49,
-    "IntimateDays": 14,
     "Glamour": 60
   },
   "黄金地球仪": {
@@ -44,7 +41,6 @@
     },
     "GoldNeed": 300,
     "Intimate": 90,
-    "IntimateDays": 30,
     "Glamour": 98
   },
   "大闸蟹": {
@@ -57,7 +53,6 @@
     },
     "GoldNeed": 10,
     "Intimate": 81,
-    "IntimateDays": 21,
     "Glamour": 50
   },
   "初音手办": {
@@ -69,7 +64,6 @@
     },
     "GoldNeed": 150,
     "Intimate": 88,
-    "IntimateDays": 32,
     "Glamour": 110
   },
   "魔法手杖": {
@@ -81,7 +75,6 @@
     },
     "GoldNeed": 125,
     "Intimate": 130,
-    "IntimateDays": 23,
     "Glamour": 130
   },
   "愿望果实": {
@@ -94,7 +87,6 @@
     },
     "GoldNeed": 239,
     "Intimate": 266,
-    "IntimateDays": 30,
     "Glamour": 361
   },
   "半价优惠券": {
@@ -106,7 +98,6 @@
     },
     "GoldNeed": 69,
     "Intimate": 52,
-    "IntimateDays": 17,
     "Glamour": 46
   },
   "名牌运动鞋": {
@@ -118,7 +109,6 @@
     },
     "GoldNeed": 23,
     "Intimate": 40,
-    "IntimateDays": 21,
     "Glamour": 36
   },
   "痛车": {
@@ -130,7 +120,6 @@
     },
     "GoldNeed": 240,
     "Intimate": 91,
-    "IntimateDays": 16,
     "Glamour": 85 
   } 
 }

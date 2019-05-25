@@ -1,5 +1,4 @@
-﻿using System;
-using System.Linq;
+﻿using System.Linq;
 using Dolany.Ai.Common;
 using Dolany.Ai.Core.Base;
 using Dolany.Ai.Core.Cache;
@@ -132,7 +131,6 @@ namespace Dolany.Ai.Core.Ai.Game.Gift
             var msg = $"礼物名：{gift.Name}\r";
             msg += $"描述：{gift.Description}\r";
             msg += $"羁绊值：{gift.Intimate}\r";
-            msg += $"羁绊持续天数：{gift.IntimateDays}\r";
             msg += $"魅力值：{gift.Glamour}\r";
             msg += $"兑换需要材料：{string.Join(",", gift.MaterialDic.Select(p => $"{p.Key}*{p.Value}"))}\r";
             msg += $"兑换需要金币：{gift.GoldNeed}";
@@ -199,7 +197,6 @@ namespace Dolany.Ai.Core.Ai.Game.Gift
                 GroupNum = MsgDTO.FromGroup,
                 QQPair = new []{MsgDTO.FromQQ, aimQQ},
                 Value = gift.Intimate,
-                ExpiryTime = DateTime.Now.AddDays(gift.IntimateDays),
                 Name = gift.Name
             };
             relationship.Insert();
