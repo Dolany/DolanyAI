@@ -7,7 +7,7 @@ namespace Dolany.Ai.Core.Common
     {
         public static BindAiMgr Instance { get; } = new BindAiMgr();
 
-        private readonly Dictionary<string, BindAiModel> AiDic;
+        public readonly Dictionary<string, BindAiModel> AiDic;
 
         private BindAiMgr()
         {
@@ -22,5 +22,13 @@ namespace Dolany.Ai.Core.Common
         public long SelfNum { get; set; }
 
         public string CommandQueue { get; set; }
+
+        public string ClientPath { get; set; }
+
+        public string ImagePath => ClientPath + "temp/image/";
+
+        public string LogPath => ClientPath + "logs/";
+
+        public string VoicePath => ClientPath + "temp/voice/";
     }
 }

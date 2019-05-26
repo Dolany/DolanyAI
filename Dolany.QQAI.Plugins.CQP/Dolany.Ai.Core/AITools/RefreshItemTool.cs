@@ -11,17 +11,14 @@ namespace Dolany.Ai.Core.AITools
         {
             new ScheduleDoModel()
             {
-                Interval = DateTime.Now.Hour < 4 ? (DateTime.Now.Date.AddHours(4) - DateTime.Now).TotalMilliseconds :
-                    (DateTime.Now.AddDays(1).Date.AddHours(4) - DateTime.Now).TotalMilliseconds
+                Interval = (DateTime.Now.Date.AddDays(1) - DateTime.Now).TotalMilliseconds
             }
         };
         protected override void ScheduleDo(SchedulerTimer timer)
         {
             HonorHelper.Instance.Refresh();
 
-            timer.Interval = DateTime.Now.Hour < 4
-                ? (DateTime.Now.Date.AddHours(4) - DateTime.Now).TotalMilliseconds
-                : (DateTime.Now.AddDays(1).Date.AddHours(4) - DateTime.Now).TotalMilliseconds;
+            timer.Interval = (DateTime.Now.Date.AddDays(1) - DateTime.Now).TotalMilliseconds;
         }
     }
 }

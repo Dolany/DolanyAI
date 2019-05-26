@@ -28,7 +28,8 @@ namespace Dolany.Ai.Core.Ai.Sys
         private static void FiltPicMsg(MsgInformationEx MsgDTO)
         {
             var guid = Utility.ParsePicGuid(MsgDTO.FullMsg);
-            var cacheInfo = Utility.ReadImageCacheInfo(guid);
+            var bindAi = BindAiMgr.Instance[MsgDTO.BindAi];
+            var cacheInfo = Utility.ReadImageCacheInfo(guid, bindAi.ImagePath);
             if (cacheInfo == null || string.IsNullOrEmpty(cacheInfo.url))
             {
                 return;

@@ -1,14 +1,17 @@
 {
   "Cirno": {
     "SelfNum": 2097412422,
-    "CommandQueue": "MsgCommand_Cirno"
+    "CommandQueue": "MsgCommand_Cirno",
+    "ClientPath": "C:/AI/Cirno/client/"
   },
   "Flandre": {
     "SelfNum": 3617452052,
-    "CommandQueue": "MsgCommand_Flandre"
+    "CommandQueue": "MsgCommand_Flandre",
+    "ClientPath": "C:/AI/Flandre/client/"
   },
   "IWS2000": {
     "SelfNum": 3484599065,
-    "CommandQueue": "MsgCommand_IWS2000"
+    "CommandQueue": "MsgCommand_IWS2000",
+    "ClientPath": "C:/AI/IWS2000/client/"
   }
 }

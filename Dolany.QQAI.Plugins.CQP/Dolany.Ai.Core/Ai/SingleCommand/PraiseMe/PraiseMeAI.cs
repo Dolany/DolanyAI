@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using Dolany.Ai.Common;
 using Dolany.Ai.Core.API;
 using Dolany.Ai.Core.Base;
@@ -13,14 +14,9 @@ namespace Dolany.Ai.Core.Ai.SingleCommand.PraiseMe
         PriorityLevel = 10)]
     public class PraiseMeAI : AIBase
     {
-        private DateTime LastTime;
+        private readonly Dictionary<string, DateTime> LastTimeDic = new Dictionary<string, DateTime>();
 
         private readonly int PraiseLimit = int.Parse(Configger.Instance["PraiseLimit"]);
-
-        public override void Initialization()
-        {
-            LastTime = DateTime.Now.AddMinutes(-PraiseLimit);
-        }
 
         [EnterCommand(ID = "PraiseMeAI_PraiseMe",
             Command = "赞我",
@@ -41,19 +37,24 @@ namespace Dolany.Ai.Core.Ai.SingleCommand.PraiseMe
             }
 
             Praise(MsgDTO);
-            LastTime = DateTime.Now;
+            LastTimeDic[MsgDTO.BindAi] = DateTime.Now;
 
             return true;
         }
 
         private bool CheckLimit(MsgInformationEx MsgDTO)
         {
-            if (LastTime.AddMinutes(PraiseLimit) < DateTime.Now)
+            if (!LastTimeDic.ContainsKey(MsgDTO.BindAi))
+            {
+                LastTimeDic.Add(MsgDTO.BindAi, DateTime.Now);
+                return true;
+            }
+            if (LastTimeDic[MsgDTO.BindAi].AddMinutes(PraiseLimit) < DateTime.Now)
             {
                 return true;
             }
 
-            var cd = LastTime.AddMinutes(PraiseLimit) - DateTime.Now;
+            var cd = LastTimeDic[MsgDTO.BindAi].AddMinutes(PraiseLimit) - DateTime.Now;
             MsgSender.PushMsg(MsgDTO, $"点赞太频繁啦！剩余冷却时间:{cd.Minutes}分{cd.Seconds}秒");
             return false;
         }

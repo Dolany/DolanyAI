@@ -80,7 +80,8 @@ namespace Dolany.Ai.Core.Ai.SingleCommand.Tuling
 
         private PostReq_Param GetPostReq(MsgInformationEx MsgDTO)
         {
-            var imageInfo = ParseImgText(MsgDTO.FullMsg);
+            var bindAi = BindAiMgr.Instance[MsgDTO.BindAi];
+            var imageInfo = ParseImgText(MsgDTO.FullMsg, bindAi.ImagePath);
             var perception = string.IsNullOrEmpty(imageInfo)
                 ? new perceptionData
                 {
@@ -146,13 +147,13 @@ namespace Dolany.Ai.Core.Ai.SingleCommand.Tuling
             return result;
         }
 
-        private static string ParseImgText(string msg)
+        private static string ParseImgText(string msg, string imagePath)
         {
             try
             {
                 var imageGuid = Utility.ParsePicGuid(msg);
 
-                var image = Utility.ReadImageCacheInfo(imageGuid);
+                var image = Utility.ReadImageCacheInfo(imageGuid, imagePath);
                 return image == null ? string.Empty : image.url;
             }
             catch (Exception)

@@ -1,15 +1,13 @@
-﻿using Dolany.Ai.Common;
+﻿using System;
+using Dolany.Ai.Common;
+using Dolany.Ai.Core.API.ViewModel;
+using Dolany.Ai.Core.Cache;
+using Dolany.Ai.Core.Common;
+using JetBrains.Annotations;
 using Newtonsoft.Json;
 
 namespace Dolany.Ai.Core.API
 {
-    using System;
-
-    using ViewModel;
-    using Cache;
-    using Common;
-    using JetBrains.Annotations;
-
     public class APIEx
     {
         [CanBeNull]
@@ -53,12 +51,12 @@ namespace Dolany.Ai.Core.API
         {
             Waiter.Instance.WaitForRelationId(
                 new MsgCommand
-                    {
-                        Command = CommandType.Praise,
-                        Msg = count.ToString(),
-                        ToQQ = QQ号,
-                        BindAi = BindAi
-                    });
+                {
+                    Command = CommandType.Praise,
+                    Msg = count.ToString(),
+                    ToQQ = QQ号,
+                    BindAi = BindAi
+                });
         }
     }
 }

@@ -1,11 +1,11 @@
 ﻿using System.Collections.Generic;
+using System.IO;
+using System.Linq;
+using Dolany.Ai.Common;
+using Dolany.Ai.Core.Common;
 
 namespace Dolany.Ai.Core.AITools
 {
-    using System.IO;
-    using System.Linq;
-    using Dolany.Ai.Common;
-
     public class CacheCleanerDTO
     {
         public string Path { get; set; }
@@ -25,26 +25,39 @@ namespace Dolany.Ai.Core.AITools
 
         private void InitModelList()
         {
-            ModelList.Add(new ScheduleDoModel()
+            foreach (var (_, value) in BindAiMgr.Instance.AiDic)
             {
-                Interval = PicCleanFreq * 1000,
-                Data = new CacheCleanerDTO
+                ModelList.Add(new ScheduleDoModel()
                 {
-                    Path = CodeApi.ImagePath,
-                    IsCascading = false,
-                    MaxCacheCount = MaxPicCache
-                }
-            });
-            ModelList.Add(new ScheduleDoModel()
-            {
-                Interval = SchedulerTimer.DairlyInterval,
-                Data = new CacheCleanerDTO
+                    Interval = PicCleanFreq * 1000,
+                    Data = new CacheCleanerDTO
+                    {
+                        Path = value.ImagePath,
+                        IsCascading = false,
+                        MaxCacheCount = MaxPicCache
+                    }
+                });
+                ModelList.Add(new ScheduleDoModel()
                 {
-                    Path = "c:/AmandaQQ/logs/",
-                    IsCascading = false,
-                    MaxCacheCount = 7
-                }
-            });
+                    Interval = SchedulerTimer.DairlyInterval,
+                    Data = new CacheCleanerDTO
+                    {
+                        Path = value.LogPath,
+                        IsCascading = false,
+                        MaxCacheCount = 7
+                    }
+                });
+                ModelList.Add(new ScheduleDoModel()
+                {
+                    Interval = SchedulerTimer.HourlyInterval / 2,
+                    Data = new CacheCleanerDTO
+                    {
+                        Path = value.VoicePath,
+                        IsCascading = false,
+                        MaxCacheCount = 50
+                    }
+                });
+            }
             ModelList.Add(new ScheduleDoModel()
             {
                 Interval = SchedulerTimer.DairlyInterval,
@@ -53,16 +66,6 @@ namespace Dolany.Ai.Core.AITools
                     Path = "RuntimeLog/",
                     IsCascading = false,
                     MaxCacheCount = 7
-                }
-            });
-            ModelList.Add(new ScheduleDoModel()
-            {
-                Interval = SchedulerTimer.HourlyInterval / 2,
-                Data = new CacheCleanerDTO
-                {
-                    Path = "c:/AmandaQQ/temp/voice/",
-                    IsCascading = false,
-                    MaxCacheCount = 50
                 }
             });
         }

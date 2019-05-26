@@ -87,9 +87,9 @@ namespace Dolany.Ai.Core.Common
         }
 
         [CanBeNull]
-        public static ImageCacheModel ReadImageCacheInfo(string guid)
+        public static ImageCacheModel ReadImageCacheInfo(string guid, string imagePath)
         {
-            var file = new FileInfo(CodeApi.ImagePath + guid + CodeApi.ImageExtension);
+            var file = new FileInfo(imagePath + guid + CodeApi.ImageExtension);
             return !file.Exists ? null : ReadImageCacheInfo(file);
         }
 
