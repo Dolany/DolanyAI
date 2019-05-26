@@ -255,6 +255,7 @@ namespace Dolany.Ai.Core.Ai.Game.ChessAgainst
             }
 
             var buff = buffs.RandElement();
+            buff.Id = Guid.NewGuid().ToString();
             buff.QQNum = SelfQQNum;
             buff.Add();
 
@@ -273,6 +274,7 @@ namespace Dolany.Ai.Core.Ai.Game.ChessAgainst
             }
 
             var buff = buffs.RandElement();
+            buff.Id = Guid.NewGuid().ToString();
             buff.QQNum = SelfQQNum;
             buff.Add();
 

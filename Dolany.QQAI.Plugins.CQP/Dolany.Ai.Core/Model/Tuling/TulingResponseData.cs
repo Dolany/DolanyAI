@@ -25,7 +25,7 @@ namespace Dolany.Ai.Core.Model.Tuling
         public string ActionName { get; set; }
 
         [JsonProperty("parameters")]
-        public Dictionary<string, string> Parameters { get; set; }
+        public Dictionary<string, object> Parameters { get; set; }
     }
 
     public class TulingResponseData_Result
