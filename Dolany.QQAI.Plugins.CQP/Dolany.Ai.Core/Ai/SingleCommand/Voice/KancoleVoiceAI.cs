@@ -1,25 +1,18 @@
-﻿namespace Dolany.Ai.Core.Ai.SingleCommand.Voice
+﻿using Dolany.Ai.Common;
+using Dolany.Ai.Core.Base;
+using Dolany.Ai.Core.Cache;
+using Dolany.Ai.Core.Model;
+using Dolany.Database;
+using Dolany.Database.Ai;
+
+namespace Dolany.Ai.Core.Ai.SingleCommand.Voice
 {
-    using Base;
-
-    using Cache;
-    using Dolany.Ai.Common;
-    using Database;
-    using Dolany.Database.Ai;
-
-    using Model;
-
-    [AI(
-        Name = "舰娘语音",
+    [AI(Name = "舰娘语音",
         Description = "AI for response random kancole girl voice.",
         Enable = true,
         PriorityLevel = 10)]
     public class KancoleVoiceAI : AIBase
     {
-        public override void Initialization()
-        {
-        }
-
         [EnterCommand(ID = "KancoleVoiceAI_KancoleVoice",
             Command = "舰娘语音",
             AuthorityLevel = AuthorityLevel.成员,

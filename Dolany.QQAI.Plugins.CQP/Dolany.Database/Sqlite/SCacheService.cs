@@ -1,20 +1,18 @@
-﻿using System.Globalization;
+﻿using System;
+using System.Globalization;
+using System.Linq;
 using System.Threading;
 using Dolany.Ai.Common;
+using Newtonsoft.Json;
 
 namespace Dolany.Database.Sqlite
 {
-    using System;
-    using System.Linq;
-
-    using Newtonsoft.Json;
-
     public class SCacheService
     {
         private static readonly Mutex mutex = new Mutex(false, Configger.Instance["Mutex"]);
         private static readonly string dataSource = Configger.Instance["CacheDb"];
 
-        public static void Cache<T>(string key, T data, DateTime expTime)
+        private static void Cache<T>(string key, T data, DateTime expTime)
         {
             mutex.WaitOne();
             try

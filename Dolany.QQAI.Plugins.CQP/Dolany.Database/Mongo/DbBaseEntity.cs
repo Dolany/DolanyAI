@@ -1,11 +1,9 @@
-﻿namespace Dolany.Database
+﻿using System;
+using MongoDB.Bson.Serialization.Attributes;
+using Newtonsoft.Json;
+
+namespace Dolany.Database
 {
-    using System;
-
-    using MongoDB.Bson.Serialization.Attributes;
-
-    using Newtonsoft.Json;
-
     [Serializable]
     [BsonIgnoreExtraElements]
     [JsonObject(MemberSerialization.OptIn)]

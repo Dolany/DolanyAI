@@ -1,7 +1,7 @@
-﻿namespace Dolany.Database.Redis
-{
-    using System;
+﻿using System;
 
+namespace Dolany.Database.Redis
+{
     /// <summary>
     /// 缓存
     /// </summary>

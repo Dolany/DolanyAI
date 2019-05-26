@@ -1,22 +1,17 @@
-﻿using Dolany.Ai.Common;
+﻿using System.Collections.Generic;
+using System.IO;
+using System.Linq;
+using Dolany.Ai.Common;
+using Dolany.Ai.Core.Base;
+using Dolany.Ai.Core.Cache;
+using Dolany.Ai.Core.Model;
+using Dolany.Database.Sqlite.Model;
+using JetBrains.Annotations;
 using Newtonsoft.Json;
 
 namespace Dolany.Ai.Core.Ai.SingleCommand.Fortune
 {
-    using System.Collections.Generic;
-    using System.IO;
-    using System.Linq;
-    using Base;
-
-    using Cache;
-    using Database.Sqlite.Model;
-
-    using JetBrains.Annotations;
-
-    using Model;
-
-    [AI(
-        Name = "麻将运势",
+    [AI(Name = "麻将运势",
         Description = "AI for Getting Daily Maj Fortune.",
         Enable = true,
         PriorityLevel = 10)]

@@ -1,19 +1,13 @@
-﻿namespace Dolany.Ai.Core.Ai.Sys
+﻿using System;
+using System.Linq;
+using Dolany.Ai.Core.Base;
+using Dolany.Ai.Core.Cache;
+using Dolany.Ai.Core.Common;
+using Dolany.Ai.Core.Model;
+
+namespace Dolany.Ai.Core.Ai.Sys
 {
-    using System;
-    using System.Linq;
-
-    using Base;
-
-    using Cache;
-
-    using Common;
-    using Model;
-
-    using static Common.Utility;
-
-    [AI(
-        Name = "监视器",
+    [AI(Name = "监视器",
         Description = "AI for Monitoring and managing Ais status.",
         Enable = true,
         PriorityLevel = 100)]
@@ -33,8 +27,8 @@
 
         private static void FiltPicMsg(MsgInformationEx MsgDTO)
         {
-            var guid = ParsePicGuid(MsgDTO.FullMsg);
-            var cacheInfo = ReadImageCacheInfo(guid);
+            var guid = Utility.ParsePicGuid(MsgDTO.FullMsg);
+            var cacheInfo = Utility.ReadImageCacheInfo(guid);
             if (cacheInfo == null || string.IsNullOrEmpty(cacheInfo.url))
             {
                 return;

@@ -1,11 +1,11 @@
-﻿namespace Dolany.Ai.Common
-{
-    using System;
-    using System.Collections.Immutable;
-    using System.Diagnostics;
-    using System.Linq;
-    using System.Timers;
+﻿using System;
+using System.Collections.Immutable;
+using System.Diagnostics;
+using System.Linq;
+using System.Timers;
 
+namespace Dolany.Ai.Common
+{
     public class SchedulerTimer : Timer
     {
         public string Id { get; set; }
@@ -81,9 +81,9 @@
             {
                 job.CallBack(sender, e);
             }
-            catch (Exception)
+            catch (Exception exception)
             {
-                //RuntimeLogger.Log(exception);
+                RuntimeLogger.Log(exception);
             }
             finally
             {

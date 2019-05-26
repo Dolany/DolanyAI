@@ -1,15 +1,12 @@
-﻿namespace Dolany.Ai.Core.Ai.SingleCommand.Translate
+﻿using System.Linq;
+using Dolany.Ai.Common;
+using Dolany.Ai.Core.Base;
+using Dolany.Ai.Core.Cache;
+using Dolany.Ai.Core.Model;
+using Dolany.Ai.Core.Net;
+
+namespace Dolany.Ai.Core.Ai.SingleCommand.Translate
 {
-    using System.Linq;
-
-    using Base;
-    using Cache;
-
-    using Dolany.Ai.Common;
-
-    using Model;
-    using Net;
-
     [AI(Name = nameof(TranslateAI),
         Description = "Ai for translation",
         Enable = false,

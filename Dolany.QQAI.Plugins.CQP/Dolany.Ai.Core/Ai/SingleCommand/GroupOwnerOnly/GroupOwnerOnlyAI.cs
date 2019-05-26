@@ -8,8 +8,7 @@ using Dolany.Database.Ai;
 
 namespace Dolany.Ai.Core.Ai.SingleCommand.GroupOwnerOnly
 {
-    [AI(
-        Name = "群主特权",
+    [AI(Name = "群主特权",
         Description = "AI for some power only for group owners.",
         Enable = true,
         PriorityLevel = 10)]

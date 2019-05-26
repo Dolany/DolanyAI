@@ -1,14 +1,11 @@
 ﻿using Dolany.Ai.Common;
+using Dolany.Ai.Core.Base;
+using Dolany.Ai.Core.Cache;
+using Dolany.Ai.Core.Model;
 
 namespace Dolany.Ai.Core.Ai.SingleCommand.RandomPic
 {
-    using Base;
-    using Cache;
-
-    using Model;
-
-    [AI(
-        Name = "随机图片",
+    [AI(Name = "随机图片",
         Description = "AI for Sending Random Pic By Keyword.",
         Enable = true,
         PriorityLevel = 10)]

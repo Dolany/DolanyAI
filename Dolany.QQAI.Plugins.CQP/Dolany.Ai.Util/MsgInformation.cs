@@ -1,7 +1,7 @@
-﻿namespace Dolany.Ai.Util
-{
-    using System;
+﻿using System;
 
+namespace Dolany.Ai.Util
+{
     public class MsgInformation
     {
         public string Id { get; set; } = Guid.NewGuid().ToString();

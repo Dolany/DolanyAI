@@ -1,12 +1,11 @@
-﻿namespace Dolany.Database
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Linq.Expressions;
+using MongoDB.Driver;
+
+namespace Dolany.Database
 {
-    using System;
-    using System.Collections.Generic;
-    using System.Linq;
-    using System.Linq.Expressions;
-
-    using MongoDB.Driver;
-
     public class MongoService<T> where T : DbBaseEntity
     {
         private static MongoContext Repo => MongoContext.Instance;
@@ -15,7 +14,7 @@
         /// 获取集合（表）
         /// </summary>
         /// <returns></returns>
-        public static IMongoCollection<T> GetCollection()
+        private static IMongoCollection<T> GetCollection()
         {
             return Repo.Collection<T>();
         }

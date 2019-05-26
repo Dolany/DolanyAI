@@ -1,12 +1,11 @@
-﻿namespace Dolany.Database
+﻿using System;
+using System.Text;
+using Newtonsoft.Json;
+using RabbitMQ.Client;
+using RabbitMQ.Client.Events;
+
+namespace Dolany.Database
 {
-    using System;
-    using System.Text;
-    using Newtonsoft.Json;
-
-    using RabbitMQ.Client;
-    using RabbitMQ.Client.Events;
-
     public class RabbitMQService
     {
         private readonly ConnectionFactory factory = new ConnectionFactory();

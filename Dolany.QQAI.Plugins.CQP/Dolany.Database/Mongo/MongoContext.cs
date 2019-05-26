@@ -7,19 +7,15 @@ namespace Dolany.Database
     {
         public static MongoContext Instance { get; } = new MongoContext();
 
-        public readonly string MongoConnStr;
-
-        public readonly string MongoDbName;
-
         private readonly IMongoDatabase _Database;
 
         private MongoContext()
         {
-            MongoConnStr = Configger.Instance["MongoConnStr"];
-            MongoDbName = Configger.Instance["MongoDbName"];
+            var mongoConnStr = Configger.Instance["MongoConnStr"];
+            var mongoDbName = Configger.Instance["MongoDbName"];
 
-            var client = new MongoClient(MongoConnStr);
-            _Database = client.GetDatabase(MongoDbName);
+            var client = new MongoClient(mongoConnStr);
+            _Database = client.GetDatabase(mongoDbName);
         }
 
         public IMongoCollection<T> Collection<T>()

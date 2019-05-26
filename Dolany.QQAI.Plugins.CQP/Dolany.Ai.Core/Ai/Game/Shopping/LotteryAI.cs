@@ -10,8 +10,7 @@ using Dolany.Database.Ai;
 
 namespace Dolany.Ai.Core.Ai.Game.Shopping
 {
-    [AI(
-        Name = "彩票",
+    [AI(Name = "彩票",
         Description = "AI for draw a lottery.",
         Enable = true,
         PriorityLevel = 10,

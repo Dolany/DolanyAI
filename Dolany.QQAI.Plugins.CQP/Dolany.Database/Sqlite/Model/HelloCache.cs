@@ -1,7 +1,7 @@
-﻿namespace Dolany.Database.Sqlite.Model
-{
-    using System;
+﻿using System;
 
+namespace Dolany.Database.Sqlite.Model
+{
     public class HelloCache
     {
         public long GroupNum { get; set; }

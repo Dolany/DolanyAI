@@ -1,9 +1,9 @@
-﻿namespace Dolany.Ai.Common
-{
-    using System;
-    using System.IO;
-    using System.Text;
+﻿using System;
+using System.IO;
+using System.Text;
 
+namespace Dolany.Ai.Common
+{
     public static class RuntimeLogger
     {
         private const string LogPath = "./RuntimeLog/";

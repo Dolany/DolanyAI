@@ -1,14 +1,13 @@
-﻿using System.IO;
+﻿using System;
+using System.Collections.Generic;
+using System.IO;
+using System.Linq;
 using System.Linq.Expressions;
 using System.Security.Cryptography;
 using Newtonsoft.Json;
 
 namespace Dolany.Ai.Common
 {
-    using System;
-    using System.Collections.Generic;
-    using System.Linq;
-
     public static class CommonUtil
     {
         private static readonly RNGCryptoServiceProvider RngCsp = new RNGCryptoServiceProvider();

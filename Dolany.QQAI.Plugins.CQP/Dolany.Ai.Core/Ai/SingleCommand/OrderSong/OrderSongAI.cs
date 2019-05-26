@@ -1,16 +1,12 @@
 ﻿using Dolany.Ai.Common;
+using Dolany.Ai.Core.Base;
+using Dolany.Ai.Core.Cache;
+using Dolany.Ai.Core.Model;
+using Dolany.Ai.Core.Net;
 
 namespace Dolany.Ai.Core.Ai.SingleCommand.OrderSong
 {
-    using Base;
-
-    using Cache;
-    using Model;
-
-    using Net;
-
-    [AI(
-        Name = "点歌",
+    [AI(Name = "点歌",
         Description = "AI for Ordering a song by name.",
         Enable = true,
         PriorityLevel = 10)]

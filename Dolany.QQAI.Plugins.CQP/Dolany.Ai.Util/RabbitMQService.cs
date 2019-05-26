@@ -1,11 +1,9 @@
-﻿namespace Dolany.Ai.Util
+﻿using System.Text;
+using Newtonsoft.Json;
+using RabbitMQ.Client;
+
+namespace Dolany.Ai.Util
 {
-    using System.Text;
-
-    using Newtonsoft.Json;
-
-    using RabbitMQ.Client;
-
     public class RabbitMQService
     {
         public static RabbitMQService Instance { get; } = new RabbitMQService();

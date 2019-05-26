@@ -1,19 +1,17 @@
-﻿namespace Dolany.Database.Redis
+﻿using System;
+using Newtonsoft.Json;
+using StackExchange.Redis;
+
+namespace Dolany.Database.Redis
 {
-    using System;
-
-    using Newtonsoft.Json;
-
-    using StackExchange.Redis;
-
     public class Redis : ICache
     {
         private readonly JsonSerializerSettings jsonConfig = new JsonSerializerSettings()
-                                                                 {
-                                                                     ReferenceLoopHandling =
-                                                                         ReferenceLoopHandling.Ignore,
-                                                                     NullValueHandling = NullValueHandling.Ignore
-                                                                 };
+        {
+            ReferenceLoopHandling =
+                ReferenceLoopHandling.Ignore,
+            NullValueHandling = NullValueHandling.Ignore
+        };
 
         private readonly IDatabase database;
 

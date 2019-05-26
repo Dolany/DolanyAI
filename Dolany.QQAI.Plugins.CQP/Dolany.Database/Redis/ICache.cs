@@ -1,7 +1,7 @@
-﻿namespace Dolany.Database.Redis
-{
-    using System;
+﻿using System;
 
+namespace Dolany.Database.Redis
+{
     public interface ICache
     {
         /// <summary>

@@ -1,12 +1,10 @@
 ﻿using System;
 using System.Linq;
+using Dolany.Ai.Common;
+using Dolany.Ai.Core.Net;
 
 namespace Dolany.Ai.Core.Ai.SingleCommand.Fortune
 {
-    using Dolany.Ai.Common;
-
-    using Net;
-
     public class StarFortuneParser : HtmlParser
     {
         public string Content = string.Empty;

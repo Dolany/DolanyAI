@@ -1,7 +1,7 @@
-﻿namespace Dolany.Database.Sqlite
-{
-    using Microsoft.EntityFrameworkCore;
+﻿using Microsoft.EntityFrameworkCore;
 
+namespace Dolany.Database.Sqlite
+{
     public class SqliteContext : DbContext
     {
         private readonly string source;

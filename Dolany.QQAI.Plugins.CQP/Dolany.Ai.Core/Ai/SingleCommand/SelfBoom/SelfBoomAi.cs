@@ -1,15 +1,13 @@
 ﻿using System;
+using System.Threading;
 using Dolany.Ai.Common;
+using Dolany.Ai.Core.Base;
+using Dolany.Ai.Core.Cache;
+using Dolany.Ai.Core.Model;
 
 namespace Dolany.Ai.Core.Ai.SingleCommand.SelfBoom
 {
-    using System.Threading;
-    using Base;
-    using Cache;
-    using Model;
-
-    [AI(
-        Name = "自爆",
+    [AI(Name = "自爆",
         Description = "AI for boom herself.",
         Enable = true,
         PriorityLevel = 10)]

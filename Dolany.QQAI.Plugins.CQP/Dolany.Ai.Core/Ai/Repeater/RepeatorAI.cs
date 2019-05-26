@@ -1,18 +1,13 @@
-﻿using Dolany.Ai.Core.Common;
+﻿using System.Threading;
+using Dolany.Ai.Core.Base;
+using Dolany.Ai.Core.Cache;
+using Dolany.Ai.Core.Common;
+using Dolany.Ai.Core.Model;
+using Dolany.Ai.Core.SyntaxChecker;
 
 namespace Dolany.Ai.Core.Ai.Repeater
 {
-    using System.Threading;
-
-    using Base;
-
-    using Cache;
-    using Model;
-
-    using SyntaxChecker;
-
-    [AI(
-        Name = "随机复读",
+    [AI(Name = "随机复读",
         Description = "AI for Repeating Random words.",
         Enable = true,
         PriorityLevel = 1,
