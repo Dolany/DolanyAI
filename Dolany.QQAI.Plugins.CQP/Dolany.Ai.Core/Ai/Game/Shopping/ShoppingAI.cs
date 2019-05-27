@@ -356,7 +356,7 @@ namespace Dolany.Ai.Core.Ai.Game.Shopping
                       $"战绩：{advPlayer.WinTotal}/{advPlayer.GameTotal}\r" +
                       $"物品数量：{itemRecord.TotalItemCount()}\r" +
                       $"成就数量：{itemRecord.HonorList?.Count ?? 0}\r" +
-                      $"本月魅力值：{glamourRecord.Glamour}";
+                      $"魅力值：{glamourRecord.Glamour}";
             var buffs = OSPersonBuff.Get(MsgDTO.FromQQ);
             if (!buffs.IsNullOrEmpty())
             {
