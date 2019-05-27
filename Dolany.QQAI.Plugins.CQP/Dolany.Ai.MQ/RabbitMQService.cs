@@ -1,16 +1,13 @@
 ﻿using System;
+using System.Text;
+using Dolany.Ai.MQ.Resolver;
 using Dolany.Ai.Util;
+using Newtonsoft.Json;
+using RabbitMQ.Client;
+using RabbitMQ.Client.Events;
 
 namespace Dolany.Ai.MQ
 {
-    using System.Text;
-    using Resolver;
-
-    using Newtonsoft.Json;
-
-    using RabbitMQ.Client;
-    using RabbitMQ.Client.Events;
-
     public class RabbitMQService
     {
         public static RabbitMQService Instance { get; } = new RabbitMQService();
@@ -59,7 +56,7 @@ namespace Dolany.Ai.MQ
                         var message = Encoding.UTF8.GetString(body);
                         var command = JsonConvert.DeserializeObject<MsgCommand>(message);
 
-                        Listenser.Instance.ReceivedCommand(command);
+                        Listenser.ReceivedCommand(command);
                     }
                     catch (Exception e)
                     {

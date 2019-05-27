@@ -1,25 +1,16 @@
 ﻿namespace Dolany.Ai.Util
 {
-    public static class CommandType
+    public enum CommandType
     {
-        public const string SendGroup = "SendGroup";
-
-        public const string SendPrivate = "SendPrivate";
-
-        public const string SendGroupTemp = "SendGroupTemp";
-
-        public const string GetGroupMemberInfo = "GetGroupMemberInfo";
-
-        public const string Get163Music = "Get163Music";
-
-        public const string Praise = "Praise";
-
-        public const string Restart = "Restart";
-
-        public const string GetAuthCode = "GetAuthCode";
-
-        public const string GetGroups = "GetGroups";
-
-        public const string SetSilence = "SetSilence";
+        SendGroup = 0,
+        SendPrivate = 1,
+        SendGroupTemp = 2,
+        GetGroupMemberInfo = 3,
+        Get163Music = 4,
+        Praise = 5,
+        Restart = 6,
+        GetAuthCode = 7,
+        GetGroups = 8,
+        SetSilence = 9
     }
 }

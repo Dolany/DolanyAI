@@ -1,15 +1,13 @@
-﻿namespace Dolany.Ai.MQ.Resolver
+﻿using System;
+using System.Threading;
+using System.Threading.Tasks;
+using Dolany.Ai.MQ.Db;
+using Dolany.Ai.MQ.MahuaApis;
+using Dolany.Ai.Util;
+using Newbe.Mahua;
+
+namespace Dolany.Ai.MQ.Resolver
 {
-    using System;
-    using System.Threading;
-    using System.Threading.Tasks;
-
-    using Db;
-    using MahuaApis;
-    using Util;
-
-    using Newbe.Mahua;
-
     public class Listenser
     {
         public static Listenser Instance { get; } = new Listenser();
@@ -20,7 +18,7 @@
         {
         }
 
-        public void ReceivedCommand(MsgCommand command)
+        public static void ReceivedCommand(MsgCommand command)
         {
             Task.Run(() =>
             {
@@ -35,7 +33,7 @@
             });
         }
 
-        private void ResovleCommand(MsgCommand command)
+        private static void ResovleCommand(MsgCommand command)
         {
             switch (command.Command)
             {

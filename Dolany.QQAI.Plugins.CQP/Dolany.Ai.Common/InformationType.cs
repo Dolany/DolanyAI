@@ -1,13 +1,10 @@
 ﻿namespace Dolany.Ai.Common
 {
-    public class InformationType
+    public enum InformationType
     {
-        public const string Message = "Message";
-
-        public const string CommandBack = "CommandBack";
-
-        public const string AuthCode = "AuthCode";
-
-        public const string Error = "Error";
+        Message = 0,
+        CommandBack = 1,
+        AuthCode = 2,
+        Error = 3
     }
 }

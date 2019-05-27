@@ -8,7 +8,7 @@
         public System.DateTime Time { get; set; }
         public long FromGroup { get; set; }
         public long FromQQ { get; set; }
-        public string Information { get; set; }
+        public InformationType Information { get; set; }
         public string BindAi { get; set; }
     }
 }

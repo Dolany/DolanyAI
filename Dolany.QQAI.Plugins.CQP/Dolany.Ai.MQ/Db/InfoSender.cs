@@ -6,7 +6,7 @@ namespace Dolany.Ai.MQ.Db
     {
         private static readonly object lock_obj = new object();
 
-        public static void Send(string Information, string Msg = "", string RelationId = "", long FromGroup = 0L, long FromQQ = 0L)
+        public static void Send(InformationType Information, string Msg = "", string RelationId = "", long FromGroup = 0L, long FromQQ = 0L)
         {
             lock (lock_obj)
             {
