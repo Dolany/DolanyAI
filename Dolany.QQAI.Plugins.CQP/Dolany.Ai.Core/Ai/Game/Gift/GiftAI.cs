@@ -177,6 +177,12 @@ namespace Dolany.Ai.Core.Ai.Game.Gift
         {
             var aimQQ = (long) param[0];
             var name = param[1] as string;
+            if (aimQQ == MsgDTO.FromQQ)
+            {
+                MsgSender.PushMsg(MsgDTO, "你居然给自己送礼物！", true);
+                return false;
+            }
+
             var osPerson = OSPerson.GetPerson(MsgDTO.FromQQ);
             if (osPerson.GiftDic == null || !osPerson.GiftDic.ContainsKey(name))
             {

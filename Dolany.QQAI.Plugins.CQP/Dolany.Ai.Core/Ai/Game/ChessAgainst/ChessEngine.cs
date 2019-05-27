@@ -136,17 +136,5 @@ namespace Dolany.Ai.Core.Ai.Game.ChessAgainst
 
             return str;
         }
-
-        public bool DeEffect(string name)
-        {
-            var effect = EffectsList.FirstOrDefault(e => e.Name == name);
-            if (effect == null)
-            {
-                return false;
-            }
-
-            effect.Method();
-            return true;
-        }
     }
 }

@@ -121,5 +121,50 @@ namespace Dolany.Ai.Core.Ai.Game.Shopping
 
             return true;
         }
+
+        [EnterCommand(ID = "LotteryAI_GoldLimitBonus",
+            Command = "兑换抽奖机会",
+            AuthorityLevel = AuthorityLevel.成员,
+            Description = "用金币兑换抽奖机会",
+            Syntax = "",
+            SyntaxChecker = "Empty",
+            Tag = "商店功能",
+            IsPrivateAvailable = true,
+            DailyLimit = 3,
+            TestingDailyLimit = 3)]
+        public bool GoldLimitBonus(MsgInformationEx MsgDTO, object[] param)
+        {
+            var osPerson = OSPerson.GetPerson(MsgDTO.FromQQ);
+            if (osPerson.Golds < 500)
+            {
+                MsgSender.PushMsg(MsgDTO, $"你没有足够的金币兑换（{osPerson.Golds}/500）", true);
+                return false;
+            }
+
+            if (!Waiter.Instance.WaitForConfirm_Gold(MsgDTO, 500, 7))
+            {
+                MsgSender.PushMsg(MsgDTO, "操作取消");
+                return false;
+            }
+
+            osPerson.Golds -= 500;
+
+            var cache = PersonCacheRecord.Get(MsgDTO.FromQQ, "抽奖");
+            int times;
+            if (!int.TryParse(cache.Value, out times))
+            {
+                times = 0;
+            }
+
+            times++;
+            cache.Value = times.ToString();
+
+            osPerson.Update();
+            cache.Update();
+
+            MsgSender.PushMsg(MsgDTO, $"兑换成功，你现在共有{times}次抽奖机会，快使用 抽奖 命令试试看吧！", true);
+
+            return true;
+        }
     }
 }
