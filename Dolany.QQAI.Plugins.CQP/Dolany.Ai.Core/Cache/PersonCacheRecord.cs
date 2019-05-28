@@ -11,7 +11,7 @@ namespace Dolany.Ai.Core.Cache
 
         public string Value { get; set; }
 
-        public DateTime ExpiryTime { get; set; }
+        public DateTime? ExpiryTime { get; set; }
 
         public static PersonCacheRecord Get(long QQNum, string Key)
         {

@@ -150,8 +150,7 @@ namespace Dolany.Ai.Core.Ai.Game.Shopping
             osPerson.Golds -= 500;
 
             var cache = PersonCacheRecord.Get(MsgDTO.FromQQ, "抽奖");
-            int times;
-            if (!int.TryParse(cache.Value, out times))
+            if (!int.TryParse(cache.Value, out var times))
             {
                 times = 0;
             }
