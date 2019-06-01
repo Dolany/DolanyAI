@@ -182,6 +182,54 @@
         "Rate": 15,
         "Price": 416
       }
+    ]
+  },
+  "夏日祭典": {
+    "Year": 2019,
+    "Month": 6,
+    "Items": [
+      {
+        "Name": "夏祭水枪",
+        "Description": "来一场真正的对决吧！Biubiubiu...",
+        "Rate": 15,
+        "Price": 416
+      },
+      {
+        "Name": "夏祭西瓜",
+        "Description": "西瓜和雪糕是夏天的精灵...",
+        "Rate": 15,
+        "Price": 416
+      },
+      {
+        "Name": "夏祭泳衣",
+        "Description": "阳光、沙滩、海风，是大海的季节！...",
+        "Rate": 15,
+        "Price": 416
+      },
+      {
+        "Name": "夏祭风铃",
+        "Description": "叮铃铃，是微风送来了午后闷热的慵懒...",
+        "Rate": 15,
+        "Price": 416
+      },
+      {
+        "Name": "夏祭棒冰",
+        "Description": "注入夏日的灵魂...",
+        "Rate": 15,
+        "Price": 416
+      },
+      {
+        "Name": "夏祭气球",
+        "Description": "载着阳光与欢笑，飘向远方...",
+        "Rate": 15,
+        "Price": 416
+      },
+      {
+        "Name": "夏祭怪谈",
+        "Description": "传统的避暑方式...",
+        "Rate": 15,
+        "Price": 416
+      }
     ] 
   } 
 }
