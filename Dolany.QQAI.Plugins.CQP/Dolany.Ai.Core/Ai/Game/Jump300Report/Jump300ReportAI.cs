@@ -1,15 +1,13 @@
 ﻿using System.Threading.Tasks;
+using Dolany.Ai.Core.Base;
+using Dolany.Ai.Core.Cache;
+using Dolany.Ai.Core.Model;
 
 namespace Dolany.Ai.Core.Ai.Game.Jump300Report
 {
-    using Base;
-    using Cache;
-    using Dolany.Ai.Core.Model;
-
-    [AI(
-        Name = "300英雄战绩查询",
+    [AI(Name = "300英雄战绩查询",
         Description = "AI for 300 heros report.",
-        Enable = true,
+        Enable = false,
         PriorityLevel = 10,
         NeedManulOpen = true)]
     public class Jump300ReportAI : AIBase

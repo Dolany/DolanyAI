@@ -42,12 +42,7 @@ namespace Dolany.Ai.Core.Cache
                     return false;
                 }
 
-                if (TimeCacheDic[BindAi].Count >= MaxRecentCommandCacheCount && TimeCacheDic[BindAi].First().AddMinutes(1) > DateTime.Now)
-                {
-                    return true;
-                }
-
-                return false;
+                return TimeCacheDic[BindAi].Count >= MaxRecentCommandCacheCount && TimeCacheDic[BindAi].First().AddMinutes(1) > DateTime.Now;
             }
         }
     }

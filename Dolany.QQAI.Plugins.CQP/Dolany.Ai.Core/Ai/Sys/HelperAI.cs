@@ -2,10 +2,13 @@
 using System.Linq;
 using System.Text;
 using Dolany.Ai.Common;
+using Dolany.Ai.Core.Ai.Game.Gift;
+using Dolany.Ai.Core.Ai.Record;
 using Dolany.Ai.Core.Base;
 using Dolany.Ai.Core.Cache;
 using Dolany.Ai.Core.Common;
 using Dolany.Ai.Core.Model;
+using Dolany.Ai.Core.OnlineStore;
 
 namespace Dolany.Ai.Core.Ai.Sys
 {
@@ -15,10 +18,6 @@ namespace Dolany.Ai.Core.Ai.Sys
         PriorityLevel = 10)]
     public class HelperAI : AIBase
     {
-        public override void Initialization()
-        {
-        }
-
         [EnterCommand(ID = "HelperAI_HelpMe",
             Command = "帮助",
             AuthorityLevel = AuthorityLevel.成员,
@@ -136,6 +135,36 @@ namespace Dolany.Ai.Core.Ai.Sys
             helpMsg += '\r' + "可以使用 帮助 [命令名] 来查询具体命令信息。";
 
             MsgSender.PushMsg(MsgDTO, helpMsg);
+        }
+
+        [EnterCommand(ID = "HelperAI_ViewSomething",
+            Command = "查看",
+            AuthorityLevel = AuthorityLevel.成员,
+            Description = "查看某个东西（物品/成就/礼物等等）",
+            Syntax = "[名称]",
+            SyntaxChecker = "Word",
+            Tag = "系统命令",
+            IsPrivateAvailable = true)]
+        public bool ViewSomething(MsgInformationEx MsgDTO, object[] param)
+        {
+            var name = param[0] as string;
+            if (HonorHelper.Instance.FindItem(name) != null)
+            {
+                return AIMgr.Instance.AIInstance<DriftBottleAI>().ViewItem(MsgDTO, param);
+            }
+
+            if (HonorHelper.Instance.FindHonor(name) != null)
+            {
+                return AIMgr.Instance.AIInstance<DriftBottleAI>().ViewHonor(MsgDTO, param);
+            }
+
+            if (GiftMgr.Instance[name] != null)
+            {
+                return AIMgr.Instance.AIInstance<GiftAI>().ViewGift(MsgDTO, param);
+            }
+
+            MsgSender.PushMsg(MsgDTO, "未查找到相关信息！");
+            return false;
         }
     }
 }

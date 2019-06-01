@@ -44,13 +44,7 @@ namespace Dolany.Ai.Core.Ai.SingleCommand.Fortune
             if (string.IsNullOrEmpty(response.Value))
             {
                 var randFor = GetRandomFortune();
-                var rf = new RandomFortuneCache
-                {
-                                 QQNum = MsgDTO.FromQQ,
-                                 FortuneValue = randFor,
-                                 BlessName = string.Empty,
-                                 BlessValue = 0
-                             };
+                var rf = new RandomFortuneCache {QQNum = MsgDTO.FromQQ, FortuneValue = randFor, BlessName = string.Empty, BlessValue = 0};
                 RandBless(rf);
                 ShowRandFortune(MsgDTO, rf);
 

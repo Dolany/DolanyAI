@@ -1,9 +1,8 @@
 ﻿using System;
+using System.Xml.Linq;
 
 namespace Dolany.Ai.Core.Entities
 {
-    using System.Xml.Linq;
-
     [AttributeUsage(AttributeTargets.Property)]
     public sealed class DataColumnAttribute : Attribute
     {
