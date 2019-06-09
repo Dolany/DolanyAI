@@ -1,13 +1,10 @@
-﻿namespace Dolany.Ai.Core.Cache
+﻿using System.Linq;
+using Dolany.Ai.Core.API;
+using Dolany.Ai.Core.Common;
+using Dolany.Database.Ai;
+
+namespace Dolany.Ai.Core.Cache
 {
-    using System.Linq;
-
-    using API;
-
-    using Common;
-
-    using Dolany.Database.Ai;
-
     public class GroupMemberInfoCacher
     {
         public static bool RefreshGroupInfo(long GroupNum, string BindAi)

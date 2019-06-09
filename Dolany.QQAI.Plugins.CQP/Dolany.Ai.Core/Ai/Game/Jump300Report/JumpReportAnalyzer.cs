@@ -1,16 +1,14 @@
-﻿namespace Dolany.Ai.Core.Ai.Game.Jump300Report
+﻿using System;
+using System.Collections.Generic;
+using System.Diagnostics;
+using System.Linq;
+using System.Reflection;
+using System.Text;
+using Dolany.Ai.Common;
+using Dolany.Ai.Core.Ai.Game.Jump300Report.Parser;
+
+namespace Dolany.Ai.Core.Ai.Game.Jump300Report
 {
-    using System;
-    using System.Collections.Generic;
-    using System.Diagnostics;
-    using System.Linq;
-    using System.Reflection;
-    using System.Text;
-
-    using Dolany.Ai.Common;
-
-    using Parser;
-
     public class JumpReportAnalyzer
     {
         private List<JumpListHtmlParser> Lists { get; }

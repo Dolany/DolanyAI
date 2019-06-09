@@ -38,6 +38,11 @@ namespace Dolany.Ai.Core
 
         private event MessageCallBack OnMessageCallBack;
 
+        public T AIInstance<T>() where T : AIBase
+        {
+            return AIList.FirstOrDefault(ai => ai.GetType().Name == typeof(T).Name) as T;
+        }
+
         private AIMgr()
         {
         }

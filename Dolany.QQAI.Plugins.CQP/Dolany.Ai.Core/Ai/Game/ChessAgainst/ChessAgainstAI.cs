@@ -7,8 +7,7 @@ using Dolany.Database.Ai;
 
 namespace Dolany.Ai.Core.Ai.Game.ChessAgainst
 {
-    [AI(
-        Name = "对决",
+    [AI(Name = "对决",
         Description = "AI for Chess Fight.",
         Enable = true,
         PriorityLevel = 10,
