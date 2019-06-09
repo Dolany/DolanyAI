@@ -21,7 +21,7 @@ namespace Dolany.Ai.Core.Ai.SingleCommand.Voice
             Tag = "娱乐功能",
             SyntaxChecker = "Word",
             IsPrivateAvailable = true,
-            DailyLimit = 3)]
+            DailyLimit = 5)]
         public bool KancoleVoice(MsgInformationEx MsgDTO, object[] param)
         {
             var girlName = param[0] as string;
