@@ -24,7 +24,11 @@ namespace Dolany.Ai.Util
 
         public void Send(MsgInformation information)
         {
-            information.BindAi = UtTools.GetConfig("BindAi");
+            if (string.IsNullOrEmpty(information.BindAi))
+            {
+                information.BindAi = UtTools.GetConfig("BindAi");
+            }
+
             var body = Encoding.UTF8.GetBytes(JsonConvert.SerializeObject(information));
             channel.BasicPublish(string.Empty, UtTools.GetConfig("InformationQueueName"), null, body); //开始传递
         }

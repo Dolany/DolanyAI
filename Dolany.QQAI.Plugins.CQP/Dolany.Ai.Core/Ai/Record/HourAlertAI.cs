@@ -45,7 +45,9 @@ namespace Dolany.Ai.Core.Ai.Record
 
         private static void HourAlert(int curHour)
         {
-            var availableList = GroupSettingMgr.Instance.SettingDic.Where(p => p.Value.HasFunction("报时")).Select(p => p.Key).ToList();
+            var availableList = GroupSettingMgr.Instance.SettingDic.Where(p => p.Value.ExpiryTime.HasValue &&
+                                                                               p.Value.ExpiryTime.Value > DateTime.Now &&
+                                                                               p.Value.HasFunction("报时")).Select(p => p.Key).ToList();
             if (availableList.IsNullOrEmpty())
             {
                 return;

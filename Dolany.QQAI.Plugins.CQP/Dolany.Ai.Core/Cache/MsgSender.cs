@@ -2,6 +2,7 @@
 using Dolany.Ai.Common;
 using Dolany.Ai.Core.Common;
 using Dolany.Ai.Core.Model;
+using Newtonsoft.Json;
 
 namespace Dolany.Ai.Core.Cache
 {
@@ -12,6 +13,12 @@ namespace Dolany.Ai.Core.Cache
             msg.Time = DateTime.Now;
             var callback = $"[Command] {(msg.ToGroup == 0 ? "私聊" : GroupSettingMgr.Instance[msg.ToGroup].Name)} {msg.ToQQ} {msg.Id} {msg.Command} {msg.Msg}";
             AIMgr.Instance.MessagePublish(callback);
+
+            if (string.IsNullOrEmpty(msg.BindAi))
+            {
+                RuntimeLogger.Log("Null BindAi:" + JsonConvert.SerializeObject(msg));
+                return;
+            }
 
             Global.CommandInfoService.Send(msg, BindAiMgr.Instance[msg.BindAi].CommandQueue);
         }

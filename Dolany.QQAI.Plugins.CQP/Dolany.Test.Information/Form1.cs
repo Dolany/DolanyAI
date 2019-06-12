@@ -18,10 +18,16 @@ namespace Dolany.Test.Information
                 FromGroup = long.Parse(GroupNumTxt.Text),
                 FromQQ = long.Parse(QQNumTxt.Text),
                 Information = InformationType.Message,
-                Msg = MsgTxt.Text
+                Msg = MsgTxt.Text,
+                BindAi = BindAiTxt.Text
             };
 
             RabbitMQService.Instance.Send(inforamtion);
+        }
+
+        private void TextBox1_TextChanged(object sender, EventArgs e)
+        {
+
         }
     }
 }

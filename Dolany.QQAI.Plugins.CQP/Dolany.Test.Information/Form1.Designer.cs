@@ -34,6 +34,8 @@
             this.QQNumTxt = new System.Windows.Forms.TextBox();
             this.MsgTxt = new System.Windows.Forms.TextBox();
             this.SendBtn = new System.Windows.Forms.Button();
+            this.label3 = new System.Windows.Forms.Label();
+            this.BindAiTxt = new System.Windows.Forms.TextBox();
             this.SuspendLayout();
             // 
             // label1
@@ -72,10 +74,10 @@
             // 
             // MsgTxt
             // 
-            this.MsgTxt.Location = new System.Drawing.Point(36, 127);
+            this.MsgTxt.Location = new System.Drawing.Point(36, 164);
             this.MsgTxt.Multiline = true;
             this.MsgTxt.Name = "MsgTxt";
-            this.MsgTxt.Size = new System.Drawing.Size(207, 171);
+            this.MsgTxt.Size = new System.Drawing.Size(207, 134);
             this.MsgTxt.TabIndex = 8;
             // 
             // SendBtn
@@ -88,11 +90,31 @@
             this.SendBtn.UseVisualStyleBackColor = true;
             this.SendBtn.Click += new System.EventHandler(this.SendBtn_Click);
             // 
+            // label3
+            // 
+            this.label3.AutoSize = true;
+            this.label3.Location = new System.Drawing.Point(34, 128);
+            this.label3.Name = "label3";
+            this.label3.Size = new System.Drawing.Size(41, 12);
+            this.label3.TabIndex = 10;
+            this.label3.Text = "BindAi";
+            // 
+            // BindAiTxt
+            // 
+            this.BindAiTxt.Location = new System.Drawing.Point(112, 125);
+            this.BindAiTxt.Name = "BindAiTxt";
+            this.BindAiTxt.Size = new System.Drawing.Size(131, 21);
+            this.BindAiTxt.TabIndex = 11;
+            this.BindAiTxt.Text = "Cirno";
+            this.BindAiTxt.TextChanged += new System.EventHandler(this.TextBox1_TextChanged);
+            // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 12F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(269, 363);
+            this.Controls.Add(this.BindAiTxt);
+            this.Controls.Add(this.label3);
             this.Controls.Add(this.SendBtn);
             this.Controls.Add(this.MsgTxt);
             this.Controls.Add(this.QQNumTxt);
@@ -114,6 +136,8 @@
         private System.Windows.Forms.TextBox QQNumTxt;
         private System.Windows.Forms.TextBox MsgTxt;
         private System.Windows.Forms.Button SendBtn;
+        private System.Windows.Forms.Label label3;
+        private System.Windows.Forms.TextBox BindAiTxt;
     }
 }
 
