@@ -71,22 +71,8 @@ namespace Dolany.Ai.Core.Ai.Record
 
         private static void SendAlertMsg(KanColeGirlVoice randGirl, long groupNum, string BindAi)
         {
-            MsgSender.PushMsg(
-                new MsgCommand
-                    {
-                        Command = CommandType.SendGroup,
-                        Msg = CodeApi.Code_Voice(randGirl.VoiceUrl),
-                        ToGroup = groupNum,
-                        BindAi = BindAi
-                });
-            MsgSender.PushMsg(
-                new MsgCommand
-                    {
-                        Command = CommandType.SendGroup,
-                        Msg = randGirl.Content,
-                        ToGroup = groupNum,
-                        BindAi = BindAi
-                    });
+            MsgSender.PushMsg(new MsgCommand {Command = CommandType.SendGroup, Msg = CodeApi.Code_Voice(randGirl.VoiceUrl), ToGroup = groupNum, BindAi = BindAi});
+            MsgSender.PushMsg(new MsgCommand {Command = CommandType.SendGroup, Msg = randGirl.Content, ToGroup = groupNum, BindAi = BindAi});
         }
 
         private static KanColeGirlVoice GetRanAlertContent(int aimHour)

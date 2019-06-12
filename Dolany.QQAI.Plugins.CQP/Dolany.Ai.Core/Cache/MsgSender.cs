@@ -25,17 +25,14 @@ namespace Dolany.Ai.Core.Cache
 
         public static void PushMsg(MsgInformationEx MsgInfo, string Content, bool isNeedAt = false)
         {
-            PushMsg(
-                new MsgCommand
-                    {
-                        Command = MsgInfo.Type == MsgType.Group ? CommandType.SendGroup : CommandType.SendPrivate,
-                        Msg = MsgInfo.Type == MsgType.Group && isNeedAt
-                                  ? $"{CodeApi.Code_At(MsgInfo.FromQQ)} {Content}"
-                                  : Content,
-                        ToGroup = MsgInfo.FromGroup,
-                        ToQQ = MsgInfo.FromQQ,
-                        BindAi = MsgInfo.BindAi
-                    });
+            PushMsg(new MsgCommand
+            {
+                Command = MsgInfo.Type == MsgType.Group ? CommandType.SendGroup : CommandType.SendPrivate,
+                Msg = MsgInfo.Type == MsgType.Group && isNeedAt ? $"{CodeApi.Code_At(MsgInfo.FromQQ)} {Content}" : Content,
+                ToGroup = MsgInfo.FromGroup,
+                ToQQ = MsgInfo.FromQQ,
+                BindAi = MsgInfo.BindAi
+            });
         }
 
         public static void PushMsg(long GroupNum, long QQNum, string content, string BindAi)

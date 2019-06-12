@@ -92,7 +92,8 @@ namespace Dolany.Ai.Core.Ai.Record
                 return;
             }
 
-            if (GroupSettingMgr.Instance[entity.GroupNumber].IsPowerOn)
+            var setting = GroupSettingMgr.Instance[entity.GroupNumber];
+            if (setting.ExpiryTime.HasValue && setting.ExpiryTime.Value > DateTime.Now && setting.IsPowerOn)
             {
                 MsgSender.PushMsg(
                     new MsgCommand
