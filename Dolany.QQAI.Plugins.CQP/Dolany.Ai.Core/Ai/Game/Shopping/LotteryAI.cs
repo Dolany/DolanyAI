@@ -106,7 +106,8 @@ namespace Dolany.Ai.Core.Ai.Game.Shopping
             var items = HonorHelper.Instance.CurMonthLimitItems();
             var item = items.RandElement();
 
-            var msg = $"恭喜你抽到了 {item.Name}*1";
+            var msg = $"恭喜你抽到了 {item.Name}*1\r" +
+                      $"    {item.Description} ";
             var record = DriftItemRecord.GetRecord(MsgDTO.FromQQ);
             var m = record.ItemIncome(item.Name);
             if (!string.IsNullOrEmpty(m))

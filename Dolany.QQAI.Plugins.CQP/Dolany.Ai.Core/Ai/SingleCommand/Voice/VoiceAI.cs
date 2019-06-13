@@ -80,6 +80,115 @@ namespace Dolany.Ai.Core.Ai.SingleCommand.Voice
             MsgSender.PushMsg(MsgDTO, CodeApi.Code_Voice(file.FullName));
             return true;
         }
+
+        [EnterCommand(ID = "VoiceAI_LOLVoice",
+            Command = "LOL语音",
+            AuthorityLevel = AuthorityLevel.成员,
+            Description = "获取LOL的随机语音",
+            Syntax = "",
+            Tag = "语音功能",
+            SyntaxChecker = "Empty",
+            IsPrivateAvailable = true,
+            DailyLimit = 5)]
+        public bool LOLVoice(MsgInformationEx MsgDTO, object[] param)
+        {
+            return RandVoice(MsgDTO, "LOL语音");
+        }
+
+        [EnterCommand(ID = "VoiceAI_超神学院Voice",
+            Command = "超神学院语音",
+            AuthorityLevel = AuthorityLevel.成员,
+            Description = "获取超神学院的随机语音",
+            Syntax = "",
+            Tag = "语音功能",
+            SyntaxChecker = "Empty",
+            IsPrivateAvailable = true,
+            DailyLimit = 5)]
+        public bool 超神学院Voice(MsgInformationEx MsgDTO, object[] param)
+        {
+            return RandVoice(MsgDTO, "超神学院");
+        }
+
+        [EnterCommand(ID = "VoiceAI_刺客伍六七Voice",
+            Command = "刺客伍六七语音",
+            AuthorityLevel = AuthorityLevel.成员,
+            Description = "获取刺客伍六七的随机语音",
+            Syntax = "",
+            Tag = "语音功能",
+            SyntaxChecker = "Empty",
+            IsPrivateAvailable = true,
+            DailyLimit = 5)]
+        public bool 刺客伍六七Voice(MsgInformationEx MsgDTO, object[] param)
+        {
+            return RandVoice(MsgDTO, "刺客伍六七");
+        }
+
+        [EnterCommand(ID = "VoiceAI_狐妖小红娘Voice",
+            Command = "狐妖小红娘语音",
+            AuthorityLevel = AuthorityLevel.成员,
+            Description = "获取狐妖小红娘的随机语音",
+            Syntax = "",
+            Tag = "语音功能",
+            SyntaxChecker = "Empty",
+            IsPrivateAvailable = true,
+            DailyLimit = 5)]
+        public bool 狐妖小红娘Voice(MsgInformationEx MsgDTO, object[] param)
+        {
+            return RandVoice(MsgDTO, "狐妖小红娘");
+        }
+
+        [EnterCommand(ID = "VoiceAI_十万个冷笑话Voice",
+            Command = "十万个冷笑话语音",
+            AuthorityLevel = AuthorityLevel.成员,
+            Description = "获取十万个冷笑话的随机语音",
+            Syntax = "",
+            Tag = "语音功能",
+            SyntaxChecker = "Empty",
+            IsPrivateAvailable = true,
+            DailyLimit = 5)]
+        public bool 十万个冷笑话Voice(MsgInformationEx MsgDTO, object[] param)
+        {
+            return RandVoice(MsgDTO, "十万个冷笑话");
+        }
+
+        [EnterCommand(ID = "VoiceAI_一人之下Voice",
+            Command = "一人之下语音",
+            AuthorityLevel = AuthorityLevel.成员,
+            Description = "获取一人之下的随机语音",
+            Syntax = "",
+            Tag = "语音功能",
+            SyntaxChecker = "Empty",
+            IsPrivateAvailable = true,
+            DailyLimit = 5)]
+        public bool 一人之下Voice(MsgInformationEx MsgDTO, object[] param)
+        {
+            return RandVoice(MsgDTO, "一人之下");
+        }
+
+        [EnterCommand(ID = "VoiceAI_镇魂街Voice",
+            Command = "镇魂街语音",
+            AuthorityLevel = AuthorityLevel.成员,
+            Description = "获取镇魂街的随机语音",
+            Syntax = "",
+            Tag = "语音功能",
+            SyntaxChecker = "Empty",
+            IsPrivateAvailable = true,
+            DailyLimit = 5)]
+        public bool 镇魂街Voice(MsgInformationEx MsgDTO, object[] param)
+        {
+            return RandVoice(MsgDTO, "镇魂街");
+        }
+
+        private bool RandVoice(MsgInformationEx MsgDTO, string name)
+        {
+            var folderPath = "./voices/" + name;
+            var folder = new DirectoryInfo(folderPath);
+            var files = folder.GetFiles();
+            var file = files.RandElement();
+
+            MsgSender.PushMsg(MsgDTO, CodeApi.Code_Voice(file.FullName));
+            return true;
+        }
     }
 
     public class Beng3ConfigModel
