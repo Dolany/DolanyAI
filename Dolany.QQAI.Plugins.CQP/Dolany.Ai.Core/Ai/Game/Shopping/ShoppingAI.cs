@@ -57,7 +57,7 @@ namespace Dolany.Ai.Core.Ai.Game.Shopping
         }
 
         [EnterCommand(ID = "ShoppingAI_SellRedundant",
-            Command = "贩卖多余物品",
+            Command = "贩卖多余物品 出售多余物品",
             AuthorityLevel = AuthorityLevel.成员,
             Description = "一键贩卖自己多余的物品",
             Syntax = "",
