@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using Dolany.Ai.Common;
 using Dolany.Ai.Core.Base;
@@ -20,11 +21,13 @@ namespace Dolany.Ai.Core.Ai.Record.Hello
     public class HelloAI : AIBase
     {
         private List<HelloRecord> HelloList = new List<HelloRecord>();
+        private List<MultiMediaHelloRecord> MultiMediaHelloList = new List<MultiMediaHelloRecord>();
 
         public override void Initialization()
         {
             var Groups = Global.AllGroupsDic.Keys.ToArray();
-            this.HelloList = MongoService<HelloRecord>.Get(p => Groups.Contains(p.GroupNum));
+            HelloList = MongoService<HelloRecord>.Get(p => Groups.Contains(p.GroupNum));
+            MultiMediaHelloList = MongoService<MultiMediaHelloRecord>.Get();
         }
 
         public override bool OnMsgReceived(MsgInformationEx MsgDTO)
@@ -39,20 +42,9 @@ namespace Dolany.Ai.Core.Ai.Record.Hello
                 return false;
             }
 
-            var key = $"Hello-{MsgDTO.FromGroup}-{MsgDTO.FromQQ}";
-            var response = SCacheService.Get<HelloCache>(key);
-            if (response != null)
-            {
-                return false;
-            }
+            ProcessHello(MsgDTO);
+            ProcessMultiMediaHello(MsgDTO);
 
-            var hello = HelloList.FirstOrDefault(h => h.GroupNum == MsgDTO.FromGroup && h.QQNum == MsgDTO.FromQQ);
-            if (hello == null)
-            {
-                return false;
-            }
-
-            MsgSender.PushMsg(MsgDTO, $"{CodeApi.Code_At(MsgDTO.FromQQ)} {hello.Content}");
             AIAnalyzer.AddCommandCount(new CommandAnalyzeDTO()
             {
                 Ai = AIAttr.Name,
@@ -61,6 +53,25 @@ namespace Dolany.Ai.Core.Ai.Record.Hello
                 BindAi = MsgDTO.BindAi
             });
 
+            return false;
+        }
+
+        private void ProcessHello(MsgInformationEx MsgDTO)
+        {
+            var key = $"Hello-{MsgDTO.FromGroup}-{MsgDTO.FromQQ}";
+            var response = SCacheService.Get<HelloCache>(key);
+            if (response != null)
+            {
+                return;
+            }
+
+            var hello = HelloList.FirstOrDefault(h => h.GroupNum == MsgDTO.FromGroup && h.QQNum == MsgDTO.FromQQ);
+            if (hello == null)
+            {
+                return;
+            }
+
+            MsgSender.PushMsg(MsgDTO, $"{CodeApi.Code_At(MsgDTO.FromQQ)} {hello.Content}");
             var model = new HelloCache
             {
                 GroupNum = MsgDTO.FromGroup,
@@ -68,8 +79,38 @@ namespace Dolany.Ai.Core.Ai.Record.Hello
                 QQNum = MsgDTO.FromQQ
             };
             SCacheService.Cache(key, model);
+        }
 
-            return false;
+        private void ProcessMultiMediaHello(MsgInformationEx MsgDTO)
+        {
+            var key = $"MultiMediaHello-{MsgDTO.FromGroup}-{MsgDTO.FromQQ}";
+            var response = SCacheService.Get<MultiMediaCache>(key);
+            if (response != null)
+            {
+                return;
+            }
+
+            var hello = MultiMediaHelloList.FirstOrDefault(p => p.QQNum == MsgDTO.FromQQ);
+            if (hello == null)
+            {
+                return;
+            }
+
+            var path = "";
+            switch (hello.Location)
+            {
+                case ResourceLocationType.LocalAbsolute:
+                    path = hello.ContentPath;
+                    break;
+                case ResourceLocationType.LocalRelative:
+                    path = new FileInfo(hello.ContentPath).FullName;
+                    break;
+                case ResourceLocationType.Network:
+                    path = hello.ContentPath;
+                    break;
+            }
+
+            // todo
         }
 
         [EnterCommand(ID = "HelloAI_SaveHelloContent",

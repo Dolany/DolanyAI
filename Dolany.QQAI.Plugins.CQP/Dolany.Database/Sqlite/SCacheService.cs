@@ -48,7 +48,7 @@ namespace Dolany.Database.Sqlite
 
         public static void Cache<T>(string key, T data)
         {
-            var expTime = DateTime.Now.Hour < 4 ? DateTime.Today.AddHours(4) : CommonUtil.UntilTommorow().AddHours(4);
+            var expTime = CommonUtil.UntilTommorow();
             Cache(key, data, expTime);
         }
 
