@@ -246,7 +246,7 @@ namespace Dolany.Ai.Core.Ai.Sys
             {
                 GroupNum = groupNum,
                 Name = name,
-                BindAi = Configger.Instance["BindAi"]
+                BindAi = MsgDTO.BindAi
             };
             MongoService<GroupSettings>.Insert(setting);
             GroupSettingMgr.Instance.Refresh();

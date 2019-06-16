@@ -1,4 +1,5 @@
-﻿using System.Linq;
+﻿using System.Collections.Generic;
+using System.Linq;
 using Dolany.Ai.Core.API;
 using Dolany.Ai.Core.Common;
 using Dolany.Database.Ai;
@@ -17,7 +18,7 @@ namespace Dolany.Ai.Core.Cache
             }
 
             var setting = GroupSettingMgr.Instance[GroupNum];
-            setting.AuthInfo = new GroupAuthInfoModel {Owner = infos.owner, Mgrs = infos.adm.ToList()};
+            setting.AuthInfo = new GroupAuthInfoModel {Owner = infos.owner, Mgrs = infos.adm?.ToList() ?? new List<long>()};
 
             setting.Update();
             GroupSettingMgr.Instance.Refresh();
