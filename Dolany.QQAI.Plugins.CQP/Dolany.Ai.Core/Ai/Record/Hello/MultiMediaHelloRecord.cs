@@ -2,13 +2,15 @@
 
 namespace Dolany.Ai.Core.Ai.Record.Hello
 {
-    public class MultiMediaHelloRecord : DbBaseEntity
+    public class MultiMediaHelloRecord
     {
+        public string Name { get; set; }
+
         public long QQNum { get; set; }
 
         public string ContentPath { get; set; }
 
-        public MultiMediaResourceType Type { get; set; }
+        public MultiMediaResourceType MediaType { get; set; } 
 
         public ResourceLocationType Location { get; set; }
     }

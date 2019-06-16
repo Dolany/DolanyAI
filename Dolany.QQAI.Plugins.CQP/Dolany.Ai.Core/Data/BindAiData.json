@@ -13,5 +13,10 @@
     "SelfNum": 3484599065,
     "CommandQueue": "MsgCommand_IWS2000",
     "ClientPath": "C:/AI/IWS2000/client/"
-  }
+  },
+  "Owl": {
+    "SelfNum": 2040824098,
+    "CommandQueue": "MsgCommand_Owl",
+    "ClientPath": "C:/AI/Owl/client/"
+  } 
 }

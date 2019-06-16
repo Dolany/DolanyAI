@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Globalization;
 using System.Linq;
 using System.Threading;
 using Dolany.Ai.Common;
@@ -421,6 +422,34 @@ namespace Dolany.Ai.Core.Ai.Sys
 
                 var json = JsonConvert.SerializeObject(content);
                 MsgSender.PushMsg(MsgDTO, json);
+            }
+
+            return true;
+        }
+
+        [EnterCommand(ID = "DeveloperOnlyAI_CleanCache",
+            Command = "清理缓存 删除缓存",
+            Description = "根据key值删除缓存信息",
+            Syntax = "[key]",
+            Tag = "系统命令",
+            SyntaxChecker = "Word",
+            AuthorityLevel = AuthorityLevel.开发者,
+            IsPrivateAvailable = true)]
+        public bool CleanCache(MsgInformationEx MsgDTO, object[] param)
+        {
+            var key = param[0] as string;
+            using (var cache = new SqliteContext(Configger.Instance["CacheDb"]))
+            {
+                var content = cache.SqliteCacheModel.FirstOrDefault(p => p.Key == key);
+                if (content == null)
+                {
+                    MsgSender.PushMsg(MsgDTO, "nothing");
+                    return false;
+                }
+
+                content.ExpTime = DateTime.Now.ToString(CultureInfo.CurrentCulture);
+                cache.SaveChanges();
+                MsgSender.PushMsg(MsgDTO, "completed");
             }
 
             return true;

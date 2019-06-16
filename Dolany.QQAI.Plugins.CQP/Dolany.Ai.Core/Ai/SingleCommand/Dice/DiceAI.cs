@@ -162,6 +162,22 @@ namespace Dolany.Ai.Core.Ai.SingleCommand.Dice
 
             MsgSender.PushMsg(MsgDTO, sb, true);
         }
+
+        [EnterCommand(ID = "DiceAI_RD",
+            Command = ".rd",
+            AuthorityLevel = AuthorityLevel.成员,
+            Description = "获取1-100之间的一个随机数",
+            Syntax = "",
+            Tag = "骰娘功能",
+            SyntaxChecker = "Empty",
+            IsPrivateAvailable = true)]
+        public bool RD(MsgInformationEx MsgDTO, object[] param)
+        {
+            var rand = CommonUtil.RandInt(100) + 1;
+
+            MsgSender.PushMsg(MsgDTO, $"你掷出了 {rand} 点！", true);
+            return true;
+        }
     }
 
     public class DiceModel

@@ -27,7 +27,7 @@ namespace Dolany.Ai.Core.Ai.Record.Hello
         {
             var Groups = Global.AllGroupsDic.Keys.ToArray();
             HelloList = MongoService<HelloRecord>.Get(p => Groups.Contains(p.GroupNum));
-            MultiMediaHelloList = MongoService<MultiMediaHelloRecord>.Get();
+            MultiMediaHelloList = CommonUtil.ReadJsonData_NamedList<MultiMediaHelloRecord>("MultiMediaHelloData");
         }
 
         public override bool OnMsgReceived(MsgInformationEx MsgDTO)
@@ -96,6 +96,18 @@ namespace Dolany.Ai.Core.Ai.Record.Hello
                 return;
             }
 
+            SendMultiMediaHello(MsgDTO, hello);
+            
+            var model = new MultiMediaCache
+            {
+                QQNum = MsgDTO.FromQQ,
+                RecordID = hello.Name
+            };
+            SCacheService.Cache(key, model);
+        }
+
+        private void SendMultiMediaHello(MsgInformationEx MsgDTO, MultiMediaHelloRecord hello)
+        {
             var path = "";
             switch (hello.Location)
             {
@@ -110,7 +122,18 @@ namespace Dolany.Ai.Core.Ai.Record.Hello
                     break;
             }
 
-            // todo
+            var msg = "";
+            switch (hello.MediaType)
+            {
+                case MultiMediaResourceType.Image:
+                    msg = CodeApi.Code_Image(path);
+                    break;
+                case MultiMediaResourceType.Voice:
+                    msg = CodeApi.Code_Voice(path);
+                    break;
+            }
+
+            MsgSender.PushMsg(MsgDTO, msg);
         }
 
         [EnterCommand(ID = "HelloAI_SaveHelloContent",
@@ -137,7 +160,7 @@ namespace Dolany.Ai.Core.Ai.Record.Hello
                 };
                 MongoService<HelloRecord>.Insert(hello);
 
-                this.HelloList.Add(hello);
+                HelloList.Add(hello);
             }
             else
             {
@@ -159,7 +182,7 @@ namespace Dolany.Ai.Core.Ai.Record.Hello
             IsPrivateAvailable = false)]
         public bool SayHello(MsgInformationEx MsgDTO, object[] param)
         {
-            var query = this.HelloList.FirstOrDefault(h => h.GroupNum == MsgDTO.FromGroup && h.QQNum == MsgDTO.FromQQ);
+            var query = HelloList.FirstOrDefault(h => h.GroupNum == MsgDTO.FromGroup && h.QQNum == MsgDTO.FromQQ);
             if (query == null)
             {
                 MsgSender.PushMsg(MsgDTO, "你还没有设定过招呼内容哦~");
@@ -191,6 +214,27 @@ namespace Dolany.Ai.Core.Ai.Record.Hello
             this.HelloList.Remove(query);
 
             MsgSender.PushMsg(MsgDTO, "删除成功！");
+            return true;
+        }
+
+        [EnterCommand(ID = "HelloAI_OnStage",
+            Command = "登场",
+            AuthorityLevel = AuthorityLevel.成员,
+            Description = "显示登场特效",
+            Syntax = "",
+            Tag = "打招呼功能",
+            SyntaxChecker = "Empty",
+            IsPrivateAvailable = false)]
+        public bool OnStage(MsgInformationEx MsgDTO, object[] param)
+        {
+            var hello = MultiMediaHelloList.FirstOrDefault(p => p.QQNum == MsgDTO.FromQQ);
+            if (hello == null)
+            {
+                MsgSender.PushMsg(MsgDTO, "你还没有任何登场特效！");
+                return false;
+            }
+            SendMultiMediaHello(MsgDTO, hello);
+
             return true;
         }
     }

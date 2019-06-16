@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using Dolany.Ai.Common;
@@ -18,7 +19,9 @@ namespace Dolany.Ai.Core.Ai.SingleCommand.Tuling
     public class TulingAI : AIBase
     {
         private readonly string RequestUrl = Configger.Instance["TulingRequestUrl"];
-        private readonly string ApiKey = Configger.Instance["TulingApiKey"];
+        private List<TulingConfigModel> ApiKeys = new List<TulingConfigModel>();
+
+        private int CurTulingIndex;
 
         private readonly int[] ErroCodes =
             {
@@ -27,6 +30,7 @@ namespace Dolany.Ai.Core.Ai.SingleCommand.Tuling
 
         public override void Initialization()
         {
+            ApiKeys = CommonUtil.ReadJsonData_NamedList<TulingConfigModel>("TulingData");
         }
 
         public override bool OnMsgReceived(MsgInformationEx MsgDTO)
@@ -43,7 +47,20 @@ namespace Dolany.Ai.Core.Ai.SingleCommand.Tuling
 
             MsgDTO.FullMsg = MsgDTO.FullMsg.Replace(CodeApi.Code_At(BindAiMgr.Instance[MsgDTO.BindAi].SelfNum), string.Empty);
 
-            var response = RequestMsg(MsgDTO);
+            var i = 0;
+            string response = null;
+            for (; i < ApiKeys.Count; i++)
+            {
+                var tuling = ApiKeys[CurTulingIndex];
+                response = RequestMsg(MsgDTO, tuling.ApiKey);
+                if (!string.IsNullOrEmpty(response))
+                {
+                    break;
+                }
+
+                CurTulingIndex = (CurTulingIndex + 1) % ApiKeys.Count;
+            }
+
             if (string.IsNullOrEmpty(response))
             {
                 MsgSender.PushMsg(MsgDTO, "今天太累了，明天再找我说话吧~", MsgDTO.Type == MsgType.Group);
@@ -61,9 +78,9 @@ namespace Dolany.Ai.Core.Ai.SingleCommand.Tuling
             return true;
         }
 
-        private string RequestMsg(MsgInformationEx MsgDTO)
+        private string RequestMsg(MsgInformationEx MsgDTO, string ApiKey)
         {
-            var post = GetPostReq(MsgDTO);
+            var post = GetPostReq(MsgDTO, ApiKey);
             if (post == null)
             {
                 return string.Empty;
@@ -78,7 +95,7 @@ namespace Dolany.Ai.Core.Ai.SingleCommand.Tuling
             return ParseResponse(response);
         }
 
-        private PostReq_Param GetPostReq(MsgInformationEx MsgDTO)
+        private PostReq_Param GetPostReq(MsgInformationEx MsgDTO, string ApiKey)
         {
             var bindAi = BindAiMgr.Instance[MsgDTO.BindAi];
             var imageInfo = ParseImgText(MsgDTO.FullMsg, bindAi.ImagePath);
