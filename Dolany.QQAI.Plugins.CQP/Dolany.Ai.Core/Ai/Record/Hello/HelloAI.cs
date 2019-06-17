@@ -42,33 +42,36 @@ namespace Dolany.Ai.Core.Ai.Record.Hello
                 return false;
             }
 
-            ProcessHello(MsgDTO);
-            ProcessMultiMediaHello(MsgDTO);
+            var result = ProcessHello(MsgDTO);
+            result |= ProcessMultiMediaHello(MsgDTO);
 
-            AIAnalyzer.AddCommandCount(new CommandAnalyzeDTO()
+            if (result)
             {
-                Ai = AIAttr.Name,
-                Command = "HelloOverride",
-                GroupNum = MsgDTO.FromGroup,
-                BindAi = MsgDTO.BindAi
-            });
+                AIAnalyzer.AddCommandCount(new CommandAnalyzeDTO()
+                {
+                    Ai = AIAttr.Name,
+                    Command = "HelloOverride",
+                    GroupNum = MsgDTO.FromGroup,
+                    BindAi = MsgDTO.BindAi
+                });
+            }
 
             return false;
         }
 
-        private void ProcessHello(MsgInformationEx MsgDTO)
+        private bool ProcessHello(MsgInformationEx MsgDTO)
         {
             var key = $"Hello-{MsgDTO.FromGroup}-{MsgDTO.FromQQ}";
             var response = SCacheService.Get<HelloCache>(key);
             if (response != null)
             {
-                return;
+                return false;
             }
 
             var hello = HelloList.FirstOrDefault(h => h.GroupNum == MsgDTO.FromGroup && h.QQNum == MsgDTO.FromQQ);
             if (hello == null)
             {
-                return;
+                return false;
             }
 
             MsgSender.PushMsg(MsgDTO, $"{CodeApi.Code_At(MsgDTO.FromQQ)} {hello.Content}");
@@ -79,31 +82,32 @@ namespace Dolany.Ai.Core.Ai.Record.Hello
                 QQNum = MsgDTO.FromQQ
             };
             SCacheService.Cache(key, model);
+            return true;
         }
 
-        private void ProcessMultiMediaHello(MsgInformationEx MsgDTO)
+        private bool ProcessMultiMediaHello(MsgInformationEx MsgDTO)
         {
             var key = $"MultiMediaHello-{MsgDTO.FromGroup}-{MsgDTO.FromQQ}";
             var response = SCacheService.Get<MultiMediaCache>(key);
             if (response != null)
             {
-                return;
+                return false;
             }
 
             var hello = MultiMediaHelloList.FirstOrDefault(p => p.QQNum == MsgDTO.FromQQ);
             if (hello == null)
             {
-                return;
+                return false;
             }
 
             SendMultiMediaHello(MsgDTO, hello);
-            
             var model = new MultiMediaCache
             {
                 QQNum = MsgDTO.FromQQ,
                 RecordID = hello.Name
             };
             SCacheService.Cache(key, model);
+            return true;
         }
 
         private void SendMultiMediaHello(MsgInformationEx MsgDTO, MultiMediaHelloRecord hello)
