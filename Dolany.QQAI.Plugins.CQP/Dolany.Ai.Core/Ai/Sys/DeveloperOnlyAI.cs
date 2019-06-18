@@ -33,12 +33,12 @@ namespace Dolany.Ai.Core.Ai.Sys
         public bool Board(MsgInformationEx MsgDTO, object[] param)
         {
             var content = param[0] as string;
-            var groups = GroupSettingMgr.Instance.SettingDic;
+            var groups = GroupSettingMgr.Instance.SettingDic.Values.Where(g => g.ExpiryTime.HasValue && g.ExpiryTime.Value > DateTime.Now);
 
-            foreach (var (_, value) in groups)
+            foreach (var group in groups)
             {
                 MsgSender.PushMsg(
-                    new MsgCommand { Command = CommandType.SendGroup, Msg = content, ToGroup = value.GroupNum, BindAi = value.BindAi});
+                    new MsgCommand { Command = CommandType.SendGroup, Msg = content, ToGroup = group.GroupNum, BindAi = group.BindAi});
 
                 Thread.Sleep(2000);
             }

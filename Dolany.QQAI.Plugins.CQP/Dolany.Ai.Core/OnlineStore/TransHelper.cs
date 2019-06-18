@@ -47,7 +47,7 @@ namespace Dolany.Ai.Core.OnlineStore
             return randSort.Select(rs => new DailySellItemModel
             {
                 Name = rs.Name,
-                Price = HonorHelper.GetItemPrice(rs, 0) * 2
+                Price = rs.Price * 2
             }).ToArray();
         }
 
