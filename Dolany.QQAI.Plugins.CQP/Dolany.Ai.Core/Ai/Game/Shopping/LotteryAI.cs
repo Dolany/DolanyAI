@@ -50,7 +50,7 @@ namespace Dolany.Ai.Core.Ai.Game.Shopping
                 return false;
             }
 
-            if (!Waiter.Instance.WaitForConfirm_Gold(MsgDTO, LotteryFee, 7))
+            if (!Waiter.Instance.WaitForConfirm_Gold(MsgDTO, LotteryFee))
             {
                 MsgSender.PushMsg(MsgDTO, "操作取消！");
                 return false;
@@ -99,7 +99,7 @@ namespace Dolany.Ai.Core.Ai.Game.Shopping
             var cache = PersonCacheRecord.Get(MsgDTO.FromQQ, "抽奖");
             if (string.IsNullOrEmpty(cache.Value) || !int.TryParse(cache.Value, out var times) || times <= 0)
             {
-                MsgSender.PushMsg(MsgDTO, "你没有抽奖机会！");
+                MsgSender.PushMsg(MsgDTO, "你没有抽奖机会！", true);
                 return false;
             }
 
@@ -142,7 +142,7 @@ namespace Dolany.Ai.Core.Ai.Game.Shopping
                 return false;
             }
 
-            if (!Waiter.Instance.WaitForConfirm_Gold(MsgDTO, 500, 7))
+            if (!Waiter.Instance.WaitForConfirm_Gold(MsgDTO, 500))
             {
                 MsgSender.PushMsg(MsgDTO, "操作取消");
                 return false;

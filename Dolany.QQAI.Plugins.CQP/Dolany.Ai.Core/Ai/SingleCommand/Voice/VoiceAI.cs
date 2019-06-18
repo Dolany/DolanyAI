@@ -179,6 +179,20 @@ namespace Dolany.Ai.Core.Ai.SingleCommand.Voice
             return RandVoice(MsgDTO, "镇魂街");
         }
 
+        [EnterCommand(ID = "VoiceAI_秦时明月Voice",
+            Command = "秦时明月语音",
+            AuthorityLevel = AuthorityLevel.成员,
+            Description = "获取秦时明月的随机语音",
+            Syntax = "",
+            Tag = "语音功能",
+            SyntaxChecker = "Empty",
+            IsPrivateAvailable = true,
+            DailyLimit = 5)]
+        public bool 秦时明月Voice(MsgInformationEx MsgDTO, object[] param)
+        {
+            return RandVoice(MsgDTO, "秦时明月");
+        }
+
         private bool RandVoice(MsgInformationEx MsgDTO, string name)
         {
             var folderPath = "./voices/" + name;
