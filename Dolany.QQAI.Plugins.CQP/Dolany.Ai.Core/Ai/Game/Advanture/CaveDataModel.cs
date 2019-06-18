@@ -5,7 +5,7 @@ using Dolany.Ai.Core.Ai.Game.Advanture.Cave;
 
 namespace Dolany.Ai.Core.Ai.Game.Advanture
 {
-    public class CaveDataModel
+    public class CaveDataModel : INamedJsonModel
     {
         public string Name { get; set; }
         public int No { get; set; }

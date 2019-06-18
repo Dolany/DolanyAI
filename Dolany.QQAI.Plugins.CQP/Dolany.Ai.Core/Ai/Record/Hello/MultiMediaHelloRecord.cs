@@ -1,8 +1,8 @@
-﻿using Dolany.Database;
+﻿using Dolany.Ai.Common;
 
 namespace Dolany.Ai.Core.Ai.Record.Hello
 {
-    public class MultiMediaHelloRecord
+    public class MultiMediaHelloRecord : INamedJsonModel
     {
         public string Name { get; set; }
 
@@ -10,7 +10,7 @@ namespace Dolany.Ai.Core.Ai.Record.Hello
 
         public string ContentPath { get; set; }
 
-        public MultiMediaResourceType MediaType { get; set; } 
+        public MultiMediaResourceType MediaType { get; set; }
 
         public ResourceLocationType Location { get; set; }
     }

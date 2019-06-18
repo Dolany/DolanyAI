@@ -266,7 +266,7 @@ namespace Dolany.Ai.Core.Ai.SingleCommand.Fortune
         }
     }
 
-    public class TarotFortuneDataModel
+    public class TarotFortuneDataModel : INamedJsonModel
     {
         public string Name { get; set; }
         public bool IsPos { get; set; }
@@ -274,7 +274,7 @@ namespace Dolany.Ai.Core.Ai.SingleCommand.Fortune
         public string PicSrc { get; set; }
     }
 
-    public class FortuneItemModel
+    public class FortuneItemModel : INamedJsonModel
     {
         public string Name { get; set; }
         public string Description { get; set;}

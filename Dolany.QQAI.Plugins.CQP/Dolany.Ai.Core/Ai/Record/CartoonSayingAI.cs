@@ -82,6 +82,7 @@ namespace Dolany.Ai.Core.Ai.Record
             var ranSaying = GetRanSaying(MsgDTO.FromGroup, keyword);
             if (string.IsNullOrEmpty(ranSaying))
             {
+                MsgSender.PushMsg(MsgDTO, "没有任何相关语录！");
                 return;
             }
 

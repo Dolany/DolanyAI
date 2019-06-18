@@ -1,6 +1,8 @@
-﻿namespace Dolany.Ai.Core.Ai.SingleCommand.Tuling
+﻿using Dolany.Ai.Common;
+
+namespace Dolany.Ai.Core.Ai.SingleCommand.Tuling
 {
-    public class TulingConfigModel
+    public class TulingConfigModel : INamedJsonModel
     {
         public string Name { get; set; }
 

@@ -51,7 +51,7 @@ namespace Dolany.Ai.Core.Ai.Game.Gift
         }
     }
 
-    public class GiftModel
+    public class GiftModel : INamedJsonModel
     {
         public string Name { get; set; }
 

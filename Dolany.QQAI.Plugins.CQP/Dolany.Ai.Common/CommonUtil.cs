@@ -31,19 +31,13 @@ namespace Dolany.Ai.Common
             }
         }
 
-        public static List<T> ReadJsonData_NamedList<T>(string jsonName)
+        public static List<T> ReadJsonData_NamedList<T>(string jsonName) where T : class, INamedJsonModel
         {
             var dic = ReadJsonData<Dictionary<string, T>>(jsonName);
-            var type = typeof(T);
-            var prop = type.GetProperty("Name");
-            if (prop == null || !prop.CanWrite)
-            {
-                return dic.Values.ToList();
-            }
 
             foreach (var (key, value) in dic)
             {
-                prop.SetValue(value, key);
+                value.Name = key;
             }
 
             return dic.Values.ToList();
@@ -90,6 +84,14 @@ namespace Dolany.Ai.Common
             return dt.ToString("yyyy-MM-dd HH:mm:ss");
         }
 
+        /// <summary>
+        /// 根据表达式去除字典中的某些项目
+        /// </summary>
+        /// <typeparam name="TKey">Key类型</typeparam>
+        /// <typeparam name="TValue">Value类型</typeparam>
+        /// <param name="dic">字典</param>
+        /// <param name="valueExpression">Value判定表达式</param>
+        /// <exception cref="NullReferenceException">dic为空</exception>
         public static void Remove<TKey, TValue>(this Dictionary<TKey, TValue> dic, Expression<Predicate<TValue>> valueExpression)
         {
             if (dic == null || !dic.Any())
