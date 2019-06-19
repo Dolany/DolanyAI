@@ -30,17 +30,17 @@ namespace Dolany.Ai.Core.Ai.Game.ChessAgainst
             Description = "随机复制一件对手的物品")]
         public void 浓雾()
         {
-            var query = DriftItemRecord.GetRecord(AimQQNum);
-            if (query == null || query.ItemCount.IsNullOrEmpty())
+            var query = ItemCollectionRecord.Get(AimQQNum);
+            if (query == null || query.HonorCollections.IsNullOrEmpty())
             {
                 MsgSender.PushMsg(GroupNum, 0, "对手没有任何物品！", BindAi);
                 return;
             }
 
-            var item = query.ItemCount.RandElement();
-            var record = DriftItemRecord.GetRecord(SelfQQNum);
-            var msg = record.ItemIncome(item.Name);
-            MsgSender.PushMsg(GroupNum, 0, $"你获得了 {item.Name}！\r{msg}", BindAi);
+            var (key, _) = query.HonorCollections.SelectMany(p => p.Value.Items).RandElement();
+            var record = ItemCollectionRecord.Get(SelfQQNum);
+            var msg = record.ItemIncome(key);
+            MsgSender.PushMsg(GroupNum, 0, $"你获得了 {key}！\r{msg}", BindAi);
         }
 
         [ChessEffect(Name = "烈日",
@@ -146,7 +146,7 @@ namespace Dolany.Ai.Core.Ai.Game.ChessAgainst
         {
             var sellingItems = TransHelper.GetDailySellItems();
             var item = sellingItems.RandElement();
-            var record = DriftItemRecord.GetRecord(SelfQQNum);
+            var record = ItemCollectionRecord.Get(SelfQQNum);
             var msg = record.ItemIncome(item.Name);
 
             MsgSender.PushMsg(GroupNum, 0, $"你获得了：{item.Name}\r{msg}", BindAi);
@@ -173,24 +173,24 @@ namespace Dolany.Ai.Core.Ai.Game.ChessAgainst
             Description = "强制贩卖一个随机物品给系统商店")]
         public void 雹()
         {
-            var record = DriftItemRecord.GetRecord(SelfQQNum);
-            if (record.ItemCount.IsNullOrEmpty())
+            var record = ItemCollectionRecord.Get(SelfQQNum);
+            if (record.HonorCollections.IsNullOrEmpty())
             {
                 MsgSender.PushMsg(GroupNum, 0, "你没有任何物品", BindAi);
                 return;
             }
 
-            var commonItems = record.ItemCount.Where(ic => !HonorHelper.Instance.IsLimit(ic.Name)).ToList();
+            var commonItems = record.HonorCollections.Where(p => p.Value.Type == HonorType.Normal).SelectMany(p => p.Value.Items).ToList();
             if (commonItems.IsNullOrEmpty())
             {
                 MsgSender.PushMsg(GroupNum, 0, "你没有任何非限定物品", BindAi);
                 return;
             }
 
-            var item = commonItems.RandElement();
+            var (key, _) = commonItems.RandElement();
 
-            var golds = TransHelper.SellItemToShop(SelfQQNum, item.Name);
-            MsgSender.PushMsg(GroupNum, 0, $"你贩卖了 {item.Name}\r你当前拥有金币 {golds}", BindAi);
+            var golds = TransHelper.SellItemToShop(SelfQQNum, key);
+            MsgSender.PushMsg(GroupNum, 0, $"你贩卖了 {key}\r你当前拥有金币 {golds}", BindAi);
         }
 
         [ChessEffect(Name = "花昙",

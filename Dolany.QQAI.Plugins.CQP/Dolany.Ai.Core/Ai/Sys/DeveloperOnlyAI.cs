@@ -97,7 +97,7 @@ namespace Dolany.Ai.Core.Ai.Sys
                 return false;
             }
 
-            var record = DriftItemRecord.GetRecord(qqNum);
+            var record = ItemCollectionRecord.Get(qqNum);
             var msg = record.ItemIncome(itemName, count);
             if (!string.IsNullOrEmpty(msg))
             {

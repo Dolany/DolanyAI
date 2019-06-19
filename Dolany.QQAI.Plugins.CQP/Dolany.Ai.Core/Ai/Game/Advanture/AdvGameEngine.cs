@@ -6,7 +6,6 @@ using Dolany.Ai.Common;
 using Dolany.Ai.Core.Ai.Game.Advanture.Cave;
 using Dolany.Ai.Core.Cache;
 using Dolany.Ai.Core.OnlineStore;
-using Dolany.Database.Ai;
 
 namespace Dolany.Ai.Core.Ai.Game.Advanture
 {
@@ -14,7 +13,7 @@ namespace Dolany.Ai.Core.Ai.Game.Advanture
     {
         public readonly long GroupNum;
 
-        public string BindAi;
+        public readonly string BindAi;
 
         public readonly AdvPlayer[] players;
 
@@ -210,7 +209,7 @@ namespace Dolany.Ai.Core.Ai.Game.Advanture
                 var item = items.RandElement();
                 MsgSender.PushMsg(GroupNum, p.QQNum, $"你已经累计赢得 {p.WinTotal}场对决，获取额外奖励 {item.Name}*1", BindAi);
 
-                var record = DriftItemRecord.GetRecord(p.QQNum);
+                var record = ItemCollectionRecord.Get(p.QQNum);
                 var honorMsg = record.ItemIncome(item.Name);
                 if (!string.IsNullOrEmpty(honorMsg))
                 {

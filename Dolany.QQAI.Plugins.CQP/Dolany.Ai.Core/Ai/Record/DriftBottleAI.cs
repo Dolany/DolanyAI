@@ -100,15 +100,15 @@ namespace Dolany.Ai.Core.Ai.Record
             IsPrivateAvailable = true)]
         public bool MyItems(MsgInformationEx MsgDTO, object[] param)
         {
-            var query = DriftItemRecord.GetRecord(MsgDTO.FromQQ);
-            if (!query.ItemCount.Any())
+            var query = ItemCollectionRecord.Get(MsgDTO.FromQQ);
+            if (query.TotalItemCount() == 0)
             {
                 MsgSender.PushMsg(MsgDTO, "你的背包空空如也~", true);
                 return false;
             }
 
-            var itemMsgs = HonorHelper.Instance.GetOrderedItemsStr(
-                query.ItemCount.Where(p => !HonorHelper.Instance.IsLimit(p.Name)));
+            var itemMsgs = HonorHelper.Instance.GetOrderedItemsStr(query.HonorCollections.Where(p => p.Value.Type == HonorType.Normal).SelectMany(p => p.Value.Items)
+                .ToDictionary(p => p.Key, p => p.Value));
             var msg = $"你收集到的物品有：\r{string.Join("\r", itemMsgs.Take(7))}";
             if (itemMsgs.Count > 7)
             {
@@ -128,15 +128,15 @@ namespace Dolany.Ai.Core.Ai.Record
             IsPrivateAvailable = true)]
         public bool MyLimitItems(MsgInformationEx MsgDTO, object[] param)
         {
-            var query = DriftItemRecord.GetRecord(MsgDTO.FromQQ);
-            if (!query.ItemCount.Any())
+            var query = ItemCollectionRecord.Get(MsgDTO.FromQQ);
+            if (query.TotalItemCount() == 0)
             {
                 MsgSender.PushMsg(MsgDTO, "你的背包空空如也~", true);
                 return false;
             }
 
-            var itemMsgs = HonorHelper.Instance.GetOrderedItemsStr(
-                query.ItemCount.Where(p => HonorHelper.Instance.IsLimit(p.Name)));
+            var itemMsgs = HonorHelper.Instance.GetOrderedItemsStr(query.HonorCollections.Where(p => p.Value.Type == HonorType.Limit).SelectMany(p => p.Value.Items)
+                .ToDictionary(p => p.Key, p => p.Value));
             var msg = $"你收集到的限定物品有：\r{string.Join("\r", itemMsgs.Take(7))}";
             MsgSender.PushMsg(MsgDTO, msg, true);
             return true;
@@ -154,15 +154,15 @@ namespace Dolany.Ai.Core.Ai.Record
         {
             var pageNo = (int) (long) param[0];
 
-            var query = DriftItemRecord.GetRecord(MsgDTO.FromQQ);
-            if (!query.ItemCount.Any())
+            var query = ItemCollectionRecord.Get(MsgDTO.FromQQ);
+            if (query.TotalItemCount() == 0)
             {
                 MsgSender.PushMsg(MsgDTO, "你的背包空空如也~", true);
                 return false;
             }
 
-            var itemMsgs = HonorHelper.Instance.GetOrderedItemsStr(
-                query.ItemCount.Where(p => !HonorHelper.Instance.IsLimit(p.Name)));
+            var itemMsgs = HonorHelper.Instance.GetOrderedItemsStr(query.HonorCollections.Where(p => p.Value.Type == HonorType.Normal).SelectMany(p => p.Value.Items)
+                .ToDictionary(p => p.Key, p => p.Value));
             var totalPageCount = (itemMsgs.Count - 1) / 7 + 1;
             if (pageNo <= 0 || pageNo > totalPageCount)
             {
@@ -186,7 +186,7 @@ namespace Dolany.Ai.Core.Ai.Record
             IsPrivateAvailable = true)]
         public bool MyHonors(MsgInformationEx MsgDTO, object[] param)
         {
-            var query = DriftItemRecord.GetRecord(MsgDTO.FromQQ);
+            var query = ItemCollectionRecord.Get(MsgDTO.FromQQ);
             if (query.HonorList == null || !query.HonorList.Any())
             {
                 MsgSender.PushMsg(MsgDTO, "你还没有获得任何成就，继续加油吧~", true);
@@ -207,13 +207,15 @@ namespace Dolany.Ai.Core.Ai.Record
             }
 
             var item = HonorHelper.Instance.RandItem();
-            var record = DriftItemRecord.GetRecord(MsgDTO.FromQQ);
+            var record = ItemCollectionRecord.Get(MsgDTO.FromQQ);
+            var honorName = HonorHelper.Instance.FindHonorName(item.Name);
+
             var s = record.ItemIncome(item.Name);
             var msg = $"你捞到了 {item.Name} \r" +
                       $"    {item.Description} \r" +
                       $"稀有率为 {HonorHelper.Instance.ItemRate(item)}%\r" +
                       $"售价为：{HonorHelper.GetItemPrice(item, MsgDTO.FromQQ)} 金币\r" +
-                      $"你总共拥有该物品 {record.GetCount(item.Name)}个";
+                      $"你总共拥有该物品 {record.HonorCollections[honorName].Items[item.Name]}个";
 
             if (!string.IsNullOrEmpty(s))
             {
@@ -253,7 +255,7 @@ namespace Dolany.Ai.Core.Ai.Record
                 return false;
             }
 
-            var record = DriftItemRecord.GetRecord(MsgDTO.FromQQ);
+            var record = ItemCollectionRecord.Get(MsgDTO.FromQQ);
             var msg = $"物品名称：{item.Name}\r" +
                       $"物品描述：{item.Description}\r" +
                       $"稀有率：{HonorHelper.Instance.ItemRate(item)}%\r" +
@@ -282,7 +284,7 @@ namespace Dolany.Ai.Core.Ai.Record
                 return false;
             }
 
-            var record = DriftItemRecord.GetRecord(MsgDTO.FromQQ);
+            var record = ItemCollectionRecord.Get(MsgDTO.FromQQ);
             var items = honor.Items.Select(h => $"{h.Name}*{record.GetCount(h.Name)}");
             var itemsMsg = string.Join(",", items);
             var msg = $"解锁成就 {honor.FullName} 需要集齐：{itemsMsg}";
@@ -304,17 +306,15 @@ namespace Dolany.Ai.Core.Ai.Record
                 h is LimitHonorModel && ((LimitHonorModel) h).Year == DateTime.Now.Year && ((LimitHonorModel) h).Month == DateTime.Now.Month);
             var LimitItemsNames = LimitHonor.Items.Select(i => i.Name);
 
-            var allRecord = MongoService<DriftItemRecord>.Get(r => r.ItemCount.Any(p => LimitItemsNames.Contains(p.Name)) || r.HonorList.Contains(LimitHonor.Name));
+            var allRecord = MongoService<ItemCollectionRecord>.Get(r => r.HonorCollections.ContainsKey(LimitHonor.Name));
             var itemDic = LimitItemsNames.ToDictionary(p => p, p => 0);
 
             foreach (var record in allRecord)
             {
-                foreach (var countRecord in record.ItemCount)
+                var colle = record.HonorCollections[LimitHonor.Name];
+                foreach (var (key, value) in colle.Items)
                 {
-                    if (itemDic.ContainsKey(countRecord.Name))
-                    {
-                        itemDic[countRecord.Name] += countRecord.Count;
-                    }
+                    itemDic[key] += value;
                 }
             }
 

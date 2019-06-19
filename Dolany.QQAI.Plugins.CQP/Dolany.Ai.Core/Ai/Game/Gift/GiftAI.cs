@@ -42,8 +42,8 @@ namespace Dolany.Ai.Core.Ai.Game.Gift
                 return false;
             }
 
-            var itemRecord = DriftItemRecord.GetRecord(MsgDTO.FromQQ);
-            var mdic = itemRecord.ItemCount.ToDictionary(p => p.Name, p => p.Count);
+            var itemRecord = ItemCollectionRecord.Get(MsgDTO.FromQQ);
+            var mdic = itemRecord.HonorCollections.SelectMany(p => p.Value.Items).ToDictionary(p => p.Key, p => p.Value);
             var osPerson = OSPerson.GetPerson(MsgDTO.FromQQ);
             if (!gift.Check(mdic, osPerson.Golds, out var msg))
             {

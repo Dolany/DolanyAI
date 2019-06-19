@@ -74,9 +74,9 @@ namespace Dolany.Ai.Core.Ai.Game.Shopping
                 return false;
             }
 
-            var record = DriftItemRecord.GetRecord(MsgDTO.FromQQ);
-            var ics = record.ItemCount?.Where(p => p.Count > 1).ToList();
-            if (ics == null || ics.Count == 0)
+            var record = ItemCollectionRecord.Get(MsgDTO.FromQQ);
+            var ics = record.HonorCollections.Values.SelectMany(hc => hc.Items.Where(p => p.Value > 1)).ToList();
+            if (ics.IsNullOrEmpty())
             {
                 MsgSender.PushMsg(MsgDTO, "你没有任何多余的物品！");
                 return false;
@@ -84,10 +84,10 @@ namespace Dolany.Ai.Core.Ai.Game.Shopping
 
             var ictm = ics.Select(p => new
             {
-                p.Name,
-                Count = p.Count - 1,
-                IsLimit = HonorHelper.Instance.IsLimit(p.Name),
-                Price = HonorHelper.GetItemPrice(HonorHelper.Instance.FindItem(p.Name), MsgDTO.FromQQ)
+                p.Key,
+                Count = p.Value - 1,
+                IsLimit = HonorHelper.Instance.IsLimit(p.Key),
+                Price = HonorHelper.GetItemPrice(HonorHelper.Instance.FindItem(p.Key), MsgDTO.FromQQ)
             }).ToList();
             var msg = $"你即将贩卖{ictm.Sum(i => i.Count)}件物品，" +
                       $"其中有{ictm.Count(i => i.IsLimit)}件限定物品，" +
@@ -100,7 +100,7 @@ namespace Dolany.Ai.Core.Ai.Game.Shopping
 
             foreach (var ic in ictm)
             {
-                record.ItemConsume(ic.Name, ic.Count);
+                record.ItemConsume(ic.Key, ic.Count);
             }
             record.Update();
 
@@ -114,7 +114,7 @@ namespace Dolany.Ai.Core.Ai.Game.Shopping
 
         private static void SellItem(MsgInformationEx MsgDTO, DriftBottleItemModel item)
         {
-            var record = DriftItemRecord.GetRecord(MsgDTO.FromQQ);
+            var record = ItemCollectionRecord.Get(MsgDTO.FromQQ);
             if (!record.CheckItem(item.Name))
             {
                 MsgSender.PushMsg(MsgDTO, "你的背包里没有该物品！");
@@ -135,16 +135,16 @@ namespace Dolany.Ai.Core.Ai.Game.Shopping
 
         private static void SellHonor(MsgInformationEx MsgDTO, string honorName)
         {
-            var query = MongoService<DriftItemRecord>.GetOnly(r => r.QQNum == MsgDTO.FromQQ);
-            if (query == null || query.ItemCount.IsNullOrEmpty())
+            var query = MongoService<ItemCollectionRecord>.GetOnly(r => r.QQNum == MsgDTO.FromQQ);
+            if (query == null || query.HonorCollections.IsNullOrEmpty())
             {
                 MsgSender.PushMsg(MsgDTO, "你尚未拥有任何物品！");
                 return;
             }
 
             var items = HonorHelper.Instance.FindHonor(honorName).Items;
-            var itemsOwned = query.ItemCount.Where(ic => items.Any(i => i.Name == ic.Name)).ToList();
-            if (itemsOwned.Count < items.Count || itemsOwned.Any(io => io.Count <= 0))
+            var honorCollection = query.HonorCollections;
+            if (!honorCollection.ContainsKey(honorName) || honorCollection[honorName].Items.Count < items.Count)
             {
                 MsgSender.PushMsg(MsgDTO, "你尚未集齐该成就下的所有物品！");
                 return;
@@ -176,7 +176,7 @@ namespace Dolany.Ai.Core.Ai.Game.Shopping
             var golds = osPerson.Golds;
 
             var sellItems = TransHelper.GetDailySellItems();
-            var record = DriftItemRecord.GetRecord(MsgDTO.FromQQ);
+            var record = ItemCollectionRecord.Get(MsgDTO.FromQQ);
             var itemsStr = string.Join("\r", sellItems.Select(si =>
                 $"{si.Name}({HonorHelper.Instance.FindHonorFullName(si.Name)})({record.GetCount(si.Name)})：{si.Price}金币"));
 
@@ -226,7 +226,7 @@ namespace Dolany.Ai.Core.Ai.Game.Shopping
                 return false;
             }
 
-            var record = DriftItemRecord.GetRecord(MsgDTO.FromQQ);
+            var record = ItemCollectionRecord.Get(MsgDTO.FromQQ);
             var incomeMsg = record.ItemIncome(sellItem.Name);
             if (!string.IsNullOrEmpty(incomeMsg))
             {
@@ -275,7 +275,7 @@ namespace Dolany.Ai.Core.Ai.Game.Shopping
                     return false;
                 }
 
-                var aimRecord = DriftItemRecord.GetRecord(aimQQ);
+                var aimRecord = ItemCollectionRecord.Get(aimQQ);
                 if (!aimRecord.CheckItem(itemName))
                 {
                     MsgSender.PushMsg(MsgDTO, "对方没有该物品！");
@@ -311,7 +311,7 @@ namespace Dolany.Ai.Core.Ai.Game.Shopping
                 aimRecord.ItemConsume(itemName);
                 aimRecord.Update();
 
-                var sourceRecord = DriftItemRecord.GetRecord(MsgDTO.FromQQ);
+                var sourceRecord = ItemCollectionRecord.Get(MsgDTO.FromQQ);
                 var content = sourceRecord.ItemIncome(itemName);
                 if (!string.IsNullOrEmpty(content))
                 {
@@ -346,7 +346,7 @@ namespace Dolany.Ai.Core.Ai.Game.Shopping
         public bool ViewItem(MsgInformationEx MsgDTO, object[] param)
         {
             var osPerson = OSPerson.GetPerson(MsgDTO.FromQQ);
-            var itemRecord = DriftItemRecord.GetRecord(MsgDTO.FromQQ);
+            var itemRecord = ItemCollectionRecord.Get(MsgDTO.FromQQ);
             var advPlayer = AdvPlayer.GetPlayer(MsgDTO.FromQQ);
             var glamourRecord = GlamourRecord.Get(MsgDTO.FromGroup, MsgDTO.FromQQ);
 
@@ -383,7 +383,7 @@ namespace Dolany.Ai.Core.Ai.Game.Shopping
             var aimNum = (long) param[0];
             var name = param[1] as string;
 
-            var sourceRecord = DriftItemRecord.GetRecord(MsgDTO.FromQQ);
+            var sourceRecord = ItemCollectionRecord.Get(MsgDTO.FromQQ);
             if (!sourceRecord.CheckItem(name))
             {
                 MsgSender.PushMsg(MsgDTO, "你没有此物品", true);
@@ -404,7 +404,7 @@ namespace Dolany.Ai.Core.Ai.Game.Shopping
 
             sourceRecord.ItemConsume(name);
             sourceRecord.Update();
-            var aimRecord = DriftItemRecord.GetRecord(aimNum);
+            var aimRecord = ItemCollectionRecord.Get(aimNum);
             var msg = aimRecord.ItemIncome(name);
 
             var res = "赠送成功！";

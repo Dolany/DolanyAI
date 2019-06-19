@@ -110,36 +110,6 @@ namespace Dolany.Ai.Core.OnlineStore
             return HonorList.FirstOrDefault(p => p.Items.Any(i => i.Name == itemName))?.Name;
         }
 
-        public bool CheckHonor(DriftItemRecord record, string honorName, out string msg)
-        {
-            msg = string.Empty;
-            if (record?.ItemCount == null)
-            {
-                return false;
-            }
-
-            var honorCount = 0;
-            var honor = FindHonor(honorName);
-            if (record.HonorList == null || !record.HonorList.Contains(honor.Name))
-            {
-                honorCount = record.ItemCount.Count(p => honor.Items.Any(ps => ps.Name == p.Name));
-            }
-
-            if (honorCount == 0)
-            {
-                return false;
-            }
-
-            if (honorCount < honor.Items.Count)
-            {
-                msg = $"成就 {honor.FullName} 完成度：{honorCount}/{honor.Items.Count}";
-                return false;
-            }
-
-            msg = $"恭喜你解锁了成就 {honor.FullName}! (集齐物品：{string.Join("，", honor.Items.Select(p => p.Name))})";
-            return true;
-        }
-
         private DriftBottleItemModel LocalateItem(int index)
         {
             var totalSum = 0;
@@ -170,12 +140,12 @@ namespace Dolany.Ai.Core.OnlineStore
             return Math.Round(item.Rate * 1.0 / this.SumRate * 100, 2);
         }
 
-        public IList<string> GetOrderedItemsStr(IEnumerable<DriftItemCountRecord> items)
+        public IList<string> GetOrderedItemsStr(Dictionary<string, int> items)
         {
-            var itemHonorDic = items.Select(i => new {Honor = FindHonorFullName(i.Name), i.Name, i.Count})
+            var itemHonorDic = items.Select(i => new {Honor = FindHonorFullName(i.Key), i.Key, i.Value})
                 .GroupBy(p => p.Honor)
                 .ToDictionary(p => p.Key, p => p.ToList());
-            var list = itemHonorDic.Select(kv => $"{kv.Key}:{string.Join(",", kv.Value.Select(p => $"{p.Name}*{p.Count}"))}");
+            var list = itemHonorDic.Select(kv => $"{kv.Key}:{string.Join(",", kv.Value.Select(p => $"{p.Key}*{p.Value}"))}");
             return list.ToList();
         }
     }

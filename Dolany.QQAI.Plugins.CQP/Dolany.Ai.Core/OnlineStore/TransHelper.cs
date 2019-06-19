@@ -2,7 +2,6 @@
 using System.Linq;
 using Dolany.Ai.Common;
 using Dolany.Ai.Core.Cache;
-using Dolany.Database.Ai;
 using Newtonsoft.Json;
 
 namespace Dolany.Ai.Core.OnlineStore
@@ -14,27 +13,24 @@ namespace Dolany.Ai.Core.OnlineStore
             var price = HonorHelper.GetItemPrice(HonorHelper.Instance.FindItem(itemName), QQNum);
 
             var golds = OSPerson.GoldIncome(QQNum, price);
-            var record = DriftItemRecord.GetRecord(QQNum);
+            var record = ItemCollectionRecord.Get(QQNum);
             record.ItemConsume(itemName);
             record.Update();
 
             return golds;
         }
 
-        public static int SellHonorToShop(DriftItemRecord query, long qqNum, string honorName)
+        public static int SellHonorToShop(ItemCollectionRecord record, long qqNum, string honorName)
         {
             var price = HonorHelper.Instance.GetHonorPrice(honorName, qqNum);
             var golds = OSPerson.GoldIncome(qqNum, price);
-            var items = HonorHelper.Instance.FindHonor(honorName).Items;
-            var itemsOwned = query.ItemCount.Where(ic => items.Any(i => i.Name == ic.Name)).ToList();
-
-            foreach (var record in itemsOwned)
+            var honorCollection = record.HonorCollections[honorName];
+            for (var i = 0; i < honorCollection.Items.Count; i++)
             {
-                record.Count--;
+                var (key, value) = honorCollection.Items.ElementAt(i);
+                honorCollection.Items[key] = value - 1;
             }
-
-            query.HonorList.Remove(honorName);
-            query.Update();
+            record.Update();
 
             return golds;
         }
