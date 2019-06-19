@@ -58,7 +58,7 @@ namespace Dolany.Ai.Core.Ai.Sys
                                                                        .Select(p => p.First());
             if (MsgDTO.Auth != AuthorityLevel.开发者)
             {
-                commandAttrs = commandAttrs.Where(p => p.AuthorityLevel == AuthorityLevel.开发者);
+                commandAttrs = commandAttrs.Where(p => p.AuthorityLevel != AuthorityLevel.开发者);
             }
             var builder = new StringBuilder();
             builder.Append(helpMsg);
@@ -124,7 +124,7 @@ namespace Dolany.Ai.Core.Ai.Sys
 
             if (MsgDTO.Auth != AuthorityLevel.开发者)
             {
-                commands = commands.Where(c => c.AuthorityLevel == AuthorityLevel.开发者).ToList();
+                commands = commands.Where(c => c.AuthorityLevel != AuthorityLevel.开发者).ToList();
             }
 
             if (commands.IsNullOrEmpty())
