@@ -54,9 +54,12 @@ namespace Dolany.Ai.Core.Ai.Sys
         private static void HelpSummary(MsgInformationEx MsgDTO)
         {
             var helpMsg = "当前的命令标签有：";
-            var commandAttrs = AIMgr.Instance.AllAvailableGroupCommands.Where(p => p.AuthorityLevel != AuthorityLevel.开发者)
-                                                                       .GroupBy(c => c.Tag)
+            var commandAttrs = AIMgr.Instance.AllAvailableGroupCommands.GroupBy(c => c.Tag)
                                                                        .Select(p => p.First());
+            if (MsgDTO.Auth != AuthorityLevel.开发者)
+            {
+                commandAttrs = commandAttrs.Where(p => p.AuthorityLevel == AuthorityLevel.开发者);
+            }
             var builder = new StringBuilder();
             builder.Append(helpMsg);
             foreach (var c in commandAttrs)
@@ -112,11 +115,16 @@ namespace Dolany.Ai.Core.Ai.Sys
         private static void HelpTag(MsgInformationEx MsgDTO)
         {
             var commands = AIMgr.Instance.AllAvailableGroupCommands
-                .Where(c => c.Tag == MsgDTO.Msg && c.AuthorityLevel != AuthorityLevel.开发者).GroupBy(p => p.Command)
+                .Where(c => c.Tag == MsgDTO.Msg).GroupBy(p => p.Command)
                 .Select(p => p.First()).ToList();
             if (!Global.TestGroups.Contains(MsgDTO.FromGroup))
             {
                 commands = commands.Where(c => !c.IsTesting).ToList();
+            }
+
+            if (MsgDTO.Auth != AuthorityLevel.开发者)
+            {
+                commands = commands.Where(c => c.AuthorityLevel == AuthorityLevel.开发者).ToList();
             }
 
             if (commands.IsNullOrEmpty())
@@ -127,9 +135,10 @@ namespace Dolany.Ai.Core.Ai.Sys
             var helpMsg = @"当前标签下有以下命令：";
             var builder = new StringBuilder();
             builder.Append(helpMsg);
-            foreach (var c in commands)
+            var groups = commands.GroupBy(p => p.ID);
+            foreach (var group in groups)
             {
-                builder.Append('\r' + c.Command);
+                builder.Append('\r' + string.Join("/", group.Select(g => g.Command)));
             }
             helpMsg = builder.ToString();
             helpMsg += '\r' + "可以使用 帮助 [命令名] 来查询具体命令信息。";
