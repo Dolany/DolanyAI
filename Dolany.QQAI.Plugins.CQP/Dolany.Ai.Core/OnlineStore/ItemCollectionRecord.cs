@@ -57,7 +57,7 @@ namespace Dolany.Ai.Core.OnlineStore
         public int GetCount(string itemName)
         {
             var collection = HonorCollections.Values.FirstOrDefault(p => p.Items.ContainsKey(itemName));
-            return collection == null ? 0 : collection.Items[itemName];
+            return collection?.Items[itemName] ?? 0;
         }
 
         public int TotalItemCount()
@@ -73,6 +73,7 @@ namespace Dolany.Ai.Core.OnlineStore
             }
 
             HonorCollections.Remove(p => p.Items.IsNullOrEmpty());
+            MongoService<ItemCollectionRecord>.Update(this);
         }
     }
 

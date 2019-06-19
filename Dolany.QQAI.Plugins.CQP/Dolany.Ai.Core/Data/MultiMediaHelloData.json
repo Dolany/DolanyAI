@@ -4,5 +4,11 @@
     "ContentPath": "./voices/Custom/哆啦出场.mp3",
     "MediaType": 1,
     "Location": 2
-  }
+  },
+  "苏苏": {
+    "QQNum": 2053883063,
+    "ContentPath": "./voices/Custom/苏苏出场.mp3",
+    "MediaType": 1,
+    "Location": 2
+  } 
 }
