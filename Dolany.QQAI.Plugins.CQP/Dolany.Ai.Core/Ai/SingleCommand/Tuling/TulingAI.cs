@@ -9,6 +9,7 @@ using Dolany.Ai.Core.Common;
 using Dolany.Ai.Core.Model;
 using Dolany.Ai.Core.Model.Tuling;
 using Dolany.Ai.Core.Net;
+using Dolany.Database.Ai;
 
 namespace Dolany.Ai.Core.Ai.SingleCommand.Tuling
 {
@@ -20,6 +21,7 @@ namespace Dolany.Ai.Core.Ai.SingleCommand.Tuling
     {
         private readonly string RequestUrl = Configger.Instance["TulingRequestUrl"];
         private List<TulingConfigModel> ApiKeys = new List<TulingConfigModel>();
+        private const int TulingDailyLimit = 10;
 
         private int CurTulingIndex;
 
@@ -44,6 +46,15 @@ namespace Dolany.Ai.Core.Ai.SingleCommand.Tuling
             {
                 return false;
             }
+
+            var limitRecord = DailyLimitRecord.Get(MsgDTO.FromQQ, "Tuling");
+            if (!limitRecord.Check(TulingDailyLimit))
+            {
+                MsgSender.PushMsg(MsgDTO, "今天太累了，明天再找我说话吧~", MsgDTO.Type == MsgType.Group);
+                return false;
+            }
+            limitRecord.Cache();
+            limitRecord.Update();
 
             MsgDTO.FullMsg = MsgDTO.FullMsg.Replace(CodeApi.Code_At(BindAiMgr.Instance[MsgDTO.BindAi].SelfNum), string.Empty);
 

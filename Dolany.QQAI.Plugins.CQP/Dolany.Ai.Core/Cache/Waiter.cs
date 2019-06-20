@@ -37,10 +37,8 @@ namespace Dolany.Ai.Core.Cache
             {
                 source = Global.AllGroupsDic[info.FromGroup];
             }
-            var msg = $"[Information] {info.Information} " +
-                      $"{source} " +
-                      $"{info.FromQQ} " +
-                      $"{info.Msg}";
+
+            var msg = $"[Info] {info.BindAi} {source} {info.FromQQ} {info.Msg}";
             AIMgr.Instance.MessagePublish(msg);
 
             switch (info.Information)
