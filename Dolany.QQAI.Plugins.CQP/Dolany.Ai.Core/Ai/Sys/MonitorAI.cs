@@ -106,7 +106,7 @@ namespace Dolany.Ai.Core.Ai.Sys
             return true;
         }
 
-        private string PowerState(MsgInformationEx MsgDTO)
+        private static string PowerState(MsgInformationEx MsgDTO)
         {
             if (MsgDTO.Type == MsgType.Private)
             {
@@ -115,7 +115,9 @@ namespace Dolany.Ai.Core.Ai.Sys
 
             var setting = GroupSettingMgr.Instance[MsgDTO.FromGroup];
             var expiryDate = $"\r有效期至：{setting.ExpiryTime?.ToLocalTime()}";
-            return (setting.IsPowerOn ? "\r电源状态：开机" : "\r电源状态：关机") + expiryDate;
+
+            var pState = RecentCommandCache.IsTooFreq(MsgDTO.BindAi) ? "过热保护" : setting.IsPowerOn ? "开机" : "关机";
+            return $"\r电源状态：{pState}" + expiryDate;
         }
 
         [EnterCommand(ID = "MonitorAI_ExceptionMonitor",

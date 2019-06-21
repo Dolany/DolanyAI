@@ -100,29 +100,24 @@ namespace Dolany.Ai.Core.Base
 
         private bool StateCheck(MsgInformationEx MsgDTO)
         {
-            if (MsgDTO.Type == MsgType.Group)
+            if (MsgDTO.Type != MsgType.Group)
             {
-                var stateCache = AliveStateMgr.Instance.GetState(MsgDTO.FromGroup, MsgDTO.FromQQ);
-                if (stateCache != null)
-                {
-                    MsgSender.PushMsg(MsgDTO, $"你已经死了({stateCache.Name})！复活时间：{stateCache.RebornTime.ToString(CultureInfo.CurrentCulture)}", true);
-                    return false;
-                }
-
-                if (AIAttr.NeedManulOpen && !GroupSettingMgr.Instance[MsgDTO.FromGroup].HasFunction(AIAttr.Name))
-                {
-                    MsgSender.PushMsg(MsgDTO, $"本群尚未开启 {AIAttr.Name} 功能，请联系群主使用 开启功能 命令来开启此功能！");
-                    return false;
-                }
+                return false;
             }
 
-            if (!RecentCommandCache.IsTooFreq(MsgDTO.BindAi))
+            var stateCache = AliveStateMgr.Instance.GetState(MsgDTO.FromGroup, MsgDTO.FromQQ);
+            if (stateCache != null)
+            {
+                MsgSender.PushMsg(MsgDTO, $"你已经死了({stateCache.Name})！复活时间：{stateCache.RebornTime.ToString(CultureInfo.CurrentCulture)}", true);
+                return false;
+            }
+
+            if (!AIAttr.NeedManulOpen || GroupSettingMgr.Instance[MsgDTO.FromGroup].HasFunction(AIAttr.Name))
             {
                 return true;
             }
 
-            MsgSender.PushMsg(MsgDTO, "哇哇哇~~，AI过热中......");
-            MsgSender.PushMsg(MsgDTO, CodeApi.Code_Image_Relational("images/过热.jpg"));
+            MsgSender.PushMsg(MsgDTO, $"本群尚未开启 {AIAttr.Name} 功能，请联系群主使用 开启功能 命令来开启此功能！");
             return false;
         }
 
