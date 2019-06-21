@@ -370,7 +370,7 @@ namespace Dolany.Ai.Core.Ai.Sys
             var groupNum = (long) param[0];
 
             var setting = MongoService<GroupSettings>.GetOnly(p => p.GroupNum == groupNum);
-            setting.BindAi = Configger.Instance["BindAi"];
+            setting.BindAi = MsgDTO.BindAi;
             setting.Update();
 
             GroupSettingMgr.Instance.Refresh();

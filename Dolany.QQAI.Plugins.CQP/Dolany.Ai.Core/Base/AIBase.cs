@@ -12,8 +12,9 @@ namespace Dolany.Ai.Core.Base
 {
     public abstract class AIBase
     {
-        protected readonly Dictionary<EnterCommandAttribute, MethodInfo> FuntionMethods =
-            new Dictionary<EnterCommandAttribute, MethodInfo>();
+        protected delegate bool AIModuleDel(MsgInformationEx MsgDTO, object[] param);
+
+        protected readonly Dictionary<EnterCommandAttribute, AIModuleDel> ModuleDels = new Dictionary<EnterCommandAttribute, AIModuleDel>();
 
         public readonly AIAttribute AIAttr;
 
@@ -28,7 +29,7 @@ namespace Dolany.Ai.Core.Base
                     {
                         var attrClone = attr.Clone();
                         attrClone.Command = command;
-                        FuntionMethods.Add(attrClone, method);
+                        ModuleDels.Add(attrClone, method.CreateDelegate(typeof(AIModuleDel), this) as AIModuleDel);
                     }
                 }
             }
@@ -42,7 +43,7 @@ namespace Dolany.Ai.Core.Base
 
         public virtual bool OnMsgReceived(MsgInformationEx MsgDTO)
         {
-            var query = FuntionMethods.Where(c => c.Key.Command == MsgDTO.Command).ToList();
+            var query = ModuleDels.Where(c => c.Key.Command == MsgDTO.Command).ToList();
             if (query.IsNullOrEmpty())
             {
                 return false;
@@ -50,7 +51,7 @@ namespace Dolany.Ai.Core.Base
 
             try
             {
-                foreach (var (enterCommandAttribute, methodInfo) in query)
+                foreach (var (enterCommandAttribute, moduleDel) in query)
                 {
                     if (!Check(enterCommandAttribute, MsgDTO, out var param))
                     {
@@ -86,7 +87,7 @@ namespace Dolany.Ai.Core.Base
                         return true;
                     }
 
-                    var result = (bool)methodInfo.Invoke(this, new object[]{MsgDTO, param});
+                    var result = moduleDel(MsgDTO, param);
 
                     if (!result)
                     {

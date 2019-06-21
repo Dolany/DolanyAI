@@ -1,4 +1,5 @@
 ﻿using System.Linq;
+using Dolany.Ai.Common;
 using Dolany.Ai.Core.Base;
 using Dolany.Ai.Core.Cache;
 using Dolany.Ai.Core.Common;
@@ -152,6 +153,34 @@ namespace Dolany.Ai.Core.Ai.SingleCommand.GroupOwnerOnly
             var msgs = allModules.Select(m => $"{m}  {(setting.EnabledFunctions.Contains(m) ? "√" : "×")}");
             var msg = $"{string.Join("\r", msgs)}\r可以使用 开启功能 [功能名] 来开启对应的功能；或使用 关闭功能 [功能名] 来关闭对应的功能";
             MsgSender.PushMsg(MsgDTO, msg);
+            return true;
+        }
+
+        [EnterCommand(ID = "GroupOwnerOnlyAI_ExchangeOwner",
+            Command = "移交群主",
+            AuthorityLevel = AuthorityLevel.群主,
+            Description = "将群主身份移交给指定群员",
+            Syntax = "[@QQ号]",
+            Tag = "群主特权",
+            SyntaxChecker = "At",
+            IsPrivateAvailable = false)]
+        public bool ExchangeOwner(MsgInformationEx MsgDTO, object[] param)
+        {
+            var aimQQ = (long) param[0];
+            if (!Waiter.Instance.WaitForConfirm(MsgDTO, $"【警告】是否确认将群主移交给 {CodeApi.Code_At(aimQQ)}？（此操作不可逆）"))
+            {
+                MsgSender.PushMsg(MsgDTO, "操作取消！");
+                return false;
+            }
+
+            var setting = GroupSettingMgr.Instance[MsgDTO.FromGroup];
+            setting.AuthInfo.Owner = aimQQ;
+
+            setting.Update();
+            GroupSettingMgr.Instance.Refresh();
+
+            MsgSender.PushMsg(MsgDTO, "已成功移交群主！");
+
             return true;
         }
     }
