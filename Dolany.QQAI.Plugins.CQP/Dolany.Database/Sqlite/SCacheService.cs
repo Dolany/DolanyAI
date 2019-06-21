@@ -12,7 +12,7 @@ namespace Dolany.Database.Sqlite
         private static readonly Mutex mutex = new Mutex(false, Configger.Instance["Mutex"]);
         private static readonly string dataSource = Configger.Instance["CacheDb"];
 
-        private static void Cache<T>(string key, T data, DateTime expTime)
+        public static void Cache<T>(string key, T data, DateTime expTime)
         {
             mutex.WaitOne();
             try

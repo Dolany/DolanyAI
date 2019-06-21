@@ -180,6 +180,8 @@ namespace Dolany.Ai.Core.Ai.Sys
                 MongoService<BlackList>.Update(query);
             }
 
+            DirtyFilter.Instance.Refresh();
+
             MsgSender.PushMsg(MsgDTO, "Success");
             return true;
         }
@@ -203,6 +205,8 @@ namespace Dolany.Ai.Core.Ai.Sys
             }
 
             MongoService<BlackList>.Delete(query);
+
+            DirtyFilter.Instance.Refresh();
             MsgSender.PushMsg(MsgDTO, "Success");
             return true;
         }

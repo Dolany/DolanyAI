@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Globalization;
 using System.Linq;
 using System.Text;
 using Dolany.Ai.Common;
@@ -44,6 +45,13 @@ namespace Dolany.Ai.Core.Ai.SingleCommand.Tuling
 
             if (MsgDTO.Type == MsgType.Group && !MsgDTO.FullMsg.Contains(CodeApi.Code_At(BindAiMgr.Instance[MsgDTO.BindAi].SelfNum)))
             {
+                return false;
+            }
+
+            var stateCache = AliveStateMgr.Instance.GetState(MsgDTO.FromGroup, MsgDTO.FromQQ);
+            if (stateCache != null)
+            {
+                MsgSender.PushMsg(MsgDTO, $"你已经死了({stateCache.Name})！复活时间：{stateCache.RebornTime.ToString(CultureInfo.CurrentCulture)}", true);
                 return false;
             }
 

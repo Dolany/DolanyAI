@@ -10,15 +10,20 @@ namespace Dolany.Ai.Core.Common
 {
     public class DirtyFilter
     {
-        private readonly string[] WordList;
+        private string[] WordList;
 
-        private readonly List<long> BlackList;
+        private List<long> BlackList;
 
         public static DirtyFilter Instance { get; } = new DirtyFilter();
 
         private const int MaxTolerateCount = 10;
 
         private DirtyFilter()
+        {
+            Refresh();
+        }
+
+        public void Refresh()
         {
             WordList = CommonUtil.ReadJsonData<Dictionary<string, string[]>>("DirtyWordData").First().Value;
             BlackList = MongoService<BlackList>.Get(p => p.BlackCount >= MaxTolerateCount).Select(p => p.QQNum).ToList();

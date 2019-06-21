@@ -7,7 +7,7 @@ using Dolany.Ai.Core.Model;
 using Dolany.Ai.Core.OnlineStore;
 using Dolany.Database.Ai;
 
-namespace Dolany.Ai.Core.Ai.SingleCommand.GroupOwnerOnly
+namespace Dolany.Ai.Core.Ai.SingleCommand.GroupManage
 {
     [AI(Name = "群主特权",
         Description = "AI for some power only for group owners.",
@@ -20,7 +20,7 @@ namespace Dolany.Ai.Core.Ai.SingleCommand.GroupOwnerOnly
             AuthorityLevel = AuthorityLevel.群主,
             Description = "刷新某人某个功能的CD",
             Syntax = "[@qq号] [命令名]",
-            Tag = "群主特权",
+            Tag = "群管理",
             SyntaxChecker = "At Word",
             IsPrivateAvailable = false,
             DailyLimit = 1)]
@@ -48,7 +48,7 @@ namespace Dolany.Ai.Core.Ai.SingleCommand.GroupOwnerOnly
             Command = "驱散",
             Description = "清除某人身上的所有buff",
             Syntax = "[@QQ]",
-            Tag = "群主特权",
+            Tag = "群管理",
             SyntaxChecker = "At",
             AuthorityLevel = AuthorityLevel.群主,
             IsPrivateAvailable = false)]
@@ -82,7 +82,7 @@ namespace Dolany.Ai.Core.Ai.SingleCommand.GroupOwnerOnly
             Command = "驱散",
             Description = "清除某人身上的指定buff",
             Syntax = "[@QQ] [Buff名称]",
-            Tag = "群主特权",
+            Tag = "群管理",
             SyntaxChecker = "At Word",
             AuthorityLevel = AuthorityLevel.群主,
             IsPrivateAvailable = false)]
@@ -124,7 +124,7 @@ namespace Dolany.Ai.Core.Ai.SingleCommand.GroupOwnerOnly
             AuthorityLevel = AuthorityLevel.群主,
             Description = "开启机器人的所有功能",
             Syntax = "",
-            Tag = "群主特权",
+            Tag = "群管理",
             SyntaxChecker = "Empty",
             IsPrivateAvailable = false)]
         public bool EnableAllModules(MsgInformationEx MsgDTO, object[] param)
@@ -142,7 +142,7 @@ namespace Dolany.Ai.Core.Ai.SingleCommand.GroupOwnerOnly
             AuthorityLevel = AuthorityLevel.群主,
             Description = "查看机器人的所有可选功能",
             Syntax = "",
-            Tag = "群主特权",
+            Tag = "群管理",
             SyntaxChecker = "Empty",
             IsPrivateAvailable = false)]
         public bool ViewAllOptionalModules(MsgInformationEx MsgDTO, object[] param)
@@ -161,7 +161,7 @@ namespace Dolany.Ai.Core.Ai.SingleCommand.GroupOwnerOnly
             AuthorityLevel = AuthorityLevel.群主,
             Description = "将群主身份移交给指定群员",
             Syntax = "[@QQ号]",
-            Tag = "群主特权",
+            Tag = "群管理",
             SyntaxChecker = "At",
             IsPrivateAvailable = false)]
         public bool ExchangeOwner(MsgInformationEx MsgDTO, object[] param)
