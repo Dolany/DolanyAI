@@ -10,15 +10,15 @@ using Dolany.Database.Sqlite;
 
 namespace Dolany.Ai.Core.Ai.SingleCommand.GroupManage
 {
-    [AI(Name = "管理员特权",
-        Description = "AI for some power only for group mangers.",
+    [AI(Name = "死亡",
+        Description = "AI for killing somebody for some time.",
         Enable = true,
         PriorityLevel = 16)]
     public class GroupManagerOnlyAI : AIBase
     {
         [EnterCommand(ID = "GroupManagerOnlyAI_DeathStaring",
             Command = "死亡凝视",
-            AuthorityLevel = AuthorityLevel.管理员,
+            AuthorityLevel = AuthorityLevel.群主,
             Description = "让某个成员死亡(无法使用机器人)若干分钟（最高500分钟）",
             Syntax = "[@qq号] [分钟数]",
             Tag = "群管理",
@@ -49,7 +49,7 @@ namespace Dolany.Ai.Core.Ai.SingleCommand.GroupManage
 
         [EnterCommand(ID = "GroupManagerOnlyAI_StarLightBreak",
             Command = "星光爆裂",
-            AuthorityLevel = AuthorityLevel.管理员,
+            AuthorityLevel = AuthorityLevel.群主,
             Description = "让某个成员死亡(无法使用机器人)若干小时（最高80小时）",
             Syntax = "[@qq号] [小时数]",
             Tag = "群管理",
@@ -80,7 +80,7 @@ namespace Dolany.Ai.Core.Ai.SingleCommand.GroupManage
 
         [EnterCommand(ID = "GroupManagerOnlyAI_DreamSeal",
             Command = "梦想封印",
-            AuthorityLevel = AuthorityLevel.管理员,
+            AuthorityLevel = AuthorityLevel.群主,
             Description = "让某个成员死亡(无法使用机器人)若干天（最高30天）",
             Syntax = "[@qq号] [天数]",
             Tag = "群管理",
@@ -151,19 +151,6 @@ namespace Dolany.Ai.Core.Ai.SingleCommand.GroupManage
             if (MsgDTO.FromQQ == aimQQ)
             {
                 MsgSender.PushMsg(MsgDTO, "你无法对自己使用该能力！", true);
-                return false;
-            }
-
-            var setting = GroupSettingMgr.Instance[MsgDTO.FromGroup];
-            if (setting.AuthInfo.Owner == aimQQ)
-            {
-                MsgSender.PushMsg(MsgDTO, $"{CodeApi.Code_At(aimQQ)} 歪，群主，这里有人想打你");
-                return false;
-            }
-
-            if (MsgDTO.Auth == AuthorityLevel.管理员 && setting.AuthInfo.Mgrs.Contains(aimQQ))
-            {
-                MsgSender.PushMsg(MsgDTO, "你无法对管理员使用该能力！");
                 return false;
             }
 
