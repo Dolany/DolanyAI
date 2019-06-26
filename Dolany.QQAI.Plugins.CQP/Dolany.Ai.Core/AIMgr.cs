@@ -184,12 +184,6 @@ namespace Dolany.Ai.Core
                     return;
                 }
 
-                var setting = GroupSettingMgr.Instance[MsgDTO.FromGroup];
-                if (setting.BindAi != MsgDTO.BindAi || (setting.ExpiryTime != null && setting.ExpiryTime < DateTime.Now))
-                {
-                    return;
-                }
-
                 if (Global.IsTesting && !Global.TestGroups.Contains(MsgDTO.FromGroup))
                 {
                     return;

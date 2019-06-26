@@ -1,9 +1,8 @@
-﻿namespace Dolany.Ai.Core.SyntaxChecker
+﻿using System;
+using Dolany.Ai.Common;
+
+namespace Dolany.Ai.Core.SyntaxChecker
 {
-    using System;
-
-    using Dolany.Ai.Common;
-
     public class AtChecker : ISyntaxChecker
     {
         public string Name { get; } = "At";
