@@ -189,11 +189,11 @@ namespace Dolany.Ai.Core
                 {
                     return;
                 }
-            }
 
-            if (Global.IsTesting && !Global.TestGroups.Contains(MsgDTO.FromGroup))
-            {
-                return;
+                if (Global.IsTesting && !Global.TestGroups.Contains(MsgDTO.FromGroup))
+                {
+                    return;
+                }
             }
 
             var msgEx = new MsgInformationEx

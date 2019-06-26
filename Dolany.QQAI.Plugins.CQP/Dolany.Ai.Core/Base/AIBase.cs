@@ -102,7 +102,7 @@ namespace Dolany.Ai.Core.Base
         {
             if (MsgDTO.Type != MsgType.Group)
             {
-                return false;
+                return true;
             }
 
             var stateCache = AliveStateMgr.Instance.GetState(MsgDTO.FromGroup, MsgDTO.FromQQ);
