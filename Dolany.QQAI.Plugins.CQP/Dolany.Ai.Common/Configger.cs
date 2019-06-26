@@ -1,45 +1,73 @@
-﻿using System;
-using System.Collections.Generic;
-using System.IO;
-using System.Linq;
-using JetBrains.Annotations;
-
-namespace Dolany.Ai.Common
+﻿namespace Dolany.Ai.Common
 {
     public class Configger
     {
-        private readonly Dictionary<string, string> AIConfig;
+        public AIConfig AIConfig { get; }
 
         public static Configger Instance { get; } = new Configger();
 
         private Configger()
         {
-            AIConfig = GetConfigDic();
+            AIConfig = CommonUtil.ReadJsonData<AIConfig>("AIConfigData");
         }
+    }
 
-        public string this[string key] => AIConfig.Keys.Contains(key) ? AIConfig[key] : string.Empty;
+    public class AIConfig
+    {
+        public int PraiseLimit { get; set; }
 
-        [NotNull]
-        private static Dictionary<string, string> GetConfigDic()
-        {
-            var configFile = new FileInfo("AIConfig.ini");
-            var dic = new Dictionary<string, string>();
-            using (var reader = new StreamReader(configFile.FullName))
-            {
-                string line;
-                while (!string.IsNullOrEmpty(line = reader.ReadLine()))
-                {
-                    var strs = line.Split(new[] { '=' }, StringSplitOptions.RemoveEmptyEntries);
-                    if (strs.IsNullOrEmpty() || strs.Length != 2)
-                    {
-                        continue;
-                    }
+        public int PicCleanFreq { get; set; }
 
-                    dic.Add(strs[0], strs[1]);
-                }
+        public int MaxPicCacheCount { get; set; }
 
-                return dic;
-            }
-        }
+        public int MaxOriginPicCache { get; set; }
+
+        public int CheckFrequency { get; set; }
+
+        public int SendMsgMaxLength { get; set; }
+
+        public string TulingRequestUrl { get; set; }
+
+        public string TulingApiKey { get; set; }
+
+        public long DeveloperNumber { get; set; }
+
+        public long SysMsgNumber { get; set; }
+
+        public int DiceCountMaxLimit { get; set; }
+
+        public int DiceSizeMaxLimit { get; set; }
+
+        public string TulingImportUrl { get; set; }
+
+        public int MaxRecentCommandCacheCount { get; set; }
+
+        public string ImagePath { get; set; }
+
+        public int GroupEmptyRefreshRate { get; set; }
+
+        public int GroupRefreshRate { get; set; }
+
+        public string InformationQueueName { get; set; }
+
+        public string CacheDb { get; set; }
+
+        public bool IsTesting { get; set; }
+
+        public long[] TestGroups { get; set; }
+
+        public long AnonymousNumber { get; set; }
+
+        public string Mutex { get; set; }
+
+        public string FixedSetMutex { get; set; }
+
+        public string FixedSetCacheDb { get; set; }
+
+        public string MongoConnStr { get; set; }
+
+        public string MongoDbName { get; set; }
+
+        public string MainAi { get; set; }
     }
 }

@@ -122,9 +122,8 @@ namespace Dolany.Ai.Core
             LoadAis();
             LoadTools();
             LoadCheckers();
-            DbMgr.InitXmls();
 
-            SFixedSetService.SetMaxCount("PicCache", int.Parse(Configger.Instance["MaxPicCacheCount"]));
+            SFixedSetService.SetMaxCount("PicCache", Configger.Instance.AIConfig.MaxPicCacheCount);
         }
 
         private void LoadCheckers()

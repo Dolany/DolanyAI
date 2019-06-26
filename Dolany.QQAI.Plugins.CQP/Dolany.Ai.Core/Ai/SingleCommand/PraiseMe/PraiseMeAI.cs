@@ -16,7 +16,7 @@ namespace Dolany.Ai.Core.Ai.SingleCommand.PraiseMe
     {
         private readonly Dictionary<string, DateTime> LastTimeDic = new Dictionary<string, DateTime>();
 
-        private readonly int PraiseLimit = int.Parse(Configger.Instance["PraiseLimit"]);
+        private readonly int PraiseLimit = Configger.Instance.AIConfig.PraiseLimit;
 
         [EnterCommand(ID = "PraiseMeAI_PraiseMe",
             Command = "赞我",

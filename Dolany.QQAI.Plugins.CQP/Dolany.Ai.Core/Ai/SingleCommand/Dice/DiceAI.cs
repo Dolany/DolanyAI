@@ -16,8 +16,8 @@ namespace Dolany.Ai.Core.Ai.SingleCommand.Dice
         NeedManulOpen = true)]
     public class DiceAI : AIBase
     {
-        private readonly int DiceCountMaxLimit = int.Parse(Configger.Instance["DiceCountMaxLimit"]);
-        private readonly int DiceSizeMaxLimit = int.Parse(Configger.Instance["DiceSizeMaxLimit"]);
+        private readonly int DiceCountMaxLimit = Configger.Instance.AIConfig.DiceCountMaxLimit;
+        private readonly int DiceSizeMaxLimit = Configger.Instance.AIConfig.DiceSizeMaxLimit;
 
         public override bool OnMsgReceived(MsgInformationEx MsgDTO)
         {

@@ -17,9 +17,9 @@ namespace Dolany.Ai.Core.AITools
 
     public class CacheCleanerTool : IScheduleTool
     {
-        private readonly int PicCleanFreq = int.Parse(Configger.Instance["PicCleanFreq"]);
+        private readonly int PicCleanFreq = Configger.Instance.AIConfig.PicCleanFreq;
 
-        private readonly int MaxPicCache = int.Parse(Configger.Instance["MaxOriginPicCache"]);
+        private readonly int MaxPicCache = Configger.Instance.AIConfig.MaxOriginPicCache;
 
         protected override List<ScheduleDoModel> ModelList { get; set; } = new List<ScheduleDoModel>();
 

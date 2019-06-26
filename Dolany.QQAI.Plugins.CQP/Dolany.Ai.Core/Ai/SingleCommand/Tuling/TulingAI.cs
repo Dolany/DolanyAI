@@ -20,7 +20,7 @@ namespace Dolany.Ai.Core.Ai.SingleCommand.Tuling
         PriorityLevel = 2)]
     public class TulingAI : AIBase
     {
-        private readonly string RequestUrl = Configger.Instance["TulingRequestUrl"];
+        private readonly string RequestUrl = Configger.Instance.AIConfig.TulingRequestUrl;
         private List<TulingConfigModel> ApiKeys = new List<TulingConfigModel>();
         private const int TulingDailyLimit = 10;
 
