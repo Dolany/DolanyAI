@@ -1,4 +1,4 @@
-﻿using Dolany.Ai.Core.Model;
+﻿using Dolany.Ai.Common.Models;
 
 namespace Dolany.Ai.Core.Ai.Sys.BonusCenter
 {

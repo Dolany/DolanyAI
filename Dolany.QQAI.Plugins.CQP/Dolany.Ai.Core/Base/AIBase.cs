@@ -4,9 +4,9 @@ using System.Globalization;
 using System.Linq;
 using System.Reflection;
 using Dolany.Ai.Common;
+using Dolany.Ai.Common.Models;
 using Dolany.Ai.Core.Cache;
 using Dolany.Ai.Core.Common;
-using Dolany.Ai.Core.Model;
 using Dolany.Database.Ai;
 
 namespace Dolany.Ai.Core.Base

@@ -1,9 +1,9 @@
 ﻿using System;
 using System.Threading;
 using Dolany.Ai.Common;
+using Dolany.Ai.Common.Models;
 using Dolany.Ai.Core.Base;
 using Dolany.Ai.Core.Cache;
-using Dolany.Ai.Core.Model;
 
 namespace Dolany.Ai.Core.Ai.SingleCommand.SelfBoom
 {

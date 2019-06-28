@@ -1,4 +1,4 @@
-﻿namespace Dolany.Ai.Common
+﻿namespace Dolany.Ai.Common.Models
 {
     public enum InformationType
     {

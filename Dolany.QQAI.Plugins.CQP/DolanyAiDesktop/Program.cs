@@ -1,9 +1,8 @@
-﻿namespace DolanyAiDesktop
+﻿using System;
+using Dolany.Ai.Core;
+
+namespace DolanyAiDesktop
 {
-    using System;
-
-    using Dolany.Ai.Core;
-
     class Program
     {
         static void Main(string[] args)

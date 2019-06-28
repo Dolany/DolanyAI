@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace Dolany.Ai.Common
+namespace Dolany.Ai.Common.Models
 {
     public class MsgCommand
     {

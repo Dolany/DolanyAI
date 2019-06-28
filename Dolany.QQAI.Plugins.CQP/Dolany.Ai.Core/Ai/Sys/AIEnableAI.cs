@@ -1,8 +1,8 @@
 ﻿using System.Linq;
+using Dolany.Ai.Common.Models;
 using Dolany.Ai.Core.Base;
 using Dolany.Ai.Core.Cache;
 using Dolany.Ai.Core.Common;
-using Dolany.Ai.Core.Model;
 
 namespace Dolany.Ai.Core.Ai.Sys
 {

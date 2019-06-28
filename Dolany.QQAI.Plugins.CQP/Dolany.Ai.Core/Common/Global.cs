@@ -22,10 +22,4 @@ namespace Dolany.Ai.Core.Common
         public static readonly RabbitMQService CommandInfoService =
             new RabbitMQService(Configger.Instance.AIConfig.InformationQueueName);
     }
-
-    public enum MsgType
-    {
-        Private = 1,
-        Group = 0
-    }
 }

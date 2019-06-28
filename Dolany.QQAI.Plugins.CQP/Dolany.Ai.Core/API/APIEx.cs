@@ -1,5 +1,6 @@
 ﻿using System;
 using Dolany.Ai.Common;
+using Dolany.Ai.Common.Models;
 using Dolany.Ai.Core.API.ViewModel;
 using Dolany.Ai.Core.Cache;
 using Dolany.Ai.Core.Common;

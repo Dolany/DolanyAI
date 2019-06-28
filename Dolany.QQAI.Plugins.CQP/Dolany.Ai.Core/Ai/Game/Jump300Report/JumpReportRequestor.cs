@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
+using Dolany.Ai.Common.Models;
 using Dolany.Ai.Core.Ai.Game.Jump300Report.Parser;
-using Dolany.Ai.Core.Model;
 using Dolany.Ai.Core.Net;
 
 namespace Dolany.Ai.Core.Ai.Game.Jump300Report

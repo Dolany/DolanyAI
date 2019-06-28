@@ -1,0 +1,23 @@
+﻿{
+  "PraiseLimit": 10,
+  "PicCleanFreq": 10,
+  "MaxPicCacheCount": 200,
+  "MaxOriginPicCache": 20,
+  "TulingRequestUrl": "http://openapi.tuling123.com/openapi/api/v2",
+  "DeveloperNumber": 1458978159,
+  "SysMsgNumber": 10000,
+  "DiceCountMaxLimit": 200,
+  "DiceSizeMaxLimit": 2000,
+  "MaxRecentCommandCacheCount": 130,
+  "InformationQueueName": "MsgInformation",
+  "CacheDb": "C:/AIDB/aidb_ice.db",
+  "IsTesting": false,
+  "TestGroups": [ 411277569, 885421620 ],
+  "AnonymousNumber": 80000000,
+  "Mutex": "DolanyAI",
+  "FixedSetMutex": "DolanyFixed",
+  "FixedSetCacheDb": "C:/AIDB/fixedSetCache.db",
+  "MongoConnStr": "mongodb://localhost",
+  "MongoDbName": "DolanyAI",
+  "MainAi": "Cirno"
+}

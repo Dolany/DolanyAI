@@ -2,9 +2,9 @@
 using System.IO;
 using System.Linq;
 using Dolany.Ai.Common;
+using Dolany.Ai.Common.Models;
 using Dolany.Ai.Core.Base;
 using Dolany.Ai.Core.Cache;
-using Dolany.Ai.Core.Model;
 using Dolany.Database.Sqlite.Model;
 using JetBrains.Annotations;
 using Newtonsoft.Json;

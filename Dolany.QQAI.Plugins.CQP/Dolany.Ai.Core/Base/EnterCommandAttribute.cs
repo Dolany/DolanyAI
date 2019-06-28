@@ -1,17 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
+using Dolany.Ai.Common.Models;
 
 namespace Dolany.Ai.Core.Base
 {
-    public enum AuthorityLevel
-    {
-        未知 = 0,
-        开发者 = 99,
-        群主 = 1,
-        管理员 = 2,
-        成员 = 3
-    }
-
     [AttributeUsage(AttributeTargets.Method, AllowMultiple = true)]
     public sealed class EnterCommandAttribute : Attribute
     {

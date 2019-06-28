@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using Dolany.Ai.Common;
-using Dolany.Ai.Core.Model;
+using Dolany.Ai.Common.Models;
 using Dolany.Database;
 using Dolany.Database.Ai;
 

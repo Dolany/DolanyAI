@@ -5,11 +5,11 @@ using System.Reflection;
 using System.Runtime.ExceptionServices;
 using System.Threading.Tasks;
 using Dolany.Ai.Common;
+using Dolany.Ai.Common.Models;
 using Dolany.Ai.Core.AITools;
 using Dolany.Ai.Core.Base;
 using Dolany.Ai.Core.Cache;
 using Dolany.Ai.Core.Common;
-using Dolany.Ai.Core.Model;
 using Dolany.Ai.Core.SyntaxChecker;
 using Dolany.Database.Sqlite;
 

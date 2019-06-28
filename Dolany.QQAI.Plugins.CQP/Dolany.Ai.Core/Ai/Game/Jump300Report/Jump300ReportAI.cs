@@ -1,7 +1,7 @@
 ﻿using System.Threading.Tasks;
+using Dolany.Ai.Common.Models;
 using Dolany.Ai.Core.Base;
 using Dolany.Ai.Core.Cache;
-using Dolany.Ai.Core.Model;
 
 namespace Dolany.Ai.Core.Ai.Game.Jump300Report
 {

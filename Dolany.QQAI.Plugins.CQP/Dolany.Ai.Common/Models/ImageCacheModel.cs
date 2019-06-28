@@ -1,4 +1,4 @@
-﻿namespace Dolany.Ai.Core.Model
+﻿namespace Dolany.Ai.Common.Models
 {
     public class ImageCacheModel
     {

@@ -2,12 +2,12 @@
 using System.Linq;
 using System.Text;
 using Dolany.Ai.Common;
+using Dolany.Ai.Common.Models;
 using Dolany.Ai.Core.Ai.Game.Gift;
 using Dolany.Ai.Core.Ai.Record;
 using Dolany.Ai.Core.Base;
 using Dolany.Ai.Core.Cache;
 using Dolany.Ai.Core.Common;
-using Dolany.Ai.Core.Model;
 using Dolany.Ai.Core.OnlineStore;
 
 namespace Dolany.Ai.Core.Ai.Sys

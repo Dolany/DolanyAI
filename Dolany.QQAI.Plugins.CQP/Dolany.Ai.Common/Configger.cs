@@ -22,13 +22,7 @@
 
         public int MaxOriginPicCache { get; set; }
 
-        public int CheckFrequency { get; set; }
-
-        public int SendMsgMaxLength { get; set; }
-
         public string TulingRequestUrl { get; set; }
-
-        public string TulingApiKey { get; set; }
 
         public long DeveloperNumber { get; set; }
 
@@ -38,15 +32,7 @@
 
         public int DiceSizeMaxLimit { get; set; }
 
-        public string TulingImportUrl { get; set; }
-
         public int MaxRecentCommandCacheCount { get; set; }
-
-        public string ImagePath { get; set; }
-
-        public int GroupEmptyRefreshRate { get; set; }
-
-        public int GroupRefreshRate { get; set; }
 
         public string InformationQueueName { get; set; }
 

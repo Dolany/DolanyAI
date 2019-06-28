@@ -4,8 +4,8 @@ using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
 using Dolany.Ai.Common;
+using Dolany.Ai.Common.Models;
 using Dolany.Ai.Core.Common;
-using Dolany.Ai.Core.Model;
 
 namespace Dolany.Ai.Core.Cache
 {
