@@ -49,7 +49,7 @@ namespace Dolany.Ai.Doremi
 
         public void MessagePublish(string message)
         {
-            Console.Title = "Server";
+            Console.Title = "Server_Doremi";
             OnMessageCallBack?.Invoke($"{DateTime.Now}: {message}");
         }
 

@@ -41,10 +41,13 @@ namespace Dolany.Ai.Doremi.Cache
             var msg = $"[Info] {info.BindAi} {source} {info.FromQQ} {info.Msg}";
             AIMgr.Instance.MessagePublish(msg);
 
-            var setting = GroupSettingMgr.Instance[info.FromGroup];
-            if (setting.BindAi != info.BindAi || (setting.ExpiryTime != null && setting.ExpiryTime < DateTime.Now))
+            if (info.FromGroup != 0)
             {
-                return;
+                var setting = GroupSettingMgr.Instance[info.FromGroup];
+                if (setting.BindAi != info.BindAi || (setting.ExpiryTime != null && setting.ExpiryTime < DateTime.Now))
+                {
+                    return;
+                }
             }
 
             switch (info.Information)

@@ -18,10 +18,5 @@
     "SelfNum": 2040824098,
     "CommandQueue": "MsgCommand_Owl",
     "ClientPath": "C:/AI/Owl/client/"
-  },
-  "Doremi": {
-    "SelfNum": 3608886356,
-    "CommandQueue": "MsgCommand_Doremi",
-    "ClientPath": "C:/AI/Doremi/client/"
   }
 }
