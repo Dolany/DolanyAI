@@ -9,15 +9,15 @@
   "DiceCountMaxLimit": 200,
   "DiceSizeMaxLimit": 2000,
   "MaxRecentCommandCacheCount": 130,
-  "InformationQueueName": "MsgInformation",
-  "CacheDb": "C:/AIDB/aidb_ice.db",
+  "InformationQueueName": "MsgInformation_Doremi",
+  "CacheDb": "C:/AIDB/aidb_doremi.db",
   "IsTesting": false,
-  "TestGroups": [ 411277569, 885421620 ],
+  "TestGroups": [],
   "AnonymousNumber": 80000000,
-  "Mutex": "DolanyAI",
-  "FixedSetMutex": "DolanyFixed",
-  "FixedSetCacheDb": "C:/AIDB/fixedSetCache.db",
+  "Mutex": "Doremi",
+  "FixedSetMutex": "DoremiFixed",
+  "FixedSetCacheDb": "C:/AIDB/fixedSetCache_doremi.db",
   "MongoConnStr": "mongodb://localhost",
-  "MongoDbName": "DolanyAI",
-  "MainAi": "Cirno"
+  "MongoDbName": "Doremi",
+  "MainAi": "Doremi"
 }
