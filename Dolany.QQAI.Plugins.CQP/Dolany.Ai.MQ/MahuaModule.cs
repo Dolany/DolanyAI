@@ -54,9 +54,13 @@ namespace Dolany.Ai.MQ
             {
                 base.Load(builder);
                 // 将需要监听的事件注册，若缺少此注册，则不会调用相关的实现类
-                builder.RegisterType<GroupMsgReceive>().As<IGroupMessageReceivedMahuaEvent>();
-                builder.RegisterType<PrivateMsgReceived>().As<IPrivateMessageReceivedMahuaEvent>();
-                builder.RegisterType<PrivateMsgFromGroup>().As<IPrivateMessageFromGroupReceivedMahuaEvent>();
+                var conf = UtTools.GetConfig("CanReceiveMsg");
+                if (string.IsNullOrEmpty(conf) || bool.Parse(conf))
+                {
+                    builder.RegisterType<GroupMsgReceive>().As<IGroupMessageReceivedMahuaEvent>();
+                    builder.RegisterType<PrivateMsgReceived>().As<IPrivateMessageReceivedMahuaEvent>();
+                    builder.RegisterType<PrivateMsgFromGroup>().As<IPrivateMessageFromGroupReceivedMahuaEvent>();
+                }
                 builder.RegisterType<InitializationMahuaEvent>().As<IInitializationMahuaEvent>();
             }
         }
