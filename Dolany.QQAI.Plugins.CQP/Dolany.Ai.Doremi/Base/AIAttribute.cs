@@ -10,5 +10,6 @@ namespace Dolany.Ai.Doremi.Base
         public string Name { get; set; }
         public int PriorityLevel { get; set; }
         public bool NeedManulOpen { get; set; } = false;
+        public string BindAi { get; set; }
     }
 }

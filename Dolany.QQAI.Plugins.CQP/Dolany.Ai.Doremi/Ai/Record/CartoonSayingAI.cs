@@ -2,12 +2,12 @@
 using System.Linq;
 using Dolany.Ai.Common;
 using Dolany.Ai.Common.Models;
-using Dolany.Ai.Core.Base;
-using Dolany.Ai.Core.Cache;
+using Dolany.Ai.Doremi.Base;
+using Dolany.Ai.Doremi.Cache;
 using Dolany.Database;
 using Dolany.Database.Ai;
 
-namespace Dolany.Ai.Core.Ai.Record
+namespace Dolany.Ai.Doremi.Ai.Record
 {
     [AI(Name = "语录",
         Description = "AI for Cartoon Sayings.",

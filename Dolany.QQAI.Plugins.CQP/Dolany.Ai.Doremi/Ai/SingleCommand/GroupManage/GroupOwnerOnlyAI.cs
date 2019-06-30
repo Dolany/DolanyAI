@@ -12,7 +12,8 @@ namespace Dolany.Ai.Doremi.Ai.SingleCommand.GroupManage
     [AI(Name = "群主特权",
         Description = "AI for some power only for group owners.",
         Enable = true,
-        PriorityLevel = 10)]
+        PriorityLevel = 10,
+        BindAi = "Doremi")]
     public class GroupOwnerOnlyAI : AIBase
     {
         [EnterCommand(ID = "GroupOwnerOnlyAI_RefreshCommand",

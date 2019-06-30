@@ -15,7 +15,8 @@ namespace Dolany.Ai.Doremi.Ai.SingleCommand.Fortune
     [AI(Name = "随机运势",
         Description = "AI for Fortune.",
         Enable = true,
-        PriorityLevel = 10)]
+        PriorityLevel = 10,
+        BindAi = "Doremi")]
     public class FortuneAI : AIBase
     {
         private const string TarotServerPath = "https://m.sheup.com/";

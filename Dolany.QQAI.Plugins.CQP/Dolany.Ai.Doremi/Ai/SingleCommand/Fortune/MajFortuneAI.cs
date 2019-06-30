@@ -14,7 +14,8 @@ namespace Dolany.Ai.Doremi.Ai.SingleCommand.Fortune
     [AI(Name = "麻将运势",
         Description = "AI for Getting Daily Maj Fortune.",
         Enable = true,
-        PriorityLevel = 10)]
+        PriorityLevel = 10,
+        BindAi = "Doremi")]
     public class MajFortuneAI : AIBase
     {
         private readonly string[] PosArray = { "东", "南", "西", "北" };

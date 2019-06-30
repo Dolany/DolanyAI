@@ -7,13 +7,10 @@ namespace Dolany.Ai.Doremi.Ai.Sys
     [AI(Name = "系统消息过滤",
         Description = "AI for System msg consoling.",
         Enable = true,
-        PriorityLevel = 20)]
+        PriorityLevel = 20,
+        BindAi = "Doremi")]
     public class SysMsgAI : AIBase
     {
-        public override void Initialization()
-        {
-        }
-
         public override bool OnMsgReceived(MsgInformationEx MsgDTO)
         {
             if (base.OnMsgReceived(MsgDTO))

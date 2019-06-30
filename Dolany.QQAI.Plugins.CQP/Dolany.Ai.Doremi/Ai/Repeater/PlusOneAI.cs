@@ -14,7 +14,8 @@ namespace Dolany.Ai.Doremi.Ai.Repeater
         Description = "AI for Auto Plus One.",
         Enable = true,
         PriorityLevel = 1,
-        NeedManulOpen = true)]
+        NeedManulOpen = true,
+        BindAi = "Doremi")]
     public class PlusOneAI : AIBase
     {
         private List<PlusOneModel> Cache { get; } = new List<PlusOneModel>();

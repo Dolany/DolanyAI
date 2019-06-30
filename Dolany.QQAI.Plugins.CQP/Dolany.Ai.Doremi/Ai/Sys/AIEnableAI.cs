@@ -9,7 +9,8 @@ namespace Dolany.Ai.Doremi.Ai.Sys
     [AI(Name = "AI管理",
         Description = "AI for ais's state(open or closed).",
         Enable = true,
-        PriorityLevel = 12)]
+        PriorityLevel = 12,
+        BindAi = "Doremi")]
     public class AIEnableAI : AIBase
     {
         [EnterCommand(ID = "AIEnableAI_OpenFunction",

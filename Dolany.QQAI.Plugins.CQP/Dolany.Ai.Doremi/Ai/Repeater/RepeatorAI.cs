@@ -11,7 +11,8 @@ namespace Dolany.Ai.Doremi.Ai.Repeater
         Description = "AI for Repeating Random words.",
         Enable = true,
         PriorityLevel = 1,
-        NeedManulOpen = true)]
+        NeedManulOpen = true,
+        BindAi = "Doremi")]
     public class RepeatorAI : AIBase
     {
         private const long RepeatLimit = 30;

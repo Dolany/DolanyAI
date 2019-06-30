@@ -17,7 +17,8 @@ namespace Dolany.Ai.Doremi.Ai.Record.Hello
     [AI(Name = "打招呼",
         Description = "AI for Saying Hello to you at everyday you say at the first time in one group.",
         Enable = true,
-        PriorityLevel = 15)]
+        PriorityLevel = 15,
+        BindAi = "Doremi")]
     public class HelloAI : AIBase
     {
         private List<HelloRecord> HelloList = new List<HelloRecord>();

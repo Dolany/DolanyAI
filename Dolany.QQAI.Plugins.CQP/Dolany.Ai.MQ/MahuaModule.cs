@@ -1,17 +1,15 @@
-﻿using Autofac;
+﻿using System;
+using System.IO;
+using System.Text;
+using Autofac;
 using Dolany.Ai.MQ.Db;
+using Dolany.Ai.MQ.MahuaEvents;
 using Dolany.Ai.Util;
+using Newbe.Mahua;
+using Newbe.Mahua.MahuaEvents;
 
 namespace Dolany.Ai.MQ
 {
-    using System;
-    using System.IO;
-    using System.Text;
-
-    using Newbe.Mahua;
-    using MahuaEvents;
-    using Newbe.Mahua.MahuaEvents;
-
     /// <summary>
     /// Ioc容器注册
     /// </summary>
@@ -79,7 +77,7 @@ namespace Dolany.Ai.MQ
             private const string LogPath = "./RuntimeLog/";
             private static readonly object lockObj = new object();
 
-            public static void Log(string log)
+            private static void Log(string log)
             {
                 lock (lockObj)
                 {

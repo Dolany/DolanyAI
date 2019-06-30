@@ -15,7 +15,8 @@ namespace Dolany.Ai.Doremi.Ai.Game.Shopping
         Description = "AI for Everyday Signing In.",
         Enable = true,
         PriorityLevel = 10,
-        NeedManulOpen = true)]
+        NeedManulOpen = true,
+        BindAi = "Doremi")]
     public class SignInAI : AIBase
     {
         private Dictionary<long, SignInGroupRecord> GroupSignInDic = new Dictionary<long, SignInGroupRecord>();

@@ -225,8 +225,13 @@ namespace Dolany.Ai.Doremi
                         return;
                     }
 
-                    if (AIList.Any(ai => ai.OnMsgReceived(MsgDTO)))
+                    foreach (var ai in AIList)
                     {
+                        MsgDTO.BindAi = ai.AIAttr.BindAi;
+                        if (ai.OnMsgReceived(MsgDTO))
+                        {
+                            return;
+                        }
                     }
                 }
                 catch (Exception ex)

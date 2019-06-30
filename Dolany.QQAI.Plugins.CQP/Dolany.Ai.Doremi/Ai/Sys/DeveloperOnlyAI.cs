@@ -18,7 +18,8 @@ namespace Dolany.Ai.Doremi.Ai.Sys
     [AI(Name = "开发者后台",
         Enable = true,
         Description = "Ai for developer only operations",
-        PriorityLevel = 10)]
+        PriorityLevel = 10,
+        BindAi = "Doremi")]
     public class DeveloperOnlyAI : AIBase
     {
         [EnterCommand(ID = "DeveloperOnlyAI_Board",

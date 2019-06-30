@@ -12,7 +12,8 @@ namespace Dolany.Ai.Doremi.Ai.SingleCommand.Voice
     [AI(Name = "语音",
         Description = "AI for response random acg voice.",
         Enable = true,
-        PriorityLevel = 10)]
+        PriorityLevel = 10,
+        BindAi = "Doremi")]
     public class VoiceAI : AIBase
     {
         private Beng3ConfigModel Beng3Config;

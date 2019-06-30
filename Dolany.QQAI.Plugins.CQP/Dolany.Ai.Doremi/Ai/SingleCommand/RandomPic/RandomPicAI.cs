@@ -8,13 +8,10 @@ namespace Dolany.Ai.Doremi.Ai.SingleCommand.RandomPic
     [AI(Name = "随机图片",
         Description = "AI for Sending Random Pic By Keyword.",
         Enable = true,
-        PriorityLevel = 10)]
+        PriorityLevel = 10,
+        BindAi = "Doremi")]
     public class RandomPicAI : AIBase
     {
-        public override void Initialization()
-        {
-        }
-
         [EnterCommand(ID = "RandomPicAI_RecentPic",
             Command = "随机图片 一键盗图",
             AuthorityLevel = AuthorityLevel.成员,

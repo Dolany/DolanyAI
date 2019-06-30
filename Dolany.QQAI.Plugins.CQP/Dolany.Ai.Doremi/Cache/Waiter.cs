@@ -171,7 +171,8 @@ namespace Dolany.Ai.Doremi.Cache
 
                 lock (_lockObj)
                 {
-                    unit = UnitsDic[MsgDTO.FromGroup].FirstOrDefault(u => u.Id == unit.Id);
+                    var unit1 = unit;
+                    unit = UnitsDic[MsgDTO.FromGroup].FirstOrDefault(u => u.Id == unit1.Id);
                     UnitsDic[MsgDTO.FromGroup].Remove(unit);
                 }
 

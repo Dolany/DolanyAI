@@ -12,7 +12,8 @@ namespace Dolany.Ai.Doremi.Ai.Sys
     [AI(Name = "帮助",
         Description = "AI for Getting Help Infos.",
         Enable = true,
-        PriorityLevel = 10)]
+        PriorityLevel = 10,
+        BindAi = "Doremi")]
     public class HelperAI : AIBase
     {
         [EnterCommand(ID = "HelperAI_HelpMe",

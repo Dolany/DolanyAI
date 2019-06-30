@@ -9,7 +9,8 @@ namespace Dolany.Ai.Doremi.Ai.Sys
     [AI(Name = "反馈",
         Description = "AI for Feedback.",
         Enable = true,
-        PriorityLevel = 10)]
+        PriorityLevel = 10,
+        BindAi = "Doremi")]
     public class FeedbackAi : AIBase
     {
         [EnterCommand(ID = "FeedbackAi_Feedback",

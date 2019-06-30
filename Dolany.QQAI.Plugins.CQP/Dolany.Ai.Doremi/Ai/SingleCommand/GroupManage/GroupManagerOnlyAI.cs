@@ -13,7 +13,8 @@ namespace Dolany.Ai.Doremi.Ai.SingleCommand.GroupManage
     [AI(Name = "管理特权",
         Description = "AI for killing somebody for some time.",
         Enable = true,
-        PriorityLevel = 16)]
+        PriorityLevel = 16,
+        BindAi = "Doremi")]
     public class GroupManagerOnlyAI : AIBase
     {
         [EnterCommand(ID = "GroupManagerOnlyAI_DeathStaring",

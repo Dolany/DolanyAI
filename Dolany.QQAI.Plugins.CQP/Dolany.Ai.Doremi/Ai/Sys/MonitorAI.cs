@@ -10,7 +10,8 @@ namespace Dolany.Ai.Doremi.Ai.Sys
     [AI(Name = "监视器",
         Description = "AI for Monitoring and managing Ais status.",
         Enable = true,
-        PriorityLevel = 100)]
+        PriorityLevel = 100,
+        BindAi = "Doremi")]
     public class MonitorAI : AIBase
     {
         public override bool OnMsgReceived(MsgInformationEx MsgDTO)
