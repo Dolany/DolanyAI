@@ -67,9 +67,15 @@ namespace Dolany.Ai.Core.OnlineStore
             return HonorList.FirstOrDefault(h => h.Name == name);
         }
 
-        public bool IsLimit(string itemName)
+        public bool IsLimitItem(string itemName)
         {
             var honor = HonorList.First(h => h.Items.Any(p => p.Name == itemName));
+            return honor is LimitHonorModel;
+        }
+
+        public bool IsLimitHonor(string honorName)
+        {
+            var honor = HonorList.First(p => p.Name == honorName);
             return honor is LimitHonorModel;
         }
 

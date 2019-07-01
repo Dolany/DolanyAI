@@ -4,7 +4,7 @@ using Dolany.Database;
 
 namespace Dolany.Ai.Doremi.OnlineStore
 {
-    public partial class OSPerson : DbBaseEntity
+    public class OSPerson : DbBaseEntity
     {
         public long QQNum { get; set; }
 

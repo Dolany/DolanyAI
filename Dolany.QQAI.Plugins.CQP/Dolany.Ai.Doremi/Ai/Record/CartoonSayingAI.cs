@@ -12,7 +12,8 @@ namespace Dolany.Ai.Doremi.Ai.Record
     [AI(Name = "语录",
         Description = "AI for Cartoon Sayings.",
         Enable = true,
-        PriorityLevel = 10)]
+        PriorityLevel = 10,
+        BindAi = "Doremi")]
     public class CartoonSayingAI : AIBase
     {
         [EnterCommand(ID = "CartoonSayingAI_ProcceedMsg",

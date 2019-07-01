@@ -86,7 +86,7 @@ namespace Dolany.Ai.Core.Ai.Game.Shopping
             {
                 p.Key,
                 Count = p.Value - 1,
-                IsLimit = HonorHelper.Instance.IsLimit(p.Key),
+                IsLimit = HonorHelper.Instance.IsLimitItem(p.Key),
                 Price = HonorHelper.GetItemPrice(HonorHelper.Instance.FindItem(p.Key), MsgDTO.FromQQ)
             }).ToList();
             var msg = $"你即将贩卖{ictm.Sum(i => i.Count)}件物品，" +

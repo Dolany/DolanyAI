@@ -187,13 +187,13 @@ namespace Dolany.Ai.Core.Ai.Record
         public bool MyHonors(MsgInformationEx MsgDTO, object[] param)
         {
             var query = ItemCollectionRecord.Get(MsgDTO.FromQQ);
-            if (query.HonorList == null || query.HonorList.All(p => HonorHelper.Instance.IsLimit(p)))
+            if (query.HonorList == null || query.HonorList.All(p => HonorHelper.Instance.IsLimitHonor(p)))
             {
                 MsgSender.PushMsg(MsgDTO, "你还没有获得任何成就，继续加油吧~", true);
                 return false;
             }
 
-            var msg = $"你获得的成就有：{string.Join(",", query.HonorList.Where(p => HonorHelper.Instance.IsLimit(p)))}";
+            var msg = $"你获得的成就有：{string.Join(",", query.HonorList.Where(p => HonorHelper.Instance.IsLimitItem(p)))}";
             MsgSender.PushMsg(MsgDTO, msg, true);
             return true;
         }
