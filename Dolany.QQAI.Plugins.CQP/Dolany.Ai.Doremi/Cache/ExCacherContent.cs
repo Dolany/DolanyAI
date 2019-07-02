@@ -4,7 +4,7 @@ using Microsoft.EntityFrameworkCore;
 
 namespace Dolany.Ai.Doremi.Cache
 {
-    public class ExCacherContent : SqliteContext
+    public class ExCacherContent : BaseCacheContent
     {
         public ExCacherContent(string source) : base(source)
         {
