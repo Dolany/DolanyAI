@@ -32,6 +32,55 @@ namespace Dolany.Ai.Doremi.Ai.Game.Xiuxian
             }
         }
 
+        public static void PersonEnable(long QQNum)
+        {
+            mutex.WaitOne();
+            try
+            {
+                using var db = new ExCacherContent(dataSource);
+                if (db.CounterEnableRecord.Any(p => p.QQNum == QQNum))
+                {
+                    return;
+                }
+
+                db.CounterEnableRecord.Add(new CounterEnableRecord() {QQNum = QQNum});
+                db.SaveChanges();
+            }
+            catch (Exception e)
+            {
+                RuntimeLogger.Log(e);
+            }
+            finally
+            {
+                mutex.ReleaseMutex();
+            }
+        }
+
+        public static void PersonDisable(long QQNum)
+        {
+            mutex.WaitOne();
+            try
+            {
+                using var db = new ExCacherContent(dataSource);
+                var record = db.CounterEnableRecord.FirstOrDefault(p => p.QQNum == QQNum);
+                if (record == null)
+                {
+                    return;
+                }
+
+                db.CounterEnableRecord.Remove(record);
+                db.SaveChanges();
+            }
+            catch (Exception e)
+            {
+                RuntimeLogger.Log(e);
+            }
+            finally
+            {
+                mutex.ReleaseMutex();
+            }
+        }
+
         public static void Cache(Dictionary<long, long> RecordDic)
         {
             foreach (var (key, value) in RecordDic)
