@@ -11,8 +11,8 @@ namespace Dolany.Database
 
         private MongoContext()
         {
-            var mongoConnStr = Configger.Instance.AIConfig.MongoConnStr;
-            var mongoDbName = Configger.Instance.AIConfig.MongoDbName;
+            var mongoConnStr = Configger<AIConfigBase>.Instance.AIConfig.MongoConnStr;
+            var mongoDbName = Configger<AIConfigBase>.Instance.AIConfig.MongoDbName;
 
             var client = new MongoClient(mongoConnStr);
             _Database = client.GetDatabase(mongoDbName);

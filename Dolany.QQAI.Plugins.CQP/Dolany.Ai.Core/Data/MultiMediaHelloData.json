@@ -1,14 +1,20 @@
 ﻿{
   "哆啦": {
     "QQNum": 1213957092,
-    "ContentPath": "./voices/Custom/哆啦出场.mp3",
+    "ContentPath": "./voices/Custom/哆啦登场.mp3",
     "MediaType": 1,
     "Location": 2
   },
   "苏苏": {
     "QQNum": 2053883063,
-    "ContentPath": "./voices/Custom/苏苏出场.mp3",
+    "ContentPath": "./voices/Custom/苏苏登场.mp3",
     "MediaType": 1,
     "Location": 2
-  } 
+  },
+  "小弱鸡": {
+    "QQNum": 3537762645,
+    "ContentPath": "./voices/Custom/小弱鸡登场.mp3",
+    "MediaType": 1,
+    "Location": 2
+  }
 }

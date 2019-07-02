@@ -123,7 +123,7 @@ namespace Dolany.Ai.Doremi
             LoadTools();
             LoadCheckers();
 
-            SFixedSetService.SetMaxCount("PicCache", Configger.Instance.AIConfig.MaxPicCacheCount);
+            SFixedSetService.SetMaxCount("PicCache", Configger<AIConfigBase>.Instance.AIConfig.MaxPicCacheCount);
         }
 
         private void LoadCheckers()

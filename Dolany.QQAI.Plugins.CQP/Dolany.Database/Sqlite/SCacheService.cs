@@ -9,8 +9,8 @@ namespace Dolany.Database.Sqlite
 {
     public class SCacheService
     {
-        private static readonly Mutex mutex = new Mutex(false, Configger.Instance.AIConfig.Mutex);
-        private static readonly string dataSource = Configger.Instance.AIConfig.CacheDb;
+        private static readonly Mutex mutex = new Mutex(false, Configger<AIConfigBase>.Instance.AIConfig.Mutex);
+        private static readonly string dataSource = Configger<AIConfigBase>.Instance.AIConfig.CacheDb;
 
         public static void Cache<T>(string key, T data, DateTime expTime)
         {

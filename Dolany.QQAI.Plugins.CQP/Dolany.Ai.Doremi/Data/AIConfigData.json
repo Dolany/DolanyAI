@@ -19,5 +19,7 @@
   "FixedSetCacheDb": "C:/AIDB/fixedSetCache_doremi.db",
   "MongoConnStr": "mongodb://localhost",
   "MongoDbName": "Doremi",
-  "MainAi": "Doremi"
+  "MainAi": "Doremi",
+  "MsgCounterCacheDb": "C:/AIDB/counterdb_doremi.db",
+  "CounterMutex": "CounterMutex_Doremi"
 }

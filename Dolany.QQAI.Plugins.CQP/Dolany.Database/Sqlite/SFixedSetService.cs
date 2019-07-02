@@ -9,8 +9,8 @@ namespace Dolany.Database.Sqlite
 {
     public class SFixedSetService
     {
-        private static readonly Mutex mutex = new Mutex(false, Configger.Instance.AIConfig.FixedSetMutex);
-        private static readonly string dataSource = Configger.Instance.AIConfig.FixedSetCacheDb;
+        private static readonly Mutex mutex = new Mutex(false, Configger<AIConfigBase>.Instance.AIConfig.FixedSetMutex);
+        private static readonly string dataSource = Configger<AIConfigBase>.Instance.AIConfig.FixedSetCacheDb;
 
         public static void SetMaxCount(string key, int count)
         {

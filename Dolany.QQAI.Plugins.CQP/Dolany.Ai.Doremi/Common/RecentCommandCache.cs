@@ -7,7 +7,7 @@ namespace Dolany.Ai.Doremi.Common
 {
     public class RecentCommandCache
     {
-        private static readonly int MaxRecentCommandCacheCount = Configger.Instance.AIConfig.MaxRecentCommandCacheCount;
+        private static readonly int MaxRecentCommandCacheCount = Configger<AIConfigBase>.Instance.AIConfig.MaxRecentCommandCacheCount;
 
         private static readonly Dictionary<string, List<DateTime>> TimeCacheDic = new Dictionary<string, List<DateTime>>();
 

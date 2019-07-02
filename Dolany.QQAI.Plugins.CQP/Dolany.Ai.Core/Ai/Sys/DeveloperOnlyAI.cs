@@ -415,7 +415,7 @@ namespace Dolany.Ai.Core.Ai.Sys
         public bool GetCache(MsgInformationEx MsgDTO, object[] param)
         {
             var key = param[0] as string;
-            using (var cache = new SqliteContext(Configger.Instance.AIConfig.CacheDb))
+            using (var cache = new SqliteContext(Configger<AIConfigBase>.Instance.AIConfig.CacheDb))
             {
                 var content = cache.SqliteCacheModel.FirstOrDefault(p => p.Key == key);
                 if (content == null)
@@ -442,7 +442,7 @@ namespace Dolany.Ai.Core.Ai.Sys
         public bool CleanCache(MsgInformationEx MsgDTO, object[] param)
         {
             var key = param[0] as string;
-            using (var cache = new SqliteContext(Configger.Instance.AIConfig.CacheDb))
+            using (var cache = new SqliteContext(Configger<AIConfigBase>.Instance.AIConfig.CacheDb))
             {
                 var content = cache.SqliteCacheModel.FirstOrDefault(p => p.Key == key);
                 if (content == null)

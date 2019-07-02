@@ -1,18 +1,18 @@
 ﻿namespace Dolany.Ai.Common
 {
-    public class Configger
+    public class Configger<ConfigType>
     {
-        public AIConfig AIConfig { get; }
+        public ConfigType AIConfig { get; }
 
-        public static Configger Instance { get; } = new Configger();
+        public static Configger<ConfigType> Instance { get; } = new Configger<ConfigType>();
 
         private Configger()
         {
-            AIConfig = CommonUtil.ReadJsonData<AIConfig>("AIConfigData");
+            AIConfig = CommonUtil.ReadJsonData<ConfigType>("AIConfigData");
         }
     }
 
-    public class AIConfig
+    public class AIConfigBase
     {
         public int PraiseLimit { get; set; }
 
