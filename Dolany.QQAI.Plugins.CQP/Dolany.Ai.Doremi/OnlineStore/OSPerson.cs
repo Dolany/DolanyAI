@@ -12,6 +12,8 @@ namespace Dolany.Ai.Doremi.OnlineStore
 
         public Dictionary<string, int> GiftDic { get; set; }
 
+        public int Level { get; set; }
+
         public static OSPerson GetPerson(long QQNum)
         {
             var osPerson = MongoService<OSPerson>.GetOnly(p => p.QQNum == QQNum);
