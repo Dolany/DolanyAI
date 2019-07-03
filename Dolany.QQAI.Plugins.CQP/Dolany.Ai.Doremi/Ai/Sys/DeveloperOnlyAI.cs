@@ -4,6 +4,7 @@ using System.Linq;
 using System.Threading;
 using Dolany.Ai.Common;
 using Dolany.Ai.Common.Models;
+using Dolany.Ai.Doremi.API;
 using Dolany.Ai.Doremi.Base;
 using Dolany.Ai.Doremi.Cache;
 using Dolany.Ai.Doremi.Common;
@@ -375,6 +376,25 @@ namespace Dolany.Ai.Doremi.Ai.Sys
                 MsgSender.PushMsg(MsgDTO, "completed");
             }
 
+            return true;
+        }
+
+        [EnterCommand(ID = "DeveloperOnlyAI_Silence",
+            Command = "虚空放逐",
+            Description = "禁言一个成员若干分钟",
+            Syntax = "[@QQ号] [分钟数]",
+            Tag = "系统命令",
+            SyntaxChecker = "At Long",
+            AuthorityLevel = AuthorityLevel.开发者,
+            IsPrivateAvailable = false)]
+        public bool Silence(MsgInformationEx MsgDTO, object[] param)
+        {
+            var aimNum = (long) param[0];
+            var minutes = (int) (long) param[1];
+
+            APIEx.Silence(MsgDTO.FromQQ, aimNum, minutes, MsgDTO.BindAi);
+
+            MsgSender.PushMsg(MsgDTO, "操作成功！");
             return true;
         }
     }

@@ -1,6 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
 using Dolany.Ai.Doremi.Model;
+using Newtonsoft.Json;
 
 namespace Dolany.Ai.Doremi.Common
 {

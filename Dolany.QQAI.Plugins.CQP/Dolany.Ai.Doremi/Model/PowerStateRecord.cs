@@ -25,5 +25,10 @@ namespace Dolany.Ai.Doremi.Model
         {
             MongoService<PowerStateRecord>.Update(this);
         }
+
+        public override string ToString()
+        {
+            return $"AiName: {AiName};IsPowerOn:{IsPowerOn}";
+        }
     }
 }

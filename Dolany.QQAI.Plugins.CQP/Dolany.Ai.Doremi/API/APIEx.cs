@@ -59,5 +59,18 @@ namespace Dolany.Ai.Doremi.API
                     BindAi = BindAi
                 });
         }
+
+        public static void Silence(long GroupNum, long QQNum, int milliseconds, string BindAi)
+        {
+            Waiter.Instance.WaitForRelationId(
+                new MsgCommand
+                {
+                    Command = CommandType.SetSilence,
+                    Msg = milliseconds.ToString(),
+                    ToQQ = QQNum,
+                    ToGroup = GroupNum,
+                    BindAi = BindAi
+                });
+        }
     }
 }
