@@ -118,6 +118,34 @@ namespace Dolany.Ai.Doremi.Ai.Game.Xiuxian
             }
         }
 
+        public static void Consume(long QQNum, long count = 1)
+        {
+            mutex.WaitOne();
+            try
+            {
+                using var db = new ExCacherContent(dataSource);
+                var record = db.PersonMsgCountRecord.FirstOrDefault(p => p.QQNum == QQNum);
+                if (record == null)
+                {
+                    return;
+                }
+                else
+                {
+                    record.Count = count > record.Count ? 0 : record.Count - count;
+                }
+
+                db.SaveChanges();
+            }
+            catch (Exception e)
+            {
+                RuntimeLogger.Log(e);
+            }
+            finally
+            {
+                mutex.ReleaseMutex();
+            }
+        }
+
         public static long Get(long QQNum)
         {
             mutex.WaitOne();
@@ -125,7 +153,7 @@ namespace Dolany.Ai.Doremi.Ai.Game.Xiuxian
             {
                 using var db = new ExCacherContent(dataSource);
                 var record = db.PersonMsgCountRecord.FirstOrDefault(p => p.QQNum == QQNum);
-                return record?.QQNum ?? 0;
+                return record?.Count ?? 0;
             }
             catch (Exception e)
             {

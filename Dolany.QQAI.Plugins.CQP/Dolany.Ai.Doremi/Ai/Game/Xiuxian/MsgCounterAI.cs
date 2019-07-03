@@ -2,6 +2,8 @@
 using Dolany.Ai.Common.Models;
 using Dolany.Ai.Doremi.Base;
 using Dolany.Ai.Doremi.Cache;
+using Dolany.Ai.Doremi.OnlineStore;
+using Dolany.Ai.Doremi.Xiuxian;
 
 namespace Dolany.Ai.Doremi.Ai.Game.Xiuxian
 {
@@ -43,7 +45,7 @@ namespace Dolany.Ai.Doremi.Ai.Game.Xiuxian
             Syntax = "",
             Tag = "修仙功能",
             SyntaxChecker = "Empty",
-            IsPrivateAvailable = true)]
+            IsPrivateAvailable = false)]
         public bool Enable(MsgInformationEx MsgDTO, object[] param)
         {
             if (EnablePersons.Contains(MsgDTO.FromQQ))
@@ -66,7 +68,7 @@ namespace Dolany.Ai.Doremi.Ai.Game.Xiuxian
             Syntax = "",
             Tag = "修仙功能",
             SyntaxChecker = "Empty",
-            IsPrivateAvailable = true)]
+            IsPrivateAvailable = false)]
         public bool Disable(MsgInformationEx MsgDTO, object[] param)
         {
             if (!EnablePersons.Contains(MsgDTO.FromQQ))
@@ -79,6 +81,33 @@ namespace Dolany.Ai.Doremi.Ai.Game.Xiuxian
             MsgCounterSvc.PersonDisable(MsgDTO.FromQQ);
 
             MsgSender.PushMsg(MsgDTO, "关闭成功！");
+            return true;
+        }
+
+        [EnterCommand(ID = "MsgCounterAI_Upgrade",
+            Command = "渡劫",
+            AuthorityLevel = AuthorityLevel.成员,
+            Description = "消耗经验值升级",
+            Syntax = "",
+            Tag = "修仙功能",
+            SyntaxChecker = "Empty",
+            IsPrivateAvailable = false)]
+        public bool Upgrade(MsgInformationEx MsgDTO, object[] param)
+        {
+            var osPerson = OSPerson.GetPerson(MsgDTO.FromQQ);
+            var level = LevelMgr.Instance.GetByLevel(osPerson.Level);
+            var exp = MsgCounterSvc.Get(MsgDTO.FromQQ);
+
+            if (exp < level.Exp)
+            {
+                MsgSender.PushMsg(MsgDTO, "你没有足够的经验值升级！", true);
+                return false;
+            }
+
+            osPerson.Level++;
+            MsgCounterSvc.Consume(MsgDTO.FromQQ, exp -= level.Exp);
+
+            MsgSender.PushMsg(MsgDTO, "升级成功！");
             return true;
         }
     }

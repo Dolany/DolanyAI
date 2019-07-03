@@ -1,5 +1,9 @@
 ﻿using Dolany.Ai.Common.Models;
+using Dolany.Ai.Doremi.Ai.Game.Xiuxian;
 using Dolany.Ai.Doremi.Base;
+using Dolany.Ai.Doremi.Cache;
+using Dolany.Ai.Doremi.OnlineStore;
+using Dolany.Ai.Doremi.Xiuxian;
 
 namespace Dolany.Ai.Doremi.Ai.Game.Shopping
 {
@@ -18,10 +22,16 @@ namespace Dolany.Ai.Doremi.Ai.Game.Shopping
             Syntax = "",
             Tag = "修仙功能",
             SyntaxChecker = "Empty",
-            IsPrivateAvailable = true)]
+            IsPrivateAvailable = false)]
         public bool MyStatus(MsgInformationEx MsgDTO, object[] param)
         {
-            // todo
+            var osPerson = OSPerson.GetPerson(MsgDTO.FromQQ);
+            var level = LevelMgr.Instance.GetByLevel(osPerson.Level);
+            var exp = MsgCounterSvc.Get(MsgDTO.FromQQ);
+
+            var msg = $"等级：{level.Name}\r" + $"经验值：{exp}/{level.Exp}{(exp >= level.Exp ? "(可渡劫)" : "")}\r" + $"金币：{osPerson.Golds}";
+
+            MsgSender.PushMsg(MsgDTO, msg, true);
             return true;
         }
     }
