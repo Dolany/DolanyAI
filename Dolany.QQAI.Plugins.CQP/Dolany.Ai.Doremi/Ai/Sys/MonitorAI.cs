@@ -22,8 +22,7 @@ namespace Dolany.Ai.Doremi.Ai.Sys
             }
 
             FiltPicMsg(MsgDTO);
-
-            return MsgDTO.Type == MsgType.Group && !GroupSettingMgr.Instance[MsgDTO.FromGroup].IsPowerOn;
+            return false;
         }
 
         private static void FiltPicMsg(MsgInformationEx MsgDTO)
@@ -41,7 +40,7 @@ namespace Dolany.Ai.Doremi.Ai.Sys
 
         [EnterCommand(ID = "MonitorAI_PowerOff",
             Command = "关机 PowerOff",
-            Description = "让机器人休眠",
+            Description = "让所有机器人休眠",
             Syntax = "",
             Tag = "系统命令",
             SyntaxChecker = "Empty",
@@ -49,14 +48,35 @@ namespace Dolany.Ai.Doremi.Ai.Sys
             IsPrivateAvailable = false)]
         public bool PowerOff(MsgInformationEx MsgDTO, object[] param)
         {
-            var groupInfo = GroupSettingMgr.Instance[MsgDTO.FromGroup];
-            if (!groupInfo.IsPowerOn)
+            foreach (var ai in PowerStateMgr.Instance.Ais)
             {
+                PowerStateMgr.Instance.PowerOff(ai);
+            }
+
+            MsgSender.PushMsg(MsgDTO, "所有机器人关机成功！");
+            return true;
+        }
+
+        [EnterCommand(ID = "MonitorAI_PowerOffIndex",
+            Command = "关机",
+            Description = "按编号让指定机器人休眠",
+            Syntax = "[编号]",
+            Tag = "系统命令",
+            SyntaxChecker = "Long",
+            AuthorityLevel = AuthorityLevel.管理员,
+            IsPrivateAvailable = false)]
+        public bool PowerOffIndex(MsgInformationEx MsgDTO, object[] param)
+        {
+            var idx = (int) (long) param[0];
+            if (idx < 0 || idx >= PowerStateMgr.Instance.Ais.Length)
+            {
+                MsgSender.PushMsg(MsgDTO, "编号错误！");
                 return false;
             }
 
-            groupInfo.IsPowerOn = false;
-            groupInfo.Update();
+            var aiName = PowerStateMgr.Instance.Ais[idx];
+            PowerStateMgr.Instance.PowerOff(aiName);
+            MsgDTO.BindAi = aiName;
 
             MsgSender.PushMsg(MsgDTO, "关机成功！");
             return true;
@@ -64,7 +84,7 @@ namespace Dolany.Ai.Doremi.Ai.Sys
 
         [EnterCommand(ID = "MonitorAI_PowerOn",
             Command = "开机 PowerOn",
-            Description = "唤醒机器人",
+            Description = "唤醒所有机器人",
             Syntax = "",
             Tag = "系统命令",
             SyntaxChecker = "Empty",
@@ -80,6 +100,31 @@ namespace Dolany.Ai.Doremi.Ai.Sys
 
             groupInfo.IsPowerOn = true;
             groupInfo.Update();
+
+            MsgSender.PushMsg(MsgDTO, "所有机器人开机成功！");
+            return true;
+        }
+
+        [EnterCommand(ID = "MonitorAI_PowerOnIndex",
+            Command = "开机",
+            Description = "按编号唤醒指定机器人",
+            Syntax = "[编号]",
+            Tag = "系统命令",
+            SyntaxChecker = "Long",
+            AuthorityLevel = AuthorityLevel.管理员,
+            IsPrivateAvailable = false)]
+        public bool PowerOnIndex(MsgInformationEx MsgDTO, object[] param)
+        {
+            var idx = (int) (long) param[0];
+            if (idx < 0 || idx >= PowerStateMgr.Instance.Ais.Length)
+            {
+                MsgSender.PushMsg(MsgDTO, "编号错误！");
+                return false;
+            }
+
+            var aiName = PowerStateMgr.Instance.Ais[idx];
+            PowerStateMgr.Instance.PowerOn(aiName);
+            MsgDTO.BindAi = aiName;
 
             MsgSender.PushMsg(MsgDTO, "开机成功！");
             return true;
@@ -117,7 +162,9 @@ namespace Dolany.Ai.Doremi.Ai.Sys
             var setting = GroupSettingMgr.Instance[MsgDTO.FromGroup];
             var expiryDate = $"\r有效期至：{setting.ExpiryTime?.ToLocalTime()}";
 
-            var pState = RecentCommandCache.IsTooFreq(MsgDTO.BindAi) ? "过热保护" : setting.IsPowerOn ? "开机" : "关机";
+            var pState = string.Join("\r",
+                PowerStateMgr.Instance.Ais.Select((ai, idx) =>
+                    $"{idx}号机:{(RecentCommandCache.IsTooFreq(ai) ? "过热保护" : PowerStateMgr.Instance.CheckPower(ai) ? "开机" : "关机")}"));
             return $"\r电源状态：{pState}" + expiryDate;
         }
 

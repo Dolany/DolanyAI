@@ -228,6 +228,16 @@ namespace Dolany.Ai.Doremi
                     foreach (var ai in AIList)
                     {
                         MsgDTO.BindAi = ai.AIAttr.BindAi;
+                        if (ai.AIAttr.PriorityLevel < 100 && !PowerStateMgr.Instance.CheckPower(MsgDTO.BindAi))
+                        {
+                            continue;
+                        }
+
+                        if (RecentCommandCache.IsTooFreq(MsgDTO.BindAi))
+                        {
+                            continue;
+                        }
+
                         if (ai.OnMsgReceived(MsgDTO))
                         {
                             return;

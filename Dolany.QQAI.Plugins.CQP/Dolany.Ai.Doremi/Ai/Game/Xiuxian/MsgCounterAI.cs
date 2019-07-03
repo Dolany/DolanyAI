@@ -105,7 +105,8 @@ namespace Dolany.Ai.Doremi.Ai.Game.Xiuxian
             }
 
             osPerson.Level++;
-            MsgCounterSvc.Consume(MsgDTO.FromQQ, exp -= level.Exp);
+            osPerson.Update();
+            MsgCounterSvc.Consume(MsgDTO.FromQQ, level.Exp);
 
             MsgSender.PushMsg(MsgDTO, "升级成功！");
             return true;
