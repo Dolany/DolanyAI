@@ -92,14 +92,10 @@ namespace Dolany.Ai.Doremi.Ai.Sys
             IsPrivateAvailable = false)]
         public bool PowerOn(MsgInformationEx MsgDTO, object[] param)
         {
-            var groupInfo = GroupSettingMgr.Instance[MsgDTO.FromGroup];
-            if (groupInfo.IsPowerOn)
+            foreach (var ai in PowerStateMgr.Instance.Ais)
             {
-                return false;
+                PowerStateMgr.Instance.PowerOn(ai);
             }
-
-            groupInfo.IsPowerOn = true;
-            groupInfo.Update();
 
             MsgSender.PushMsg(MsgDTO, "所有机器人开机成功！");
             return true;

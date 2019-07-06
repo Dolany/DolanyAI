@@ -6,9 +6,9 @@ using Dolany.Ai.Doremi.Base;
 
 namespace Dolany.Ai.Doremi.Ai.Sys
 {
-    [AI(Name = "口球",
+    [AI(Name = "自动静默",
         Description = "AI for Silence.",
-        Enable = true,
+        Enable = false,
         PriorityLevel = 11,
         BindAi = "Doremi")]
     public class ForbidenAI : AIBase

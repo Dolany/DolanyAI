@@ -1,0 +1,14 @@
+﻿{
+  "涅普": {
+    "PetNo": "Neptune",
+    "Description": "Planeptune的女神，最爱的食物是布丁，把你涅普涅普掉哟！",
+    "DefaultPicPath": "./images/Pet/Neptune/Default.jpg",
+    "Levels": [
+      {
+        "Level": 1,
+        "Exp": 100,
+        "PicPath": "./images/Pet/Neptune/Default.jpg"
+      }
+    ] 
+  }
+}

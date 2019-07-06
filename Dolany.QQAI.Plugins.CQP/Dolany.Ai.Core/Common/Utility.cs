@@ -1,8 +1,12 @@
 ﻿using System;
+using System.Collections.Generic;
+using System.Drawing;
 using System.IO;
 using System.Linq;
+using System.Net;
 using Dolany.Ai.Common;
 using Dolany.Ai.Common.Models;
+using Dolany.Ai.Core.API;
 using JetBrains.Annotations;
 
 namespace Dolany.Ai.Core.Common
@@ -23,12 +27,7 @@ namespace Dolany.Ai.Core.Common
                 return null;
             }
 
-            if (!int.TryParse(strs[1], out var minute))
-            {
-                return null;
-            }
-
-            return new HourMinuteModel { Hour = hour, Minute = minute };
+            return !int.TryParse(strs[1], out var minute) ? null : new HourMinuteModel { Hour = hour, Minute = minute };
         }
 
         public static AuthorityLevel GetAuth(MsgInformationEx MsgDTO)
@@ -54,35 +53,28 @@ namespace Dolany.Ai.Core.Common
                 return AuthorityLevel.群主;
             }
 
-            if (setting.AuthInfo.Mgrs.Contains(MsgDTO.FromQQ))
-            {
-                return AuthorityLevel.管理员;
-            }
-
-            return AuthorityLevel.成员;
+            return setting.AuthInfo.Mgrs.Contains(MsgDTO.FromQQ) ? AuthorityLevel.管理员 : AuthorityLevel.成员;
         }
 
         [NotNull]
         private static ImageCacheModel ReadImageCacheInfo(FileSystemInfo file)
         {
-            using (var reader = new StreamReader(file.FullName))
+            using var reader = new StreamReader(file.FullName);
+            var model = new ImageCacheModel();
+
+            string line;
+            while (!string.IsNullOrEmpty(line = reader.ReadLine()))
             {
-                var model = new ImageCacheModel();
-
-                string line;
-                while (!string.IsNullOrEmpty(line = reader.ReadLine()))
+                var strs = line.Split(new[] { '=' }, StringSplitOptions.RemoveEmptyEntries);
+                if (strs.IsNullOrEmpty() || strs.Length < 2)
                 {
-                    var strs = line.Split(new[] { '=' }, StringSplitOptions.RemoveEmptyEntries);
-                    if (strs.IsNullOrEmpty() || strs.Length < 2)
-                    {
-                        continue;
-                    }
-
-                    SetPropertyValue(model, strs[0], strs[1]);
+                    continue;
                 }
 
-                return model;
+                SetPropertyValue(model, strs[0], strs[1]);
             }
+
+            return model;
         }
 
         [CanBeNull]
@@ -113,9 +105,100 @@ namespace Dolany.Ai.Core.Common
             var strs1 = msg.Split(new[] { "QQ:pic=" }, StringSplitOptions.RemoveEmptyEntries);
             var strs2 = strs1.Last().Split(']');
             var strs3 = strs2.First().Split('.');
-            var imageGuid = strs3.First();
+            var imageGuid = strs3.FirstOrDefault();
 
             return imageGuid;
+        }
+
+        public static string LevelEmoji(int level)
+        {
+            var stack = EmojiConvent(level);
+            var msg = "";
+            while (stack.Count > 0)
+            {
+                msg += stack.Pop();
+            }
+
+            return msg;
+        }
+
+        private static Stack<string> EmojiConvent(int level)
+        {
+            var stack = new Stack<string>();
+
+            if (level <= 0)
+            {
+                return stack;
+            }
+
+            var count = level % 4;
+            for (var i = 0; i < count; i++)
+            {
+                stack.Push(Emoji.星星);
+            }
+
+            level /= 4;
+
+            if (level <= 0)
+            {
+                return stack;
+            }
+
+            count = level % 4;
+            for (var i = 0; i < count; i++)
+            {
+                stack.Push(Emoji.月亮);
+            }
+
+            level /= 4;
+
+            if (level <= 0)
+            {
+                return stack;
+            }
+
+            count = level % 4;
+            for (var i = 0; i < count; i++)
+            {
+                stack.Push(Emoji.太阳);
+            }
+
+            level /= 4;
+
+            if (level <= 0)
+            {
+                return stack;
+            }
+
+            count = level % 4;
+            for (var i = 0; i < count; i++)
+            {
+                stack.Push(Emoji.王冠);
+            }
+
+            return stack;
+        }
+
+        public static bool DownloadImage(string url, string savePath)
+        {
+            try
+            {
+                var req = (HttpWebRequest)WebRequest.Create(url);
+                req.ServicePoint.Expect100Continue = false;
+                req.Method = "GET";
+                req.KeepAlive = true;
+                req.ContentType = "image/*";
+                using var rsp = (HttpWebResponse) req.GetResponse();
+                using var stream = rsp.GetResponseStream();
+                Image.FromStream(stream).Save(savePath);
+
+                return true;
+            }
+            catch (Exception e)
+            {
+                RuntimeLogger.Log(e);
+                return false;
+            }
         }
     }
 }

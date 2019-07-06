@@ -29,6 +29,11 @@ namespace Dolany.Ai.Common
             return $"[QQ:voice={filePath}]";
         }
 
+        public static string Code_Emoji(long code)
+        {
+            return $"[QQ:emoji={code}]";
+        }
+
         public static string ImageExtension => ".ini";
     }
 }

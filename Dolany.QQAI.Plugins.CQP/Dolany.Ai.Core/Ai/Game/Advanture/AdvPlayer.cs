@@ -1,4 +1,7 @@
-﻿using Dolany.Ai.Common;
+﻿using System.Collections.Generic;
+using Dolany.Ai.Common;
+using Dolany.Ai.Core.API;
+using Dolany.Ai.Core.Common;
 using Dolany.Database;
 
 namespace Dolany.Ai.Core.Ai.Game.Advanture
@@ -20,6 +23,8 @@ namespace Dolany.Ai.Core.Ai.Game.Advanture
         public int WinTotal { get; set; }
 
         public int GameTotal { get; set; }
+
+        public string EmojiLevel => Utility.LevelEmoji(Level);
 
         public static AdvPlayer GetPlayer(long QQNum)
         {

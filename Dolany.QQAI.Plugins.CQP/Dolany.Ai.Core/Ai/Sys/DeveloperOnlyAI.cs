@@ -458,5 +458,36 @@ namespace Dolany.Ai.Core.Ai.Sys
 
             return true;
         }
+
+        [EnterCommand(ID = "DeveloperOnlyAI_Test",
+            Command = "test",
+            Description = "test",
+            Syntax = "",
+            Tag = "系统命令",
+            SyntaxChecker = "Empty",
+            AuthorityLevel = AuthorityLevel.开发者,
+            IsPrivateAvailable = true)]
+        public bool Test(MsgInformationEx MsgDTO, object[] param)
+        {
+            var info = Waiter.Instance.WaitForInformation(MsgDTO, "wait for pic",
+                information => information.FromGroup == MsgDTO.FromGroup && information.FromQQ == MsgDTO.FromQQ &&
+                               !string.IsNullOrEmpty(Utility.ParsePicGuid(information.Msg)), 10);
+            if(info == null)
+            {
+                MsgSender.PushMsg(MsgDTO, "operation cancel!");
+                return false;
+            }
+
+            var bindai = BindAiMgr.Instance[MsgDTO.BindAi];
+
+            var picGuid = Utility.ParsePicGuid(info.Msg);
+            var imageCache = Utility.ReadImageCacheInfo(picGuid, bindai.ImagePath);
+            MsgSender.PushMsg(MsgDTO, imageCache?.url);
+            var path = $"./images/Custom/Pet/{MsgDTO.FromQQ}.{imageCache?.type}";
+            Utility.DownloadImage(imageCache?.url, path);
+
+            MsgSender.PushMsg(MsgDTO, CodeApi.Code_Image_Relational(path));
+            return true;
+        }
     }
 }

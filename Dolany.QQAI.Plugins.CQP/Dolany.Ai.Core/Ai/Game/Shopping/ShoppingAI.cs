@@ -350,7 +350,7 @@ namespace Dolany.Ai.Core.Ai.Game.Shopping
             var advPlayer = AdvPlayer.GetPlayer(MsgDTO.FromQQ);
             var glamourRecord = GlamourRecord.Get(MsgDTO.FromGroup, MsgDTO.FromQQ);
 
-            var msg = $"等级：{advPlayer.Level}\r" +
+            var msg = $"等级：{advPlayer.EmojiLevel}\r" +
                       $"经验值：{advPlayer.Exp}\r" +
                       $"金币：{osPerson.Golds}\r" +
                       $"战绩：{advPlayer.WinTotal}/{advPlayer.GameTotal}\r" +
