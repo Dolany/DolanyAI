@@ -40,7 +40,9 @@ namespace Dolany.Ai.Core.Ai.Game.Pet
             Syntax = "[名称]",
             Tag = "宠物功能",
             SyntaxChecker = "Word",
-            IsPrivateAvailable = false)]
+            IsPrivateAvailable = false,
+            DailyLimit = 3,
+            TestingDailyLimit = 4)]
         public bool RenamePet(MsgInformationEx MsgDTO, object[] param)
         {
             var name = param[0] as string;
@@ -71,7 +73,9 @@ namespace Dolany.Ai.Core.Ai.Game.Pet
             Syntax = "[种族名]",
             Tag = "宠物功能",
             SyntaxChecker = "Word",
-            IsPrivateAvailable = false)]
+            IsPrivateAvailable = false,
+            DailyLimit = 3,
+            TestingDailyLimit = 4)]
         public bool SetPetKind(MsgInformationEx MsgDTO, object[] param)
         {
             var name = param[0] as string;
@@ -102,7 +106,9 @@ namespace Dolany.Ai.Core.Ai.Game.Pet
             Syntax = "",
             Tag = "宠物功能",
             SyntaxChecker = "Empty",
-            IsPrivateAvailable = false)]
+            IsPrivateAvailable = false,
+            DailyLimit = 3,
+            TestingDailyLimit = 4)]
         public bool SetPetPic(MsgInformationEx MsgDTO, object[] param)
         {
             var info = Waiter.Instance.WaitForInformation(MsgDTO, "请上传图片（不能超过300KB）！",
