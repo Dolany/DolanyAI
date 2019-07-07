@@ -59,19 +59,26 @@ namespace Dolany.Ai.Core.Common
         [NotNull]
         private static ImageCacheModel ReadImageCacheInfo(FileSystemInfo file)
         {
-            using var reader = new StreamReader(file.FullName);
             var model = new ImageCacheModel();
 
-            string line;
-            while (!string.IsNullOrEmpty(line = reader.ReadLine()))
+            try
             {
-                var strs = line.Split(new[] { '=' }, StringSplitOptions.RemoveEmptyEntries);
-                if (strs.IsNullOrEmpty() || strs.Length < 2)
+                using var reader = new StreamReader(file.FullName);
+                string line;
+                while (!string.IsNullOrEmpty(line = reader.ReadLine()))
                 {
-                    continue;
-                }
+                    var strs = line.Split(new[] { '=' }, StringSplitOptions.RemoveEmptyEntries);
+                    if (strs.IsNullOrEmpty() || strs.Length < 2)
+                    {
+                        continue;
+                    }
 
-                SetPropertyValue(model, strs[0], strs[1]);
+                    SetPropertyValue(model, strs[0], strs[1]);
+                }
+            }
+            catch (Exception e)
+            {
+                RuntimeLogger.Log(e);
             }
 
             return model;

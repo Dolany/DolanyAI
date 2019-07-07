@@ -1,13 +1,13 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using Dolany.Ai.Common;
+using Dolany.Ai.Core.Common;
 
 namespace Dolany.Ai.Core.Cache
 {
     public class RecentCommandCache
     {
-        private static readonly int MaxRecentCommandCacheCount = Configger<AIConfigBase>.Instance.AIConfig.MaxRecentCommandCacheCount;
+        private static readonly int MaxRecentCommandCacheCount = Global.DefaultConfig.MaxRecentCommandCacheCount;
 
         private static readonly Dictionary<string, List<DateTime>> TimeCacheDic = new Dictionary<string, List<DateTime>>();
 

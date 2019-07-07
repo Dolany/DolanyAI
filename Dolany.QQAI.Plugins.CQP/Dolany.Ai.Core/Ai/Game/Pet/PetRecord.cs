@@ -1,4 +1,5 @@
-﻿using Dolany.Database;
+﻿using System.IO;
+using Dolany.Database;
 
 namespace Dolany.Ai.Core.Ai.Game.Pet
 {
@@ -24,7 +25,9 @@ namespace Dolany.Ai.Core.Ai.Game.Pet
                 return pet;
             }
 
-            pet = new PetRecord(){QQNum = QQNum, PetNo = "Neptune", Name = "涅普", Level = 1, PicPath = "./images/Pet/Neptune/Default.jpg"};
+            var aimPath = $"./images/Custom/Pet/{QQNum}.jpg";
+            File.Copy("./images/Pet/Neptune/Default.jpg", aimPath);
+            pet = new PetRecord(){QQNum = QQNum, PetNo = "Neptune", Name = "涅普", Level = 1, PicPath = aimPath};
             MongoService<PetRecord>.Insert(pet);
             return pet;
         }

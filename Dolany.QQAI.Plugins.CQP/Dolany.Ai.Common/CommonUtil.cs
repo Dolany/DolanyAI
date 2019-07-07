@@ -24,11 +24,9 @@ namespace Dolany.Ai.Common
 
         public static T ReadJsonData<T>(string jsonName)
         {
-            using (var r = new StreamReader($"Data/{jsonName}.json"))
-            {
-                var json = r.ReadToEnd();
-                return JsonConvert.DeserializeObject<T>(json);
-            }
+            using var r = new StreamReader($"Data/{jsonName}.json");
+            var json = r.ReadToEnd();
+            return JsonConvert.DeserializeObject<T>(json);
         }
 
         public static List<T> ReadJsonData_NamedList<T>(string jsonName) where T : class, INamedJsonModel

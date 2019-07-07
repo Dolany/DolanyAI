@@ -37,7 +37,7 @@ namespace Dolany.Ai.Core.Ai.Sys
                 return false;
             }
 
-            MsgSender.PushMsg(0, Global.DeveloperNumber, content, Configger<AIConfigBase>.Instance.AIConfig.MainAi);
+            MsgSender.PushMsg(0, Global.DeveloperNumber, content, Global.DefaultConfig.MainAi);
 
             MsgSender.PushMsg(MsgDTO, "感谢你的反馈，我会变得更强！");
             return true;

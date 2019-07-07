@@ -7,19 +7,21 @@ namespace Dolany.Ai.Core.Common
 {
     public class Global
     {
-        public static bool IsTesting { get; } = Configger<AIConfigBase>.Instance.AIConfig.IsTesting;
+        public static bool IsTesting { get; } = DefaultConfig.IsTesting;
 
-        public static long DeveloperNumber { get; } = Configger<AIConfigBase>.Instance.AIConfig.DeveloperNumber;
+        public static long DeveloperNumber { get; } = DefaultConfig.DeveloperNumber;
 
-        public static long SysMsgNumber { get; } = Configger<AIConfigBase>.Instance.AIConfig.SysMsgNumber;
+        public static long SysMsgNumber { get; } = DefaultConfig.SysMsgNumber;
 
-        public static long AnonymousNumber { get; } = Configger<AIConfigBase>.Instance.AIConfig.AnonymousNumber;
+        public static long AnonymousNumber { get; } = DefaultConfig.AnonymousNumber;
 
-        public static IEnumerable<long> TestGroups { get; } = Configger<AIConfigBase>.Instance.AIConfig.TestGroups;
+        public static IEnumerable<long> TestGroups { get; } = DefaultConfig.TestGroups;
+
+        public static AIConfigBase DefaultConfig => Configger<AIConfigBase>.Instance.AIConfig;
 
         public static Dictionary<long, string> AllGroupsDic => GroupSettingMgr.Instance.SettingDic.ToDictionary(p => p.Key, p => p.Value.Name);
 
         public static readonly RabbitMQService CommandInfoService =
-            new RabbitMQService(Configger<AIConfigBase>.Instance.AIConfig.InformationQueueName);
+            new RabbitMQService(DefaultConfig.InformationQueueName);
     }
 }

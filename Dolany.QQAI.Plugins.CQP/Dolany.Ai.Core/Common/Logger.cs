@@ -19,7 +19,7 @@ namespace Dolany.Ai.Core.Common
             AIMgr.Instance.MessagePublish(error);
             RuntimeLogger.Log(ex);
 
-            MsgSender.PushMsg(0, Global.DeveloperNumber, error, Configger<AIConfigBase>.Instance.AIConfig.MainAi);
+            MsgSender.PushMsg(0, Global.DeveloperNumber, error, Global.DefaultConfig.MainAi);
         }
     }
 }

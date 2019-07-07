@@ -4,6 +4,7 @@ using Dolany.Ai.Common.Models;
 using Dolany.Ai.Core.Base;
 using Dolany.Ai.Core.Cache;
 using Dolany.Ai.Core.Common;
+using Dolany.Ai.Core.OnlineStore;
 
 namespace Dolany.Ai.Core.Ai.Game.Pet
 {
@@ -14,6 +15,8 @@ namespace Dolany.Ai.Core.Ai.Game.Pet
         NeedManulOpen = true)]
     public class PetAI : AIBase
     {
+        private const string CachePath = "./images/Cache/";
+
         [EnterCommand(ID = "PetAI_MyPet",
             Command = "我的宠物",
             AuthorityLevel = AuthorityLevel.成员,
@@ -111,6 +114,19 @@ namespace Dolany.Ai.Core.Ai.Game.Pet
             TestingDailyLimit = 4)]
         public bool SetPetPic(MsgInformationEx MsgDTO, object[] param)
         {
+            var osPerson = OSPerson.GetPerson(MsgDTO.FromQQ);
+            if (osPerson.Golds < 500)
+            {
+                MsgSender.PushMsg(MsgDTO, $"你的金币余额不足（{osPerson.Golds}/500）");
+                return false;
+            }
+
+            if (!Waiter.Instance.WaitForConfirm_Gold(MsgDTO, 500))
+            {
+                MsgSender.PushMsg(MsgDTO, "操作取消！");
+                return false;
+            }
+
             var info = Waiter.Instance.WaitForInformation(MsgDTO, "请上传图片（不能超过300KB）！",
                 information => information.FromGroup == MsgDTO.FromGroup && information.FromQQ == MsgDTO.FromQQ &&
                                !string.IsNullOrEmpty(Utility.ParsePicGuid(information.Msg)), 10);
@@ -125,15 +141,15 @@ namespace Dolany.Ai.Core.Ai.Game.Pet
             var picGuid = Utility.ParsePicGuid(info.Msg);
             var imageCache = Utility.ReadImageCacheInfo(picGuid, bindai.ImagePath);
 
-            const string cachePath = "./images/Cache/";
+            
             var fileName = $"{MsgDTO.FromQQ}.{imageCache?.type}";
-            if (!Utility.DownloadImage(imageCache?.url, cachePath + fileName))
+            if (!Utility.DownloadImage(imageCache?.url, CachePath + fileName))
             {
                 MsgSender.PushMsg(MsgDTO, "图片下载失败，请稍后再试！");
                 return false;
             }
 
-            var picFile = new FileInfo(cachePath + fileName);
+            var picFile = new FileInfo(CachePath + fileName);
             if (picFile.Length / 1024 > 300)
             {
                 MsgSender.PushMsg(MsgDTO, "图片过大，请重新上传！", true);
@@ -141,16 +157,23 @@ namespace Dolany.Ai.Core.Ai.Game.Pet
                 return false;
             }
 
-            var path = $"./images/Custom/Pet/{MsgDTO.FromQQ}.{imageCache?.type}";
-            File.Copy(cachePath + fileName, path, true);
-            picFile.Delete();
+            osPerson.Golds -= 500;
+            osPerson.Update();
 
-            var pet = PetRecord.Get(MsgDTO.FromQQ);
-            pet.PicPath = path;
-            pet.Update();
-
-            MsgSender.PushMsg(MsgDTO, "上传成功！");
+            MsgSender.PushMsg(MsgDTO, "上传成功！待审核通过后方可生效！");
+            Confirm(MsgDTO);
+            
             return true;
+        }
+
+        private void Confirm(MsgInformation MsgDTO)
+        {
+            var folder = new DirectoryInfo(CachePath);
+            var count = folder.GetFiles().Length;
+
+            var setting = GroupSettingMgr.Instance[MsgDTO.FromGroup];
+            var msg = $"有新的待审核图片！\r来自 {setting.Name} 的 {MsgDTO.FromQQ}\r当前剩余 {count} 张图片待审核！";
+            MsgSender.PushMsg(0, Global.DeveloperNumber, msg, Global.DefaultConfig.MainAi);
         }
     }
 }

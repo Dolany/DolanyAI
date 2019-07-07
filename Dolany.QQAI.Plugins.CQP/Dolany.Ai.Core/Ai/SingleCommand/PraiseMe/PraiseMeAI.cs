@@ -1,10 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
-using Dolany.Ai.Common;
 using Dolany.Ai.Common.Models;
 using Dolany.Ai.Core.API;
 using Dolany.Ai.Core.Base;
 using Dolany.Ai.Core.Cache;
+using Dolany.Ai.Core.Common;
 
 namespace Dolany.Ai.Core.Ai.SingleCommand.PraiseMe
 {
@@ -16,7 +16,7 @@ namespace Dolany.Ai.Core.Ai.SingleCommand.PraiseMe
     {
         private readonly Dictionary<string, DateTime> LastTimeDic = new Dictionary<string, DateTime>();
 
-        private readonly int PraiseLimit = Configger<AIConfigBase>.Instance.AIConfig.PraiseLimit;
+        private readonly int PraiseLimit = Global.DefaultConfig.PraiseLimit;
 
         [EnterCommand(ID = "PraiseMeAI_PraiseMe",
             Command = "赞我",
