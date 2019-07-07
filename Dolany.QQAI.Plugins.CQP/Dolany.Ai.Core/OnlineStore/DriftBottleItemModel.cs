@@ -13,6 +13,8 @@ namespace Dolany.Ai.Core.OnlineStore
         public string Honor { get; set; }
 
         public int Price { get; set; }
+
+        public string[] Attributes { get; set; }
     }
 
     public class HonorModel

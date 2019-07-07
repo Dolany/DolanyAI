@@ -29,8 +29,9 @@ namespace Dolany.Ai.Core.Ai.Game.Pet
         {
             var pet = PetRecord.Get(MsgDTO.FromQQ);
 
+            var levelModel = PetLevelMgr.Instance[pet.Level];
             var msg = $"{CodeApi.Code_Image_Relational(pet.PicPath)}\r" + $"名称：{pet.Name}\r" + $"种族：{pet.PetNo}\r" + $"等级：{Utility.LevelEmoji(pet.Level)}\r" +
-                      $"经验值：{pet.Exp}";
+                      $"经验值：{pet.Exp}/{levelModel.Exp}";
 
             MsgSender.PushMsg(MsgDTO, msg);
             return true;

@@ -181,5 +181,26 @@ namespace Dolany.Ai.Doremi.Ai.Game.Xiuxian
                 mutex.ReleaseMutex();
             }
         }
+
+        public static void CleanAll()
+        {
+            mutex.WaitOne();
+            try
+            {
+                using var db = new ExCacherContent(dataSource);
+                var records = db.PersonMsgCountRecord.ToArray();
+                db.PersonMsgCountRecord.RemoveRange(records);
+
+                db.SaveChanges();
+            }
+            catch (Exception e)
+            {
+                RuntimeLogger.Log(e);
+            }
+            finally
+            {
+                mutex.ReleaseMutex();
+            }
+        }
     }
 }
