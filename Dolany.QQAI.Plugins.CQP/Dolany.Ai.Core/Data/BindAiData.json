@@ -18,5 +18,10 @@
     "SelfNum": 2040824098,
     "CommandQueue": "MsgCommand_Owl",
     "ClientPath": "C:/AI/Owl/client/"
-  }
+  },
+  "Patch": {
+    "SelfNum": 3153037584,
+    "CommandQueue": "MsgCommand_Patch",
+    "ClientPath": "C:/AI/Patch/client/"
+  } 
 }

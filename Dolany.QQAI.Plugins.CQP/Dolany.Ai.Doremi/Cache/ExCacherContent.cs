@@ -23,6 +23,10 @@ namespace Dolany.Ai.Doremi.Cache
         public long QQNum { get; set; }
 
         public long Count { get; set; }
+
+        public string LastDate { get; set; }
+
+        public long TodayCount { get; set; }
     }
 
     public class CounterEnableRecord

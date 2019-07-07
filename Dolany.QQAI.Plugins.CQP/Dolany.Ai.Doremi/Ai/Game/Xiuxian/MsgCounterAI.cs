@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.Linq;
 using Dolany.Ai.Common.Models;
 using Dolany.Ai.Doremi.Base;
 using Dolany.Ai.Doremi.Cache;
@@ -16,6 +17,7 @@ namespace Dolany.Ai.Doremi.Ai.Game.Xiuxian
     public class MsgCounterAI : AIBase
     {
         private List<long> EnablePersons = new List<long>();
+        private const int DujieQACount = 3;
 
         public override void Initialization()
         {
@@ -104,9 +106,46 @@ namespace Dolany.Ai.Doremi.Ai.Game.Xiuxian
                 return false;
             }
 
+            MsgSender.PushMsg(MsgDTO, "渡劫开始！你需要回答对全部问题才能成功渡劫！");
+
+            var qas = DujieMgr.Instance.RandQAs(DujieQACount);
+            int i;
+            for (i = 0; i < DujieQACount; i++)
+            {
+                var randAs = qas[i].RandAs;
+                var msg = $"题目（{i + 1}/{DujieQACount}）：\r" +
+                          $"{qas[i].Q}\r" +
+                          $"{string.Join("\r", randAs.Select((p, idx) => $"{idx + 1}:{p}"))}";
+                var i1 = i;
+                var info = Waiter.Instance.WaitForInformation(MsgDTO, msg, information => information.FromGroup == MsgDTO.FromGroup &&
+                                                                                          information.FromQQ == MsgDTO.FromQQ &&
+                                                                                          int.TryParse(information.Msg, out var idx) &&
+                                                                                          idx > 0 && idx <= qas[i1].A.Length, 10);
+                if (info == null)
+                {
+                    MsgSender.PushMsg(MsgDTO, "回答超时！");
+                    break;
+                }
+
+                var aidx = int.Parse(info.Msg) - 1;
+                if (!qas[i].IsCorrect(randAs[aidx]))
+                {
+                    MsgSender.PushMsg(MsgDTO, "回答错误！");
+                    break;
+                }
+
+                MsgSender.PushMsg(MsgDTO, "回答正确！");
+            }
+
+            MsgCounterSvc.Consume(MsgDTO.FromQQ, level.Exp);
+            if (i != DujieQACount)
+            {
+                MsgSender.PushMsg(MsgDTO, "渡劫失败，请重新来过！", true);
+                return true;
+            }
+
             osPerson.Level++;
             osPerson.Update();
-            MsgCounterSvc.Consume(MsgDTO.FromQQ, level.Exp);
 
             MsgSender.PushMsg(MsgDTO, "升级成功！");
             return true;
