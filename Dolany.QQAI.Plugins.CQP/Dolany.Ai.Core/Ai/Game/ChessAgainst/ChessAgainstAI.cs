@@ -10,10 +10,11 @@ namespace Dolany.Ai.Core.Ai.Game.ChessAgainst
     [AI(Name = "对决",
         Description = "AI for Chess Fight.",
         Enable = true,
-        PriorityLevel = 10,
-        NeedManulOpen = true)]
+        PriorityLevel = 10)]
     public class ChessAgainstAI : AIBase
     {
+        public override bool NeedManualOpeon { get; set; } = true;
+
         [EnterCommand(ID = "ChessAgainstAI_Fight",
             Command = "对决 决斗",
             AuthorityLevel = AuthorityLevel.成员,

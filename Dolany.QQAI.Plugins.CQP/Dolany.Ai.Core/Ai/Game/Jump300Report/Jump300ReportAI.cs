@@ -8,13 +8,10 @@ namespace Dolany.Ai.Core.Ai.Game.Jump300Report
     [AI(Name = "300英雄战绩查询",
         Description = "AI for 300 heros report.",
         Enable = false,
-        PriorityLevel = 10,
-        NeedManulOpen = true)]
+        PriorityLevel = 10)]
     public class Jump300ReportAI : AIBase
     {
-        public override void Initialization()
-        {
-        }
+        public override bool NeedManualOpeon { get; set; } = true;
 
         [EnterCommand(ID = "Jump300ReportAI_JumpReport",
             Command = "战绩查询",

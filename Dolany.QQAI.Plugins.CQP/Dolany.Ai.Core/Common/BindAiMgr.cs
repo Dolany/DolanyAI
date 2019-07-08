@@ -25,6 +25,8 @@ namespace Dolany.Ai.Core.Common
 
         public string ClientPath { get; set; }
 
+        public bool IsAdvanced { get; set; }
+
         public string ImagePath => ClientPath + "temp/image/";
 
         public string LogPath => ClientPath + "logs/";

@@ -2,26 +2,31 @@
   "Cirno": {
     "SelfNum": 2097412422,
     "CommandQueue": "MsgCommand_Cirno",
-    "ClientPath": "C:/AI/Cirno/client/"
+    "ClientPath": "C:/AI/Cirno/client/",
+    "IsAdvanced": true 
   },
   "Flandre": {
     "SelfNum": 3617452052,
     "CommandQueue": "MsgCommand_Flandre",
-    "ClientPath": "C:/AI/Flandre/client/"
+    "ClientPath": "C:/AI/Flandre/client/",
+    "IsAdvanced": true
   },
   "IWS2000": {
     "SelfNum": 3484599065,
     "CommandQueue": "MsgCommand_IWS2000",
-    "ClientPath": "C:/AI/IWS2000/client/"
+    "ClientPath": "C:/AI/IWS2000/client/",
+    "IsAdvanced": true
   },
   "Owl": {
     "SelfNum": 2040824098,
     "CommandQueue": "MsgCommand_Owl",
-    "ClientPath": "C:/AI/Owl/client/"
+    "ClientPath": "C:/AI/Owl/client/",
+    "IsAdvanced": true
   },
   "Patch": {
     "SelfNum": 3153037584,
     "CommandQueue": "MsgCommand_Patch",
-    "ClientPath": "C:/AI/Patch/client/"
+    "ClientPath": "C:/AI/Patch/client/",
+    "IsAdvanced": true
   } 
 }

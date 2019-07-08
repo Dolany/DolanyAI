@@ -19,6 +19,10 @@ namespace Dolany.Ai.Core.Base
 
         public readonly AIAttribute AIAttr;
 
+        public virtual bool IsAdvanced { get; set; } = false;
+
+        public virtual bool NeedManualOpeon { get; set; } = false;
+
         protected AIBase()
         {
             var t = GetType();
@@ -112,7 +116,7 @@ namespace Dolany.Ai.Core.Base
                 return false;
             }
 
-            if (!AIAttr.NeedManulOpen || GroupSettingMgr.Instance[MsgDTO.FromGroup].HasFunction(AIAttr.Name))
+            if (!NeedManualOpeon || GroupSettingMgr.Instance[MsgDTO.FromGroup].HasFunction(AIAttr.Name))
             {
                 return true;
             }

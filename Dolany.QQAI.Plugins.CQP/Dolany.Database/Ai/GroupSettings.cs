@@ -19,6 +19,8 @@ namespace Dolany.Database.Ai
 
         public string BindAi { get; set; }
 
+        public string[] BindAis { get; set; }
+
         public DateTime? ExpiryTime { get; set; }
 
         public GroupAuthInfoModel AuthInfo { get; set; }

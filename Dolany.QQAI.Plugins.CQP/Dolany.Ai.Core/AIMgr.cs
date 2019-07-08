@@ -32,7 +32,7 @@ namespace Dolany.Ai.Core
 
         public List<ISyntaxChecker> Checkers { get; private set; } = new List<ISyntaxChecker>();
 
-        public List<string> OptionalAINames => AIList.Where(ai => ai.AIAttr.NeedManulOpen).Select(ai => ai.AIAttr.Name).ToList();
+        public List<string> OptionalAINames => AIList.Where(ai => ai.NeedManualOpeon).Select(ai => ai.AIAttr.Name).ToList();
 
         private delegate void MessageCallBack(string msg);
 
@@ -97,7 +97,7 @@ namespace Dolany.Ai.Core
                 tool.Work();
             }
 
-            ManulOpenAiNames = AIList.Where(ai => ai.AIAttr.NeedManulOpen).Select(ai => ai.AIAttr.Name).ToArray();
+            ManulOpenAiNames = AIList.Where(ai => ai.NeedManualOpeon).Select(ai => ai.AIAttr.Name).ToArray();
         }
 
         private void ExtractCommands(AIBase ai)

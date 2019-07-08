@@ -9,6 +9,5 @@ namespace Dolany.Ai.Core.Base
         public bool Enable { get; set; }
         public string Name { get; set; }
         public int PriorityLevel { get; set; }
-        public bool NeedManulOpen { get; set; } = false;
     }
 }

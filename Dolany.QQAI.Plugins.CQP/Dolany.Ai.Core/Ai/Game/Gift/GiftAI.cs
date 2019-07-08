@@ -10,10 +10,11 @@ namespace Dolany.Ai.Core.Ai.Game.Gift
     [AI(Name = "礼物",
         Description = "AI for Gifts.",
         Enable = true,
-        PriorityLevel = 10,
-        NeedManulOpen = true)]
+        PriorityLevel = 10)]
     public class GiftAI : AIBase
     {
+        public override bool NeedManualOpeon { get; set; } = true;
+
         [EnterCommand(ID = "GiftAI_MakeGift",
             Command = "兑换礼物",
             AuthorityLevel = AuthorityLevel.成员,

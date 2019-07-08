@@ -13,10 +13,11 @@ namespace Dolany.Ai.Core.Ai.Repeater
     [AI(Name = "+1复读",
         Description = "AI for Auto Plus One.",
         Enable = true,
-        PriorityLevel = 1,
-        NeedManulOpen = true)]
+        PriorityLevel = 1)]
     public class PlusOneAI : AIBase
     {
+        public override bool NeedManualOpeon { get; set; } = true;
+
         private List<PlusOneModel> Cache { get; } = new List<PlusOneModel>();
 
         public override bool OnMsgReceived(MsgInformationEx MsgDTO)

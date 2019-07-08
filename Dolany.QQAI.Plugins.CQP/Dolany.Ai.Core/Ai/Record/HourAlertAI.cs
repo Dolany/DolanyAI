@@ -14,10 +14,13 @@ namespace Dolany.Ai.Core.Ai.Record
     [AI(Name = "报时",
         Description = "AI for Hour Alert.",
         Enable = true,
-        PriorityLevel = 10,
-        NeedManulOpen = true)]
+        PriorityLevel = 10)]
     public class HourAlertAI : AIBase
     {
+        public override bool NeedManualOpeon { get; set; } = true;
+
+        public override bool IsAdvanced { get; set; } = true;
+
         public override void Initialization()
         {
             HourAlertFunc();

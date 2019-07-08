@@ -11,10 +11,11 @@ namespace Dolany.Ai.Core.Ai.Game.Pet
     [AI(Name = "宠物",
         Description = "AI for Petting.",
         Enable = true,
-        PriorityLevel = 10,
-        NeedManulOpen = true)]
+        PriorityLevel = 10)]
     public class PetAI : AIBase
     {
+        public override bool NeedManualOpeon { get; set; } = true;
+
         private const string CachePath = "./images/Cache/";
 
         [EnterCommand(ID = "PetAI_MyPet",

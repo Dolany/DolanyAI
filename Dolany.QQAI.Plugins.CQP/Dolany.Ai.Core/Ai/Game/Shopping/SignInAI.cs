@@ -14,16 +14,15 @@ namespace Dolany.Ai.Core.Ai.Game.Shopping
     [AI(Name = "签到",
         Description = "AI for Everyday Signing In.",
         Enable = true,
-        PriorityLevel = 10,
-        NeedManulOpen = true)]
+        PriorityLevel = 10)]
     public class SignInAI : AIBase
     {
+        public override bool NeedManualOpeon { get; set; } = true;
+
         private Dictionary<long, SignInGroupRecord> GroupSignInDic = new Dictionary<long, SignInGroupRecord>();
 
         public override void Initialization()
         {
-            base.Initialization();
-
             var records = MongoService<SignInGroupRecord>.Get();
             GroupSignInDic = records.ToDictionary(p => p.GroupNum, p => p);
         }

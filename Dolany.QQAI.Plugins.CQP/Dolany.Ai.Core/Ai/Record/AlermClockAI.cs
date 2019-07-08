@@ -17,10 +17,11 @@ namespace Dolany.Ai.Core.Ai.Record
     [AI(Name = "闹钟",
         Description = "AI for Alerm Clock.",
         Enable = true,
-        PriorityLevel = 10,
-        NeedManulOpen = true)]
+        PriorityLevel = 10)]
     public class AlermClockAI : AIBase
     {
+        public override bool NeedManualOpeon { get; set; } = true;
+
         private List<string> ClockIdList { get; } = new List<string>();
 
         public override void Initialization()

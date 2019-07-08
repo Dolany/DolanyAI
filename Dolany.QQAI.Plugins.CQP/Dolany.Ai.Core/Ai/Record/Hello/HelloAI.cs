@@ -20,6 +20,8 @@ namespace Dolany.Ai.Core.Ai.Record.Hello
         PriorityLevel = 15)]
     public class HelloAI : AIBase
     {
+        public override bool IsAdvanced { get; set; } = true;
+
         private List<HelloRecord> HelloList = new List<HelloRecord>();
         private List<MultiMediaHelloRecord> MultiMediaHelloList = new List<MultiMediaHelloRecord>();
 

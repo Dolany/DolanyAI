@@ -13,9 +13,7 @@ namespace Dolany.Ai.Core.Ai.SingleCommand.OrderSong
         PriorityLevel = 10)]
     public class OrderSongAI : AIBase
     {
-        public override void Initialization()
-        {
-        }
+        public override bool IsAdvanced { get; set; } = true;
 
         [EnterCommand(ID = "OrderSongAI_OrderASong",
             Command = "点歌",

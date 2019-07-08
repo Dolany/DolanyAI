@@ -13,10 +13,11 @@ namespace Dolany.Ai.Core.Ai.Record
     [AI(Name = "漂流瓶",
         Description = "AI for drift bottle.",
         Enable = true,
-        PriorityLevel = 10,
-        NeedManulOpen = true)]
+        PriorityLevel = 10)]
     public class DriftBottleAI : AIBase
     {
+        public override bool NeedManualOpeon { get; set; } = true;
+
         private const int ItemRate = 60;
 
         [EnterCommand(ID = "DriftBottleAI_FishingBottle",

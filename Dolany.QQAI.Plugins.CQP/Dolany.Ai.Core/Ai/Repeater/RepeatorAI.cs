@@ -10,10 +10,11 @@ namespace Dolany.Ai.Core.Ai.Repeater
     [AI(Name = "随机复读",
         Description = "AI for Repeating Random words.",
         Enable = true,
-        PriorityLevel = 1,
-        NeedManulOpen = true)]
+        PriorityLevel = 1)]
     public class RepeatorAI : AIBase
     {
+        public override bool NeedManualOpeon { get; set; } = true;
+
         private const long RepeatLimit = 30;
 
         private long CurCount;

@@ -14,6 +14,8 @@ namespace Dolany.Ai.Core.Ai.SingleCommand.PraiseMe
         PriorityLevel = 10)]
     public class PraiseMeAI : AIBase
     {
+        public override bool IsAdvanced { get; set; } = true;
+
         private readonly Dictionary<string, DateTime> LastTimeDic = new Dictionary<string, DateTime>();
 
         private readonly int PraiseLimit = Global.DefaultConfig.PraiseLimit;

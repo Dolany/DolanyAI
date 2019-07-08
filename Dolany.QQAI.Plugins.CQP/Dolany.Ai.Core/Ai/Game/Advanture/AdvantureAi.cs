@@ -9,10 +9,11 @@ namespace Dolany.Ai.Core.Ai.Game.Advanture
     [AI(Name = "冒险对决",
         Description = "AI for Advanture Fight.",
         Enable = true,
-        PriorityLevel = 10,
-        NeedManulOpen = true)]
+        PriorityLevel = 10)]
     public class AdvantureAi : AIBase
     {
+        public override bool NeedManualOpeon { get; set; } = true;
+
         [EnterCommand(ID = "AdvantureAi_AdvantureAgainst",
             Command = "冒险对决",
             AuthorityLevel = AuthorityLevel.成员,

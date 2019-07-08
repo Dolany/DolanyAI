@@ -12,10 +12,11 @@ namespace Dolany.Ai.Core.Ai.SingleCommand.Dice
     [AI(Name = "骰娘",
         Description = "AI for dice.",
         Enable = true,
-        PriorityLevel = 5,
-        NeedManulOpen = true)]
+        PriorityLevel = 5)]
     public class DiceAI : AIBase
     {
+        public override bool NeedManualOpeon { get; set; } = true;
+
         private readonly int DiceCountMaxLimit = Global.DefaultConfig.DiceCountMaxLimit;
         private readonly int DiceSizeMaxLimit = Global.DefaultConfig.DiceSizeMaxLimit;
 

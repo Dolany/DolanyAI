@@ -12,8 +12,7 @@ namespace Dolany.Ai.Core.Ai.Game.Shopping
     [AI(Name = "彩票",
         Description = "AI for draw a lottery.",
         Enable = true,
-        PriorityLevel = 10,
-        NeedManulOpen = true)]
+        PriorityLevel = 10)]
     public class LotteryAI : AIBase
     {
         private const int LotteryFee = 100;
@@ -21,6 +20,8 @@ namespace Dolany.Ai.Core.Ai.Game.Shopping
         private Dictionary<int, int> LotteryDic;
 
         private int SumRate;
+
+        public override bool NeedManualOpeon { get; set; } = true;
 
         public override void Initialization()
         {
