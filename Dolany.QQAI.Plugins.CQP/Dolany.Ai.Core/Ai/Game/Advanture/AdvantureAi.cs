@@ -6,12 +6,14 @@ using Dolany.Ai.Core.Common;
 
 namespace Dolany.Ai.Core.Ai.Game.Advanture
 {
-    [AI(Name = "冒险对决",
-        Description = "AI for Advanture Fight.",
-        Enable = true,
-        PriorityLevel = 10)]
     public class AdvantureAi : AIBase
     {
+        public override string AIName { get; set; } = "冒险对决";
+
+        public override string Description { get; set; } = "AI for Advanture Fight.";
+
+        public override int PriorityLevel { get; set; } = 10;
+
         public override bool NeedManualOpeon { get; set; } = true;
 
         [EnterCommand(ID = "AdvantureAi_AdvantureAgainst",

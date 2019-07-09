@@ -12,12 +12,14 @@ using Newtonsoft.Json;
 
 namespace Dolany.Ai.Core.Ai.SingleCommand.Fortune
 {
-    [AI(Name = "随机运势",
-        Description = "AI for Fortune.",
-        Enable = true,
-        PriorityLevel = 10)]
     public class FortuneAI : AIBase
     {
+        public override string AIName { get; set; } = "随机运势";
+
+        public override string Description { get; set; } = "AI for Fortune.";
+
+        public override int PriorityLevel { get; set; } = 10;
+
         private const string TarotServerPath = "https://m.sheup.com/";
         private List<TarotFortuneDataModel> DataList;
 

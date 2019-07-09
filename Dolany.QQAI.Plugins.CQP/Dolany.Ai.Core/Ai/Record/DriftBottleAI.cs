@@ -10,12 +10,14 @@ using Dolany.Database.Ai;
 
 namespace Dolany.Ai.Core.Ai.Record
 {
-    [AI(Name = "漂流瓶",
-        Description = "AI for drift bottle.",
-        Enable = true,
-        PriorityLevel = 10)]
     public class DriftBottleAI : AIBase
     {
+        public override string AIName { get; set; } = "漂流瓶";
+
+        public override string Description { get; set; } = "AI for drift bottle.";
+
+        public override int PriorityLevel { get; set; } = 10;
+
         public override bool NeedManualOpeon { get; set; } = true;
 
         private const int ItemRate = 60;

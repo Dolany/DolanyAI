@@ -1,17 +1,18 @@
-﻿using Dolany.Ai.Common;
-using Dolany.Ai.Common.Models;
+﻿using Dolany.Ai.Common.Models;
 using Dolany.Ai.Core.Base;
 using Dolany.Ai.Core.Cache;
 using Dolany.Ai.Core.Common;
 
 namespace Dolany.Ai.Core.Ai.Sys
 {
-    [AI(Name = "反馈",
-        Description = "AI for Feedback.",
-        Enable = true,
-        PriorityLevel = 10)]
     public class FeedbackAi : AIBase
     {
+        public override string AIName { get; set; } = "反馈";
+
+        public override string Description { get; set; } = "AI for Feedback.";
+
+        public override int PriorityLevel { get; set; } = 10;
+
         [EnterCommand(ID = "FeedbackAi_Feedback",
             Command = "反馈",
             Description = "向开发者提供反馈建议",

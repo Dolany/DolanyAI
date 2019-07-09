@@ -6,12 +6,14 @@ using Dolany.Ai.Core.Common;
 
 namespace Dolany.Ai.Core.Ai.Sys
 {
-    [AI(Name = "AI管理",
-        Description = "AI for ais's state(open or closed).",
-        Enable = true,
-        PriorityLevel = 12)]
     public class AIEnableAI : AIBase
     {
+        public override string AIName { get; set; } = "AI管理";
+
+        public override string Description { get; set; } = "AI for ais's state(open or closed).";
+
+        public override int PriorityLevel { get; set; } = 12;
+
         [EnterCommand(ID = "AIEnableAI_OpenFunction",
             Command = "开启功能",
             AuthorityLevel = AuthorityLevel.群主,

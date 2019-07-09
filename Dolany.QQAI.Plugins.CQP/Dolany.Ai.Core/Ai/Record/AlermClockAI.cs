@@ -14,12 +14,14 @@ using Dolany.Database.Ai;
 
 namespace Dolany.Ai.Core.Ai.Record
 {
-    [AI(Name = "闹钟",
-        Description = "AI for Alerm Clock.",
-        Enable = true,
-        PriorityLevel = 10)]
     public class AlermClockAI : AIBase
     {
+        public override string AIName { get; set; } = "闹钟";
+
+        public override string Description { get; set; } = "AI for Alerm Clock.";
+
+        public override int PriorityLevel { get; set; } = 10;
+
         public override bool NeedManualOpeon { get; set; } = true;
 
         private List<string> ClockIdList { get; } = new List<string>();

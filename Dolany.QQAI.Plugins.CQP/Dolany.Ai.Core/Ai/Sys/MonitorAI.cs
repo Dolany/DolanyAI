@@ -7,12 +7,14 @@ using Dolany.Ai.Core.Common;
 
 namespace Dolany.Ai.Core.Ai.Sys
 {
-    [AI(Name = "监视器",
-        Description = "AI for Monitoring and managing Ais status.",
-        Enable = true,
-        PriorityLevel = 100)]
     public class MonitorAI : AIBase
     {
+        public override string AIName { get; set; } = "监视器";
+
+        public override string Description { get; set; } = "AI for Monitoring and managing Ais status.";
+
+        public override int PriorityLevel { get; set; } = 100;
+
         public override bool OnMsgReceived(MsgInformationEx MsgDTO)
         {
             if (base.OnMsgReceived(MsgDTO))

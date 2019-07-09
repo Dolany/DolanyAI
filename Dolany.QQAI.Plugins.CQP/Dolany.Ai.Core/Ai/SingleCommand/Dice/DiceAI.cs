@@ -9,12 +9,14 @@ using Dolany.Ai.Core.Common;
 
 namespace Dolany.Ai.Core.Ai.SingleCommand.Dice
 {
-    [AI(Name = "骰娘",
-        Description = "AI for dice.",
-        Enable = true,
-        PriorityLevel = 5)]
     public class DiceAI : AIBase
     {
+        public override string AIName { get; set; } = "骰娘";
+
+        public override string Description { get; set; } = "AI for dice.";
+
+        public override int PriorityLevel { get; set; } = 5;
+
         public override bool NeedManualOpeon { get; set; } = true;
 
         private readonly int DiceCountMaxLimit = Global.DefaultConfig.DiceCountMaxLimit;
@@ -50,7 +52,7 @@ namespace Dolany.Ai.Core.Ai.SingleCommand.Dice
             SendResult(MsgDTO, result);
             AIAnalyzer.AddCommandCount(new CommandAnalyzeDTO()
             {
-                Ai = AIAttr.Name,
+                Ai = AIName,
                 Command = "DiceOverride",
                 GroupNum = MsgDTO.FromGroup,
                 BindAi = MsgDTO.BindAi

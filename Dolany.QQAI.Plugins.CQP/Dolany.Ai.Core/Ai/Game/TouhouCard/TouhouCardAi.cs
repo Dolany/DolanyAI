@@ -8,12 +8,14 @@ using Dolany.Ai.Core.Cache;
 
 namespace DolanyAI.Ai.Game.TouhouCard
 {
-    [AI(Name = "幻想乡抽卡",
-        Description = "AI for Getting Random TouhouCard.",
-        Enable = true,
-        PriorityLevel = 10)]
     public class TouhouCardAi : AIBase
     {
+        public override string AIName { get; set; } = "幻想乡抽卡";
+
+        public override string Description { get; set; } = "AI for Getting Random TouhouCard.";
+
+        public override int PriorityLevel { get; set; } = 10;
+
         private const string PicPath = "TouhouCard/";
 
         private List<FileInfo> AllFiles;

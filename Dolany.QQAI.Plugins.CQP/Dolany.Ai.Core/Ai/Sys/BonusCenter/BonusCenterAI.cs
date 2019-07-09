@@ -7,12 +7,14 @@ using Dolany.Ai.Core.Cache;
 
 namespace Dolany.Ai.Core.Ai.Sys.BonusCenter
 {
-    [AI(Name = "兑奖中心",
-        Description = "AI for auto bonus.",
-        Enable = true,
-        PriorityLevel = 10)]
     public class BonusCenterAI : AIBase
     {
+        public override string AIName { get; set; } = "兑奖中心";
+
+        public override string Description { get; set; } = "AI for auto bonus.";
+
+        public override int PriorityLevel { get; set; } = 10;
+
         private Dictionary<string, BonusBase> BonusDic = new Dictionary<string, BonusBase>();
 
         public override void Initialization()

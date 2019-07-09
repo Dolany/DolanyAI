@@ -7,12 +7,14 @@ using Dolany.Database.Ai;
 
 namespace Dolany.Ai.Core.Ai.Game.ChessAgainst
 {
-    [AI(Name = "对决",
-        Description = "AI for Chess Fight.",
-        Enable = true,
-        PriorityLevel = 10)]
     public class ChessAgainstAI : AIBase
     {
+        public override string AIName { get; set; } = "对决";
+
+        public override string Description { get; set; } = "AI for Chess Fight.";
+
+        public override int PriorityLevel { get; set; } = 10;
+
         public override bool NeedManualOpeon { get; set; } = true;
 
         [EnterCommand(ID = "ChessAgainstAI_Fight",

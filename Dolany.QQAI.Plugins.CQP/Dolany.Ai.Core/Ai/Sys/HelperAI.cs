@@ -12,12 +12,14 @@ using Dolany.Ai.Core.OnlineStore;
 
 namespace Dolany.Ai.Core.Ai.Sys
 {
-    [AI(Name = "帮助",
-        Description = "AI for Getting Help Infos.",
-        Enable = true,
-        PriorityLevel = 10)]
     public class HelperAI : AIBase
     {
+        public override string AIName { get; set; } = "帮助";
+
+        public override string Description { get; set; } = "AI for Getting Help Infos.";
+
+        public override int PriorityLevel { get; set; } = 10;
+
         [EnterCommand(ID = "HelperAI_HelpMe",
             Command = "帮助",
             AuthorityLevel = AuthorityLevel.成员,

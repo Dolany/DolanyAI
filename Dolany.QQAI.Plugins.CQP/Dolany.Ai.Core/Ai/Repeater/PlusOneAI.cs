@@ -10,12 +10,14 @@ using Dolany.Ai.Core.SyntaxChecker;
 
 namespace Dolany.Ai.Core.Ai.Repeater
 {
-    [AI(Name = "+1复读",
-        Description = "AI for Auto Plus One.",
-        Enable = true,
-        PriorityLevel = 1)]
     public class PlusOneAI : AIBase
     {
+        public override string AIName { get; set; } = "+1复读";
+
+        public override string Description { get; set; } = "AI for Auto Plus One.";
+
+        public override int PriorityLevel { get; set; } = 1;
+
         public override bool NeedManualOpeon { get; set; } = true;
 
         private List<PlusOneModel> Cache { get; } = new List<PlusOneModel>();
@@ -77,7 +79,7 @@ namespace Dolany.Ai.Core.Ai.Repeater
 
             AIAnalyzer.AddCommandCount(new CommandAnalyzeDTO()
             {
-                Ai = AIAttr.Name,
+                Ai = AIName,
                 Command = "PlusOneOverride",
                 GroupNum = MsgDTO.FromGroup,
                 BindAi = MsgDTO.BindAi

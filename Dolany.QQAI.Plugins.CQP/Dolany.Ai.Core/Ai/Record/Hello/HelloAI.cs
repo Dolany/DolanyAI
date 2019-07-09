@@ -14,12 +14,14 @@ using Dolany.Database.Sqlite.Model;
 
 namespace Dolany.Ai.Core.Ai.Record.Hello
 {
-    [AI(Name = "打招呼",
-        Description = "AI for Saying Hello to you at everyday you say at the first time in one group.",
-        Enable = true,
-        PriorityLevel = 15)]
     public class HelloAI : AIBase
     {
+        public override string AIName { get; set; } = "打招呼";
+
+        public override string Description { get; set; } = "AI for Saying Hello to you at everyday you say at the first time in one group.";
+
+        public override int PriorityLevel { get; set; } = 15;
+
         public override bool IsAdvanced { get; set; } = true;
 
         private List<HelloRecord> HelloList = new List<HelloRecord>();
@@ -51,7 +53,7 @@ namespace Dolany.Ai.Core.Ai.Record.Hello
             {
                 AIAnalyzer.AddCommandCount(new CommandAnalyzeDTO()
                 {
-                    Ai = AIAttr.Name,
+                    Ai = AIName,
                     Command = "HelloOverride",
                     GroupNum = MsgDTO.FromGroup,
                     BindAi = MsgDTO.BindAi

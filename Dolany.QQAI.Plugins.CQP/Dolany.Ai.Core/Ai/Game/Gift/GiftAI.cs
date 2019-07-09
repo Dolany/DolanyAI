@@ -7,12 +7,14 @@ using Dolany.Ai.Core.OnlineStore;
 
 namespace Dolany.Ai.Core.Ai.Game.Gift
 {
-    [AI(Name = "礼物",
-        Description = "AI for Gifts.",
-        Enable = true,
-        PriorityLevel = 10)]
     public class GiftAI : AIBase
     {
+        public override string AIName { get; set; } = "礼物";
+
+        public override string Description { get; set; } = "AI for Gifts.";
+
+        public override int PriorityLevel { get; set; } = 10;
+
         public override bool NeedManualOpeon { get; set; } = true;
 
         [EnterCommand(ID = "GiftAI_MakeGift",

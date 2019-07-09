@@ -11,12 +11,14 @@ using Dolany.Database.Ai;
 
 namespace Dolany.Ai.Core.Ai.Game.Shopping
 {
-    [AI(Name = "签到",
-        Description = "AI for Everyday Signing In.",
-        Enable = true,
-        PriorityLevel = 10)]
     public class SignInAI : AIBase
     {
+        public override string AIName { get; set; } = "签到";
+
+        public override string Description { get; set; } = "AI for Everyday Signing In";
+
+        public override int PriorityLevel { get; set; } = 10;
+
         public override bool NeedManualOpeon { get; set; } = true;
 
         private Dictionary<long, SignInGroupRecord> GroupSignInDic = new Dictionary<long, SignInGroupRecord>();
@@ -68,7 +70,7 @@ namespace Dolany.Ai.Core.Ai.Game.Shopping
                 return true;
             }
 
-            if (MsgDTO.Type == MsgType.Private || !GroupSettingMgr.Instance[MsgDTO.FromGroup].HasFunction(AIAttr.Name))
+            if (MsgDTO.Type == MsgType.Private || !GroupSettingMgr.Instance[MsgDTO.FromGroup].HasFunction(AIName))
             {
                 return false;
             }
@@ -87,7 +89,7 @@ namespace Dolany.Ai.Core.Ai.Game.Shopping
 
             AIAnalyzer.AddCommandCount(new CommandAnalyzeDTO()
             {
-                Ai = AIAttr.Name,
+                Ai = AIName,
                 Command = "SignInOverride",
                 GroupNum = MsgDTO.FromGroup,
                 BindAi = MsgDTO.BindAi

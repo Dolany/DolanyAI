@@ -9,12 +9,14 @@ using Dolany.Database.Ai;
 
 namespace Dolany.Ai.Core.Ai.SingleCommand.Voice
 {
-    [AI(Name = "语音",
-        Description = "AI for response random acg voice.",
-        Enable = true,
-        PriorityLevel = 10)]
     public class VoiceAI : AIBase
     {
+        public override string AIName { get; set; } = "语音";
+
+        public override string Description { get; set; } = "AI for response random acg voice.";
+
+        public override int PriorityLevel { get; set; } = 10;
+
         private Beng3ConfigModel Beng3Config;
 
         public override bool IsAdvanced { get; set; } = true;

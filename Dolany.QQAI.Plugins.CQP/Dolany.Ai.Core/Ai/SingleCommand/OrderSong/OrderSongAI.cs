@@ -7,12 +7,14 @@ using Dolany.Ai.Core.Net;
 
 namespace Dolany.Ai.Core.Ai.SingleCommand.OrderSong
 {
-    [AI(Name = "点歌",
-        Description = "AI for Ordering a song by name.",
-        Enable = true,
-        PriorityLevel = 10)]
     public class OrderSongAI : AIBase
     {
+        public override string AIName { get; set; } = "点歌";
+
+        public override string Description { get; set; } = "AI for Ordering a song by name.";
+
+        public override int PriorityLevel { get; set; } = 10;
+
         public override bool IsAdvanced { get; set; } = true;
 
         [EnterCommand(ID = "OrderSongAI_OrderASong",

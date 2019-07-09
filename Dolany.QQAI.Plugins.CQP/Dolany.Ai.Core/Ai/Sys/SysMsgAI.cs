@@ -4,15 +4,13 @@ using Dolany.Ai.Core.Common;
 
 namespace Dolany.Ai.Core.Ai.Sys
 {
-    [AI(Name = "系统消息过滤",
-        Description = "AI for System msg consoling.",
-        Enable = true,
-        PriorityLevel = 20)]
     public class SysMsgAI : AIBase
     {
-        public override void Initialization()
-        {
-        }
+        public override string AIName { get; set; } = "系统消息过滤";
+
+        public override string Description { get; set; } = "AI for System msg consoling.";
+
+        public override int PriorityLevel { get; set; } = 20;
 
         public override bool OnMsgReceived(MsgInformationEx MsgDTO)
         {

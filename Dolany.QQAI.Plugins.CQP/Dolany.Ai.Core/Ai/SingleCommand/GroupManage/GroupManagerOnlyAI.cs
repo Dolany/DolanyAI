@@ -10,12 +10,14 @@ using Dolany.Database.Sqlite;
 
 namespace Dolany.Ai.Core.Ai.SingleCommand.GroupManage
 {
-    [AI(Name = "死亡",
-        Description = "AI for killing somebody for some time.",
-        Enable = true,
-        PriorityLevel = 16)]
     public class GroupManagerOnlyAI : AIBase
     {
+        public override string AIName { get; set; } = "死亡";
+
+        public override string Description { get; set; } = "AI for killing somebody for some time.";
+
+        public override int PriorityLevel { get; set; } = 16;
+
         [EnterCommand(ID = "GroupManagerOnlyAI_DeathStaring",
             Command = "死亡凝视",
             AuthorityLevel = AuthorityLevel.群主,

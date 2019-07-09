@@ -7,12 +7,14 @@ using Dolany.Ai.Core.Cache;
 
 namespace Dolany.Ai.Core.Ai.SingleCommand.SelfBoom
 {
-    [AI(Name = "自爆",
-        Description = "AI for boom herself.",
-        Enable = true,
-        PriorityLevel = 10)]
     public class SelfBoomAi : AIBase
     {
+        public override string AIName { get; set; } = "自爆";
+
+        public override string Description { get; set; } = "AI for boom herself.";
+
+        public override int PriorityLevel { get; set; } = 10;
+
         private int BoomCode = CommonUtil.RandInt(100000);
         private DateTime CodeDate = DateTime.Now;
 
@@ -60,11 +62,7 @@ namespace Dolany.Ai.Core.Ai.SingleCommand.SelfBoom
 
             BoomCode = CommonUtil.RandInt(10000);
             Thread.Sleep(1000);
-            //MsgSender.Instance.PushMsg(
-            //    new MsgCommand
-            //        {
-            //            Command = AiCommand.Restart
-            //        });
+
             return true;
         }
 
@@ -82,10 +80,6 @@ namespace Dolany.Ai.Core.Ai.SingleCommand.SelfBoom
             CodeDate = DateTime.Now;
             MsgSender.PushMsg(MsgDTO, BoomCode.ToString());
             return true;
-        }
-
-        public override void Initialization()
-        {
         }
     }
 }

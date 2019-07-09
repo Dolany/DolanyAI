@@ -9,12 +9,14 @@ using Dolany.Database.Ai;
 
 namespace Dolany.Ai.Core.Ai.Record
 {
-    [AI(Name = "语录",
-        Description = "AI for Cartoon Sayings.",
-        Enable = true,
-        PriorityLevel = 10)]
     public class CartoonSayingAI : AIBase
     {
+        public override string AIName { get; set; } = "语录";
+
+        public override string Description { get; set; } = "AI for Cartoon Sayings.";
+
+        public override int PriorityLevel { get; set; } = 10;
+
         [EnterCommand(ID = "CartoonSayingAI_ProcceedMsg",
             Command = "语录",
             AuthorityLevel = AuthorityLevel.成员,

@@ -22,6 +22,6 @@ namespace Dolany.Ai.Core.Base
 
         private IEnumerable<string> _CommandsList;
 
-        public IEnumerable<string> CommandsList => _CommandsList ?? (_CommandsList = Command.Split(' '));
+        public IEnumerable<string> CommandsList => _CommandsList ??= Command.Split(' ');
     }
 }

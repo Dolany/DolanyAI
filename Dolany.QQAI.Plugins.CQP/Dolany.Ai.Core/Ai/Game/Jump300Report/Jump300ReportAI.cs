@@ -5,13 +5,17 @@ using Dolany.Ai.Core.Cache;
 
 namespace Dolany.Ai.Core.Ai.Game.Jump300Report
 {
-    [AI(Name = "300英雄战绩查询",
-        Description = "AI for 300 heros report.",
-        Enable = false,
-        PriorityLevel = 10)]
     public class Jump300ReportAI : AIBase
     {
+        public override string AIName { get; set; } = "300英雄战绩查询";
+
+        public override string Description { get; set; } = "AI for 300 heros report.";
+
+        public override int PriorityLevel { get; set; } = 10;
+
         public override bool NeedManualOpeon { get; set; } = true;
+
+        public override bool Enable { get; set; } = false;
 
         [EnterCommand(ID = "Jump300ReportAI_JumpReport",
             Command = "战绩查询",

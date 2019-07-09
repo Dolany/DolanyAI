@@ -16,12 +16,14 @@ using Newtonsoft.Json;
 
 namespace Dolany.Ai.Core.Ai.Sys
 {
-    [AI(Name = "开发者后台",
-        Enable = true,
-        Description = "Ai for developer only operations",
-        PriorityLevel = 10)]
     public class DeveloperOnlyAI : AIBase
     {
+        public override string AIName { get; set; } = "开发者后台";
+
+        public override string Description { get; set; } = "Ai for developer only operations.";
+
+        public override int PriorityLevel { get; set; } = 10;
+
         [EnterCommand(ID = "DeveloperOnlyAI_Board",
             Command = "广播",
             Description = "在所有群组广播消息",

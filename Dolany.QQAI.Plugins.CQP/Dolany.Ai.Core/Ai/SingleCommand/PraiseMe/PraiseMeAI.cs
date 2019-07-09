@@ -8,12 +8,14 @@ using Dolany.Ai.Core.Common;
 
 namespace Dolany.Ai.Core.Ai.SingleCommand.PraiseMe
 {
-    [AI(Name = "点赞",
-        Description = "AI for Praise someone.",
-        Enable = true,
-        PriorityLevel = 10)]
     public class PraiseMeAI : AIBase
     {
+        public override string AIName { get; set; } = "点赞";
+
+        public override string Description { get; set; } = "AI for Praise someone.";
+
+        public override int PriorityLevel { get; set; } = 10;
+
         public override bool IsAdvanced { get; set; } = true;
 
         private readonly Dictionary<string, DateTime> LastTimeDic = new Dictionary<string, DateTime>();

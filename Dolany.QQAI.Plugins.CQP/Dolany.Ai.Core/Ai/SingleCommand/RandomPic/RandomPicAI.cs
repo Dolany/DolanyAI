@@ -5,15 +5,13 @@ using Dolany.Ai.Core.Cache;
 
 namespace Dolany.Ai.Core.Ai.SingleCommand.RandomPic
 {
-    [AI(Name = "随机图片",
-        Description = "AI for Sending Random Pic By Keyword.",
-        Enable = true,
-        PriorityLevel = 10)]
     public class RandomPicAI : AIBase
     {
-        public override void Initialization()
-        {
-        }
+        public override string AIName { get; set; } = "随机图片";
+
+        public override string Description { get; set; } = "AI for Sending Random Pic By Keyword.";
+
+        public override int PriorityLevel { get; set; } = 10;
 
         [EnterCommand(ID = "RandomPicAI_RecentPic",
             Command = "随机图片 一键盗图",

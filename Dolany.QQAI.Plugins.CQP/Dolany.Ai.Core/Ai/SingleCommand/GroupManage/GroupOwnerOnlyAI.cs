@@ -9,12 +9,14 @@ using Dolany.Database.Ai;
 
 namespace Dolany.Ai.Core.Ai.SingleCommand.GroupManage
 {
-    [AI(Name = "群主特权",
-        Description = "AI for some power only for group owners.",
-        Enable = true,
-        PriorityLevel = 10)]
     public class GroupOwnerOnlyAI : AIBase
     {
+        public override string AIName { get; set; } = "群主特权";
+
+        public override int PriorityLevel { get; set; } = 10;
+
+        public override string Description { get; set; } = "AI for some power only for group owners.";
+
         [EnterCommand(ID = "GroupOwnerOnlyAI_RefreshCommand",
             Command = "刷新",
             AuthorityLevel = AuthorityLevel.群主,

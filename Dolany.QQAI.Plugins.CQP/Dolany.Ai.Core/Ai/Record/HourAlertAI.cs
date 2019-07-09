@@ -11,12 +11,14 @@ using Dolany.Database.Ai;
 
 namespace Dolany.Ai.Core.Ai.Record
 {
-    [AI(Name = "报时",
-        Description = "AI for Hour Alert.",
-        Enable = true,
-        PriorityLevel = 10)]
     public class HourAlertAI : AIBase
     {
+        public override string AIName { get; set; } = "报时";
+
+        public override string Description { get; set; } = "AI for Hour Alert.";
+
+        public override int PriorityLevel { get; set; } = 10;
+
         public override bool NeedManualOpeon { get; set; } = true;
 
         public override bool IsAdvanced { get; set; } = true;

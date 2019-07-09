@@ -2,7 +2,6 @@
 using System.Collections.Generic;
 using System.Globalization;
 using System.Linq;
-using System.Reflection;
 using Dolany.Ai.Common;
 using Dolany.Ai.Common.Models;
 using Dolany.Ai.Core.Cache;
@@ -13,15 +12,21 @@ namespace Dolany.Ai.Core.Base
 {
     public abstract class AIBase
     {
-        protected delegate bool AIModuleDel(MsgInformationEx MsgDTO, object[] param);
+        public abstract string AIName { get; set; }
 
-        protected readonly Dictionary<EnterCommandAttribute, AIModuleDel> ModuleDels = new Dictionary<EnterCommandAttribute, AIModuleDel>();
+        public abstract string Description { get; set; }
 
-        public readonly AIAttribute AIAttr;
+        public abstract int PriorityLevel { get; set; }
+
+        public virtual bool Enable { get; set; } = true;
 
         public virtual bool IsAdvanced { get; set; } = false;
 
         public virtual bool NeedManualOpeon { get; set; } = false;
+
+        protected delegate bool AIModuleDel(MsgInformationEx MsgDTO, object[] param);
+
+        protected readonly Dictionary<EnterCommandAttribute, AIModuleDel> ModuleDels = new Dictionary<EnterCommandAttribute, AIModuleDel>();
 
         protected AIBase()
         {
@@ -38,8 +43,6 @@ namespace Dolany.Ai.Core.Base
                     }
                 }
             }
-
-            AIAttr = t.GetCustomAttribute(typeof(AIAttribute), false) as AIAttribute;
         }
 
         public virtual void Initialization()
@@ -65,7 +68,7 @@ namespace Dolany.Ai.Core.Base
 
                     AIAnalyzer.AddCommandCount(new CommandAnalyzeDTO()
                     {
-                        Ai = AIAttr.Name, Command = enterCommandAttribute.Command, GroupNum = MsgDTO.FromGroup, BindAi = MsgDTO.BindAi
+                        Ai = AIName, Command = enterCommandAttribute.Command, GroupNum = MsgDTO.FromGroup, BindAi = MsgDTO.BindAi
                     });
 
                     if (!StateCheck(MsgDTO))
@@ -116,12 +119,12 @@ namespace Dolany.Ai.Core.Base
                 return false;
             }
 
-            if (!NeedManualOpeon || GroupSettingMgr.Instance[MsgDTO.FromGroup].HasFunction(AIAttr.Name))
+            if (!NeedManualOpeon || GroupSettingMgr.Instance[MsgDTO.FromGroup].HasFunction(AIName))
             {
                 return true;
             }
 
-            MsgSender.PushMsg(MsgDTO, $"本群尚未开启 {AIAttr.Name} 功能，请联系群主使用 开启功能 命令来开启此功能！");
+            MsgSender.PushMsg(MsgDTO, $"本群尚未开启 {AIName} 功能，请联系群主使用 开启功能 命令来开启此功能！");
             return false;
         }
 
@@ -143,18 +146,13 @@ namespace Dolany.Ai.Core.Base
                 return false;
             }
 
-            if (!AuthorityCheck(enterAttr.AuthorityLevel, enterAttr, MsgDTO))
+            if (AuthorityCheck(enterAttr.AuthorityLevel, enterAttr, MsgDTO))
             {
-                MsgSender.PushMsg(MsgDTO, $"权限不足！需要 {enterAttr.AuthorityLevel.ToString()} 权限！");
-                return false;
+                return !enterAttr.IsTesting || Global.TestGroups.Contains(MsgDTO.FromGroup);
             }
 
-            if (enterAttr.IsTesting && !Global.TestGroups.Contains(MsgDTO.FromGroup))
-            {
-                return false;
-            }
-
-            return true;
+            MsgSender.PushMsg(MsgDTO, $"权限不足！需要 {enterAttr.AuthorityLevel.ToString()} 权限！");
+            return false;
         }
 
         private static bool DailyLimitCheck(EnterCommandAttribute enterAttr, MsgInformation MsgDTO, DailyLimitRecord limitRecord)
@@ -261,12 +259,8 @@ namespace Dolany.Ai.Core.Base
             {
                 return true;
             }
-            if (authorityLevel == AuthorityLevel.管理员)
-            {
-                return false;
-            }
 
-            return true;
+            return authorityLevel != AuthorityLevel.管理员;
         }
 
         private static bool PrivateAuthCheck(EnterCommandAttribute enterAttr)

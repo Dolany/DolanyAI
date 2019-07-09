@@ -13,12 +13,14 @@ using Dolany.Database.Ai;
 
 namespace Dolany.Ai.Core.Ai.Game.Shopping
 {
-    [AI(Name = "商店",
-        Description = "AI for Shopping.",
-        Enable = true,
-        PriorityLevel = 10)]
     public class ShoppingAI : AIBase
     {
+        public override string AIName { get; set; } = "商店";
+
+        public override string Description { get; set; } = "AI for Shopping.";
+
+        public override int PriorityLevel { get; set; } = 10;
+
         [EnterCommand(ID = "ShoppingAI_Sell",
             Command = "贩卖 出售",
             AuthorityLevel = AuthorityLevel.成员,

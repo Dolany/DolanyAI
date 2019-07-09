@@ -11,12 +11,14 @@ using Newtonsoft.Json;
 
 namespace Dolany.Ai.Core.Ai.SingleCommand.Fortune
 {
-    [AI(Name = "麻将运势",
-        Description = "AI for Getting Daily Maj Fortune.",
-        Enable = true,
-        PriorityLevel = 10)]
     public class MajFortuneAI : AIBase
     {
+        public override string AIName { get; set; } = "麻将运势";
+
+        public override string Description { get; set; } = "AI for Getting Daily Maj Fortune.";
+
+        public override int PriorityLevel { get; set; } = 10;
+
         private readonly string[] PosArray = { "东", "南", "西", "北" };
 
         private const string CharactorPath = "MajCharactor";

@@ -10,12 +10,14 @@ using Dolany.Database.Ai;
 
 namespace Dolany.Ai.Core.Ai.Record
 {
-    [AI(Name = "人物设定",
-        Description = "AI for Setting a Charactor.",
-        Enable = true,
-        PriorityLevel = 10)]
     public class CharactorSettingAI : AIBase
     {
+        public override string AIName { get; set; } = "人物设定";
+
+        public override string Description { get; set; } = "AI for Setting a Charactor.";
+
+        public override int PriorityLevel { get; set; } = 10;
+
         private const int MaxCharNumPerQQ = 10;
         private const int MaxSettingPerChar = 7;
 

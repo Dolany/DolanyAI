@@ -15,12 +15,14 @@ using Dolany.Database.Ai;
 
 namespace Dolany.Ai.Core.Ai.SingleCommand.Tuling
 {
-    [AI(Name = "图灵",
-        Description = "AI for Tuling Robot.",
-        Enable = true,
-        PriorityLevel = 2)]
     public class TulingAI : AIBase
     {
+        public override string AIName { get; set; } = "图灵";
+
+        public override string Description { get; set; } = "AI for Tuling Robot.";
+
+        public override int PriorityLevel { get; set; } = 2;
+
         private readonly string RequestUrl = Global.DefaultConfig.TulingRequestUrl;
         private List<TulingConfigModel> ApiKeys = new List<TulingConfigModel>();
         private const int TulingDailyLimit = 10;
@@ -89,7 +91,7 @@ namespace Dolany.Ai.Core.Ai.SingleCommand.Tuling
 
             AIAnalyzer.AddCommandCount(new CommandAnalyzeDTO()
             {
-                Ai = AIAttr.Name,
+                Ai = AIName,
                 Command = "TulingOverride",
                 GroupNum = MsgDTO.FromGroup,
                 BindAi = MsgDTO.BindAi

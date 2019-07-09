@@ -7,12 +7,14 @@ using Dolany.Ai.Core.SyntaxChecker;
 
 namespace Dolany.Ai.Core.Ai.Repeater
 {
-    [AI(Name = "随机复读",
-        Description = "AI for Repeating Random words.",
-        Enable = true,
-        PriorityLevel = 1)]
     public class RepeatorAI : AIBase
     {
+        public override string AIName { get; set; } = "随机复读";
+
+        public override string Description { get; set; } = "AI for Repeating Random words.";
+
+        public override int PriorityLevel { get; set; } = 1;
+
         public override bool NeedManualOpeon { get; set; } = true;
 
         private const long RepeatLimit = 30;
@@ -55,7 +57,7 @@ namespace Dolany.Ai.Core.Ai.Repeater
             Repeat(MsgDTO);
             AIAnalyzer.AddCommandCount(new CommandAnalyzeDTO()
             {
-                Ai = AIAttr.Name,
+                Ai = AIName,
                 Command = "RepeatorOverride",
                 GroupNum = MsgDTO.FromGroup,
                 BindAi = MsgDTO.BindAi

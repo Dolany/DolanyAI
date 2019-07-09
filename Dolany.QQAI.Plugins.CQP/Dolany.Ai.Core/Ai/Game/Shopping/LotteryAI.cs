@@ -9,12 +9,14 @@ using Dolany.Ai.Core.OnlineStore;
 
 namespace Dolany.Ai.Core.Ai.Game.Shopping
 {
-    [AI(Name = "彩票",
-        Description = "AI for draw a lottery.",
-        Enable = true,
-        PriorityLevel = 10)]
     public class LotteryAI : AIBase
     {
+        public override string AIName { get; set; } = "彩票";
+
+        public override string Description { get; set; } = "AI for draw a lottery.";
+
+        public override int PriorityLevel { get; set; } = 10;
+
         private const int LotteryFee = 100;
 
         private Dictionary<int, int> LotteryDic;

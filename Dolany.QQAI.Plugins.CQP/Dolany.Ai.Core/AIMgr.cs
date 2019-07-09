@@ -32,7 +32,7 @@ namespace Dolany.Ai.Core
 
         public List<ISyntaxChecker> Checkers { get; private set; } = new List<ISyntaxChecker>();
 
-        public List<string> OptionalAINames => AIList.Where(ai => ai.NeedManualOpeon).Select(ai => ai.AIAttr.Name).ToList();
+        public List<string> OptionalAINames => AIList.Where(ai => ai.NeedManualOpeon).Select(ai => ai.AIName).ToList();
 
         private delegate void MessageCallBack(string msg);
 
@@ -81,7 +81,7 @@ namespace Dolany.Ai.Core
         /// </summary>
         private void StartAIs()
         {
-            AIList = AIList.Where(a => a != null && a.AIAttr.Enable).OrderByDescending(a => a.AIAttr.PriorityLevel).ToList();
+            AIList = AIList.Where(a => a != null && a.Enable).OrderByDescending(a => a.PriorityLevel).ToList();
             var count = AIList.Count;
 
             for (var i = 0; i < AIList.Count; i++)
@@ -89,7 +89,7 @@ namespace Dolany.Ai.Core
                 AIList[i].Initialization();
                 ExtractCommands(AIList[i]);
 
-                Logger.Log($"AI加载进度：{AIList[i].AIAttr.Name}({i + 1}/{count})");
+                Logger.Log($"AI加载进度：{AIList[i].AIName}({i + 1}/{count})");
             }
 
             foreach (var tool in Tools)
@@ -97,7 +97,7 @@ namespace Dolany.Ai.Core
                 tool.Work();
             }
 
-            ManulOpenAiNames = AIList.Where(ai => ai.NeedManualOpeon).Select(ai => ai.AIAttr.Name).ToArray();
+            ManulOpenAiNames = AIList.Where(ai => ai.NeedManualOpeon).Select(ai => ai.AIName).ToArray();
         }
 
         private void ExtractCommands(AIBase ai)
