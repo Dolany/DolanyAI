@@ -56,9 +56,9 @@ namespace Dolany.Ai.MQ
                 if (string.IsNullOrEmpty(conf) || bool.Parse(conf))
                 {
                     builder.RegisterType<GroupMsgReceive>().As<IGroupMessageReceivedMahuaEvent>();
-                    builder.RegisterType<PrivateMsgReceived>().As<IPrivateMessageReceivedMahuaEvent>();
                     builder.RegisterType<PrivateMsgFromGroup>().As<IPrivateMessageFromGroupReceivedMahuaEvent>();
                 }
+                builder.RegisterType<PrivateMsgReceived>().As<IPrivateMessageReceivedMahuaEvent>();
                 builder.RegisterType<InitializationMahuaEvent>().As<IInitializationMahuaEvent>();
             }
         }

@@ -225,7 +225,7 @@ namespace Dolany.Ai.Core.Ai.Game.Pet
                 return false;
             }
 
-            pet.Attribute = randAttrs[selectedIdx + 1];
+            pet.Attribute = randAttrs[selectedIdx - 1];
             pet.Update();
 
             if (needGolds)

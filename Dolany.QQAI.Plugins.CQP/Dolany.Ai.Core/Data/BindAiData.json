@@ -27,6 +27,12 @@
     "SelfNum": 3153037584,
     "CommandQueue": "MsgCommand_Patch",
     "ClientPath": "C:/AI/Patch/client/",
-    "IsAdvanced": true
+    "IsAdvanced": false
+  },
+  "Sanae": {
+    "SelfNum": 2913492260,
+    "CommandQueue": "MsgCommand_Sanae",
+    "ClientPath": "C:/AI/Sanae/client/",
+    "IsAdvanced": false
   } 
 }

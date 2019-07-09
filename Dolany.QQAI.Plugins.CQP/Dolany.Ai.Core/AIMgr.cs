@@ -216,43 +216,48 @@ namespace Dolany.Ai.Core
         [HandleProcessCorruptedStateExceptions]
         private void MsgCallBack(MsgInformationEx MsgDTO)
         {
-            try
+            Task.Factory.StartNew(() =>
             {
-                if (!DirtyFilter.Instance.Filter(MsgDTO))
+                try
                 {
-                    return;
-                }
-
-                var availableBindAis = MsgDTO.Type == MsgType.Group
-                    ? GroupSettingMgr.Instance[MsgDTO.FromGroup].BindAis.Where(p => !RecentCommandCache.IsTooFreq(p)).Select(p => BindAiMgr.Instance[p]).ToList()
-                    : new List<BindAiModel>();
-                foreach (var ai in AIList)
-                {
-                    if (MsgDTO.Type == MsgType.Group)
-                    {
-                        if (ai.IsAdvanced)
-                        {
-                            availableBindAis = availableBindAis.Where(p => p.IsAdvanced).ToList();
-                        }
-
-                        if (!availableBindAis.Any() && ai.PriorityLevel < 50)
-                        {
-                            continue;
-                        }
-
-                        MsgDTO.BindAi = availableBindAis.RandElement().Name;
-                    }
-
-                    if (ai.OnMsgReceived(MsgDTO))
+                    if (!DirtyFilter.Instance.Filter(MsgDTO))
                     {
                         return;
                     }
+
+                    var availableBindAis = MsgDTO.Type == MsgType.Group
+                        ? GroupSettingMgr.Instance[MsgDTO.FromGroup].BindAis.Where(p => !RecentCommandCache.IsTooFreq(p)).Select(p => BindAiMgr.Instance[p]).ToList()
+                        : new List<BindAiModel>();
+                    
+                    foreach (var ai in AIList)
+                    {
+                        if (MsgDTO.Type == MsgType.Group)
+                        {
+                            var tempList = availableBindAis;
+                            if (ai.IsAdvanced)
+                            {
+                                tempList = availableBindAis.Where(p => p.IsAdvanced).ToList();
+                            }
+
+                            if (!tempList.Any() && ai.PriorityLevel < 50)
+                            {
+                                continue;
+                            }
+
+                            MsgDTO.BindAi = tempList.RandElement().Name;
+                        }
+
+                        if (ai.OnMsgReceived(MsgDTO))
+                        {
+                            return;
+                        }
+                    }
                 }
-            }
-            catch (Exception ex)
-            {
-                Logger.Log(ex);
-            }
+                catch (Exception ex)
+                {
+                    Logger.Log(ex);
+                }
+            });
         }
 
         private static string GenCommand(ref string msg)
