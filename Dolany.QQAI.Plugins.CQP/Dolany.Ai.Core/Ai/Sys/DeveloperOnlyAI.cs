@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Globalization;
 using System.Linq;
 using System.Threading;
@@ -261,6 +262,48 @@ namespace Dolany.Ai.Core.Ai.Sys
             return true;
         }
 
+        [EnterCommand(ID = "DeveloperOnlyAI_BindAi",
+            Command = "绑定",
+            Description = "绑定机器人",
+            Syntax = "[群号] [机器人名]",
+            Tag = "系统命令",
+            SyntaxChecker = "Long Word",
+            AuthorityLevel = AuthorityLevel.开发者,
+            IsPrivateAvailable = true)]
+        public bool BindAi(MsgInformationEx MsgDTO, object[] param)
+        {
+            var groupNum = (long) param[0];
+            var name = param[1] as string;
+
+            if (!GroupSettingMgr.Instance.SettingDic.ContainsKey(groupNum))
+            {
+                MsgSender.PushMsg(MsgDTO, "错误的群号");
+                return false;
+            }
+
+            if (!BindAiMgr.Instance.AiDic.ContainsKey(name))
+            {
+                MsgSender.PushMsg(MsgDTO, "错误的机器人名");
+                return false;
+            }
+
+            var setting = GroupSettingMgr.Instance[groupNum];
+            if (setting.BindAis == null)
+            {
+                setting.BindAis = new List<string>();
+            }
+
+            if (!setting.BindAis.Contains(name))
+            {
+                setting.BindAis.Add(name);
+            }
+
+            setting.Update();
+
+            MsgSender.PushMsg(MsgDTO, "绑定成功！");
+            return true;
+        }
+
         [EnterCommand(ID = "DeveloperOnlyAI_BonusChance",
             Command = "抽奖奖励",
             Description = "奖励某个人一次抽奖机会",
@@ -360,28 +403,6 @@ namespace Dolany.Ai.Core.Ai.Sys
             GroupSettingMgr.Instance.Refresh();
 
             MsgSender.PushMsg(MsgDTO, "充值成功");
-            return true;
-        }
-
-        [EnterCommand(ID = "DeveloperOnlyAI_BindAi",
-            Command = "绑定",
-            Description = "将机器人绑定某个群组",
-            Syntax = "[群组号]",
-            Tag = "系统命令",
-            SyntaxChecker = "Long",
-            AuthorityLevel = AuthorityLevel.开发者,
-            IsPrivateAvailable = true)]
-        public bool BindAi(MsgInformationEx MsgDTO, object[] param)
-        {
-            var groupNum = (long) param[0];
-
-            var setting = MongoService<GroupSettings>.GetOnly(p => p.GroupNum == groupNum);
-            setting.BindAi = MsgDTO.BindAi;
-            setting.Update();
-
-            GroupSettingMgr.Instance.Refresh();
-
-            MsgSender.PushMsg(MsgDTO, "绑定成功");
             return true;
         }
 

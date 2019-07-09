@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.Linq;
 using Dolany.Ai.Common;
 
 namespace Dolany.Ai.Core.Common
@@ -9,15 +10,17 @@ namespace Dolany.Ai.Core.Common
 
         public readonly Dictionary<string, BindAiModel> AiDic;
 
+        public IEnumerable<long> AllAiNums => AiDic.Values.Select(p => p.SelfNum).ToArray();
+
         private BindAiMgr()
         {
-            AiDic = CommonUtil.ReadJsonData<Dictionary<string, BindAiModel>>("BindAiData");
+            AiDic = CommonUtil.ReadJsonData_NamedList<BindAiModel>("BindAiData").ToDictionary(p => p.Name, p => p);
         }
 
         public BindAiModel this[string AiName] => AiDic[AiName];
     }
 
-    public class BindAiModel
+    public class BindAiModel : INamedJsonModel
     {
         public long SelfNum { get; set; }
 
@@ -32,5 +35,7 @@ namespace Dolany.Ai.Core.Common
         public string LogPath => ClientPath + "logs/";
 
         public string VoicePath => ClientPath + "temp/voice/";
+
+        public string Name { get; set; }
     }
 }

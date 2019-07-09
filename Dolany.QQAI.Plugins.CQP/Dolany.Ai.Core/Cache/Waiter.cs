@@ -41,6 +41,11 @@ namespace Dolany.Ai.Core.Cache
             var msg = $"[Info] {info.BindAi} {source} {info.FromQQ} {info.Msg}";
             AIMgr.Instance.MessagePublish(msg);
 
+            if (BindAiMgr.Instance.AllAiNums.Contains(info.FromQQ))
+            {
+                return;
+            }
+
             if (info.FromGroup != 0)
             {
                 var setting = GroupSettingMgr.Instance[info.FromGroup];

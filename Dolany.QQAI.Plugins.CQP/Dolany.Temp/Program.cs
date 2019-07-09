@@ -1,7 +1,7 @@
 ﻿using System;
-using System.IO;
-using Dolany.Ai.Core.Ai.Game.Pet;
+using System.Collections.Generic;
 using Dolany.Database;
+using Dolany.Database.Ai;
 
 namespace Dolany.Temp
 {
@@ -9,14 +9,22 @@ namespace Dolany.Temp
     {
         static void Main(string[] args)
         {
-            var records = MongoService<PetRecord>.Get(p => p.PicPath == "./images/Pet/Neptune/Default.jpg");
-            foreach (var record in records)
+            var groups = MongoService<GroupSettings>.Get(p => p.BindAi != null);
+            foreach (var group in groups)
             {
-                var aimPath = $"./images/Custom/Pet/{record.QQNum}.jpg";
-                File.Copy("c:/AI/Server/images/Pet/Neptune/Default.jpg", $"c:/AI/Server/images/Custom/Pet/{record.QQNum}.jpg");
+                if (group.BindAis == null)
+                {
+                    group.BindAis = new List<string>();
+                }
 
-                record.PicPath = aimPath;
-                record.Update();
+                if (!group.BindAis.Contains(group.BindAi))
+                {
+                    group.BindAis.Add(group.BindAi);
+                }
+
+                group.Update();
+
+                Console.WriteLine($"{group.Name} Completed!");
             }
 
             Console.WriteLine("Completed");
