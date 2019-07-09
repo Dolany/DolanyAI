@@ -17,6 +17,8 @@ namespace Dolany.Ai.Core.Ai.Game.Pet
 
         public string PicPath { get; set; }
 
+        public string Attribute { get; set; }
+
         public static PetRecord Get(long QQNum)
         {
             var pet = MongoService<PetRecord>.GetOnly(p => p.QQNum == QQNum);

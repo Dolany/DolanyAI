@@ -1,4 +1,5 @@
 ﻿using System.IO;
+using System.Linq;
 using Dolany.Ai.Common;
 using Dolany.Ai.Common.Models;
 using Dolany.Ai.Core.Base;
@@ -20,6 +21,8 @@ namespace Dolany.Ai.Core.Ai.Game.Pet
 
         private const string CachePath = "./images/Cache/";
 
+        private string[] AllAttrs = {"钢铁", "海洋", "深渊", "自然", "神秘"};
+
         [EnterCommand(ID = "PetAI_MyPet",
             Command = "我的宠物",
             AuthorityLevel = AuthorityLevel.成员,
@@ -33,8 +36,8 @@ namespace Dolany.Ai.Core.Ai.Game.Pet
             var pet = PetRecord.Get(MsgDTO.FromQQ);
 
             var levelModel = PetLevelMgr.Instance[pet.Level];
-            var msg = $"{CodeApi.Code_Image_Relational(pet.PicPath)}\r" + $"名称：{pet.Name}\r" + $"种族：{pet.PetNo}\r" + $"等级：{Utility.LevelEmoji(pet.Level)}\r" +
-                      $"经验值：{pet.Exp}/{levelModel.Exp}";
+            var msg = $"{CodeApi.Code_Image_Relational(pet.PicPath)}\r" + $"名称：{pet.Name}\r" + $"种族：{pet.PetNo}\r" + $"食性：{pet.Attribute ?? "无"}\r" +
+                      $"等级：{Utility.LevelEmoji(pet.Level)}\r" + $"经验值：{pet.Exp}/{levelModel.Exp}";
 
             MsgSender.PushMsg(MsgDTO, msg);
             return true;
@@ -145,7 +148,6 @@ namespace Dolany.Ai.Core.Ai.Game.Pet
             var picGuid = Utility.ParsePicGuid(info.Msg);
             var imageCache = Utility.ReadImageCacheInfo(picGuid, bindai.ImagePath);
 
-            
             var fileName = $"{MsgDTO.FromQQ}.{imageCache?.type}";
             if (!Utility.DownloadImage(imageCache?.url, CachePath + fileName))
             {
@@ -166,11 +168,11 @@ namespace Dolany.Ai.Core.Ai.Game.Pet
 
             MsgSender.PushMsg(MsgDTO, "上传成功！待审核通过后方可生效！");
             Confirm(MsgDTO);
-            
+
             return true;
         }
 
-        private void Confirm(MsgInformation MsgDTO)
+        private static void Confirm(MsgInformation MsgDTO)
         {
             var folder = new DirectoryInfo(CachePath);
             var count = folder.GetFiles().Length;
@@ -178,6 +180,62 @@ namespace Dolany.Ai.Core.Ai.Game.Pet
             var setting = GroupSettingMgr.Instance[MsgDTO.FromGroup];
             var msg = $"有新的待审核图片！\r来自 {setting.Name} 的 {MsgDTO.FromQQ}\r当前剩余 {count} 张图片待审核！";
             MsgSender.PushMsg(0, Global.DeveloperNumber, msg, Global.DefaultConfig.MainAi);
+        }
+
+        [EnterCommand(ID = "PetAI_SetPetAttr",
+            Command = "设定宠物食性",
+            AuthorityLevel = AuthorityLevel.成员,
+            Description = "设定宠物的初始食性（三选一）",
+            Syntax = "",
+            Tag = "宠物功能",
+            SyntaxChecker = "Empty",
+            IsPrivateAvailable = false,
+            DailyLimit = 1,
+            TestingDailyLimit = 1)]
+        public bool SetPetAttr(MsgInformationEx MsgDTO, object[] param)
+        {
+            var pet = PetRecord.Get(MsgDTO.FromQQ);
+            var needGolds = false;
+            OSPerson osPerson = null;
+            if (!string.IsNullOrEmpty(pet.Attribute))
+            {
+                osPerson = OSPerson.GetPerson(MsgDTO.FromQQ);
+
+                if (osPerson.Golds < 300)
+                {
+                    MsgSender.PushMsg(MsgDTO, $"金币余额不足！({osPerson.Golds}/300)");
+                    return false;
+                }
+
+                if (!Waiter.Instance.WaitForConfirm_Gold(MsgDTO, 300))
+                {
+                    MsgSender.PushMsg(MsgDTO, "操作取消");
+                    return false;
+                }
+
+                needGolds = true;
+            }
+
+            var randAttrs = CommonUtil.RandSort(AllAttrs.ToArray());
+            var msg = $"请选择宠物食性：\r{string.Join("\r", randAttrs.Select((p, idx) => $"{idx + 1}:{p}"))}";
+            var selectedIdx = Waiter.Instance.WaitForNum(MsgDTO.FromGroup, MsgDTO.FromQQ, msg, i => i > 0 && i <= randAttrs.Length, MsgDTO.BindAi);
+            if (selectedIdx == -1)
+            {
+                MsgSender.PushMsg(MsgDTO, "操作取消");
+                return false;
+            }
+
+            pet.Attribute = randAttrs[selectedIdx + 1];
+            pet.Update();
+
+            if (needGolds)
+            {
+                osPerson.Golds -= 300;
+                osPerson.Update();
+            }
+
+            MsgSender.PushMsg(MsgDTO, "设定成功！");
+            return true;
         }
     }
 }
