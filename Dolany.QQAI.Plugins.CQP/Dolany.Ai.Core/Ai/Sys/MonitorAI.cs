@@ -118,8 +118,8 @@ namespace Dolany.Ai.Core.Ai.Sys
             var setting = GroupSettingMgr.Instance[MsgDTO.FromGroup];
             var expiryDate = $"\r有效期至：{setting.ExpiryTime?.ToLocalTime()}";
 
-            var pState = RecentCommandCache.IsTooFreq(MsgDTO.BindAi) ? "过热保护" : setting.IsPowerOn ? "开机" : "关机";
-            return $"\r电源状态：{pState}" + expiryDate;
+            var pState = string.Join("\r", setting.BindAis.Select(p => $"{p}:{(RecentCommandCache.IsTooFreq(p) ? "过热保护" : setting.IsPowerOn ? "开机" : "关机")}"));
+            return $"\r电源状态：\r{pState}" + expiryDate;
         }
 
         [EnterCommand(ID = "MonitorAI_ExceptionMonitor",
