@@ -1,5 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
+using Dolany.Ai.Core.OnlineStore;
 using Dolany.Database;
 using Dolany.Database.Ai;
 
@@ -9,22 +11,14 @@ namespace Dolany.Temp
     {
         static void Main(string[] args)
         {
-            var groups = MongoService<GroupSettings>.Get(p => p.BindAi != null);
-            foreach (var group in groups)
+            var honorList = HonorHelper.Instance.HonorList;
+            var attrs = new[] {"钢铁", "海洋", "深渊", "自然", "神秘"};
+            foreach (var attr in attrs)
             {
-                if (group.BindAis == null)
-                {
-                    group.BindAis = new List<string>();
-                }
+                var sumItem = honorList.Sum(h => h.Items.Count(item => item.Attributes != null && item.Attributes.Contains(attr)));
+                var sumPrice = honorList.Sum(h => h.Items.Where(item => item.Attributes != null && item.Attributes.Contains(attr)).Sum(p => p.Price));
 
-                if (!group.BindAis.Contains(group.BindAi))
-                {
-                    group.BindAis.Add(group.BindAi);
-                }
-
-                group.Update();
-
-                Console.WriteLine($"{group.Name} Completed!");
+                Console.WriteLine($"{attr}:  sumItem:{sumItem},sumPrice:{sumPrice}");
             }
 
             Console.WriteLine("Completed");

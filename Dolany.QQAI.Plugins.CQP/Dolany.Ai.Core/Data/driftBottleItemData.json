@@ -4,25 +4,29 @@
       "Name": "生锈的铁剑",
       "Description": "大概是卖不到什么钱了...",
       "Rate": 100,
-      "Price": 60
+      "Price": 60,
+      "Attributes": [ "钢铁" ] 
     },
     {
       "Name": "生锈的斧头",
       "Description": "虽然生锈了，但依然很锋利的样子...",
       "Rate": 100,
-      "Price": 60
+      "Price": 60,
+      "Attributes": [ "钢铁" ]
     },
     {
       "Name": "生锈的锄头",
       "Description": "还带着一些泥土....",
       "Rate": 90,
-      "Price": 67
+      "Price": 67,
+      "Attributes": [ "钢铁" ]
     },
     {
       "Name": "生锈的剪刀",
       "Description": "有着很多的豁口...",
       "Rate": 80,
-      "Price": 75
+      "Price": 75,
+      "Attributes": [ "钢铁" ]
     }
   ],
   "机械科技": [
@@ -30,31 +34,36 @@
       "Name": "生锈的铁片",
       "Description": "似乎是某个大型机器的一部分...",
       "Rate": 70,
-      "Price": 86
+      "Price": 86,
+      "Attributes": [ "钢铁" ]
     },
     {
       "Name": "小巧的扳手",
       "Description": "似乎内部的结构很精密...",
       "Rate": 53,
-      "Price": 114
+      "Price": 114,
+      "Attributes": [ "钢铁" ]
     },
     {
       "Name": "几个齿轮",
       "Description": "紧紧的咬合在一起...",
       "Rate": 52,
-      "Price": 116
+      "Price": 116,
+      "Attributes": [ "钢铁" ]
     },
     {
       "Name": "红色拉杆",
       "Description": "隐约有电光闪烁！...",
       "Rate": 17,
-      "Price": 357
+      "Price": 357,
+      "Attributes": [ "钢铁" ]
     },
     {
       "Name": "挂满海藻的方向盘",
       "Description": "滑腻腻的触感...",
       "Rate": 80,
-      "Price": 75
+      "Price": 75,
+      "Attributes": [ "钢铁" ]
     }
   ],
   "海鲜时间": [
@@ -62,25 +71,29 @@
       "Name": "安康鱼",
       "Description": "这东西似乎可以吃？...",
       "Rate": 150,
-      "Price": 40
+      "Price": 40,
+      "Attributes": [ "海洋" ]
     },
     {
       "Name": "小螃蟹",
       "Description": "夹了你一下，然后逃走了...",
       "Rate": 150,
-      "Price": 40
+      "Price": 40,
+      "Attributes": [ "海洋" ]
     },
     {
       "Name": "年迈的海龟",
       "Description": "又大又厚的龟壳...",
       "Rate": 100,
-      "Price": 60
+      "Price": 60,
+      "Attributes": [ "海洋" ]
     },
     {
       "Name": "鲜美的牡蛎",
       "Description": "很好吃的样子！...",
       "Rate": 193,
-      "Price": 31
+      "Price": 31,
+      "Attributes": [ "海洋" ]
     }
   ],
   "并没有什么用": [
@@ -88,31 +101,36 @@
       "Name": "破旧的玩偶",
       "Description": "看起来像猫，又像是狗？...",
       "Rate": 150,
-      "Price": 40
+      "Price": 40,
+      "Attributes": [ "自然" ]
     },
     {
       "Name": "小树枝",
       "Description": "上面隐约有一行小字...",
       "Rate": 200,
-      "Price": 30
+      "Price": 30,
+      "Attributes": [ "自然" ]
     },
     {
       "Name": "半截铅笔",
       "Description": "笔芯已经不见了...",
       "Rate": 100,
-      "Price": 60
+      "Price": 60,
+      "Attributes": [ "自然" ]
     },
     {
       "Name": "破烂的布口袋",
       "Description": "有三个大洞，十七个小洞...",
       "Rate": 90,
-      "Price": 67
+      "Price": 67,
+      "Attributes": [ "自然" ]
     },
     {
       "Name": "锋利的玻璃碎片",
       "Description": "（不小心划破了手指）...",
       "Rate": 100,
-      "Price": 60
+      "Price": 60,
+      "Attributes": [ "自然" ]
     }
   ],
   "肥宅套餐": [
@@ -120,25 +138,29 @@
       "Name": "可乐瓶",
       "Description": "似乎只喝了一半...",
       "Rate": 150,
-      "Price": 40
+      "Price": 40,
+      "Attributes": [ "深渊" ]
     },
     {
       "Name": "炸鸡腿",
       "Description": "散发着让人流口水的香气...",
       "Rate": 100,
-      "Price": 60
+      "Price": 60,
+      "Attributes": [ "深渊" ]
     },
     {
       "Name": "芝士汉堡",
       "Description": "是今年的人气款！...",
       "Rate": 80,
-      "Price": 75
+      "Price": 75,
+      "Attributes": [ "深渊" ]
     },
     {
       "Name": "一包薯条",
       "Description": "可惜没有番茄酱...",
       "Rate": 70,
-      "Price": 86
+      "Price": 86,
+      "Attributes": [ "深渊" ]
     }
   ],
   "幻想乡拾荒者": [
@@ -146,31 +168,36 @@
       "Name": "印着“博丽”的存钱罐",
       "Description": "里面什么都没有...",
       "Rate": 20,
-      "Price": 303
+      "Price": 303,
+      "Attributes": [ "神秘" ]
     },
     {
       "Name": "闪光的匕首",
       "Description": "拿它用来做菜似乎很不错？",
       "Rate": 70,
-      "Price": 86
+      "Price": 86,
+      "Attributes": [ "神秘" ]
     },
     {
       "Name": "迷你八卦炉",
       "Description": "“全球限量高仿版”...",
       "Rate": 50,
-      "Price": 121
+      "Price": 121,
+      "Attributes": [ "神秘" ]
     },
     {
       "Name": "很轻的扫帚",
       "Description": "拿在手里感觉整个人都轻飘飘的...",
       "Rate": 40,
-      "Price": 60
+      "Price": 60,
+      "Attributes": [ "神秘" ]
     },
     {
       "Name": "青蛙玩偶",
       "Description": "似乎寄宿着神明的力量...",
       "Rate": 30,
-      "Price": 204
+      "Price": 204,
+      "Attributes": [ "神秘" ]
     }
   ],
   "魔法工会": [
@@ -178,25 +205,29 @@
       "Name": "闪亮亮的徽章",
       "Description": "十字星的图案，好像在哪里见过...",
       "Rate": 50,
-      "Price": 121
+      "Price": 121,
+      "Attributes": [ "海洋" ]
     },
     {
       "Name": "塑料卡片",
       "Description": "“...魔...公会...部...拉米...”...",
       "Rate": 1,
-      "Price": 5000
+      "Price": 5000,
+      "Attributes": [ "神秘" ]
     },
     {
       "Name": "招募启事",
       "Description": "“...初级...马卡城...公会...”...",
       "Rate": 40,
-      "Price": 151
+      "Price": 151,
+      "Attributes": [ "神秘" ]
     },
     {
       "Name": "宽大的袍子",
       "Description": "上面满是精妙奇特的图案...",
       "Rate": 60,
-      "Price": 101
+      "Price": 101,
+      "Attributes": [ "海洋" ]
     }
   ],
   "恶魔低语": [
@@ -204,31 +235,36 @@
       "Name": "羊皮纸残片A",
       "Description": "“恶魔”...“通行”...“锻造”...“门”...",
       "Rate": 3,
-      "Price": 2000
+      "Price": 2000,
+      "Attributes": [ "海洋" ]
     },
     {
       "Name": "羊皮纸残片B",
       "Description": "“罪恶”...“鲜血”...“救赎”...“低语”...",
       "Rate": 3,
-      "Price": 2000
+      "Price": 2000,
+      "Attributes": [ "深渊" ]
     },
     {
       "Name": "羊皮纸残片C",
       "Description": "“黑暗”...“契约”...“召唤”...“代价”...",
       "Rate": 3,
-      "Price": 2000
+      "Price": 2000,
+      "Attributes": [ "海洋" ]
     },
     {
       "Name": "羊皮纸残片D",
       "Description": "“噩梦”...“疯狂”...“吸食”...“烈焰”...",
       "Rate": 3,
-      "Price": 2000
+      "Price": 2000,
+      "Attributes": [ "深渊" ]
     },
     {
       "Name": "羊皮纸残片E",
       "Description": "“无尽”...“狂怒”...“苦痛”...“唯一”...",
       "Rate": 3,
-      "Price": 2000
+      "Price": 2000,
+      "Attributes": [ "深渊" ]
     }
   ],
   "宝石工匠": [
@@ -236,25 +272,29 @@
       "Name": "带有裂痕的宝石",
       "Description": "握在手里有一丝丝温暖的感觉...",
       "Rate": 10,
-      "Price": 625
+      "Price": 625,
+      "Attributes": [ "海洋" ]
     },
     {
       "Name": "蓝色水滴状的宝石",
       "Description": "好似随时会融化一般...",
       "Rate": 30,
-      "Price": 204
+      "Price": 204,
+      "Attributes": [ "海洋" ]
     },
     {
       "Name": "正方形的宝石",
       "Description": "完美的正方体，难以想象这是天然形成的...",
       "Rate": 30,
-      "Price": 204
+      "Price": 204,
+      "Attributes": [ "海洋" ]
     },
     {
       "Name": "黑色宝石",
       "Description": "绚烂夺目的黑色...",
       "Rate": 15,
-      "Price": 400
+      "Price": 400,
+      "Attributes": ["海洋"]
     }
   ],
   "腐败食物": [
@@ -262,25 +302,29 @@
       "Name": "半截蘑菇",
       "Description": "有点恶心的样子...",
       "Rate": 80,
-      "Price": 75
+      "Price": 75,
+      "Attributes": [ "自然" ]
     },
     {
       "Name": "腐烂的苹果",
       "Description": "已经烂掉一半了...",
       "Rate": 70,
-      "Price": 86
+      "Price": 86,
+      "Attributes": [ "自然" ]
     },
     {
       "Name": "腐烂的榴莲",
       "Description": "老实说，我也没见过榴莲腐烂后是什么样...",
       "Rate": 60,
-      "Price": 101
+      "Price": 101,
+      "Attributes": [ "自然" ]
     },
     {
       "Name": "变质的罐头",
       "Description": "老远就可以闻到怪味...",
       "Rate": 50,
-      "Price": 121
+      "Price": 121,
+      "Attributes": [ "自然" ]
     }
   ],
   "游戏宅套装": [
@@ -288,49 +332,57 @@
       "Name": "最新款爱疯手机",
       "Description": "这个样子应该开不了机了吧...",
       "Rate": 100,
-      "Price": 60
+      "Price": 60,
+      "Attributes": [ "钢铁" ]
     },
     {
       "Name": "坏掉的手柄",
       "Description": "缺了三个按键...",
       "Rate": 60,
-      "Price": 101
+      "Price": 101,
+      "Attributes": [ "钢铁" ]
     },
     {
       "Name": "手机数据线",
       "Description": "居然有十米长！...",
       "Rate": 150,
-      "Price": 40
+      "Price": 40,
+      "Attributes": [ "钢铁" ]
     },
     {
       "Name": "液晶显示器",
       "Description": "中间破了一个大洞...",
       "Rate": 120,
-      "Price": 50
+      "Price": 50,
+      "Attributes": [ "钢铁" ]
     },
     {
       "Name": "周边键盘",
       "Description": "还剩三个按键...",
       "Rate": 120,
-      "Price": 50
+      "Price": 50,
+      "Attributes": [ "钢铁" ]
     },
     {
       "Name": "生锈的主机箱",
       "Description": "（一碰就散架了）...",
       "Rate": 80,
-      "Price": 75
+      "Price": 75,
+      "Attributes": [ "钢铁" ]
     },
     {
       "Name": "一张光盘",
       "Description": "“...王...二代...N...”...",
       "Rate": 55,
-      "Price": 109
+      "Price": 109,
+      "Attributes": [ "钢铁" ]
     },
     {
       "Name": "周边T恤",
       "Description": "已经看不清上面印的什么了...",
       "Rate": 100,
-      "Price": 60
+      "Price": 60,
+      "Attributes": [ "钢铁" ]
     }
   ],
   "女装大佬": [
@@ -338,31 +390,36 @@
       "Name": "蓝白条胖次",
       "Description": "咦，好像是楼上的？",
       "Rate": 100,
-      "Price": 60
+      "Price": 60,
+      "Attributes": [ "神秘" ]
     },
     {
       "Name": "黑色丝袜",
       "Description": "有着某种...额...味道...",
       "Rate": 75,
-      "Price": 81
+      "Price": 81,
+      "Attributes": [ "神秘" ]
     },
     {
       "Name": "黄色发卡",
       "Description": "这种黄色有些过于鲜艳...",
       "Rate": 60,
-      "Price": 101
+      "Price": 101,
+      "Attributes": [ "神秘" ]
     },
     {
       "Name": "蕾丝文胸",
       "Description": "男生的话，应该用不上这个吧...",
       "Rate": 55,
-      "Price": 109
+      "Price": 109,
+      "Attributes": [ "神秘" ]
     },
     {
       "Name": "丝绸手帕",
       "Description": "淡淡的香气...",
       "Rate": 72,
-      "Price": 84
+      "Price": 84,
+      "Attributes": [ "神秘" ]
     }
   ],
   "皇室御用": [
@@ -370,25 +427,29 @@
       "Name": "银质酒杯",
       "Description": "“皇室御用”...",
       "Rate": 50,
-      "Price": 121
+      "Price": 121,
+      "Attributes": [ "神秘" ]
     },
     {
       "Name": "黑色的茶杯",
       "Description": "“皇室御用”...",
       "Rate": 62,
-      "Price": 98
+      "Price": 98,
+      "Attributes": [ "神秘" ]
     },
     {
       "Name": "精美的餐盘",
       "Description": "“皇室御用”...",
       "Rate": 62,
-      "Price": 98
+      "Price": 98,
+      "Attributes": [ "神秘" ]
     },
     {
       "Name": "银质叉子",
       "Description": "“皇室御用”...",
       "Rate": 50,
-      "Price": 121
+      "Price": 121,
+      "Attributes": [ "神秘" ]
     }
   ],
   "实木家具": [
@@ -396,31 +457,36 @@
       "Name": "空箱子",
       "Description": "明明是木头箱子，确是意外的沉重...",
       "Rate": 70,
-      "Price": 86
+      "Price": 86,
+      "Attributes": [ "自然" ]
     },
     {
       "Name": "精美的木椅",
       "Description": "意外的结实！...",
       "Rate": 80,
-      "Price": 75
+      "Price": 75,
+      "Attributes": [ "自然" ]
     },
     {
       "Name": "三层书柜",
       "Description": "可以看到里面的木质纹理...",
       "Rate": 70,
-      "Price": 86
+      "Price": 86,
+      "Attributes": [ "自然" ]
     },
     {
       "Name": "木质单人床",
       "Description": "感觉躺上去刚好合适...",
       "Rate": 76,
-      "Price": 80
+      "Price": 80,
+      "Attributes": [ "自然" ]
     },
     {
       "Name": "木头水壶",
       "Description": "里面的水好像怎么也倒不完...",
       "Rate": 21,
-      "Price": 285
+      "Price": 285,
+      "Attributes": [ "自然" ]
     }
   ],
   "巨人之国": [
@@ -428,25 +494,29 @@
       "Name": "巨大的剪刀",
       "Description": "比一头牛还大！",
       "Rate": 60,
-      "Price": 101
+      "Price": 101,
+      "Attributes": [ "钢铁" ]
     },
     {
       "Name": "一只皮靴",
       "Description": "它的主人一定脚很大...",
       "Rate": 20,
-      "Price": 303
+      "Price": 303,
+      "Attributes": [ "钢铁" ]
     },
     {
       "Name": "宽大的腰带",
       "Description": "似乎是某种动物的皮做成的...",
       "Rate": 60,
-      "Price": 101
+      "Price": 101,
+      "Attributes": [ "钢铁" ]
     },
     {
       "Name": "巨大的手套",
       "Description": "可以装下五个人...",
       "Rate": 60,
-      "Price": 101
+      "Price": 101,
+      "Attributes": [ "钢铁" ]
     }
   ],
   "魔法物品": [
@@ -454,31 +524,36 @@
       "Name": "金色的羽毛",
       "Description": "散发着柔和的光芒...",
       "Rate": 10,
-      "Price": 625
+      "Price": 625,
+      "Attributes": [ "神秘" ]
     },
     {
       "Name": "一盏台灯",
       "Description": "居然还是亮着的！...",
       "Rate": 40,
-      "Price": 151
+      "Price": 151,
+      "Attributes": [ "神秘" ]
     },
     {
       "Name": "魔法竖琴",
       "Description": "琴身上写着“魔法竖琴”几个字...",
       "Rate": 26,
-      "Price": 232
+      "Price": 232,
+      "Attributes": [ "海洋" ]
     },
     {
       "Name": "半截牛角",
       "Description": "上面有几个规则的孔洞，是某种乐器？...",
       "Rate": 39,
-      "Price": 156
+      "Price": 156,
+      "Attributes": [ "海洋" ]
     },
     {
       "Name": "很厚的书",
       "Description": "满是看不懂的文字...",
       "Rate": 100,
-      "Price": 60
+      "Price": 60,
+      "Attributes": [ "神秘" ]
     }
   ],
   "不明物体": [
@@ -486,25 +561,29 @@
       "Name": "奇怪的帽子",
       "Description": "造型很奇特，从来没见过这么奇怪的帽子...",
       "Rate": 20,
-      "Price": 303
+      "Price": 303,
+      "Attributes": [ "深渊" ]
     },
     {
       "Name": "一罐不明液体",
       "Description": "还是不要打开的好...",
       "Rate": 70,
-      "Price": 86
+      "Price": 86,
+      "Attributes": [ "深渊" ]
     },
     {
       "Name": "扭曲的塑像",
       "Description": "完全看不懂是什么东西...",
       "Rate": 30,
-      "Price": 204
+      "Price": 204,
+      "Attributes": [ "深渊" ]
     },
     {
       "Name": "奇异的圆盘",
       "Description": "看起来是石头，摸起来却像是木头...",
       "Rate": 40,
-      "Price": 151
+      "Price": 151,
+      "Attributes": [ "深渊" ]
     }
   ],
   "野兽踪迹": [
@@ -512,25 +591,29 @@
       "Name": "一截腿骨",
       "Description": "似乎是某种野兽的骨头，很沉重...",
       "Rate": 70,
-      "Price": 86
+      "Price": 86,
+      "Attributes": [ "自然" ]
     },
     {
       "Name": "一撮兽毛",
       "Description": "黑黄相间的毛...",
       "Rate": 90,
-      "Price": 67
+      "Price": 67,
+      "Attributes": [ "自然" ]
     },
     {
       "Name": "尖尖的兽牙",
       "Description": "又大又锋利！...",
       "Rate": 80,
-      "Price": 75
+      "Price": 75,
+      "Attributes": [ "自然" ]
     },
     {
       "Name": "野兽头颅",
       "Description": "只剩骨头了...",
       "Rate": 70,
-      "Price": 86
+      "Price": 86,
+      "Attributes": [ "自然" ]
     }
   ],
   "原始祭祀": [
@@ -538,25 +621,29 @@
       "Name": "方形的石头",
       "Description": "刻着奇怪的纹路，似乎是某种祭祀用品...",
       "Rate": 20,
-      "Price": 303
+      "Price": 303,
+      "Attributes": [ "深渊" ]
     },
     {
       "Name": "三角形的石头",
       "Description": "刻着奇怪的纹路，似乎是某种祭祀用品...",
       "Rate": 15,
-      "Price": 400
+      "Price": 400,
+      "Attributes": [ "深渊" ]
     },
     {
       "Name": "一片龟壳",
       "Description": "写满了象形文字...",
       "Rate": 30,
-      "Price": 204
+      "Price": 204,
+      "Attributes": [ "深渊" ]
     },
     {
       "Name": "暗红色的石桌",
       "Description": "挥之不去的腥味...",
       "Rate": 20,
-      "Price": 303
+      "Price": 303,
+      "Attributes": [ "深渊" ]
     }
   ],
   "战争之影": [
@@ -564,25 +651,29 @@
       "Name": "小巧的盾牌",
       "Description": "比手掌还小，但看起来并不是玩具？...",
       "Rate": 30,
-      "Price": 204
+      "Price": 204,
+      "Attributes": [ "钢铁" ]
     },
     {
       "Name": "破烂的旗子",
       "Description": "就只能看清几个字母：E，G，I，B，L...",
       "Rate": 15,
-      "Price": 400
+      "Price": 400,
+      "Attributes": [ "钢铁" ]
     },
     {
       "Name": "精美的弓",
       "Description": "雕琢着奇怪却精美的花纹...",
       "Rate": 30,
-      "Price": 204
+      "Price": 204,
+      "Attributes": [ "钢铁" ]
     },
     {
       "Name": "锋利的茅尖",
       "Description": "隔着很远就能感觉到凛冽的杀气...",
       "Rate": 33,
-      "Price": 185
+      "Price": 185,
+      "Attributes": [ "钢铁" ]
     }
   ],
   "伪物": [
@@ -590,25 +681,29 @@
       "Name": "一袋钱币",
       "Description": "等等，这些钱币都是塑料的？...",
       "Rate": 60,
-      "Price": 101
+      "Price": 101,
+      "Attributes": [ "海洋" ]
     },
     {
       "Name": "一颗鸡蛋",
       "Description": "等等，这颗鸡蛋是塑料的？...",
       "Rate": 60,
-      "Price": 101
+      "Price": 101,
+      "Attributes": [ "海洋" ]
     },
     {
       "Name": "一只小螃蟹",
       "Description": "等等，这只螃蟹是塑料的？...",
       "Rate": 60,
-      "Price": 101
+      "Price": 101,
+      "Attributes": [ "海洋" ]
     },
     {
       "Name": "一片面包",
       "Description": "等等，这片面包是塑料的？...",
       "Rate": 60,
-      "Price": 101
+      "Price": 101,
+      "Attributes": [ "海洋" ]
     }
   ],
   "神灵塑像": [
@@ -616,31 +711,36 @@
       "Name": "青石塑像A",
       "Description": "“战争之神”...",
       "Rate": 15,
-      "Price": 400
+      "Price": 400,
+      "Attributes": [ "自然" ]
     },
     {
       "Name": "青石塑像B",
       "Description": "“爱情之神”...",
       "Rate": 15,
-      "Price": 400
+      "Price": 400,
+      "Attributes": [ "自然" ]
     },
     {
       "Name": "青石塑像C",
       "Description": "“魔法之神”...",
       "Rate": 15,
-      "Price": 400
+      "Price": 400,
+      "Attributes": [ "自然" ]
     },
     {
       "Name": "青石塑像D",
       "Description": "“死亡之神”...",
       "Rate": 15,
-      "Price": 400
+      "Price": 400,
+      "Attributes": [ "自然" ]
     },
     {
       "Name": "青石塑像E",
       "Description": "“时间之神”...",
       "Rate": 15,
-      "Price": 400
+      "Price": 400,
+      "Attributes": [ "自然" ]
     }
   ],
   "棉花糖糖": [
@@ -648,61 +748,71 @@
       "Name": "一号",
       "Description": "在陆家嘴坐拥百套房产QAQ，tqlwsl...",
       "Rate": 5,
-      "Price": 648
+      "Price": 648,
+      "Attributes": [ "自然" ]
     },
     {
       "Name": "蠢大腿",
       "Description": "最最蠢萌的大腿，好可爱~...",
       "Rate": 5,
-      "Price": 380
+      "Price": 380,
+      "Attributes": [ "钢铁" ]
     },
     {
       "Name": "语佬",
       "Description": "非洲酋长的御用咸鱼...",
       "Rate": 5,
-      "Price": 380
+      "Price": 380,
+      "Attributes": [ "海洋" ]
     },
     {
       "Name": "歡歡",
       "Description": "emmmm拥有成就“里世界第一”，“秘境第一”...",
       "Rate": 10,
-      "Price": 250
+      "Price": 250,
+      "Attributes": [ "深渊" ]
     },
     {
       "Name": "音",
       "Description": "棉花糖的领导者(其实就是最最传奇的蠢炮咩哈哈哈哈！)...",
       "Rate": 10,
-      "Price": 233
+      "Price": 233,
+      "Attributes": [ "自然" ]
     },
     {
       "Name": "光哥",
       "Description": "呵呵，砍你哦...",
       "Rate": 10,
-      "Price": 328
+      "Price": 328,
+      "Attributes": [ "神秘" ]
     },
     {
       "Name": "望月",
       "Description": "旁边总有人高喊着“沫大人救我！”...",
       "Rate": 10,
-      "Price": 233
+      "Price": 233,
+      "Attributes": [ "钢铁" ]
     },
     {
       "Name": "语酱",
       "Description": "是个幻神...好像又不是...",
       "Rate": 50,
-      "Price": 15
+      "Price": 15,
+      "Attributes": [ "海洋" ]
     },
     {
       "Name": "霸霸",
       "Description": "拥有神秘祝福的人...",
       "Rate": 20,
-      "Price": 100
+      "Price": 100,
+      "Attributes": [ "深渊" ]
     },
     {
       "Name": "棉花糖的大集结",
       "Description": "谨以此纪念我深爱着的棉花糖的大家~...",
       "Rate": 3,
-      "Price": 2017
+      "Price": 2017,
+      "Attributes": [ "自然" ]
     }
   ],
   "九尾狐": [
@@ -710,43 +820,50 @@
       "Name": "狐宝宝",
       "Description": "芙泥..鸡鸡..妃妃..糊秃...一二三尾...",
       "Rate": 6,
-      "Price": 980
+      "Price": 980,
+      "Attributes": [ "神秘" ]
     },
     {
       "Name": "小狐狸",
       "Description": "开始修炼的...傻白..白白..四尾...",
       "Rate": 6,
-      "Price": 980
+      "Price": 980,
+      "Attributes": [ "钢铁" ]
     },
     {
       "Name": "见习红线仙",
       "Description": "开始变强的狐...红翼...五尾...",
       "Rate": 6,
-      "Price": 980
+      "Price": 980,
+      "Attributes": [ "海洋" ]
     },
     {
       "Name": "红线仙",
       "Description": "涂山长老.....六尾..狐狸鸡侧的所有人！...",
       "Rate": 6,
-      "Price": 1000
+      "Price": 1000,
+      "Attributes": [ "深渊" ]
     },
     {
       "Name": "狐妖长老",
       "Description": "涂山太上长老...七尾..是冰冰酱！...",
       "Rate": 6,
-      "Price": 1000
+      "Price": 1000,
+      "Attributes": [ "自然" ]
     },
     {
       "Name": "狐妖之主",
       "Description": "涂山掌门...八尾..盘盘...",
       "Rate": 6,
-      "Price": 1000
+      "Price": 1000,
+      "Attributes": [ "神秘" ]
     },
     {
       "Name": "狐仙",
       "Description": "青丘and涂山小主..九尾..是师姐媛媛！...",
       "Rate": 6,
-      "Price": 1000
+      "Price": 1000,
+      "Attributes": [ "钢铁" ]
     }
   ],
   "五行封印": [
@@ -754,31 +871,36 @@
       "Name": "从革之金",
       "Description": "封印着傻白的亵渎之魂...",
       "Rate": 8,
-      "Price": 800
+      "Price": 800,
+      "Attributes": [ "海洋" ]
     },
     {
       "Name": "曲直之木",
       "Description": "封印着傻白的腐败之躯...",
       "Rate": 8,
-      "Price": 800
+      "Price": 800,
+      "Attributes": [ "深渊" ]
     },
     {
       "Name": "稼穑之土",
       "Description": "封印着傻白的污秽之血...",
       "Rate": 8,
-      "Price": 800
+      "Price": 800,
+      "Attributes": [ "自然" ]
     },
     {
       "Name": "润下之水",
       "Description": "封印着傻白的憎恶之心...",
       "Rate": 8,
-      "Price": 800
+      "Price": 800,
+      "Attributes": [ "神秘" ]
     },
     {
       "Name": "炎上之火",
       "Description": "封印着傻白的扭曲之貌...",
       "Rate": 8,
-      "Price": 800
+      "Price": 800,
+      "Attributes": [ "钢铁" ]
     }
   ] 
 }

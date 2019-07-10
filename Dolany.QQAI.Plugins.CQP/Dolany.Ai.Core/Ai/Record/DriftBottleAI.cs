@@ -218,6 +218,7 @@ namespace Dolany.Ai.Core.Ai.Record
                       $"    {item.Description} \r" +
                       $"稀有率为 {HonorHelper.Instance.ItemRate(item)}%\r" +
                       $"售价为：{HonorHelper.GetItemPrice(item, MsgDTO.FromQQ)} 金币\r" +
+                      $"特性：{string.Join(",", item.Attributes)}\r" +
                       $"你总共拥有该物品 {record.HonorCollections[honorName].Items[item.Name]}个";
 
             if (!string.IsNullOrEmpty(s))
@@ -263,6 +264,7 @@ namespace Dolany.Ai.Core.Ai.Record
                       $"物品描述：{item.Description}\r" +
                       $"稀有率：{HonorHelper.Instance.ItemRate(item)}%\r" +
                       $"价格：{HonorHelper.GetItemPrice(item, MsgDTO.FromQQ)}\r" +
+                      $"特性：{string.Join(",", item.Attributes)}\r" +
                       $"可解锁成就：{HonorHelper.Instance.FindHonorFullName(item.Name)}\r" +
                       $"你拥有该物品：{record.GetCount(item.Name)}";
             MsgSender.PushMsg(MsgDTO, msg);
@@ -306,7 +308,7 @@ namespace Dolany.Ai.Core.Ai.Record
         public bool LimitItemReport(MsgInformationEx MsgDTO, object[] param)
         {
             var LimitHonor = HonorHelper.Instance.HonorList.First(h =>
-                h is LimitHonorModel && ((LimitHonorModel) h).Year == DateTime.Now.Year && ((LimitHonorModel) h).Month == DateTime.Now.Month);
+                h is LimitHonorModel model && model.Year == DateTime.Now.Year && model.Month == DateTime.Now.Month);
             var LimitItemsNames = LimitHonor.Items.Select(i => i.Name);
 
             var allRecord = MongoService<ItemCollectionRecord>.Get(r => r.HonorCollections.ContainsKey(LimitHonor.Name));
