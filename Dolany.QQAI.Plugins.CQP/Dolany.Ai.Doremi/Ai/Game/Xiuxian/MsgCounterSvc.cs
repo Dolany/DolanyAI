@@ -13,7 +13,7 @@ namespace Dolany.Ai.Doremi.Ai.Game.Xiuxian
         private static readonly Mutex mutex = new Mutex(false, Configger<AIConfigEx>.Instance.AIConfig.CounterMutex);
         private static readonly string dataSource = Configger<AIConfigEx>.Instance.AIConfig.MsgCounterCacheDb;
 
-        private const long DialyLimit = 100;
+        private const long DialyLimit = 1000;
 
         public static List<long> GetAllEnabledPersons()
         {
@@ -106,9 +106,14 @@ namespace Dolany.Ai.Doremi.Ai.Game.Xiuxian
                 else
                 {
                     var todayStr = DateTime.Now.ToString("yyyyMMdd");
-                    if (record.LastDate != todayStr)
+                    if (string.IsNullOrEmpty(record.LastDate) || record.LastDate != todayStr)
                     {
                         record.LastDate = todayStr;
+                        record.TodayCount = 0;
+                    }
+
+                    if (record.TodayCount == null)
+                    {
                         record.TodayCount = 0;
                     }
 
@@ -117,7 +122,7 @@ namespace Dolany.Ai.Doremi.Ai.Game.Xiuxian
                         return;
                     }
 
-                    count = Math.Min(count, DialyLimit - record.TodayCount);
+                    count = Math.Min(count, DialyLimit - record.TodayCount ?? 0);
                     record.TodayCount += count;
                     record.Count += count;
                 }

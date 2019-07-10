@@ -148,8 +148,14 @@ namespace Dolany.Ai.Core.Ai.Game.Pet
             var picGuid = Utility.ParsePicGuid(info.Msg);
             var imageCache = Utility.ReadImageCacheInfo(picGuid, bindai.ImagePath);
 
-            var fileName = $"{MsgDTO.FromQQ}.{imageCache?.type}";
-            if (!Utility.DownloadImage(imageCache?.url, CachePath + fileName))
+            if (imageCache?.type.ToLower() != "jpg")
+            {
+                MsgSender.PushMsg(MsgDTO, "抱歉，暂时只支持jpg格式的图片！");
+                return false;
+            }
+
+            var fileName = $"{MsgDTO.FromQQ}.{imageCache.type}";
+            if (!Utility.DownloadImage(imageCache.url, CachePath + fileName))
             {
                 MsgSender.PushMsg(MsgDTO, "图片下载失败，请稍后再试！");
                 return false;

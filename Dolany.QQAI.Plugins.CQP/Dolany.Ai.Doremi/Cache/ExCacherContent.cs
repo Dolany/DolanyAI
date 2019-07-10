@@ -26,7 +26,7 @@ namespace Dolany.Ai.Doremi.Cache
 
         public string LastDate { get; set; }
 
-        public long TodayCount { get; set; }
+        public long? TodayCount { get; set; }
     }
 
     public class CounterEnableRecord
