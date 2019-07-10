@@ -1,4 +1,5 @@
-﻿using System.IO;
+﻿using System.Collections.Generic;
+using System.IO;
 using Dolany.Database;
 
 namespace Dolany.Ai.Core.Ai.Game.Pet
@@ -18,6 +19,10 @@ namespace Dolany.Ai.Core.Ai.Game.Pet
         public string PicPath { get; set; }
 
         public string Attribute { get; set; }
+
+        public int RemainSkillPoints { get; set; }
+
+        public Dictionary<string, int> Skills { get; set; }
 
         public static PetRecord Get(long QQNum)
         {

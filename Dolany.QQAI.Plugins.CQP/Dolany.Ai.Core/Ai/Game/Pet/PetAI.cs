@@ -21,7 +21,7 @@ namespace Dolany.Ai.Core.Ai.Game.Pet
 
         private const string CachePath = "./images/Cache/";
 
-        private string[] AllAttrs = {"钢铁", "海洋", "深渊", "自然", "神秘"};
+        private readonly string[] AllAttrs = {"钢铁", "海洋", "深渊", "自然", "神秘"};
 
         [EnterCommand(ID = "PetAI_MyPet",
             Command = "我的宠物",
@@ -191,7 +191,7 @@ namespace Dolany.Ai.Core.Ai.Game.Pet
         [EnterCommand(ID = "PetAI_SetPetAttr",
             Command = "设定宠物食性",
             AuthorityLevel = AuthorityLevel.成员,
-            Description = "设定宠物的初始食性（三选一）",
+            Description = "设定宠物的初始食性",
             Syntax = "",
             Tag = "宠物功能",
             SyntaxChecker = "Empty",
