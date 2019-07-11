@@ -1,6 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
 using Dolany.Ai.Common;
+using Dolany.Ai.Common.Models;
 
 namespace Dolany.Ai.Core.Ai.Game.Pet
 {
@@ -16,6 +17,14 @@ namespace Dolany.Ai.Core.Ai.Game.Pet
         {
             LevelDic = CommonUtil.ReadJsonData_NamedList<PetLevelModel>("PetLevelData")
                 .ToDictionary(p => int.Parse(p.Name), p => p);
+        }
+    }
+
+    public static class PetExtent
+    {
+        public static void ExtGain(this PetRecord pet, MsgInformationEx MsgDTO, int exp)
+        {
+
         }
     }
 

@@ -1,4 +1,5 @@
-﻿using System.IO;
+﻿using System;
+using System.IO;
 using System.Linq;
 using Dolany.Ai.Common;
 using Dolany.Ai.Common.Models;
@@ -241,6 +242,52 @@ namespace Dolany.Ai.Core.Ai.Game.Pet
             }
 
             MsgSender.PushMsg(MsgDTO, "设定成功！");
+            return true;
+        }
+
+        [EnterCommand(ID = "PetAI_FeedPet",
+            Command = "喂食宠物",
+            AuthorityLevel = AuthorityLevel.成员,
+            Description = "喂给宠物指定的物品（请遵循宠物的食性）",
+            Syntax = "[物品名]",
+            Tag = "宠物功能",
+            SyntaxChecker = "Word",
+            IsPrivateAvailable = false)]
+        public bool FeedPet(MsgInformationEx MsgDTO, object[] param)
+        {
+            var name = param[0] as string;
+            var honorRecord = ItemCollectionRecord.Get(MsgDTO.FromQQ);
+            var honorCollection = honorRecord.HonorCollections?.FirstOrDefault(p => p.Value.Items?.ContainsKey(name) ?? false);
+            if (honorCollection == null)
+            {
+                MsgSender.PushMsg(MsgDTO, "你没有该物品！", true);
+                return false;
+            }
+
+            var pet = PetRecord.Get(MsgDTO.FromQQ);
+            if (string.IsNullOrEmpty(pet.Attribute))
+            {
+                MsgSender.PushMsg(MsgDTO, "请先设置宠物食性！", true);
+                return false;
+            }
+
+            if (pet.LastFeedTime != null && pet.LastFeedTime.Value.AddHours(8) > DateTime.Now)
+            {
+                MsgSender.PushMsg(MsgDTO, $"{pet.Name}还饱着呢，不想吃东西（请与{pet.LastFeedTime.Value.AddHours(8):yyyy-MM-dd HH:mm:ss}后再试）");
+                return false;
+            }
+
+            var item = HonorHelper.Instance.FindItem(name);
+            if (!item.Attributes.Contains(pet.Attribute))
+            {
+                MsgSender.PushMsg(MsgDTO, $"{pet.Name}说不想吃这个东西（请喂食正确特性的物品）");
+                return false;
+            }
+
+            pet.ExtGain(MsgDTO, item.Exp);
+            honorRecord.ItemConsume(name);
+            honorRecord.Update();
+
             return true;
         }
     }
