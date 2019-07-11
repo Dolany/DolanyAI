@@ -1,5 +1,6 @@
 ﻿using Dolany.Ai.Common.Models;
 using Dolany.Ai.Doremi.Ai.Game.Xiuxian;
+using Dolany.Ai.Doremi.API;
 using Dolany.Ai.Doremi.Base;
 using Dolany.Ai.Doremi.Cache;
 using Dolany.Ai.Doremi.OnlineStore;
@@ -29,7 +30,11 @@ namespace Dolany.Ai.Doremi.Ai.Game.Shopping
             var level = LevelMgr.Instance.GetByLevel(osPerson.Level);
             var exp = MsgCounterSvc.Get(MsgDTO.FromQQ);
 
-            var msg = $"等级：{level.Name}\r" + $"经验值：{exp}/{level.Exp}{(exp >= level.Exp ? "(可渡劫)" : "")}\r" + $"金币：{osPerson.Golds}";
+            var msg = $"等级：{level.Name}\r" +
+                      $"经验值：{exp}/{level.Exp}{(exp >= level.Exp ? "(可渡劫)" : "")}\r" +
+                      $"{Emoji.心}:{level.HP}\r" +
+                      $"{Emoji.剑}:{level.Atk}\r" +
+                      $"金币：{osPerson.Golds}";
 
             MsgSender.PushMsg(MsgDTO, msg, true);
             return true;
