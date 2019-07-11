@@ -22,8 +22,6 @@ namespace Dolany.Ai.Core.Ai.Game.Pet
 
         private const string CachePath = "./images/Cache/";
 
-        private readonly string[] AllAttrs = {"钢铁", "海洋", "深渊", "自然", "神秘"};
-
         [EnterCommand(ID = "PetAI_MyPet",
             Command = "我的宠物",
             AuthorityLevel = AuthorityLevel.成员,
@@ -37,8 +35,16 @@ namespace Dolany.Ai.Core.Ai.Game.Pet
             var pet = PetRecord.Get(MsgDTO.FromQQ);
 
             var levelModel = PetLevelMgr.Instance[pet.Level];
-            var msg = $"{CodeApi.Code_Image_Relational(pet.PicPath)}\r" + $"名称：{pet.Name}\r" + $"种族：{pet.PetNo}\r" + $"食性：{pet.Attribute ?? "无"}\r" +
-                      $"等级：{Utility.LevelEmoji(pet.Level)}\r" + $"经验值：{pet.Exp}/{levelModel.Exp}";
+            var msg = $"{CodeApi.Code_Image_Relational(pet.PicPath)}\r" +
+                      $"名称：{pet.Name}\r" +
+                      $"种族：{pet.PetNo}\r" +
+                      $"食性：{pet.Attribute ?? "无"}\r" +
+                      $"等级：{Utility.LevelEmoji(pet.Level)}\r" +
+                      $"经验值：{pet.Exp}/{levelModel.Exp}";
+            if (pet.RemainSkillPoints > 0)
+            {
+                msg += $"\r可用技能点：{pet.RemainSkillPoints}";
+            }
 
             MsgSender.PushMsg(MsgDTO, msg);
             return true;
@@ -223,7 +229,7 @@ namespace Dolany.Ai.Core.Ai.Game.Pet
                 needGolds = true;
             }
 
-            var randAttrs = CommonUtil.RandSort(AllAttrs.ToArray());
+            var randAttrs = CommonUtil.RandSort(PetExtent.AllAttributes.ToArray());
             var msg = $"请选择宠物食性：\r{string.Join("\r", randAttrs.Select((p, idx) => $"{idx + 1}:{p}"))}";
             var selectedIdx = Waiter.Instance.WaitForNum(MsgDTO.FromGroup, MsgDTO.FromQQ, msg, i => i > 0 && i <= randAttrs.Length, MsgDTO.BindAi);
             if (selectedIdx == -1)
@@ -257,8 +263,7 @@ namespace Dolany.Ai.Core.Ai.Game.Pet
         {
             var name = param[0] as string;
             var honorRecord = ItemCollectionRecord.Get(MsgDTO.FromQQ);
-            var honorCollection = honorRecord.HonorCollections?.FirstOrDefault(p => p.Value.Items?.ContainsKey(name) ?? false);
-            if (honorCollection == null)
+            if (!honorRecord.CheckItem(name))
             {
                 MsgSender.PushMsg(MsgDTO, "你没有该物品！", true);
                 return false;
@@ -271,19 +276,28 @@ namespace Dolany.Ai.Core.Ai.Game.Pet
                 return false;
             }
 
-            if (pet.LastFeedTime != null && pet.LastFeedTime.Value.AddHours(8) > DateTime.Now)
+            if (pet.LastFeedTime != null && pet.LastFeedTime.Value.AddHours(8).ToLocalTime() > DateTime.Now)
             {
-                MsgSender.PushMsg(MsgDTO, $"{pet.Name}还饱着呢，不想吃东西（请与{pet.LastFeedTime.Value.AddHours(8):yyyy-MM-dd HH:mm:ss}后再试）");
+                MsgSender.PushMsg(MsgDTO, $"{pet.Name}还饱着呢，不想吃东西（请与{pet.LastFeedTime.Value.AddHours(8).ToLocalTime():yyyy/MM/dd HH:mm:ss}后再试）");
                 return false;
             }
 
             var item = HonorHelper.Instance.FindItem(name);
+            if (item?.Attributes == null)
+            {
+                MsgSender.PushMsg(MsgDTO, "未找到该物品");
+                return false;
+            }
+
             if (!item.Attributes.Contains(pet.Attribute))
             {
                 MsgSender.PushMsg(MsgDTO, $"{pet.Name}说不想吃这个东西（请喂食正确特性的物品）");
                 return false;
             }
 
+            MsgSender.PushMsg(MsgDTO, $"{pet.Name}兴奋的吃掉了 {name}，并打了个饱嗝");
+
+            pet.LastFeedTime = DateTime.Now;
             pet.ExtGain(MsgDTO, item.Exp);
             honorRecord.ItemConsume(name);
             honorRecord.Update();

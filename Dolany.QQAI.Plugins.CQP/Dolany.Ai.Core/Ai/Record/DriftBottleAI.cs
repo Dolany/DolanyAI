@@ -2,6 +2,7 @@
 using System.Linq;
 using Dolany.Ai.Common;
 using Dolany.Ai.Common.Models;
+using Dolany.Ai.Core.Ai.Game.Pet;
 using Dolany.Ai.Core.Base;
 using Dolany.Ai.Core.Cache;
 using Dolany.Ai.Core.OnlineStore;
@@ -118,6 +119,48 @@ namespace Dolany.Ai.Core.Ai.Record
                 msg += $"\r当前显示第 1/{(itemMsgs.Count - 1) / 7 + 1}页，请使用 我的物品 [页码] 命令查看更多物品！";
             }
             MsgSender.PushMsg(MsgDTO, msg, true);
+            return true;
+        }
+
+        [EnterCommand(ID = "DriftBottleAI_MyItemsByAttr",
+            Command = "我的物品",
+            AuthorityLevel = AuthorityLevel.成员,
+            Description = "查看自己指定特性的物品",
+            Syntax = "[特性名]",
+            SyntaxChecker = "Word",
+            Tag = "漂流瓶功能",
+            IsPrivateAvailable = true)]
+        public bool MyItemsByAttr(MsgInformationEx MsgDTO, object[] param)
+        {
+            var name = param[0] as string;
+            if (!PetExtent.AllAttributes.Contains(name))
+            {
+                MsgSender.PushMsg(MsgDTO, "请输入正确的特性名！", true);
+                return false;
+            }
+
+            var record = ItemCollectionRecord.Get(MsgDTO.FromQQ);
+            if (record.HonorCollections.IsNullOrEmpty())
+            {
+                MsgSender.PushMsg(MsgDTO, "你的背包空空如也~", true);
+                return false;
+            }
+
+            var items = record.HonorCollections.Where(p => p.Value.Items != null).SelectMany(p => p.Value.Items
+                .Where(item =>
+                {
+                    var itemModel = HonorHelper.Instance.FindItem(item.Key);
+                    return itemModel.Attributes != null && itemModel.Attributes.Contains(name);
+                })).ToList();
+            if (!items.Any())
+            {
+                MsgSender.PushMsg(MsgDTO, "你没有该特性的物品！", true);
+                return false;
+            }
+
+            var msg = $"你收集的物品中，{name} 特性的物品有：\r" +
+                      string.Join(",", items.Select(item => $"{item.Key}*{item.Value}"));
+            MsgSender.PushMsg(MsgDTO, msg);
             return true;
         }
 
