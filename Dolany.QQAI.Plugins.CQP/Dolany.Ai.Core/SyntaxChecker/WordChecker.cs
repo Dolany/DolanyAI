@@ -12,6 +12,11 @@
                 return false;
             }
 
+            if (long.TryParse(msg, out _))
+            {
+                return false;
+            }
+
             param = new object[] { msg };
             return true;
         }

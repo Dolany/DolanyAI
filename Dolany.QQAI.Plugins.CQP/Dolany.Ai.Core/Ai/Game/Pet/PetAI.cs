@@ -22,6 +22,8 @@ namespace Dolany.Ai.Core.Ai.Game.Pet
 
         private const string CachePath = "./images/Cache/";
 
+        private const int FeedInterval = 2;
+
         [EnterCommand(ID = "PetAI_MyPet",
             Command = "我的宠物",
             AuthorityLevel = AuthorityLevel.成员,
@@ -276,9 +278,10 @@ namespace Dolany.Ai.Core.Ai.Game.Pet
                 return false;
             }
 
-            if (pet.LastFeedTime != null && pet.LastFeedTime.Value.AddHours(8).ToLocalTime() > DateTime.Now)
+            if (pet.LastFeedTime != null && pet.LastFeedTime.Value.AddHours(FeedInterval).ToLocalTime() > DateTime.Now)
             {
-                MsgSender.PushMsg(MsgDTO, $"{pet.Name}还饱着呢，不想吃东西（请与{pet.LastFeedTime.Value.AddHours(8).ToLocalTime():yyyy/MM/dd HH:mm:ss}后再试）");
+                var msg = $"{pet.Name}还饱着呢，不想吃东西（请与{pet.LastFeedTime.Value.AddHours(FeedInterval).ToLocalTime()}后再试）";
+                MsgSender.PushMsg(MsgDTO, msg);
                 return false;
             }
 
