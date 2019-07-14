@@ -12,7 +12,7 @@ namespace Dolany.Ai.Core.Ai.Game.Pet
             var remainExp = pet.Exp + exp;
             var lvl = pet.Level;
             var levelMode = PetLevelMgr.Instance[lvl];
-            while (levelMode.Exp < remainExp)
+            while (levelMode.Exp <= remainExp)
             {
                 remainExp -= levelMode.Exp;
                 lvl++;

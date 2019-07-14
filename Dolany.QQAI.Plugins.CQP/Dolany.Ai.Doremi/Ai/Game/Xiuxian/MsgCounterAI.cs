@@ -150,5 +150,33 @@ namespace Dolany.Ai.Doremi.Ai.Game.Xiuxian
             MsgSender.PushMsg(MsgDTO, "升级成功！");
             return true;
         }
+
+        [EnterCommand(ID = "MsgCounterAI_Exchange",
+            Command = "兑换金币",
+            AuthorityLevel = AuthorityLevel.成员,
+            Description = "使用经验值兑换金币",
+            Syntax = "",
+            Tag = "修仙功能",
+            SyntaxChecker = "Empty",
+            IsPrivateAvailable = false,
+            DailyLimit = 3)]
+        public bool Exchange(MsgInformationEx MsgDTO, object[] param)
+        {
+            var exp = MsgCounterSvc.Get(MsgDTO.FromQQ);
+            var golds = exp / 2;
+
+            if (golds == 0)
+            {
+                MsgSender.PushMsg(MsgDTO, "你没有足够的经验值兑换！");
+                return false;
+            }
+
+            var osPerson = OSPerson.GetPerson(MsgDTO.FromQQ);
+            osPerson.Golds += (int)golds;
+            MsgCounterSvc.Consume(MsgDTO.FromQQ, exp);
+
+            MsgSender.PushMsg(MsgDTO, $"兑换成功！你使用 {exp} 点经验值兑换了 {golds}金币，你当前拥有 {osPerson.Golds}金币！");
+            return true;
+        }
     }
 }
