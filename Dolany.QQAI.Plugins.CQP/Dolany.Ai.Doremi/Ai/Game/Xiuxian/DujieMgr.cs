@@ -31,9 +31,9 @@ namespace Dolany.Ai.Doremi.Ai.Game.Xiuxian
 
         public string[] RandAs => CommonUtil.RandSort(A.ToArray());
 
-        public bool IsCorrect(string A)
+        public bool IsCorrect(string answer)
         {
-            return this.A[0] == A;
+            return this.A[0] == answer;
         }
     }
 }

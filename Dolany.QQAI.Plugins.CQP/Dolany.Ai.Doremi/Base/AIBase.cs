@@ -141,7 +141,6 @@ namespace Dolany.Ai.Doremi.Base
 
             if (!AuthorityCheck(enterAttr.AuthorityLevel, enterAttr, MsgDTO))
             {
-                MsgSender.PushMsg(MsgDTO, $"权限不足！需要 {enterAttr.AuthorityLevel.ToString()} 权限！");
                 return false;
             }
 

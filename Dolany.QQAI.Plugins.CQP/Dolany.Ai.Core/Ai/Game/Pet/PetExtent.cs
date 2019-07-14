@@ -5,14 +5,14 @@ namespace Dolany.Ai.Core.Ai.Game.Pet
 {
     public static class PetExtent
     {
-        public static string[] AllAttributes = {"钢铁", "海洋", "深渊", "自然", "神秘"};
+        public static readonly string[] AllAttributes = {"钢铁", "海洋", "深渊", "自然", "神秘"};
 
         public static void ExtGain(this PetRecord pet, MsgInformationEx MsgDTO, int exp)
         {
             var remainExp = pet.Exp + exp;
             var lvl = pet.Level;
             var levelMode = PetLevelMgr.Instance[lvl];
-            while (levelMode.Exp < remainExp)
+            while (levelMode.Exp <= remainExp)
             {
                 remainExp -= levelMode.Exp;
                 lvl++;

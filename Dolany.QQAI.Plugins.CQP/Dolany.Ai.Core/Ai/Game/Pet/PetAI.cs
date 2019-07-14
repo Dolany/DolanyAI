@@ -307,5 +307,22 @@ namespace Dolany.Ai.Core.Ai.Game.Pet
 
             return true;
         }
+
+        [EnterCommand(ID = "PetAI_PetLevelAnalyze",
+            Command = "宠物等级分布",
+            AuthorityLevel = AuthorityLevel.开发者,
+            Description = "查看宠物的等级分布",
+            Syntax = "",
+            Tag = "宠物功能",
+            SyntaxChecker = "Empty",
+            IsPrivateAvailable = false)]
+        public bool PetLevelAnalyze(MsgInformationEx MsgDTO, object[] param)
+        {
+            var data = PetRecord.LevelAnalyze();
+            var msg = string.Join("\r", data.Select(p => $"{p.Key}:{p.Value}"));
+
+            MsgSender.PushMsg(MsgDTO, msg);
+            return true;
+        }
     }
 }
