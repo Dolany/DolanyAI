@@ -6,6 +6,7 @@ using System.Threading;
 using Dolany.Ai.Common;
 using Dolany.Ai.Common.Models;
 using Dolany.Ai.Core.Ai.Game.Gift;
+using Dolany.Ai.Core.Ai.Game.Pet;
 using Dolany.Ai.Core.Base;
 using Dolany.Ai.Core.Cache;
 using Dolany.Ai.Core.Common;
@@ -156,6 +157,27 @@ namespace Dolany.Ai.Core.Ai.Sys
             var osPerson = OSPerson.GetPerson(qqNum);
             osPerson.GiftIncome(name, count);
             osPerson.Update();
+
+            MsgSender.PushMsg(MsgDTO, "奖励已生效！");
+            return true;
+        }
+
+        [EnterCommand(ID = "DeveloperOnlyAI_PetExpBonus",
+            Command = "宠物经验值奖励",
+            Description = "奖励某个人若干宠物经验值",
+            Syntax = "[@QQ号] [经验值]",
+            Tag = "开发者后台",
+            SyntaxChecker = "At Long",
+            AuthorityLevel = AuthorityLevel.开发者,
+            IsPrivateAvailable = false)]
+        public bool PetExpBonus(MsgInformationEx MsgDTO, object[] param)
+        {
+            var qqNum = (long) param[0];
+            var exp = (int) (long) param[1];
+
+            var pet = PetRecord.Get(qqNum);
+            MsgDTO.FromQQ = qqNum;
+            pet.ExtGain(MsgDTO, exp);
 
             MsgSender.PushMsg(MsgDTO, "奖励已生效！");
             return true;

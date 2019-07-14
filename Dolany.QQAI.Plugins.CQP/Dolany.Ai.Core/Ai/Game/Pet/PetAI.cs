@@ -3,6 +3,7 @@ using System.IO;
 using System.Linq;
 using Dolany.Ai.Common;
 using Dolany.Ai.Common.Models;
+using Dolany.Ai.Core.API;
 using Dolany.Ai.Core.Base;
 using Dolany.Ai.Core.Cache;
 using Dolany.Ai.Core.Common;
@@ -42,7 +43,12 @@ namespace Dolany.Ai.Core.Ai.Game.Pet
                       $"种族：{pet.PetNo}\r" +
                       $"食性：{pet.Attribute ?? "无"}\r" +
                       $"等级：{Utility.LevelEmoji(pet.Level)}\r" +
+                      $"{Emoji.心}：{levelModel.HP}\r" +
                       $"经验值：{pet.Exp}/{levelModel.Exp}";
+            if (!pet.Skills.IsNullOrEmpty())
+            {
+                msg += $"\r技能：{string.Join(",", pet.Skills.Select(p => $"{p.Key}({p.Value})"))}";
+            }
             if (pet.RemainSkillPoints > 0)
             {
                 msg += $"\r可用技能点：{pet.RemainSkillPoints}";
@@ -322,6 +328,79 @@ namespace Dolany.Ai.Core.Ai.Game.Pet
             var msg = string.Join("\r", data.Select(p => $"{p.Key}:{p.Value}"));
 
             MsgSender.PushMsg(MsgDTO, msg);
+            return true;
+        }
+
+        [EnterCommand(ID = "PetAI_ViewPetSkill",
+            Command = "查看宠物技能",
+            AuthorityLevel = AuthorityLevel.开发者,
+            Description = "查看指定的宠物技能详细情况",
+            Syntax = "[技能名]",
+            Tag = "宠物功能",
+            SyntaxChecker = "Word",
+            IsPrivateAvailable = false)]
+        public bool ViewPetSkill(MsgInformationEx MsgDTO, object[] param)
+        {
+            var name = param[0] as string;
+            var skill = PetSkillMgr.Instance[name];
+            if (skill == null)
+            {
+                MsgSender.PushMsg(MsgDTO, "未查找到该技能！", true);
+                return false;
+            }
+
+            var pet = PetRecord.Get(MsgDTO.FromQQ);
+            var msg = $"名称：{skill.Name}\r" +
+                      $"描述：{skill.CommDesc}\r" +
+                      $"解锁：{skill.LearnLevel}\r" +
+                      $"当前：{(pet.Skills != null && pet.Skills.ContainsKey(name) ? pet.Skills[name] : 0)}";
+
+            MsgSender.PushMsg(MsgDTO, msg);
+            return true;
+        }
+
+        [EnterCommand(ID = "PetAI_UpgradePetSkill",
+            Command = "升级宠物技能",
+            AuthorityLevel = AuthorityLevel.开发者,
+            Description = "将指定的宠物技能等级提升一点（只能升级已经学会的技能）（最高5级）",
+            Syntax = "[技能名]",
+            Tag = "宠物功能",
+            SyntaxChecker = "Word",
+            IsPrivateAvailable = false)]
+        public bool UpgradePetSkill(MsgInformationEx MsgDTO, object[] param)
+        {
+            var name = param[0] as string;
+            var skill = PetSkillMgr.Instance[name];
+            if (skill == null)
+            {
+                MsgSender.PushMsg(MsgDTO, "未查找到该技能！", true);
+                return false;
+            }
+
+            var pet = PetRecord.Get(MsgDTO.FromQQ);
+            if (pet.Skills.IsNullOrEmpty() || !pet.Skills.ContainsKey(name))
+            {
+                MsgSender.PushMsg(MsgDTO, $"{pet.Name}尚未学习该技能！", true);
+                return false;
+            }
+
+            if (pet.Skills[name] >= 5)
+            {
+                MsgSender.PushMsg(MsgDTO, $"{pet.Name}的该技能已经升到了满级！", true);
+                return false;
+            }
+
+            if (pet.RemainSkillPoints <= 0)
+            {
+                MsgSender.PushMsg(MsgDTO, $"{pet.Name}没有可用的技能点！", true);
+                return false;
+            }
+
+            pet.Skills[name]++;
+            pet.RemainSkillPoints--;
+            pet.Update();
+
+            MsgSender.PushMsg(MsgDTO, $"恭喜{pet.Name}的{name}技能成功升到了{pet.Skills[name]}级！");
             return true;
         }
     }

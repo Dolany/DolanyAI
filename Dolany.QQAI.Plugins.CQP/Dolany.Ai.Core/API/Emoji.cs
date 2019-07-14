@@ -11,5 +11,9 @@ namespace Dolany.Ai.Core.API
         public static readonly string 太阳 = CodeApi.Code_Emoji(4036988062);
 
         public static readonly string 王冠 = CodeApi.Code_Emoji(4036989329);
+
+        public static readonly string 心 = CodeApi.Code_Emoji(4036989591);
+
+        public static readonly string 剑 = CodeApi.Code_Emoji(4036990881);
     }
 }

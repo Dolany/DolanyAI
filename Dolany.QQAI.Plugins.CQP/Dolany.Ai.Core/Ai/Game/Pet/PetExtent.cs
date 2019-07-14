@@ -1,4 +1,7 @@
-﻿using Dolany.Ai.Common.Models;
+﻿using System.Collections.Generic;
+using System.Linq;
+using Dolany.Ai.Common;
+using Dolany.Ai.Common.Models;
 using Dolany.Ai.Core.Cache;
 
 namespace Dolany.Ai.Core.Ai.Game.Pet
@@ -27,6 +30,21 @@ namespace Dolany.Ai.Core.Ai.Game.Pet
                        $"{pet.Name}获得了 {points} 点技能点！";
 
                 pet.RemainSkillPoints += points;
+
+                var skills = PetSkillMgr.Instance.AllSkills.Where(p => p.LearnLevel > pet.Level && p.LearnLevel <= lvl);
+
+                if (!skills.IsNullOrEmpty())
+                {
+                    msg += $"\r恭喜{pet.Name}学会了新技能 {string.Join(",", skills.Select(p => p.Name))}!";
+                    if (pet.Skills == null)
+                    {
+                        pet.Skills = new Dictionary<string, int>();
+                    }
+                    foreach (var skill in skills)
+                    {
+                        pet.Skills.Add(skill.Name, 1);
+                    }
+                }
             }
 
             pet.Level = lvl;

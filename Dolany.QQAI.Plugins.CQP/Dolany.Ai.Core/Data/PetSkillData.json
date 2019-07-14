@@ -1,0 +1,72 @@
+﻿{
+  "撕咬": {
+    "Description": "造成(Hurt)点物理伤害",
+    "Data": {
+      "Hurt": [ 10, 15, 20, 25, 30 ]
+    },
+    "LearnLevel": 3 
+  },
+  "爪击": {
+    "Description": "造成(Hurt)点物理伤害，对方物理防御减半，持续(Turn)回合",
+    "Data": {
+      "Hurt": [ 8, 12, 16, 20, 24 ],
+      "Turn": [ 2, 2, 3, 3, 3 ]
+    },
+    "LearnLevel": 3
+  },
+  "魔法飞弹": {
+    "Description": "造成(Hurt)点魔法伤害",
+    "Data": {
+      "Hurt": [ 10, 15, 20, 25, 30 ]
+    },
+    "LearnLevel": 3
+  },
+  "魔法反制": {
+    "Description": "魔法防御增加(Defence)点，持续(Turn)回合",
+    "Data": {
+      "Defence": [ 20, 30, 35, 40, 45 ],
+      "Turn": [ 2, 2, 2, 3, 3 ]
+    },
+    "LearnLevel": 3
+  },
+  "反击": {
+    "Description": "受到物理伤害时，反弹(Hurt)点魔法伤害，持续(Turn)个回合",
+    "Data": {
+      "Hurt": [ 5, 8, 11, 14, 17 ],
+      "Turn": [ 2, 2, 2, 3, 3 ]
+    },
+    "LearnLevel": 3
+  },
+  "闷棍": {
+    "Description": "造成(Hurt)点物理伤害，对手技能失败率增加(Rate)%，持续(Turn)回合",
+    "Data": {
+      "Hurt": [ 4, 6, 8, 10, 12 ],
+      "Rate": [ 10, 20, 30, 30, 40 ],
+      "Turn": [ 1, 1, 1, 2, 2 ]
+    },
+    "LearnLevel": 4
+  },
+  "盾墙": {
+    "Description": "物理防御增加(Defence)点",
+    "Data": {
+      "Defence": [ 20, 30, 35, 40, 45 ]
+    },
+    "LearnLevel": 4
+  },
+  "法术共鸣": {
+    "Description": "魔法伤害增加(Rate)%，持续(Turn)个回合",
+    "Data": {
+      "Rate": [ 20, 30, 30, 35, 40 ],
+      "Turn": [ 2, 2, 3, 3, 3 ]
+    },
+    "LearnLevel": 5
+  },
+  "烈焰喷泉": {
+    "Description": "造成(Magic)点魔法伤害，如果对方有魔法防御，则额外造成(Phy)点物理伤害",
+    "Data": {
+      "Magic": [ 7, 10, 13, 15, 17 ],
+      "Phy": [ 2, 4, 6, 8, 10 ]
+    },
+    "LearnLevel": 5
+  } 
+}

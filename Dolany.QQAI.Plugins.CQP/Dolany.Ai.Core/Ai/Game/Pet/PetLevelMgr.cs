@@ -25,6 +25,8 @@ namespace Dolany.Ai.Core.Ai.Game.Pet
 
         public int Exp { get; set; }
 
+        public int HP { get; set; }
+
         public int Level => int.Parse(Name);
     }
 }
