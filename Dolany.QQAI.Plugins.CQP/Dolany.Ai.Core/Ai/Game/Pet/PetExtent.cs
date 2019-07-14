@@ -5,7 +5,7 @@ namespace Dolany.Ai.Core.Ai.Game.Pet
 {
     public static class PetExtent
     {
-        public static string[] AllAttributes = {"钢铁", "海洋", "深渊", "自然", "神秘"};
+        public static readonly string[] AllAttributes = {"钢铁", "海洋", "深渊", "自然", "神秘"};
 
         public static void ExtGain(this PetRecord pet, MsgInformationEx MsgDTO, int exp)
         {

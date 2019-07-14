@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -20,15 +21,20 @@ namespace Dolany.Ai.Core.Ai.SingleCommand.Fortune
 
         public override int PriorityLevel { get; set; } = 10;
 
-        private const string TarotServerPath = "https://m.sheup.com/";
-        private List<TarotFortuneDataModel> DataList;
+        private const string TarotServerPath = "./images/Tarot/";
+        private string[] TarotSerialNames;
+
+        private List<TarotFortuneDataModel> ModelList;
 
         private List<FortuneItemModel> FortuneItemList;
 
         public override void Initialization()
         {
-            DataList = CommonUtil.ReadJsonData_NamedList<TarotFortuneDataModel>("TarotFortuneData");
+            ModelList = CommonUtil.ReadJsonData_NamedList<TarotFortuneDataModel>("TarotFortuneData");
             FortuneItemList = CommonUtil.ReadJsonData_NamedList<FortuneItemModel>("FortuneItemData");
+
+            var tarotFolder = new DirectoryInfo(TarotServerPath);
+            TarotSerialNames = tarotFolder.GetDirectories().Select(p => p.Name).ToArray();
         }
 
         [EnterCommand(ID = "FortuneAI_RandomFortune",
@@ -146,41 +152,48 @@ namespace Dolany.Ai.Core.Ai.SingleCommand.Fortune
         {
             var cache = PersonCacheRecord.Get(MsgDTO.FromQQ, "TarotFortune");
 
-            TarotFortuneDataModel fortune;
+            TarotCacheModel fortune;
             if (string.IsNullOrEmpty(cache.Value))
             {
                 fortune = GetRandTarotFortune();
-                cache.Value = fortune.Name;
+                cache.Value = JsonConvert.SerializeObject(fortune);
                 cache.ExpiryTime = CommonUtil.UntilTommorow();
                 cache.Update();
             }
             else
             {
-                fortune = DataList.FirstOrDefault(d => d.Name == cache.Value);
+                fortune = JsonConvert.DeserializeObject<TarotCacheModel>(cache.Value);
             }
 
             SendTarotFortune(MsgDTO, fortune);
             return true;
         }
 
-        private static void SendTarotFortune(MsgInformationEx MsgDTO, TarotFortuneDataModel data)
+        private void SendTarotFortune(MsgInformationEx MsgDTO, TarotCacheModel data)
         {
             if (data == null)
             {
                 return;
             }
 
-            var msg = CodeApi.Code_Image(TarotServerPath + data.PicSrc) + '\r';
-            msg += "牌名：" + data.Name + '\r';
-            msg += data.IsPos ? "正位解释：" : "逆位解释：";
-            msg += data.Description;
+            var ptr = data.IsPos ? "正位" : "逆位";
+            var msg = CodeApi.Code_Image_Relational($"{TarotServerPath}{data.SerialName}/{data.CardName}.jpg") + '\r';
+            msg += $"牌名：{ptr}{data.CardName}\r";
+            msg += $"{ptr}解释：";
+            var model = ModelList.First(p => p.Name == data.CardName);
+            msg += data.IsPos ? model.正位 : model.逆位;
 
             MsgSender.PushMsg(MsgDTO, msg, true);
         }
 
-        private TarotFortuneDataModel GetRandTarotFortune()
+        private TarotCacheModel GetRandTarotFortune()
         {
-            return DataList.RandElement();
+            return new TarotCacheModel()
+            {
+                CardName = ModelList.RandElement().Name,
+                IsPos = CommonUtil.RandInt(1) == 0,
+                SerialName = TarotSerialNames.RandElement()
+            };
         }
 
         [EnterCommand(ID = "FortuneAI_HolyLight",
@@ -271,9 +284,10 @@ namespace Dolany.Ai.Core.Ai.SingleCommand.Fortune
     public class TarotFortuneDataModel : INamedJsonModel
     {
         public string Name { get; set; }
-        public bool IsPos { get; set; }
-        public string Description { get; set; }
-        public string PicSrc { get; set; }
+        
+        public string 正位 { get; set; }
+
+        public string 逆位 { get; set; }
     }
 
     public class FortuneItemModel : INamedJsonModel

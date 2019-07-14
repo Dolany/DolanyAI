@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using Dolany.Ai.Common;
 using Dolany.Ai.Core.OnlineStore;
 using Dolany.Database;
 using Dolany.Database.Ai;
@@ -11,14 +12,17 @@ namespace Dolany.Temp
     {
         static void Main(string[] args)
         {
-            var honorList = HonorHelper.Instance.HonorList;
-            var attrs = new[] {"钢铁", "海洋", "深渊", "自然", "神秘"};
-            foreach (var attr in attrs)
-            {
-                var sumItem = honorList.Sum(h => h.Items.Count(item => item.Attributes != null && item.Attributes.Contains(attr)));
-                var sumPrice = honorList.Sum(h => h.Items.Where(item => item.Attributes != null && item.Attributes.Contains(attr)).Sum(p => p.Price));
+            var members = new[] {"斯普林菲尔德太太", "子衣不待", "月牙儿", "为了帝国", 
+                "一只呆雪", "Visca120", "我是叮当啊好的", "苏花半笔墨留白"};
 
-                Console.WriteLine($"{attr}:  sumItem:{sumItem},sumPrice:{sumPrice}");
+            var rand = CommonUtil.RandSort(members);
+            for (var i = 0; i < rand.Length; i++)
+            {
+                Console.Write(rand[i] + " ");
+                if (i == 3)
+                {
+                    Console.WriteLine();
+                }
             }
 
             Console.WriteLine("Completed");

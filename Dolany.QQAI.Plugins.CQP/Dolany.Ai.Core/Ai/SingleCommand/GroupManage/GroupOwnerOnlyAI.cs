@@ -1,4 +1,5 @@
-﻿using System.Linq;
+﻿using System.Collections.Generic;
+using System.Linq;
 using Dolany.Ai.Common;
 using Dolany.Ai.Common.Models;
 using Dolany.Ai.Core.Base;
@@ -183,6 +184,43 @@ namespace Dolany.Ai.Core.Ai.SingleCommand.GroupManage
 
             MsgSender.PushMsg(MsgDTO, "已成功移交群主！");
 
+            return true;
+        }
+
+        [EnterCommand(ID = "GroupOwnerOnlyAI_AppointManager",
+            Command = "任命管理",
+            AuthorityLevel = AuthorityLevel.群主,
+            Description = "任命指定的成员为管理员",
+            Syntax = "[@QQ号]",
+            Tag = "群管理",
+            SyntaxChecker = "At",
+            IsPrivateAvailable = false)]
+        public bool AppointManager(MsgInformationEx MsgDTO, object[] param)
+        {
+            var aimQQ = (long) param[0];
+
+            var setting = GroupSettingMgr.Instance[MsgDTO.FromGroup];
+            if (setting.AuthInfo.Owner == aimQQ)
+            {
+                MsgSender.PushMsg(MsgDTO, "你不能让群主成为管理员！");
+                return false;
+            }
+
+            if (setting.AuthInfo.Mgrs == null)
+            {
+                setting.AuthInfo.Mgrs = new List<long>();
+            }
+            if (setting.AuthInfo.Mgrs.Contains(aimQQ))
+            {
+                MsgSender.PushMsg(MsgDTO, "该成员已经是管理员了！");
+                return false;
+            }
+            setting.AuthInfo.Mgrs.Add(aimQQ);
+
+            setting.Update();
+            GroupSettingMgr.Instance.Refresh();
+
+            MsgSender.PushMsg(MsgDTO, "任命成功！");
             return true;
         }
     }

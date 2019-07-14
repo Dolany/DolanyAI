@@ -53,7 +53,7 @@ namespace Dolany.Ai.Core.Ai.Game.Pet
         }
 
         [EnterCommand(ID = "PetAI_RenamePet",
-            Command = "重命名宠物",
+            Command = "重命名宠物 设定宠物名称",
             AuthorityLevel = AuthorityLevel.成员,
             Description = "重命名自己的宠物（名字不能超过十个字）",
             Syntax = "[名称]",
@@ -86,7 +86,7 @@ namespace Dolany.Ai.Core.Ai.Game.Pet
         }
 
         [EnterCommand(ID = "PetAI_SetPetKind",
-            Command = "设定宠物种族",
+            Command = "设定宠物种族 设置宠物种族",
             AuthorityLevel = AuthorityLevel.成员,
             Description = "设定宠物的种族（不能超过十个字）",
             Syntax = "[种族名]",
@@ -198,7 +198,7 @@ namespace Dolany.Ai.Core.Ai.Game.Pet
         }
 
         [EnterCommand(ID = "PetAI_SetPetAttr",
-            Command = "设定宠物食性",
+            Command = "设定宠物食性 设置宠物食性",
             AuthorityLevel = AuthorityLevel.成员,
             Description = "设定宠物的初始食性",
             Syntax = "",

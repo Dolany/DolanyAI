@@ -29,7 +29,7 @@ namespace Dolany.Ai.Core.Ai.Sys
             Command = "广播",
             Description = "在所有群组广播消息",
             Syntax = "广播内容",
-            Tag = "系统命令",
+            Tag = "开发者后台",
             SyntaxChecker = "Any",
             AuthorityLevel = AuthorityLevel.开发者,
             IsPrivateAvailable = true)]
@@ -54,7 +54,7 @@ namespace Dolany.Ai.Core.Ai.Sys
             Command = "功能奖励",
             Description = "奖励某个人某个功能若个使用次数（当日有效）",
             Syntax = "[命令名] [@QQ号] [奖励个数]",
-            Tag = "系统命令",
+            Tag = "开发者后台",
             SyntaxChecker = "Word At Long",
             AuthorityLevel = AuthorityLevel.开发者,
             IsPrivateAvailable = false)]
@@ -83,7 +83,7 @@ namespace Dolany.Ai.Core.Ai.Sys
             Command = "物品奖励",
             Description = "奖励某个人若干个物品",
             Syntax = "[@QQ号] [物品名] [物品数量]",
-            Tag = "系统命令",
+            Tag = "开发者后台",
             SyntaxChecker = "At Word Long",
             AuthorityLevel = AuthorityLevel.开发者,
             IsPrivateAvailable = false)]
@@ -115,7 +115,7 @@ namespace Dolany.Ai.Core.Ai.Sys
             Command = "金币奖励",
             Description = "奖励某个人一些金币",
             Syntax = "[@QQ号] [金币数量]",
-            Tag = "系统命令",
+            Tag = "开发者后台",
             SyntaxChecker = "At Long",
             AuthorityLevel = AuthorityLevel.开发者,
             IsPrivateAvailable = false)]
@@ -136,7 +136,7 @@ namespace Dolany.Ai.Core.Ai.Sys
             Command = "礼物奖励",
             Description = "奖励某个人若干件礼物",
             Syntax = "[@QQ号] [礼物名称] [礼物数量]",
-            Tag = "系统命令",
+            Tag = "开发者后台",
             SyntaxChecker = "At Word Long",
             AuthorityLevel = AuthorityLevel.开发者,
             IsPrivateAvailable = false)]
@@ -165,7 +165,7 @@ namespace Dolany.Ai.Core.Ai.Sys
             Command = "BlackList",
             Description = "Put someone to blacklist",
             Syntax = "qqnum",
-            Tag = "系统命令",
+            Tag = "开发者后台",
             SyntaxChecker = "Long",
             AuthorityLevel = AuthorityLevel.开发者,
             IsPrivateAvailable = true)]
@@ -193,7 +193,7 @@ namespace Dolany.Ai.Core.Ai.Sys
             Command = "FreeBlackList",
             Description = "Pull someone out from blacklist",
             Syntax = "qqnum",
-            Tag = "系统命令",
+            Tag = "开发者后台",
             SyntaxChecker = "Long",
             AuthorityLevel = AuthorityLevel.开发者,
             IsPrivateAvailable = true)]
@@ -218,7 +218,7 @@ namespace Dolany.Ai.Core.Ai.Sys
             Command = "初始化",
             Description = "初始化群成员信息",
             Syntax = "[群号]",
-            Tag = "系统命令",
+            Tag = "开发者后台",
             SyntaxChecker = "Long",
             AuthorityLevel = AuthorityLevel.开发者,
             IsPrivateAvailable = true)]
@@ -239,7 +239,7 @@ namespace Dolany.Ai.Core.Ai.Sys
             Command = "注册",
             Description = "注册新的群组",
             Syntax = "[群号] [群名]",
-            Tag = "系统命令",
+            Tag = "开发者后台",
             SyntaxChecker = "Long Word",
             AuthorityLevel = AuthorityLevel.开发者,
             IsPrivateAvailable = true)]
@@ -266,7 +266,7 @@ namespace Dolany.Ai.Core.Ai.Sys
             Command = "绑定",
             Description = "绑定机器人",
             Syntax = "[群号] [机器人名]",
-            Tag = "系统命令",
+            Tag = "开发者后台",
             SyntaxChecker = "Long Word",
             AuthorityLevel = AuthorityLevel.开发者,
             IsPrivateAvailable = true)]
@@ -308,7 +308,7 @@ namespace Dolany.Ai.Core.Ai.Sys
             Command = "抽奖奖励",
             Description = "奖励某个人一次抽奖机会",
             Syntax = "[QQ号]",
-            Tag = "系统命令",
+            Tag = "开发者后台",
             SyntaxChecker = "At",
             AuthorityLevel = AuthorityLevel.开发者,
             IsPrivateAvailable = false)]
@@ -328,7 +328,7 @@ namespace Dolany.Ai.Core.Ai.Sys
             Command = "冻结",
             Description = "冻结某个群的机器人",
             Syntax = "[群组号]",
-            Tag = "系统命令",
+            Tag = "开发者后台",
             SyntaxChecker = "Long",
             AuthorityLevel = AuthorityLevel.开发者,
             IsPrivateAvailable = true)]
@@ -354,7 +354,7 @@ namespace Dolany.Ai.Core.Ai.Sys
             Command = "解冻",
             Description = "解冻某个群的机器人",
             Syntax = "[群组号]",
-            Tag = "系统命令",
+            Tag = "开发者后台",
             SyntaxChecker = "Long",
             AuthorityLevel = AuthorityLevel.开发者,
             IsPrivateAvailable = true)]
@@ -380,7 +380,7 @@ namespace Dolany.Ai.Core.Ai.Sys
             Command = "充值时间",
             Description = "给某个群组充值时间(单位天)",
             Syntax = "[群组号] [天数]",
-            Tag = "系统命令",
+            Tag = "开发者后台",
             SyntaxChecker = "Long Long",
             AuthorityLevel = AuthorityLevel.开发者,
             IsPrivateAvailable = true)]
@@ -410,7 +410,7 @@ namespace Dolany.Ai.Core.Ai.Sys
             Command = "签到加速",
             Description = "开启签到加速活动",
             Syntax = "[天数]",
-            Tag = "系统命令",
+            Tag = "开发者后台",
             SyntaxChecker = "Long",
             AuthorityLevel = AuthorityLevel.开发者,
             IsPrivateAvailable = true)]
@@ -431,7 +431,7 @@ namespace Dolany.Ai.Core.Ai.Sys
             Command = "查询缓存 查看缓存",
             Description = "根据key值查询缓存信息",
             Syntax = "[key]",
-            Tag = "系统命令",
+            Tag = "开发者后台",
             SyntaxChecker = "Word",
             AuthorityLevel = AuthorityLevel.开发者,
             IsPrivateAvailable = true)]
@@ -458,7 +458,7 @@ namespace Dolany.Ai.Core.Ai.Sys
             Command = "清理缓存 删除缓存",
             Description = "根据key值删除缓存信息",
             Syntax = "[key]",
-            Tag = "系统命令",
+            Tag = "开发者后台",
             SyntaxChecker = "Word",
             AuthorityLevel = AuthorityLevel.开发者,
             IsPrivateAvailable = true)]
@@ -486,7 +486,7 @@ namespace Dolany.Ai.Core.Ai.Sys
             Command = "test",
             Description = "test",
             Syntax = "",
-            Tag = "系统命令",
+            Tag = "开发者后台",
             SyntaxChecker = "Empty",
             AuthorityLevel = AuthorityLevel.开发者,
             IsPrivateAvailable = true)]

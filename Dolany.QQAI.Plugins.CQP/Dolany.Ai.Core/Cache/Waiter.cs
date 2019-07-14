@@ -38,13 +38,13 @@ namespace Dolany.Ai.Core.Cache
                 source = Global.AllGroupsDic[info.FromGroup];
             }
 
-            var msg = $"[Info] {info.BindAi} {source} {info.FromQQ} {info.Msg}";
-            AIMgr.Instance.MessagePublish(msg);
-
-            if (BindAiMgr.Instance.AllAiNums.Contains(info.FromQQ))
+            if (BindAiMgr.Instance.AiDic.Any(p => p.Value.SelfNum == info.FromQQ))
             {
                 return;
             }
+
+            var msg = $"[Info] {info.BindAi} {source} {info.FromQQ} {info.Msg}";
+            AIMgr.Instance.MessagePublish(msg);
 
             if (info.FromGroup != 0)
             {
