@@ -31,7 +31,7 @@ namespace Dolany.Ai.Core.Ai.Game.Pet
 
                 pet.RemainSkillPoints += points;
 
-                var skills = PetSkillMgr.Instance.AllSkills.Where(p => p.LearnLevel > pet.Level && p.LearnLevel <= lvl);
+                var skills = PetSkillMgr.Instance.AllSkills.Where(p => p.LearnLevel > pet.Level && p.LearnLevel <= lvl).ToList();
 
                 if (!skills.IsNullOrEmpty())
                 {

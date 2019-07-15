@@ -331,9 +331,26 @@ namespace Dolany.Ai.Core.Ai.Game.Pet
             return true;
         }
 
+        [EnterCommand(ID = "PetAI_PetLevelRank",
+            Command = "宠物等级排行",
+            AuthorityLevel = AuthorityLevel.开发者,
+            Description = "宠物等级排行",
+            Syntax = "",
+            Tag = "宠物功能",
+            SyntaxChecker = "Empty",
+            IsPrivateAvailable = false)]
+        public bool PetLevelRank(MsgInformationEx MsgDTO, object[] param)
+        {
+            var data = PetRecord.LevelTop(5);
+            var msg = string.Join("\r", data.Select((p, idx) => $"{idx + 1}:{p.Name}(lv.{p.Level})({p.Exp}/{PetLevelMgr.Instance[p.Level].Exp})"));
+
+            MsgSender.PushMsg(MsgDTO, msg);
+            return true;
+        }
+
         [EnterCommand(ID = "PetAI_ViewPetSkill",
             Command = "查看宠物技能",
-            AuthorityLevel = AuthorityLevel.开发者,
+            AuthorityLevel = AuthorityLevel.成员,
             Description = "查看指定的宠物技能详细情况",
             Syntax = "[技能名]",
             Tag = "宠物功能",
@@ -361,7 +378,7 @@ namespace Dolany.Ai.Core.Ai.Game.Pet
 
         [EnterCommand(ID = "PetAI_UpgradePetSkill",
             Command = "升级宠物技能",
-            AuthorityLevel = AuthorityLevel.开发者,
+            AuthorityLevel = AuthorityLevel.成员,
             Description = "将指定的宠物技能等级提升一点（只能升级已经学会的技能）（最高5级）",
             Syntax = "[技能名]",
             Tag = "宠物功能",

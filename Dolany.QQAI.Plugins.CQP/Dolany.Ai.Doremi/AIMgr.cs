@@ -11,6 +11,7 @@ using Dolany.Ai.Doremi.Base;
 using Dolany.Ai.Doremi.Cache;
 using Dolany.Ai.Doremi.Common;
 using Dolany.Ai.Doremi.SyntaxChecker;
+using Dolany.Ai.Doremi.Xiuxian;
 using Dolany.Database.Sqlite;
 
 namespace Dolany.Ai.Doremi
@@ -124,6 +125,7 @@ namespace Dolany.Ai.Doremi
             LoadCheckers();
 
             SFixedSetService.SetMaxCount("PicCache", Configger<AIConfigBase>.Instance.AIConfig.MaxPicCacheCount);
+            RandShopper.Instance.BindAi = "DoreFun";
         }
 
         private void LoadCheckers()

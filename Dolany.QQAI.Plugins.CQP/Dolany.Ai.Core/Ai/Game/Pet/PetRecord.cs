@@ -53,5 +53,11 @@ namespace Dolany.Ai.Core.Ai.Game.Pet
             var pets = MongoService<PetRecord>.Get();
             return pets.GroupBy(p => p.Level).ToDictionary(p => p.Key, p => p.Count()).OrderByDescending(p => p.Key).ToDictionary(p => p.Key, p => p.Value);
         }
+
+        public static List<PetRecord> LevelTop(int count)
+        {
+            var pets = MongoService<PetRecord>.Get();
+            return pets.OrderByDescending(p => p.Level).ThenByDescending(p => p.Exp).Take(count).ToList();
+        }
     }
 }

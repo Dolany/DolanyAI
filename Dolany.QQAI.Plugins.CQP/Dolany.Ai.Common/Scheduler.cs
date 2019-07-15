@@ -11,6 +11,7 @@ namespace Dolany.Ai.Common
         public string Id { get; set; }
         public Action<object, ElapsedEventArgs> CallBack { get; set; }
         public object Data { get; set; }
+        public bool IsRepeat { get; set; } = true;
 
         public static double WeeklyInterval => 7 * DairlyInterval;
 
@@ -43,7 +44,7 @@ namespace Dolany.Ai.Common
 
         public void Remove(string Id)
         {
-            var timer = Timers.First(p => p.Id == Id);
+            var timer = Timers.FirstOrDefault(p => p.Id == Id);
             if (timer == null)
             {
                 return;
@@ -52,7 +53,7 @@ namespace Dolany.Ai.Common
             Timers.Remove(timer);
         }
 
-        public string Add(double Interval, Action<object, ElapsedEventArgs> CallBack, object Data = null)
+        public string Add(double Interval, Action<object, ElapsedEventArgs> CallBack, object Data = null, bool IsRepeat = true)
         {
             var job = new SchedulerTimer
             {
@@ -61,7 +62,8 @@ namespace Dolany.Ai.Common
                 Interval = Interval,
                 Enabled = true,
                 CallBack = CallBack,
-                Data = Data
+                Data = Data,
+                IsRepeat = IsRepeat
             };
             job.Elapsed += TimeUp;
 
@@ -87,7 +89,14 @@ namespace Dolany.Ai.Common
             }
             finally
             {
-                job.Start();
+                if (job.IsRepeat)
+                {
+                    job.Start();
+                }
+                else
+                {
+                    Remove(job.Id);
+                }
             }
         }
     }

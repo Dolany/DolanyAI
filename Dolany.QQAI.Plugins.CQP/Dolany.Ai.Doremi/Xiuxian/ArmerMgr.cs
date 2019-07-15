@@ -12,6 +12,11 @@ namespace Dolany.Ai.Doremi.Xiuxian
 
         private readonly List<ArmerModel> RatedNormalList;
 
+        public ArmerModel this[string name]
+        {
+            get { return NormalArmerList.FirstOrDefault(p => p.Name == name); }
+        }
+
         private ArmerMgr()
         {
             NormalArmerList = CommonUtil.ReadJsonData_NamedList<ArmerModel>("ArmerData");
