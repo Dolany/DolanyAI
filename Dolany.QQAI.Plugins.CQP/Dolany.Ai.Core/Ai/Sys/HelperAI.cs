@@ -4,6 +4,7 @@ using System.Text;
 using Dolany.Ai.Common;
 using Dolany.Ai.Common.Models;
 using Dolany.Ai.Core.Ai.Game.Gift;
+using Dolany.Ai.Core.Ai.Game.Pet;
 using Dolany.Ai.Core.Ai.Record;
 using Dolany.Ai.Core.Base;
 using Dolany.Ai.Core.Cache;
@@ -172,6 +173,11 @@ namespace Dolany.Ai.Core.Ai.Sys
             if (GiftMgr.Instance[name] != null)
             {
                 return AIMgr.Instance.AIInstance<GiftAI>().ViewGift(MsgDTO, param);
+            }
+
+            if (PetSkillMgr.Instance[name] != null)
+            {
+                return AIMgr.Instance.AIInstance<PetAI>().ViewPetSkill(MsgDTO, param);
             }
 
             MsgSender.PushMsg(MsgDTO, "未查找到相关信息！");
