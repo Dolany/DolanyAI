@@ -77,6 +77,13 @@ namespace Dolany.Ai.Common
             array[secondIdx] = temp;
         }
 
+        public static void Swap<T>(ref T obj1, ref T obj2) where T : class
+        {
+            var temp = obj2;
+            obj2 = obj1;
+            obj1 = temp;
+        }
+
         public static string ToCommonString(this DateTime dt)
         {
             return dt.ToString("yyyy-MM-dd HH:mm:ss");
