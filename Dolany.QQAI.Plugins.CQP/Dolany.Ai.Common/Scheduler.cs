@@ -53,7 +53,11 @@ namespace Dolany.Ai.Common
             Timers.Remove(timer);
         }
 
-        public string Add(double Interval, Action<object, ElapsedEventArgs> CallBack, object Data = null, bool IsRepeat = true)
+        public string Add(double Interval,
+            Action<object, ElapsedEventArgs> CallBack,
+            object Data = null,
+            bool IsRepeat = true,
+            bool IsImmdiately = false)
         {
             var job = new SchedulerTimer
             {
@@ -66,6 +70,10 @@ namespace Dolany.Ai.Common
                 IsRepeat = IsRepeat
             };
             job.Elapsed += TimeUp;
+            if (IsImmdiately)
+            {
+                CallBack(job, null);
+            }
 
             Timers.Add(job);
             job.Start();

@@ -12,7 +12,7 @@ namespace Dolany.Ai.Doremi.AITools
         {
             foreach (var model in ModelList)
             {
-                Scheduler.Instance.Add(model.Interval, TimeUp, model.Data);
+                Scheduler.Instance.Add(model.Interval, TimeUp, model.Data, IsImmdiately:model.IsImmediately);
             }
         }
 
@@ -28,6 +28,8 @@ namespace Dolany.Ai.Doremi.AITools
     public class ScheduleDoModel
     {
         public double Interval { get; set; }
+
+        public bool IsImmediately { get; set; } = false;
 
         public object Data { get; set; }
     }

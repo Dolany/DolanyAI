@@ -5,6 +5,8 @@ using System.Timers;
 using Dolany.Ai.Common;
 using Dolany.Ai.Doremi.Cache;
 using Dolany.Ai.Doremi.Common;
+using Dolany.Database;
+using Newtonsoft.Json;
 
 namespace Dolany.Ai.Doremi.Xiuxian
 {
@@ -35,7 +37,8 @@ namespace Dolany.Ai.Doremi.Xiuxian
 
             Models = new List<ShoppingNoticeModel>();
 
-            var records = ShopTimeRecord.TodayRecords();
+            var shopInfo = MongoService<GlobalVarRecord>.GetOnly(p => p.Key == "TodayShopInfo");
+            var records = JsonConvert.DeserializeObject<List<ShopTimeRecord>>(shopInfo.Value);
             foreach (var record in records)
             {
                 Models.Add(new ShoppingNoticeModel()
