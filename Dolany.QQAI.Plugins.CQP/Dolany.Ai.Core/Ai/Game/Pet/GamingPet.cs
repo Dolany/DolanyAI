@@ -23,6 +23,8 @@ namespace Dolany.Ai.Core.Ai.Game.Pet
 
         public int RemainTurn { get; set; }
 
+        public CheckTrigger Trigger { get; set; }
+
         public int[] Data { get; set; }
     }
 

@@ -43,11 +43,11 @@ namespace Dolany.Ai.Common
 
         public static int RandInt(int MaxValue)
         {
-            const decimal _base = int.MaxValue;
             var bytes = new byte[4];
             RngCsp.GetBytes(bytes);
 
-            return (int)(Math.Abs(BitConverter.ToInt32(bytes, 0)) / _base * MaxValue);
+            var value = BitConverter.ToInt32(bytes, 0);
+            return Math.Abs(value) % MaxValue;
         }
 
         public static T RandElement<T>(this IEnumerable<T> collection)

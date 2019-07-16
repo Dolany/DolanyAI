@@ -239,12 +239,18 @@ namespace Dolany.Ai.Core
                                 tempList = availableBindAis.Where(p => p.IsAdvanced).ToList();
                             }
 
-                            if (!tempList.Any() && ai.PriorityLevel < 50)
+                            if (tempList.Any())
                             {
-                                continue;
+                                MsgDTO.BindAi = tempList.RandElement().Name;
                             }
-
-                            MsgDTO.BindAi = tempList.RandElement().Name;
+                            else if (ai.PriorityLevel > 50)
+                            {
+                                MsgDTO.BindAi = GroupSettingMgr.Instance[MsgDTO.FromGroup].BindAis.First();
+                            }
+                            else
+                            {
+                                break;
+                            }
                         }
 
                         if (ai.OnMsgReceived(MsgDTO))

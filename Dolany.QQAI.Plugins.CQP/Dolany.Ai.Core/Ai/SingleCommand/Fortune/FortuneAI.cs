@@ -191,7 +191,7 @@ namespace Dolany.Ai.Core.Ai.SingleCommand.Fortune
             return new TarotCacheModel()
             {
                 CardName = ModelList.RandElement().Name,
-                IsPos = CommonUtil.RandInt(1) == 0,
+                IsPos = CommonUtil.RandInt(2) == 0,
                 SerialName = TarotSerialNames.RandElement()
             };
         }

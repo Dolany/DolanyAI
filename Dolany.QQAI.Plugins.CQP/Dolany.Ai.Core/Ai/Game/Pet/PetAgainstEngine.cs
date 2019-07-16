@@ -1,6 +1,7 @@
 ﻿using System.Linq;
 using Dolany.Ai.Common;
 using Dolany.Ai.Core.Cache;
+using Dolany.Database.Ai;
 
 namespace Dolany.Ai.Core.Ai.Game.Pet
 {
@@ -22,12 +23,38 @@ namespace Dolany.Ai.Core.Ai.Game.Pet
 
             for (var i = 0; i < 10 && !JudgeWinner(); i++)
             {
+                BeforeStartTrigger();
+                if (JudgeWinner())
+                {
+                    break;
+                }
+
                 // todo
 
                 Switch();
             }
 
             JudgeResult();
+        }
+
+        private void BeforeStartTrigger()
+        {
+            foreach (var buff in SelfPet.Buffs)
+            {
+                buff.RemainTurn--;
+            }
+
+            SelfPet.Buffs.RemoveAll(p => p.RemainTurn <= 0);
+            var beforeStartBuffs = SelfPet.Buffs.Where(p => p.Trigger == CheckTrigger.TurnStart);
+            foreach (var buff in beforeStartBuffs)
+            {
+                ProcessBuff(buff);
+            }
+        }
+
+        private void ProcessBuff(GamingBuff buff)
+        {
+            // todo
         }
 
         private void BeforeStart()
@@ -37,14 +64,14 @@ namespace Dolany.Ai.Core.Ai.Game.Pet
             SendMessage(msg);
 
             JudgeFirst();
-            var skillName = LevelUpBonus();
+            var skillName = SkillLevelUpBonus();
             msg = $"${SelfPet.Name}获得了先手\r{AimPet.Name}的{skillName}获得等级+1";
             SendMessage(msg);
         }
 
         private void JudgeFirst()
         {
-            if (CommonUtil.RandInt(1) == 0)
+            if (CommonUtil.RandInt(2) == 0)
             {
                 return;
             }
@@ -59,7 +86,7 @@ namespace Dolany.Ai.Core.Ai.Game.Pet
             AimPet = temp;
         }
 
-        private string LevelUpBonus()
+        private string SkillLevelUpBonus()
         {
             var (key, _) = AimPet.Skills.Where(p => p.Value < 5).RandElement();
             AimPet.Skills[key]++;
@@ -89,7 +116,20 @@ namespace Dolany.Ai.Core.Ai.Game.Pet
 
         private void JudgeResult()
         {
+            var msg = "对决结束！\r";
+            if (Winner == null)
+            {
+                msg += "很遗憾，这次对决没有胜利者！请双方再接再厉！";
+            }
+            else
+            {
+                msg += $"恭喜{Winner.Name} 获得了胜利！奖励捞瓶子机会一次（当日有效）！";
+                var dailyLimit = DailyLimitRecord.Get(Winner.QQNum, "DriftBottleAI_FishingBottle");
+                dailyLimit.Decache();
+                dailyLimit.Update();
+            }
 
+            SendMessage(msg);
         }
     }
 }
