@@ -341,7 +341,7 @@ namespace Dolany.Ai.Core.Ai.Game.Pet
             IsPrivateAvailable = false)]
         public bool PetLevelRank(MsgInformationEx MsgDTO, object[] param)
         {
-            var data = PetRecord.LevelTop(5);
+            var data = PetRecord.LevelTop(10);
             var msg = string.Join("\r", data.Select((p, idx) => $"{idx + 1}:{p.Name}(lv.{p.Level})({p.Exp}/{PetLevelMgr.Instance[p.Level].Exp})"));
 
             MsgSender.PushMsg(MsgDTO, msg);
