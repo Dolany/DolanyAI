@@ -1,9 +1,11 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using Dolany.Ai.Common;
 using Dolany.Ai.Common.Models;
 using Dolany.Ai.Core.Ai.Game.Advanture;
 using Dolany.Ai.Core.Ai.Game.Gift;
+using Dolany.Ai.Core.Ai.Game.Pet;
 using Dolany.Ai.Core.Base;
 using Dolany.Ai.Core.Cache;
 using Dolany.Ai.Core.Common;
@@ -94,7 +96,7 @@ namespace Dolany.Ai.Core.Ai.Game.Shopping
             var msg = $"你即将贩卖{ictm.Sum(i => i.Count)}件物品，" +
                       $"其中有{ictm.Count(i => i.IsLimit)}件限定物品，" +
                       $"共价值{ictm.Sum(p => p.Price)}金币，是否继续？";
-            if (!Waiter.Instance.WaitForConfirm(MsgDTO, msg, 7))
+            if (!Waiter.Instance.WaitForConfirm(MsgDTO, msg))
             {
                 MsgSender.PushMsg(MsgDTO, "操作取消！");
                 return false;
@@ -125,7 +127,7 @@ namespace Dolany.Ai.Core.Ai.Game.Shopping
 
             var price = HonorHelper.GetItemPrice(item, MsgDTO.FromQQ);
             var msg = $"贩卖此物品将获得 {price} 金币，是否确认贩卖？";
-            if (!Waiter.Instance.WaitForConfirm(MsgDTO, msg, 7))
+            if (!Waiter.Instance.WaitForConfirm(MsgDTO, msg))
             {
                 MsgSender.PushMsg(MsgDTO, "交易取消！");
                 return;
@@ -154,7 +156,7 @@ namespace Dolany.Ai.Core.Ai.Game.Shopping
 
             var price = HonorHelper.Instance.GetHonorPrice(honorName, MsgDTO.FromQQ);
             var msg = $"贩卖此成就将获得 {price} 金币，是否确认贩卖？";
-            if (!Waiter.Instance.WaitForConfirm(MsgDTO, msg, 7))
+            if (!Waiter.Instance.WaitForConfirm(MsgDTO, msg))
             {
                 MsgSender.PushMsg(MsgDTO, "交易取消！");
                 return;
@@ -222,7 +224,7 @@ namespace Dolany.Ai.Core.Ai.Game.Shopping
             }
 
             var price = OSPersonBuff.CheckBuff(MsgDTO.FromQQ, "极光") ? sellItem.Price * 80 / 100 : sellItem.Price;
-            if (!Waiter.Instance.WaitForConfirm_Gold(MsgDTO, price, 7))
+            if (!Waiter.Instance.WaitForConfirm_Gold(MsgDTO, price))
             {
                 MsgSender.PushMsg(MsgDTO, "交易取消！");
                 return false;
@@ -394,7 +396,7 @@ namespace Dolany.Ai.Core.Ai.Game.Shopping
 
             var itemModel = HonorHelper.Instance.FindItem(name);
             var price = HonorHelper.GetItemPrice(itemModel, MsgDTO.FromQQ) * 5 / 100;
-            if (!Waiter.Instance.WaitForConfirm_Gold(MsgDTO, price, 7))
+            if (!Waiter.Instance.WaitForConfirm_Gold(MsgDTO, price))
             {
                 MsgSender.PushMsg(MsgDTO, "操作取消!");
                 return false;
@@ -416,6 +418,87 @@ namespace Dolany.Ai.Core.Ai.Game.Shopping
             }
             MsgSender.PushMsg(MsgDTO, res);
 
+            return true;
+        }
+
+        [EnterCommand(ID = "ShoppingAI_AssertCalculate",
+            Command = "资产评估",
+            AuthorityLevel = AuthorityLevel.成员,
+            Description = "评估自己的资产情况",
+            Syntax = "",
+            SyntaxChecker = "Empty",
+            Tag = "商店功能",
+            IsPrivateAvailable = true)]
+        public bool AssertCalculate(MsgInformationEx MsgDTO, object[] param)
+        {
+            var osPerson = OSPerson.GetPerson(MsgDTO.FromQQ);
+            if (osPerson.Golds < 50)
+            {
+                MsgSender.PushMsg(MsgDTO, $"你的金币余额不足({osPerson.Golds}/50)!");
+                return false;
+            }
+
+            if (!Waiter.Instance.WaitForConfirm_Gold(MsgDTO, 50))
+            {
+                MsgSender.PushMsg(MsgDTO, "操作取消！");
+                return false;
+            }
+
+            osPerson.Golds -= 50;
+            osPerson.Update();
+
+            var resultDic = new Dictionary<string, int> {{"金币资产", osPerson.Golds}};
+
+            var itemRecord = ItemCollectionRecord.Get(MsgDTO.FromQQ);
+            if (itemRecord.HonorCollections != null)
+            {
+                var itemAssert = 0;
+                foreach (var (honorName, collection) in itemRecord.HonorCollections)
+                {
+                    var honorModel = HonorHelper.Instance.FindHonor(honorName);
+                    var honorPrice = honorModel.Items.Sum(p => p.Price) * 3 / 2;
+                    while (collection.Items != null && honorModel.Items.Count == collection.Items.Count)
+                    {
+                        itemAssert += honorPrice;
+
+                        for (var i = 0; i < collection.Items.Count; i++)
+                        {
+                            collection.Items[collection.Items.Keys.ElementAt(i)]--;
+                        }
+
+                        collection.Items.Remove(p => p == 0);
+                    }
+
+                    itemAssert += collection.Items?.Sum(p => honorModel.Items.First(item => item.Name == p.Key).Price * p.Value) ?? 0;
+                }
+
+                resultDic.Add("物品资产", itemAssert);
+            }
+            
+            if (osPerson.GiftDic != null)
+            {
+                var giftsMaterialDic = osPerson.GiftDic.SelectMany(p => GiftMgr.Instance[p.Key].MaterialDic);
+                var giftAssert = giftsMaterialDic.Sum(g => HonorHelper.Instance.FindItem(g.Key).Price * g.Value);
+                resultDic.Add("礼物资产", giftAssert);
+            }
+
+            var pet = PetRecord.Get(MsgDTO.FromQQ);
+            if (pet.Level > 0 || pet.Exp > 0)
+            {
+                var petAssert = 0;
+                for (var i = 1; i < pet.Level; i++)
+                {
+                    petAssert += PetLevelMgr.Instance[i].Exp * 10;
+                }
+
+                petAssert += pet.Exp * 10;
+                resultDic.Add("宠物资产", petAssert);
+            }
+
+            var msg = "请查阅你的资产评估报告：\r" +
+                      $"{string.Join("\r", resultDic.Select(rd => $"{rd.Key}:{rd.Value}"))}" +
+                      $"\r总资产:{resultDic.Sum(p => p.Value)}";
+            MsgSender.PushMsg(MsgDTO, msg, true);
             return true;
         }
     }
