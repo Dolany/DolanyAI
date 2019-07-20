@@ -1,4 +1,5 @@
-﻿using Dolany.Ai.Common;
+﻿using System.Linq;
+using Dolany.Ai.Common;
 using Dolany.Ai.Common.Models;
 using Dolany.Ai.Core.Base;
 using Dolany.Ai.Core.Cache;
@@ -26,7 +27,7 @@ namespace Dolany.Ai.Core.Ai.Game.ChessAgainst
             SyntaxChecker = "At",
             IsPrivateAvailable = false,
             DailyLimit = 1,
-            TestingDailyLimit = 3)]
+            TestingDailyLimit = 1)]
         public bool Fight(MsgInformationEx MsgDTO, object[] param)
         {
             var aimNum = (long) param[0];
@@ -37,7 +38,7 @@ namespace Dolany.Ai.Core.Ai.Game.ChessAgainst
                 return false;
             }
 
-            if (aimNum == BindAiMgr.Instance[MsgDTO.BindAi].SelfNum)
+            if (BindAiMgr.Instance.AllAiNums.Contains(aimNum))
             {
                 MsgSender.PushMsg(MsgDTO, "鱼唇的人类，你无法挑战ai的威严！");
                 return false;

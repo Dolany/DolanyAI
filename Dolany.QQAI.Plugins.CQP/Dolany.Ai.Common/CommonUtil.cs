@@ -152,5 +152,17 @@ namespace Dolany.Ai.Common
 
             return copyT;
         }
+
+        public static void AddSafe<TKey, TValue>(this Dictionary<TKey, TValue> dic, TKey key, TValue value)
+        {
+            if (dic.ContainsKey(key))
+            {
+                dic[key] = value;
+            }
+            else
+            {
+                dic.Add(key, value);
+            }
+        }
     }
 }

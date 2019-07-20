@@ -34,5 +34,11 @@
     "CommandQueue": "MsgCommand_Sanae",
     "ClientPath": "C:/AI/Sanae/client/",
     "IsAdvanced": false
+  },
+  "Marisa": {
+    "SelfNum": 2145613171,
+    "CommandQueue": "MsgCommand_Marisa",
+    "ClientPath": "C:/AI/Marisa/client/",
+    "IsAdvanced": false
   } 
 }

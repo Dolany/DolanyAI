@@ -420,5 +420,73 @@ namespace Dolany.Ai.Core.Ai.Game.Pet
             MsgSender.PushMsg(MsgDTO, $"恭喜{pet.Name}的{name}技能成功升到了{pet.Skills[name]}级！");
             return true;
         }
+
+        [EnterCommand(ID = "PetAI_Fight",
+            Command = "宠物对决",
+            AuthorityLevel = AuthorityLevel.成员,
+            Description = "要求指定群员进行宠物对决",
+            Syntax = "[@QQ号]",
+            Tag = "宠物功能",
+            SyntaxChecker = "At",
+            IsPrivateAvailable = false,
+            DailyLimit = 1,
+            TestingDailyLimit = 1,
+            IsTesting = true)]
+        public bool Fight(MsgInformationEx MsgDTO, object[] param)
+        {
+            var aimQQ = (long) param[0];
+            if (aimQQ == MsgDTO.FromQQ)
+            {
+                MsgSender.PushMsg(MsgDTO, "你无法挑战你自己！");
+                return false;
+            }
+
+            if (!PetAgainstMgr.Instance.CheckGroup(MsgDTO.FromGroup))
+            {
+                MsgSender.PushMsg(MsgDTO, "本群正在进行一场宠物对决，请稍后再试！");
+                return false;
+            }
+
+            if (!PetAgainstMgr.Instance.CheckQQ(MsgDTO.FromQQ))
+            {
+                MsgSender.PushMsg(MsgDTO, "你的宠物正在进行一场宠物对决，请稍后再试！");
+                return false;
+            }
+
+            if (!PetAgainstMgr.Instance.CheckQQ(aimQQ))
+            {
+                MsgSender.PushMsg(MsgDTO, "你的对手正在进行一场宠物对决，请稍后再试！");
+                return false;
+            }
+
+            if (BindAiMgr.Instance.AllAiNums.Contains(aimQQ))
+            {
+                MsgSender.PushMsg(MsgDTO, "鱼唇的人类，你无法挑战AI的威严！", true);
+                return false;
+            }
+
+            var sourcePet = PetRecord.Get(MsgDTO.FromQQ);
+            if (sourcePet.Level < 3)
+            {
+                MsgSender.PushMsg(MsgDTO, $"{sourcePet.Name}还没到3级，无法参加宠物对决！");
+                return false;
+            }
+
+            var aimPet = PetRecord.Get(aimQQ);
+            if (aimPet.Level < 3)
+            {
+                MsgSender.PushMsg(MsgDTO, $"对方的宠物还没到3级，无法参加宠物对决！");
+                return false;
+            }
+
+            if(!Waiter.Instance.WaitForConfirm(MsgDTO.FromGroup, aimQQ, "你被邀请参加一场宠物对决，是否同意？", MsgDTO.BindAi, 10))
+            {
+                MsgSender.PushMsg(MsgDTO, "对决取消！");
+                return false;
+            }
+
+            PetAgainstMgr.Instance.StartGame(sourcePet, aimPet, MsgDTO.FromGroup, MsgDTO.BindAi);
+            return true;
+        }
     }
 }

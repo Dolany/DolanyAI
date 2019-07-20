@@ -5,11 +5,14 @@ namespace Dolany.Ai.Core.Ai.Game.Pet
 {
     public class PetAgainstMgr
     {
-        public static PetAgainstMgr Instance { get; set; }
+        public static PetAgainstMgr Instance { get; set; } = new PetAgainstMgr();
 
-        private List<PetAgainstEngine> Engines { get; set; } = new List<PetAgainstEngine>();
+        private List<PetAgainstEngine> Engines { get; set; }
 
-        private PetAgainstMgr(){}
+        private PetAgainstMgr()
+        {
+            Engines = new List<PetAgainstEngine>();
+        }
 
         public bool CheckGroup(long GroupNum)
         {

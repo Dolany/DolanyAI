@@ -38,7 +38,7 @@ namespace Dolany.Ai.Core.Ai.SingleCommand.Fortune
         }
 
         [EnterCommand(ID = "FortuneAI_RandomFortune",
-            Command = ".luck 祈愿运势",
+            Command = ".luck 祈愿运势 。luck",
             AuthorityLevel = AuthorityLevel.成员,
             Description = "获取每天运势",
             Syntax = "",
@@ -141,7 +141,7 @@ namespace Dolany.Ai.Core.Ai.SingleCommand.Fortune
         }
 
         [EnterCommand(ID = "FortuneAI_TarotFortune",
-            Command = ".zhan 塔罗牌占卜",
+            Command = ".zhan 塔罗牌占卜 。zhan",
             AuthorityLevel = AuthorityLevel.成员,
             Description = "获取每日塔罗牌占卜",
             Syntax = "",

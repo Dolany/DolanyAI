@@ -7,10 +7,9 @@
     "LearnLevel": 3 
   },
   "爪击": {
-    "Description": "造成(Hurt)点物理伤害，对方物理防御减半，持续(Turn)回合",
+    "Description": "造成(Hurt)点物理伤害，移除对手的物理防御",
     "Data": {
-      "Hurt": [ 8, 12, 16, 20, 24 ],
-      "Turn": [ 2, 2, 3, 3, 3 ]
+      "Hurt": [ 8, 12, 16, 20, 24 ]
     },
     "LearnLevel": 3
   },
@@ -22,7 +21,7 @@
     "LearnLevel": 3
   },
   "魔法反制": {
-    "Description": "魔法防御增加(Defence)点，持续(Turn)回合",
+    "Description": "魔法防御增加(Defence)%，持续(Turn)回合",
     "Data": {
       "Defence": [ 20, 30, 35, 40, 45 ],
       "Turn": [ 2, 2, 2, 3, 3 ]
@@ -47,9 +46,10 @@
     "LearnLevel": 4
   },
   "盾墙": {
-    "Description": "物理防御增加(Defence)点",
+    "Description": "物理防御增加(Defence)%，持续(Turn)个回合",
     "Data": {
-      "Defence": [ 20, 30, 35, 40, 45 ]
+      "Defence": [ 20, 30, 35, 40, 45 ],
+      "Turn": [ 2, 2, 2, 3, 3 ]
     },
     "LearnLevel": 4
   },

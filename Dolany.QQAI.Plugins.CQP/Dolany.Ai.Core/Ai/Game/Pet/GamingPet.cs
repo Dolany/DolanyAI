@@ -17,15 +17,18 @@ namespace Dolany.Ai.Core.Ai.Game.Pet
         public List<GamingBuff> Buffs { get; set; } = new List<GamingBuff>();
     }
 
-    public class GamingBuff
+    public class GamingEffect
     {
         public string Name { get; set; }
 
+        public Dictionary<string, object> Data { get; set; }
+    }
+
+    public class GamingBuff : GamingEffect
+    {
         public int RemainTurn { get; set; }
 
         public CheckTrigger Trigger { get; set; }
-
-        public int[] Data { get; set; }
     }
 
     public enum CheckTrigger
@@ -33,6 +36,12 @@ namespace Dolany.Ai.Core.Ai.Game.Pet
         TurnStart,
         TurnEnd,
         DoSkill,
-        BeAttacked
+        BeAttacked,
+        PhyAttackFix,
+        MagicAttackFix,
+        PoisionAttackFix,
+        PhyDefenceFix,
+        MagicDefenceFix,
+        PoisionDefenceFix
     }
 }
