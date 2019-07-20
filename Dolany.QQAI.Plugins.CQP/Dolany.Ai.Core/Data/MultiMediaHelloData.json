@@ -16,5 +16,11 @@
     "ContentPath": "./voices/Custom/小弱鸡登场.mp3",
     "MediaType": 1,
     "Location": 2
-  }
+  },
+  "师姐": {
+    "QQNum": 1458978159,
+    "ContentPath": "./images/登场/师姐登场.jpg",
+    "MediaType": 0,
+    "Location": 2 
+  } 
 }

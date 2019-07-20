@@ -19,11 +19,13 @@ namespace Dolany.Database.Ai
 
         public string BindAi { get; set; }
 
-        public List<string> BindAis { get; set; }
+        public List<string> BindAis { get; set; } = new List<string>();
 
         public DateTime? ExpiryTime { get; set; }
 
         public GroupAuthInfoModel AuthInfo { get; set; }
+
+        public Dictionary<string, string> AdditionSettings { get; set; } = new Dictionary<string, string>();
 
         public void Update()
         {

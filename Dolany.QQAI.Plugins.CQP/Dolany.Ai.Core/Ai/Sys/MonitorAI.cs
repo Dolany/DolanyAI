@@ -37,6 +37,15 @@ namespace Dolany.Ai.Core.Ai.Sys
                 return;
             }
 
+            if (MsgDTO.Type == MsgType.Group)
+            {
+                var addtionSettings = GroupSettingMgr.Instance[MsgDTO.FromGroup].AdditionSettings;
+                if (addtionSettings != null && addtionSettings.ContainsKey("禁止图片缓存"))
+                {
+                    return;
+                }
+            }
+
             PicCacher.Cache(cacheInfo.url);
         }
 

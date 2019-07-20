@@ -24,6 +24,8 @@ namespace Dolany.Ai.Core.Ai.Record
 
         public override bool NeedManualOpeon { get; set; } = true;
 
+        public override bool Enable { get; set; } = false;
+
         private List<string> ClockIdList { get; } = new List<string>();
 
         public override void Initialization()
