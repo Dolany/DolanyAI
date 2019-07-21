@@ -43,7 +43,8 @@ namespace Dolany.Ai.Core.OnlineStore
             return randSort.Select(rs => new DailySellItemModel
             {
                 Name = rs.Name,
-                Price = rs.Price * 2
+                Price = rs.Price * 2,
+                Attr = string.Join(",", rs.Attributes)
             }).ToArray();
         }
 
@@ -69,5 +70,7 @@ namespace Dolany.Ai.Core.OnlineStore
         public string Name { get; set; }
 
         public int Price { get; set; }
+
+        public string Attr { get; set; }
     }
 }

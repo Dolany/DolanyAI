@@ -6,6 +6,7 @@ using Dolany.Ai.Common.Models;
 using Dolany.Ai.Core.Ai.Game.Advanture;
 using Dolany.Ai.Core.Ai.Game.Gift;
 using Dolany.Ai.Core.Ai.Game.Pet;
+using Dolany.Ai.Core.API;
 using Dolany.Ai.Core.Base;
 using Dolany.Ai.Core.Cache;
 using Dolany.Ai.Core.Common;
@@ -182,9 +183,9 @@ namespace Dolany.Ai.Core.Ai.Game.Shopping
             var sellItems = TransHelper.GetDailySellItems();
             var record = ItemCollectionRecord.Get(MsgDTO.FromQQ);
             var itemsStr = string.Join("\r", sellItems.Select(si =>
-                $"{si.Name}({HonorHelper.Instance.FindHonorFullName(si.Name)})({record.GetCount(si.Name)})：{si.Price}金币"));
+                $"{si.Name}({HonorHelper.Instance.FindHonorFullName(si.Name)})({record.GetCount(si.Name)})({si.Attr})：{si.Price}{Emoji.钱袋}"));
 
-            var msg = $"今日售卖的商品：\r{itemsStr}\r你当前持有金币 {golds}";
+            var msg = $"今日售卖的商品：\r{itemsStr}\r你当前持有 {golds}{Emoji.钱袋}";
             MsgSender.PushMsg(MsgDTO, msg);
 
             return true;
