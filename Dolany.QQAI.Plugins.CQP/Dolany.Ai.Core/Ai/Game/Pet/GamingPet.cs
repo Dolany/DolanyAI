@@ -15,6 +15,8 @@ namespace Dolany.Ai.Core.Ai.Game.Pet
         public Dictionary<string, int> Skills { get; set; }
 
         public List<GamingBuff> Buffs { get; set; } = new List<GamingBuff>();
+
+        public string LastSkill { get; set; }
     }
 
     public class GamingEffect

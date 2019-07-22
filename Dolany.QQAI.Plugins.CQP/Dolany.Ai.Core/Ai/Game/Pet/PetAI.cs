@@ -430,8 +430,7 @@ namespace Dolany.Ai.Core.Ai.Game.Pet
             SyntaxChecker = "At",
             IsPrivateAvailable = false,
             DailyLimit = 1,
-            TestingDailyLimit = 1,
-            IsTesting = true)]
+            TestingDailyLimit = 3)]
         public bool Fight(MsgInformationEx MsgDTO, object[] param)
         {
             var aimQQ = (long) param[0];

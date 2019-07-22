@@ -113,26 +113,31 @@ namespace Dolany.Ai.Core.Ai.Game.Pet
 
         private void ProcessTurn()
         {
-            var randSkills = CommonUtil.RandSort(SelfPet.Skills.Keys.ToArray()).Take(5);
+            var randSkills = CommonUtil.RandSort(SelfPet.Skills.Keys.Where(s => s != SelfPet.LastSkill).ToArray()).Take(3);
             var skills = SelfPet.Skills.Where((skill, level) => randSkills.Contains(skill.Key));
 
-            var msg = $"请选择要施放的技能：\r{string.Join("\r", skills.Select((skill, idx) => $"{idx + 1}：{skill.Key}(lv.{skill.Value})"))}";
-            var selectedIdx = Waiter.Instance.WaitForNum(GroupNum, SelfPet.QQNum, msg, idx => idx > 0 && idx <= skills.Count(), BindAi) - 1;
-            if (selectedIdx < 0)
-            {
-                SendMessage("操作超时！");
-                return;
-            }
+            //var msg = $"请选择要施放的技能：\r{string.Join("\r", skills.Select((skill, idx) => $"{idx + 1}：{skill.Key}(lv.{skill.Value})"))}";
+            //var selectedIdx = Waiter.Instance.WaitForNum(GroupNum, SelfPet.QQNum, msg, idx => idx > 0 && idx <= skills.Count(), BindAi) - 1;
+            //if (selectedIdx < 0)
+            //{
+            //    SendMessage("操作超时！");
+            //    return;
+            //}
+            var selectedIdx = CommonUtil.RandInt(skills.Count());
+
+            var (skillName, skillLevel) = skills.ElementAt(selectedIdx);
+            var skillModel = PetSkillMgr.Instance[skillName];
+
+            SendMessage($"{SelfPet.Name}施放了 {skillModel.Name}(lv.{skillLevel})！");
+
+            SelfPet.LastSkill = skillName;
 
             if (!DoSkillTrigger())
             {
                 return;
             }
 
-            var (skillName, skillLevel) = skills.ElementAt(selectedIdx);
-            var skillModel = PetSkillMgr.Instance[skillName];
-
-            msg = ProcessEffect(new GamingEffect()
+            var msg = ProcessEffect(new GamingEffect()
             {
                 Name = skillModel.Name,
                 Data = skillModel.Data.ToDictionary(p => p.Key, p => (object)p.Value[skillLevel - 1])
