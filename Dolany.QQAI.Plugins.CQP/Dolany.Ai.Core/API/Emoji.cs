@@ -17,5 +17,7 @@ namespace Dolany.Ai.Core.API
         public static string 剑 => CodeApi.Code_Emoji(4036990881);
 
         public static string 钱袋 => CodeApi.Code_Emoji(4036989616);
+
+        public static string 雪花 => CodeApi.Code_Emoji(14851460);
     }
 }

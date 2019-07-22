@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Threading;
 using Dolany.Ai.Common;
@@ -21,6 +22,8 @@ namespace Dolany.Ai.Core.Ai.Game.Pet
 
         private GamingPet Loser => Winner.QQNum == SelfPet.QQNum ? AimPet : SelfPet;
 
+        private readonly List<string> MsgList = new List<string>();
+
         public void StartGame()
         {
             try
@@ -29,6 +32,7 @@ namespace Dolany.Ai.Core.Ai.Game.Pet
 
                 for (var i = 0; i < 12 && !JudgeWinner(); i++)
                 {
+                    DoSend();
                     SendMessage($"{SelfPet.Name}的回合开始！");
                     BeforeTurnStartTrigger();
                     if (JudgeWinner())
@@ -51,12 +55,15 @@ namespace Dolany.Ai.Core.Ai.Game.Pet
                     SwitchPet();
                 }
 
+                DoSend();
                 ShowResult();
+                DoSend();
             }
             catch (Exception e)
             {
                 RuntimeLogger.Log(e);
                 SendMessage("发现异常，对决中止！");
+                DoSend();
             }
         }
 
@@ -74,6 +81,11 @@ namespace Dolany.Ai.Core.Ai.Game.Pet
             }
 
             SelfPet.Buffs.RemoveAll(p => p.RemainTurn <= 0);
+
+            if (AimPet.HP - SelfPet.HP > 25)
+            {
+                SendMessage($"{SelfPet.Name}发现事情并不简单(滴汗)");
+            }
         }
 
         private string BeAttackedTrigger(GamingPet source, GamingPet dest, int value, DemageType type)
@@ -94,6 +106,11 @@ namespace Dolany.Ai.Core.Ai.Game.Pet
             var buffs = SelfPet.Buffs.Where(b => b.Trigger == CheckTrigger.TurnEnd);
             var msg = string.Join("\r", buffs.Select(ProcessEffect));
             SendMessage(msg);
+
+            if (SelfPet.HP - AimPet.HP > 25)
+            {
+                SendMessage($"{SelfPet.Name}骄傲的摇起了尾巴！");
+            }
         }
 
         private bool DoSkillTrigger()
@@ -116,13 +133,6 @@ namespace Dolany.Ai.Core.Ai.Game.Pet
             var randSkills = CommonUtil.RandSort(SelfPet.Skills.Keys.Where(s => s != SelfPet.LastSkill).ToArray()).Take(3);
             var skills = SelfPet.Skills.Where((skill, level) => randSkills.Contains(skill.Key));
 
-            //var msg = $"请选择要施放的技能：\r{string.Join("\r", skills.Select((skill, idx) => $"{idx + 1}：{skill.Key}(lv.{skill.Value})"))}";
-            //var selectedIdx = Waiter.Instance.WaitForNum(GroupNum, SelfPet.QQNum, msg, idx => idx > 0 && idx <= skills.Count(), BindAi) - 1;
-            //if (selectedIdx < 0)
-            //{
-            //    SendMessage("操作超时！");
-            //    return;
-            //}
             var selectedIdx = CommonUtil.RandInt(skills.Count());
 
             var (skillName, skillLevel) = skills.ElementAt(selectedIdx);
@@ -135,6 +145,11 @@ namespace Dolany.Ai.Core.Ai.Game.Pet
             if (!DoSkillTrigger())
             {
                 return;
+            }
+
+            if (skillModel.Data.First().Value.Length == skillLevel)
+            {
+                SendMessage($"{SelfPet.Name}使出了它的绝技！");
             }
 
             var msg = ProcessEffect(new GamingEffect()
@@ -190,13 +205,21 @@ namespace Dolany.Ai.Core.Ai.Game.Pet
 
         private void SendMessage(string msg)
         {
-            if (string.IsNullOrEmpty(msg.Trim()))
+            MsgList.Add(msg);
+        }
+
+        private void DoSend()
+        {
+            if (MsgList.IsNullOrEmpty())
             {
                 return;
             }
 
-            Thread.Sleep(500);
-            MsgSender.PushMsg(GroupNum, 0, msg, BindAi);
+            var msg = string.Join('\r', MsgList);
+            Thread.Sleep(2000);
+            MsgSender.PushMsg(GroupNum, 0 ,msg, BindAi);
+
+            MsgList.Clear();
         }
 
         private bool JudgeWinner()
@@ -220,28 +243,26 @@ namespace Dolany.Ai.Core.Ai.Game.Pet
             var msg = "对决结束！\r";
             if (Winner == null)
             {
-                msg += "很遗憾，这次对决没有胜利者！请双方再接再厉！";
+                Winner = SelfPet.HP > AimPet.HP ? SelfPet : AimPet;
             }
-            else
-            {
-                msg += $"恭喜{Winner.Name} 获得了胜利！奖励捞瓶子机会一次（当日有效）！";
-                var dailyLimit = DailyLimitRecord.Get(Winner.QQNum, "DriftBottleAI_FishingBottle");
-                dailyLimit.Decache();
-                dailyLimit.Update();
+            
+            msg += $"恭喜{Winner.Name} 获得了胜利！奖励捞瓶子机会一次（当日有效）！";
+            var dailyLimit = DailyLimitRecord.Get(Winner.QQNum, "DriftBottleAI_FishingBottle");
+            dailyLimit.Decache();
+            dailyLimit.Update();
 
-                msg += $"\r很遗憾，{Loser.Name}输掉了比赛，在12小时内无法捞瓶子！";
-                var buff = new OSPersonBuff
-                {
-                    QQNum = Loser.QQNum,
-                    Name = "昙天",
-                    Description = "不可以捞瓶子",
-                    ExpiryTime = DateTime.Now.AddHours(12),
-                    IsPositive = false,
-                    Data = 1,
-                    Source = Winner.QQNum
-                };
-                buff.Add();
-            }
+            msg += $"\r很遗憾，{Loser.Name}输掉了比赛，在12小时内无法捞瓶子！";
+            var buff = new OSPersonBuff
+            {
+                QQNum = Loser.QQNum,
+                Name = "昙天",
+                Description = "不可以捞瓶子",
+                ExpiryTime = DateTime.Now.AddHours(12),
+                IsPositive = false,
+                Data = 1,
+                Source = Winner.QQNum
+            };
+            buff.Add();
 
             SendMessage(msg);
         }

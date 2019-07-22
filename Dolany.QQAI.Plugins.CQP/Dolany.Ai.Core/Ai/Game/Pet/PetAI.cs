@@ -137,13 +137,13 @@ namespace Dolany.Ai.Core.Ai.Game.Pet
         public bool SetPetPic(MsgInformationEx MsgDTO, object[] param)
         {
             var osPerson = OSPerson.GetPerson(MsgDTO.FromQQ);
-            if (osPerson.Golds < 500)
+            if (osPerson.Golds < 300)
             {
-                MsgSender.PushMsg(MsgDTO, $"你的金币余额不足（{osPerson.Golds}/500）");
+                MsgSender.PushMsg(MsgDTO, $"你的金币余额不足（{osPerson.Golds}/300）");
                 return false;
             }
 
-            if (!Waiter.Instance.WaitForConfirm_Gold(MsgDTO, 500))
+            if (!Waiter.Instance.WaitForConfirm_Gold(MsgDTO, 300))
             {
                 MsgSender.PushMsg(MsgDTO, "操作取消！");
                 return false;
@@ -184,7 +184,7 @@ namespace Dolany.Ai.Core.Ai.Game.Pet
                 return false;
             }
 
-            osPerson.Golds -= 500;
+            osPerson.Golds -= 300;
             osPerson.Update();
 
             MsgSender.PushMsg(MsgDTO, "上传成功！待审核通过后方可生效！");
@@ -418,6 +418,41 @@ namespace Dolany.Ai.Core.Ai.Game.Pet
             pet.Update();
 
             MsgSender.PushMsg(MsgDTO, $"恭喜{pet.Name}的{name}技能成功升到了{pet.Skills[name]}级！");
+            return true;
+        }
+
+        [EnterCommand(ID = "PetAI_ResetPetSkill",
+            Command = "重置宠物技能",
+            AuthorityLevel = AuthorityLevel.成员,
+            Description = "重置宠物的所有技能加点",
+            Syntax = "",
+            Tag = "宠物功能",
+            SyntaxChecker = "Empty",
+            IsPrivateAvailable = false)]
+        public bool ResetPetSkill(MsgInformationEx MsgDTO, object[] param)
+        {
+            const int ResetSkillCost = 100;
+            var osPerson = OSPerson.GetPerson(MsgDTO.FromQQ);
+            if (osPerson.Golds < ResetSkillCost)
+            {
+                MsgSender.PushMsg(MsgDTO, $"金币余额不足({osPerson.Golds}/{ResetSkillCost})");
+                return false;
+            }
+
+            if (!Waiter.Instance.WaitForConfirm_Gold(MsgDTO, ResetSkillCost, 10))
+            {
+                MsgSender.PushMsg(MsgDTO, "操作取消！");
+                return false;
+            }
+
+            var pet = PetRecord.Get(MsgDTO.FromQQ);
+            pet.SkillReset();
+            pet.Update();
+
+            osPerson.Golds -= ResetSkillCost;
+            osPerson.Update();
+
+            MsgSender.PushMsg(MsgDTO, "重置成功！");
             return true;
         }
 

@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using Dolany.Ai.Common;
 using Dolany.Database;
 
 namespace Dolany.Ai.Core.Ai.Game.Pet
@@ -24,7 +25,7 @@ namespace Dolany.Ai.Core.Ai.Game.Pet
 
         public int RemainSkillPoints { get; set; }
 
-        public Dictionary<string, int> Skills { get; set; }
+        public Dictionary<string, int> Skills { get; set; } = new Dictionary<string, int>();
 
         public DateTime? LastFeedTime { get; set; }
 
@@ -58,6 +59,25 @@ namespace Dolany.Ai.Core.Ai.Game.Pet
         {
             var pets = MongoService<PetRecord>.Get();
             return pets.OrderByDescending(p => p.Level).ThenByDescending(p => p.Exp).Take(count).ToList();
+        }
+
+        public void SkillReset()
+        {
+            if (Skills.IsNullOrEmpty())
+            {
+                return;
+            }
+
+            var sum = 0;
+
+            for (var i = 0; i < Skills.Count; i++)
+            {
+                var key = Skills.Keys.ElementAt(i);
+                sum += Skills[key] - 1;
+                Skills[key] = 1;
+            }
+
+            RemainSkillPoints = sum;
         }
     }
 }
