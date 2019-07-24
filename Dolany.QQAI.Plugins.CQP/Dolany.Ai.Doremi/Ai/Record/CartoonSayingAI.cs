@@ -24,7 +24,7 @@ namespace Dolany.Ai.Doremi.Ai.Record
             Tag = "语录功能",
             SyntaxChecker = "Word Word Any",
             IsPrivateAvailable = false,
-            DailyLimit = 5)]
+            DailyLimit = 1)]
         public bool ProcceedMsg(MsgInformationEx MsgDTO, object[] param)
         {
             var saying = new Saying
@@ -33,7 +33,8 @@ namespace Dolany.Ai.Doremi.Ai.Record
                 Cartoon = param[0] as string,
                 Charactor = param[1] as string,
                 Content = param[2] as string,
-                FromGroup = MsgDTO.FromGroup
+                FromGroup = MsgDTO.FromGroup,
+                FromQQ = MsgDTO.FromQQ
             };
 
             MongoService<Saying>.Insert(saying);

@@ -7,6 +7,7 @@ namespace Dolany.Ai.Doremi.AITools
     public abstract class IScheduleTool : IAITool
     {
         protected abstract List<ScheduleDoModel> ModelList { get; set; }
+        public abstract bool Enable { get; set; }
 
         public virtual void Work()
         {

@@ -16,6 +16,8 @@ namespace Dolany.Ai.Doremi.AITools
             }
         };
 
+        public override bool Enable { get; set; } = true;
+
         protected override void ScheduleDo(SchedulerTimer timer)
         {
             if (DateTime.Now.DayOfWeek != DayOfWeek.Monday)

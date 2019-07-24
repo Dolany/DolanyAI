@@ -76,6 +76,8 @@ namespace Dolany.Ai.Doremi.AITools
             base.Work();
         }
 
+        public override bool Enable { get; set; } = true;
+
         protected override void ScheduleDo(SchedulerTimer timer)
         {
             var dto = timer.Data as CacheCleanerDTO;

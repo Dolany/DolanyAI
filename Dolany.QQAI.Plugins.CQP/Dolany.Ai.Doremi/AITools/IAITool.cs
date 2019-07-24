@@ -3,5 +3,6 @@
     public interface IAITool
     {
         void Work();
+        bool Enable { get; set; }
     }
 }

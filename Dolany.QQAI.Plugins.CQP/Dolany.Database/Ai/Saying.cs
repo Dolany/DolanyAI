@@ -5,6 +5,7 @@
         public string Cartoon { get; set; }
         public string Charactor { get; set; }
         public long FromGroup { get; set; }
+        public long? FromQQ { get; set; }
         public string Content { get; set; }
     }
 }
