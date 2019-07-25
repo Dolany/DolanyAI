@@ -12,7 +12,7 @@ namespace Dolany.Ai.Doremi.Xiuxian
 {
     public class RandShopper
     {
-        public static RandShopper Instance { get; set; }
+        public static RandShopper Instance { get; } = new RandShopper();
 
         private List<ShoppingNoticeModel> Models = new List<ShoppingNoticeModel>();
 
