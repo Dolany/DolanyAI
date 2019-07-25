@@ -8,7 +8,7 @@ namespace Dolany.Ai.Doremi.AITools
 {
     public class ShopTool : IScheduleTool
     {
-        public override bool Enable { get; set; } = false;
+        public override bool Enable { get; set; } = true;
 
         protected override List<ScheduleDoModel> ModelList { get; set; } = new List<ScheduleDoModel>()
         {

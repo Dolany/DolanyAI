@@ -39,5 +39,21 @@ namespace Dolany.Ai.Doremi.Ai.Game.Shopping
             MsgSender.PushMsg(MsgDTO, msg, true);
             return true;
         }
+
+        [EnterCommand(ID = "ShoppingAI_Buy",
+            Command = "购买",
+            AuthorityLevel = AuthorityLevel.成员,
+            Description = "购买某件物品",
+            Syntax = "[物品名]",
+            Tag = "修仙功能",
+            SyntaxChecker = "Word",
+            IsPrivateAvailable = false)]
+        public bool Buy(MsgInformationEx MsgDTO, object[] param)
+        {
+            var name = param[0] as string;
+
+
+            return true;
+        }
     }
 }
