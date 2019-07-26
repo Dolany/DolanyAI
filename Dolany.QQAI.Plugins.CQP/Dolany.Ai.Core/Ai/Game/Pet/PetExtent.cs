@@ -2,7 +2,6 @@
 using System.Linq;
 using Dolany.Ai.Common;
 using Dolany.Ai.Common.Models;
-using Dolany.Ai.Core.Cache;
 
 namespace Dolany.Ai.Core.Ai.Game.Pet
 {
@@ -10,7 +9,7 @@ namespace Dolany.Ai.Core.Ai.Game.Pet
     {
         public static readonly string[] AllAttributes = {"钢铁", "海洋", "深渊", "自然", "神秘"};
 
-        public static void ExtGain(this PetRecord pet, MsgInformationEx MsgDTO, int exp)
+        public static string ExtGain(this PetRecord pet, MsgInformationEx MsgDTO, int exp)
         {
             var remainExp = pet.Exp + exp;
             var lvl = pet.Level;
@@ -51,7 +50,7 @@ namespace Dolany.Ai.Core.Ai.Game.Pet
             pet.Exp = remainExp;
             pet.Update();
 
-            MsgSender.PushMsg(MsgDTO, msg);
+            return msg;
         }
     }
 }

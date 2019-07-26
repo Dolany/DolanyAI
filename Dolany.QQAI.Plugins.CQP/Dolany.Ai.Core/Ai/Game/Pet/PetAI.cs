@@ -304,12 +304,14 @@ namespace Dolany.Ai.Core.Ai.Game.Pet
                 return false;
             }
 
-            MsgSender.PushMsg(MsgDTO, $"{pet.Name}兴奋的吃掉了 {name}，并打了个饱嗝");
+            var resMsg = $"{pet.Name}兴奋的吃掉了 {name}，并打了个饱嗝\r";
 
             pet.LastFeedTime = DateTime.Now;
-            pet.ExtGain(MsgDTO, item.Exp);
+            resMsg += pet.ExtGain(MsgDTO, item.Exp);
             honorRecord.ItemConsume(name);
             honorRecord.Update();
+
+            MsgSender.PushMsg(MsgDTO, resMsg);
 
             return true;
         }

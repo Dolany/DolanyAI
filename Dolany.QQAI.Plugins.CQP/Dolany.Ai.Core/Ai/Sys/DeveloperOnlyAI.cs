@@ -200,9 +200,10 @@ namespace Dolany.Ai.Core.Ai.Sys
 
             var pet = PetRecord.Get(qqNum);
             MsgDTO.FromQQ = qqNum;
-            pet.ExtGain(MsgDTO, exp);
+            var msg = pet.ExtGain(MsgDTO, exp);
+            msg += "\r奖励已生效！";
 
-            MsgSender.PushMsg(MsgDTO, "奖励已生效！");
+            MsgSender.PushMsg(MsgDTO, msg);
             return true;
         }
 

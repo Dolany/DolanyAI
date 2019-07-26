@@ -192,7 +192,7 @@ namespace Dolany.Ai.Core.Ai.Game.Shopping
         }
 
         [EnterCommand(ID = "ShoppingAI_Buy",
-            Command = "购买",
+            Command = "购买 购买物品",
             AuthorityLevel = AuthorityLevel.成员,
             Description = "购买指定（在商店中售卖的）商品",
             Syntax = "[商品名]",
@@ -233,14 +233,10 @@ namespace Dolany.Ai.Core.Ai.Game.Shopping
 
             var record = ItemCollectionRecord.Get(MsgDTO.FromQQ);
             var incomeMsg = record.ItemIncome(sellItem.Name);
-            if (!string.IsNullOrEmpty(incomeMsg))
-            {
-                MsgSender.PushMsg(MsgDTO, incomeMsg, true);
-            }
 
             OSPerson.GoldConsume(osPerson.QQNum, price);
 
-            MsgSender.PushMsg(MsgDTO, $"购买成功！你当前剩余的金币为 {osPerson.Golds - sellItem.Price}");
+            MsgSender.PushMsg(MsgDTO, $"{incomeMsg}\r购买成功！你当前剩余的金币为 {osPerson.Golds - sellItem.Price}");
             return true;
         }
 
@@ -475,7 +471,7 @@ namespace Dolany.Ai.Core.Ai.Game.Shopping
 
                 resultDic.Add("物品资产", itemAssert);
             }
-            
+
             if (osPerson.GiftDic != null)
             {
                 var giftsMaterialDic = osPerson.GiftDic.SelectMany(p => GiftMgr.Instance[p.Key].MaterialDic);
@@ -497,8 +493,8 @@ namespace Dolany.Ai.Core.Ai.Game.Shopping
             }
 
             var msg = "请查阅你的资产评估报告：\r" +
-                      $"{string.Join("\r", resultDic.Select(rd => $"{rd.Key}:{rd.Value}"))}" +
-                      $"\r总资产:{resultDic.Sum(p => p.Value)}";
+                      $"{string.Join("\r", resultDic.Select(rd => $"{rd.Key}:{rd.Value}{Emoji.钱袋}"))}" +
+                      $"\r总资产:{resultDic.Sum(p => p.Value)}{Emoji.钱袋}";
             MsgSender.PushMsg(MsgDTO, msg, true);
             return true;
         }

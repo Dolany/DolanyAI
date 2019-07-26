@@ -1,8 +1,8 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
-using System.Threading;
 using Dolany.Ai.Common;
 using Dolany.Ai.Common.Models;
+using Dolany.Ai.Core.API;
 using Dolany.Ai.Core.Base;
 using Dolany.Ai.Core.Cache;
 using Dolany.Ai.Core.OnlineStore;
@@ -48,24 +48,16 @@ namespace Dolany.Ai.Core.Ai.Game.Shopping
             var osPerson = OSPerson.GetPerson(MsgDTO.FromQQ);
             if (osPerson.Golds < LotteryFee)
             {
-                MsgSender.PushMsg(MsgDTO, "你没有足够的金币购买彩票！", true);
+                MsgSender.PushMsg(MsgDTO, $"你没有足够的金币购买彩票({osPerson.Golds}/{LotteryFee})", true);
                 return false;
             }
 
-            if (!Waiter.Instance.WaitForConfirm_Gold(MsgDTO, LotteryFee))
-            {
-                MsgSender.PushMsg(MsgDTO, "操作取消！");
-                return false;
-            }
+            RandomLottery(MsgDTO);
 
-            var golds = RandomLottery(MsgDTO);
-
-            Thread.Sleep(1000);
-            MsgSender.PushMsg(MsgDTO, $"你当前持有金币：{golds}", true);
             return true;
         }
 
-        private int RandomLottery(MsgInformationEx MsgDTO)
+        private void RandomLottery(MsgInformationEx MsgDTO)
         {
             var index = CommonUtil.RandInt(SumRate);
 
@@ -82,10 +74,13 @@ namespace Dolany.Ai.Core.Ai.Game.Shopping
                 totalSum += value;
             }
 
-            MsgSender.PushMsg(MsgDTO, bonus == 0 ? "谢谢参与！" : $"恭喜你中奖啦！奖金：{bonus}", true);
+            var absBonus = bonus - LotteryFee;
+            var msg = absBonus > 0 ? $"恭喜你赚得了 {absBonus}{Emoji.钱袋}" : $"很遗憾你损失了 {absBonus}{Emoji.钱袋}";
+            msg += $"(已扣除成本费{LotteryFee}{Emoji.钱袋})";
 
             var golds = OSPerson.GoldConsume(MsgDTO.FromQQ, LotteryFee - bonus);
-            return golds;
+            msg += $"\r你当前持有金币：{golds}{Emoji.钱袋}";
+            MsgSender.PushMsg(MsgDTO, msg, true);
         }
 
         [EnterCommand(ID = "LotteryAI_LimitBonus",
