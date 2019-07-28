@@ -278,6 +278,54 @@
         "Rate": 15,
         "Price": 150
       }
+    ]
+  },
+  "京都音乐会": {
+    "Year": 2019,
+    "Month": 8,
+    "Items": [
+      {
+        "Name": "团子大家族",
+        "Description": "CLANNAD！...",
+        "Rate": 15,
+        "Price": 150
+      },
+      {
+        "Name": "拿去吧!水手服",
+        "Description": "幸运星！...",
+        "Rate": 15,
+        "Price": 150
+      },
+      {
+        "Name": "晴天好心情",
+        "Description": "凉宫春日的忧郁！...",
+        "Rate": 15,
+        "Price": 150
+      },
+      {
+        "Name": "轻飘飘的时间",
+        "Description": "轻音少女！...",
+        "Rate": 15,
+        "Price": 150
+      },
+      {
+        "Name": "温柔的理由",
+        "Description": "冰菓！...",
+        "Rate": 15,
+        "Price": 150
+      },
+      {
+        "Name": "青空狂想曲",
+        "Description": "小林家的龙女仆！...",
+        "Rate": 15,
+        "Price": 150
+      },
+      {
+        "Name": "鸟之诗",
+        "Description": "AIR！...",
+        "Rate": 15,
+        "Price": 150
+      }
     ] 
   } 
 }
