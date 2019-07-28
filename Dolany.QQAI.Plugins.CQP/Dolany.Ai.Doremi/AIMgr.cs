@@ -68,6 +68,7 @@ namespace Dolany.Ai.Doremi
                 Logger.Log("加载所有可用AI");
                 StartAIs();
                 Waiter.Instance.Listen();
+                RandShopper.Instance.BindAi = "DoreFun";
 
                 AIAnalyzer.Sys_StartTime = DateTime.Now;
             }
@@ -125,7 +126,6 @@ namespace Dolany.Ai.Doremi
             LoadCheckers();
 
             SFixedSetService.SetMaxCount("PicCache", Configger<AIConfigBase>.Instance.AIConfig.MaxPicCacheCount);
-            RandShopper.Instance.BindAi = "DoreFun";
         }
 
         private void LoadCheckers()
