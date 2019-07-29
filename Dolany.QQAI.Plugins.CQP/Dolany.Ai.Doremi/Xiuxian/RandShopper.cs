@@ -65,7 +65,7 @@ namespace Dolany.Ai.Doremi.Xiuxian
                 });
             }
 
-            Models = Models.Where(p => p.NoticeTime < DateTime.Now).OrderBy(p => p.NoticeTime).ToList();
+            Models = Models.Where(p => p.NoticeTime > DateTime.Now).OrderBy(p => p.NoticeTime).ToList();
             foreach (var model in Models)
             {
                 var interval = (model.NoticeTime - DateTime.Now).TotalMilliseconds;

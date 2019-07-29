@@ -4,7 +4,6 @@ using System.Linq;
 using Dolany.Ai.Common;
 using Dolany.Ai.Doremi.Cache;
 using Dolany.Ai.Doremi.Xiuxian;
-using Dolany.Database;
 using Newtonsoft.Json;
 
 namespace Dolany.Ai.Doremi.AITools
@@ -24,7 +23,7 @@ namespace Dolany.Ai.Doremi.AITools
 
         protected override void ScheduleDo(SchedulerTimer timer)
         {
-            var todayRecord = MongoService<GlobalVarRecord>.GetOnly(p => p.Key == "TodayShopInfo");
+            var todayRecord = GlobalVarRecord.Get("TodayShopInfo");
             if (!string.IsNullOrEmpty(todayRecord.Value))
             {
                 return;
