@@ -50,6 +50,11 @@ namespace Dolany.Ai.Common
             return Math.Abs(value) % MaxValue;
         }
 
+        public static bool RandBool()
+        {
+            return RandInt(2) == 0;
+        }
+
         public static T RandElement<T>(this IEnumerable<T> collection)
         {
             var enumerable = collection.ToList();

@@ -31,7 +31,7 @@ namespace Dolany.Ai.Doremi.AITools
 
             var records = GetHours(3).Select(hour =>
             {
-                var isHalfHour = CommonUtil.RandInt(2) == 0;
+                var isHalfHour = CommonUtil.RandBool();
                 var dateTime = new DateTime(DateTime.Now.Year, DateTime.Now.Month, DateTime.Now.Day, hour, isHalfHour ? 30 : 0, 0);
                 var goods = ArmerMgr.Instance.GetRandArmers(5).Select(p => p.Name);
                 return new ShopTimeRecord() {OpenTime = dateTime, SellingGoods = goods.ToArray()};
