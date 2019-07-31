@@ -41,6 +41,7 @@ namespace Dolany.Ai.Core.Ai.Game.Pet
             File.Copy("./images/Pet/Neptune/Default.jpg", aimPath);
             pet = new PetRecord(){QQNum = QQNum, PetNo = "Neptune", Name = "涅普", Level = 1, PicPath = aimPath};
             MongoService<PetRecord>.Insert(pet);
+
             return pet;
         }
 
