@@ -54,13 +54,13 @@ namespace Dolany.Ai.Doremi.Xiuxian
 
                 Models.Add(new ShoppingNoticeModel()
                 {
-                    NoticeTime = record.OpenTime.AddSeconds(-30),
+                    NoticeTime = record.OpenTime.AddMinutes(-30),
                     Type = ShoppingNoticeType.Forecast
                 });
 
                 Models.Add(new ShoppingNoticeModel()
                 {
-                    NoticeTime = record.OpenTime.AddSeconds(5),
+                    NoticeTime = record.OpenTime.AddMinutes(5),
                     Type = ShoppingNoticeType.CloseShop
                 });
             }

@@ -173,6 +173,7 @@ namespace Dolany.Ai.Doremi.Ai.Game.Xiuxian
 
             var osPerson = OSPerson.GetPerson(MsgDTO.FromQQ);
             osPerson.Golds += (int)golds;
+            osPerson.Update();
             MsgCounterSvc.Consume(MsgDTO.FromQQ, exp);
 
             MsgSender.PushMsg(MsgDTO, $"兑换成功！你使用 {exp} 点经验值兑换了 {golds}金币，你当前拥有 {osPerson.Golds}金币！");
