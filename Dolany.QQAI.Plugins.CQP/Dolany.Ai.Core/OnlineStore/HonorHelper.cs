@@ -12,7 +12,7 @@ namespace Dolany.Ai.Core.OnlineStore
 
         public readonly List<HonorModel> HonorList = new List<HonorModel>();
 
-        private List<DriftBottleItemModel> Items = new List<DriftBottleItemModel>();
+        public List<DriftBottleItemModel> Items = new List<DriftBottleItemModel>();
 
         private int SumRate;
 
