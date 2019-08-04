@@ -1,6 +1,8 @@
 ﻿using System;
 using System.Linq;
+using System.Threading;
 using Dolany.Ai.Common;
+using Dolany.Ai.Core.Cache;
 
 namespace Dolany.Ai.Core.Ai.Game.Pet
 {
@@ -8,7 +10,7 @@ namespace Dolany.Ai.Core.Ai.Game.Pet
     {
         public readonly PetCardRecord[] GamingPets;
 
-        private string BindAi;
+        private readonly string BindAi;
 
         public readonly long GroupNum;
 
@@ -51,14 +53,14 @@ namespace Dolany.Ai.Core.Ai.Game.Pet
 
                     SwitchTurn();
                 }
+
+                DoResult();
             }
             catch (Exception ex)
             {
                 RuntimeLogger.Log(ex);
-                // send back
+                SendBack("系统EA60模块发现异常，对决中止！");
             }
-
-            DoResult();
         }
 
         private void BeforeGameStart()
@@ -104,6 +106,12 @@ namespace Dolany.Ai.Core.Ai.Game.Pet
         private void SwitchTurn()
         {
             CurIdx = (CurIdx + 1) % GamingPets.Length;
+        }
+
+        private void SendBack(string msg, long atQQ = 0)
+        {
+            Thread.Sleep(1500);
+            MsgSender.PushMsg(GroupNum, atQQ, msg, BindAi);
         }
     }
 }

@@ -3,7 +3,7 @@
     "SelfNum": 2097412422,
     "CommandQueue": "MsgCommand_Cirno",
     "ClientPath": "C:/AI/Cirno/client/",
-    "IsAdvanced": true 
+    "IsAdvanced": true
   },
   "Flandre": {
     "SelfNum": 3617452052,
@@ -40,5 +40,11 @@
     "CommandQueue": "MsgCommand_Marisa",
     "ClientPath": "C:/AI/Marisa/client/",
     "IsAdvanced": false
-  } 
+  },
+  "Sakuya": {
+    "SelfNum": 3021028334,
+    "CommandQueue": "MsgCommand_Sakuya",
+    "ClientPath": "C:/AI/Sakuya/client/",
+    "IsAdvanced": true
+  }
 }

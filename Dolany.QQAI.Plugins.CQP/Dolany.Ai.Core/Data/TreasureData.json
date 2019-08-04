@@ -1,0 +1,162 @@
+﻿{
+  "百万鬼夜行": {
+    "Description": "她拥有骇人听闻的恐怖力量，她曾经说过只要她愿意，就可以要凭一己之力摧毁妖怪之山这样的豪言壮语（鬼族言而有信说到做到，从来不说谎。）。",
+    "PicPath": "./images/Treasure/百万鬼夜行/百万鬼夜行.jpg",
+    "Segments": [
+      {
+        "Name": "翠香的酒壶",
+        "Description": "倒出的酒是鬼专用的相当烈的酒，所以人类等要是喝下去了，可不是闹着玩的。",
+        "PicPath": "./images/Treasure/百万鬼夜行/翠香的酒壶.jpg"
+      },
+      {
+        "Name": "翠香的锁链",
+        "Description": "这是她施展能力的道具。",
+        "PicPath": "./images/Treasure/百万鬼夜行/翠香的锁链.jpg"
+      }
+    ]
+  },
+  "被禁止的游戏": {
+    "Description": "人类就是她平常吃的点心，虽然她对此一无所知。",
+    "PicPath": "./images/Treasure/被禁止的游戏/被禁止的游戏.jpg",
+    "Segments": [
+      {
+        "Name": "芙兰的玩偶",
+        "Description": "总是坏掉。",
+        "PicPath": "./images/Treasure/被禁止的游戏/芙兰的玩偶.jpg"
+      },
+      {
+        "Name": "芙兰的西瓜",
+        "Description": "好红！好红！好甜！好甜！",
+        "PicPath": "./images/Treasure/被禁止的游戏/芙兰的西瓜.jpg"
+      }
+    ]
+  },
+  "红色不夜城": {
+    "Description": "蕾米莉亚本人并没有意识到，不过住在周围的人类似乎变得越来越不幸了。",
+    "PicPath": "./images/Treasure/红色不夜城/红色不夜城.jpg",
+    "Segments": [
+      {
+        "Name": "蕾咪的红茶",
+        "Description": "虽然是吸血鬼，却意外地不怎么喝生血，似乎很爱喝咲夜泡的红茶（加B型血的红茶）。",
+        "PicPath": "./images/Treasure/红色不夜城/蕾咪的红茶.jpg"
+      },
+      {
+        "Name": "蕾咪的神枪",
+        "Description": "永恒之枪。",
+        "PicPath": "./images/Treasure/红色不夜城/蕾咪的神枪.jpg"
+      }
+    ]
+  },
+  "华胥的永眠": {
+    "Description": "无论是人还是妖怪，都能将其杀死，而一切的抵抗都无效。",
+    "PicPath": "./images/Treasure/华胥的永眠/华胥的永眠.jpg",
+    "Segments": [
+      {
+        "Name": "幽幽子的扇子",
+        "Description": "天衣无缝。",
+        "PicPath": "./images/Treasure/华胥的永眠/幽幽子的扇子.jpg"
+      },
+      {
+        "Name": "幽幽子的死蝶",
+        "Description": "从不彷徨。",
+        "PicPath": "./images/Treasure/华胥的永眠/幽幽子的死蝶.jpg"
+      }
+    ]
+  },
+  "究极火花": {
+    "Description": "她的魔法非常华丽潇洒，实际上其私底下很是努力，而且不愿被他人看到努力的样子，像大型烟花一样。",
+    "PicPath": "./images/Treasure/究极火花/究极火花.jpg",
+    "Segments": [
+      {
+        "Name": "魔理沙的八卦炉",
+        "Description": "以魔力为燃料的小小的火炉，可以释放出小到煮一顿晚饭的小火，大到能烧毁一座山程度的超常大火。",
+        "PicPath": "./images/Treasure/究极火花/魔理沙的八卦炉.jpg"
+      },
+      {
+        "Name": "魔理沙的扫帚",
+        "Description": "其实魔理沙不需要扫帚也可以飞，不过她认为不用扫帚就不像魔女。",
+        "PicPath": "./images/Treasure/究极火花/魔理沙的扫帚.jpg"
+      }
+    ]
+  },
+  "梦想封印": {
+    "Description": "出发的时候往往漫无目的，但凭借着运气或者是直觉，灵梦总能够走上正确的道路，成功解决异变。",
+    "PicPath": "./images/Treasure/梦想封印/梦想封印.jpg",
+    "Segments": [
+      {
+        "Name": "灵梦的阴阳玉",
+        "Description": "阴阳玉有着“吃甜食也不会发胖程度的能力”、“作为芳香剂使用程度的能力”、“变成小猫程度的能力”。",
+        "PicPath": "./images/Treasure/梦想封印/灵梦的阴阳玉.jpg"
+      },
+      {
+        "Name": "灵梦的符札",
+        "Description": "由森近霖之助所制作。",
+        "PicPath": "./images/Treasure/梦想封印/灵梦的符札.jpg"
+      }
+    ]
+  },
+  "全人类的绯想天": {
+    "Description": "“天人就是偶尔降临到地上进行忠告的一种存在。不——过——，对我来说，却都是些无法实行的忠告”",
+    "PicPath": "./images/Treasure/全人类的绯想天/全人类的绯想天.jpg",
+    "Segments": [
+      {
+        "Name": "天子的绯想之剑",
+        "Description": "可以收集、吸收周围的气质，转换为力量。并且还可以将气质本身切断。",
+        "PicPath": "./images/Treasure/全人类的绯想天/天子的绯想之剑.jpg"
+      },
+      {
+        "Name": "天子的桃子",
+        "Description": "帽子上的桃子是她的力量来源。",
+        "PicPath": "./images/Treasure/全人类的绯想天/天子的桃子.jpg"
+      }
+    ]
+  },
+  "天狗巨暴流": {
+    "Description": "拥有幻想乡最高等级的力量，可以以风般的速度，但不会为了炫耀而使用能力",
+    "PicPath": "./images/Treasure/天狗巨暴流/天狗巨暴流.jpg",
+    "Segments": [
+      {
+        "Name": "天狗的团扇",
+        "Description": "团扇可以在没有新闻时使用，一挥没有不能吹起的裙，二挥没有不能吹倒的少女(或非少女)，三挥连胖次也可以吹走。",
+        "PicPath": "./images/Treasure/天狗巨暴流/天狗的团扇.jpg"
+      },
+      {
+        "Name": "天狗的相机",
+        "Description": "有名的偷拍狂，邪恶的天狗仔队，兴趣、本行、副业、专长都是偷拍。",
+        "PicPath": "./images/Treasure/天狗巨暴流/天狗的相机.jpg"
+      }
+    ]
+  },
+  "贤者之石": {
+    "Description": "七曜的魔法使",
+    "PicPath": "./images/Treasure/贤者之石/贤者之石.jpg",
+    "Segments": [
+      {
+        "Name": "帕秋莉的帽子",
+        "Description": "姆Q！",
+        "PicPath": "./images/Treasure/贤者之石/帕秋莉的帽子.jpg"
+      },
+      {
+        "Name": "帕秋莉的魔法书",
+        "Description": "里面并不只是写上魔法的使用方法，还有为了使用魔法的秘密钥匙。",
+        "PicPath": "./images/Treasure/贤者之石/帕秋莉的魔法书.jpg"
+      }
+    ]
+  },
+  "夜雾幻影杀人鬼": {
+    "Description": "正如“完美而潇洒”的别名所说，咲夜作为女仆的工作是完美无缺的，基本上，作为从者她无可挑剔。",
+    "PicPath": "./images/Treasure/夜雾幻影杀人鬼/夜雾幻影杀人鬼.jpg",
+    "Segments": [
+      {
+        "Name": "咲夜的飞刀",
+        "Description": "投掷飞刀的技术相当厉害。",
+        "PicPath": "./images/Treasure/夜雾幻影杀人鬼/咲夜的飞刀.jpg"
+      },
+      {
+        "Name": "咲夜的怀表",
+        "Description": "能将时间、空间操纵到什么程度尚未可知，不过符卡“咲夜的世界”中静止的时间大约是5秒。",
+        "PicPath": "./images/Treasure/夜雾幻影杀人鬼/咲夜的怀表.jpg"
+      }
+    ]
+  }
+}

@@ -1,4 +1,5 @@
 ﻿using System.Linq;
+using System.Threading;
 using Dolany.Ai.Common;
 using Dolany.Ai.Common.Models;
 using Dolany.Ai.Core.Base;
@@ -29,6 +30,7 @@ namespace Dolany.Ai.Core.Ai.Game.SegmentAttach
             var segment = SegmentMgr.Instance.RandSegment();
             var record = SegmentRecord.Get(MsgDTO.FromQQ);
             record.Segment = segment.Name;
+            record.Update();
 
             var msg = $"你领取到了新的宝藏碎片！\r{segment}";
             MsgSender.PushMsg(MsgDTO, msg, true);
@@ -54,6 +56,36 @@ namespace Dolany.Ai.Core.Ai.Game.SegmentAttach
             }
 
             var treasure = SegmentMgr.Instance.FindTreasureBySegment(name);
+            var msg = $"{segment}\r可开启宝藏：{treasure.Name}";
+
+            MsgSender.PushMsg(MsgDTO, msg);
+            return true;
+        }
+
+        [EnterCommand(ID = "SegmentAttachAI_MySegment",
+            Command = "我的宝藏碎片",
+            AuthorityLevel = AuthorityLevel.成员,
+            Description = "查看自己持有的宝藏碎片的信息",
+            Syntax = "",
+            SyntaxChecker = "Empty",
+            Tag = "宝藏功能",
+            IsPrivateAvailable = true)]
+        public bool MySegment(MsgInformationEx MsgDTO, object[] param)
+        {
+            var record = SegmentRecord.Get(MsgDTO.FromQQ);
+            if (string.IsNullOrEmpty(record.Segment))
+            {
+                MsgSender.PushMsg(MsgDTO, "你尚未持有任何宝藏碎片！", true);
+                return false;
+            }
+            var segment = SegmentMgr.Instance.FindSegmentByName(record.Segment);
+            if (segment == null)
+            {
+                MsgSender.PushMsg(MsgDTO, "未找到指定的宝藏碎片");
+                return false;
+            }
+
+            var treasure = SegmentMgr.Instance.FindTreasureBySegment(record.Segment);
             var msg = $"{segment}\r可开启宝藏：{treasure.Name}";
 
             MsgSender.PushMsg(MsgDTO, msg);
@@ -156,6 +188,7 @@ namespace Dolany.Ai.Core.Ai.Game.SegmentAttach
             aimRecord.AddTreasureRecord(treasure.Name);
 
             var selfBonusItems = CommonUtil.RandSort(HonorHelper.Instance.Items.ToArray()).Take(3).ToList();
+            Thread.Sleep(100);
             var aimBonusItems = CommonUtil.RandSort(HonorHelper.Instance.Items.ToArray()).Take(3).ToList();
 
             var selfIcRecord = ItemCollectionRecord.Get(MsgDTO.FromQQ);

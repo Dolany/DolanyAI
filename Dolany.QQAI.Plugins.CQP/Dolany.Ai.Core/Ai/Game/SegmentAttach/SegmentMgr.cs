@@ -8,7 +8,7 @@ namespace Dolany.Ai.Core.Ai.Game.SegmentAttach
     {
         public static SegmentMgr Instance { get; } = new SegmentMgr();
 
-        public readonly List<TreasureModel> Treasures;
+        private readonly List<TreasureModel> Treasures;
 
         private SegmentMgr()
         {
@@ -59,7 +59,7 @@ namespace Dolany.Ai.Core.Ai.Game.SegmentAttach
 
         public override string ToString()
         {
-            return $"{Name}\r{CodeApi.Code_Image_Relational(PicPath)}\r{Description}\r需要碎片：{string.Join(",", Segments.Select(s => s.Name))}";
+            return $"【{Name}】\r{CodeApi.Code_Image_Relational(PicPath)}\r{Description}\r需要碎片：{string.Join(",", Segments.Select(s => s.Name))}";
         }
     }
 
@@ -73,7 +73,7 @@ namespace Dolany.Ai.Core.Ai.Game.SegmentAttach
 
         public override string ToString()
         {
-            return $"{Name}\r{CodeApi.Code_Image_Relational(PicPath)}\r{Description}";
+            return $"【{Name}】\r{CodeApi.Code_Image_Relational(PicPath)}\r{Description}";
         }
     }
 }
