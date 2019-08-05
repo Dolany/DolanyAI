@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Threading;
 using Dolany.Ai.Common;
 using Dolany.Database.Ai;
 
@@ -135,6 +136,18 @@ namespace Dolany.Ai.Core.OnlineStore
         public DriftBottleItemModel RandItem()
         {
             return LocalateItem(CommonUtil.RandInt(this.SumRate));
+        }
+
+        public List<DriftBottleItemModel> RandItems(int count)
+        {
+            var list = new List<DriftBottleItemModel>();
+            for (var i = 0; i < count; i++)
+            {
+                list.Add(RandItem());
+                Thread.Sleep(50);
+            }
+
+            return list;
         }
 
         public double ItemRate(DriftBottleItemModel item)

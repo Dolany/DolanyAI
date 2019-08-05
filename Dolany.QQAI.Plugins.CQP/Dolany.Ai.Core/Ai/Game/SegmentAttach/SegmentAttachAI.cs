@@ -1,5 +1,4 @@
 ﻿using System.Linq;
-using System.Threading;
 using Dolany.Ai.Common;
 using Dolany.Ai.Common.Models;
 using Dolany.Ai.Core.Base;
@@ -187,9 +186,8 @@ namespace Dolany.Ai.Core.Ai.Game.SegmentAttach
             selfRecord.AddTreasureRecord(treasure.Name);
             aimRecord.AddTreasureRecord(treasure.Name);
 
-            var selfBonusItems = CommonUtil.RandSort(HonorHelper.Instance.Items.ToArray()).Take(3).ToList();
-            Thread.Sleep(100);
-            var aimBonusItems = CommonUtil.RandSort(HonorHelper.Instance.Items.ToArray()).Take(3).ToList();
+            var selfBonusItems = HonorHelper.Instance.RandItems(3);
+            var aimBonusItems = HonorHelper.Instance.RandItems(3);
 
             var selfIcRecord = ItemCollectionRecord.Get(MsgDTO.FromQQ);
             var aimIcRecord = ItemCollectionRecord.Get(aimQQ);
