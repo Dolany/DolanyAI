@@ -90,7 +90,7 @@ namespace Dolany.Ai.Core.Ai.Game.Pet
 
         private string BeAttackedTrigger(GamingPet source, GamingPet dest, int value, DemageType type)
         {
-            var buffs = dest.Buffs.Where(b => b.Trigger == CheckTrigger.BeAttacked && ((b.Data["DemageTypes"] as DemageType[])?.Contains(type) ?? false));
+            var buffs = dest.Buffs.Where(b => b.Trigger == CheckTrigger.BeAttacked && ((b.Data["DemageTypes"] as DemageType[])?.Contains(type) ?? false)).ToList();
             foreach (var buff in buffs)
             {
                 buff.Data.AddSafe("Source", source);
@@ -131,9 +131,9 @@ namespace Dolany.Ai.Core.Ai.Game.Pet
         private void ProcessTurn()
         {
             var randSkills = CommonUtil.RandSort(SelfPet.Skills.Keys.Where(s => s != SelfPet.LastSkill).ToArray()).Take(3);
-            var skills = SelfPet.Skills.Where((skill, level) => randSkills.Contains(skill.Key));
+            var skills = SelfPet.Skills.Where((skill, level) => randSkills.Contains(skill.Key)).ToList();
 
-            var selectedIdx = CommonUtil.RandInt(skills.Count());
+            var selectedIdx = CommonUtil.RandInt(skills.Count);
 
             var (skillName, skillLevel) = skills.ElementAt(selectedIdx);
             var skillModel = PetSkillMgr.Instance[skillName];
@@ -245,7 +245,7 @@ namespace Dolany.Ai.Core.Ai.Game.Pet
             {
                 Winner = SelfPet.HP > AimPet.HP ? SelfPet : AimPet;
             }
-            
+
             msg += $"恭喜{Winner.Name} 获得了胜利！奖励捞瓶子机会一次（当日有效）！";
             var dailyLimit = DailyLimitRecord.Get(Winner.QQNum, "DriftBottleAI_FishingBottle");
             dailyLimit.Decache();
