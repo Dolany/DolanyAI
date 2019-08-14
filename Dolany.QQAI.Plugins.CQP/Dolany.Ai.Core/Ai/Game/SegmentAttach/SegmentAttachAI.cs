@@ -203,7 +203,7 @@ namespace Dolany.Ai.Core.Ai.Game.SegmentAttach
             }
 
             selfRecord.Update();
-            aimIcRecord.Update();
+            aimRecord.Update();
 
             MsgSender.PushMsg(MsgDTO, treasure.ToString());
 
