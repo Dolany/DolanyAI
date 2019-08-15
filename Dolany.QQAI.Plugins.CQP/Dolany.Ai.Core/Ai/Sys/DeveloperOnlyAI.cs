@@ -299,7 +299,8 @@ namespace Dolany.Ai.Core.Ai.Sys
             {
                 GroupNum = groupNum,
                 Name = name,
-                BindAi = MsgDTO.BindAi
+                BindAi = MsgDTO.BindAi,
+                BindAis = new List<string>(){MsgDTO.BindAi}
             };
             MongoService<GroupSettings>.Insert(setting);
             GroupSettingMgr.Instance.Refresh();
@@ -556,6 +557,66 @@ namespace Dolany.Ai.Core.Ai.Sys
             Utility.DownloadImage(imageCache?.url, path);
 
             MsgSender.PushMsg(MsgDTO, CodeApi.Code_Image_Relational(path));
+            return true;
+        }
+
+        [EnterCommand(ID = "DeveloperOnlyAI_RuleDestruction",
+            Command = "规则析构",
+            Description = "规则析构",
+            Syntax = "[key] [value]",
+            Tag = "开发者后台",
+            SyntaxChecker = "Word Any",
+            AuthorityLevel = AuthorityLevel.开发者,
+            IsPrivateAvailable = true)]
+        public bool RuleDestruction(MsgInformationEx MsgDTO, object[] param)
+        {
+            var key = param[0] as string;
+            var value = param[1] as string;
+
+            string msg;
+            MsgSender.PushMsg(MsgDTO, "世界树规则析构引擎正在启动，请稍后...");
+            Thread.Sleep(2000);
+
+            switch (key)
+            {
+                case "GroupSettings":
+                    if (!long.TryParse(value, out var groupNum))
+                    {
+                        msg = $"规则引擎解析错误：{groupNum}";
+                        break;
+                    }
+
+                    var record = GroupSettings.Get(groupNum);
+                    if (record == null)
+                    {
+                        msg = $"未匹配到基元数据：{groupNum}";
+                        break;
+                    }
+
+                    msg = JsonConvert.SerializeObject(record);
+                    break;
+                case "OSPerson":
+                    if (!long.TryParse(value, out var personNum))
+                    {
+                        msg = $"规则引擎解析错误：{personNum}";
+                        break;
+                    }
+
+                    var osPerson = OSPerson.GetPerson(personNum);
+                    if (osPerson == null)
+                    {
+                        msg = $"未匹配到基元数据：{personNum}";
+                        break;
+                    }
+
+                    msg = JsonConvert.SerializeObject(osPerson);
+                    break;
+                default:
+                    msg = "未匹配到指定规则，请先查阅世界规则手册！";
+                    break;
+            }
+
+            MsgSender.PushMsg(MsgDTO, msg);
             return true;
         }
     }

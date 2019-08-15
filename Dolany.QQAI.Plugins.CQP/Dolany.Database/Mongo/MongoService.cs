@@ -27,7 +27,7 @@ namespace Dolany.Database
         /// <returns></returns>
         public static List<T> Get(Expression<Func<T, bool>> exp)
         {
-            return GetCollection().AsQueryable().Where(exp).ToList();
+            return GetCollection().Find(exp).ToList();
         }
 
         public static List<T> Get()
@@ -38,47 +38,6 @@ namespace Dolany.Database
         public static T GetOnly(Expression<Func<T, bool>> exp)
         {
             return Get(exp).FirstOrDefault();
-        }
-
-        /// <summary>
-        /// 弱类型查询（适用分页查询）
-        /// </summary>
-        /// <param name="where"></param>
-        /// <param name="take"></param>
-        /// <param name="skip"></param>
-        /// <returns></returns>
-        public static IEnumerable<T> GetWeak(Expression<Func<T, bool>> where, int take = 0, int skip = 0)
-        {
-            if (take > 0)
-            {
-                return GetCollection().AsQueryable().Where(where).Skip(skip).Take(take).AsEnumerable();
-            }
-            else
-            {
-                return GetCollection().AsQueryable().Where(where).AsEnumerable();
-            }
-        }
-
-        /// <summary>
-        /// 弱类型查询 (适用排序分页查询)
-        /// </summary>
-        /// <typeparam name="TOrder"></typeparam>
-        /// <param name="where"></param>
-        /// <param name="order"></param>
-        /// <param name="asc"></param>
-        /// <param name="take"></param>
-        /// <param name="skip"></param>
-        /// <returns></returns>
-        public static IEnumerable<T> GetWeak<TOrder>(Expression<Func<T, bool>> where, Expression<Func<T, TOrder>> order, bool asc, int take = 0, int skip = 0)
-        {
-            var query = GetCollection().AsQueryable().Where(where);
-            query = asc ? query.OrderBy(order) : query.OrderByDescending(order);
-
-            if (take > 0)
-            {
-                query = query.Skip(skip).Take(take);
-            }
-            return query.AsEnumerable();
         }
 
         /// <summary>

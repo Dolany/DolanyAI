@@ -3,13 +3,13 @@ using System.Linq;
 
 namespace Dolany.Ai.Common
 {
-    public abstract class IGameMgr<EngineType, GamerModel> where GamerModel : IQQNumEntity where EngineType : IGameEngine<GamerModel>, new()
+    public class GameMgr<EngineType, GamerModel> where GamerModel : IQQNumEntity where EngineType : IGameEngine<GamerModel>, new()
     {
         public List<EngineType> EngineList { get; set; }
 
         public string Name { get; set; }
 
-        protected IGameMgr(string Name)
+        public GameMgr(string Name)
         {
             this.Name = Name;
             EngineList = new List<EngineType>();

@@ -27,6 +27,11 @@ namespace Dolany.Database.Ai
 
         public Dictionary<string, string> AdditionSettings { get; set; } = new Dictionary<string, string>();
 
+        public static GroupSettings Get(long GroupNum)
+        {
+            return MongoService<GroupSettings>.GetOnly(p => p.GroupNum == GroupNum);
+        }
+
         public void Update()
         {
             MongoService<GroupSettings>.Update(this);

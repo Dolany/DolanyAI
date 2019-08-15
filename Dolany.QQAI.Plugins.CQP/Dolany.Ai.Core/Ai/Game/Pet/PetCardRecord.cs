@@ -1,9 +1,10 @@
 ﻿using System.Collections.Generic;
+using Dolany.Ai.Common;
 using Dolany.Database;
 
 namespace Dolany.Ai.Core.Ai.Game.Pet
 {
-    public class PetCardRecord : DbBaseEntity
+    public class PetCardRecord : DbBaseEntity, IQQNumEntity
     {
         public long QQNum { get; set; }
 

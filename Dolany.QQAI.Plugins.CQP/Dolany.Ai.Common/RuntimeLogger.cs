@@ -13,14 +13,12 @@ namespace Dolany.Ai.Common
         {
             lock (lockObj)
             {
-                using (var steam = CheckFile())
-                {
-                    var data = new UTF8Encoding().GetBytes($"{DateTime.Now.ToCommonString()}:{log}\r\n");
-                    steam.Write(data, 0, data.Length);
+                using var steam = CheckFile();
+                var data = new UTF8Encoding().GetBytes($"{DateTime.Now.ToCommonString()}:{log}\r\n");
+                steam.Write(data, 0, data.Length);
 
-                    //清空缓冲区、关闭流
-                    steam.Flush();
-                }
+                //清空缓冲区、关闭流
+                steam.Flush();
             }
         }
 
