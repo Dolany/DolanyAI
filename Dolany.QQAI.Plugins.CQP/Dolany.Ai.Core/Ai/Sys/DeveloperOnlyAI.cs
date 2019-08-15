@@ -574,7 +574,7 @@ namespace Dolany.Ai.Core.Ai.Sys
             var value = param[1] as string;
 
             string msg;
-            MsgSender.PushMsg(MsgDTO, "世界树规则析构引擎正在启动，请稍后...");
+            MsgSender.PushMsg(MsgDTO, "世界树规则析构引擎正在启动，请稍候...");
             Thread.Sleep(2000);
 
             switch (key)
