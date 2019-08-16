@@ -38,7 +38,7 @@ namespace Dolany.Ai.Core.Ai.Game.Advanture
         private string RandCaveType()
         {
             var sum = Rates.Sum(p => p.Value);
-            var rand = CommonUtil.RandInt(sum);
+            var rand = Rander.RandInt(sum);
             var temp = 0;
             foreach (var (key, value) in Rates)
             {

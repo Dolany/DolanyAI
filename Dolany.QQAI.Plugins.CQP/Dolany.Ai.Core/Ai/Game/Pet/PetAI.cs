@@ -239,7 +239,7 @@ namespace Dolany.Ai.Core.Ai.Game.Pet
                 needGolds = true;
             }
 
-            var randAttrs = CommonUtil.RandSort(PetExtent.AllAttributes.ToArray());
+            var randAttrs = Rander.RandSort(PetExtent.AllAttributes.ToArray());
             var msg = $"请选择宠物食性：\r{string.Join("\r", randAttrs.Select((p, idx) => $"{idx + 1}:{p}"))}";
             var selectedIdx = Waiter.Instance.WaitForNum(MsgDTO.FromGroup, MsgDTO.FromQQ, msg, i => i > 0 && i <= randAttrs.Length, MsgDTO.BindAi);
             if (selectedIdx == -1)

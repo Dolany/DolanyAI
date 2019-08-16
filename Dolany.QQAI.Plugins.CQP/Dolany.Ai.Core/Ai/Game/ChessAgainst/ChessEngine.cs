@@ -121,7 +121,7 @@ namespace Dolany.Ai.Core.Ai.Game.ChessAgainst
 
         private void InitChessBoard()
         {
-            Chessborad = CommonUtil.RandSort(EffectsList.ToArray()).Take(9).ToArray();
+            Chessborad = Rander.RandSort(EffectsList.ToArray()).Take(9).ToArray();
         }
 
         private string ChessBoardStr()

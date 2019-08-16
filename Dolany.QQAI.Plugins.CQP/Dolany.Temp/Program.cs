@@ -10,7 +10,7 @@ namespace Dolany.Temp
         {
             for (var i = 0; i < 50; i++)
             {
-                Console.WriteLine(CommonUtil.RandInt(2));
+                Console.WriteLine(Rander.RandInt(2));
                 Thread.Sleep(50);
             }
 

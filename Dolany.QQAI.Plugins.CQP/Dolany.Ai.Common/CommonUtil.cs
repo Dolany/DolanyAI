@@ -3,15 +3,12 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Linq.Expressions;
-using System.Security.Cryptography;
 using Newtonsoft.Json;
 
 namespace Dolany.Ai.Common
 {
     public static class CommonUtil
     {
-        private static readonly RNGCryptoServiceProvider RngCsp = new RNGCryptoServiceProvider();
-
         public static bool IsNullOrEmpty<T>(this IEnumerable<T> objs)
         {
             return objs == null || !objs.Any();
@@ -41,41 +38,7 @@ namespace Dolany.Ai.Common
             return dic.Values.ToList();
         }
 
-        public static int RandInt(int MaxValue)
-        {
-            var bytes = new byte[4];
-            RngCsp.GetBytes(bytes);
-
-            var value = BitConverter.ToInt32(bytes, 0);
-            return Math.Abs(value) % MaxValue;
-        }
-
-        public static bool RandBool()
-        {
-            return RandInt(2) == 0;
-        }
-
-        public static T RandElement<T>(this IEnumerable<T> collection)
-        {
-            var enumerable = collection.ToList();
-            var length = enumerable.Count();
-            var idx = RandInt(length);
-            return enumerable.ElementAt(idx);
-        }
-
-        public static T[] RandSort<T>(T[] array)
-        {
-            for (var i = 0; i < array.Length; i++)
-            {
-                var randIdx = RandInt(array.Length - i) + i;
-
-                array.Swap(i, randIdx);
-            }
-
-            return array;
-        }
-
-        private static void Swap<T>(this IList<T> array, int firstIdx, int secondIdx)
+        public static void Swap<T>(this IList<T> array, int firstIdx, int secondIdx)
         {
             var temp = array[firstIdx];
             array[firstIdx] = array[secondIdx];

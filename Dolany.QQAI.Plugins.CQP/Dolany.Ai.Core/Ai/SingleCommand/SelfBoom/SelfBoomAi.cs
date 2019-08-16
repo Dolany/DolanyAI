@@ -15,7 +15,7 @@ namespace Dolany.Ai.Core.Ai.SingleCommand.SelfBoom
 
         public override int PriorityLevel { get; set; } = 10;
 
-        private int BoomCode = CommonUtil.RandInt(100000);
+        private int BoomCode = Rander.RandInt(100000);
         private DateTime CodeDate = DateTime.Now;
 
         [EnterCommand(ID = "SelfBoomAi_Boom",
@@ -60,7 +60,7 @@ namespace Dolany.Ai.Core.Ai.SingleCommand.SelfBoom
 
             MsgSender.PushMsg(MsgDTO, CodeApi.Code_Image_Relational("images/boom.jpg"));
 
-            BoomCode = CommonUtil.RandInt(10000);
+            BoomCode = Rander.RandInt(10000);
             Thread.Sleep(1000);
 
             return true;
@@ -76,7 +76,7 @@ namespace Dolany.Ai.Core.Ai.SingleCommand.SelfBoom
             IsPrivateAvailable = true)]
         public bool GetBoomCode(MsgInformationEx MsgDTO, object[] param)
         {
-            BoomCode = CommonUtil.RandInt(100000);
+            BoomCode = Rander.RandInt(100000);
             CodeDate = DateTime.Now;
             MsgSender.PushMsg(MsgDTO, BoomCode.ToString());
             return true;

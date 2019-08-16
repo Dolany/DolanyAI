@@ -39,7 +39,7 @@ namespace Dolany.Ai.Core.OnlineStore
         {
             var honors = HonorHelper.Instance.HonorList.Where(h => !(h is LimitHonorModel));
             var items = honors.SelectMany(h => h.Items).ToArray();
-            var randSort = CommonUtil.RandSort(items).Take(5);
+            var randSort = Rander.RandSort(items).Take(5);
             return randSort.Select(rs => new DailySellItemModel
             {
                 Name = rs.Name,

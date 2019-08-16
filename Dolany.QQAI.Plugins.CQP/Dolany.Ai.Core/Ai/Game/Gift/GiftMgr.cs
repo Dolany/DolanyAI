@@ -47,7 +47,7 @@ namespace Dolany.Ai.Core.Ai.Game.Gift
 
         private List<string> RandomGifts(int count)
         {
-            return CommonUtil.RandSort(GiftList.Select(p => p.Name).ToArray()).Take(count).ToList();
+            return Rander.RandSort(GiftList.Select(p => p.Name).ToArray()).Take(count).ToList();
         }
     }
 

@@ -41,7 +41,7 @@ namespace Dolany.Ai.Core.Ai.Record
                 return false;
             }
 
-            if (CommonUtil.RandInt(100) < ItemRate)
+            if (Rander.RandInt(100) < ItemRate)
             {
                 FishItem(MsgDTO);
                 return true;
@@ -246,7 +246,7 @@ namespace Dolany.Ai.Core.Ai.Record
 
         private static void FishItem(MsgInformationEx MsgDTO)
         {
-            if (OSPersonBuff.CheckBuff(MsgDTO.FromQQ, "梅雨") && CommonUtil.RandInt(100) < 30)
+            if (OSPersonBuff.CheckBuff(MsgDTO.FromQQ, "梅雨") && Rander.RandInt(100) < 30)
             {
                 MsgSender.PushMsg(MsgDTO, "欸呀呀，捞瓶子失败了！(梅雨)", true);
                 return;
@@ -269,7 +269,7 @@ namespace Dolany.Ai.Core.Ai.Record
                 msg += $"\r{s}";
             }
 
-            if (OSPersonBuff.CheckBuff(MsgDTO.FromQQ, "钻石尘") && CommonUtil.RandInt(100) < 50)
+            if (OSPersonBuff.CheckBuff(MsgDTO.FromQQ, "钻石尘") && Rander.RandInt(100) < 50)
             {
                 OSPerson.GoldConsume(MsgDTO.FromQQ, 40);
                 msg += "\r欸呀呀，你丢失了40金币(钻石尘)";

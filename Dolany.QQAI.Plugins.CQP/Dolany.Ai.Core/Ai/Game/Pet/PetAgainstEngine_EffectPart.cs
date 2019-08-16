@@ -142,7 +142,7 @@ namespace Dolany.Ai.Core.Ai.Game.Pet
             var source = data["Source"] as GamingPet;
             var dest = data["Dest"] as GamingPet;
 
-            var msg = DoDemage(source, dest, DemageType.魔法, hurt, "反击");
+            var msg = DoDemage(dest, source, DemageType.魔法, hurt, "反击");
             SendMessage(msg);
 
             var value = (int) data["Value"];
@@ -153,7 +153,7 @@ namespace Dolany.Ai.Core.Ai.Game.Pet
         public string 闷棍Buff(Dictionary<string, object> data)
         {
             var rate = (int) data["Rate"];
-            return CommonUtil.RandInt(100) < rate ? "技能释放失败！" : string.Empty;
+            return Rander.RandInt(100) < rate ? "技能释放失败！" : string.Empty;
         }
 
         #endregion

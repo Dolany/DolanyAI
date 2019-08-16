@@ -143,7 +143,7 @@ namespace Dolany.Ai.Core.Ai.SingleCommand.Dice
 
             for (var i = 0; i < model.Count; i++)
             {
-                var value = CommonUtil.RandInt(model.Size) + 1;
+                var value = Rander.RandInt(model.Size) + 1;
                 result.Result.Add(value);
             }
 
@@ -176,7 +176,7 @@ namespace Dolany.Ai.Core.Ai.SingleCommand.Dice
             IsPrivateAvailable = true)]
         public bool RD(MsgInformationEx MsgDTO, object[] param)
         {
-            var rand = CommonUtil.RandInt(100) + 1;
+            var rand = Rander.RandInt(100) + 1;
 
             MsgSender.PushMsg(MsgDTO, $"你掷出了 {rand} 点！", true);
             return true;

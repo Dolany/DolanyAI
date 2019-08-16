@@ -49,7 +49,7 @@ namespace Dolany.Ai.Core.Ai.Game.Advanture
 
         public int GetAtk()
         {
-            return CommonUtil.RandInt(MaxAtk - MinAtk + 1) + MinAtk;
+            return Rander.RandInt(MaxAtk - MinAtk + 1) + MinAtk;
         }
 
         public void Update()

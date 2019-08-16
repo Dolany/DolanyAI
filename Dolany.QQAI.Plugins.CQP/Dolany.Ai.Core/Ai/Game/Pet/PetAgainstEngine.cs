@@ -130,10 +130,10 @@ namespace Dolany.Ai.Core.Ai.Game.Pet
 
         private void ProcessTurn()
         {
-            var randSkills = CommonUtil.RandSort(SelfPet.Skills.Keys.Where(s => s != SelfPet.LastSkill).ToArray()).Take(3);
+            var randSkills = Rander.RandSort(SelfPet.Skills.Keys.Where(s => s != SelfPet.LastSkill).ToArray()).Take(3);
             var skills = SelfPet.Skills.Where((skill, level) => randSkills.Contains(skill.Key)).ToList();
 
-            var selectedIdx = CommonUtil.RandInt(skills.Count);
+            var selectedIdx = Rander.RandInt(skills.Count);
 
             var (skillName, skillLevel) = skills.ElementAt(selectedIdx);
             var skillModel = PetSkillMgr.Instance[skillName];
@@ -181,7 +181,7 @@ namespace Dolany.Ai.Core.Ai.Game.Pet
 
         private void JudgeFirst()
         {
-            if (CommonUtil.RandInt(2) == 0)
+            if (Rander.RandInt(2) == 0)
             {
                 return;
             }

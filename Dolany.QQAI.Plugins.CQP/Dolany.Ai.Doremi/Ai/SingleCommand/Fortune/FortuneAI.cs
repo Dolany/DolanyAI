@@ -62,7 +62,7 @@ namespace Dolany.Ai.Doremi.Ai.SingleCommand.Fortune
 
         private void RandBless(RandomFortuneCache rf)
         {
-            if (rf.FortuneValue >= 50 || CommonUtil.RandInt(100) > 20)
+            if (rf.FortuneValue >= 50 || Rander.RandInt(100) > 20)
             {
                 return;
             }
@@ -94,7 +94,7 @@ namespace Dolany.Ai.Doremi.Ai.SingleCommand.Fortune
 
         private static int GetRandomFortune()
         {
-            return CommonUtil.RandInt(101);
+            return Rander.RandInt(101);
         }
 
         private static void ShowRandFortune(MsgInformationEx MsgDTO, RandomFortuneCache rf)

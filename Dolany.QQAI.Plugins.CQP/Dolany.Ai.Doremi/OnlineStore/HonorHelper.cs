@@ -128,7 +128,7 @@ namespace Dolany.Ai.Doremi.OnlineStore
 
         public DriftBottleItemModel RandItem()
         {
-            return LocalateItem(CommonUtil.RandInt(this.SumRate));
+            return LocalateItem(Rander.RandInt(this.SumRate));
         }
 
         public double ItemRate(DriftBottleItemModel item)

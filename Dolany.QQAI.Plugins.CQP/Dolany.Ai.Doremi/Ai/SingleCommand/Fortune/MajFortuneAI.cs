@@ -96,7 +96,7 @@ namespace Dolany.Ai.Doremi.Ai.SingleCommand.Fortune
         [NotNull]
         private MajFortuneCache NewFortune(long QQNum)
         {
-            var fortuneStar = CommonUtil.RandInt(11);
+            var fortuneStar = Rander.RandInt(11);
             var position = PosArray.RandElement();
             var kind = GetRandKind();
             var (key, value) = CharactorsDic.RandElement();
@@ -114,7 +114,7 @@ namespace Dolany.Ai.Doremi.Ai.SingleCommand.Fortune
 
         private string GetRandKind()
         {
-            var rand = CommonUtil.RandInt(SumRate);
+            var rand = Rander.RandInt(SumRate);
             var tempSum = 0;
             foreach (var (key, value) in KindDic)
             {

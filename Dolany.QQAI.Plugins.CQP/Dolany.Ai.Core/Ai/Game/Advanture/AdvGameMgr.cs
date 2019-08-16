@@ -28,7 +28,7 @@ namespace Dolany.Ai.Core.Ai.Game.Advanture
         public void GameStart(long groupNum, long firstPlayer, long secondPlayer, int CaveNo, string BindAi)
         {
             var players = new[] {AdvPlayer.GetPlayer(firstPlayer), AdvPlayer.GetPlayer(secondPlayer)};
-            players = CommonUtil.RandSort(players);
+            players = Rander.RandSort(players);
 
             var engine = new AdvGameEngine(players, groupNum, CaveNo, BindAi);
             Engines.Add(engine);

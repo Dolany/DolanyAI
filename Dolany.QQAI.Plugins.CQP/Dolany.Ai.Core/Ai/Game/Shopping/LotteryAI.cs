@@ -59,7 +59,7 @@ namespace Dolany.Ai.Core.Ai.Game.Shopping
 
         private void RandomLottery(MsgInformationEx MsgDTO)
         {
-            var index = CommonUtil.RandInt(SumRate);
+            var index = Rander.RandInt(SumRate);
 
             var totalSum = 0;
             var bonus = 0;

@@ -34,7 +34,7 @@ namespace Dolany.Ai.Doremi.Xiuxian
         public List<ArmerModel> GetRandArmers(int count)
         {
             var resultList = new List<ArmerModel>();
-            var rand = CommonUtil.RandSort(RatedNormalList.ToArray());
+            var rand = Rander.RandSort(RatedNormalList.ToArray());
             for (var i = 0; i < rand.Length && resultList.Count < count; i++)
             {
                 if (resultList.Any(p => p.Name == rand[i].Name))

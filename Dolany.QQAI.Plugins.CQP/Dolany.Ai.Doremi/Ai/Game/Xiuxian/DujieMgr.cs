@@ -17,7 +17,7 @@ namespace Dolany.Ai.Doremi.Ai.Game.Xiuxian
 
         public DujieQAModel[] RandQAs(int count)
         {
-            return CommonUtil.RandSort(QAs.ToArray()).Take(count).ToArray();
+            return Rander.RandSort(QAs.ToArray()).Take(count).ToArray();
         }
     }
 
@@ -29,7 +29,7 @@ namespace Dolany.Ai.Doremi.Ai.Game.Xiuxian
 
         public string[] A { get; set; }
 
-        public string[] RandAs => CommonUtil.RandSort(A.ToArray());
+        public string[] RandAs => Rander.RandSort(A.ToArray());
 
         public bool IsCorrect(string answer)
         {
