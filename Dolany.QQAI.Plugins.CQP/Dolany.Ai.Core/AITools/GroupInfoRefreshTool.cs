@@ -1,6 +1,6 @@
-﻿using System.Collections.Generic;
-using Dolany.Ai.Common;
+﻿using Dolany.Ai.Common;
 using Dolany.Ai.Core.Common;
+using System.Collections.Generic;
 
 namespace Dolany.Ai.Core.AITools
 {
@@ -13,6 +13,9 @@ namespace Dolany.Ai.Core.AITools
                 Interval = SchedulerTimer.HourlyInterval
             }
         };
+
+        public override bool Enabled { get; set; } = true;
+
         protected override void ScheduleDo(SchedulerTimer timer)
         {
             GroupSettingMgr.Instance.Refresh();

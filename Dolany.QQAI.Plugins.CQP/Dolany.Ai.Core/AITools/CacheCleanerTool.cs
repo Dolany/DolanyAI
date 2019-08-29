@@ -1,8 +1,8 @@
-﻿using System.Collections.Generic;
+﻿using Dolany.Ai.Common;
+using Dolany.Ai.Core.Common;
+using System.Collections.Generic;
 using System.IO;
 using System.Linq;
-using Dolany.Ai.Common;
-using Dolany.Ai.Core.Common;
 
 namespace Dolany.Ai.Core.AITools
 {
@@ -22,6 +22,7 @@ namespace Dolany.Ai.Core.AITools
         private readonly int MaxPicCache = Global.DefaultConfig.MaxOriginPicCache;
 
         protected override List<ScheduleDoModel> ModelList { get; set; } = new List<ScheduleDoModel>();
+        public override bool Enabled { get; set; } = true;
 
         private void InitModelList()
         {

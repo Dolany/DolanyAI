@@ -1,9 +1,9 @@
-﻿using System;
-using Dolany.Ai.Common;
+﻿using Dolany.Ai.Common;
 using Dolany.Ai.Common.Models;
 using Dolany.Ai.Core.Base;
 using Dolany.Ai.Core.Cache;
 using Dolany.Ai.Core.Common;
+using System;
 
 namespace Dolany.Ai.Core.Ai.SingleCommand.IceNews
 {
@@ -12,6 +12,7 @@ namespace Dolany.Ai.Core.Ai.SingleCommand.IceNews
         public override string AIName { get; set; } = "冰冰新闻";
         public override string Description { get; set; } = "AI for ice news";
         public override int PriorityLevel { get; set; } = 10;
+        public override bool Enable { get; set; } = false;
 
         private const string CachePath = "./images/News/";
 
@@ -50,7 +51,7 @@ namespace Dolany.Ai.Core.Ai.SingleCommand.IceNews
             var info = Waiter.Instance.WaitForInformation(MsgDTO, "请上传图片（不能超过300KB）！",
                 information => information.FromGroup == MsgDTO.FromGroup && information.FromQQ == MsgDTO.FromQQ &&
                                !string.IsNullOrEmpty(Utility.ParsePicGuid(information.Msg)), 10);
-            if(info == null)
+            if (info == null)
             {
                 MsgSender.PushMsg(MsgDTO, "操作取消!");
                 return false;

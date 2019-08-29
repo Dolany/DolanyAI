@@ -1,18 +1,11 @@
-﻿using System;
-using Dolany.Database.Sqlite;
+﻿using Dolany.Database.Sqlite;
+using System;
 
 namespace Dolany.Ai.Core.Common
 {
     public class AliveStateMgr
     {
-        public static AliveStateMgr Instance { get; } = new AliveStateMgr();
-
-        private AliveStateMgr()
-        {
-
-        }
-
-        public AliveStateCache GetState(long GroupNum, long QQNum)
+        public static AliveStateCache GetState(long GroupNum, long QQNum)
         {
             var key = $"AliveState-{GroupNum}-{QQNum}";
             return SCacheService.Get<AliveStateCache>(key);

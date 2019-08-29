@@ -1,7 +1,7 @@
-﻿using System;
-using System.Collections.Generic;
-using Dolany.Ai.Common;
+﻿using Dolany.Ai.Common;
 using Dolany.Ai.Core.OnlineStore;
+using System;
+using System.Collections.Generic;
 
 namespace Dolany.Ai.Core.AITools
 {
@@ -14,6 +14,9 @@ namespace Dolany.Ai.Core.AITools
                 Interval = (DateTime.Now.Date.AddDays(1) - DateTime.Now).TotalMilliseconds
             }
         };
+
+        public override bool Enabled { get; set; } = true;
+
         protected override void ScheduleDo(SchedulerTimer timer)
         {
             HonorHelper.Instance.Refresh();

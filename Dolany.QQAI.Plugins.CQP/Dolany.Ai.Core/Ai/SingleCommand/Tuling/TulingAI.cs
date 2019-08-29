@@ -1,9 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Globalization;
-using System.Linq;
-using System.Text;
-using Dolany.Ai.Common;
+﻿using Dolany.Ai.Common;
 using Dolany.Ai.Common.Models;
 using Dolany.Ai.Core.Base;
 using Dolany.Ai.Core.Cache;
@@ -12,6 +7,11 @@ using Dolany.Ai.Core.Model;
 using Dolany.Ai.Core.Model.Tuling;
 using Dolany.Ai.Core.Net;
 using Dolany.Database.Ai;
+using System;
+using System.Collections.Generic;
+using System.Globalization;
+using System.Linq;
+using System.Text;
 
 namespace Dolany.Ai.Core.Ai.SingleCommand.Tuling
 {
@@ -51,7 +51,7 @@ namespace Dolany.Ai.Core.Ai.SingleCommand.Tuling
                 return false;
             }
 
-            var stateCache = AliveStateMgr.Instance.GetState(MsgDTO.FromGroup, MsgDTO.FromQQ);
+            var stateCache = AliveStateMgr.GetState(MsgDTO.FromGroup, MsgDTO.FromQQ);
             if (stateCache != null)
             {
                 MsgSender.PushMsg(MsgDTO, $"你已经死了({stateCache.Name})！复活时间：{stateCache.RebornTime.ToString(CultureInfo.CurrentCulture)}", true);

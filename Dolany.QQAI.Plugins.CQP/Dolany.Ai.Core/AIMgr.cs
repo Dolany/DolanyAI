@@ -1,10 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Reflection;
-using System.Runtime.ExceptionServices;
-using System.Threading.Tasks;
-using Dolany.Ai.Common;
+﻿using Dolany.Ai.Common;
 using Dolany.Ai.Common.Models;
 using Dolany.Ai.Core.AITools;
 using Dolany.Ai.Core.Base;
@@ -12,6 +6,12 @@ using Dolany.Ai.Core.Cache;
 using Dolany.Ai.Core.Common;
 using Dolany.Ai.Core.SyntaxChecker;
 using Dolany.Database.Sqlite;
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Reflection;
+using System.Runtime.ExceptionServices;
+using System.Threading.Tasks;
 
 namespace Dolany.Ai.Core
 {
@@ -132,7 +132,7 @@ namespace Dolany.Ai.Core
             var list = assembly.GetTypes()
                 .Where(type => typeof(ISyntaxChecker).IsAssignableFrom(type) && type.IsClass)
                 .Where(type => type.FullName != null)
-                .Select(type => new {type, checker = assembly.CreateInstance(type.FullName) as ISyntaxChecker})
+                .Select(type => new { type, checker = assembly.CreateInstance(type.FullName) as ISyntaxChecker })
                 .Select(t => t.checker);
 
             Checkers = list.ToList();
@@ -153,8 +153,10 @@ namespace Dolany.Ai.Core
                     continue;
                 }
 
-                var tool = assembly.CreateInstance(type.FullName) as IAITool;
-                Tools.Add(tool);
+                if (assembly.CreateInstance(type.FullName) is IAITool tool && tool.Enabled)
+                {
+                    Tools.Add(tool);
+                }
             }
 
             Logger.Log($"{Tools.Count} tools created.");
@@ -228,7 +230,7 @@ namespace Dolany.Ai.Core
                     var availableBindAis = MsgDTO.Type == MsgType.Group
                         ? GroupSettingMgr.Instance[MsgDTO.FromGroup].BindAis.Where(p => !RecentCommandCache.IsTooFreq(p)).Select(p => BindAiMgr.Instance[p]).ToList()
                         : new List<BindAiModel>();
-                    
+
                     foreach (var ai in AIList)
                     {
                         if (MsgDTO.Type == MsgType.Group)

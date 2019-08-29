@@ -1,12 +1,12 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Globalization;
-using System.Linq;
-using Dolany.Ai.Common;
+﻿using Dolany.Ai.Common;
 using Dolany.Ai.Common.Models;
 using Dolany.Ai.Core.Cache;
 using Dolany.Ai.Core.Common;
 using Dolany.Database.Ai;
+using System;
+using System.Collections.Generic;
+using System.Globalization;
+using System.Linq;
 
 namespace Dolany.Ai.Core.Base
 {
@@ -68,7 +68,10 @@ namespace Dolany.Ai.Core.Base
 
                     AIAnalyzer.AddCommandCount(new CommandAnalyzeDTO()
                     {
-                        Ai = AIName, Command = enterCommandAttribute.Command, GroupNum = MsgDTO.FromGroup, BindAi = MsgDTO.BindAi
+                        Ai = AIName,
+                        Command = enterCommandAttribute.Command,
+                        GroupNum = MsgDTO.FromGroup,
+                        BindAi = MsgDTO.BindAi
                     });
 
                     if (!StateCheck(MsgDTO))
@@ -112,7 +115,7 @@ namespace Dolany.Ai.Core.Base
                 return true;
             }
 
-            var stateCache = AliveStateMgr.Instance.GetState(MsgDTO.FromGroup, MsgDTO.FromQQ);
+            var stateCache = AliveStateMgr.GetState(MsgDTO.FromGroup, MsgDTO.FromQQ);
             if (stateCache != null)
             {
                 MsgSender.PushMsg(MsgDTO, $"你已经死了({stateCache.Name})！复活时间：{stateCache.RebornTime.ToString(CultureInfo.CurrentCulture)}", true);

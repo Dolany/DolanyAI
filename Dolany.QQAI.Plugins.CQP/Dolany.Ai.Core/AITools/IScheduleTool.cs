@@ -1,12 +1,14 @@
-﻿using System.Collections.Generic;
+﻿using Dolany.Ai.Common;
+using System.Collections.Generic;
 using System.Timers;
-using Dolany.Ai.Common;
 
 namespace Dolany.Ai.Core.AITools
 {
     public abstract class IScheduleTool : IAITool
     {
         protected abstract List<ScheduleDoModel> ModelList { get; set; }
+
+        public abstract bool Enabled { get; set; }
 
         public virtual void Work()
         {
