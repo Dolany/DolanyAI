@@ -351,8 +351,13 @@ namespace Dolany.Ai.Core.Ai.Game.Shopping
             var advPlayer = AdvPlayer.GetPlayer(MsgDTO.FromQQ);
             var glamourRecord = GlamourRecord.Get(MsgDTO.FromGroup, MsgDTO.FromQQ);
 
-            var msg = $"等级：{advPlayer.EmojiLevel}\r" +
-                      $"经验值：{advPlayer.Exp}\r" +
+            var normalHonors = itemRecord.HonorCollections.Where(h => h.Value.Type == HonorType.Normal).ToList();
+            var items = normalHonors.Select(p => p.Value).SelectMany(h => h.Items.Keys).ToList();
+
+            var allItems = HonorHelper.Instance.HonorList.Where(h => !(h is LimitHonorModel)).SelectMany(h => h.Items).Select(p => p.Name).ToArray();
+
+            var msg = $"等级：{osPerson.EmojiLevel}\r" +
+                      $"经验值：{items.Count}/{allItems.Length}{(items.Count == allItems.Length ? "(可转生)" : string.Empty)}\r" +
                       $"金币：{osPerson.Golds}\r" +
                       $"战绩：{advPlayer.WinTotal}/{advPlayer.GameTotal}\r" +
                       $"物品数量：{itemRecord.TotalItemCount()}\r" +
@@ -496,6 +501,46 @@ namespace Dolany.Ai.Core.Ai.Game.Shopping
                       $"{string.Join("\r", resultDic.Select(rd => $"{rd.Key}:{rd.Value}{Emoji.钱袋}"))}" +
                       $"\r总资产:{resultDic.Sum(p => p.Value)}{Emoji.钱袋}";
             MsgSender.PushMsg(MsgDTO, msg, true);
+            return true;
+        }
+
+        [EnterCommand(ID = "ShoppingAI_Reborn",
+            Command = "灵魂转生",
+            AuthorityLevel = AuthorityLevel.成员,
+            Description = "献祭所有物品，等级+1",
+            Syntax = "",
+            Tag = "商店功能",
+            SyntaxChecker = "Empty",
+            IsPrivateAvailable = true)]
+        public bool Reborn(MsgInformationEx MsgDTO, object[] param)
+        {
+            var itemColl = ItemCollectionRecord.Get(MsgDTO.FromQQ);
+            if (itemColl.HonorCollections.IsNullOrEmpty())
+            {
+                MsgSender.PushMsg(MsgDTO, "你尚未集齐所有非限定物品！", true);
+                return false;
+            }
+
+            var normalHonors = itemColl.HonorCollections.Where(h => h.Value.Type == HonorType.Normal).ToList();
+            var items = normalHonors.Select(p => p.Value).SelectMany(h => h.Items.Keys).ToList();
+
+            var allItems = HonorHelper.Instance.HonorList.Where(h => !(h is LimitHonorModel)).SelectMany(h => h.Items).Select(p => p.Name);
+            if (items.Count != allItems.Count())
+            {
+                MsgSender.PushMsg(MsgDTO, "你尚未集齐所有非限定物品！", true);
+                return false;
+            }
+
+            foreach (var honor in normalHonors.Select(p => p.Key))
+            {
+                TransHelper.SellHonorToShop(itemColl, MsgDTO.FromQQ, honor);
+            }
+
+            var osPerson = OSPerson.GetPerson(MsgDTO.FromQQ);
+            osPerson.Level++;
+            osPerson.Update();
+
+            MsgSender.PushMsg(MsgDTO, "转生成功！");
             return true;
         }
     }

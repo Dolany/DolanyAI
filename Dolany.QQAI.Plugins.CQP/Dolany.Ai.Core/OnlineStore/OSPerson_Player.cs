@@ -1,4 +1,5 @@
-﻿using MongoDB.Bson.Serialization.Attributes;
+﻿using Dolany.Ai.Core.Common;
+using MongoDB.Bson.Serialization.Attributes;
 
 namespace Dolany.Ai.Core.OnlineStore
 {
@@ -7,5 +8,7 @@ namespace Dolany.Ai.Core.OnlineStore
     {
         public int Level { get; set; }
         public int MaxHP { get; set; }
+
+        public string EmojiLevel => Utility.LevelEmoji(Level);
     }
 }

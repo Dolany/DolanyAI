@@ -1,6 +1,4 @@
-﻿using System.Collections.Generic;
-using Dolany.Ai.Common;
-using Dolany.Ai.Core.API;
+﻿using Dolany.Ai.Common;
 using Dolany.Ai.Core.Common;
 using Dolany.Database;
 
