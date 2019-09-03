@@ -358,6 +358,7 @@ namespace Dolany.Ai.Core.Ai.Game.Shopping
 
             var msg = $"等级：{osPerson.EmojiLevel}\r" +
                       $"经验值：{items.Count}/{allItems.Length}{(items.Count == allItems.Length ? "(可转生)" : string.Empty)}\r" +
+                      $"{(osPerson.HonorNames.IsNullOrEmpty() ? "" : string.Join("", osPerson.HonorNames.Select(h => $"【{h}】"))) + "\r"}" +
                       $"金币：{osPerson.Golds}\r" +
                       $"战绩：{advPlayer.WinTotal}/{advPlayer.GameTotal}\r" +
                       $"物品数量：{itemRecord.TotalItemCount()}\r" +
@@ -531,13 +532,29 @@ namespace Dolany.Ai.Core.Ai.Game.Shopping
                 return false;
             }
 
+            var response = Waiter.Instance.WaitForInformation(MsgDTO, "请输入想获取的荣誉称号名称(不能超过6个字)",
+                info => info.FromQQ == MsgDTO.FromQQ && info.FromGroup == MsgDTO.FromGroup && info.Msg != null && info.Msg.Length <= 6, 10);
+            if (response == null)
+            {
+                MsgSender.PushMsg(MsgDTO, "操作取消！");
+                return false;
+            }
+
+            var honorName = response.Msg;
+            var osPerson = OSPerson.GetPerson(MsgDTO.FromQQ);
+            if (osPerson.HonorNames.Contains(honorName))
+            {
+                MsgSender.PushMsg(MsgDTO, "你已经获取了该荣誉称号，操作取消！");
+                return false;
+            }
+
             foreach (var honor in normalHonors.Select(p => p.Key))
             {
                 TransHelper.SellHonorToShop(itemColl, MsgDTO.FromQQ, honor);
             }
 
-            var osPerson = OSPerson.GetPerson(MsgDTO.FromQQ);
             osPerson.Level++;
+            osPerson.HonorNames.Add(honorName);
             osPerson.Update();
 
             MsgSender.PushMsg(MsgDTO, "转生成功！");

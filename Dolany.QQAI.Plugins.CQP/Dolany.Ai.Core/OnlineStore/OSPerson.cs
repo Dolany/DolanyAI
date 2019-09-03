@@ -12,6 +12,8 @@ namespace Dolany.Ai.Core.OnlineStore
 
         public Dictionary<string, int> GiftDic { get; set; }
 
+        public List<string> HonorNames { get; set; } = new List<string>();
+
         public static OSPerson GetPerson(long QQNum)
         {
             var osPerson = MongoService<OSPerson>.GetOnly(p => p.QQNum == QQNum);
@@ -19,6 +21,11 @@ namespace Dolany.Ai.Core.OnlineStore
             {
                 osPerson = new OSPerson {QQNum = QQNum};
                 MongoService<OSPerson>.Insert(osPerson);
+            }
+
+            if (osPerson.HonorNames == null)
+            {
+                osPerson.HonorNames = new List<string>();
             }
 
             if (osPerson.Level != 0)
