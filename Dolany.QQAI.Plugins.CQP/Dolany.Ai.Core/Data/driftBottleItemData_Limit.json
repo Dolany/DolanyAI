@@ -326,6 +326,54 @@
         "Rate": 15,
         "Price": 150
       }
+    ]
+  },
+  "开学套装": {
+    "Year": 2019,
+    "Month": 9,
+    "Items": [
+      {
+        "Name": "人型电脑",
+        "Description": "有了她，就可以方便的干这种事情和那种事情啦...",
+        "Rate": 15,
+        "Price": 150
+      },
+      {
+        "Name": "红宝石之星",
+        "Description": "上学之余还要变身马猴烧酒保卫世界和平...",
+        "Rate": 15,
+        "Price": 150
+      },
+      {
+        "Name": "水手服",
+        "Description": "里面蕴含着名为JK的神秘力量...",
+        "Rate": 15,
+        "Price": 150
+      },
+      {
+        "Name": "自动人偶",
+        "Description": "不会受(huai)伤(yun)...",
+        "Rate": 15,
+        "Price": 150
+      },
+      {
+        "Name": "谜之笔记本",
+        "Description": "上面写着绝对不能让别人看到的东西...",
+        "Rate": 15,
+        "Price": 150
+      },
+      {
+        "Name": "库洛牌",
+        "Description": "封印着初代萌王的力量...",
+        "Rate": 15,
+        "Price": 150
+      },
+      {
+        "Name": "大师球",
+        "Description": "就决定是你了！JOJO！...",
+        "Rate": 15,
+        "Price": 150
+      }
     ] 
-  } 
+  }
 }
