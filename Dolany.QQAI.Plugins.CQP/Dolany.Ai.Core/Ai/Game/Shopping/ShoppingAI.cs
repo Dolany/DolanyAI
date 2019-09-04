@@ -358,7 +358,7 @@ namespace Dolany.Ai.Core.Ai.Game.Shopping
 
             var msg = $"等级：{osPerson.EmojiLevel}\r" +
                       $"经验值：{items.Count}/{allItems.Length}{(items.Count == allItems.Length ? "(可转生)" : string.Empty)}\r" +
-                      $"{(osPerson.HonorNames.IsNullOrEmpty() ? "" : string.Join("", osPerson.HonorNames.Select(h => $"【{h}】"))) + "\r"}" +
+                      $"{(osPerson.HonorNames.IsNullOrEmpty() ? "" : string.Join("", osPerson.HonorNames.Select(h => $"【{h}】")) + "\r")}" +
                       $"金币：{osPerson.Golds}\r" +
                       $"战绩：{advPlayer.WinTotal}/{advPlayer.GameTotal}\r" +
                       $"物品数量：{itemRecord.TotalItemCount()}\r" +
