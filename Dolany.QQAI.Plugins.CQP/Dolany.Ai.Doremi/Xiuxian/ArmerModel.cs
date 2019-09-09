@@ -14,6 +14,8 @@ namespace Dolany.Ai.Doremi.Xiuxian
 
         public int Rate { get; set; }
 
+        public string ArmerTag { get; set; }
+
         private string KindString
         {
             get

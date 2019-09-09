@@ -3,336 +3,392 @@
     "Kind": "Weapon",
     "Value": 68,
     "Price": 101,
-    "Rate": 14
+    "Rate": 14,
+    "ArmerTag": "低端攻击装备"
   },
   "2品攻击普通装备": {
     "Kind": "Weapon",
     "Value": 101,
     "Price": 152,
-    "Rate": 13
+    "Rate": 13,
+    "ArmerTag": "低端攻击装备"
   },
   "3品攻击普通装备": {
     "Kind": "Weapon",
     "Value": 152,
     "Price": 228,
-    "Rate": 12
+    "Rate": 12,
+    "ArmerTag": "低端攻击装备"
   },
   "4品攻击普通装备": {
     "Kind": "Weapon",
     "Value": 228,
     "Price": 342,
-    "Rate": 11
+    "Rate": 11,
+    "ArmerTag": "低端攻击装备"
   },
   "5品攻击普通装备": {
     "Kind": "Weapon",
     "Value": 342,
     "Price": 513,
-    "Rate": 10
+    "Rate": 10,
+    "ArmerTag": "低端攻击装备"
   },
   "6品攻击普通装备": {
     "Kind": "Weapon",
     "Value": 513,
     "Price": 769,
-    "Rate": 9
+    "Rate": 9,
+    "ArmerTag": "低端攻击装备"
   },
   "7品攻击普通装备": {
     "Kind": "Weapon",
     "Value": 769,
     "Price": 1153,
-    "Rate": 8
+    "Rate": 8,
+    "ArmerTag": "低端攻击装备"
   },
   "8品攻击普通装备": {
     "Kind": "Weapon",
     "Value": 1153,
     "Price": 1730,
-    "Rate": 7
+    "Rate": 7,
+    "ArmerTag": "中段攻击装备"
   },
   "9品攻击普通装备": {
     "Kind": "Weapon",
     "Value": 1730,
     "Price": 2595,
-    "Rate": 6
+    "Rate": 6,
+    "ArmerTag": "中段攻击装备"
   },
   "10品攻击普通装备": {
     "Kind": "Weapon",
     "Value": 2595,
     "Price": 3892,
-    "Rate": 5
+    "Rate": 5,
+    "ArmerTag": "中段攻击装备"
   },
   "11品攻击普通装备": {
     "Kind": "Weapon",
     "Value": 3892,
     "Price": 5839,
-    "Rate": 4
+    "Rate": 4,
+    "ArmerTag": "中段攻击装备"
   },
   "12品攻击普通装备": {
     "Kind": "Weapon",
     "Value": 5839,
     "Price": 8758,
-    "Rate": 3
+    "Rate": 3,
+    "ArmerTag": "中段攻击装备"
   },
   "13品攻击普通装备": {
     "Kind": "Weapon",
     "Value": 8758,
     "Price": 13137,
-    "Rate": 2
+    "Rate": 2,
+    "ArmerTag": "中段攻击装备"
   },
   "14品攻击普通装备": {
     "Kind": "Weapon",
     "Value": 13137,
     "Price": 19705,
-    "Rate": 1
+    "Rate": 1,
+    "ArmerTag": "中段攻击装备"
   },
   "1品攻击高级装备": {
     "Kind": "Weapon",
     "Value": 101,
     "Price": 127,
-    "Rate": 15
+    "Rate": 15,
+    "ArmerTag": "高端攻击装备"
   },
   "2品攻击高级装备": {
     "Kind": "Weapon",
     "Value": 152,
     "Price": 190,
-    "Rate": 14
+    "Rate": 14,
+    "ArmerTag": "高端攻击装备"
   },
   "3品攻击高级装备": {
     "Kind": "Weapon",
     "Value": 228,
     "Price": 285,
-    "Rate": 13
+    "Rate": 13,
+    "ArmerTag": "高端攻击装备"
   },
   "4品攻击高级装备": {
     "Kind": "Weapon",
     "Value": 342,
     "Price": 427,
-    "Rate": 12
+    "Rate": 12,
+    "ArmerTag": "高端攻击装备"
   },
   "5品攻击高级装备": {
     "Kind": "Weapon",
     "Value": 513,
     "Price": 641,
-    "Rate": 11
+    "Rate": 11,
+    "ArmerTag": "高端攻击装备"
   },
   "6品攻击高级装备": {
     "Kind": "Weapon",
     "Value": 769,
     "Price": 961,
-    "Rate": 10
+    "Rate": 10,
+    "ArmerTag": "高端攻击装备"
   },
   "7品攻击高级装备": {
     "Kind": "Weapon",
     "Value": 1153,
     "Price": 1442,
-    "Rate": 9
+    "Rate": 9,
+    "ArmerTag": "高端攻击装备"
   },
   "8品攻击高级装备": {
     "Kind": "Weapon",
     "Value": 1730,
     "Price": 2162,
-    "Rate": 8
+    "Rate": 8,
+    "ArmerTag": "顶级攻击装备"
   },
   "9品攻击高级装备": {
     "Kind": "Weapon",
     "Value": 2595,
     "Price": 3244,
-    "Rate": 7
+    "Rate": 7,
+    "ArmerTag": "顶级攻击装备"
   },
   "10品攻击高级装备": {
     "Kind": "Weapon",
     "Value": 3892,
     "Price": 4865,
-    "Rate": 6
+    "Rate": 6,
+    "ArmerTag": "顶级攻击装备"
   },
   "11品攻击高级装备": {
     "Kind": "Weapon",
     "Value": 5839,
     "Price": 7298,
-    "Rate": 5
+    "Rate": 5,
+    "ArmerTag": "顶级攻击装备"
   },
   "12品攻击高级装备": {
     "Kind": "Weapon",
     "Value": 8758,
     "Price": 10947,
-    "Rate": 4
+    "Rate": 4,
+    "ArmerTag": "顶级攻击装备"
   },
   "13品攻击高级装备": {
     "Kind": "Weapon",
     "Value": 13137,
     "Price": 16421,
-    "Rate": 3
+    "Rate": 3,
+    "ArmerTag": "顶级攻击装备"
   },
   "14品攻击高级装备": {
     "Kind": "Weapon",
     "Value": 19705,
     "Price": 24632,
-    "Rate": 2
+    "Rate": 2,
+    "ArmerTag": "顶级攻击装备"
   },
   "1品防御普通装备": {
     "Kind": "Shield",
     "Value": 75,
     "Price": 94,
-    "Rate": 14
+    "Rate": 14,
+    "ArmerTag": "低级防御装备"
   },
   "2品防御普通装备": {
     "Kind": "Shield",
     "Value": 113,
     "Price": 141,
-    "Rate": 13
+    "Rate": 13,
+    "ArmerTag": "低级防御装备"
   },
   "3品防御普通装备": {
     "Kind": "Shield",
     "Value": 169,
     "Price": 211,
-    "Rate": 12
+    "Rate": 12,
+    "ArmerTag": "低级防御装备"
   },
   "4品防御普通装备": {
     "Kind": "Shield",
     "Value": 253,
     "Price": 316,
-    "Rate": 11
+    "Rate": 11,
+    "ArmerTag": "低级防御装备"
   },
   "5品防御普通装备": {
     "Kind": "Shield",
     "Value": 380,
     "Price": 475,
-    "Rate": 10
+    "Rate": 10,
+    "ArmerTag": "低级防御装备"
   },
   "6品防御普通装备": {
     "Kind": "Shield",
     "Value": 570,
     "Price": 712,
-    "Rate": 9
+    "Rate": 9,
+    "ArmerTag": "低级防御装备"
   },
   "7品防御普通装备": {
     "Kind": "Shield",
     "Value": 854,
     "Price": 1068,
-    "Rate": 8
+    "Rate": 8,
+    "ArmerTag": "低级防御装备"
   },
   "8品防御普通装备": {
     "Kind": "Shield",
     "Value": 1281,
     "Price": 1602,
-    "Rate": 7
+    "Rate": 7,
+    "ArmerTag": "中段防御装备"
   },
   "9品防御普通装备": {
     "Kind": "Shield",
     "Value": 1922,
     "Price": 2403,
-    "Rate": 6
+    "Rate": 6,
+    "ArmerTag": "中段防御装备"
   },
   "10品防御普通装备": {
     "Kind": "Shield",
     "Value": 2883,
     "Price": 3604,
-    "Rate": 5
+    "Rate": 5,
+    "ArmerTag": "中段防御装备"
   },
   "11品防御普通装备": {
     "Kind": "Shield",
     "Value": 4325,
     "Price": 5406,
-    "Rate": 4
+    "Rate": 4,
+    "ArmerTag": "中段防御装备"
   },
   "12品防御普通装备": {
     "Kind": "Shield",
     "Value": 6487,
     "Price": 8109,
-    "Rate": 3
+    "Rate": 3,
+    "ArmerTag": "中段防御装备"
   },
   "13品防御普通装备": {
     "Kind": "Shield",
     "Value": 9731,
     "Price": 12164,
-    "Rate": 2
+    "Rate": 2,
+    "ArmerTag": "中段防御装备"
   },
   "14品防御普通装备": {
     "Kind": "Shield",
     "Value": 14596,
     "Price": 18246,
-    "Rate": 1
+    "Rate": 1,
+    "ArmerTag": "中段防御装备"
   },
   "1品防御高级装备": {
     "Kind": "Shield",
     "Value": 94,
     "Price": 117,
-    "Rate": 15
+    "Rate": 15,
+    "ArmerTag": "高端防御装备"
   },
   "2品防御高级装备": {
     "Kind": "Shield",
     "Value": 141,
     "Price": 176,
-    "Rate": 14
+    "Rate": 14,
+    "ArmerTag": "高端防御装备"
   },
   "3品防御高级装备": {
     "Kind": "Shield",
     "Value": 211,
     "Price": 264,
-    "Rate": 13
+    "Rate": 13,
+    "ArmerTag": "高端防御装备"
   },
   "4品防御高级装备": {
     "Kind": "Shield",
     "Value": 316,
     "Price": 396,
-    "Rate": 12
+    "Rate": 12,
+    "ArmerTag": "高端防御装备"
   },
   "5品防御高级装备": {
     "Kind": "Shield",
     "Value": 475,
     "Price": 593,
-    "Rate": 11
+    "Rate": 11,
+    "ArmerTag": "高端防御装备"
   },
   "6品防御高级装备": {
     "Kind": "Shield",
     "Value": 712,
     "Price": 890,
-    "Rate": 10
+    "Rate": 10,
+    "ArmerTag": "高端防御装备"
   },
   "7品防御高级装备": {
     "Kind": "Shield",
     "Value": 1068,
     "Price": 1335,
-    "Rate": 9
+    "Rate": 9,
+    "ArmerTag": "高端防御装备"
   },
   "8品防御高级装备": {
     "Kind": "Shield",
     "Value": 1602,
     "Price": 2002,
-    "Rate": 8
+    "Rate": 8,
+    "ArmerTag": "顶级防御装备"
   },
   "9品防御高级装备": {
     "Kind": "Shield",
     "Value": 2403,
     "Price": 3003,
-    "Rate": 7
+    "Rate": 7,
+    "ArmerTag": "顶级防御装备"
   },
   "10品防御高级装备": {
     "Kind": "Shield",
     "Value": 3604,
     "Price": 4505,
-    "Rate": 6
+    "Rate": 6,
+    "ArmerTag": "顶级防御装备"
   },
   "11品防御高级装备": {
     "Kind": "Shield",
     "Value": 5406,
     "Price": 6758,
-    "Rate": 5
+    "Rate": 5,
+    "ArmerTag": "顶级防御装备"
   },
   "12品防御高级装备": {
     "Kind": "Shield",
     "Value": 8109,
     "Price": 10136,
-    "Rate": 4
+    "Rate": 4,
+    "ArmerTag": "顶级防御装备"
   },
   "13品防御高级装备": {
     "Kind": "Shield",
     "Value": 12164,
     "Price": 15205,
-    "Rate": 3
+    "Rate": 3,
+    "ArmerTag": "顶级防御装备"
   },
   "14品防御高级装备": {
     "Kind": "Shield",
     "Value": 18246,
     "Price": 22807,
-    "Rate": 2
+    "Rate": 2,
+    "ArmerTag": "顶级防御装备"
   }
 }

@@ -1,0 +1,57 @@
+﻿{
+  "一次性飞剑": {
+    "Rate": 20,
+    "MaxContains": 10,
+    "SuccessRate": 15
+  },
+  "一次性飞剑破小黑屋版本": {
+    "Rate": 30,
+    "MaxContains": 9,
+    "SuccessRate": 40
+  },
+  "超时空漫步": {
+    "Rate": 40,
+    "MaxContains": 8,
+    "SuccessRate": 65
+  },
+  "超时空漫步白前辈版本": {
+    "Rate": 50,
+    "MaxContains": 7,
+    "SuccessRate": 90
+  },
+  "劫仙空间控制": {
+    "Rate": 10,
+    "MaxContains": 10,
+    "SuccessRate": 10
+  },
+  "功德天道的小飞梭": {
+    "Rate": 1,
+    "MaxContains": 10,
+    "SuccessRate": 100
+  },
+  "核心世界小后门": {
+    "Rate": 60,
+    "MaxContains": 5,
+    "SuccessRate": 90
+  },
+  "XX居士的原味": {
+    "Rate": 1,
+    "MaxContains": 4,
+    "SuccessRate": 84
+  },
+  "散财王座的后门": {
+    "Rate": 1,
+    "MaxContains": 3,
+    "SuccessRate": 83
+  },
+  "黑莲世界白前辈版本": {
+    "Rate": 1,
+    "MaxContains": 2,
+    "SuccessRate": 100
+  },
+  "幼白的背后": {
+    "Rate": 1,
+    "MaxContains": 1,
+    "SuccessRate": 100
+  }
+}

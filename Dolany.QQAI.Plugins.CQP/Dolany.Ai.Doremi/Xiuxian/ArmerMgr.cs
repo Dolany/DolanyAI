@@ -31,7 +31,7 @@ namespace Dolany.Ai.Doremi.Xiuxian
             }
         }
 
-        public List<ArmerModel> GetRandArmers(int count)
+        public IEnumerable<ArmerModel> GetRandArmers(int count)
         {
             var resultList = new List<ArmerModel>();
             var rand = Rander.RandSort(RatedNormalList.ToArray());
@@ -46,6 +46,11 @@ namespace Dolany.Ai.Doremi.Xiuxian
             }
 
             return resultList;
+        }
+
+        public ArmerModel RandTagArmer(string tagName)
+        {
+            return NormalArmerList.Where(p => p.ArmerTag == tagName).ToDictionary(p => p, p => p.Rate).RandRated();
         }
     }
 }

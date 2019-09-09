@@ -5,9 +5,9 @@ namespace Dolany.Ai.Common
 {
     public class GameMgr<EngineType, GamerModel> where GamerModel : IQQNumEntity where EngineType : IGameEngine<GamerModel>, new()
     {
-        public List<EngineType> EngineList { get; set; }
+        protected List<EngineType> EngineList { get; set; }
 
-        public string Name { get; set; }
+        protected string Name { get; set; }
 
         public GameMgr(string Name)
         {

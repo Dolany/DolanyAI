@@ -1,0 +1,235 @@
+﻿{
+  "九幽": {
+    "Monsters": [
+      {
+        "Name": "九幽3品小怪",
+        "HPTimes": 2,
+        "AttackTimes": 4,
+        "DropArmerTag": "中段攻击装备",
+        "DropGolds": 0
+      },
+      {
+        "Name": "九幽4品小怪",
+        "HPTimes": 2,
+        "AttackTimes": 5,
+        "DropArmerTag": "中段攻击装备",
+        "DropGolds": 0
+      },
+      {
+        "Name": "九幽5品小怪",
+        "HPTimes": 2,
+        "AttackTimes": 6,
+        "DropArmerTag": "中段攻击装备",
+        "DropGolds": 0
+      },
+      {
+        "Name": "九幽6品小怪",
+        "HPTimes": 2,
+        "AttackTimes": 7,
+        "DropArmerTag": "高端攻击装备",
+        "DropGolds": 0
+      },
+      {
+        "Name": "九幽7品小怪",
+        "HPTimes": 2,
+        "AttackTimes": 8,
+        "DropArmerTag": "高端攻击装备",
+        "DropGolds": 0
+      },
+      {
+        "Name": "九幽8品小怪",
+        "HPTimes": 2,
+        "AttackTimes": 9,
+        "DropArmerTag": "高端攻击装备",
+        "DropGolds": 0
+      },
+      {
+        "Name": "九幽9品小怪",
+        "HPTimes": 2,
+        "AttackTimes": 10,
+        "DropArmerTag": "高端攻击装备",
+        "DropGolds": 0
+      },
+      {
+        "Name": "胖球大佬",
+        "HPTimes": 10,
+        "AttackTimes": 13,
+        "DropArmerTag": "顶级攻击装备",
+        "DropGolds": 0
+      },
+      {
+        "Name": "逃跑的小偷",
+        "HPTimes": 3,
+        "AttackTimes": 0,
+        "DropArmerTag": "逃跑装备",
+        "DropGolds": 0
+      }
+    ]
+  },
+  "黑龙世界": {
+    "Monsters": [
+      {
+        "Name": "黑龙1品",
+        "HPTimes": 2,
+        "AttackTimes": 1,
+        "DropArmerTag": "低端攻击装备",
+        "DropGolds": 0
+      },
+      {
+        "Name": "黑龙2品",
+        "HPTimes": 2,
+        "AttackTimes": 2,
+        "DropArmerTag": "低端攻击装备",
+        "DropGolds": 0
+      },
+      {
+        "Name": "黑龙3品",
+        "HPTimes": 2,
+        "AttackTimes": 3,
+        "DropArmerTag": "低端攻击装备",
+        "DropGolds": 0
+      },
+      {
+        "Name": "黑龙4品",
+        "HPTimes": 2,
+        "AttackTimes": 4,
+        "DropArmerTag": "中段攻击装备",
+        "DropGolds": 0
+      },
+      {
+        "Name": "黑龙5品",
+        "HPTimes": 2,
+        "AttackTimes": 5,
+        "DropArmerTag": "中段攻击装备",
+        "DropGolds": 0
+      },
+      {
+        "Name": "黑龙5品",
+        "HPTimes": 2,
+        "AttackTimes": 5,
+        "DropArmerTag": "中段攻击装备",
+        "DropGolds": 0
+      },
+      {
+        "Name": "黑龙6品",
+        "HPTimes": 2,
+        "AttackTimes": 6,
+        "DropArmerTag": "中段攻击装备",
+        "DropGolds": 0
+      },
+      {
+        "Name": "黑龙7品",
+        "HPTimes": 2,
+        "AttackTimes": 7,
+        "DropArmerTag": "中段攻击装备",
+        "DropGolds": 0
+      },
+      {
+        "Name": "沉睡的昆那女士",
+        "HPTimes": 8,
+        "AttackTimes": 10,
+        "DropArmerTag": "高端攻击装备",
+        "DropGolds": 0
+      },
+      {
+        "Name": "逃跑的小偷",
+        "HPTimes": 3,
+        "AttackTimes": 0,
+        "DropArmerTag": "逃跑装备",
+        "DropGolds": 0
+      }
+    ]
+  },
+  "兽修界": {
+    "Monsters": [
+      {
+        "Name": "受污染的3品兽修",
+        "HPTimes": 4,
+        "AttackTimes": 1,
+        "DropArmerTag": "中段防御装备",
+        "DropGolds": 0
+      },
+      {
+        "Name": "受污染的4品兽修",
+        "HPTimes": 5,
+        "AttackTimes": 2,
+        "DropArmerTag": "中段防御装备",
+        "DropGolds": 0
+      },
+      {
+        "Name": "受污染的5品兽修",
+        "HPTimes": 6,
+        "AttackTimes": 3,
+        "DropArmerTag": "中段防御装备",
+        "DropGolds": 0
+      },
+      {
+        "Name": "受污染的6品兽修",
+        "HPTimes": 7,
+        "AttackTimes": 4,
+        "DropArmerTag": "高端防御装备",
+        "DropGolds": 0
+      },
+      {
+        "Name": "受污染的7品兽修",
+        "HPTimes": 8,
+        "AttackTimes": 5,
+        "DropArmerTag": "高端防御装备",
+        "DropGolds": 0
+      },
+      {
+        "Name": "受污染的8品兽修",
+        "HPTimes": 9,
+        "AttackTimes": 6,
+        "DropArmerTag": "高端防御装备",
+        "DropGolds": 0
+      },
+      {
+        "Name": "受污染的9品兽修",
+        "HPTimes": 10,
+        "AttackTimes": 7,
+        "DropArmerTag": "高端防御装备",
+        "DropGolds": 0
+      },
+      {
+        "Name": "黑色石碑",
+        "HPTimes": 13,
+        "AttackTimes": 5,
+        "DropArmerTag": "顶级防御装备",
+        "DropGolds": 0
+      },
+      {
+        "Name": "逃跑的小偷",
+        "HPTimes": 3,
+        "AttackTimes": 0,
+        "DropArmerTag": "逃跑装备",
+        "DropGolds": 0
+      }
+    ]
+  },
+  "天道小黑屋": {
+    "Monsters": [
+      {
+        "Name": "空间裂缝",
+        "HPTimes": 10000,
+        "AttackTimes": 2,
+        "DropArmerTag": null,
+        "DropGolds": 200
+      },
+      {
+        "Name": "小黑屋角落",
+        "HPTimes": 10000,
+        "AttackTimes": 1,
+        "DropArmerTag": null,
+        "DropGolds": 100
+      },
+      {
+        "Name": "空间夹缝",
+        "HPTimes": 10000,
+        "AttackTimes": 3,
+        "DropArmerTag": "All",
+        "DropGolds": 0
+      }
+    ] 
+  } 
+}
