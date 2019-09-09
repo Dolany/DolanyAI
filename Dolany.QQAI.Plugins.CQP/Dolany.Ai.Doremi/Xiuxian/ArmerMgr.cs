@@ -52,5 +52,27 @@ namespace Dolany.Ai.Doremi.Xiuxian
         {
             return NormalArmerList.Where(p => p.ArmerTag == tagName).ToDictionary(p => p, p => p.Rate).RandRated();
         }
+
+        public int CountHP(Dictionary<string, int> ArmerList)
+        {
+            if (ArmerList.IsNullOrEmpty())
+            {
+                return 0;
+            }
+
+            var modelsDic = ArmerList.ToDictionary(p => this[p.Key], p => p.Value);
+            return modelsDic.Where(p => p.Key.Kind == "Shield").Sum(p => p.Key.Value * p.Value);
+        }
+
+        public int CountAtk(Dictionary<string, int> ArmerList)
+        {
+            if (ArmerList.IsNullOrEmpty())
+            {
+                return 0;
+            }
+
+            var modelsDic = ArmerList.ToDictionary(p => this[p.Key], p => p.Value);
+            return modelsDic.Where(p => p.Key.Kind == "Weapon").Sum(p => p.Key.Value * p.Value);
+        }
     }
 }

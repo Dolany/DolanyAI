@@ -23,5 +23,19 @@ namespace Dolany.Ai.Doremi.Ai.Game.XunYuan
         public string DropArmerTag { get; set; }
 
         public int DropGolds { get; set; }
+
+        public int HP => HPTimes * _basicHP;
+
+        public int Atk => AttackTimes * _basicAtk;
+
+        private int _basicHP { get; set; }
+
+        private int _basicAtk { get; set; }
+
+        public void InitData(int BasicHP, int BasicAtk)
+        {
+            _basicHP = BasicHP;
+            _basicAtk = BasicAtk;
+        }
     }
 }
