@@ -14,10 +14,38 @@ namespace Dolany.Ai.Doremi.Ai.Game.XunYuan
 
         public Dictionary<string, int> EscapeArmers { get; set; } = new Dictionary<string, int>();
 
+        public void Clear()
+        {
+            NormalArmers.Clear();
+            EscapeArmers.Clear();
+
+            Golds = 0;
+        }
+
         public void Simplify()
         {
             NormalArmers.Remove(p => p == 0);
             EscapeArmers.Remove(p => p == 0);
+        }
+
+        public void AddArmer(string name)
+        {
+            if (!NormalArmers.ContainsKey(name))
+            {
+                NormalArmers.Add(name, 0);
+            }
+
+            NormalArmers[name]++;
+        }
+
+        public void AddEscape(string name)
+        {
+            if (!EscapeArmers.ContainsKey(name))
+            {
+                EscapeArmers.Add(name, 0);
+            }
+
+            EscapeArmers[name]++;
         }
 
         public override string ToString()

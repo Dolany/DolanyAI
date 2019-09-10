@@ -1,8 +1,10 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Threading;
 using Dolany.Ai.Common;
 using Dolany.Ai.Doremi.Cache;
+using Dolany.Ai.Doremi.Xiuxian;
 
 namespace Dolany.Ai.Doremi.Ai.Game.XunYuan
 {
@@ -16,9 +18,9 @@ namespace Dolany.Ai.Doremi.Ai.Game.XunYuan
 
         private XunyuanTreasure TreasureTotal { get; set; } = new XunyuanTreasure();
 
-        private int BasicHPTotal;
+        private readonly int BasicHPTotal;
 
-        private int BasicAtkTotal;
+        private readonly int BasicAtkTotal;
 
         private XunyuanCaveModel Cave;
 
@@ -56,13 +58,129 @@ namespace Dolany.Ai.Doremi.Ai.Game.XunYuan
         private void ProceedTurn()
         {
             var monster = Cave.RandMonster;
+            monster.InitData(BasicHPTotal, BasicAtkTotal);
             PushMsg($"遭遇到了 {monster.Name} !");
             MonsterEncounter(monster);
         }
 
         private void MonsterEncounter(XunyuanMonsterModel monster)
         {
-            // todo
+            while (!monster.IsDead && !IsGameOver())
+            {
+                PlayersTurn(monster);
+
+                if (monster.IsDead || monster.Name == "逃跑的小偷")
+                {
+                    break;
+                }
+
+                MonsterTurn(monster);
+            }
+
+            MonsterSettlement(monster);
+        }
+
+        private void PlayersTurn(XunyuanMonsterModel monster)
+        {
+            var randPlayers = Rander.RandSort(Gamers.ToArray());
+            var firstPlayer = randPlayers[0];
+
+            var choice = 0;
+            if (randPlayers.Length > 1)
+            {
+                choice = Waiter.Instance.WaitForOptions(GroupNum, firstPlayer.QQNum, "请做出抉择！", new[] {"攻击怪物", "攻击队友"}, BindAi);
+            }
+
+            PlayerAct(firstPlayer, choice, monster, randPlayers.Length > 1 ? randPlayers[1] : null);
+
+            if (Gamers.Count <= 1)
+            {
+                return;
+            }
+
+            var secondPlayer = randPlayers[1];
+            choice = Waiter.Instance.WaitForOptions(GroupNum, secondPlayer.QQNum, "请做出抉择！", new[] {"攻击怪物", "攻击队友"}, BindAi);
+            PlayerAct(secondPlayer, choice, monster, firstPlayer);
+        }
+
+        private void PlayerAct(XunYuanGamingModel player, int choice, XunyuanMonsterModel monster, XunYuanGamingModel partner)
+        {
+            switch (choice)
+            {
+                case -1:
+                {
+                    PushMsg("你放弃了思考！");
+                    break;
+                }
+                case 0:
+                {
+                    monster.HP = Math.Max(0, monster.HP - player.Attack);
+                    PushMsg($"{monster.Name} 受到了 {CodeApi.Code_At(player.QQNum)} 的 {player.Attack} 点伤害，剩余 {monster.HP} 点生命值");
+                    break;
+                }
+                case 1:
+                {
+                    partner.HP = Math.Max(0, partner.HP - player.Attack);
+                    PushMsg($"{CodeApi.Code_At(player.QQNum)} 受到了 {CodeApi.Code_At(player.QQNum)} 的 {player.Attack} 点伤害，剩余 {partner.HP} 点生命值");
+                    if (partner.IsDead)
+                    {
+                        PushMsg($"{CodeApi.Code_At(partner.QQNum)} 被移除了队伍！");
+                        Gamers.Remove(partner);
+                    }
+                    break;
+                }
+            }
+        }
+
+        private void MonsterTurn(XunyuanMonsterModel monster)
+        {
+            var target = Gamers[Rander.RandInt(Gamers.Count)];
+
+            target.HP = Math.Max(0, target.HP - monster.Atk);
+            PushMsg($"{CodeApi.Code_At(target.QQNum)} 受到了 {monster.Name} 的 {monster.Atk}点攻击伤害！剩余 {target.HP}点生命");
+            if (!target.IsDead)
+            {
+                return;
+            }
+
+            PushMsg($"{CodeApi.Code_At(target.QQNum)} 被移除了队伍！");
+            Gamers.Remove(target);
+        }
+
+        private void MonsterSettlement(XunyuanMonsterModel monster)
+        {
+            if (monster.IsDead)
+            {
+                if (monster.Name == "逃跑的小偷")
+                {
+                    var armer = EscapeArmerMgr.Instance.RandArmer();
+                    PushMsg($"已经成功击败了 {monster.Name} !获得了 \r{armer.Name} * 1");
+                    TreasureTotal.AddEscape(armer.Name);
+                }
+                else
+                {
+                    var bonusDic = new Dictionary<string, int>();
+                    if (!string.IsNullOrEmpty(monster.DropArmerTag))
+                    {
+                        var armer = ArmerMgr.Instance.RandTagArmer(monster.DropArmerTag);
+                        bonusDic.Add(armer.Name, 1);
+                        TreasureTotal.AddArmer(armer.Name);
+                    }
+
+                    if (monster.DropGolds > 0)
+                    {
+                        bonusDic.Add("金币", monster.DropGolds);
+                        TreasureTotal.Golds += monster.DropGolds;
+                    }
+
+                    PushMsg($"已经成功击败了 {monster.Name} !获得了 \r{string.Join("\r", bonusDic.Select(p => $"{p.Key} * {p.Value}"))}");
+                }
+            }
+            else if(monster.Name == "逃跑的小偷")
+            {
+                TreasureTotal.Clear();
+                PushMsg("很遗憾，所有获得的奖励清空！");
+            }
         }
 
         private void PushMsg(string msg)

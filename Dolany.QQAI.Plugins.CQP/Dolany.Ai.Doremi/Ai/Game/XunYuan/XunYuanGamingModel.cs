@@ -17,5 +17,7 @@ namespace Dolany.Ai.Doremi.Ai.Game.XunYuan
         public int BasicAttack { get; set; }
 
         public int Attack { get; set; }
+
+        public bool IsDead => HP == 0;
     }
 }

@@ -24,18 +24,16 @@ namespace Dolany.Ai.Doremi.Ai.Game.XunYuan
 
         public int DropGolds { get; set; }
 
-        public int HP => HPTimes * _basicHP;
+        public int HP { get; set; }
 
-        public int Atk => AttackTimes * _basicAtk;
+        public int Atk { get; set; }
 
-        private int _basicHP { get; set; }
-
-        private int _basicAtk { get; set; }
+        public bool IsDead => HP == 0;
 
         public void InitData(int BasicHP, int BasicAtk)
         {
-            _basicHP = BasicHP;
-            _basicAtk = BasicAtk;
+            HP = BasicHP * HPTimes;
+            Atk = BasicAtk * AttackTimes;
         }
     }
 }

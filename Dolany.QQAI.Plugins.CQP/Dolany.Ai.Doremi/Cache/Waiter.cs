@@ -251,6 +251,18 @@ namespace Dolany.Ai.Doremi.Cache
 
             return -1;
         }
+
+        public int WaitForOptions(long ToGroup, long ToQQ, string msg, string[] options, string BindAi)
+        {
+            msg += "\r" + string.Join("\r", options.Select((option, idx) => $"{idx + 1}：{option}"));
+            var result = WaitForNum(ToGroup, ToQQ, msg, i => i > 0 && i <= options.Length, BindAi);
+            if (result > 0)
+            {
+                result--;
+            }
+
+            return result;
+        }
     }
 
     public class WaiterUnit
