@@ -227,28 +227,32 @@ namespace Dolany.Ai.Core
                         return;
                     }
 
-                    var availableBindAis = MsgDTO.Type == MsgType.Group && GroupSettingMgr.Instance[MsgDTO.FromGroup] != null
-                        ? GroupSettingMgr.Instance[MsgDTO.FromGroup].BindAis.Where(p => !RecentCommandCache.IsTooFreq(p)).Select(p => BindAiMgr.Instance[p]).ToList()
-                        : new List<BindAiModel>();
+                    var availableBindAis = new List<BindAiModel>();
+                    if (MsgDTO.Type == MsgType.Group && GroupSettingMgr.Instance[MsgDTO.FromGroup] != null)
+                    {
+                        availableBindAis = GroupSettingMgr.Instance[MsgDTO.FromGroup].BindAis.Where(p => !RecentCommandCache.IsTooFreq(p))
+                            .Select(p => BindAiMgr.Instance[p]).ToList();
+                    }
+                    else if(!RecentCommandCache.IsTooFreq(MsgDTO.BindAi))
+                    {
+                        availableBindAis = new List<BindAiModel>(){BindAiMgr.Instance[MsgDTO.BindAi]};
+                    }
 
                     foreach (var ai in AIList)
                     {
-                        if (MsgDTO.Type == MsgType.Group)
+                        var tempList = availableBindAis;
+                        if (ai.IsAdvanced)
                         {
-                            var tempList = availableBindAis;
-                            if (ai.IsAdvanced)
-                            {
-                                tempList = availableBindAis.Where(p => p.IsAdvanced).ToList();
-                            }
+                            tempList = availableBindAis.Where(p => p.IsAdvanced).ToList();
+                        }
 
-                            if (tempList.Any())
-                            {
-                                MsgDTO.BindAi = tempList.RandElement().Name;
-                            }
-                            else if (GroupSettingMgr.Instance[MsgDTO.FromGroup] != null)
-                            {
-                                MsgDTO.BindAi = GroupSettingMgr.Instance[MsgDTO.FromGroup].BindAis.First();
-                            }
+                        if (tempList.Any())
+                        {
+                            MsgDTO.BindAi = tempList.RandElement().Name;
+                        }
+                        else if(ai.PriorityLevel < 25)
+                        {
+                            break;
                         }
 
                         if (ai.OnMsgReceived(MsgDTO))
