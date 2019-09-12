@@ -48,7 +48,7 @@ namespace Dolany.Ai.Doremi.Ai.Game.XunYuan
             }
 
             var msg = $"{CodeApi.Code_At(aimQQ)} 你正被邀请参加一次寻缘，是否同意？";
-            if (!Waiter.Instance.WaitForConfirm(MsgDTO, msg, 10))
+            if (!Waiter.Instance.WaitForConfirm(MsgDTO.FromGroup, aimQQ, msg, MsgDTO.BindAi))
             {
                 MsgSender.PushMsg(MsgDTO, "操作取消！");
                 return false;
