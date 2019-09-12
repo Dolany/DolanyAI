@@ -227,7 +227,7 @@ namespace Dolany.Ai.Core
                         return;
                     }
 
-                    var availableBindAis = MsgDTO.Type == MsgType.Group
+                    var availableBindAis = MsgDTO.Type == MsgType.Group && GroupSettingMgr.Instance[MsgDTO.FromGroup] != null
                         ? GroupSettingMgr.Instance[MsgDTO.FromGroup].BindAis.Where(p => !RecentCommandCache.IsTooFreq(p)).Select(p => BindAiMgr.Instance[p]).ToList()
                         : new List<BindAiModel>();
 
@@ -245,13 +245,9 @@ namespace Dolany.Ai.Core
                             {
                                 MsgDTO.BindAi = tempList.RandElement().Name;
                             }
-                            else if (ai.PriorityLevel > 50)
+                            else if (GroupSettingMgr.Instance[MsgDTO.FromGroup] != null)
                             {
                                 MsgDTO.BindAi = GroupSettingMgr.Instance[MsgDTO.FromGroup].BindAis.First();
-                            }
-                            else
-                            {
-                                break;
                             }
                         }
 
