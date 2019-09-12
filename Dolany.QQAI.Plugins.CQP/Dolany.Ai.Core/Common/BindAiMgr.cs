@@ -17,7 +17,8 @@ namespace Dolany.Ai.Core.Common
             AiDic = CommonUtil.ReadJsonData_NamedList<BindAiModel>("BindAiData").ToDictionary(p => p.Name, p => p);
         }
 
-        public BindAiModel this[string AiName] => AiDic[AiName];
+        public BindAiModel this[string AiName] => AiDic.ContainsKey(AiName) ? AiDic[AiName] : null;
+        public BindAiModel this[long AiNum] => AiDic.Values.FirstOrDefault(p => p.SelfNum == AiNum);
     }
 
     public class BindAiModel : INamedJsonModel

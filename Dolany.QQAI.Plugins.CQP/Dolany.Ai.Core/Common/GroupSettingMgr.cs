@@ -11,7 +11,7 @@ namespace Dolany.Ai.Core.Common
 
         public Dictionary<long, GroupSettings> SettingDic;
 
-        public GroupSettings this[long GroupNum] => SettingDic[GroupNum];
+        public GroupSettings this[long GroupNum] => SettingDic.ContainsKey(GroupNum) ? SettingDic[GroupNum] : null;
 
         private GroupSettingMgr()
         {

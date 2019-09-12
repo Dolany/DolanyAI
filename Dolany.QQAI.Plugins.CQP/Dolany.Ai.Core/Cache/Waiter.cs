@@ -38,7 +38,7 @@ namespace Dolany.Ai.Core.Cache
                 source = Global.AllGroupsDic[info.FromGroup];
             }
 
-            if (BindAiMgr.Instance.AiDic.Any(p => p.Value.SelfNum == info.FromQQ))
+            if (BindAiMgr.Instance[info.FromQQ] != null)
             {
                 return;
             }
@@ -49,7 +49,7 @@ namespace Dolany.Ai.Core.Cache
             if (info.FromGroup != 0)
             {
                 var setting = GroupSettingMgr.Instance[info.FromGroup];
-                if (!setting.BindAis.Contains(info.BindAi) || (setting.ExpiryTime != null && setting.ExpiryTime < DateTime.Now))
+                if (setting == null || !setting.BindAis.Contains(info.BindAi))
                 {
                     return;
                 }

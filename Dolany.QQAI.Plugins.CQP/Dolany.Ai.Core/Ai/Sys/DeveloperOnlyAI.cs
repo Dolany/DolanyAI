@@ -24,7 +24,7 @@ namespace Dolany.Ai.Core.Ai.Sys
 
         public override string Description { get; set; } = "Ai for developer only operations.";
 
-        public override int PriorityLevel { get; set; } = 10;
+        public override int PriorityLevel { get; set; } = 50;
 
         [EnterCommand(ID = "DeveloperOnlyAI_Board",
             Command = "广播",
@@ -580,6 +580,7 @@ namespace Dolany.Ai.Core.Ai.Sys
             switch (key)
             {
                 case "GroupSettings":
+                {
                     if (!long.TryParse(value, out var groupNum))
                     {
                         msg = $"规则引擎解析错误：{groupNum}";
@@ -595,7 +596,9 @@ namespace Dolany.Ai.Core.Ai.Sys
 
                     msg = JsonConvert.SerializeObject(record);
                     break;
+                }
                 case "OSPerson":
+                {
                     if (!long.TryParse(value, out var personNum))
                     {
                         msg = $"规则引擎解析错误：{personNum}";
@@ -611,9 +614,24 @@ namespace Dolany.Ai.Core.Ai.Sys
 
                     msg = JsonConvert.SerializeObject(osPerson);
                     break;
+                }
+                case "Pet":
+                {
+                    if (!long.TryParse(value, out var personNum))
+                    {
+                        msg = $"规则引擎解析错误：{personNum}";
+                        break;
+                    }
+
+                    var pet = PetRecord.Get(personNum);
+                    msg = JsonConvert.SerializeObject(pet);
+                    break;
+                }
                 default:
+                {
                     msg = "未匹配到指定规则，请先查阅世界规则手册！";
                     break;
+                }
             }
 
             MsgSender.PushMsg(MsgDTO, msg);

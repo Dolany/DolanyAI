@@ -126,6 +126,10 @@ namespace Dolany.Ai.Core.Ai.Sys
 
             var setting = GroupSettingMgr.Instance[MsgDTO.FromGroup];
             var expiryDate = $"\r有效期至：{setting.ExpiryTime?.ToLocalTime()}";
+            if (setting.ExpiryTime == null || setting.ExpiryTime < DateTime.Now)
+            {
+                expiryDate += "(已过期)";
+            }
 
             var pState = string.Join("\r", setting.BindAis.Select(p => $"{p}:{(RecentCommandCache.IsTooFreq(p) ? "过热保护" : setting.IsPowerOn ? "开机" : "关机")}"));
             return $"\r电源状态：\r{pState}" + expiryDate;
