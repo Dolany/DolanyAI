@@ -10,8 +10,6 @@ namespace Dolany.Ai.Doremi.Xiuxian
 
         private readonly List<ArmerModel> NormalArmerList;
 
-        private readonly List<ArmerModel> RatedNormalList;
-
         public ArmerModel this[string name]
         {
             get { return NormalArmerList.FirstOrDefault(p => p.Name == name); }
@@ -20,32 +18,11 @@ namespace Dolany.Ai.Doremi.Xiuxian
         private ArmerMgr()
         {
             NormalArmerList = CommonUtil.ReadJsonData_NamedList<ArmerModel>("ArmerData");
-
-            RatedNormalList = new List<ArmerModel>();
-            foreach (var model in NormalArmerList)
-            {
-                for (var i = 0; i < model.Rate; i++)
-                {
-                    RatedNormalList.Add(model);
-                }
-            }
         }
 
         public IEnumerable<ArmerModel> GetRandArmers(int count)
         {
-            var resultList = new List<ArmerModel>();
-            var rand = Rander.RandSort(RatedNormalList.ToArray());
-            for (var i = 0; i < rand.Length && resultList.Count < count; i++)
-            {
-                if (resultList.Any(p => p.Name == rand[i].Name))
-                {
-                    continue;
-                }
-
-                resultList.Add(rand[i]);
-            }
-
-            return resultList;
+            return NormalArmerList.ToDictionary(p => p, p => p.Rate).RandRated(count);
         }
 
         public ArmerModel RandTagArmer(string tagName)
