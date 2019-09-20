@@ -31,11 +31,12 @@ namespace Dolany.Ai.Doremi.Ai.Game.Shopping
             var osPerson = OSPerson.GetPerson(MsgDTO.FromQQ);
             var level = LevelMgr.Instance.GetByLevel(osPerson.Level);
             var exp = MsgCounterSvc.Get(MsgDTO.FromQQ);
+            var armerRecord = PersonArmerRecord.Get(MsgDTO.FromQQ);
 
             var msg = $"等级：{level.Name}\r" +
                       $"经验值：{exp}/{level.Exp}{(exp >= level.Exp ? "(可渡劫)" : "")}\r" +
-                      $"{Emoji.心}:{level.HP}\r" +
-                      $"{Emoji.剑}:{level.Atk}\r" +
+                      $"{Emoji.心}:{level.HP}(+{ArmerMgr.Instance.CountHP(armerRecord.Armers)})\r" +
+                      $"{Emoji.剑}:{level.Atk}(+{ArmerMgr.Instance.CountAtk(armerRecord.Armers)})\r" +
                       $"金币：{osPerson.Golds}";
 
             MsgSender.PushMsg(MsgDTO, msg, true);
