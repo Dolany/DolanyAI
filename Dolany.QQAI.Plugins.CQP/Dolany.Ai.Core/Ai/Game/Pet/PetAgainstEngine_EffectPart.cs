@@ -43,7 +43,7 @@ namespace Dolany.Ai.Core.Ai.Game.Pet
             return msg;
         }
 
-        private void DoRealDemage(GamingPet dest, int realValue)
+        private static void DoRealDemage(GamingPet dest, int realValue)
         {
             dest.HP -= realValue;
             dest.HP = Math.Max(dest.HP, 0);
@@ -58,19 +58,13 @@ namespace Dolany.Ai.Core.Ai.Game.Pet
         private int CalSourceDemage(GamingPet source, DemageType type, int value)
         {
             var result = value;
-            IEnumerable<GamingBuff> buffs = new List<GamingBuff>();
-            switch (type)
+            var buffs = type switch
             {
-                case DemageType.物理:
-                    buffs = source.Buffs.Where(p => p.Trigger == CheckTrigger.PhyAttackFix);
-                    break;
-                case DemageType.魔法:
-                    buffs = source.Buffs.Where(p => p.Trigger == CheckTrigger.MagicAttackFix);
-                    break;
-                case DemageType.毒系:
-                    buffs = source.Buffs.Where(p => p.Trigger == CheckTrigger.PoisionAttackFix);
-                    break;
-            }
+                DemageType.物理 => source.Buffs.Where(p => p.Trigger == CheckTrigger.PhyAttackFix),
+                DemageType.魔法 => source.Buffs.Where(p => p.Trigger == CheckTrigger.MagicAttackFix),
+                DemageType.毒系 => source.Buffs.Where(p => p.Trigger == CheckTrigger.PoisionAttackFix),
+                _ => new List<GamingBuff>()
+            };
             foreach (var buff in buffs)
             {
                 buff.Data.AddSafe("Source", source);
@@ -211,9 +205,7 @@ namespace Dolany.Ai.Core.Ai.Game.Pet
                 Name = "反击Buff",
                 Data = new Dictionary<string, object>()
                 {
-                    {"Hurt", data["Hurt"] },
-                    {"Source", SelfPet },
-                    {"Dest", AimPet }
+                    {"Hurt", data["Hurt"] }
                 },
                 RemainTurn = (int)data["Turn"],
                 Trigger = CheckTrigger.PhyDefenceFix

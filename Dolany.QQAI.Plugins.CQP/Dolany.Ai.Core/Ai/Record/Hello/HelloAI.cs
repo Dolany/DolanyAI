@@ -114,32 +114,22 @@ namespace Dolany.Ai.Core.Ai.Record.Hello
             return true;
         }
 
-        private void SendMultiMediaHello(MsgInformationEx MsgDTO, MultiMediaHelloRecord hello)
+        private static void SendMultiMediaHello(MsgInformationEx MsgDTO, MultiMediaHelloRecord hello)
         {
-            var path = "";
-            switch (hello.Location)
+            var path = hello.Location switch
             {
-                case ResourceLocationType.LocalAbsolute:
-                    path = hello.ContentPath;
-                    break;
-                case ResourceLocationType.LocalRelative:
-                    path = new FileInfo(hello.ContentPath).FullName;
-                    break;
-                case ResourceLocationType.Network:
-                    path = hello.ContentPath;
-                    break;
-            }
+                ResourceLocationType.LocalAbsolute => hello.ContentPath,
+                ResourceLocationType.LocalRelative => new FileInfo(hello.ContentPath).FullName,
+                ResourceLocationType.Network => hello.ContentPath,
+                _ => ""
+            };
 
-            var msg = "";
-            switch (hello.MediaType)
+            var msg = hello.MediaType switch
             {
-                case MultiMediaResourceType.Image:
-                    msg = CodeApi.Code_Image(path);
-                    break;
-                case MultiMediaResourceType.Voice:
-                    msg = CodeApi.Code_Voice(path);
-                    break;
-            }
+                MultiMediaResourceType.Image => CodeApi.Code_Image(path),
+                MultiMediaResourceType.Voice => CodeApi.Code_Voice(path),
+                _ => ""
+            };
 
             MsgSender.PushMsg(MsgDTO, msg);
         }
