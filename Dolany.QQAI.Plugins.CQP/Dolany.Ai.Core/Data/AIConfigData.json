@@ -18,7 +18,7 @@
   "Mutex": "DolanyAI",
   "FixedSetMutex": "DolanyFixed",
   "FixedSetCacheDb": "C:/AIDB/fixedSetCache.db",
-  "MongoConnStr": "mongodb://Dolany:Dolany_2160727@106.54.55.110:27017/?authMechanism=SCRAM-SHA-256&authSource=DolanyAI",
+  "MongoConnStr": "mongodb://Dolany:Dolany_2160727@localhost:27017/?authMechanism=SCRAM-SHA-256&authSource=DolanyAI",
   "MongoDbName": "DolanyAI",
   "MainAi": "Cirno"
 }
