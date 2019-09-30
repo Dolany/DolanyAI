@@ -376,5 +376,52 @@
       }
     ]
   },
-  ""
+  "单推人": {
+    "Year": 2019,
+    "Month": 10,
+    "Items": [
+      {
+        "Name": "神乐咩啊",
+        "Description": "迷迭迷迭帕里桑~...",
+        "Rate": 15,
+        "Price": 150
+      },
+      {
+        "Name": "夏色祭",
+        "Description": "斯哈斯哈，斯哈斯哈...",
+        "Rate": 15,
+        "Price": 150
+      },
+      {
+        "Name": "新科娘",
+        "Description": "我永远喜欢CCTV...",
+        "Rate": 15,
+        "Price": 150
+      },
+      {
+        "Name": "白上吹雪",
+        "Description": "我系猫咪，不系狐狸...",
+        "Rate": 15,
+        "Price": 150
+      },
+      {
+        "Name": "神乐七奈",
+        "Description": "人生不易，狗妈叹气...",
+        "Rate": 15,
+        "Price": 150
+      },
+      {
+        "Name": "绊爱",
+        "Description": "花Q！...",
+        "Rate": 15,
+        "Price": 150
+      },
+      {
+        "Name": "辉夜月",
+        "Description": "吵死啦！...",
+        "Rate": 15,
+        "Price": 150
+      }
+    ] 
+  } 
 }
