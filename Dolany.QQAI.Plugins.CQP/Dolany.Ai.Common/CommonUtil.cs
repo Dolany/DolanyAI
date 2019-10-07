@@ -64,7 +64,6 @@ namespace Dolany.Ai.Common
         /// <typeparam name="TValue">Value类型</typeparam>
         /// <param name="dic">字典</param>
         /// <param name="valueExpression">Value判定表达式</param>
-        /// <exception cref="NullReferenceException">dic为空</exception>
         public static void Remove<TKey, TValue>(this Dictionary<TKey, TValue> dic, Expression<Predicate<TValue>> valueExpression)
         {
             if (dic == null || !dic.Any())

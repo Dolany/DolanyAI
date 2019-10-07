@@ -13,7 +13,7 @@ namespace Dolany.Ai.Core.Ai.Game.Advanture
     {
         public readonly long GroupNum;
 
-        public readonly string BindAi;
+        private readonly string BindAi;
 
         public readonly AdvPlayer[] players;
 
@@ -34,7 +34,7 @@ namespace Dolany.Ai.Core.Ai.Game.Advanture
         {
             this.players = players;
             this.GroupNum = GroupNum;
-            this.CaveModel = CaveSettingHelper.Instance.GetCaveByNo(CaveNo);
+            CaveModel = CaveSettingHelper.Instance.GetCaveByNo(CaveNo);
             this.BindAi = BindAi;
 
             for (var i = 0; i < 3; i++)
@@ -220,7 +220,7 @@ namespace Dolany.Ai.Core.Ai.Game.Advanture
 
         private string PrintCaves()
         {
-            var msgList = CaveList.Select((t, i) => $"{i + 1}:{(t.Visible ? t.Description : "未知")}").ToList();
+            var msgList = CaveList.Select((cave, idx) => $"{idx + 1}:{(cave.Visible ? cave.Description : "未知")}").ToList();
 
             return string.Join("\r", msgList);
         }

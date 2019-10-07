@@ -209,7 +209,7 @@ namespace Dolany.Ai.Core.Ai.Record.Hello
             }
 
             MongoService<HelloRecord>.Delete(query);
-            this.HelloList.Remove(query);
+            HelloList.Remove(query);
 
             MsgSender.PushMsg(MsgDTO, "删除成功！");
             return true;

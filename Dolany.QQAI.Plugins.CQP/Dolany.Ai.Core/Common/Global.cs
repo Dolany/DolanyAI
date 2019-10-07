@@ -21,7 +21,6 @@ namespace Dolany.Ai.Core.Common
 
         public static Dictionary<long, string> AllGroupsDic => GroupSettingMgr.Instance.SettingDic.ToDictionary(p => p.Key, p => p.Value.Name);
 
-        public static readonly RabbitMQService CommandInfoService =
-            new RabbitMQService(DefaultConfig.InformationQueueName);
+        public static readonly RabbitMQService CommandInfoService = new RabbitMQService(DefaultConfig.InformationQueueName);
     }
 }

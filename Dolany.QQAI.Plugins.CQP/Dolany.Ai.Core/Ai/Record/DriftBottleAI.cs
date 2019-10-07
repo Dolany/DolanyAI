@@ -357,9 +357,8 @@ namespace Dolany.Ai.Core.Ai.Record
             var allRecord = MongoService<ItemCollectionRecord>.Get(r => r.HonorCollections.ContainsKey(LimitHonor.Name));
             var itemDic = LimitItemsNames.ToDictionary(p => p, p => 0);
 
-            foreach (var record in allRecord)
+            foreach (var colle in allRecord.Select(record => record.HonorCollections[LimitHonor.Name]))
             {
-                var colle = record.HonorCollections[LimitHonor.Name];
                 foreach (var (key, value) in colle.Items)
                 {
                     itemDic[key] += value;

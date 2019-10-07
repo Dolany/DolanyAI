@@ -43,7 +43,7 @@ namespace Dolany.Ai.Core.Cache
                 return;
             }
 
-            var msg = $"[Info] {info.BindAi} {source} {info.FromQQ} {info.Msg}";
+            var msg = $"[Info] {info.BindAi} {source} {QQNumReflectMgr.Instance[info.FromQQ]} {info.Msg}";
             AIMgr.Instance.MessagePublish(msg);
 
             if (info.FromGroup != 0)

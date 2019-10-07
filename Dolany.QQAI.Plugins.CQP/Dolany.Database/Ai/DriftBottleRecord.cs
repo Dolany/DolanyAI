@@ -1,7 +1,7 @@
-﻿namespace Dolany.Database.Ai
-{
-    using System;
+﻿using System;
 
+namespace Dolany.Database.Ai
+{
     public class DriftBottleRecord : DbBaseEntity
     {
         public long FromGroup { get; set; }
