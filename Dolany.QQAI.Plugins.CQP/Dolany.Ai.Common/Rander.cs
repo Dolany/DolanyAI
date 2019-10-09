@@ -74,9 +74,9 @@ namespace Dolany.Ai.Common
             var resultList = new List<TKey>();
             for (var i = 0; i < randArray.Length && resultList.Count < count; i++)
             {
-                if (!resultList.Contains(resultList[i]))
+                if (!resultList.Contains(randArray[i]))
                 {
-                    resultList.Add(resultList[i]);
+                    resultList.Add(randArray[i]);
                 }
             }
 

@@ -49,9 +49,9 @@ namespace Dolany.Ai.Core.OnlineStore
             }
         }
 
-        public bool CheckItem(string itemName)
+        public bool CheckItem(string itemName, int count = 1)
         {
-            return HonorCollections.Values.Any(p => p.Items.ContainsKey(itemName));
+            return HonorCollections.Values.Any(p => p.Items.ContainsKey(itemName) && p.Items[itemName] >= count);
         }
 
         public int GetCount(string itemName)

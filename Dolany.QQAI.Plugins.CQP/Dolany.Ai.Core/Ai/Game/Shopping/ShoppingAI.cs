@@ -47,17 +47,52 @@ namespace Dolany.Ai.Core.Ai.Game.Shopping
             var item = HonorHelper.Instance.FindItem(name);
             if (item != null)
             {
-                SellItem(MsgDTO, item);
-                return true;
+                return SellItem(MsgDTO, item);
             }
 
             if (HonorHelper.Instance.FindHonor(name) != null)
             {
-                SellHonor(MsgDTO, name);
-                return true;
+                return SellHonor(MsgDTO, name);
             }
 
             MsgSender.PushMsg(MsgDTO, "未查找到相关物品或成就！");
+            return false;
+        }
+
+        [EnterCommand(ID = "ShoppingAI_SellMulti",
+            Command = "贩卖 出售",
+            AuthorityLevel = AuthorityLevel.成员,
+            Description = "批量贩卖物品",
+            Syntax = "[物品名] [物品数量]",
+            Tag = "商店功能",
+            SyntaxChecker = "Word Long",
+            IsPrivateAvailable = true,
+            DailyLimit = 3,
+            TestingDailyLimit = 5)]
+        public bool SellMulti(MsgInformationEx MsgDTO, object[] param)
+        {
+            if (OSPersonBuff.CheckBuff(MsgDTO.FromQQ, "快晴"))
+            {
+                MsgSender.PushMsg(MsgDTO, "你无法进行该操作！(快晴)");
+                return false;
+            }
+
+            var name = param[0] as string;
+            var count = (int) (long) param[1];
+            if (count <= 0)
+            {
+                MsgSender.PushMsg(MsgDTO, "错误的物品数量！");
+                return false;
+            }
+
+            var item = HonorHelper.Instance.FindItem(name);
+            if (item != null)
+            {
+                SellItem(MsgDTO, item, count);
+                return true;
+            }
+
+            MsgSender.PushMsg(MsgDTO, "未查找到相关物品！");
             return false;
         }
 
@@ -96,7 +131,7 @@ namespace Dolany.Ai.Core.Ai.Game.Shopping
             }).ToList();
             var msg = $"你即将贩卖{ictm.Sum(i => i.Count)}件物品，" +
                       $"其中有{ictm.Count(i => i.IsLimit)}件限定物品，" +
-                      $"共价值{ictm.Sum(p => p.Price)}金币，是否继续？";
+                      $"共价值{ictm.Sum(p => p.Price * p.Count)}金币，是否继续？";
             if (!Waiter.Instance.WaitForConfirm(MsgDTO, msg))
             {
                 MsgSender.PushMsg(MsgDTO, "操作取消！");
@@ -110,41 +145,42 @@ namespace Dolany.Ai.Core.Ai.Game.Shopping
             record.Update();
 
             var osPerson = OSPerson.GetPerson(MsgDTO.FromQQ);
-            osPerson.Golds += ictm.Sum(p => p.Price);
+            osPerson.Golds += ictm.Sum(p => p.Price * p.Count);
             osPerson.Update();
 
             MsgSender.PushMsg(MsgDTO, $"贩卖成功，你当前拥有{osPerson.Golds}金币！");
             return true;
         }
 
-        private static void SellItem(MsgInformationEx MsgDTO, DriftBottleItemModel item)
+        private static bool SellItem(MsgInformationEx MsgDTO, DriftBottleItemModel item, int count = 1)
         {
             var record = ItemCollectionRecord.Get(MsgDTO.FromQQ);
-            if (!record.CheckItem(item.Name))
+            if (!record.CheckItem(item.Name, count))
             {
-                MsgSender.PushMsg(MsgDTO, "你的背包里没有该物品！");
-                return;
+                MsgSender.PushMsg(MsgDTO, "你的背包里没有足够多的该物品！");
+                return false;
             }
 
             var price = HonorHelper.GetItemPrice(item, MsgDTO.FromQQ);
-            var msg = $"贩卖此物品将获得 {price} 金币，是否确认贩卖？";
+            var msg = $"贩卖 {item.Name}*{count} 将获得 {price * count} 金币，是否确认贩卖？";
             if (!Waiter.Instance.WaitForConfirm(MsgDTO, msg))
             {
                 MsgSender.PushMsg(MsgDTO, "交易取消！");
-                return;
+                return false;
             }
 
-            var golds = TransHelper.SellItemToShop(MsgDTO.FromQQ, item.Name);
+            var golds = TransHelper.SellItemToShop(MsgDTO.FromQQ, item.Name, count);
             MsgSender.PushMsg(MsgDTO, $"贩卖成功！你当前拥有金币 {golds}");
+            return true;
         }
 
-        private static void SellHonor(MsgInformationEx MsgDTO, string honorName)
+        private static bool SellHonor(MsgInformationEx MsgDTO, string honorName)
         {
             var query = MongoService<ItemCollectionRecord>.GetOnly(r => r.QQNum == MsgDTO.FromQQ);
             if (query == null || query.HonorCollections.IsNullOrEmpty())
             {
                 MsgSender.PushMsg(MsgDTO, "你尚未拥有任何物品！");
-                return;
+                return false;
             }
 
             var items = HonorHelper.Instance.FindHonor(honorName).Items;
@@ -152,7 +188,7 @@ namespace Dolany.Ai.Core.Ai.Game.Shopping
             if (!honorCollection.ContainsKey(honorName) || honorCollection[honorName].Items.Count < items.Count)
             {
                 MsgSender.PushMsg(MsgDTO, "你尚未集齐该成就下的所有物品！");
-                return;
+                return false;
             }
 
             var price = HonorHelper.Instance.GetHonorPrice(honorName, MsgDTO.FromQQ);
@@ -160,11 +196,12 @@ namespace Dolany.Ai.Core.Ai.Game.Shopping
             if (!Waiter.Instance.WaitForConfirm(MsgDTO, msg))
             {
                 MsgSender.PushMsg(MsgDTO, "交易取消！");
-                return;
+                return false;
             }
 
             var golds = TransHelper.SellHonorToShop(query, MsgDTO.FromQQ, honorName);
             MsgSender.PushMsg(MsgDTO, $"贩卖成功！你当前拥有金币 {golds}");
+            return true;
         }
 
         [EnterCommand(ID = "ShoppingAI_ShopInfo",

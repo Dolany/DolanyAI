@@ -52,7 +52,7 @@ namespace Dolany.Ai.Core.Ai.Game.Pet
         private int GetRealDemageValue(GamingPet source, GamingPet dest, DemageType type, int value)
         {
             var demage = CalSourceDemage(source, type, value);
-            return CalDestDemage(dest, type, demage);
+            return CalDestDemage(source, dest, type, demage);
         }
 
         private int CalSourceDemage(GamingPet source, DemageType type, int value)
@@ -75,7 +75,7 @@ namespace Dolany.Ai.Core.Ai.Game.Pet
             return result;
         }
 
-        private int CalDestDemage(GamingPet dest, DemageType type, int value)
+        private int CalDestDemage(GamingPet source, GamingPet dest, DemageType type, int value)
         {
             var result = value;
             IEnumerable<GamingBuff> buffs = new List<GamingBuff>();
@@ -93,6 +93,7 @@ namespace Dolany.Ai.Core.Ai.Game.Pet
             }
             foreach (var buff in buffs)
             {
+                buff.Data.AddSafe("Source", source);
                 buff.Data.AddSafe("Dest", dest);
                 buff.Data.AddSafe("Value", result);
                 result = int.Parse(ProcessEffect(buff));

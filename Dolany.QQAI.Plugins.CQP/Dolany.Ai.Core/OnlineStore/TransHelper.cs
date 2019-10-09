@@ -8,13 +8,13 @@ namespace Dolany.Ai.Core.OnlineStore
 {
     public class TransHelper
     {
-        public static int SellItemToShop(long QQNum, string itemName)
+        public static int SellItemToShop(long QQNum, string itemName, int count = 1)
         {
             var price = HonorHelper.GetItemPrice(HonorHelper.Instance.FindItem(itemName), QQNum);
 
-            var golds = OSPerson.GoldIncome(QQNum, price);
+            var golds = OSPerson.GoldIncome(QQNum, price * count);
             var record = ItemCollectionRecord.Get(QQNum);
-            record.ItemConsume(itemName);
+            record.ItemConsume(itemName, count);
             record.Update();
 
             return golds;
