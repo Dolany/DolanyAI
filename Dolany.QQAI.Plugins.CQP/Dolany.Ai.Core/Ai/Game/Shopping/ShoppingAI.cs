@@ -585,14 +585,14 @@ namespace Dolany.Ai.Core.Ai.Game.Shopping
                 return false;
             }
 
+            osPerson.Level++;
+            osPerson.HonorNames.Add(honorName);
+            osPerson.Update();
+
             foreach (var honor in normalHonors.Select(p => p.Key))
             {
                 TransHelper.SellHonorToShop(itemColl, MsgDTO.FromQQ, honor);
             }
-
-            osPerson.Level++;
-            osPerson.HonorNames.Add(honorName);
-            osPerson.Update();
 
             MsgSender.PushMsg(MsgDTO, "转生成功！");
             return true;

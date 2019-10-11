@@ -32,6 +32,8 @@ namespace Dolany.Ai.Core.Ai.Game.Explore
 
         public string PicPath { get; set; }
 
+        public string[] AdjoinAreas { get; set; }
+
         public List<ExploreEncounterModel> Encounters { get; set; }
     }
 
