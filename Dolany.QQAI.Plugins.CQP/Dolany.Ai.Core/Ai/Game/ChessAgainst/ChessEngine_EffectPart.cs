@@ -189,7 +189,10 @@ namespace Dolany.Ai.Core.Ai.Game.ChessAgainst
 
             var (key, _) = commonItems.RandElement();
 
-            var golds = TransHelper.SellItemToShop(SelfQQNum, key);
+            var osPerson = OSPerson.GetPerson(SelfQQNum);
+            var golds = TransHelper.SellItemToShop(SelfQQNum, key, osPerson);
+            osPerson.Update();
+
             MsgSender.PushMsg(GroupNum, 0, $"你贩卖了 {key}\r你当前拥有金币 {golds}", BindAi);
         }
 

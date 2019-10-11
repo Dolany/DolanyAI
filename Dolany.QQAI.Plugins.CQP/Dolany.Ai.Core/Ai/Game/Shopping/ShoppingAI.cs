@@ -169,7 +169,10 @@ namespace Dolany.Ai.Core.Ai.Game.Shopping
                 return false;
             }
 
-            var golds = TransHelper.SellItemToShop(MsgDTO.FromQQ, item.Name, count);
+            var osPerson = OSPerson.GetPerson(MsgDTO.FromQQ);
+            var golds = TransHelper.SellItemToShop(MsgDTO.FromQQ, item.Name, osPerson, count);
+            osPerson.Update();
+
             MsgSender.PushMsg(MsgDTO, $"贩卖成功！你当前拥有金币 {golds}");
             return true;
         }
@@ -199,7 +202,10 @@ namespace Dolany.Ai.Core.Ai.Game.Shopping
                 return false;
             }
 
-            var golds = TransHelper.SellHonorToShop(query, MsgDTO.FromQQ, honorName);
+            var osPerson = OSPerson.GetPerson(MsgDTO.FromQQ);
+            var golds = TransHelper.SellHonorToShop(query, MsgDTO.FromQQ, honorName, osPerson);
+            osPerson.Update();
+
             MsgSender.PushMsg(MsgDTO, $"贩卖成功！你当前拥有金币 {golds}");
             return true;
         }
@@ -587,12 +593,12 @@ namespace Dolany.Ai.Core.Ai.Game.Shopping
 
             osPerson.Level++;
             osPerson.HonorNames.Add(honorName);
-            osPerson.Update();
 
             foreach (var honor in normalHonors.Select(p => p.Key))
             {
-                TransHelper.SellHonorToShop(itemColl, MsgDTO.FromQQ, honor);
+                TransHelper.SellHonorToShop(itemColl, MsgDTO.FromQQ, honor, osPerson);
             }
+            osPerson.Update();
 
             MsgSender.PushMsg(MsgDTO, "转生成功！");
             return true;
