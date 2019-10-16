@@ -165,7 +165,7 @@ namespace Dolany.Ai.Core.Ai.Game.Pet
             var picGuid = Utility.ParsePicGuid(info.Msg);
             var imageCache = Utility.ReadImageCacheInfo(picGuid, bindai.ImagePath);
 
-            if (imageCache?.type.ToLower() != "jpg")
+            if (imageCache?.type?.ToLower() != "jpg")
             {
                 MsgSender.PushMsg(MsgDTO, "抱歉，暂时只支持jpg格式的图片！");
                 return false;
