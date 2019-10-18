@@ -35,5 +35,7 @@ namespace Dolany.Ai.Core.OnlineStore
         public int Month { get; set; }
 
         public override string FullName => $"{Name}({Year}{Month:00}限定)";
+
+        public string SortKey => $"{Year}{Month:00}";
     }
 }
