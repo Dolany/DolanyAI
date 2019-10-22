@@ -393,8 +393,7 @@ namespace Dolany.Ai.Core.Ai.Record
             IsPrivateAvailable = true)]
         public bool LimitItemReport(MsgInformationEx MsgDTO, object[] param)
         {
-            var LimitHonor = HonorHelper.Instance.HonorList.First(h =>
-                h is LimitHonorModel model && model.Year == DateTime.Now.Year && model.Month == DateTime.Now.Month);
+            var LimitHonor = HonorHelper.Instance.HonorList.First(h => h is LimitHonorModel model && model.IsCurLimit);
             var LimitItemsNames = LimitHonor.Items.Select(i => i.Name);
 
             var allRecord = MongoService<ItemCollectionRecord>.Get(r => r.HonorCollections.ContainsKey(LimitHonor.Name));

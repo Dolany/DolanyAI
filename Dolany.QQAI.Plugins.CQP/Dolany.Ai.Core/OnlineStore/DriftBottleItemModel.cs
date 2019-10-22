@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 
 namespace Dolany.Ai.Core.OnlineStore
 {
@@ -37,5 +38,7 @@ namespace Dolany.Ai.Core.OnlineStore
         public override string FullName => $"{Name}({Year}{Month:00}限定)";
 
         public string SortKey => $"{Year}{Month:00}";
+
+        public bool IsCurLimit => DateTime.Now.Year == Year && DateTime.Now.Month == Month;
     }
 }

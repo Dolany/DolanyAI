@@ -9,7 +9,7 @@ namespace Dolany.Ai.Core.OnlineStore
 {
     public class HonorHelper
     {
-        public static HonorHelper Instance { get; set; } = new HonorHelper();
+        public static HonorHelper Instance { get; } = new HonorHelper();
 
         public readonly List<HonorModel> HonorList = new List<HonorModel>();
 
@@ -36,7 +36,7 @@ namespace Dolany.Ai.Core.OnlineStore
 
             foreach (var (key, value) in LimitHonors)
             {
-                if (value.Year != DateTime.Now.Year || value.Month != DateTime.Now.Month)
+                if (!value.IsCurLimit)
                 {
                     foreach (var item in value.Items)
                     {
@@ -54,8 +54,7 @@ namespace Dolany.Ai.Core.OnlineStore
 
         public IEnumerable<DriftBottleItemModel> CurMonthLimitItems()
         {
-            return HonorList.First(h => h is LimitHonorModel limitHonor && limitHonor.Year == DateTime.Now.Year && limitHonor.Month == DateTime.Now.Month).Items
-                .ToArray();
+            return HonorList.First(h => h is LimitHonorModel limitHonor && limitHonor.IsCurLimit).Items.ToArray();
         }
 
         public DriftBottleItemModel FindItem(string name)
