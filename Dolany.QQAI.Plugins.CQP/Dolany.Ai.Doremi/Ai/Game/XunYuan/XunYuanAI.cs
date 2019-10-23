@@ -24,7 +24,7 @@ namespace Dolany.Ai.Doremi.Ai.Game.XunYuan
             Tag = "寻缘功能",
             SyntaxChecker = "At",
             IsPrivateAvailable = false,
-            DailyLimit = 1)]
+            DailyLimit = 3)]
         public bool Xunyuan(MsgInformationEx MsgDTO, object[] param)
         {
             var aimQQ = (long) param[0];

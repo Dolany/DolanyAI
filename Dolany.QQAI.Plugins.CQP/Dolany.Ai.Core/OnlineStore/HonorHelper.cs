@@ -160,10 +160,11 @@ namespace Dolany.Ai.Core.OnlineStore
 
         public IList<string> GetOrderedItemsStr(Dictionary<string, int> items)
         {
-            var itemHonorDic = items.Select(i => new {Honor = FindHonorFullName(i.Key), i.Key, i.Value})
+            var itemHonorDic = items.Select(i => new {Honor = FindHonor(FindHonorName(i.Key)), i.Key, i.Value})
                 .GroupBy(p => p.Honor)
                 .ToDictionary(p => p.Key, p => p.ToList());
-            var list = itemHonorDic.Select(kv => $"{kv.Key}:{string.Join(",", kv.Value.Select(p => $"{p.Key}*{p.Value}"))}");
+            var list = itemHonorDic.Select(kv =>
+                $"{kv.Key.FullName}({kv.Value.Count}/{kv.Key.Items.Count}):{string.Join(",", kv.Value.Select(p => $"{p.Key}*{p.Value}"))}");
             return list.ToList();
         }
     }

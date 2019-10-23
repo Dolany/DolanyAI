@@ -93,7 +93,7 @@ namespace Dolany.Ai.Doremi.Ai.Game.XunYuan
 
             PlayerAct(firstPlayer, choice, monster, randPlayers.Length > 1 ? randPlayers[1] : null);
 
-            if (Gamers.Count <= 1)
+            if (Gamers.Count <= 1 || monster.IsDead)
             {
                 return;
             }
