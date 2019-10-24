@@ -36,7 +36,7 @@ namespace Dolany.Ai.Core.Common
         {
             lock (Lock)
             {
-                return Commands.Where(p => p.BindAi == BindAi).GroupBy(c => c.GroupNum).Select(c => new GroupAnalyzeModel()
+                return Commands.GroupBy(c => c.GroupNum).Select(c => new GroupAnalyzeModel()
                 {
                     GroupNum = c.Key,
                     CommandCount = c.Count()
@@ -48,7 +48,7 @@ namespace Dolany.Ai.Core.Common
         {
             lock (Lock)
             {
-                return Commands.Where(p => p.BindAi == BindAi).GroupBy(c => c.Ai).Select(c => new AIAnalyzeModel()
+                return Commands.GroupBy(c => c.Ai).Select(c => new AIAnalyzeModel()
                 {
                     AIName = c.Key,
                     CommandCount = c.Count()
@@ -60,7 +60,7 @@ namespace Dolany.Ai.Core.Common
         {
             lock (Lock)
             {
-                return Commands.Where(c => c.BindAi == BindAi && c.Time.AddHours(12) > DateTime.Now).GroupBy(c => c.Time.Hour).Select(c => new TimeAnalyzeModel()
+                return Commands.Where(c => c.Time.AddHours(12) > DateTime.Now).GroupBy(c => c.Time.Hour).Select(c => new TimeAnalyzeModel()
                 {
                     Hour = c.Key,
                     CommandCount = c.Count()
@@ -72,7 +72,7 @@ namespace Dolany.Ai.Core.Common
         {
             lock (Lock)
             {
-                return Commands.Where(p => p.BindAi == BindAi).GroupBy(c => c.Command).Select(c => new CommandAnalyzeModel()
+                return Commands.GroupBy(c => c.Command).Select(c => new CommandAnalyzeModel()
                 {
                     Command = c.Key,
                     CommandCount = c.Count()

@@ -184,10 +184,10 @@ namespace Dolany.Ai.Core.Ai.Record
             var itemMsgs = HonorHelper.Instance.GetOrderedItemsStr(query.HonorCollections.Where(p => p.Value.Type == HonorType.Limit)
                 .OrderByDescending(p => (HonorHelper.Instance.FindHonor(p.Key) as LimitHonorModel)?.SortKey).SelectMany(p => p.Value.Items)
                 .ToDictionary(p => p.Key, p => p.Value));
-            var msg = $"你收集到的限定物品有：\r{string.Join("\r", itemMsgs.Take(7))}";
-            if (itemMsgs.Count > 7)
+            var msg = $"你收集到的限定物品有：\r{string.Join("\r", itemMsgs.Take(5))}";
+            if (itemMsgs.Count > 5)
             {
-                msg += $"\r当前显示第 1/{(itemMsgs.Count - 1) / 7 + 1}页，请使用 我的物品 [页码] 命令查看更多物品！";
+                msg += $"\r当前显示第 1/{(itemMsgs.Count - 1) / 5 + 1}页，请使用 我的物品 [页码] 命令查看更多物品！";
             }
             MsgSender.PushMsg(MsgDTO, msg, true);
             return true;
@@ -249,17 +249,17 @@ namespace Dolany.Ai.Core.Ai.Record
             var itemMsgs = HonorHelper.Instance.GetOrderedItemsStr(query.HonorCollections.Where(p => p.Value.Type == HonorType.Limit)
                 .OrderByDescending(p => (HonorHelper.Instance.FindHonor(p.Key) as LimitHonorModel)?.SortKey).SelectMany(p => p.Value.Items)
                 .ToDictionary(p => p.Key, p => p.Value));
-            var totalPageCount = (itemMsgs.Count - 1) / 7 + 1;
+            var totalPageCount = (itemMsgs.Count - 1) / 5 + 1;
             if (pageNo <= 0 || pageNo > totalPageCount)
             {
                 MsgSender.PushMsg(MsgDTO, "页码错误！", true);
                 return false;
             }
 
-            var msg = $"该页的物品有：\r{string.Join("\r", itemMsgs.Skip((pageNo - 1) * 7).Take(7))}";
-            if (itemMsgs.Count > 7)
+            var msg = $"该页的物品有：\r{string.Join("\r", itemMsgs.Skip((pageNo - 1) * 5).Take(5))}";
+            if (itemMsgs.Count > 5)
             {
-                msg += $"\r当前显示第 {pageNo}/{(itemMsgs.Count - 1) / 7 + 1}页，请使用 我的限定物品 [页码] 命令查看更多物品！";
+                msg += $"\r当前显示第 {pageNo}/{(itemMsgs.Count - 1) / 5 + 1}页，请使用 我的限定物品 [页码] 命令查看更多物品！";
             }
             MsgSender.PushMsg(MsgDTO, msg, true);
             return true;
