@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.Linq;
 using Dolany.Database;
 
 namespace Dolany.Ai.Core.Ai.Game.SegmentAttach
@@ -10,6 +11,22 @@ namespace Dolany.Ai.Core.Ai.Game.SegmentAttach
         public string Segment { get; set; }
 
         public Dictionary<string, int> TreasureRecord { get; set; } = new Dictionary<string, int>();
+
+        public int FinalTreasureCount { get; set; }
+
+        public bool CanOpenFinalTreasure
+        {
+            get
+            {
+                if (TreasureRecord.Count < SegmentMgr.Instance.Treasures.Count)
+                {
+                    return false;
+                }
+
+                var totalCanOpenCount = TreasureRecord.Values.Min();
+                return totalCanOpenCount > FinalTreasureCount;
+            }
+        }
 
         public static SegmentRecord Get(long QQNum)
         {

@@ -27,6 +27,8 @@ namespace Dolany.Ai.Core.OnlineStore
         public List<DriftBottleItemModel> Items { get; set; }
 
         public virtual string FullName => Name;
+
+        public bool IsLimit => this is LimitHonorModel;
     }
 
     public class LimitHonorModel : HonorModel

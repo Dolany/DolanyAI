@@ -25,8 +25,6 @@ namespace Dolany.Ai.Core.Ai.Game.Pet
 
         private const int FeedInterval = 2;
 
-        private GameMgr<PetCardGameEngine, PetCardRecord> GameMgr { get; set; } = new GameMgr<PetCardGameEngine, PetCardRecord>("东方卡牌对战");
-
         [EnterCommand(ID = "PetAI_MyPet",
             Command = "我的宠物",
             AuthorityLevel = AuthorityLevel.成员,

@@ -1,10 +1,12 @@
 ﻿using System.Linq;
 using Dolany.Ai.Common;
 using Dolany.Ai.Common.Models;
+using Dolany.Ai.Core.Ai.Game.Pet;
 using Dolany.Ai.Core.Base;
 using Dolany.Ai.Core.Cache;
 using Dolany.Ai.Core.Common;
 using Dolany.Ai.Core.OnlineStore;
+using Dolany.Database.Ai;
 
 namespace Dolany.Ai.Core.Ai.Game.SegmentAttach
 {
@@ -131,8 +133,91 @@ namespace Dolany.Ai.Core.Ai.Game.SegmentAttach
                 return false;
             }
 
-            var msg = string.Join("\r", record.TreasureRecord.Select(p => $"{p.Key}：{p.Value}次"));
+            var recMsgList = record.TreasureRecord.Select(p => $"{p.Key}：{p.Value}次").ToList();
+            recMsgList.Add($"总计：{record.TreasureRecord.Sum(p => p.Value)}次");
+            var finalMsg = $"终极宝藏：{record.FinalTreasureCount}次";
+            if (record.CanOpenFinalTreasure)
+            {
+                finalMsg += $"(还可开启{record.TreasureRecord.Values.Min() - record.FinalTreasureCount}次)";
+            }
+            recMsgList.Add(finalMsg);
+            var msg = string.Join("\r", recMsgList);
             MsgSender.PushMsg(MsgDTO, msg);
+            return true;
+        }
+
+        [EnterCommand(ID = "SegmentAttachAI_OpenFinalTreasure",
+            Command = "开启终极宝藏",
+            AuthorityLevel = AuthorityLevel.成员,
+            Description = "开启过所有宝藏之后，可以开启传说中的终极宝藏！",
+            Syntax = "",
+            SyntaxChecker = "Empty",
+            Tag = "宝藏功能",
+            IsPrivateAvailable = true)]
+        public bool OpenFinalTreasure(MsgInformationEx MsgDTO, object[] param)
+        {
+            var record = SegmentRecord.Get(MsgDTO.FromQQ);
+            if (!record.CanOpenFinalTreasure)
+            {
+                MsgSender.PushMsg(MsgDTO, "很遗憾，你还不能开启终极宝藏，继续努力吧！", true);
+                return false;
+            }
+
+            var options = new[] {"获取500金币", "随机获取商店售卖的一件商品*5", "宠物获取50点经验值", "捞瓶子机会*5(仅当日有效)"};
+            var selectedIdx = Waiter.Instance.WaitForOptions(MsgDTO.FromGroup, MsgDTO.FromQQ, "请选择你要开启的宝藏：", options, MsgDTO.BindAi);
+            if (selectedIdx < 0)
+            {
+                MsgSender.PushMsg(MsgDTO, "你已经放弃了思考！");
+                return false;
+            }
+
+            switch (selectedIdx)
+            {
+                case 0:
+                {
+                    var osPerson = OSPerson.GetPerson(MsgDTO.FromQQ);
+                    osPerson.Golds += 500;
+                    osPerson.Update();
+
+                    MsgSender.PushMsg(MsgDTO, "恭喜你获得了 500金币！");
+                    break;
+                }
+                case 1:
+                {
+                    var items = TransHelper.GetDailySellItems();
+                    var randItem = items.RandElement();
+
+                    MsgSender.PushMsg(MsgDTO, $"恭喜你获得了 {randItem.Name}*5！");
+
+                    var collo = ItemCollectionRecord.Get(MsgDTO.FromQQ);
+                    var msg = collo.ItemIncome(randItem.Name, 5);
+                    if (!string.IsNullOrEmpty(msg))
+                    {
+                        MsgSender.PushMsg(MsgDTO, msg);
+                    }
+                    break;
+                }
+                case 2:
+                {
+                    var pet = PetRecord.Get(MsgDTO.FromQQ);
+                    var msg = pet.ExtGain(MsgDTO, 50);
+                    MsgSender.PushMsg(MsgDTO, msg);
+                    break;
+                }
+                case 3:
+                {
+                    var dailyLimit = DailyLimitRecord.Get(MsgDTO.FromQQ, "DriftBottleAI_FishingBottle");
+                    dailyLimit.Decache(5);
+                    dailyLimit.Update();
+
+                    MsgSender.PushMsg(MsgDTO, "恭喜你获取 捞瓶子机会*5(仅当日有效) ！");
+                    break;
+                }
+            }
+
+            record.FinalTreasureCount++;
+            record.Update();
+
             return true;
         }
 

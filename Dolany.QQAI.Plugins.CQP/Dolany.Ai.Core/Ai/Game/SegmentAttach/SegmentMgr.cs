@@ -8,7 +8,7 @@ namespace Dolany.Ai.Core.Ai.Game.SegmentAttach
     {
         public static SegmentMgr Instance { get; } = new SegmentMgr();
 
-        private readonly List<TreasureModel> Treasures;
+        public readonly List<TreasureModel> Treasures;
 
         private SegmentMgr()
         {
