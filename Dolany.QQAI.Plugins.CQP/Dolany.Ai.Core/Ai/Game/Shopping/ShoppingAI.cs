@@ -59,6 +59,35 @@ namespace Dolany.Ai.Core.Ai.Game.Shopping
             return false;
         }
 
+        [EnterCommand(ID = "ShoppingAI_SellHonor",
+            Command = "贩卖成就 出售成就",
+            AuthorityLevel = AuthorityLevel.成员,
+            Description = "贩卖指定成就",
+            Syntax = "[成就名]",
+            Tag = "商店功能",
+            SyntaxChecker = "Word",
+            IsPrivateAvailable = true,
+            DailyLimit = 6,
+            TestingDailyLimit = 8)]
+        public bool SellHonor(MsgInformationEx MsgDTO, object[] param)
+        {
+            if (OSPersonBuff.CheckBuff(MsgDTO.FromQQ, "快晴"))
+            {
+                MsgSender.PushMsg(MsgDTO, "你无法进行该操作！(快晴)");
+                return false;
+            }
+
+            var name = param[0] as string;
+
+            if (HonorHelper.Instance.FindHonor(name) != null)
+            {
+                return SellHonor(MsgDTO, name);
+            }
+
+            MsgSender.PushMsg(MsgDTO, "未查找到相关成就！");
+            return false;
+        }
+
         [EnterCommand(ID = "ShoppingAI_SellMulti",
             Command = "贩卖 出售",
             AuthorityLevel = AuthorityLevel.成员,

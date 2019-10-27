@@ -136,7 +136,7 @@ namespace Dolany.Ai.Core.Ai.Game.Shopping
             }
 
             ginfo.LastSignInDate = DateTime.Now;
-            var goldsGen = ginfo.SuccessiveDays > 5 ? 25 : ginfo.SuccessiveDays * 5;
+            var goldsGen = Math.Min(ginfo.SuccessiveDays * 5, 50);
 
             OSPerson.GoldIncome(MsgDTO.FromQQ, goldsGen);
 

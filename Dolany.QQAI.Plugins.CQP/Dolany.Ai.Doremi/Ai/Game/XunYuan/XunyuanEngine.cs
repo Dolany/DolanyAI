@@ -41,18 +41,26 @@ namespace Dolany.Ai.Doremi.Ai.Game.XunYuan
             Cave = XunyuanCaveMgr.Instance.RandCaves;
             PushMsg($"寻缘开始！当前副本为：{Cave.Name}");
 
-            for (var i = 0; i < MaxTurn; i++)
+            try
             {
-                ProceedTurn();
-
-                if (IsGameOver())
+                for (var i = 0; i < MaxTurn; i++)
                 {
-                    break;
-                }
-            }
+                    ProceedTurn();
 
-            JudgeResult();
-            PushMsg("寻缘结束！");
+                    if (IsGameOver())
+                    {
+                        break;
+                    }
+                }
+
+                JudgeResult();
+                PushMsg("寻缘结束！");
+            }
+            catch (Exception e)
+            {
+                RuntimeLogger.Log(e);
+                PushMsg("发生时空畸变，请联系本地宇宙审查官！寻缘结束！");
+            }
         }
 
         private void ProceedTurn()
@@ -69,7 +77,7 @@ namespace Dolany.Ai.Doremi.Ai.Game.XunYuan
             {
                 PlayersTurn(monster);
 
-                if (monster.IsDead || monster.Name == "逃跑的小偷")
+                if (monster.IsDead || monster.Name == "逃跑的小偷" && Gamers.IsNullOrEmpty())
                 {
                     break;
                 }
