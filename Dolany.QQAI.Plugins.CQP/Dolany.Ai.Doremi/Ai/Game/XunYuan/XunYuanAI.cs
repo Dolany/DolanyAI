@@ -29,6 +29,12 @@ namespace Dolany.Ai.Doremi.Ai.Game.XunYuan
         {
             var aimQQ = (long) param[0];
 
+            if (aimQQ == MsgDTO.FromQQ)
+            {
+                MsgSender.PushMsg(MsgDTO, "你无法和自己寻缘！");
+                return false;
+            }
+
             if (!XunYuanMgr.Instacne.CheckGroup(MsgDTO.FromGroup))
             {
                 MsgSender.PushMsg(MsgDTO, "此群正在进行一场寻缘，请稍候再试！");

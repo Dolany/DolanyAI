@@ -161,31 +161,37 @@ namespace Dolany.Ai.Core.Ai.Sys
         public bool ViewSomething(MsgInformationEx MsgDTO, object[] param)
         {
             var name = param[0] as string;
+            // 漂流瓶物品
             if (HonorHelper.Instance.FindItem(name) != null)
             {
                 return AIMgr.Instance.AIInstance<DriftBottleAI>().ViewItem(MsgDTO, param);
             }
 
+            // 漂流瓶成就
             if (HonorHelper.Instance.FindHonor(name) != null)
             {
                 return AIMgr.Instance.AIInstance<DriftBottleAI>().ViewHonor(MsgDTO, param);
             }
 
+            // 礼物
             if (GiftMgr.Instance[name] != null)
             {
                 return AIMgr.Instance.AIInstance<GiftAI>().ViewGift(MsgDTO, param);
             }
 
+            // 宠物技能
             if (PetSkillMgr.Instance[name] != null)
             {
                 return AIMgr.Instance.AIInstance<PetAI>().ViewPetSkill(MsgDTO, param);
             }
 
+            // 宝藏碎片
             if (SegmentMgr.Instance.FindSegmentByName(name) != null)
             {
                 return AIMgr.Instance.AIInstance<SegmentAttachAI>().ViewSegment(MsgDTO, param);
             }
 
+            // 宝藏
             if (SegmentMgr.Instance.FindTreasureByName(name) != null)
             {
                 return AIMgr.Instance.AIInstance<SegmentAttachAI>().ViewTreasure(MsgDTO, param);

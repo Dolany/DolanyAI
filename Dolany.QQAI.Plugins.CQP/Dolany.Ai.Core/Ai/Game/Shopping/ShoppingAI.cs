@@ -427,10 +427,10 @@ namespace Dolany.Ai.Core.Ai.Game.Shopping
             var normalHonors = itemRecord.HonorCollections.Where(h => h.Value.Type == HonorType.Normal).ToList();
             var items = normalHonors.Select(p => p.Value).SelectMany(h => h.Items.Keys).ToList();
 
-            var allItems = HonorHelper.Instance.HonorList.Where(h => !h.IsLimit).SelectMany(h => h.Items).Select(p => p.Name).ToArray();
+            var allNormalItems = HonorHelper.Instance.HonorList.Where(h => !h.IsLimit).SelectMany(h => h.Items).Select(p => p.Name).ToArray();
 
             var msg = $"等级：{osPerson.EmojiLevel}\r" +
-                      $"经验值：{items.Count}/{allItems.Length}{(items.Count == allItems.Length ? "(可转生)" : string.Empty)}\r" +
+                      $"经验值：{items.Count}/{allNormalItems.Length}{(items.Count == allNormalItems.Length ? "(可转生)" : string.Empty)}\r" +
                       $"{(osPerson.HonorNames.IsNullOrEmpty() ? "" : string.Join("", osPerson.HonorNames.Select(h => $"【{h}】")) + "\r")}" +
                       $"金币：{osPerson.Golds}\r" +
                       $"物品数量：{itemRecord.TotalItemCount()}\r" +
@@ -483,6 +483,7 @@ namespace Dolany.Ai.Core.Ai.Game.Shopping
 
             sourceRecord.ItemConsume(name);
             sourceRecord.Update();
+
             var aimRecord = ItemCollectionRecord.Get(aimNum);
             var msg = aimRecord.ItemIncome(name);
 

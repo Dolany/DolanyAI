@@ -54,13 +54,12 @@ namespace Dolany.Ai.Core.OnlineStore
             GiftDic.Add(GiftName, count);
         }
 
-        public static int GoldIncome(long QQNum, int gold)
+        public static void GoldIncome(long QQNum, int gold)
         {
             var osPerson = GetPerson(QQNum);
 
             osPerson.Golds += gold;
             osPerson.Update();
-            return osPerson.Golds;
         }
 
         public static int GoldConsume(long QQNum, int gold)
