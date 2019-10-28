@@ -27,7 +27,7 @@ namespace Dolany.Ai.Doremi.Xiuxian
 
         public ArmerModel RandTagArmer(string tagName)
         {
-            return NormalArmerList.Where(p => p.ArmerTag == tagName).ToDictionary(p => p, p => p.Rate).RandRated();
+            return NormalArmerList.Where(p => p.ArmerTag == tagName || tagName == "All").ToDictionary(p => p, p => p.Rate).RandRated();
         }
 
         public int CountHP(Dictionary<string, int> ArmerList)

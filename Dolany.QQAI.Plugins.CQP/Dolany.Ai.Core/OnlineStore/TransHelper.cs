@@ -8,19 +8,17 @@ namespace Dolany.Ai.Core.OnlineStore
 {
     public class TransHelper
     {
-        public static int SellItemToShop(long QQNum, string itemName, OSPerson osPerson, int count = 1)
+        public static void SellItemToShop(string itemName, OSPerson osPerson, int count = 1)
         {
-            var price = HonorHelper.GetItemPrice(HonorHelper.Instance.FindItem(itemName), QQNum);
+            var price = HonorHelper.GetItemPrice(HonorHelper.Instance.FindItem(itemName), osPerson.QQNum);
 
             osPerson.Golds += price * count;
-            var record = ItemCollectionRecord.Get(QQNum);
+            var record = ItemCollectionRecord.Get(osPerson.QQNum);
             record.ItemConsume(itemName, count);
             record.Update();
-
-            return osPerson.Golds;
         }
 
-        public static int SellHonorToShop(ItemCollectionRecord record, long qqNum, string honorName, OSPerson osPerson)
+        public static void SellHonorToShop(ItemCollectionRecord record, long qqNum, string honorName, OSPerson osPerson)
         {
             var price = HonorHelper.Instance.GetHonorPrice(honorName, qqNum);
             osPerson.Golds += price;
@@ -30,9 +28,6 @@ namespace Dolany.Ai.Core.OnlineStore
                 var (key, value) = honorCollection.Items.ElementAt(i);
                 honorCollection.Items[key] = value - 1;
             }
-            record.Update();
-
-            return osPerson.Golds;
         }
 
         private static DailySellItemModel[] CreateDailySellItems()

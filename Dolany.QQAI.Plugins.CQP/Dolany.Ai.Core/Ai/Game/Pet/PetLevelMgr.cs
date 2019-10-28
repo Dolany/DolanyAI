@@ -17,6 +17,18 @@ namespace Dolany.Ai.Core.Ai.Game.Pet
             LevelDic = CommonUtil.ReadJsonData_NamedList<PetLevelModel>("PetLevelData")
                 .ToDictionary(p => int.Parse(p.Name), p => p);
         }
+
+        public int ExpToGolds(int level, int exp)
+        {
+            var petAssert = 0;
+            for (var i = 1; i < level; i++)
+            {
+                petAssert += this[i].Exp * 10;
+            }
+
+            petAssert += exp * 10;
+            return petAssert;
+        }
     }
 
     public class PetLevelModel : INamedJsonModel

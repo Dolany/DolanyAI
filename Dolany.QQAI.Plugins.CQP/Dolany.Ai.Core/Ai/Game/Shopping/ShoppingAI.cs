@@ -199,24 +199,24 @@ namespace Dolany.Ai.Core.Ai.Game.Shopping
             }
 
             var osPerson = OSPerson.GetPerson(MsgDTO.FromQQ);
-            var golds = TransHelper.SellItemToShop(MsgDTO.FromQQ, item.Name, osPerson, count);
+            TransHelper.SellItemToShop(item.Name, osPerson, count);
             osPerson.Update();
 
-            MsgSender.PushMsg(MsgDTO, $"贩卖成功！你当前拥有金币 {golds}");
+            MsgSender.PushMsg(MsgDTO, $"贩卖成功！你当前拥有金币 {osPerson.Golds}");
             return true;
         }
 
         private static bool SellHonor(MsgInformationEx MsgDTO, string honorName)
         {
-            var query = MongoService<ItemCollectionRecord>.GetOnly(r => r.QQNum == MsgDTO.FromQQ);
-            if (query == null || query.HonorCollections.IsNullOrEmpty())
+            var colleRec = ItemCollectionRecord.Get(MsgDTO.FromQQ);
+            if (colleRec.HonorCollections.IsNullOrEmpty())
             {
                 MsgSender.PushMsg(MsgDTO, "你尚未拥有任何物品！");
                 return false;
             }
 
             var items = HonorHelper.Instance.FindHonor(honorName).Items;
-            var honorCollection = query.HonorCollections;
+            var honorCollection = colleRec.HonorCollections;
             if (!honorCollection.ContainsKey(honorName) || honorCollection[honorName].Items.Count < items.Count)
             {
                 MsgSender.PushMsg(MsgDTO, "你尚未集齐该成就下的所有物品！");
@@ -232,10 +232,12 @@ namespace Dolany.Ai.Core.Ai.Game.Shopping
             }
 
             var osPerson = OSPerson.GetPerson(MsgDTO.FromQQ);
-            var golds = TransHelper.SellHonorToShop(query, MsgDTO.FromQQ, honorName, osPerson);
+            TransHelper.SellHonorToShop(colleRec, MsgDTO.FromQQ, honorName, osPerson);
+
+            colleRec.Update();
             osPerson.Update();
 
-            MsgSender.PushMsg(MsgDTO, $"贩卖成功！你当前拥有金币 {golds}");
+            MsgSender.PushMsg(MsgDTO, $"贩卖成功！你当前拥有金币 {osPerson.Golds}");
             return true;
         }
 
@@ -420,19 +422,17 @@ namespace Dolany.Ai.Core.Ai.Game.Shopping
         {
             var osPerson = OSPerson.GetPerson(MsgDTO.FromQQ);
             var itemRecord = ItemCollectionRecord.Get(MsgDTO.FromQQ);
-            var advPlayer = AdvPlayer.GetPlayer(MsgDTO.FromQQ);
             var glamourRecord = GlamourRecord.Get(MsgDTO.FromGroup, MsgDTO.FromQQ);
 
             var normalHonors = itemRecord.HonorCollections.Where(h => h.Value.Type == HonorType.Normal).ToList();
             var items = normalHonors.Select(p => p.Value).SelectMany(h => h.Items.Keys).ToList();
 
-            var allItems = HonorHelper.Instance.HonorList.Where(h => !(h is LimitHonorModel)).SelectMany(h => h.Items).Select(p => p.Name).ToArray();
+            var allItems = HonorHelper.Instance.HonorList.Where(h => !h.IsLimit).SelectMany(h => h.Items).Select(p => p.Name).ToArray();
 
             var msg = $"等级：{osPerson.EmojiLevel}\r" +
                       $"经验值：{items.Count}/{allItems.Length}{(items.Count == allItems.Length ? "(可转生)" : string.Empty)}\r" +
                       $"{(osPerson.HonorNames.IsNullOrEmpty() ? "" : string.Join("", osPerson.HonorNames.Select(h => $"【{h}】")) + "\r")}" +
                       $"金币：{osPerson.Golds}\r" +
-                      $"战绩：{advPlayer.WinTotal}/{advPlayer.GameTotal}\r" +
                       $"物品数量：{itemRecord.TotalItemCount()}\r" +
                       $"成就数量：{itemRecord.HonorList?.Count ?? 0}\r" +
                       $"魅力值：{glamourRecord.Glamour}";
@@ -525,32 +525,14 @@ namespace Dolany.Ai.Core.Ai.Game.Shopping
             var resultDic = new Dictionary<string, int> {{"金币资产", osPerson.Golds}};
 
             var itemRecord = ItemCollectionRecord.Get(MsgDTO.FromQQ);
-            if (itemRecord.HonorCollections != null)
+            if (!itemRecord.HonorCollections.IsNullOrEmpty())
             {
-                var itemAssert = 0;
-                foreach (var (honorName, collection) in itemRecord.HonorCollections)
-                {
-                    var honorModel = HonorHelper.Instance.FindHonor(honorName);
-                    var honorPrice = honorModel.Items.Sum(p => p.Price) * 3 / 2;
-                    while (collection.Items != null && honorModel.Items.Count == collection.Items.Count)
-                    {
-                        itemAssert += honorPrice;
-
-                        for (var i = 0; i < collection.Items.Count; i++)
-                        {
-                            collection.Items[collection.Items.Keys.ElementAt(i)]--;
-                        }
-
-                        collection.Items.Remove(p => p == 0);
-                    }
-
-                    itemAssert += collection.Items?.Sum(p => honorModel.Items.First(item => item.Name == p.Key).Price * p.Value) ?? 0;
-                }
+                var itemAssert = itemRecord.AssertToGold();
 
                 resultDic.Add("物品资产", itemAssert);
             }
 
-            if (osPerson.GiftDic != null)
+            if (!osPerson.GiftDic.IsNullOrEmpty())
             {
                 var giftsMaterialDic = osPerson.GiftDic.SelectMany(p => GiftMgr.Instance[p.Key].MaterialDic);
                 var giftAssert = giftsMaterialDic.Sum(g => HonorHelper.Instance.FindItem(g.Key).Price * g.Value);
@@ -560,13 +542,7 @@ namespace Dolany.Ai.Core.Ai.Game.Shopping
             var pet = PetRecord.Get(MsgDTO.FromQQ);
             if (pet.Level > 0 || pet.Exp > 0)
             {
-                var petAssert = 0;
-                for (var i = 1; i < pet.Level; i++)
-                {
-                    petAssert += PetLevelMgr.Instance[i].Exp * 10;
-                }
-
-                petAssert += pet.Exp * 10;
+                var petAssert = PetLevelMgr.Instance.ExpToGolds(pet.Level, pet.Exp);
                 resultDic.Add("宠物资产", petAssert);
             }
 
@@ -627,6 +603,8 @@ namespace Dolany.Ai.Core.Ai.Game.Shopping
             {
                 TransHelper.SellHonorToShop(itemColl, MsgDTO.FromQQ, honor, osPerson);
             }
+
+            itemColl.Update();
             osPerson.Update();
 
             MsgSender.PushMsg(MsgDTO, "转生成功！");

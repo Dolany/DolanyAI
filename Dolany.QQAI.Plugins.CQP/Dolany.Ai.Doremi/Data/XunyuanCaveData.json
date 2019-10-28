@@ -211,22 +211,22 @@
     "Monsters": [
       {
         "Name": "空间裂缝",
-        "HPTimes": 10000,
-        "AttackTimes": 2,
+        "HPTimes": 10,
+        "AttackTimes": 13,
         "DropArmerTag": null,
         "DropGolds": 200
       },
       {
         "Name": "小黑屋角落",
-        "HPTimes": 10000,
-        "AttackTimes": 1,
+        "HPTimes": 10,
+        "AttackTimes": 13,
         "DropArmerTag": null,
         "DropGolds": 100
       },
       {
         "Name": "空间夹缝",
-        "HPTimes": 10000,
-        "AttackTimes": 3,
+        "HPTimes": 10,
+        "AttackTimes": 13,
         "DropArmerTag": "All",
         "DropGolds": 0
       }

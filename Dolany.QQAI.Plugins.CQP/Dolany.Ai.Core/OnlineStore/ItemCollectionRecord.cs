@@ -75,6 +75,31 @@ namespace Dolany.Ai.Core.OnlineStore
             HonorCollections.Remove(p => p.Items.IsNullOrEmpty());
             MongoService<ItemCollectionRecord>.Update(this);
         }
+
+        public int AssertToGold()
+        {
+            var itemAssert = 0;
+            foreach (var (honorName, collection) in HonorCollections)
+            {
+                var honorModel = HonorHelper.Instance.FindHonor(honorName);
+                var honorPrice = honorModel.Items.Sum(p => p.Price) * 3 / 2;
+                while (collection.Items != null && honorModel.Items.Count == collection.Items.Count)
+                {
+                    itemAssert += honorPrice;
+
+                    for (var i = 0; i < collection.Items.Count; i++)
+                    {
+                        collection.Items[collection.Items.Keys.ElementAt(i)]--;
+                    }
+
+                    collection.Items.Remove(p => p == 0);
+                }
+
+                itemAssert += collection.Items?.Sum(p => honorModel.Items.First(item => item.Name == p.Key).Price * p.Value) ?? 0;
+            }
+
+            return itemAssert;
+        }
     }
 
     public class HonorItemCollection
