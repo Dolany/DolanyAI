@@ -422,6 +422,54 @@
         "Rate": 15,
         "Price": 150
       }
+    ]
+  },
+  "上古封印": {
+    "Year": 2019,
+    "Month": 11,
+    "Items": [
+      {
+        "Name": "凤凰血晶",
+        "Description": "好像会随时燃烧起来一样...",
+        "Rate": 15,
+        "Price": 150
+      },
+      {
+        "Name": "泰坦精金",
+        "Description": "千斤之重，坚不可摧...",
+        "Rate": 15,
+        "Price": 150
+      },
+      {
+        "Name": "暗影精粹",
+        "Description": "凝结着最纯粹的黑暗...",
+        "Rate": 15,
+        "Price": 150
+      },
+      {
+        "Name": "地狱黑曜石",
+        "Description": "蕴含着毁灭、狂乱、疯狂的气息...",
+        "Rate": 15,
+        "Price": 150
+      },
+      {
+        "Name": "辉光之羽",
+        "Description": "沐浴在圣洁、柔和的光芒中...",
+        "Rate": 15,
+        "Price": 150
+      },
+      {
+        "Name": "玲珑水晶",
+        "Description": "来自深海的呼唤...",
+        "Rate": 15,
+        "Price": 150
+      },
+      {
+        "Name": "达克尼斯之骨",
+        "Description": "刻印着深渊魔王的牺牲契约...",
+        "Rate": 15,
+        "Price": 150
+      }
     ] 
   } 
 }
