@@ -41,7 +41,7 @@ namespace Dolany.Ai.Core.Ai.Game.Shopping
         {
             var content = param[0] as string;
 
-            if (AIMgr.Instance.AllAvailableGroupCommands.Any(comm => comm.Command == content))
+            if (content != "签到" && AIMgr.Instance.AllAvailableGroupCommands.Any(comm => comm.Command == content))
             {
                 MsgSender.PushMsg(MsgDTO, "不能与系统自带命令重复！");
                 return false;
@@ -77,13 +77,14 @@ namespace Dolany.Ai.Core.Ai.Game.Shopping
 
             // 群组签到验证
             var groupInfo = GroupSignInDic.ContainsKey(MsgDTO.FromGroup) ? GroupSignInDic[MsgDTO.FromGroup] : null;
-            if (groupInfo == null && MsgDTO.FullMsg != "签到")
-            {
-                return false;
-            }
+            var signInContent = groupInfo == null ? "签到" : groupInfo.Content;
 
-            if (groupInfo != null && MsgDTO.FullMsg != groupInfo.Content)
+            if (MsgDTO.FullMsg != signInContent)
             {
+                if (MsgDTO.FullMsg == "签到")
+                {
+                    MsgSender.PushMsg(MsgDTO, "请使用 今日签到内容 命令获取今天的签到口令！");
+                }
                 return false;
             }
 

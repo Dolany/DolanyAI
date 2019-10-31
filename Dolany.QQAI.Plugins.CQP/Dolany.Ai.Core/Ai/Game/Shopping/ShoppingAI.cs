@@ -230,7 +230,7 @@ namespace Dolany.Ai.Core.Ai.Game.Shopping
             }
 
             var osPerson = OSPerson.GetPerson(MsgDTO.FromQQ);
-            TransHelper.SellHonorToShop(colleRec, MsgDTO.FromQQ, honorName, osPerson);
+            TransHelper.SellHonorToShop(colleRec, honorName, osPerson);
 
             colleRec.Update();
             osPerson.Update();
@@ -647,7 +647,7 @@ namespace Dolany.Ai.Core.Ai.Game.Shopping
 
             foreach (var honor in normalHonors.Select(p => p.Key))
             {
-                TransHelper.SellHonorToShop(itemColl, MsgDTO.FromQQ, honor, osPerson);
+                TransHelper.SellHonorToShop(itemColl, honor, osPerson);
             }
 
             itemColl.Update();

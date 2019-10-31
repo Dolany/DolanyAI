@@ -19,9 +19,9 @@ namespace Dolany.Ai.Core.OnlineStore
             record.Update();
         }
 
-        public static void SellHonorToShop(ItemCollectionRecord record, long qqNum, string honorName, OSPerson osPerson)
+        public static void SellHonorToShop(ItemCollectionRecord record, string honorName, OSPerson osPerson)
         {
-            var price = HonorHelper.Instance.GetHonorPrice(honorName, qqNum);
+            var price = HonorHelper.Instance.GetHonorPrice(honorName, osPerson.QQNum);
             osPerson.Golds += price;
             var honorCollection = record.HonorCollections[honorName];
             for (var i = 0; i < honorCollection.Items.Count; i++)

@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using Dolany.Ai.Common;
 using Dolany.Ai.Common.Models;
@@ -75,7 +76,19 @@ namespace Dolany.Ai.Core.Ai.Game.Shopping
             }
 
             var absBonus = bonus - LotteryFee;
-            var msg = absBonus > 0 ? $"恭喜你赚得了 {absBonus}{Emoji.钱袋}" : $"很遗憾你损失了 {absBonus}{Emoji.钱袋}";
+            var todayRec = LotteryRecord.GetToday();
+            todayRec.Count++;
+            if (absBonus > 0)
+            {
+                todayRec.TotalPlus += absBonus;
+            }
+            else
+            {
+                todayRec.TotalMinus += Math.Abs(absBonus);
+            }
+            todayRec.Update();
+
+            var msg = absBonus > 0 ? $"恭喜你赚得了 {absBonus}{Emoji.钱袋}" : $"很遗憾你损失了 {Math.Abs(absBonus)}{Emoji.钱袋}";
             msg += $"(已扣除成本费{LotteryFee}{Emoji.钱袋})";
 
             var golds = OSPerson.GoldConsume(MsgDTO.FromQQ, LotteryFee - bonus);
@@ -160,6 +173,38 @@ namespace Dolany.Ai.Core.Ai.Game.Shopping
             cache.Update();
 
             MsgSender.PushMsg(MsgDTO, $"兑换成功，你现在共有{times}次抽奖机会，快使用 抽奖 命令试试看吧！", true);
+
+            return true;
+        }
+
+        [EnterCommand(ID = "LotteryAI_LotteryAnalyzeToday",
+            Command = "今日彩票统计",
+            AuthorityLevel = AuthorityLevel.成员,
+            Description = "获取今日彩票统计情况",
+            Syntax = "",
+            SyntaxChecker = "Empty",
+            Tag = "商店功能",
+            IsPrivateAvailable = true)]
+        public bool LotteryAnalyzeToday(MsgInformationEx MsgDTO, object[] param)
+        {
+            var todayRec = LotteryRecord.GetToday();
+            MsgSender.PushMsg(MsgDTO, todayRec.ToString());
+
+            return true;
+        }
+
+        [EnterCommand(ID = "LotteryAI_LotteryAnalyzeYesterday",
+            Command = "昨日彩票统计",
+            AuthorityLevel = AuthorityLevel.成员,
+            Description = "获取昨日彩票统计情况",
+            Syntax = "",
+            SyntaxChecker = "Empty",
+            Tag = "商店功能",
+            IsPrivateAvailable = true)]
+        public bool LotteryAnalyzeYesterday(MsgInformationEx MsgDTO, object[] param)
+        {
+            var yesterdayRec = LotteryRecord.GetYesterday();
+            MsgSender.PushMsg(MsgDTO, yesterdayRec.ToString());
 
             return true;
         }
