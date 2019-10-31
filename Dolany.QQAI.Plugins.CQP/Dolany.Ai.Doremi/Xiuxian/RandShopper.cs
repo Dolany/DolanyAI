@@ -26,12 +26,9 @@ namespace Dolany.Ai.Doremi.Xiuxian
 
         public void Refresh()
         {
-            foreach (var model in Models)
+            foreach (var model in Models.Where(model => !string.IsNullOrEmpty(model.TimerID)))
             {
-                if (!string.IsNullOrEmpty(model.TimerID))
-                {
-                    Scheduler.Instance.Remove(model.TimerID);
-                }
+                Scheduler.Instance.Remove(model.TimerID);
             }
 
             Models = new List<ShoppingNoticeModel>();

@@ -2,6 +2,7 @@
 using System.Linq;
 using Dolany.Ai.Common;
 using Dolany.Ai.Core.Cache;
+using Dolany.Database.Ai;
 using Newtonsoft.Json;
 
 namespace Dolany.Ai.Core.OnlineStore
@@ -58,14 +59,5 @@ namespace Dolany.Ai.Core.OnlineStore
 
             return newitems;
         }
-    }
-
-    public class DailySellItemModel
-    {
-        public string Name { get; set; }
-
-        public int Price { get; set; }
-
-        public string Attr { get; set; }
     }
 }

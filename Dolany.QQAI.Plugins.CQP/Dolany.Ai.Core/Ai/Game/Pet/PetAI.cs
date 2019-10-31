@@ -335,12 +335,12 @@ namespace Dolany.Ai.Core.Ai.Game.Pet
 
         [EnterCommand(ID = "PetAI_PetLevelRank",
             Command = "宠物等级排行",
-            AuthorityLevel = AuthorityLevel.开发者,
+            AuthorityLevel = AuthorityLevel.成员,
             Description = "宠物等级排行",
             Syntax = "",
             Tag = "宠物功能",
             SyntaxChecker = "Empty",
-            IsPrivateAvailable = false)]
+            IsPrivateAvailable = true)]
         public bool PetLevelRank(MsgInformationEx MsgDTO, object[] param)
         {
             var data = PetRecord.LevelTop(10);

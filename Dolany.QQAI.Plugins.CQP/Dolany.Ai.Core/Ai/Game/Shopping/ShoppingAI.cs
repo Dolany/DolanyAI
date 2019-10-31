@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using System.Linq;
 using Dolany.Ai.Common;
 using Dolany.Ai.Common.Models;
-using Dolany.Ai.Core.Ai.Game.Advanture;
 using Dolany.Ai.Core.Ai.Game.Gift;
 using Dolany.Ai.Core.Ai.Game.Pet;
 using Dolany.Ai.Core.API;
@@ -11,7 +10,6 @@ using Dolany.Ai.Core.Base;
 using Dolany.Ai.Core.Cache;
 using Dolany.Ai.Core.Common;
 using Dolany.Ai.Core.OnlineStore;
-using Dolany.Database;
 using Dolany.Database.Ai;
 
 namespace Dolany.Ai.Core.Ai.Game.Shopping
@@ -265,6 +263,46 @@ namespace Dolany.Ai.Core.Ai.Game.Shopping
             return true;
         }
 
+        [EnterCommand(ID = "ShoppingAI_ShopInfo_Rare",
+            Command = "稀有商店",
+            AuthorityLevel = AuthorityLevel.成员,
+            Description = "逛稀有商店(每日随机开放一个小时)",
+            Syntax = "",
+            Tag = "商店功能",
+            SyntaxChecker = "Empty",
+            IsPrivateAvailable = true)]
+        public bool ShopInfo_Rare(MsgInformationEx MsgDTO, object[] param)
+        {
+            var osPerson = OSPerson.GetPerson(MsgDTO.FromQQ);
+            var golds = osPerson.Golds;
+
+            var todayRec = DailySellItemRareRecord.GetToday();
+            var tomorrowRec = DailySellItemRareRecord.GetTomorrow();
+            if (todayRec.Hour < DateTime.Now.Hour)
+            {
+                MsgSender.PushMsg(MsgDTO,
+                    $"稀有商店休息中~\r下次开放时间：{DateTime.Now.AddDays(1):yyyy-MM-dd} {tomorrowRec.Hour}:00:00 ~ {DateTime.Now.AddDays(1):yyyy-MM-dd} {tomorrowRec.Hour + 1}:00:00");
+                return false;
+            }
+
+            if (todayRec.Hour > DateTime.Now.Hour)
+            {
+                MsgSender.PushMsg(MsgDTO,
+                    $"稀有商店休息中~\r下次开放时间：{DateTime.Now:yyyy-MM-dd} {todayRec.Hour}:00:00 ~ {DateTime.Now:yyyy-MM-dd} {todayRec.Hour + 1}:00:00");
+                return false;
+            }
+
+            var sellItems = todayRec.Items;
+            var record = ItemCollectionRecord.Get(MsgDTO.FromQQ);
+            var itemsStr = string.Join("\r", sellItems.Select(si =>
+                $"{si.Name}({HonorHelper.Instance.FindHonorFullName(si.Name)})({record.GetCount(si.Name)})({si.Attr})：{si.Price}{Emoji.钱袋}"));
+
+            var msg = $"当前售卖的商品：\r{itemsStr}\r你当前持有 {golds}{Emoji.钱袋}";
+            MsgSender.PushMsg(MsgDTO, msg);
+
+            return true;
+        }
+
         [EnterCommand(ID = "ShoppingAI_Buy",
             Command = "购买 购买物品",
             AuthorityLevel = AuthorityLevel.成员,
@@ -284,7 +322,14 @@ namespace Dolany.Ai.Core.Ai.Game.Shopping
             }
 
             var name = param[0] as string;
-            var sellItem = TransHelper.GetDailySellItems().FirstOrDefault(si => si.Name == name);
+            var sellingItems = TransHelper.GetDailySellItems();
+            var todayRec = DailySellItemRareRecord.GetToday();
+            if (todayRec.Hour == DateTime.Now.Hour)
+            {
+                sellingItems = sellingItems.Concat(todayRec.Items);
+            }
+
+            var sellItem = sellingItems.FirstOrDefault(si => si.Name == name);
             if (sellItem == null)
             {
                 MsgSender.PushMsg(MsgDTO, "此物品未在商店中售卖！");
