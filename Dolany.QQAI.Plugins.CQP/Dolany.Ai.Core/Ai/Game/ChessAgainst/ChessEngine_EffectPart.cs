@@ -37,7 +37,14 @@ namespace Dolany.Ai.Core.Ai.Game.ChessAgainst
                 return;
             }
 
-            var (key, _) = query.HonorCollections.SelectMany(p => p.Value.Items).RandElement();
+            var nomalHonors = query.HonorCollections.Where(p => p.Value.Type == HonorType.Normal).ToList();
+            if (nomalHonors.IsNullOrEmpty())
+            {
+                MsgSender.PushMsg(GroupNum, 0, "对手没有任何非限定物品！", BindAi);
+                return;
+            }
+
+            var (key, _) = nomalHonors.SelectMany(p => p.Value.Items).RandElement();
             var record = ItemCollectionRecord.Get(SelfQQNum);
             var msg = record.ItemIncome(key);
             MsgSender.PushMsg(GroupNum, 0, $"你获得了 {key}！\r{msg}", BindAi);

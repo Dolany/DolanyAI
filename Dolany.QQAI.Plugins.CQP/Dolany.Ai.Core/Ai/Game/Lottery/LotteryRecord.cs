@@ -2,7 +2,7 @@
 using Dolany.Ai.Core.API;
 using Dolany.Database;
 
-namespace Dolany.Ai.Core.Ai.Game.Shopping
+namespace Dolany.Ai.Core.Ai.Game.Lottery
 {
     public class LotteryRecord : DbBaseEntity
     {
@@ -53,6 +53,21 @@ namespace Dolany.Ai.Core.Ai.Game.Shopping
 
             MongoService<LotteryRecord>.Insert(record);
             return record;
+        }
+
+        public static void Record(int absBonus)
+        {
+            var todayRec = GetToday();
+            todayRec.Count++;
+            if (absBonus > 0)
+            {
+                todayRec.TotalPlus += absBonus;
+            }
+            else
+            {
+                todayRec.TotalMinus += Math.Abs(absBonus);
+            }
+            todayRec.Update();
         }
 
         public void Update()

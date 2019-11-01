@@ -1,14 +1,11 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using Dolany.Ai.Common;
+﻿using Dolany.Ai.Common;
 using Dolany.Ai.Common.Models;
 using Dolany.Ai.Core.API;
 using Dolany.Ai.Core.Base;
 using Dolany.Ai.Core.Cache;
 using Dolany.Ai.Core.OnlineStore;
 
-namespace Dolany.Ai.Core.Ai.Game.Shopping
+namespace Dolany.Ai.Core.Ai.Game.Lottery
 {
     public class LotteryAI : AIBase
     {
@@ -18,21 +15,7 @@ namespace Dolany.Ai.Core.Ai.Game.Shopping
 
         public override int PriorityLevel { get; set; } = 10;
 
-        private const int LotteryFee = 100;
-
-        private Dictionary<int, int> LotteryDic;
-
-        private int SumRate;
-
         public override bool NeedManualOpeon { get; set; } = true;
-
-        public override void Initialization()
-        {
-            base.Initialization();
-
-            LotteryDic = CommonUtil.ReadJsonData<Dictionary<int, int>>("LotteryData");
-            SumRate = LotteryDic.Values.Sum();
-        }
 
         [EnterCommand(ID = "LotteryAI_DrawLottery",
             Command = "买彩票",
@@ -47,9 +30,9 @@ namespace Dolany.Ai.Core.Ai.Game.Shopping
         public bool DrawLottery(MsgInformationEx MsgDTO, object[] param)
         {
             var osPerson = OSPerson.GetPerson(MsgDTO.FromQQ);
-            if (osPerson.Golds < LotteryFee)
+            if (osPerson.Golds < LotteryMgr.LotteryFee)
             {
-                MsgSender.PushMsg(MsgDTO, $"你没有足够的金币购买彩票({osPerson.Golds}/{LotteryFee})", true);
+                MsgSender.PushMsg(MsgDTO, $"你没有足够的金币购买彩票({osPerson.Golds}/{LotteryMgr.LotteryFee})", true);
                 return false;
             }
 
@@ -58,40 +41,20 @@ namespace Dolany.Ai.Core.Ai.Game.Shopping
             return true;
         }
 
-        private void RandomLottery(MsgInformationEx MsgDTO)
+        private static void RandomLottery(MsgInformationEx MsgDTO)
         {
-            var index = Rander.RandInt(SumRate);
+            var lottery = LotteryMgr.Instance.RandLottery();
 
-            var totalSum = 0;
-            var bonus = 0;
-            foreach (var (key, value) in LotteryDic)
-            {
-                if (index < totalSum + value)
-                {
-                    bonus = key;
-                    break;
-                }
+            var absBonus = lottery.Bonus - LotteryMgr.LotteryFee;
+            LotteryRecord.Record(absBonus);
 
-                totalSum += value;
-            }
+            var personRec = LotteryPersonRecord.Get(MsgDTO.FromQQ);
+            personRec.AddLottery(lottery.Name);
+            personRec.Update();
 
-            var absBonus = bonus - LotteryFee;
-            var todayRec = LotteryRecord.GetToday();
-            todayRec.Count++;
-            if (absBonus > 0)
-            {
-                todayRec.TotalPlus += absBonus;
-            }
-            else
-            {
-                todayRec.TotalMinus += Math.Abs(absBonus);
-            }
-            todayRec.Update();
+            var msg = lottery.ToString();
 
-            var msg = absBonus > 0 ? $"恭喜你赚得了 {absBonus}{Emoji.钱袋}" : $"很遗憾你损失了 {Math.Abs(absBonus)}{Emoji.钱袋}";
-            msg += $"(已扣除成本费{LotteryFee}{Emoji.钱袋})";
-
-            var golds = OSPerson.GoldConsume(MsgDTO.FromQQ, LotteryFee - bonus);
+            var golds = OSPerson.GoldConsume(MsgDTO.FromQQ, LotteryMgr.LotteryFee - lottery.Bonus);
             msg += $"\r你当前持有金币：{golds}{Emoji.钱袋}";
             MsgSender.PushMsg(MsgDTO, msg, true);
         }
@@ -205,6 +168,28 @@ namespace Dolany.Ai.Core.Ai.Game.Shopping
         {
             var yesterdayRec = LotteryRecord.GetYesterday();
             MsgSender.PushMsg(MsgDTO, yesterdayRec.ToString());
+
+            return true;
+        }
+
+        [EnterCommand(ID = "LotteryAI_MyLotteryRecord",
+            Command = "我的彩票记录",
+            AuthorityLevel = AuthorityLevel.成员,
+            Description = "获取自己的彩票统计",
+            Syntax = "",
+            SyntaxChecker = "Empty",
+            Tag = "商店功能",
+            IsPrivateAvailable = true)]
+        public bool MyLotteryRecord(MsgInformationEx MsgDTO, object[] param)
+        {
+            var rec = LotteryPersonRecord.Get(MsgDTO.FromQQ);
+            if (rec.LotteryDic.IsNullOrEmpty())
+            {
+                MsgSender.PushMsg(MsgDTO, "你没有过任何彩票记录");
+                return false;
+            }
+
+            MsgSender.PushMsg(MsgDTO, rec.ToString());
 
             return true;
         }

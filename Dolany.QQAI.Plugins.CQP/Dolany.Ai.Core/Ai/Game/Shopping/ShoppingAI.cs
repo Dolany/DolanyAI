@@ -22,6 +22,8 @@ namespace Dolany.Ai.Core.Ai.Game.Shopping
 
         public override int PriorityLevel { get; set; } = 10;
 
+        private const int RebornHonorLimit = 7;
+
         [EnterCommand(ID = "ShoppingAI_Sell",
             Command = "贩卖 出售",
             AuthorityLevel = AuthorityLevel.成员,
@@ -626,8 +628,8 @@ namespace Dolany.Ai.Core.Ai.Game.Shopping
                 return false;
             }
 
-            var response = Waiter.Instance.WaitForInformation(MsgDTO, "请输入想获取的荣誉称号名称(不能超过6个字)",
-                info => info.FromQQ == MsgDTO.FromQQ && info.FromGroup == MsgDTO.FromGroup && info.Msg != null && info.Msg.Length <= 6, 10);
+            var response = Waiter.Instance.WaitForInformation(MsgDTO, $"请输入想获取的荣誉称号名称(不能超过{RebornHonorLimit}个字)",
+                info => info.FromQQ == MsgDTO.FromQQ && info.FromGroup == MsgDTO.FromGroup && info.Msg != null && info.Msg.Length <= RebornHonorLimit, 10);
             if (response == null)
             {
                 MsgSender.PushMsg(MsgDTO, "操作取消！");
