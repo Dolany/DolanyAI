@@ -268,7 +268,7 @@ namespace Dolany.Ai.Core.Ai.Game.Shopping
         [EnterCommand(ID = "ShoppingAI_ShopInfo_Rare",
             Command = "稀有商店",
             AuthorityLevel = AuthorityLevel.成员,
-            Description = "逛稀有商店(每日随机开放一个小时)",
+            Description = "逛稀有商店(每日随机开放三个小时)",
             Syntax = "",
             Tag = "商店功能",
             SyntaxChecker = "Empty",
@@ -283,14 +283,14 @@ namespace Dolany.Ai.Core.Ai.Game.Shopping
             if (todayRec.Hour < DateTime.Now.Hour)
             {
                 MsgSender.PushMsg(MsgDTO,
-                    $"稀有商店休息中~\r下次开放时间：{DateTime.Now.AddDays(1):yyyy-MM-dd} {tomorrowRec.Hour}:00:00 ~ {DateTime.Now.AddDays(1):yyyy-MM-dd} {tomorrowRec.Hour + 1}:00:00");
+                    $"稀有商店休息中~\r下次开放时间：{DateTime.Now.AddDays(1):yyyy-MM-dd} {tomorrowRec.Hour}:00:00 ~ {DateTime.Now.AddDays(1):yyyy-MM-dd} {tomorrowRec.Hour + 3}:00:00");
                 return false;
             }
 
-            if (todayRec.Hour > DateTime.Now.Hour)
+            if (todayRec.Hour > DateTime.Now.Hour + 2)
             {
                 MsgSender.PushMsg(MsgDTO,
-                    $"稀有商店休息中~\r下次开放时间：{DateTime.Now:yyyy-MM-dd} {todayRec.Hour}:00:00 ~ {DateTime.Now:yyyy-MM-dd} {todayRec.Hour + 1}:00:00");
+                    $"稀有商店休息中~\r下次开放时间：{DateTime.Now:yyyy-MM-dd} {todayRec.Hour}:00:00 ~ {DateTime.Now:yyyy-MM-dd} {todayRec.Hour + 3}:00:00");
                 return false;
             }
 
@@ -326,7 +326,7 @@ namespace Dolany.Ai.Core.Ai.Game.Shopping
             var name = param[0] as string;
             var sellingItems = TransHelper.GetDailySellItems();
             var todayRec = DailySellItemRareRecord.GetToday();
-            if (todayRec.Hour == DateTime.Now.Hour)
+            if (DateTime.Now.Hour >= todayRec.Hour && DateTime.Now.Hour <= todayRec.Hour + 2)
             {
                 sellingItems = sellingItems.Concat(todayRec.Items);
             }

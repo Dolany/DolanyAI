@@ -23,7 +23,7 @@ namespace Dolany.Ai.Core.AITools
             if (todayRec.Items.IsNullOrEmpty())
             {
                 todayRec.Items = CreateDailySellItems_Rare();
-                todayRec.Hour = Rander.RandInt(24);
+                todayRec.Hour = Rander.RandInt(22);
 
                 todayRec.Update();
             }
@@ -32,7 +32,7 @@ namespace Dolany.Ai.Core.AITools
             if (tomorrowRec.Items.IsNullOrEmpty())
             {
                 tomorrowRec.Items = CreateDailySellItems_Rare();
-                tomorrowRec.Hour = Rander.RandInt(24);
+                tomorrowRec.Hour = Rander.RandInt(22);
 
                 tomorrowRec.Update();
             }
