@@ -17,7 +17,7 @@
   "Mutex": "Doremi",
   "FixedSetMutex": "DoremiFixed",
   "FixedSetCacheDb": "C:/AIDB/fixedSetCache_doremi.db",
-  "MongoConnStr": "mongodb://localhost",
+  "MongoConnStr": "mongodb://Dolany:Dolany_2160727@localhost:27017/?authMechanism=SCRAM-SHA-256&authSource=DolanyAI",
   "MongoDbName": "Doremi",
   "MainAi": "Doremi",
   "MsgCounterCacheDb": "C:/AIDB/counterdb_doremi.db",

@@ -20,15 +20,12 @@ namespace Dolany.Ai.Doremi.Xiuxian
         {
             get
             {
-                switch (Kind)
+                return Kind switch
                 {
-                    case "Shield":
-                        return "防具";
-                    case "Weapon":
-                        return "武器";
-                    default:
-                        return "";
-                }
+                    "Shield" => "防具",
+                    "Weapon" => "武器",
+                    _ => ""
+                };
             }
         }
 
@@ -36,16 +33,12 @@ namespace Dolany.Ai.Doremi.Xiuxian
         {
             get
             {
-                var preString = string.Empty;
-                switch (Kind)
+                var preString = Kind switch
                 {
-                    case "Shield":
-                        preString = "防御力";
-                        break;
-                    case "Weapon":
-                        preString = "攻击力";
-                        break;
-                }
+                    "Shield" => "防御力",
+                    "Weapon" => "攻击力",
+                    _ => string.Empty
+                };
 
                 return $"{preString}：{Value}";
             }
