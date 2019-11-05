@@ -3,6 +3,7 @@ using System.IO;
 using System.Linq;
 using Dolany.Ai.Common;
 using Dolany.Ai.Common.Models;
+using Dolany.Ai.Core.Ai.Game.Pet.Cooking;
 using Dolany.Ai.Core.API;
 using Dolany.Ai.Core.Base;
 using Dolany.Ai.Core.Cache;
@@ -270,12 +271,6 @@ namespace Dolany.Ai.Core.Ai.Game.Pet
         public bool FeedPet(MsgInformationEx MsgDTO, object[] param)
         {
             var name = param[0] as string;
-            var honorRecord = ItemCollectionRecord.Get(MsgDTO.FromQQ);
-            if (!honorRecord.CheckItem(name))
-            {
-                MsgSender.PushMsg(MsgDTO, "你没有该物品！", true);
-                return false;
-            }
 
             var pet = PetRecord.Get(MsgDTO.FromQQ);
             if (string.IsNullOrEmpty(pet.Attribute))
@@ -292,9 +287,26 @@ namespace Dolany.Ai.Core.Ai.Game.Pet
             }
 
             var item = HonorHelper.Instance.FindItem(name);
-            if (item?.Attributes == null)
+            if (item != null)
             {
-                MsgSender.PushMsg(MsgDTO, "未找到该物品");
+                return FeedPetWithItem(MsgDTO, pet, item);
+            }
+
+            var diet = CookingDietMgr.Instance[name];
+            if (diet != null)
+            {
+                return FeedPetWithDiet(MsgDTO, pet, diet);
+            }
+
+            MsgSender.PushMsg(MsgDTO, "未查找到相关物品或菜肴！");
+            return false;
+        }
+
+        private static bool FeedPetWithItem(MsgInformationEx MsgDTO, PetRecord pet, DriftBottleItemModel item)
+        {
+            if (item.Attributes == null)
+            {
+                MsgSender.PushMsg(MsgDTO, "该物品无法投喂！");
                 return false;
             }
 
@@ -304,15 +316,47 @@ namespace Dolany.Ai.Core.Ai.Game.Pet
                 return false;
             }
 
-            var resMsg = $"{pet.Name}兴奋的吃掉了 {name}，并打了个饱嗝\r";
+            var honorRecord = ItemCollectionRecord.Get(MsgDTO.FromQQ);
+            if (!honorRecord.CheckItem(item.Name))
+            {
+                MsgSender.PushMsg(MsgDTO, "你没有该物品！", true);
+                return false;
+            }
+
+            var resMsg = $"{pet.Name}兴奋的吃掉了 {item.Name}，并打了个饱嗝\r";
 
             pet.LastFeedTime = DateTime.Now;
             resMsg += pet.ExtGain(MsgDTO, item.Exp);
-            honorRecord.ItemConsume(name);
+            honorRecord.ItemConsume(item.Name);
             honorRecord.Update();
 
             MsgSender.PushMsg(MsgDTO, resMsg);
+            return true;
+        }
 
+        private static bool FeedPetWithDiet(MsgInformationEx MsgDTO, PetRecord pet, CookingDietModel diet)
+        {
+            if (!diet.Attributes.Contains(pet.Attribute))
+            {
+                MsgSender.PushMsg(MsgDTO, $"{pet.Name}说不想吃这个东西（请喂食正确特性的菜肴）");
+                return false;
+            }
+
+            var cookingRec = CookingRecord.Get(MsgDTO.FromQQ);
+            if (!cookingRec.CheckDiet(diet.Name))
+            {
+                MsgSender.PushMsg(MsgDTO, "你没有该菜肴！");
+                return false;
+            }
+
+            var resMsg = $"{pet.Name}兴奋的吃掉了 {diet.Name}，并打了个饱嗝\r";
+
+            pet.LastFeedTime = DateTime.Now;
+            resMsg += pet.ExtGain(MsgDTO, diet.Exp);
+            cookingRec.DietConsume(diet.Name);
+            cookingRec.Update();
+
+            MsgSender.PushMsg(MsgDTO, resMsg);
             return true;
         }
 

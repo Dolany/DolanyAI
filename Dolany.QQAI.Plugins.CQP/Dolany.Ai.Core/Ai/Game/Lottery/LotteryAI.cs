@@ -18,7 +18,7 @@ namespace Dolany.Ai.Core.Ai.Game.Lottery
         public override bool NeedManualOpeon { get; set; } = true;
 
         [EnterCommand(ID = "LotteryAI_DrawLottery",
-            Command = "买彩票",
+            Command = "买彩票 开箱子",
             AuthorityLevel = AuthorityLevel.成员,
             Description = "买一张彩票获得随机效果",
             Syntax = "",

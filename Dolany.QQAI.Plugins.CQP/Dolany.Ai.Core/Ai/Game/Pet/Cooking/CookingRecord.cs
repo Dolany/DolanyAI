@@ -8,9 +8,9 @@ namespace Dolany.Ai.Core.Ai.Game.Pet.Cooking
     {
         public long QQNum { get; set; }
 
-        public Dictionary<string, int> CookedDietDic { get; set; }
+        public Dictionary<string, int> CookedDietDic { get; set; } = new Dictionary<string, int>();
 
-        public Dictionary<string, int> FlavoringDic { get; set; }
+        public Dictionary<string, int> FlavoringDic { get; set; } = new Dictionary<string, int>();
 
         public static CookingRecord Get(long QQNum)
         {
@@ -24,6 +24,60 @@ namespace Dolany.Ai.Core.Ai.Game.Pet.Cooking
             MongoService<CookingRecord>.Insert(record);
 
             return record;
+        }
+
+        public void AddDiet(string name, int count = 1)
+        {
+            if (!CookedDietDic.ContainsKey(name))
+            {
+                CookedDietDic.Add(name, 0);
+            }
+
+            CookedDietDic[name] += count;
+        }
+
+        public void DietConsume(string name, int count = 1)
+        {
+            if (CookedDietDic.ContainsKey(name))
+            {
+                CookedDietDic[name] -= count;
+            }
+        }
+
+        public bool CheckDiet(string name, int count = 1)
+        {
+            return CookedDietDic.ContainsKey(name) && CookedDietDic[name] >= count;
+        }
+
+        public bool CheckFlavorings(Dictionary<string, int> fDic)
+        {
+            if (FlavoringDic.IsNullOrEmpty())
+            {
+                return false;
+            }
+
+            foreach (var (name, count) in fDic)
+            {
+                if (!FlavoringDic.ContainsKey(name) || FlavoringDic[name] < count)
+                {
+                    return false;
+                }
+            }
+
+            return true;
+        }
+
+        public void FlavoringConsume(Dictionary<string, int> fDic)
+        {
+            if (fDic.IsNullOrEmpty())
+            {
+                return;
+            }
+
+            foreach (var (name, count) in fDic)
+            {
+                FlavoringDic[name] -= count;
+            }
         }
 
         public void Update()

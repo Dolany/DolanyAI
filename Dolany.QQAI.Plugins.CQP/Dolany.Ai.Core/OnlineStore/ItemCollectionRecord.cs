@@ -14,6 +14,8 @@ namespace Dolany.Ai.Core.OnlineStore
         public List<string> HonorList =>
             HonorCollections.Where(colle => colle.Value.Items.Count == HonorHelper.Instance.FindHonor(colle.Key).Items.Count).Select(p => p.Key).ToList();
 
+        public Dictionary<string, int> AllItemsDic => HonorCollections.Select(p => p.Value).SelectMany(p => p.Items).ToDictionary(p => p.Key, p => p.Value);
+
         public static ItemCollectionRecord Get(long QQNum)
         {
             var record = MongoService<ItemCollectionRecord>.GetOnly(p => p.QQNum == QQNum);
@@ -43,6 +45,11 @@ namespace Dolany.Ai.Core.OnlineStore
 
         public void ItemConsume(Dictionary<string, int> itemDic)
         {
+            if (itemDic.IsNullOrEmpty())
+            {
+                return;
+            }
+
             foreach (var (key, value) in itemDic)
             {
                 ItemConsume(key, value);
@@ -52,6 +59,11 @@ namespace Dolany.Ai.Core.OnlineStore
         public bool CheckItem(string itemName, int count = 1)
         {
             return HonorCollections.Values.Any(p => p.Items.ContainsKey(itemName) && p.Items[itemName] >= count);
+        }
+
+        public bool CheckItem(Dictionary<string, int> itemDic)
+        {
+            return itemDic.All(p => CheckItem(p.Key, p.Value));
         }
 
         public int GetCount(string itemName)

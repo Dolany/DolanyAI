@@ -131,5 +131,15 @@ namespace Dolany.Ai.Common
                 dic.Add(key, value);
             }
         }
+
+        public static TValue GetDicValueSafe<TKey, TValue>(this Dictionary<TKey, TValue> dic, TKey key)
+        {
+            if (dic.IsNullOrEmpty())
+            {
+                return default;
+            }
+
+            return dic.ContainsKey(key) ? dic[key] : default;
+        }
     }
 }

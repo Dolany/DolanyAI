@@ -5,6 +5,7 @@ using Dolany.Ai.Common;
 using Dolany.Ai.Common.Models;
 using Dolany.Ai.Core.Ai.Game.Gift;
 using Dolany.Ai.Core.Ai.Game.Pet;
+using Dolany.Ai.Core.Ai.Game.Pet.Cooking;
 using Dolany.Ai.Core.Ai.Game.SegmentAttach;
 using Dolany.Ai.Core.Ai.Record;
 using Dolany.Ai.Core.Base;
@@ -195,6 +196,12 @@ namespace Dolany.Ai.Core.Ai.Sys
             if (SegmentMgr.Instance.FindTreasureByName(name) != null)
             {
                 return AIMgr.Instance.AIInstance<SegmentAttachAI>().ViewTreasure(MsgDTO, param);
+            }
+
+            // 菜肴
+            if (CookingDietMgr.Instance[name] != null)
+            {
+                return CookingAI.ViewDiet(MsgDTO, param);
             }
 
             MsgSender.PushMsg(MsgDTO, "未查找到相关信息！");
