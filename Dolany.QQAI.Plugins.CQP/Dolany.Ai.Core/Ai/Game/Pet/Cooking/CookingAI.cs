@@ -13,6 +13,8 @@ namespace Dolany.Ai.Core.Ai.Game.Pet.Cooking
         public override string Description { get; set; } = "Ai for cooking.";
         public override int PriorityLevel { get; set; } = 10;
 
+        public override bool Enable { get; set; } = false;
+
         [EnterCommand(ID = "CookingAI_Cook",
             Command = "烹饪",
             AuthorityLevel = AuthorityLevel.成员,
@@ -83,7 +85,7 @@ namespace Dolany.Ai.Core.Ai.Game.Pet.Cooking
             SyntaxChecker = "Word",
             Tag = "烹饪功能",
             IsPrivateAvailable = true)]
-        public static bool ViewDiet(MsgInformationEx MsgDTO, object[] param)
+        public bool ViewDiet(MsgInformationEx MsgDTO, object[] param)
         {
             var dietName = param[0] as string;
             var Diet = CookingDietMgr.Instance[dietName];

@@ -9,18 +9,18 @@ namespace Dolany.Ai.Core.Ai.Game.Lottery
 {
     public class LotteryAI : AIBase
     {
-        public override string AIName { get; set; } = "彩票";
+        public override string AIName { get; set; } = "开箱子";
 
         public override string Description { get; set; } = "AI for draw a lottery.";
 
         public override int PriorityLevel { get; set; } = 10;
 
-        public override bool NeedManualOpeon { get; set; } = true;
+        public override bool NeedManualOpeon { get; set; } = false;
 
         [EnterCommand(ID = "LotteryAI_DrawLottery",
-            Command = "买彩票 开箱子",
+            Command = "开箱子",
             AuthorityLevel = AuthorityLevel.成员,
-            Description = "买一张彩票获得随机效果",
+            Description = "花费100金币开一个箱子",
             Syntax = "",
             SyntaxChecker = "Empty",
             Tag = "商店功能",
@@ -32,7 +32,7 @@ namespace Dolany.Ai.Core.Ai.Game.Lottery
             var osPerson = OSPerson.GetPerson(MsgDTO.FromQQ);
             if (osPerson.Golds < LotteryMgr.LotteryFee)
             {
-                MsgSender.PushMsg(MsgDTO, $"你没有足够的金币购买彩票({osPerson.Golds}/{LotteryMgr.LotteryFee})", true);
+                MsgSender.PushMsg(MsgDTO, $"你没有足够的金币开箱子({osPerson.Golds}/{LotteryMgr.LotteryFee})", true);
                 return false;
             }
 
@@ -141,9 +141,9 @@ namespace Dolany.Ai.Core.Ai.Game.Lottery
         }
 
         [EnterCommand(ID = "LotteryAI_LotteryAnalyzeToday",
-            Command = "今日彩票统计",
+            Command = "今日开箱统计",
             AuthorityLevel = AuthorityLevel.成员,
-            Description = "获取今日彩票统计情况",
+            Description = "获取今日开箱统计情况",
             Syntax = "",
             SyntaxChecker = "Empty",
             Tag = "商店功能",
@@ -157,9 +157,9 @@ namespace Dolany.Ai.Core.Ai.Game.Lottery
         }
 
         [EnterCommand(ID = "LotteryAI_LotteryAnalyzeYesterday",
-            Command = "昨日彩票统计",
+            Command = "昨日开箱统计",
             AuthorityLevel = AuthorityLevel.成员,
-            Description = "获取昨日彩票统计情况",
+            Description = "获取昨日开箱统计情况",
             Syntax = "",
             SyntaxChecker = "Empty",
             Tag = "商店功能",
@@ -173,9 +173,9 @@ namespace Dolany.Ai.Core.Ai.Game.Lottery
         }
 
         [EnterCommand(ID = "LotteryAI_MyLotteryRecord",
-            Command = "我的彩票记录",
+            Command = "我的开箱记录",
             AuthorityLevel = AuthorityLevel.成员,
-            Description = "获取自己的彩票统计",
+            Description = "获取自己的开箱统计",
             Syntax = "",
             SyntaxChecker = "Empty",
             Tag = "商店功能",
@@ -185,7 +185,7 @@ namespace Dolany.Ai.Core.Ai.Game.Lottery
             var rec = LotteryPersonRecord.Get(MsgDTO.FromQQ);
             if (rec.LotteryDic.IsNullOrEmpty())
             {
-                MsgSender.PushMsg(MsgDTO, "你没有过任何彩票记录");
+                MsgSender.PushMsg(MsgDTO, "你没有过任何开箱记录");
                 return false;
             }
 

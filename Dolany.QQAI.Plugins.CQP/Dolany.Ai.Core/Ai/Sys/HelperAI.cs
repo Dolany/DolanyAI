@@ -201,7 +201,7 @@ namespace Dolany.Ai.Core.Ai.Sys
             // 菜肴
             if (CookingDietMgr.Instance[name] != null)
             {
-                return CookingAI.ViewDiet(MsgDTO, param);
+                return AIMgr.Instance.AIInstance<CookingAI>().ViewDiet(MsgDTO, param);
             }
 
             MsgSender.PushMsg(MsgDTO, "未查找到相关信息！");
