@@ -1,4 +1,5 @@
-﻿using Dolany.Ai.Common;
+﻿using System.Collections.Generic;
+using Dolany.Ai.Common;
 
 namespace Dolany.Ai.Core.Ai.Game.Pet.Expedition
 {
@@ -6,9 +7,11 @@ namespace Dolany.Ai.Core.Ai.Game.Pet.Expedition
     {
         public static ExpeditionSceneMgr Instance { get; } = new ExpeditionSceneMgr();
 
+        private List<ExpeditionSceneModel> Scenes;
+
         private ExpeditionSceneMgr()
         {
-
+            Scenes = CommonUtil.ReadJsonData_NamedList<ExpeditionSceneModel>("Pet/ExpeditionSceneData");
         }
     }
 

@@ -50,7 +50,7 @@
     <None Update="Data\CaveSettingData.json">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
-    <None Update="Data\CookingDietData.json">
+    <None Update="Data\Pet\CookingDietData.json">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
     <None Update="Data\DirtyWordData.json">
@@ -59,7 +59,7 @@
     <None Update="Data\driftBottleItemData.json">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
-    <None Update="Data\FlavoringData.json">
+    <None Update="Data\Pet\ExpeditionSceneData.json">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
     <None Update="Data\FortuneItemData.json">
@@ -77,13 +77,10 @@
     <None Update="Data\MultiMediaHelloData.json">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
-    <None Update="Data\PetLevelData.json">
+    <None Update="Data\Pet\PetLevelData.json">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
-    <None Update="Data\PetModelData.json">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </None>
-    <None Update="Data\PetSkillData.json">
+    <None Update="Data\Pet\PetSkillData.json">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
     <None Update="Data\QQNumReflectData.json">

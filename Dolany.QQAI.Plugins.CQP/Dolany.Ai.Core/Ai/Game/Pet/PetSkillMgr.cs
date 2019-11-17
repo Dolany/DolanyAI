@@ -17,7 +17,7 @@ namespace Dolany.Ai.Core.Ai.Game.Pet
 
         private PetSkillMgr()
         {
-            AllSkills = CommonUtil.ReadJsonData_NamedList<PetSkillModel>("PetSkillData");
+            AllSkills = CommonUtil.ReadJsonData_NamedList<PetSkillModel>("Pet/PetSkillData");
         }
     }
 

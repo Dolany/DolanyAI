@@ -14,7 +14,7 @@ namespace Dolany.Ai.Core.Ai.Game.Pet
 
         private PetLevelMgr()
         {
-            LevelDic = CommonUtil.ReadJsonData_NamedList<PetLevelModel>("PetLevelData")
+            LevelDic = CommonUtil.ReadJsonData_NamedList<PetLevelModel>("Pet/PetLevelData")
                 .ToDictionary(p => p.Level, p => p);
         }
 

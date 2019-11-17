@@ -14,7 +14,7 @@ namespace Dolany.Ai.Core.Ai.Game.Pet.Cooking
 
         private CookingDietMgr()
         {
-            DietList = CommonUtil.ReadJsonData_NamedList<CookingDietModel>("CookingDietData");
+            DietList = CommonUtil.ReadJsonData_NamedList<CookingDietModel>("Pet/CookingDietData");
         }
     }
 

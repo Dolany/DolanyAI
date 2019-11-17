@@ -45,6 +45,7 @@ namespace Dolany.Ai.Core.Ai.Game.Pet
                       $"食性：{pet.Attribute ?? "无"}\r" +
                       $"等级：{Utility.LevelEmoji(pet.Level)}\r" +
                       $"{Emoji.心}：{levelModel.HP}\r" +
+                      $"耐力：{levelModel.HP - PetEnduranceRecord.Get(MsgDTO.FromQQ).ConsumeTotal}/{levelModel.HP}\r" +
                       $"经验值：{pet.Exp}/{levelModel.Exp}";
             if (!pet.Skills.IsNullOrEmpty())
             {

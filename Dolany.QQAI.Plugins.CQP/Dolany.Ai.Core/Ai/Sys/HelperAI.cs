@@ -8,6 +8,7 @@ using Dolany.Ai.Core.Ai.Game.Pet;
 using Dolany.Ai.Core.Ai.Game.Pet.Cooking;
 using Dolany.Ai.Core.Ai.Game.SegmentAttach;
 using Dolany.Ai.Core.Ai.Record;
+using Dolany.Ai.Core.API;
 using Dolany.Ai.Core.Base;
 using Dolany.Ai.Core.Cache;
 using Dolany.Ai.Core.Common;
@@ -58,20 +59,16 @@ namespace Dolany.Ai.Core.Ai.Sys
 
         private static void HelpSummary(MsgInformationEx MsgDTO)
         {
-            var helpMsg = "当前的命令标签有：";
+            var helpMsg = "当前的命令标签有：\r";
             var commandAttrs = AIMgr.Instance.AllAvailableGroupCommands.GroupBy(c => c.Tag)
                                                                        .Select(p => p.First());
             if (MsgDTO.Auth != AuthorityLevel.开发者)
             {
                 commandAttrs = commandAttrs.Where(p => p.AuthorityLevel != AuthorityLevel.开发者);
             }
-            var builder = new StringBuilder();
-            builder.Append(helpMsg);
-            foreach (var c in commandAttrs)
-            {
-                builder.Append('\r' + c.Tag);
-            }
-            helpMsg = builder.ToString();
+
+            helpMsg += string.Join("", commandAttrs.Select((command, idx) =>
+                idx % 2 == 0 ? $"{Emoji.AllEmojis().RandElement()}{command.Tag}{Emoji.AllEmojis().RandElement()}" : $"{command.Tag}{Emoji.AllEmojis().RandElement()}\r"));
 
             helpMsg += '\r' + "可以使用 帮助 [标签名] 来查询标签中的具体命令名 或者使用 帮助 [命令名] 来查询具体命令信息。";
 
