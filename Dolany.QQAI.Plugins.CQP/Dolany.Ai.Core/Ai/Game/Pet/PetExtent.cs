@@ -2,6 +2,7 @@
 using System.Linq;
 using Dolany.Ai.Common;
 using Dolany.Ai.Common.Models;
+using Dolany.Ai.Core.Ai.Game.Pet.PetAgainst;
 
 namespace Dolany.Ai.Core.Ai.Game.Pet
 {

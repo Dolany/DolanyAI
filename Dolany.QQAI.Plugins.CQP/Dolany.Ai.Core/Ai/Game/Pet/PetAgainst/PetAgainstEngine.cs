@@ -6,7 +6,7 @@ using Dolany.Ai.Common;
 using Dolany.Ai.Core.Cache;
 using Dolany.Database.Ai;
 
-namespace Dolany.Ai.Core.Ai.Game.Pet
+namespace Dolany.Ai.Core.Ai.Game.Pet.PetAgainst
 {
     public partial class PetAgainstEngine
     {

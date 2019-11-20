@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Linq.Expressions;
+using MongoDB.Bson.Serialization;
 using MongoDB.Driver;
 
 namespace Dolany.Database
@@ -28,6 +29,27 @@ namespace Dolany.Database
         public static List<T> Get(Expression<Func<T, bool>> exp)
         {
             return GetCollection().Find(exp).ToList();
+        }
+
+        public static List<T> Get(Expression<Func<T, bool>> findExp, Expression<Func<T, object>> sortExp, bool isAscending = true, int skip = 0, int limit = 0)
+        {
+            var fluent = GetCollection().Find(findExp);
+
+            var sortBuilder = Builders<T>.Sort;
+            var sortDef = isAscending ? sortBuilder.Ascending(sortExp) : sortBuilder.Descending(sortExp);
+            fluent = fluent.Sort(sortDef);
+
+            if (skip != 0)
+            {
+                fluent = fluent.Skip(skip);
+            }
+
+            if (limit != 0)
+            {
+                fluent = fluent.Limit(limit);
+            }
+
+            return fluent.ToList();
         }
 
         public static List<T> Get()

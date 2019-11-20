@@ -1,6 +1,6 @@
 ﻿using System.Collections.Generic;
 
-namespace Dolany.Ai.Core.Ai.Game.Pet
+namespace Dolany.Ai.Core.Ai.Game.Pet.PetAgainst
 {
     public class GamingPet
     {

@@ -6,6 +6,7 @@ using Dolany.Ai.Common.Models;
 using Dolany.Ai.Core.Ai.Game.Gift;
 using Dolany.Ai.Core.Ai.Game.Pet;
 using Dolany.Ai.Core.Ai.Game.Pet.Cooking;
+using Dolany.Ai.Core.Ai.Game.Pet.PetAgainst;
 using Dolany.Ai.Core.Ai.Game.SegmentAttach;
 using Dolany.Ai.Core.Ai.Record;
 using Dolany.Ai.Core.API;

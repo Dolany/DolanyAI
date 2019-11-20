@@ -4,7 +4,7 @@ using System.Linq;
 using System.Reflection;
 using Dolany.Ai.Common;
 
-namespace Dolany.Ai.Core.Ai.Game.Pet
+namespace Dolany.Ai.Core.Ai.Game.Pet.PetAgainst
 {
     public partial class PetAgainstEngine
     {
