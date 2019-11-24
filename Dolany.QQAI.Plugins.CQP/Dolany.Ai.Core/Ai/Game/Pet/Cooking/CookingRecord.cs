@@ -80,6 +80,16 @@ namespace Dolany.Ai.Core.Ai.Game.Pet.Cooking
             }
         }
 
+        public void FlavoringIncome(string flavoringName, int count = 1)
+        {
+            if (!FlavoringDic.ContainsKey(flavoringName))
+            {
+                FlavoringDic.Add(flavoringName, 0);
+            }
+
+            FlavoringDic[flavoringName] += count;
+        }
+
         public void Update()
         {
             CookedDietDic.Remove(p => p == 0);

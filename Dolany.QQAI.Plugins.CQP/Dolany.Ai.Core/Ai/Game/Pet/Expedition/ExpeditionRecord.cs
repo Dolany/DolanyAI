@@ -12,7 +12,12 @@ namespace Dolany.Ai.Core.Ai.Game.Pet.Expedition
 
         public string Scene { get; set; }
 
+        /// <summary>
+        /// 是否已领取奖励
+        /// </summary>
         public bool IsDrawn { get; set; }
+
+        public bool IsExpediting => DateTime.Now < EndTime.ToLocalTime();
 
         public static ExpeditionRecord GetLastest(long QQNum)
         {

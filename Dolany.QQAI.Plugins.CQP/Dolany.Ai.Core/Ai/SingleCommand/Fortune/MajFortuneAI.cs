@@ -5,6 +5,7 @@ using Dolany.Ai.Common;
 using Dolany.Ai.Common.Models;
 using Dolany.Ai.Core.Base;
 using Dolany.Ai.Core.Cache;
+using Dolany.Ai.Core.Common;
 using Dolany.Database.Sqlite.Model;
 using JetBrains.Annotations;
 using Newtonsoft.Json;
@@ -69,7 +70,7 @@ namespace Dolany.Ai.Core.Ai.SingleCommand.Fortune
         [NotNull]
         private string FortunePrintString(MajFortuneCache fortune)
         {
-            var msg = "今日麻将运势：" + $"\r整体运势：{GetStarString(fortune.FortuneStar)} " + $"\r吉位：{fortune.Position} "
+            var msg = "今日麻将运势：" + $"\r整体运势：{Utility.LevelToStars(fortune.FortuneStar)} " + $"\r吉位：{fortune.Position} "
                       + $"\r牌运：{fortune.Kind} " + $"\r代表人物：{fortune.CharactorName} "
                       + $"\r{CodeApi.Code_Image(fortune.CharactorPath)}";
 
@@ -128,24 +129,6 @@ namespace Dolany.Ai.Core.Ai.SingleCommand.Fortune
             }
 
             return string.Empty;
-        }
-
-        [NotNull]
-        private string GetStarString(int fortune)
-        {
-            var str = string.Empty;
-            var stars = fortune / 2;
-            for (var i = 0; i < stars; i++)
-            {
-                str += "★";
-            }
-
-            if (fortune % 2 == 1)
-            {
-                str += "☆";
-            }
-
-            return str;
         }
     }
 }

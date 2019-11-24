@@ -10,6 +10,8 @@ namespace Dolany.Ai.Core.Ai.Game.SegmentAttach
 
         public string Segment { get; set; }
 
+        public bool IsRare { get; set; } = false;
+
         public Dictionary<string, int> TreasureRecord { get; set; } = new Dictionary<string, int>();
 
         public int FinalTreasureCount { get; set; }
@@ -39,6 +41,12 @@ namespace Dolany.Ai.Core.Ai.Game.SegmentAttach
             record = new SegmentRecord(){QQNum = QQNum};
             MongoService<SegmentRecord>.Insert(record);
             return record;
+        }
+
+        public void ClearSegment()
+        {
+            Segment = null;
+            IsRare = false;
         }
 
         public void AddTreasureRecord(string treasure)

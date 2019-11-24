@@ -4,6 +4,7 @@ using System.Linq;
 using Dolany.Ai.Common;
 using Dolany.Ai.Common.Models;
 using Dolany.Ai.Core.Ai.Game.Pet.Cooking;
+using Dolany.Ai.Core.Ai.Game.Pet.Expedition;
 using Dolany.Ai.Core.Ai.Game.Pet.PetAgainst;
 using Dolany.Ai.Core.API;
 using Dolany.Ai.Core.Base;
@@ -46,7 +47,7 @@ namespace Dolany.Ai.Core.Ai.Game.Pet
                       $"食性：{pet.Attribute ?? "无"}\r" +
                       $"等级：{Utility.LevelEmoji(pet.Level)}\r" +
                       $"{Emoji.心}：{levelModel.HP}\r" +
-                      $"耐力：{levelModel.HP - PetEnduranceRecord.Get(MsgDTO.FromQQ).ConsumeTotal}/{levelModel.HP}\r" +
+                      $"耐力：{levelModel.Endurance - PetEnduranceRecord.Get(MsgDTO.FromQQ).ConsumeTotal}/{levelModel.Endurance}\r" +
                       $"经验值：{pet.Exp}/{levelModel.Exp}";
             if (!pet.Skills.IsNullOrEmpty())
             {
@@ -275,6 +276,12 @@ namespace Dolany.Ai.Core.Ai.Game.Pet
             var name = param[0] as string;
 
             var pet = PetRecord.Get(MsgDTO.FromQQ);
+            var expRec = ExpeditionRecord.GetLastest(MsgDTO.FromQQ);
+            if (expRec != null && expRec.IsExpediting)
+            {
+                MsgSender.PushMsg(MsgDTO, $"{pet.Name}正在进行一项伟大的远征，请于{expRec.EndTime:yyyy-MM-dd HH:mm:ss}后再试！");
+            }
+
             if (string.IsNullOrEmpty(pet.Attribute))
             {
                 MsgSender.PushMsg(MsgDTO, "请先设置宠物食性！", true);
@@ -443,6 +450,12 @@ namespace Dolany.Ai.Core.Ai.Game.Pet
             }
 
             var pet = PetRecord.Get(MsgDTO.FromQQ);
+            var expRec = ExpeditionRecord.GetLastest(MsgDTO.FromQQ);
+            if (expRec != null && expRec.IsExpediting)
+            {
+                MsgSender.PushMsg(MsgDTO, $"{pet.Name}正在进行一项伟大的远征，请于{expRec.EndTime:yyyy-MM-dd HH:mm:ss}后再试！");
+            }
+
             if (pet.Skills.IsNullOrEmpty() || !pet.Skills.ContainsKey(name))
             {
                 MsgSender.PushMsg(MsgDTO, $"{pet.Name}尚未学习该技能！", true);
@@ -494,6 +507,12 @@ namespace Dolany.Ai.Core.Ai.Game.Pet
             }
 
             var pet = PetRecord.Get(MsgDTO.FromQQ);
+            var expRec = ExpeditionRecord.GetLastest(MsgDTO.FromQQ);
+            if (expRec != null && expRec.IsExpediting)
+            {
+                MsgSender.PushMsg(MsgDTO, $"{pet.Name}正在进行一项伟大的远征，请于{expRec.EndTime:yyyy-MM-dd HH:mm:ss}后再试！");
+            }
+
             pet.SkillReset();
             pet.Update();
 
@@ -548,6 +567,12 @@ namespace Dolany.Ai.Core.Ai.Game.Pet
             }
 
             var sourcePet = PetRecord.Get(MsgDTO.FromQQ);
+            var expRec = ExpeditionRecord.GetLastest(MsgDTO.FromQQ);
+            if (expRec != null && expRec.IsExpediting)
+            {
+                MsgSender.PushMsg(MsgDTO, $"{sourcePet.Name}正在进行一项伟大的远征，请于{expRec.EndTime:yyyy-MM-dd HH:mm:ss}后再试！");
+            }
+
             if (sourcePet.Level < 3)
             {
                 MsgSender.PushMsg(MsgDTO, $"{sourcePet.Name}还没到3级，无法参加宠物对决！");

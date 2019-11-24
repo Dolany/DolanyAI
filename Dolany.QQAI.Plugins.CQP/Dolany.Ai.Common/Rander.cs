@@ -11,6 +11,11 @@ namespace Dolany.Ai.Common
 
         public static int RandInt(int MaxValue)
         {
+            if (MaxValue == 0)
+            {
+                return 0;
+            }
+
             var bytes = new byte[4];
             RngCsp.GetBytes(bytes);
 

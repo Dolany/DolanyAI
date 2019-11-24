@@ -31,9 +31,16 @@ namespace Dolany.Ai.Core.Ai.Game.SegmentAttach
             var segment = SegmentMgr.Instance.RandSegment();
             var record = SegmentRecord.Get(MsgDTO.FromQQ);
             record.Segment = segment.Name;
+            record.IsRare = Rander.RandInt(100) > 90;
             record.Update();
 
             var msg = $"你领取到了新的宝藏碎片！\r{segment}";
+            var treasure = SegmentMgr.Instance.FindTreasureBySegment(record.Segment);
+            msg += $"\r可开启宝藏：{treasure.Name}";
+            if (record.IsRare)
+            {
+                msg += "\r恭喜你领取到了稀有碎片，拼接后将得到双倍奖励！";
+            }
             MsgSender.PushMsg(MsgDTO, msg, true);
             return true;
         }
@@ -88,6 +95,10 @@ namespace Dolany.Ai.Core.Ai.Game.SegmentAttach
 
             var treasure = SegmentMgr.Instance.FindTreasureBySegment(record.Segment);
             var msg = $"{segment}\r可开启宝藏：{treasure.Name}";
+            if (record.IsRare)
+            {
+                msg += "\r稀有：拼接后将得到双倍奖励！";
+            }
 
             MsgSender.PushMsg(MsgDTO, msg);
             return true;
@@ -265,9 +276,6 @@ namespace Dolany.Ai.Core.Ai.Game.SegmentAttach
                 return false;
             }
 
-            selfRecord.Segment = string.Empty;
-            aimRecord.Segment = string.Empty;
-
             selfRecord.AddTreasureRecord(treasure.Name);
             aimRecord.AddTreasureRecord(treasure.Name);
 
@@ -279,23 +287,26 @@ namespace Dolany.Ai.Core.Ai.Game.SegmentAttach
 
             foreach (var item in selfBonusItems)
             {
-                selfIcRecord.ItemIncome(item.Name);
+                selfIcRecord.ItemIncome(item.Name, selfRecord.IsRare ? 2 : 1);
             }
 
             foreach (var item in aimBonusItems)
             {
-                aimIcRecord.ItemIncome(item.Name);
+                aimIcRecord.ItemIncome(item.Name, aimRecord.IsRare ? 2 : 1);
             }
-
-            selfRecord.Update();
-            aimRecord.Update();
 
             MsgSender.PushMsg(MsgDTO, treasure.ToString());
 
-            var msg = $"拼接成功！\r" +
-                      $"{CodeApi.Code_At(MsgDTO.FromQQ)} 获得了{string.Join(",", selfBonusItems.Select(p => p.Name))} ！\r" +
-                      $"{CodeApi.Code_At(aimQQ)} 获得了{string.Join(",", aimBonusItems.Select(p => p.Name))} ！";
+            var msg = "拼接成功！\r" +
+                      $"{CodeApi.Code_At(MsgDTO.FromQQ)} 获得了{string.Join(",", selfBonusItems.Select(p => $"{p.Name}*{(selfRecord.IsRare ? 2 : 1)}"))} ！\r" +
+                      $"{CodeApi.Code_At(aimQQ)} 获得了{string.Join(",", aimBonusItems.Select(p => $"{p.Name}*{(aimRecord.IsRare ? 2 : 1)}"))} ！";
             MsgSender.PushMsg(MsgDTO, msg);
+
+            selfRecord.ClearSegment();
+            aimRecord.ClearSegment();
+            selfRecord.Update();
+            aimRecord.Update();
+
             return true;
         }
     }

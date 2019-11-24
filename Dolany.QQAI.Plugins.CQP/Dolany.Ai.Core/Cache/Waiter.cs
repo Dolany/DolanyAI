@@ -247,7 +247,7 @@ namespace Dolany.Ai.Core.Cache
         public int WaitForNum(long ToGroup, long ToQQ, string msg, Predicate<int> predicate, string BindAi)
         {
             var msgInfo = WaitForInformation(new MsgInformationEx() {FromGroup = ToGroup, FromQQ = ToQQ, BindAi = BindAi}, msg,
-                info => info.FromGroup == ToGroup && info.FromQQ == ToQQ && int.TryParse(info.Msg, out var res) && predicate(res), 7, ToQQ != 0);
+                info => info.FromGroup == ToGroup && info.FromQQ == ToQQ && int.TryParse(info.Msg, out var res) && predicate(res), 10, ToQQ != 0);
             if (msgInfo != null && int.TryParse(msgInfo.Msg, out var aimr))
             {
                 return aimr;

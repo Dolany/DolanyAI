@@ -2,51 +2,51 @@
   "1": {
     "Exp": 100,
     "HP": 50,
-    "Endurance": 3 
+    "Endurance": 50 
   },
   "2": {
     "Exp": 200,
     "HP": 50,
-    "Endurance": 4
+    "Endurance": 50
   },
   "3": {
     "Exp": 350,
     "HP": 50,
-    "Endurance": 5
+    "Endurance": 50
   },
   "4": {
     "Exp": 540,
     "HP": 60,
-    "Endurance": 6
+    "Endurance": 60
   },
   "5": {
     "Exp": 790,
     "HP": 70,
-    "Endurance": 7
+    "Endurance": 70
   },
   "6": {
     "Exp": 990,
     "HP": 80,
-    "Endurance": 8
+    "Endurance": 80
   },
   "7": {
     "Exp": 1100,
     "HP": 90,
-    "Endurance": 9
+    "Endurance": 90
   },
   "8": {
     "Exp": 1350,
     "HP": 100,
-    "Endurance": 10
+    "Endurance": 100
   },
   "9": {
     "Exp": 1580,
     "HP": 110,
-    "Endurance": 11
+    "Endurance": 110
   },
   "10": {
     "Exp": 1780,
     "HP": 120,
-    "Endurance": 12
+    "Endurance": 120
   }
 }

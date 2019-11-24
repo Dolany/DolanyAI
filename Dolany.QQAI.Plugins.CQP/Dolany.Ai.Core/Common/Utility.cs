@@ -186,6 +186,23 @@ namespace Dolany.Ai.Core.Common
             return stack;
         }
 
+        public static string LevelToStars(int level)
+        {
+            var str = string.Empty;
+            var stars = level / 2;
+            for (var i = 0; i < stars; i++)
+            {
+                str += "★";
+            }
+
+            if (level % 2 == 1)
+            {
+                str += "☆";
+            }
+
+            return str;
+        }
+
         public static bool DownloadImage(string url, string savePath)
         {
             try
