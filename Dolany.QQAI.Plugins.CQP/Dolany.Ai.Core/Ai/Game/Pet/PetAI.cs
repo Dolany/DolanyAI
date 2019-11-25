@@ -279,7 +279,8 @@ namespace Dolany.Ai.Core.Ai.Game.Pet
             var expRec = ExpeditionRecord.GetLastest(MsgDTO.FromQQ);
             if (expRec != null && expRec.IsExpediting)
             {
-                MsgSender.PushMsg(MsgDTO, $"{pet.Name}正在进行一项伟大的远征，请于{expRec.EndTime:yyyy-MM-dd HH:mm:ss}后再试！");
+                MsgSender.PushMsg(MsgDTO, $"{pet.Name}正在进行一项伟大的远征，请于{expRec.EndTime.ToLocalTime():yyyy-MM-dd HH:mm:ss}后再试！");
+                return false;
             }
 
             if (string.IsNullOrEmpty(pet.Attribute))
@@ -453,7 +454,8 @@ namespace Dolany.Ai.Core.Ai.Game.Pet
             var expRec = ExpeditionRecord.GetLastest(MsgDTO.FromQQ);
             if (expRec != null && expRec.IsExpediting)
             {
-                MsgSender.PushMsg(MsgDTO, $"{pet.Name}正在进行一项伟大的远征，请于{expRec.EndTime:yyyy-MM-dd HH:mm:ss}后再试！");
+                MsgSender.PushMsg(MsgDTO, $"{pet.Name}正在进行一项伟大的远征，请于{expRec.EndTime.ToLocalTime():yyyy-MM-dd HH:mm:ss}后再试！");
+                return false;
             }
 
             if (pet.Skills.IsNullOrEmpty() || !pet.Skills.ContainsKey(name))
@@ -510,7 +512,8 @@ namespace Dolany.Ai.Core.Ai.Game.Pet
             var expRec = ExpeditionRecord.GetLastest(MsgDTO.FromQQ);
             if (expRec != null && expRec.IsExpediting)
             {
-                MsgSender.PushMsg(MsgDTO, $"{pet.Name}正在进行一项伟大的远征，请于{expRec.EndTime:yyyy-MM-dd HH:mm:ss}后再试！");
+                MsgSender.PushMsg(MsgDTO, $"{pet.Name}正在进行一项伟大的远征，请于{expRec.EndTime.ToLocalTime():yyyy-MM-dd HH:mm:ss}后再试！");
+                return false;
             }
 
             pet.SkillReset();
@@ -570,7 +573,8 @@ namespace Dolany.Ai.Core.Ai.Game.Pet
             var expRec = ExpeditionRecord.GetLastest(MsgDTO.FromQQ);
             if (expRec != null && expRec.IsExpediting)
             {
-                MsgSender.PushMsg(MsgDTO, $"{sourcePet.Name}正在进行一项伟大的远征，请于{expRec.EndTime:yyyy-MM-dd HH:mm:ss}后再试！");
+                MsgSender.PushMsg(MsgDTO, $"{sourcePet.Name}正在进行一项伟大的远征，请于{expRec.EndTime.ToLocalTime():yyyy-MM-dd HH:mm:ss}后再试！");
+                return false;
             }
 
             if (sourcePet.Level < 3)

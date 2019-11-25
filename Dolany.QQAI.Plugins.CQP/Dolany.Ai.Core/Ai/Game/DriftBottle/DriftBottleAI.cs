@@ -9,7 +9,7 @@ using Dolany.Ai.Core.OnlineStore;
 using Dolany.Database;
 using Dolany.Database.Ai;
 
-namespace Dolany.Ai.Core.Ai.Record
+namespace Dolany.Ai.Core.Ai.Game.DriftBottle
 {
     public class DriftBottleAI : AIBase
     {
@@ -299,6 +299,8 @@ namespace Dolany.Ai.Core.Ai.Record
             var record = ItemCollectionRecord.Get(MsgDTO.FromQQ);
             var honorName = HonorHelper.Instance.FindHonorName(item.Name);
 
+            DriftBottleAnalyzeRecord.Record(item.Name);
+
             var s = record.ItemIncome(item.Name);
             var msg = $"你捞到了 {item.Name} \r" +
                       $"    {item.Description} \r" +
@@ -410,6 +412,32 @@ namespace Dolany.Ai.Core.Ai.Record
             var honorCount = allRecord.Count(r => r.HonorList != null && r.HonorList.Contains(LimitHonor.Name));
             var msg = $"限定物品收集情况：\r{string.Join("\r", itemDic.Select(p => $"{p.Key}:{p.Value}"))}\r";
             msg += $"共有 {honorCount} 人达成了本月限定成就";
+
+            MsgSender.PushMsg(MsgDTO, msg);
+            return true;
+        }
+
+        [EnterCommand(ID = "DriftBottleAI_TodayDriftAnalyze",
+            Command = "今日捞瓶子统计",
+            AuthorityLevel = AuthorityLevel.成员,
+            Description = "查看今日捞瓶子情况统计",
+            Syntax = "",
+            SyntaxChecker = "Empty",
+            Tag = "漂流瓶功能",
+            IsPrivateAvailable = true)]
+        public bool TodayDriftAnalyze(MsgInformationEx MsgDTO, object[] param)
+        {
+            var todayRec = DriftBottleAnalyzeRecord.GetToday();
+            if (todayRec.ItemDic.IsNullOrEmpty())
+            {
+                MsgSender.PushMsg(MsgDTO, "尚未有人捞到瓶子！");
+                return false;
+            }
+
+            var modelDic = todayRec.ItemDic.ToDictionary(p => HonorHelper.Instance.FindItem(p.Key), p => p.Value);
+            var msg = "今日捞瓶子统计\r";
+            msg += $"总次数：{todayRec.ItemDic.Sum(p => p.Value)}\r";
+            msg += $"总价值：{modelDic.Sum(p => p.Key.Price * p.Value)}";
 
             MsgSender.PushMsg(MsgDTO, msg);
             return true;

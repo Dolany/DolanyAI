@@ -83,7 +83,7 @@ namespace Dolany.Ai.Core.Ai.Game.Pet.Expedition
 
         public string Award(long QQNum)
         {
-            const string msg = "恭喜你获得以下奖励：";
+            var msg = $"恭喜你在 {Name} 的伟大远征中获得以下奖励：";
             var msgList = new List<string>();
             if (GoldBonus != null)
             {

@@ -2,7 +2,6 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Linq.Expressions;
-using MongoDB.Bson.Serialization;
 using MongoDB.Driver;
 
 namespace Dolany.Database
@@ -15,7 +14,7 @@ namespace Dolany.Database
         /// 获取集合（表）
         /// </summary>
         /// <returns></returns>
-        private static IMongoCollection<T> GetCollection()
+        public static IMongoCollection<T> GetCollection()
         {
             return Repo.Collection<T>();
         }
