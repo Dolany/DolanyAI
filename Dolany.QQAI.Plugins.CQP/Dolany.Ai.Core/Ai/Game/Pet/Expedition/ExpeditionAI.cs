@@ -48,7 +48,7 @@ namespace Dolany.Ai.Core.Ai.Game.Pet.Expedition
         {
             var todayExpeditions = ExpeditionSceneMgr.Instance.TodayExpedition();
             var msg = $"请选择远征副本：\r{string.Join("\r\r", todayExpeditions.Select((exp, idx) => $"{idx + 1}:{exp}"))}";
-            var selection = Waiter.Instance.WaitForNum(MsgDTO.FromGroup, MsgDTO.FromQQ, msg, i => i > 0 && i <= todayExpeditions.Count, MsgDTO.BindAi);
+            var selection = Waiter.Instance.WaitForNum(MsgDTO.FromGroup, MsgDTO.FromQQ, msg, i => i > 0 && i <= todayExpeditions.Count, MsgDTO.BindAi, 12);
             if (selection < 0)
             {
                 MsgSender.PushMsg(MsgDTO, "操作取消");

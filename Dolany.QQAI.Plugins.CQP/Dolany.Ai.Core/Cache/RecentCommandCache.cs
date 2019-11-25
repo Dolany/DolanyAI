@@ -1,5 +1,5 @@
 ﻿using System;
-using System.Collections.Generic;
+using System.Collections.Concurrent;
 using System.Linq;
 using Dolany.Ai.Core.Common;
 
@@ -9,41 +9,35 @@ namespace Dolany.Ai.Core.Cache
     {
         private static readonly int MaxRecentCommandCacheCount = Global.DefaultConfig.MaxRecentCommandCacheCount;
 
-        private static readonly Dictionary<string, List<DateTime>> TimeCacheDic = new Dictionary<string, List<DateTime>>();
-
-        private static readonly object Lock_list = new object();
+        private static readonly ConcurrentDictionary<string, ConcurrentQueue<DateTime>> TimeCacheDic = new ConcurrentDictionary<string, ConcurrentQueue<DateTime>>();
 
         public static void Cache(string BindAi)
         {
-            lock (Lock_list)
+            if (TimeCacheDic.ContainsKey(BindAi))
             {
-                if (TimeCacheDic.ContainsKey(BindAi))
+                var tc = TimeCacheDic[BindAi];
+                tc.Enqueue(DateTime.Now);
+                if (tc.Count > MaxRecentCommandCacheCount)
                 {
-                    var tc = TimeCacheDic[BindAi];
-                    tc.Add(DateTime.Now);
-                    if (tc.Count > MaxRecentCommandCacheCount)
-                    {
-                        tc.RemoveAt(0);
-                    }
+                    tc.TryDequeue(out _);
                 }
-                else
-                {
-                    TimeCacheDic.Add(BindAi, new List<DateTime>(){DateTime.Now});
-                }
+            }
+            else
+            {
+                var queue = new ConcurrentQueue<DateTime>();
+                queue.Enqueue(DateTime.Now);
+                TimeCacheDic.TryAdd(BindAi, queue);
             }
         }
 
         public static bool IsTooFreq(string BindAi)
         {
-            lock (Lock_list)
+            if (!TimeCacheDic.ContainsKey(BindAi) || !TimeCacheDic[BindAi].Any())
             {
-                if (!TimeCacheDic.ContainsKey(BindAi) || !TimeCacheDic[BindAi].Any())
-                {
-                    return false;
-                }
-
-                return TimeCacheDic[BindAi].Count >= MaxRecentCommandCacheCount && TimeCacheDic[BindAi].First().AddHours(1) > DateTime.Now;
+                return false;
             }
+
+            return TimeCacheDic[BindAi].Count >= MaxRecentCommandCacheCount && TimeCacheDic[BindAi].TryPeek(out var peekTime) && peekTime.AddHours(1) > DateTime.Now;
         }
     }
 }

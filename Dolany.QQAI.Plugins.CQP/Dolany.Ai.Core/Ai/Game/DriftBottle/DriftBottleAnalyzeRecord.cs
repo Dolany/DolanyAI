@@ -27,7 +27,6 @@ namespace Dolany.Ai.Core.Ai.Game.DriftBottle
 
         public static void Record(string item, int count = 1)
         {
-            var dstr = DateTime.Now.ToString("yyyyMMdd");
             var rec = GetToday();
 
             if (!rec.ItemDic.ContainsKey(item))

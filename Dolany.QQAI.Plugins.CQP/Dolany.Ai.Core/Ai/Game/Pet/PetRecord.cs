@@ -4,6 +4,7 @@ using System.IO;
 using System.Linq;
 using Dolany.Ai.Common;
 using Dolany.Database;
+using MongoDB.Driver;
 
 namespace Dolany.Ai.Core.Ai.Game.Pet
 {
@@ -58,8 +59,8 @@ namespace Dolany.Ai.Core.Ai.Game.Pet
 
         public static IEnumerable<PetRecord> LevelTop(int count)
         {
-            var pets = MongoService<PetRecord>.Get();
-            return pets.OrderByDescending(p => p.Level).ThenByDescending(p => p.Exp).Take(count).ToList();
+            var sort = Builders<PetRecord>.Sort.Descending(p => p.Level).Descending(p => p.Exp);
+            return MongoService<PetRecord>.GetCollection().Find(p => true).Sort(sort).Limit(count).ToList();
         }
 
         public void SkillReset()
