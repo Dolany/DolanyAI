@@ -5,7 +5,7 @@
       "Description": "大概是卖不到什么钱了...",
       "Rate": 100,
       "Price": 60,
-      "Attributes": [ "钢铁" ] 
+      "Attributes": [ "钢铁" ]
     },
     {
       "Name": "生锈的斧头",
@@ -294,7 +294,7 @@
       "Description": "绚烂夺目的黑色...",
       "Rate": 15,
       "Price": 400,
-      "Attributes": ["海洋"]
+      "Attributes": [ "海洋" ]
     }
   ],
   "腐败食物": [
@@ -902,5 +902,56 @@
       "Price": 800,
       "Attributes": [ "钢铁" ]
     }
-  ] 
+  ],
+  "学园都市": [
+    {
+      "Name": "一方通行",
+      "Description": "铃科百合子？一方大爷（是个萝莉控）...",
+      "Rate": 32,
+      "Price": 200,
+      "Attributes": [ "海洋" ]
+    },
+    {
+      "Name": "垣根帝督",
+      "Description": "老二啊~...",
+      "Rate": 16,
+      "Price": 400,
+      "Attributes": [ "钢铁" ]
+    },
+    {
+      "Name": "御坂美琴",
+      "Description": "你指尖跃动的电光，是我此生不变的信仰！（我姆某人的老婆没有异议）...",
+      "Rate": 1,
+      "Price": 5000,
+      "Attributes": [ "神秘" ]
+    },
+    {
+      "Name": "麦野沉利",
+      "Description": "芙非达~~~~~~~~...",
+      "Rate": 8,
+      "Price": 800,
+      "Attributes": [ "深渊" ]
+    },
+    {
+      "Name": "蓝花悦",
+      "Description": "您是？哪位来着？？？？...",
+      "Rate": 18,
+      "Price": 432,
+      "Attributes": [ "自然" ]
+    },
+    {
+      "Name": "削板军霸",
+      "Description": "第七位……嗯...",
+      "Rate": 12,
+      "Price": 671,
+      "Attributes": [ "自然" ]
+    },
+    {
+      "Name": "食蜂操祈",
+      "Description": "你真的是国中生？...",
+      "Rate": 10,
+      "Price": 980,
+      "Attributes": [ "神秘" ]
+    }
+  ]
 }

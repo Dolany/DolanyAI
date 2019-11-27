@@ -302,10 +302,12 @@ namespace Dolany.Ai.Core.Ai.Game.DriftBottle
             DriftBottleAnalyzeRecord.Record(item.Name);
 
             var s = record.ItemIncome(item.Name);
-            var msg = $"你捞到了 {item.Name} \r" +
+            var msg = "你捞到了 \r" +
+                      $"{(string.IsNullOrEmpty(item.PicPath) ? string.Empty : $"{CodeApi.Code_Image_Relational(item.PicPath)}")}\r" +
+                      $"{item.Name} \r" +
                       $"    {item.Description} \r" +
                       $"稀有率为 {HonorHelper.Instance.ItemRate(item)}%\r" +
-                      $"售价为：{HonorHelper.GetItemPrice(item, MsgDTO.FromQQ)} 金币\r" +
+                      $"售价为：{item.Price} 金币\r" +
                       $"特性：{(item.Attributes == null ? "无" : string.Join(",", item.Attributes))}\r" +
                       $"你总共拥有该物品 {record.HonorCollections[honorName].Items[item.Name]}个";
 
@@ -348,13 +350,14 @@ namespace Dolany.Ai.Core.Ai.Game.DriftBottle
             }
 
             var record = ItemCollectionRecord.Get(MsgDTO.FromQQ);
-            var msg = $"物品名称：{item.Name}\r" +
-                      $"物品描述：{item.Description}\r" +
+            var msg = $"{(string.IsNullOrEmpty(item.PicPath) ? string.Empty : $"{CodeApi.Code_Image_Relational(item.PicPath)}")}\r" +
+                      $"{item.Name}\r" +
+                      $"    {item.Description}\r" +
                       $"稀有率：{HonorHelper.Instance.ItemRate(item)}%\r" +
                       $"价格：{HonorHelper.GetItemPrice(item, MsgDTO.FromQQ)}\r" +
                       $"特性：{(item.Attributes == null ? "无" : string.Join(",", item.Attributes))}\r" +
                       $"可解锁成就：{HonorHelper.Instance.FindHonorFullName(item.Name)}\r" +
-                      $"你拥有该物品：{record.GetCount(item.Name)}";
+                      $"你拥有该物品：{record.GetCount(item.Name)}个";
             MsgSender.PushMsg(MsgDTO, msg);
             return true;
         }
