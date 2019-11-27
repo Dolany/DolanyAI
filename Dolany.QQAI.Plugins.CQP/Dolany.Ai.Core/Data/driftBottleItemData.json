@@ -3,6 +3,7 @@
     {
       "Name": "生锈的铁剑",
       "Description": "大概是卖不到什么钱了...",
+      "PicPath": "./images/漂流瓶/生锈的铁剑.jpg",
       "Rate": 100,
       "Price": 60,
       "Attributes": [ "钢铁" ]
@@ -10,6 +11,7 @@
     {
       "Name": "生锈的斧头",
       "Description": "虽然生锈了，但依然很锋利的样子...",
+      "PicPath": "./images/漂流瓶/生锈的斧头.jpg",
       "Rate": 100,
       "Price": 60,
       "Attributes": [ "钢铁" ]
@@ -17,6 +19,7 @@
     {
       "Name": "生锈的锄头",
       "Description": "还带着一些泥土....",
+      "PicPath": "./images/漂流瓶/生锈的锄头.jpg",
       "Rate": 90,
       "Price": 67,
       "Attributes": [ "钢铁" ]
@@ -24,6 +27,7 @@
     {
       "Name": "生锈的剪刀",
       "Description": "有着很多的豁口...",
+      "PicPath": "./images/漂流瓶/生锈的剪刀.jpg",
       "Rate": 80,
       "Price": 75,
       "Attributes": [ "钢铁" ]
@@ -40,6 +44,7 @@
     {
       "Name": "小巧的扳手",
       "Description": "似乎内部的结构很精密...",
+      "PicPath": "./images/漂流瓶/小巧的扳手.jpg",
       "Rate": 53,
       "Price": 114,
       "Attributes": [ "钢铁" ]
