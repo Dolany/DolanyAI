@@ -303,7 +303,7 @@ namespace Dolany.Ai.Core.Ai.Game.DriftBottle
 
             var s = record.ItemIncome(item.Name);
             var msg = "你捞到了 \r" +
-                      $"{(string.IsNullOrEmpty(item.PicPath) ? string.Empty : $"{CodeApi.Code_Image_Relational(item.PicPath)}")}\r" +
+                      $"{(string.IsNullOrEmpty(item.PicPath) ? string.Empty : $"{CodeApi.Code_Image_Relational(item.PicPath)}\r")}" +
                       $"{item.Name} \r" +
                       $"    {item.Description} \r" +
                       $"稀有率为 {HonorHelper.Instance.ItemRate(item)}%\r" +

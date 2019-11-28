@@ -175,7 +175,7 @@ namespace Dolany.Ai.Core.Ai.Game.Pet.PetAgainst
 
             JudgeFirst();
             var skillName = SkillLevelUpBonus();
-            msg = $"${SelfPet.Name}获得了先手\r{AimPet.Name}的{skillName}获得等级+1";
+            msg = $"{SelfPet.Name}获得了先手\r{AimPet.Name}的{skillName}获得等级+1";
             SendMessage(msg);
         }
 
