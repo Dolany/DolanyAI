@@ -20,7 +20,7 @@ namespace Dolany.Ai.Doremi.Cache
                 return;
             }
 
-            Global.CommandInfoService.Send(msg, BindAiMgr.Instance[msg.BindAi].CommandQueue);
+            Global.CommandInfoService.Send(msg, Configger<AIConfigBase>.Instance.AIConfig.CommandQueueName);
         }
 
         public static void PushMsg(MsgInformationEx MsgInfo, string Content, bool isNeedAt = false)

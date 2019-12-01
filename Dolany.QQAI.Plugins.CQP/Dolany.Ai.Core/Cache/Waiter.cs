@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 using Dolany.Ai.Common;
 using Dolany.Ai.Common.Models;
 using Dolany.Ai.Core.Common;
+using Newtonsoft.Json;
 
 namespace Dolany.Ai.Core.Cache
 {
@@ -38,21 +39,21 @@ namespace Dolany.Ai.Core.Cache
                 source = Global.AllGroupsDic[info.FromGroup];
             }
 
-            if (BindAiMgr.Instance[info.FromQQ] != null)
+            if (info.FromGroup != 0)
             {
-                return;
+                var setting = GroupSettingMgr.Instance[info.FromGroup];
+                if (setting == null || setting.BindAi != info.BindAi)
+                {
+                    return;
+                }
             }
 
             var msg = $"[Info] {info.BindAi} {source} {QQNumReflectMgr.Instance[info.FromQQ]} {info.Msg}";
             AIMgr.Instance.MessagePublish(msg);
 
-            if (info.FromGroup != 0)
+            if (BindAiMgr.Instance[info.FromQQ] != null)
             {
-                var setting = GroupSettingMgr.Instance[info.FromGroup];
-                if (setting == null || !setting.BindAis.Contains(info.BindAi))
-                {
-                    return;
-                }
+                return;
             }
 
             switch (info.Information)

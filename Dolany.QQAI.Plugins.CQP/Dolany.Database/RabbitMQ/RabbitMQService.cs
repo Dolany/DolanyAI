@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Text;
+using Dolany.Ai.Common;
 using Newtonsoft.Json;
 using RabbitMQ.Client;
 using RabbitMQ.Client.Events;
@@ -24,6 +25,7 @@ namespace Dolany.Database
 
             var connection = this.factory.CreateConnection();
             channel = connection.CreateModel();
+            channel.QueueDeclare(ReceiveQueue, true);
         }
 
         public void Send<T>(T command, string SendQueue)
@@ -38,12 +40,18 @@ namespace Dolany.Database
             channel.BasicConsume(ReceiveQueue, true, consumer);
             consumer.Received += (model, ea) =>
                 {
-                    var body = ea.Body;
-                    var message = Encoding.UTF8.GetString(body);
-
-                    var information = JsonConvert.DeserializeObject<T>(message);
-
-                    CallBack(information);
+                    try
+                    {
+                        var body = ea.Body;
+                        var message = Encoding.UTF8.GetString(body);
+                        var information = JsonConvert.DeserializeObject<T>(message);
+                    
+                        CallBack(information);
+                    }
+                    catch (Exception e)
+                    {
+                        RuntimeLogger.Log(e);
+                    }
                 };
         }
     }

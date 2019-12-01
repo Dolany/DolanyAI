@@ -27,24 +27,30 @@
     "SelfNum": 3153037584,
     "CommandQueue": "MsgCommand_Patch",
     "ClientPath": "C:/AI/Patch/client/",
-    "IsAdvanced": false
+    "IsAdvanced": true
   },
   "Sanae": {
     "SelfNum": 2913492260,
     "CommandQueue": "MsgCommand_Sanae",
     "ClientPath": "C:/AI/Sanae/client/",
-    "IsAdvanced": false
+    "IsAdvanced": true
   },
   "Marisa": {
     "SelfNum": 2145613171,
     "CommandQueue": "MsgCommand_Marisa",
     "ClientPath": "C:/AI/Marisa/client/",
-    "IsAdvanced": false
+    "IsAdvanced": true
   },
   "Sakuya": {
     "SelfNum": 3021028334,
     "CommandQueue": "MsgCommand_Sakuya",
     "ClientPath": "C:/AI/Sakuya/client/",
+    "IsAdvanced": true
+  },
+  "Angle": {
+    "SelfNum": 2731544408,
+    "CommandQueue": "MsgCommand_Angle",
+    "ClientPath": "C:/AI/Angle/client/",
     "IsAdvanced": true
   }
 }

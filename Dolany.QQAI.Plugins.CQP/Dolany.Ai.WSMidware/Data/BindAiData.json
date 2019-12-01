@@ -1,0 +1,34 @@
+﻿{
+  "Angle": {
+    "BindPort": "49632",
+    "QQNum": "2731544408"
+  },
+  "IWS2000": {
+    "BindPort": "49633",
+    "QQNum": "3484599065"
+  },
+  "Patch": {
+    "BindPort": "49634",
+    "QQNum": "3153037584"
+  },
+  "Cirno": {
+    "BindPort": "49635",
+    "QQNum": "2097412422"
+  },
+  "Marisa": {
+    "BindPort": "49636",
+    "QQNum": "2145613171"
+  },
+  "Owl": {
+    "BindPort": "49637",
+    "QQNum": "2040824098"
+  },
+  "Sakuya": {
+    "BindPort": "49638",
+    "QQNum": "3021028334"
+  },
+  "Sanae": {
+    "BindPort": "49639",
+    "QQNum": "2913492260"
+  } 
+}

@@ -9,6 +9,7 @@
   "DiceCountMaxLimit": 200,
   "DiceSizeMaxLimit": 2000,
   "MaxRecentCommandCacheCount": 130,
+  "CommandQueueName": "MsgCommand_Doremi",
   "InformationQueueName": "MsgInformation_Doremi",
   "CacheDb": "C:/AIDB/aidb_doremi.db",
   "IsTesting": false,

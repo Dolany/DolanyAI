@@ -26,7 +26,7 @@
         /// <summary>
         /// 插件Id，用于唯一标识插件产品的Id，至少包含 AAA.BBB.CCC 三个部分
         /// </summary>
-        public string Id { get; set; } = "Dolany.Ai.MQ";
+        public string Id { get; set; } = "Dolany.Ai.MQ.ql";
 
         /// <summary>
         /// 插件描述

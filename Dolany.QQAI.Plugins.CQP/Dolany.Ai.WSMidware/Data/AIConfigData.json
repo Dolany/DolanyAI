@@ -1,0 +1,6 @@
+﻿{
+  "AiList": [ "Cirno", "Flandre", "IWS2000", "Owl", "Patch", "Sanae", "Marisa", "Sakuya", "Angle" ],
+  "ReconnectSecords": 10,
+  "MQReceiveQueue": "MsgCommand",
+  "MQSendQueue": "MsgInformation"
+}

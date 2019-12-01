@@ -34,6 +34,8 @@
 
         public int MaxRecentCommandCacheCount { get; set; }
 
+        public string CommandQueueName { get; set; }
+
         public string InformationQueueName { get; set; }
 
         public string CacheDb { get; set; }

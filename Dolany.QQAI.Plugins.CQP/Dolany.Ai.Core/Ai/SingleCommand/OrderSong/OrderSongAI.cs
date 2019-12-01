@@ -17,6 +17,8 @@ namespace Dolany.Ai.Core.Ai.SingleCommand.OrderSong
 
         public override bool IsAdvanced { get; set; } = true;
 
+        public override bool Enable { get; set; } = false;
+
         [EnterCommand(ID = "OrderSongAI_OrderASong",
             Command = "点歌",
             AuthorityLevel = AuthorityLevel.成员,

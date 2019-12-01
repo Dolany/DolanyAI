@@ -10,6 +10,7 @@
   "DiceCountMaxLimit": 200,
   "DiceSizeMaxLimit": 2000,
   "MaxRecentCommandCacheCount": 130,
+  "CommandQueueName": "MsgCommand",
   "InformationQueueName": "MsgInformation",
   "CacheDb": "C:/AIDB/aidb_ice.db",
   "IsTesting": false,

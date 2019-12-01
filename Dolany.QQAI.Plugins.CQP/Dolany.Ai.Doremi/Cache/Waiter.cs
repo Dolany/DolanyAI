@@ -38,9 +38,6 @@ namespace Dolany.Ai.Doremi.Cache
                 source = Global.AllGroupsDic[info.FromGroup];
             }
 
-            var msg = $"[Info] {info.BindAi} {source} {info.FromQQ} {info.Msg}";
-            AIMgr.Instance.MessagePublish(msg);
-
             if (info.FromGroup != 0)
             {
                 var setting = GroupSettingMgr.Instance[info.FromGroup];
@@ -49,6 +46,9 @@ namespace Dolany.Ai.Doremi.Cache
                     return;
                 }
             }
+
+            var msg = $"[Info] {info.BindAi} {source} {info.FromQQ} {info.Msg}";
+            AIMgr.Instance.MessagePublish(msg);
 
             switch (info.Information)
             {
