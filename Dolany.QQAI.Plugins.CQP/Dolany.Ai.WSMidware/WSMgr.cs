@@ -131,8 +131,8 @@ namespace Dolany.Ai.WSMidware
                         {
                             "params", new Dictionary<string, object>()
                             {
-                                {"type", 2},
-                                {"group", command.ToGroup.ToString()},
+                                {"type", 1},
+                                {"qq", command.ToQQ.ToString()},
                                 {"content", command.Msg}
                             }
                         }

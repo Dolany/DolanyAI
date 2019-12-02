@@ -69,6 +69,16 @@ namespace Dolany.Ai.Core.AITools
                     MaxCacheCount = 7
                 }
             });
+            ModelList.Add(new ScheduleDoModel()
+            {
+                Interval = SchedulerTimer.HourlyInterval,
+                Data = new CacheCleanerDTO
+                {
+                    Path = "./images/RandCache/",
+                    IsCascading = false,
+                    MaxCacheCount = 7
+                }
+            });
         }
 
         public override void Work()

@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Threading;
 
 namespace Dolany.Ai.WSMidware
 {
@@ -6,11 +7,14 @@ namespace Dolany.Ai.WSMidware
     {
         static void Main(string[] args)
         {
-            Console.Title = "Midware";
+            Console.Title = Global.Config.ConsoleName;
             Console.WriteLine("Midware Started!");
             var instance = WSMgr.Instance;
 
-            Console.ReadKey();
+            while (Console.ReadLine() != "Exit")
+            {
+                Thread.Sleep(1000);
+            }
         }
     }
 }

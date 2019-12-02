@@ -24,6 +24,11 @@ namespace Dolany.Ai.Common
             return $"[QQ:flash,pic={fileName}]";
         }
 
+        public static string Code_Flash_Relational(string relationalName)
+        {
+            return Code_Flash(new FileInfo(relationalName).FullName);
+        }
+
         public static string Code_Voice(string filePath)
         {
             return $"[QQ:voice={filePath}]";

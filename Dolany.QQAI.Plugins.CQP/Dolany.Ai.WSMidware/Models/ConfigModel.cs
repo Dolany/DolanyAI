@@ -2,7 +2,7 @@
 {
     public class ConfigModel
     {
-        public string[] AiList { get; set; }
+        public string ConsoleName { get; set; }
 
         public int ReconnectSecords { get; set; }
 

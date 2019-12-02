@@ -46,7 +46,7 @@ namespace Dolany.Ai.Core.Ai.Sys
                 }
             }
 
-            PicCacher.Cache(cacheInfo.url);
+            PicCacher.Cache(cacheInfo.url, cacheInfo.type);
         }
 
         [EnterCommand(ID = "MonitorAI_PowerOff",
