@@ -20,7 +20,7 @@ namespace Dolany.Ai.WSMidware
             client = new WebSocket(url);
             client.MessageReceived += OnMessageReceived;
             client.Closed += OnClosed;
-            
+
             Connect();
         }
 

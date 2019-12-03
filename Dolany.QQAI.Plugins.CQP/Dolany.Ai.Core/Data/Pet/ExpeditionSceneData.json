@@ -4,11 +4,11 @@
     "Endurance": 10,
     "TimeConsume": 65,
     "GoldBonus": {
-      "Min": 50,
+      "Min": 1,
       "Max": 150
     },
     "ItemBonus": {
-      "Min": 2,
+      "Min": 1,
       "Max": 3,
       "Options": [ "可乐瓶", "闪亮亮的徽章", "蓝色水滴状的宝石", "最新款爱疯手机", "生锈的主机箱" ]
     },
@@ -23,11 +23,11 @@
     "Endurance": 30,
     "TimeConsume": 200,
     "GoldBonus": {
-      "Min": 200,
+      "Min": 1,
       "Max": 220
     },
     "ItemBonus": {
-      "Min": 3,
+      "Min": 1,
       "Max": 5,
       "Options": [ "破烂的旗子", "一袋钱币", "青石塑像E", "语佬", "小巧的盾牌", "巨大的剪刀", "生锈的铁片", "年迈的海龟" ]
     },
@@ -42,11 +42,11 @@
     "Endurance": 25,
     "TimeConsume": 150,
     "GoldBonus": {
-      "Min": 300,
+      "Min": 1,
       "Max": 350
     },
     "ItemBonus": {
-      "Min": 3,
+      "Min": 1,
       "Max": 5,
       "Options": [ "宽大的腰带", "银质叉子", "蓝白条胖次", "腐烂的榴莲", "黑色宝石", "青蛙玩偶", "破旧的玩偶", "破烂的布口袋" ]
     }
@@ -56,11 +56,11 @@
     "Endurance": 26,
     "TimeConsume": 120,
     "GoldBonus": {
-      "Min": 20,
+      "Min": 1,
       "Max": 50
     },
     "ItemBonus": {
-      "Min": 2,
+      "Min": 1,
       "Max": 3,
       "Options": [ "印着“博丽”的存钱罐", "炸鸡腿", "年迈的海龟", "挂满海藻的方向盘", "生锈的剪刀", "羊皮纸残片B", "可乐瓶", "腐烂的苹果" ]
     },
@@ -75,7 +75,7 @@
     "Endurance": 12,
     "TimeConsume": 50,
     "GoldBonus": {
-      "Min": 30,
+      "Min": 1,
       "Max": 120
     },
     "ItemBonus": {
@@ -94,7 +94,7 @@
     "Endurance": 25,
     "TimeConsume": 150,
     "GoldBonus": {
-      "Min": 300,
+      "Min": 1,
       "Max": 400
     },
     "ItemBonus": {
@@ -113,7 +113,7 @@
     "Endurance": 10,
     "TimeConsume": 60,
     "GoldBonus": {
-      "Min": 10,
+      "Min": 1,
       "Max": 100
     },
     "ItemBonus": {
@@ -132,16 +132,16 @@
     "Endurance": 22,
     "TimeConsume": 90,
     "GoldBonus": {
-      "Min": 124,
+      "Min": 1,
       "Max": 168
     },
     "ItemBonus": {
-      "Min": 2,
+      "Min": 1,
       "Max": 2,
       "Options": [ "鲜美的牡蛎", "迷你八卦炉", "腐烂的苹果", "生锈的主机箱", "蕾丝文胸", "银质酒杯", "三层书柜", "精美的餐盘" ]
     },
     "FlavoringBonus": {
-      "Min": 2,
+      "Min": 1,
       "Max": 2,
       "Options": [ "海鲜酱油", "秘制番茄酱", "精品海盐", "风味辣酱", "蓝巧果果汁", "火桂", "龙鳞草茎" ]
     }
@@ -151,7 +151,7 @@
     "Endurance": 15,
     "TimeConsume": 71,
     "GoldBonus": {
-      "Min": 10,
+      "Min": 1,
       "Max": 80
     },
     "ItemBonus": {
@@ -170,7 +170,7 @@
     "Endurance": 23,
     "TimeConsume": 102,
     "GoldBonus": {
-      "Min": 100,
+      "Min": 1,
       "Max": 240
     },
     "ItemBonus": {
@@ -179,7 +179,7 @@
       "Options": [ "望月", "棉花糖的大集结", "一片面包", "精美的弓", "三角形的石头", "尖尖的兽牙", "破烂的布口袋", "炸鸡腿" ]
     },
     "FlavoringBonus": {
-      "Min": 2,
+      "Min": 1,
       "Max": 2,
       "Options": [ "海鲜酱油", "秘制番茄酱", "精品海盐", "风味辣酱", "蓝巧果果汁", "火桂", "龙鳞草茎" ]
     }

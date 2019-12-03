@@ -58,7 +58,7 @@ namespace Dolany.Ai.Core.API
 
         public static string 流星 => CodeApi.Code_Emoji(4036988064);
 
-        public static string 足球 => CodeApi.Code_Emoji(145850749);
+        public static string 足球 => CodeApi.Code_Emoji(14850749);
 
         public static string 香蕉 => CodeApi.Code_Emoji(4036988300);
 

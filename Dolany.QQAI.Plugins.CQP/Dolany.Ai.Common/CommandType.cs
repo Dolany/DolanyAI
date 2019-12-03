@@ -11,6 +11,7 @@
         Restart = 6,
         GetAuthCode = 7,
         GetGroups = 8,
-        SetSilence = 9
+        SetSilence = 9,
+        ConnectionState = 10
     }
 }

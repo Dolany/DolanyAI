@@ -7,6 +7,7 @@ using Dolany.Ai.Common;
 using Dolany.Ai.Common.Models;
 using Dolany.Ai.Core.Ai.Game.Gift;
 using Dolany.Ai.Core.Ai.Game.Pet;
+using Dolany.Ai.Core.API;
 using Dolany.Ai.Core.Base;
 using Dolany.Ai.Core.Cache;
 using Dolany.Ai.Core.Common;
@@ -539,24 +540,38 @@ namespace Dolany.Ai.Core.Ai.Sys
             IsPrivateAvailable = true)]
         public bool Test(MsgInformationEx MsgDTO, object[] param)
         {
-            var info = Waiter.Instance.WaitForInformation(MsgDTO, "wait for pic",
-                information => information.FromGroup == MsgDTO.FromGroup && information.FromQQ == MsgDTO.FromQQ &&
-                               !string.IsNullOrEmpty(Utility.ParsePicGuid(information.Msg)), 10);
-            if(info == null)
+            var emojis = Emoji.AllEmojis();
+            var msg = string.Join(" ", emojis);
+            MsgSender.PushMsg(MsgDTO, msg);
+            return true;
+        }
+
+        [EnterCommand(ID = "DeveloperOnlyAI_ConnectiongState",
+            Command = "连接状态",
+            Description = "获取当前所有机器人的连接状态",
+            Syntax = "",
+            Tag = "开发者后台",
+            SyntaxChecker = "Empty",
+            AuthorityLevel = AuthorityLevel.开发者,
+            IsPrivateAvailable = true)]
+        public bool ConnectiongState(MsgInformationEx MsgDTO, object[] param)
+        {
+            var command = new MsgCommand()
             {
-                MsgSender.PushMsg(MsgDTO, "operation cancel!");
+                Command = CommandType.ConnectionState,
+            };
+
+            var info = Waiter.Instance.WaitForRelationId(command);
+            if (info == null)
+            {
+                MsgSender.PushMsg(MsgDTO, "超时！");
                 return false;
             }
 
-            var bindai = BindAiMgr.Instance[MsgDTO.BindAi];
+            var dic = JsonConvert.DeserializeObject<Dictionary<string, bool>>(info.Msg);
+            var msg = string.Join("\r", dic.Select(p => $"{p.Key}:{(p.Value ? "连接中" : "已断开")}"));
 
-            var picGuid = Utility.ParsePicGuid(info.Msg);
-            var imageCache = Utility.ReadImageCacheInfo(picGuid, bindai.ImagePath);
-            MsgSender.PushMsg(MsgDTO, imageCache?.url);
-            var path = $"./images/Custom/Pet/{MsgDTO.FromQQ}.{imageCache?.type}";
-            Utility.DownloadImage(imageCache?.url, path);
-
-            MsgSender.PushMsg(MsgDTO, CodeApi.Code_Image_Relational(path));
+            MsgSender.PushMsg(MsgDTO, msg);
             return true;
         }
 

@@ -74,7 +74,7 @@ namespace Dolany.Ai.WSMidware
             }
         }
 
-        private void PublishInformation(MsgInformation info)
+        private static void PublishInformation(MsgInformation info)
         {
             Global.MQSvc.Send(info, Global.Config.MQSendQueue);
         }
@@ -87,13 +87,19 @@ namespace Dolany.Ai.WSMidware
             }
         }
 
-        private void WaitingCallBack(WaitingModel model, QQEventModel eventModel)
+        private static void WaitingCallBack(WaitingModel model, QQEventModel eventModel)
         {
             switch (model.Command)
             {
                 case CommandType.GetGroupMemberInfo:
                 {
-                    RuntimeLogger.Log(JsonConvert.SerializeObject(eventModel));
+                    var info = new MsgInformation()
+                    {
+                        Information = InformationType.CommandBack,
+                        RelationId = model.RelationId,
+                        Msg = JsonConvert.SerializeObject(eventModel.Result)
+                    };
+                    PublishInformation(info);
                     break;
                 }
             }
@@ -101,6 +107,7 @@ namespace Dolany.Ai.WSMidware
 
         private void CommandInvoke(MsgCommand command)
         {
+            Console.WriteLine(JsonConvert.SerializeObject(command));
             switch (command.Command)
             {
                 case CommandType.SendGroup:
@@ -151,10 +158,24 @@ namespace Dolany.Ai.WSMidware
                         {"method", "getGroupMemberList" },
                         {"params", new Dictionary<string, object>()
                         {
-                            {"group", command.ToGroup.ToString() }
+                            {"group", command.Msg }
                         } }
                     };
                     Send(command.BindAi, model);
+                    break;
+                }
+
+                case CommandType.ConnectionState:
+                {
+                    var stateDic = ClientsDic.ToDictionary(c => c.Key, c => c.Value.IsConnected);
+                    var info = new MsgInformation()
+                    {
+                        Information = InformationType.CommandBack,
+                        Msg = JsonConvert.SerializeObject(stateDic),
+                        RelationId = command.Id
+                    };
+
+                    PublishInformation(info);
                     break;
                 }
             }

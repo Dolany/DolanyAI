@@ -46,8 +46,13 @@ namespace Dolany.Ai.Core.Ai.Game.Pet.Expedition
 
         private bool StartExpedite(MsgInformationEx MsgDTO)
         {
+            var pet = PetRecord.Get(MsgDTO.FromQQ);
+            var petLevel = PetLevelMgr.Instance[pet.Level];
+            var enduranceConsume = PetEnduranceRecord.Get(MsgDTO.FromQQ);
+            var curEndurance = petLevel.Endurance - enduranceConsume.ConsumeTotal;
+
             var todayExpeditions = ExpeditionSceneMgr.Instance.TodayExpedition();
-            var msg = $"请选择远征副本：\r{string.Join("\r\r", todayExpeditions.Select((exp, idx) => $"{idx + 1}:{exp}"))}";
+            var msg = $"请选择远征副本：\r{string.Join("\r\r", todayExpeditions.Select((exp, idx) => $"{idx + 1}:{exp.ToString(curEndurance)}"))}";
             var selection = Waiter.Instance.WaitForNum(MsgDTO.FromGroup, MsgDTO.FromQQ, msg, i => i > 0 && i <= todayExpeditions.Count, MsgDTO.BindAi, 12);
             if (selection < 0)
             {
@@ -57,11 +62,7 @@ namespace Dolany.Ai.Core.Ai.Game.Pet.Expedition
 
             var aimExpedition = todayExpeditions[selection - 1];
 
-            var pet = PetRecord.Get(MsgDTO.FromQQ);
-            var petLevel = PetLevelMgr.Instance[pet.Level];
-            var enduranceConsume = PetEnduranceRecord.Get(MsgDTO.FromQQ);
-
-            if (petLevel.Endurance - enduranceConsume.ConsumeTotal < aimExpedition.Endurance)
+            if (curEndurance < aimExpedition.Endurance)
             {
                 MsgSender.PushMsg(MsgDTO, $"{pet.Name}的耐力不足({petLevel.Endurance - enduranceConsume.ConsumeTotal}/{aimExpedition.Endurance})！");
                 return false;
@@ -78,7 +79,7 @@ namespace Dolany.Ai.Core.Ai.Game.Pet.Expedition
             enduranceConsume.ConsumeTotal += aimExpedition.Endurance;
             enduranceConsume.Update();
 
-            MsgSender.PushMsg(MsgDTO, $"远征开始！目标：{aimExpedition.Name}！");
+            MsgSender.PushMsg(MsgDTO, $"远征开始！目标：{aimExpedition.Name}！(请于{expRec.EndTime:yyyy-MM-dd HH:mm:ss}后使用 宠物远征 命令回收远征奖励！)");
             return true;
         }
 
