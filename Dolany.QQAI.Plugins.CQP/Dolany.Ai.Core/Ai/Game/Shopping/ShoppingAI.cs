@@ -480,6 +480,7 @@ namespace Dolany.Ai.Core.Ai.Game.Shopping
                       $"经验值：{items.Count}/{allNormalItems.Length}{(items.Count == allNormalItems.Length ? "(可转生)" : string.Empty)}\r" +
                       $"{(osPerson.HonorNames.IsNullOrEmpty() ? "" : string.Join("", osPerson.HonorNames.Select(h => $"【{h}】")) + "\r")}" +
                       $"金币：{osPerson.Golds}\r" +
+                      $"{(osPerson.Diamonds > 0 ? $"钻石：{osPerson.Diamonds}{Emoji.钻石}\r" : string.Empty)}" +
                       $"物品数量：{itemRecord.TotalItemCount()}\r" +
                       $"成就数量：{itemRecord.HonorList?.Count ?? 0}\r" +
                       $"魅力值：{glamourRecord.Glamour}";

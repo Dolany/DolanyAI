@@ -36,7 +36,7 @@ namespace Dolany.Ai.WSMidware
 
         private void MessageInvoke(string bindAi, QQEventModel model)
         {
-            Console.WriteLine(JsonConvert.SerializeObject(new {bindAi, model}));
+            Console.WriteLine($"{bindAi}:{JsonConvert.SerializeObject(model)}");
 
             try
             {
@@ -62,6 +62,28 @@ namespace Dolany.Ai.WSMidware
                             FromQQ = long.TryParse(model.Params.Qq, out var qqNum) ? qqNum : 0,
                             Information = InformationType.Message,
                             Msg = model.Params.Content
+                        };
+                        PublishInformation(info);
+                        break;
+                    }
+
+                    case "receiveMoney":
+                    {
+                        var chargeModel = new ChargeModel()
+                        {
+                            QQNum = long.TryParse(model.Params.Qq, out var qqNum) ? qqNum : 0,
+                            Amount = double.TryParse(model.Params.Amount, out var amount) ? Math.Round(amount, 2) : 0,
+                            Message = model.Params.Message,
+                            OrderID = model.Params.Id,
+                            BindAi = bindAi
+                        };
+
+                        var info = new MsgInformation()
+                        {
+                            BindAi = bindAi,
+                            Information = InformationType.ReceiveMoney,
+                            Msg = JsonConvert.SerializeObject(chargeModel),
+                            FromQQ = chargeModel.QQNum
                         };
                         PublishInformation(info);
                         break;

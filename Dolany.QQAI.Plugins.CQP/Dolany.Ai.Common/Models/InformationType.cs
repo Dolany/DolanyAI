@@ -5,6 +5,7 @@
         Message = 0,
         CommandBack = 1,
         AuthCode = 2,
-        Error = 3
+        Error = 3,
+        ReceiveMoney = 4
     }
 }

@@ -10,6 +10,8 @@ namespace Dolany.Ai.Core.OnlineStore
 
         public int Golds { get; set; }
 
+        public int Diamonds { get; set; }
+
         public Dictionary<string, int> GiftDic { get; set; }
 
         public List<string> HonorNames { get; set; } = new List<string>();

@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 using Dolany.Ai.Common;
 using Dolany.Ai.Common.Models;
 using Dolany.Ai.Core.Common;
+using Dolany.Ai.Core.OnlineStore.Vip;
 using Newtonsoft.Json;
 
 namespace Dolany.Ai.Core.Cache
@@ -93,6 +94,9 @@ namespace Dolany.Ai.Core.Cache
                     break;
                 case InformationType.Error:
                     AIAnalyzer.AddError(info.Msg);
+                    break;
+                case InformationType.ReceiveMoney:
+                    VipMgr.Instance.Charge(JsonConvert.DeserializeObject<ChargeModel>(info.Msg));
                     break;
             }
         }
