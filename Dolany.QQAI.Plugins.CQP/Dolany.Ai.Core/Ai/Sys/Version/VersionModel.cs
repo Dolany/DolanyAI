@@ -1,4 +1,5 @@
-﻿using Dolany.Ai.Common;
+﻿using System.Linq;
+using Dolany.Ai.Common;
 
 namespace Dolany.Ai.Core.Ai.Sys.Version
 {
@@ -11,5 +12,12 @@ namespace Dolany.Ai.Core.Ai.Sys.Version
         public string PublishDate { get; set; }
 
         public string[] WhatsNewList { get; set; }
+
+        public override string ToString()
+        {
+            var newListMsg = string.Join("\r", WhatsNewList.Select((n, idx) => $"{idx + 1}.{n}"));
+            var msg = $"版本号：{VersionNum}\r发布日期：{PublishDate}\r发布内容：\r{newListMsg}";
+            return msg;
+        }
     }
 }

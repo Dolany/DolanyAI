@@ -3,6 +3,7 @@ using System.Linq;
 using Dolany.Ai.Common;
 using Dolany.Ai.Common.Models;
 using Dolany.Ai.Core.Base;
+using Dolany.Ai.Core.Cache;
 
 namespace Dolany.Ai.Core.Ai.Sys.Version
 {
@@ -30,7 +31,8 @@ namespace Dolany.Ai.Core.Ai.Sys.Version
             IsPrivateAvailable = true)]
         public bool VersionInfo(MsgInformationEx MsgDTO, object[] param)
         {
-            // todo
+            var msg = Versions.First().ToString();
+            MsgSender.PushMsg(MsgDTO, msg);
             return true;
         }
     }
