@@ -96,7 +96,7 @@ namespace Dolany.Ai.Core.Cache
                     AIAnalyzer.AddError(info.Msg);
                     break;
                 case InformationType.ReceiveMoney:
-                    VipMgr.Instance.Charge(JsonConvert.DeserializeObject<ChargeModel>(info.Msg));
+                    VipMgr.Charge(JsonConvert.DeserializeObject<ChargeModel>(info.Msg));
                     break;
             }
         }

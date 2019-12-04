@@ -11,7 +11,7 @@ namespace Dolany.Ai.Core.OnlineStore.Vip
 
         private VipMgr(){}
 
-        public void Charge(ChargeModel model)
+        public static void Charge(ChargeModel model)
         {
             var diamonds = (int) (Math.Round(model.Amount, 2) * 100);
             var chargeRec = new VipChargeRecord()
