@@ -5,6 +5,7 @@ using Dolany.Ai.Common;
 using Dolany.Ai.Common.Models;
 using Dolany.Ai.Core.Ai.Game.Gift;
 using Dolany.Ai.Core.Ai.Game.Pet;
+using Dolany.Ai.Core.Ai.Vip;
 using Dolany.Ai.Core.API;
 using Dolany.Ai.Core.Base;
 using Dolany.Ai.Core.Cache;
@@ -317,13 +318,20 @@ namespace Dolany.Ai.Core.Ai.Game.Shopping
             TestingDailyLimit = 7)]
         public bool Buy(MsgInformationEx MsgDTO, object[] param)
         {
+            var name = param[0] as string;
+            var vipSvc = DailyVipShopMgr.Instance[name];
+            if (vipSvc != null)
+            {
+                DailyVipShopMgr.Instance.Serve(MsgDTO, name);
+                return false;
+            }
+
             if (OSPersonBuff.CheckBuff(MsgDTO.FromQQ, "快晴"))
             {
                 MsgSender.PushMsg(MsgDTO, "你无法进行该操作！(快晴)");
                 return false;
             }
 
-            var name = param[0] as string;
             var sellingItems = TransHelper.GetDailySellItems();
             var todayRec = DailySellItemRareRecord.GetToday();
             if (DateTime.Now.Hour >= todayRec.Hour && DateTime.Now.Hour <= todayRec.Hour + 2)
