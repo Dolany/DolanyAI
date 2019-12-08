@@ -958,5 +958,42 @@
       "Price": 980,
       "Attributes": [ "神秘" ]
     }
-  ]
+  ],
+  "五等分的花嫁": [
+    {
+      "Name": "中野一花",
+      "Description": "排行老大，成熟稳重？嗯……就是这样！...",
+      "Rate": 263,
+      "Price": 156,
+      "Attributes": [ "神秘" ]
+    },
+    {
+      "Name": "中野二乃",
+      "Description": "排行老二！诶？傲……傲娇？才不是呢！...",
+      "Rate": 243,
+      "Price": 139,
+      "Attributes": [ "自然" ]
+    },
+    {
+      "Name": "中野三玖",
+      "Description": "排行老三！三玖天下第一！（冰羽的正宫，不接受任何反对和反驳）...",
+      "Rate": 153,
+      "Price": 89,
+      "Attributes": [ "钢铁" ]
+    },
+    {
+      "Name": "中野四叶",
+      "Description": "排行老四！四叶就是小天使！...",
+      "Rate": 89,
+      "Price": 189,
+      "Attributes": [ "海洋" ]
+    },
+    {
+      "Name": "中野五月",
+      "Description": "排行老五！似乎是第一个出场的女主！（败犬预定）...",
+      "Rate": 69,
+      "Price": 189,
+      "Attributes": [ "深渊" ]
+    }
+  ] 
 }
