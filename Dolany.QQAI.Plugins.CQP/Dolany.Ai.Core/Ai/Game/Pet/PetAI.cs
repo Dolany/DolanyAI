@@ -6,6 +6,7 @@ using Dolany.Ai.Common.Models;
 using Dolany.Ai.Core.Ai.Game.Pet.Cooking;
 using Dolany.Ai.Core.Ai.Game.Pet.Expedition;
 using Dolany.Ai.Core.Ai.Game.Pet.PetAgainst;
+using Dolany.Ai.Core.Ai.Vip;
 using Dolany.Ai.Core.API;
 using Dolany.Ai.Core.Base;
 using Dolany.Ai.Core.Cache;
@@ -41,13 +42,17 @@ namespace Dolany.Ai.Core.Ai.Game.Pet
             var pet = PetRecord.Get(MsgDTO.FromQQ);
 
             var levelModel = PetLevelMgr.Instance[pet.Level];
+
+            var extEndur = VipArmerRecord.Get(MsgDTO.FromQQ).CheckArmer("耐力护符") ? "(+10)" : string.Empty;
+            var petEndur = levelModel.Endurance - PetEnduranceRecord.Get(MsgDTO.FromQQ).ConsumeTotal + extEndur;
+
             var msg = $"{CodeApi.Code_Image_Relational(pet.PicPath)}\r" +
                       $"名称：{pet.Name}\r" +
                       $"种族：{pet.PetNo}\r" +
                       $"食性：{pet.Attribute ?? "无"}\r" +
                       $"等级：{Utility.LevelEmoji(pet.Level)}\r" +
                       $"{Emoji.心}：{levelModel.HP}\r" +
-                      $"耐力：{levelModel.Endurance - PetEnduranceRecord.Get(MsgDTO.FromQQ).ConsumeTotal}/{levelModel.Endurance}\r" +
+                      $"耐力：{petEndur}{extEndur}/{levelModel.Endurance}\r" +
                       $"经验值：{pet.Exp}/{levelModel.Exp}";
             if (!pet.Skills.IsNullOrEmpty())
             {

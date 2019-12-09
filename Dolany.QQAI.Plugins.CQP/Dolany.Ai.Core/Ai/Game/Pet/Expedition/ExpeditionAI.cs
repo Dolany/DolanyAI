@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Linq;
 using Dolany.Ai.Common.Models;
+using Dolany.Ai.Core.Ai.Vip;
 using Dolany.Ai.Core.Base;
 using Dolany.Ai.Core.Cache;
 
@@ -44,12 +45,14 @@ namespace Dolany.Ai.Core.Ai.Game.Pet.Expedition
             return true;
         }
 
-        private bool StartExpedite(MsgInformationEx MsgDTO)
+        private static bool StartExpedite(MsgInformationEx MsgDTO)
         {
+            var extEndur = VipArmerRecord.Get(MsgDTO.FromQQ).CheckArmer("耐力护符") ? 10 : 0;
+
             var pet = PetRecord.Get(MsgDTO.FromQQ);
             var petLevel = PetLevelMgr.Instance[pet.Level];
             var enduranceConsume = PetEnduranceRecord.Get(MsgDTO.FromQQ);
-            var curEndurance = petLevel.Endurance - enduranceConsume.ConsumeTotal;
+            var curEndurance = petLevel.Endurance - enduranceConsume.ConsumeTotal + extEndur;
 
             var todayExpeditions = ExpeditionSceneMgr.Instance.TodayExpedition();
             var msg = $"请选择远征副本：\r{string.Join("\r\r", todayExpeditions.Select((exp, idx) => $"{idx + 1}:{exp.ToString(curEndurance)}"))}";
@@ -83,7 +86,7 @@ namespace Dolany.Ai.Core.Ai.Game.Pet.Expedition
             return true;
         }
 
-        private void DrawAwards(ExpeditionRecord expeditionRec, MsgInformationEx MsgDTO)
+        private static void DrawAwards(ExpeditionRecord expeditionRec, MsgInformationEx MsgDTO)
         {
             var expeditionModel = ExpeditionSceneMgr.Instance[expeditionRec.Scene];
             var msg = expeditionModel.Award(MsgDTO.FromQQ);

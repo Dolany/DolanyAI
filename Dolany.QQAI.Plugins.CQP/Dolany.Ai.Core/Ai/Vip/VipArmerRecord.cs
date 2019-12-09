@@ -7,19 +7,19 @@ using MongoDB.Bson.Serialization.Attributes;
 
 namespace Dolany.Ai.Core.Ai.Vip
 {
-    public class VipArmer : DbBaseEntity
+    public class VipArmerRecord : DbBaseEntity
     {
         public long QQNum { get; set; }
 
         public List<ArmerModel> Armers { get; set; } = new List<ArmerModel>();
 
-        public static VipArmer Get(long QQNum)
+        public static VipArmerRecord Get(long QQNum)
         {
-            var rec = MongoService<VipArmer>.GetOnly(p => p.QQNum == QQNum);
+            var rec = MongoService<VipArmerRecord>.GetOnly(p => p.QQNum == QQNum);
             if (rec == null)
             {
-                rec = new VipArmer(){QQNum = QQNum};
-                MongoService<VipArmer>.Insert(rec);
+                rec = new VipArmerRecord(){QQNum = QQNum};
+                MongoService<VipArmerRecord>.Insert(rec);
             }
 
             rec.Armers.Remove(p => p.ExpiryTime != null && p.ExpiryTime < DateTime.Now);
@@ -33,7 +33,7 @@ namespace Dolany.Ai.Core.Ai.Vip
 
         public void Update()
         {
-            MongoService<VipArmer>.Update(this);
+            MongoService<VipArmerRecord>.Update(this);
         }
     }
 

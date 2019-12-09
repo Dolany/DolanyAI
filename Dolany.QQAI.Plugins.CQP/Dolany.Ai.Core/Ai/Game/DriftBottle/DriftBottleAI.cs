@@ -350,7 +350,7 @@ namespace Dolany.Ai.Core.Ai.Game.DriftBottle
             }
 
             var record = ItemCollectionRecord.Get(MsgDTO.FromQQ);
-            var msg = $"{(string.IsNullOrEmpty(item.PicPath) ? string.Empty : $"{CodeApi.Code_Image_Relational(item.PicPath)}")}\r" +
+            var msg = $"{(string.IsNullOrEmpty(item.PicPath) ? string.Empty : $"{CodeApi.Code_Image_Relational(item.PicPath)}\r")}" +
                       $"{item.Name}\r" +
                       $"    {item.Description}\r" +
                       $"稀有率：{HonorHelper.Instance.ItemRate(item)}%\r" +

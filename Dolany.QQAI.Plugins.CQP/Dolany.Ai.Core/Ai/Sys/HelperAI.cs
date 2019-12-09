@@ -9,6 +9,7 @@ using Dolany.Ai.Core.Ai.Game.Pet;
 using Dolany.Ai.Core.Ai.Game.Pet.Cooking;
 using Dolany.Ai.Core.Ai.Game.Pet.PetAgainst;
 using Dolany.Ai.Core.Ai.Game.SegmentAttach;
+using Dolany.Ai.Core.Ai.Vip;
 using Dolany.Ai.Core.API;
 using Dolany.Ai.Core.Base;
 using Dolany.Ai.Core.Cache;
@@ -200,6 +201,12 @@ namespace Dolany.Ai.Core.Ai.Sys
             if (CookingDietMgr.Instance[name] != null)
             {
                 return AIMgr.Instance.AIInstance<CookingAI>().ViewDiet(MsgDTO, param);
+            }
+
+            // 装备
+            if (DailyVipShopMgr.Instance[name] != null)
+            {
+                return AIMgr.Instance.AIInstance<VipServiceAi>().ViewArmer(MsgDTO, param);
             }
 
             MsgSender.PushMsg(MsgDTO, "未查找到相关信息！");
