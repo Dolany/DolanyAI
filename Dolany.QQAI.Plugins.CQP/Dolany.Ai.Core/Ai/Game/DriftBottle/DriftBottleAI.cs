@@ -3,6 +3,7 @@ using System.Linq;
 using Dolany.Ai.Common;
 using Dolany.Ai.Common.Models;
 using Dolany.Ai.Core.Ai.Game.Pet;
+using Dolany.Ai.Core.Ai.Vip;
 using Dolany.Ai.Core.Base;
 using Dolany.Ai.Core.Cache;
 using Dolany.Ai.Core.OnlineStore;
@@ -299,12 +300,21 @@ namespace Dolany.Ai.Core.Ai.Game.DriftBottle
             var record = ItemCollectionRecord.Get(MsgDTO.FromQQ);
             var honorName = HonorHelper.Instance.FindHonorName(item.Name);
 
-            DriftBottleAnalyzeRecord.Record(item.Name);
+            var count = 1;
+            var vipArmers = VipArmerRecord.Get(MsgDTO.FromQQ);
+            if (vipArmers.CheckArmer("安妮的镜子"))
+            {
+                count = 2;
+            }
+            vipArmers.Armers.Remove(p => p.Name == "安妮的镜子");
+            vipArmers.Update();
 
-            var s = record.ItemIncome(item.Name);
+            DriftBottleAnalyzeRecord.Record(item.Name, count);
+
+            var s = record.ItemIncome(item.Name, count);
             var msg = "你捞到了 \r" +
                       $"{(string.IsNullOrEmpty(item.PicPath) ? string.Empty : $"{CodeApi.Code_Image_Relational(item.PicPath)}\r")}" +
-                      $"{item.Name} \r" +
+                      $"{item.Name}{(count > 1 ? $"*{count}" : string.Empty)} \r" +
                       $"    {item.Description} \r" +
                       $"稀有率为 {HonorHelper.Instance.ItemRate(item)}%\r" +
                       $"售价为：{item.Price} 金币\r" +

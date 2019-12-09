@@ -9,6 +9,7 @@ using Dolany.Ai.Core.Ai.Game.Pet;
 using Dolany.Ai.Core.Ai.Game.Pet.Cooking;
 using Dolany.Ai.Core.Ai.Game.Pet.PetAgainst;
 using Dolany.Ai.Core.Ai.Game.SegmentAttach;
+using Dolany.Ai.Core.Ai.Sys.Version;
 using Dolany.Ai.Core.Ai.Vip;
 using Dolany.Ai.Core.API;
 using Dolany.Ai.Core.Base;
@@ -25,6 +26,13 @@ namespace Dolany.Ai.Core.Ai.Sys
         public override string Description { get; set; } = "AI for Getting Help Infos.";
 
         public override int PriorityLevel { get; set; } = 10;
+
+        private List<ExtraHelpModel> ExtraHelps = new List<ExtraHelpModel>();
+
+        public override void Initialization()
+        {
+            ExtraHelps = CommonUtil.ReadJsonData_NamedList<ExtraHelpModel>("ExtraHelpData");
+        }
 
         [EnterCommand(ID = "HelperAI_HelpMe",
             Command = "帮助",
@@ -55,13 +63,38 @@ namespace Dolany.Ai.Core.Ai.Sys
                 return true;
             }
 
-            HelpTag(MsgDTO);
+            if (HelpTag(MsgDTO))
+            {
+                return true;
+            }
+
+            if (ExtraHelp(MsgDTO))
+            {
+                return true;
+            }
+
+            MsgSender.PushMsg(MsgDTO, "很抱歉，未找到相关帮助信息！");
+            return false;
+        }
+
+        private bool ExtraHelp(MsgInformationEx MsgDTO)
+        {
+            var help = ExtraHelps.FirstOrDefault(p => p.Alias.Contains(MsgDTO.Msg));
+            if (help == null)
+            {
+                return false;
+            }
+
+            var msg = $"{help.Name}:{help.HelpMsg}";
+            MsgSender.PushMsg(MsgDTO, msg);
             return true;
         }
 
         private static void HelpSummary(MsgInformationEx MsgDTO)
         {
-            var helpMsg = "当前的命令标签有：\r";
+            var versionAi = AIMgr.Instance.AIInstance<VersionAi>();
+            var version = versionAi.Versions.First();
+            var helpMsg = $"当前版本为：{version.VersionNum}，请使用 版本信息 命令获取当前版本的更新内容！\r当前版本的命令标签有：\r";
             var commandAttrs = AIMgr.Instance.AllAvailableGroupCommands.GroupBy(c => c.Tag)
                                                                        .Select(p => p.First());
             if (MsgDTO.Auth != AuthorityLevel.开发者)
@@ -116,7 +149,7 @@ namespace Dolany.Ai.Core.Ai.Sys
             return true;
         }
 
-        private static void HelpTag(MsgInformationEx MsgDTO)
+        private static bool HelpTag(MsgInformationEx MsgDTO)
         {
             var commands = AIMgr.Instance.AllAvailableGroupCommands
                 .Where(c => c.Tag == MsgDTO.Msg).GroupBy(p => p.Command)
@@ -133,7 +166,7 @@ namespace Dolany.Ai.Core.Ai.Sys
 
             if (commands.IsNullOrEmpty())
             {
-                return;
+                return false;
             }
 
             var helpMsg = @"当前标签下有以下命令：";
@@ -148,6 +181,7 @@ namespace Dolany.Ai.Core.Ai.Sys
             helpMsg += '\r' + "可以使用 帮助 [命令名] 来查询具体命令信息。";
 
             MsgSender.PushMsg(MsgDTO, helpMsg);
+            return true;
         }
 
         [EnterCommand(ID = "HelperAI_ViewSomething",
@@ -212,5 +246,14 @@ namespace Dolany.Ai.Core.Ai.Sys
             MsgSender.PushMsg(MsgDTO, "未查找到相关信息！");
             return false;
         }
+    }
+
+    public class ExtraHelpModel : INamedJsonModel
+    {
+        public string Name { get; set; }
+
+        public string[] Alias { get; set; }
+
+        public string HelpMsg { get; set; }
     }
 }

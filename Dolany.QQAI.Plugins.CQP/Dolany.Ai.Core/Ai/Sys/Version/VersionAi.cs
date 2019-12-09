@@ -13,7 +13,7 @@ namespace Dolany.Ai.Core.Ai.Sys.Version
         public override string Description { get; set; } = "Ai for showing verion info";
         public override int PriorityLevel { get; set; } = 10;
 
-        private List<VersionModel> Versions = new List<VersionModel>();
+        public List<VersionModel> Versions = new List<VersionModel>();
 
         public override void Initialization()
         {
@@ -33,6 +33,28 @@ namespace Dolany.Ai.Core.Ai.Sys.Version
         {
             var msg = Versions.First().ToString();
             MsgSender.PushMsg(MsgDTO, msg);
+            return true;
+        }
+
+        [EnterCommand(ID = "VersionAi_VersionHistoryInfo",
+            Command = "版本信息",
+            Description = "获取指定版本的版本信息",
+            Syntax = "[版本号]",
+            Tag = "系统命令",
+            SyntaxChecker = "Word",
+            AuthorityLevel = AuthorityLevel.成员,
+            IsPrivateAvailable = true)]
+        public bool VersionHistoryInfo(MsgInformationEx MsgDTO, object[] param)
+        {
+            var versionNo = param[0] as string;
+            var version = Versions.FirstOrDefault(p => p.VersionNum == versionNo);
+            if (version == null)
+            {
+                MsgSender.PushMsg(MsgDTO, "未找到指定的版本号！");
+                return false;
+            }
+
+            MsgSender.PushMsg(MsgDTO, version.ToString());
             return true;
         }
     }

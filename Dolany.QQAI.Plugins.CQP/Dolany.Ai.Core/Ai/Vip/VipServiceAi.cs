@@ -33,7 +33,7 @@ namespace Dolany.Ai.Core.Ai.Vip
 
             var goodsName = DailyVipGoodsRecord.GetToday(MsgDTO.FromQQ).GoodsName;
             var goods = goodsName.Select(g => DailyVipShopMgr.Instance[g]).ToList();
-            var goodsMsg = string.Join("\r", goods.Select(g => $"{g.Name}({g.DiamondsNeed}{Emoji.钻石})"));
+            var goodsMsg = string.Join("\r", goods.Select(g => $"{g.Name}({g.DiamondsNeed}{Emoji.钻石})\r    {g.Description}\r"));
             var msg = $"今天提供的vip服务有：\r{goodsMsg}\r你当前余额为：{osPerson.Diamonds}{Emoji.钻石}";
 
             MsgSender.PushMsg(MsgDTO, msg);
@@ -80,7 +80,8 @@ namespace Dolany.Ai.Core.Ai.Vip
                 return false;
             }
 
-            var msg = $"你当前持有的装备有：\r{string.Join("\r", record.Armers.Select(r => $"{r.Name}：{r.Description}({r.ExpiryTime})"))}";
+            var armerMsgs = record.Armers.Select(r => $"{r.Name}：{r.Description}{(r.ExpiryTime.HasValue ? $"({r.ExpiryTime})" : string.Empty)}");
+            var msg = $"你当前持有的装备有：\r{string.Join("\r", armerMsgs)}";
             MsgSender.PushMsg(MsgDTO, msg);
             return true;
         }
