@@ -67,7 +67,8 @@ namespace Dolany.Ai.Core.Ai.Game.Pet.Expedition
 
             if (curEndurance < aimExpedition.Endurance)
             {
-                MsgSender.PushMsg(MsgDTO, $"{pet.Name}的耐力不足({petLevel.Endurance - enduranceConsume.ConsumeTotal}/{aimExpedition.Endurance})！");
+                var extraMsg = curEndurance <= 5 ? $"{pet.Name}已经累的完全动不了了！\r" : string.Empty;
+                MsgSender.PushMsg(MsgDTO, $"{extraMsg}{pet.Name}的耐力不足({petLevel.Endurance - enduranceConsume.ConsumeTotal}/{aimExpedition.Endurance})！");
                 return false;
             }
 

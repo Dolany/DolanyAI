@@ -57,14 +57,14 @@ namespace Dolany.Ai.Core.OnlineStore
             return HonorList.First(h => h is LimitHonorModel limitHonor && limitHonor.IsCurLimit).Items.ToArray();
         }
 
-        public DriftBottleItemModel FindItem(string name)
+        public DriftBottleItemModel FindItem(string itemName)
         {
-            return Items.FirstOrDefault(i => i.Name == name);
+            return Items.FirstOrDefault(i => i.Name == itemName);
         }
 
-        public HonorModel FindHonor(string name)
+        public HonorModel FindHonor(string honorName)
         {
-            return HonorList.FirstOrDefault(h => h.Name == name);
+            return HonorList.FirstOrDefault(h => h.Name == honorName);
         }
 
         public bool IsLimitItem(string itemName)

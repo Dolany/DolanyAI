@@ -9,6 +9,7 @@ using Dolany.Ai.Core.Cache;
 using Dolany.Ai.Core.OnlineStore;
 using Dolany.Database;
 using Dolany.Database.Ai;
+using MongoDB.Driver;
 
 namespace Dolany.Ai.Core.Ai.Game.DriftBottle
 {
@@ -453,6 +454,34 @@ namespace Dolany.Ai.Core.Ai.Game.DriftBottle
             msg += $"总价值：{modelDic.Sum(p => p.Key.Price * p.Value)}";
 
             MsgSender.PushMsg(MsgDTO, msg);
+            return true;
+        }
+
+        [EnterCommand(ID = "DriftBottleAI_ItemCount",
+            Command = "物品统计",
+            AuthorityLevel = AuthorityLevel.成员,
+            Description = "查看指定物品的数量",
+            Syntax = "[物品名]",
+            SyntaxChecker = "Word",
+            Tag = "漂流瓶功能",
+            IsPrivateAvailable = true)]
+        public bool ItemCount(MsgInformationEx MsgDTO, object[] param)
+        {
+            var name = param[0] as string;
+
+            if (HonorHelper.Instance.FindItem(name) == null)
+            {
+                MsgSender.PushMsg(MsgDTO, "未查找到相关物品！");
+                return false;
+            }
+
+            var honor = HonorHelper.Instance.FindHonorName(name);
+
+            var recs = MongoService<ItemCollectionRecord>.Get(p =>
+                p.HonorCollections != null && p.HonorCollections.ContainsKey(honor) && p.HonorCollections[honor].Items.ContainsKey(name));
+
+            var count = recs.Sum(r => r.HonorCollections[honor].Items[name]);
+            MsgSender.PushMsg(MsgDTO, $"当前{name}被收集了{count}个");
             return true;
         }
     }
