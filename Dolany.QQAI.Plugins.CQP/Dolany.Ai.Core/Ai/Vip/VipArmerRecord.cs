@@ -26,9 +26,9 @@ namespace Dolany.Ai.Core.Ai.Vip
             return rec;
         }
 
-        public bool CheckArmer(string armerName)
+        public bool CheckArmer(string armerName, int count = 1)
         {
-            return Armers.Any(a => a.Name == armerName);
+            return Armers.Count(a => a.Name == armerName) >= count;
         }
 
         public void Update()

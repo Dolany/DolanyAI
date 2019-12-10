@@ -7,6 +7,7 @@ using Dolany.Ai.Common.Models;
 using Dolany.Ai.Core.API;
 using Dolany.Ai.Core.Cache;
 using Dolany.Ai.Core.OnlineStore;
+using Dolany.Database;
 
 namespace Dolany.Ai.Core.Ai.Vip
 {
@@ -49,6 +50,16 @@ namespace Dolany.Ai.Core.Ai.Vip
                 return;
             }
 
+            if (!CheckLimit(MsgDTO, armer))
+            {
+                return;
+            }
+
+            if (!CheckMaxContains(MsgDTO, armer))
+            {
+                return;
+            }
+
             if (!Waiter.Instance.WaitForConfirm(MsgDTO, $"此操作将花费{armer.DiamondsNeed}{Emoji.钻石}，是否继续？"))
             {
                 MsgSender.PushMsg(MsgDTO, "操作取消！");
@@ -71,6 +82,80 @@ namespace Dolany.Ai.Core.Ai.Vip
                 Diamonds = armer.DiamondsNeed
             };
             purchaseRec.Insert();
+        }
+
+        private static bool CheckMaxContains(MsgInformationEx MsgDTO, IVipArmer armer)
+        {
+            if (armer.MaxContains == 0)
+            {
+                return true;
+            }
+
+            var armerRec = VipArmerRecord.Get(MsgDTO.FromQQ);
+            if (!armerRec.CheckArmer(armer.Name, armer.MaxContains))
+            {
+                return true;
+            }
+
+            MsgSender.PushMsg(MsgDTO, $"你已经有{armer.MaxContains}件这个装备了！");
+            return false;
+        }
+
+        private static bool CheckLimit(MsgInformationEx MsgDTO, IVipArmer armer)
+        {
+            if (armer.LimitCount == 0)
+            {
+                return true;
+            }
+
+            var (startDate, endDate) = ParseDateRange(armer.LimitInterval);
+            var purchaseRec = MongoService<VipSvcPurchaseRecord>.Get(p =>
+                p.QQNum == MsgDTO.FromQQ && p.SvcName == armer.Name && p.PurchaseTime > startDate && p.PurchaseTime <= endDate);
+            if (purchaseRec.Count < armer.LimitCount)
+            {
+                return true;
+            }
+
+            MsgSender.PushMsg(MsgDTO, $"你{LimitIntervalToString(armer.LimitInterval)}已经买了{armer.LimitCount}次了", true);
+            return false;
+        }
+
+        private static string LimitIntervalToString(VipArmerLimitInterval interval)
+        {
+            return interval switch
+            {
+                VipArmerLimitInterval.Daily => "今天",
+                VipArmerLimitInterval.Weekly => "本周",
+                VipArmerLimitInterval.Monthly => "本月",
+                _ => default
+            };
+        }
+
+        private static (DateTime, DateTime) ParseDateRange(VipArmerLimitInterval interval)
+        {
+            switch (interval)
+            {
+                case VipArmerLimitInterval.Daily:
+                {
+                    return (DateTime.Today, DateTime.Today.AddDays(1));
+                }
+                case VipArmerLimitInterval.Weekly:
+                {
+                    var startDate = DateTime.Now.DayOfWeek == DayOfWeek.Sunday ? DateTime.Today.AddDays(-6) : DateTime.Today.AddDays(1 - (int)DateTime.Now.DayOfWeek);
+                    var endDate = startDate.AddDays(7);
+                    return (startDate, endDate);
+                }
+                case VipArmerLimitInterval.Monthly:
+                {
+                    var startDate = DateTime.Today.AddDays(1 - DateTime.Now.Day);
+                    var endDate = startDate.AddMonths(1);
+                    return (startDate, endDate);
+                }
+                default:
+                {
+                    return default;
+                }
+            }
         }
     }
 }
