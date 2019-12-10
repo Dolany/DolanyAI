@@ -8,9 +8,13 @@ namespace Dolany.Ai.Core.Ai.Game.Pet.Cooking
     {
         public long QQNum { get; set; }
 
+        public List<string> LearndDietMenu { get; set; } = new List<string>();
+
         public Dictionary<string, int> CookedDietDic { get; set; } = new Dictionary<string, int>();
 
         public Dictionary<string, int> FlavoringDic { get; set; } = new Dictionary<string, int>();
+
+        public Dictionary<string, int> CookingHistory { get; set; } = new Dictionary<string, int>();
 
         public static CookingRecord Get(long QQNum)
         {
@@ -34,6 +38,18 @@ namespace Dolany.Ai.Core.Ai.Game.Pet.Cooking
             }
 
             CookedDietDic[name] += count;
+
+            if (CookingHistory == null)
+            {
+                CookingHistory = new Dictionary<string, int>();
+            }
+
+            if (!CookingHistory.ContainsKey(name))
+            {
+                CookingHistory.Add(name, 0);
+            }
+
+            CookingHistory[name] += count;
         }
 
         public void DietConsume(string name, int count = 1)

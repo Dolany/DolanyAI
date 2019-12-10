@@ -1,0 +1,42 @@
+﻿{
+  "云厨师": {
+    "Level": 1,
+    "NeedPrice": 0
+  },
+  "一脸萌新": {
+    "Level": 2,
+    "NeedPrice": 300
+  },
+  "初来乍到": {
+    "Level": 3,
+    "NeedPrice": 900
+  },
+  "厨师学徒": {
+    "Level": 4,
+    "NeedPrice": 1600
+  },
+  "小有所成": {
+    "Level": 5,
+    "NeedPrice": 2200
+  },
+  "心领神会": {
+    "Level": 6,
+    "NeedPrice": 4000
+  },
+  "渐入佳境": {
+    "Level": 7,
+    "NeedPrice": 6200
+  },
+  "一气呵成": {
+    "Level": 8,
+    "NeedPrice": 9000
+  },
+  "学成出师": {
+    "Level": 9,
+    "NeedPrice": 12000
+  },
+  "小有名气": {
+    "Level": 10,
+    "NeedPrice": 15000
+  } 
+}
