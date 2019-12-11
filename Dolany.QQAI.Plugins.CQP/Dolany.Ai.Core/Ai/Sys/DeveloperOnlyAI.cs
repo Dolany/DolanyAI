@@ -575,6 +575,23 @@ namespace Dolany.Ai.Core.Ai.Sys
             return true;
         }
 
+        [EnterCommand(ID = "DeveloperOnlyAI_GetQQInfo",
+            Command = "获取QQ信息",
+            Description = "获取指定QQ的信息(测试)",
+            Syntax = "[QQ号]",
+            Tag = "开发者后台",
+            SyntaxChecker = "Long",
+            AuthorityLevel = AuthorityLevel.开发者,
+            IsPrivateAvailable = true)]
+        public bool GetQQInfo(MsgInformationEx MsgDTO, object[] param)
+        {
+            var qqNum = (long) param[0];
+            var info = APIEx.GetQQInfo(qqNum, MsgDTO.BindAi);
+
+            MsgSender.PushMsg(MsgDTO, info != null ? JsonConvert.SerializeObject(info) : "获取失败！");
+            return true;
+        }
+
         [EnterCommand(ID = "DeveloperOnlyAI_RuleDestruction",
             Command = "规则析构",
             Description = "规则析构",

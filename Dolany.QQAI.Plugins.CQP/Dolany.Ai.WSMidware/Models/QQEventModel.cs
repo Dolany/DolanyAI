@@ -1,10 +1,12 @@
-﻿namespace Dolany.Ai.WSMidware.Models
+﻿using System.Collections.Generic;
+
+namespace Dolany.Ai.WSMidware.Models
 {
     public class QQEventModel
     {
         public string Id { get; set; }
 
-        public object Result { get; set; }
+        public Dictionary<string, object> Result { get; set; }
 
         public string Error { get; set; }
 

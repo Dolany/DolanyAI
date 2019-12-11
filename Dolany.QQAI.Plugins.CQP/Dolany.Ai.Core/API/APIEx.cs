@@ -4,6 +4,7 @@ using Dolany.Ai.Common.Models;
 using Dolany.Ai.Core.API.ViewModel;
 using Dolany.Ai.Core.Cache;
 using Dolany.Ai.Core.Common;
+using Dolany.Ai.Core.Model;
 using JetBrains.Annotations;
 using Newtonsoft.Json;
 
@@ -58,6 +59,13 @@ namespace Dolany.Ai.Core.API
                     ToQQ = QQ号,
                     BindAi = BindAi
                 });
+        }
+
+        public static QQInfoModel GetQQInfo(long QQNum, string BindAi)
+        {
+            var info = Waiter.Instance.WaitForRelationId(new MsgCommand {Command = CommandType.GetQQInfo, ToQQ = QQNum, BindAi = BindAi});
+            //RuntimeLogger.Log(JsonConvert.SerializeObject(info));
+            return info == null ? null : JsonConvert.DeserializeObject<QQInfoModel>(info.Msg);
         }
     }
 }

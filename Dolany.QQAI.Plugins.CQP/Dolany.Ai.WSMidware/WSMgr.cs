@@ -2,6 +2,7 @@
 using System.Collections.Concurrent;
 using System.Collections.Generic;
 using System.Linq;
+using System.Threading;
 using System.Timers;
 using Dolany.Ai.Common;
 using Dolany.Ai.Common.Models;
@@ -124,6 +125,29 @@ namespace Dolany.Ai.WSMidware
                     PublishInformation(info);
                     break;
                 }
+
+                case CommandType.GetQQInfo:
+                {
+                    try
+                    {
+                        dynamic result = eventModel.Result["result"];
+                        var buddy = result["buddy"];
+                        var info_list = buddy["info_list"];
+
+                        var info = new MsgInformation()
+                        {
+                            Information = InformationType.CommandBack,
+                            RelationId = model.RelationId,
+                            Msg = JsonConvert.SerializeObject(info_list[0])
+                        };
+                        PublishInformation(info);
+                    }
+                    catch (Exception e)
+                    {
+                        RuntimeLogger.Log(e);
+                    }
+                    break;
+                }
             }
         }
 
@@ -187,6 +211,23 @@ namespace Dolany.Ai.WSMidware
                     break;
                 }
 
+                case CommandType.GetQQInfo:
+                {
+                    WaitingDic.TryAdd(command.Id, new WaitingModel() {BindAi = command.BindAi, Command = command.Command, RelationId = command.Id});
+
+                    var model = new Dictionary<string, object>()
+                    {
+                        {"id", command.Id },
+                        {"method", "getQQInfo" },
+                        {"params", new Dictionary<string, object>()
+                        {
+                            {"qq", command.ToQQ.ToString() }
+                        } }
+                    };
+                    Send(command.BindAi, model);
+                    break;
+                }
+
                 case CommandType.ConnectionState:
                 {
                     var stateDic = ClientsDic.ToDictionary(c => c.Key, c => c.Value.IsConnected);
@@ -198,6 +239,26 @@ namespace Dolany.Ai.WSMidware
                     };
 
                     PublishInformation(info);
+                    break;
+                }
+
+                case CommandType.Praise:
+                {
+                    var count = int.Parse(command.Msg);
+                    for (var i = 0; i < count; i++)
+                    {
+                        var model = new Dictionary<string, object>()
+                        {
+                            {"method", "givePraise" },
+                            {"params", new Dictionary<string, object>()
+                            {
+                                {"qq", command.ToQQ.ToString() }
+                            } }
+                        };
+                        Send(command.BindAi, model);
+
+                        Thread.Sleep(100);
+                    }
                     break;
                 }
             }

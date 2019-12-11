@@ -12,6 +12,7 @@
         GetAuthCode = 7,
         GetGroups = 8,
         SetSilence = 9,
-        ConnectionState = 10
+        ConnectionState = 10,
+        GetQQInfo = 11
     }
 }
