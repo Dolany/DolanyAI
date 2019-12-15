@@ -10,6 +10,12 @@ namespace Dolany.Database.Ai
 
         public DailySellItemModel[] Items { get; set; }
 
+        public bool IsActive => Hour <= DateTime.Now.Hour && DateTime.Now.Hour < Hour + 3;
+
+        public bool IsBefore => DateTime.Now.Hour < Hour;
+
+        public bool IsOver => Hour + 3 <= DateTime.Now.Hour;
+
         public static DailySellItemRareRecord GetToday()
         {
             var dataStr = DateTime.Now.ToString("yyyyMMdd");

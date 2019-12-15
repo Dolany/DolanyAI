@@ -17,7 +17,7 @@ namespace Dolany.Ai.Core.Ai.Vip.VipArmers
         public bool Purchase(MsgInformationEx MsgDTO)
         {
             var todayRec = DailySellItemRareRecord.GetToday();
-            if (todayRec.Hour < DateTime.Now.Hour || todayRec.Hour + 2 > DateTime.Now.Hour)
+            if (!todayRec.IsActive)
             {
                 MsgSender.PushMsg(MsgDTO, "稀有商店尚未开启，你无法购买此物品！");
                 return false;

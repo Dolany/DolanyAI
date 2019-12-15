@@ -281,14 +281,14 @@ namespace Dolany.Ai.Core.Ai.Game.Shopping
 
             var todayRec = DailySellItemRareRecord.GetToday();
             var tomorrowRec = DailySellItemRareRecord.GetTomorrow();
-            if (todayRec.Hour + 2 < DateTime.Now.Hour)
+            if (todayRec.IsOver)
             {
                 MsgSender.PushMsg(MsgDTO,
                     $"稀有商店休息中~\r下次开放时间：{DateTime.Now.AddDays(1):yyyy-MM-dd} {tomorrowRec.Hour}:00:00 ~ {DateTime.Now.AddDays(1):yyyy-MM-dd} {tomorrowRec.Hour + 3}:00:00");
                 return false;
             }
 
-            if (todayRec.Hour > DateTime.Now.Hour)
+            if (todayRec.IsBefore)
             {
                 MsgSender.PushMsg(MsgDTO,
                     $"稀有商店休息中~\r下次开放时间：{DateTime.Now:yyyy-MM-dd} {todayRec.Hour}:00:00 ~ {DateTime.Now:yyyy-MM-dd} {todayRec.Hour + 3}:00:00");
