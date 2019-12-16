@@ -33,7 +33,7 @@ namespace Dolany.Ai.Core.Ai.Vip
 
             var goodsName = DailyVipGoodsRecord.GetToday(MsgDTO.FromQQ).GoodsName;
             var goods = goodsName.Select(g => DailyVipShopMgr.Instance[g]).ToList();
-            var goodsMsg = string.Join("\r", goods.Select(g => $"{g.Name}({g.DiamondsNeed}{Emoji.钻石}):{g.Description}\r"));
+            var goodsMsg = string.Join("\r", goods.Select(g => $"{g.Name}({g.DiamondsNeed}{Emoji.钻石}):{g.Description}"));
             var msg = $"今天提供的vip服务有：\r{goodsMsg}\r你当前余额为：{osPerson.Diamonds}{Emoji.钻石}";
 
             MsgSender.PushMsg(MsgDTO, msg);

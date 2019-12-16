@@ -19,7 +19,7 @@ namespace Dolany.Ai.Core.Ai.SingleCommand.Voice
 
         private Beng3ConfigModel Beng3Config;
 
-        public override bool IsAdvanced { get; set; } = true;
+        public override bool IsAdvanced { get; } = true;
 
         public override void Initialization()
         {

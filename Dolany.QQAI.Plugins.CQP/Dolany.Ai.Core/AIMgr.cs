@@ -257,7 +257,7 @@ namespace Dolany.Ai.Core
 
                         if (ai.OnMsgReceived(MsgDTO))
                         {
-                            return;
+                            break;
                         }
                     }
                 }

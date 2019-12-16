@@ -22,7 +22,7 @@ namespace Dolany.Ai.Core.Ai.Record.Hello
 
         public override int PriorityLevel { get; set; } = 15;
 
-        public override bool IsAdvanced { get; set; } = true;
+        public override bool IsAdvanced { get; } = true;
 
         private List<HelloRecord> HelloList = new List<HelloRecord>();
         private List<MultiMediaHelloRecord> MultiMediaHelloList = new List<MultiMediaHelloRecord>();

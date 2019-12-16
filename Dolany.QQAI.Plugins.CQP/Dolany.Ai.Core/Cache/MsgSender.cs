@@ -14,6 +14,7 @@ namespace Dolany.Ai.Core.Cache
             AIMgr.Instance.MessagePublish(callback);
 
             Global.CommandInfoService.Send(msg, Global.DefaultConfig.CommandQueueName);
+            RecentCommandCache.Cache(msg.BindAi);
         }
 
         public static void PushMsg(MsgInformationEx MsgInfo, string Content, bool isNeedAt = false)

@@ -19,9 +19,9 @@ namespace Dolany.Ai.Core.Ai.Record
 
         public override int PriorityLevel { get; set; } = 10;
 
-        public override bool NeedManualOpeon { get; set; } = true;
+        public override bool NeedManualOpeon { get; } = true;
 
-        public override bool IsAdvanced { get; set; } = true;
+        public override bool IsAdvanced { get; } = true;
 
         public override void Initialization()
         {

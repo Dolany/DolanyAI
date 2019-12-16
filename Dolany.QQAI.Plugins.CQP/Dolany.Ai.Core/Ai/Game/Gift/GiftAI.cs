@@ -15,7 +15,7 @@ namespace Dolany.Ai.Core.Ai.Game.Gift
 
         public override int PriorityLevel { get; set; } = 10;
 
-        public override bool NeedManualOpeon { get; set; } = true;
+        public override bool NeedManualOpeon { get; } = true;
 
         [EnterCommand(ID = "GiftAI_MakeGift",
             Command = "兑换礼物",

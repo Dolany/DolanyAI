@@ -21,7 +21,7 @@ namespace Dolany.Ai.Core.Ai.Game.DriftBottle
 
         public override int PriorityLevel { get; set; } = 10;
 
-        public override bool NeedManualOpeon { get; set; } = true;
+        public override bool NeedManualOpeon { get; } = true;
 
         private const int ItemRate = 60;
 

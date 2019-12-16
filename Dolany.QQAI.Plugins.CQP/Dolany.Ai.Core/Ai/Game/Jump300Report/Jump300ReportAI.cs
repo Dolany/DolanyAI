@@ -13,9 +13,9 @@ namespace Dolany.Ai.Core.Ai.Game.Jump300Report
 
         public override int PriorityLevel { get; set; } = 10;
 
-        public override bool NeedManualOpeon { get; set; } = true;
+        public override bool NeedManualOpeon { get; } = true;
 
-        public override bool Enable { get; set; } = false;
+        public override bool Enable { get; } = false;
 
         [EnterCommand(ID = "Jump300ReportAI_JumpReport",
             Command = "战绩查询",

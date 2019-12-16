@@ -15,7 +15,7 @@ namespace Dolany.Ai.Core.Ai.Repeater
 
         public override int PriorityLevel { get; set; } = 1;
 
-        public override bool NeedManualOpeon { get; set; } = true;
+        public override bool NeedManualOpeon { get; } = true;
 
         private const long RepeatLimit = 30;
 

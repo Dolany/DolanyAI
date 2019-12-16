@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using Dolany.Ai.Core.Cache;
 
 namespace Dolany.Ai.Core.Common
 {
@@ -20,7 +19,6 @@ namespace Dolany.Ai.Core.Common
             lock (Lock)
             {
                 Commands.Add(model);
-                RecentCommandCache.Cache(model.BindAi);
             }
         }
 

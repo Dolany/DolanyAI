@@ -16,7 +16,7 @@ namespace Dolany.Ai.Core.Ai.SingleCommand.PraiseMe
 
         public override int PriorityLevel { get; set; } = 10;
 
-        public override bool IsAdvanced { get; set; } = true;
+        public override bool IsAdvanced { get; } = true;
 
         private readonly Dictionary<string, DateTime> LastTimeDic = new Dictionary<string, DateTime>();
 

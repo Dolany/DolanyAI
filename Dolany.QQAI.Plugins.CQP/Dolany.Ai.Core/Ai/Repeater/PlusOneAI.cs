@@ -18,7 +18,7 @@ namespace Dolany.Ai.Core.Ai.Repeater
 
         public override int PriorityLevel { get; set; } = 1;
 
-        public override bool NeedManualOpeon { get; set; } = true;
+        public override bool NeedManualOpeon { get; } = true;
 
         private List<PlusOneModel> Cache { get; } = new List<PlusOneModel>();
 

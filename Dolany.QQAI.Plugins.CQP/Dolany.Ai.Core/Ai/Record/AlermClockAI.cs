@@ -22,9 +22,9 @@ namespace Dolany.Ai.Core.Ai.Record
 
         public override int PriorityLevel { get; set; } = 10;
 
-        public override bool NeedManualOpeon { get; set; } = true;
+        public override bool NeedManualOpeon { get; } = true;
 
-        public override bool Enable { get; set; } = false;
+        public override bool Enable { get; } = false;
 
         private List<string> ClockIdList { get; } = new List<string>();
 

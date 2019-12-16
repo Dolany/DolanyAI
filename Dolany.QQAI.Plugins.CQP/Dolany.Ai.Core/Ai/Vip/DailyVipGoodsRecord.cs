@@ -30,7 +30,7 @@ namespace Dolany.Ai.Core.Ai.Vip
             }
 
             record.Date = dateStr;
-            record.GoodsName = DailyVipShopMgr.Instance.RandGoods(5);
+            record.GoodsName = DailyVipShopMgr.Instance.RandGoods(7);
 
             return record;
         }

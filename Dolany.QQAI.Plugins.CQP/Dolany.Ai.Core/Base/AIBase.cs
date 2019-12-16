@@ -7,6 +7,7 @@ using System;
 using System.Collections.Generic;
 using System.Globalization;
 using System.Linq;
+using System.Reflection;
 
 namespace Dolany.Ai.Core.Base
 {
@@ -18,11 +19,11 @@ namespace Dolany.Ai.Core.Base
 
         public abstract int PriorityLevel { get; set; }
 
-        public virtual bool Enable { get; set; } = true;
+        public virtual bool Enable { get; } = true;
 
-        public virtual bool IsAdvanced { get; set; } = false;
+        public virtual bool IsAdvanced { get; } = false;
 
-        public virtual bool NeedManualOpeon { get; set; } = false;
+        public virtual bool NeedManualOpeon { get; } = false;
 
         protected delegate bool AIModuleDel(MsgInformationEx MsgDTO, object[] param);
 

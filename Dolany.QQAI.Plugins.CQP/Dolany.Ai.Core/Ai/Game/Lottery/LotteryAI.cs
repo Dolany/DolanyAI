@@ -15,7 +15,7 @@ namespace Dolany.Ai.Core.Ai.Game.Lottery
 
         public override int PriorityLevel { get; set; } = 10;
 
-        public override bool NeedManualOpeon { get; set; } = false;
+        public override bool NeedManualOpeon { get; } = false;
 
         [EnterCommand(ID = "LotteryAI_DrawLottery",
             Command = "开箱子",

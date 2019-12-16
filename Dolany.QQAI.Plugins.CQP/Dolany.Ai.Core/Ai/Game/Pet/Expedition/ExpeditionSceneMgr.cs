@@ -127,7 +127,7 @@ namespace Dolany.Ai.Core.Ai.Game.Pet.Expedition
 
         public string ToString(int curEndurance)
         {
-            var str = $"{Name}：{Description}\r耐力：{curEndurance}/{Endurance}{(curEndurance < Endurance ? "(耐力不足)" : string.Empty)}     耗时：{TimeConsume}分钟\r奖励：";
+            var str = $"{Name}：{Description}\r耐力：{Endurance}({curEndurance}){(curEndurance < Endurance ? "(耐力不足)" : string.Empty)}     耗时：{TimeConsume}分钟\r奖励：";
             if (GoldBonus != null)
             {
                 str += $"  金币：{Utility.LevelToStars(GoldBonus.Level)}";

@@ -15,7 +15,7 @@ namespace Dolany.Ai.Core.Ai.Game.Pet.Cooking
         public override string Description { get; set; } = "Ai for cooking.";
         public override int PriorityLevel { get; set; } = 10;
 
-        public override bool Enable { get; set; } = false;
+        public override bool Enable { get; } = false;
 
         private List<CookingLevelModel> CookingLevels = new List<CookingLevelModel>();
 

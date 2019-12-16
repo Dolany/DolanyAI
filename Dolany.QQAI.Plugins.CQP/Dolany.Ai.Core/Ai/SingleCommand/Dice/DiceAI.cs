@@ -18,7 +18,7 @@ namespace Dolany.Ai.Core.Ai.SingleCommand.Dice
 
         public override int PriorityLevel { get; set; } = 5;
 
-        public override bool NeedManualOpeon { get; set; } = true;
+        public override bool NeedManualOpeon { get; } = true;
 
         private readonly int DiceCountMaxLimit = Global.DefaultConfig.DiceCountMaxLimit;
         private readonly int DiceSizeMaxLimit = Global.DefaultConfig.DiceSizeMaxLimit;
@@ -41,7 +41,7 @@ namespace Dolany.Ai.Core.Ai.SingleCommand.Dice
                 return false;
             }
 
-            if (!ParseFormat1(MsgDTO) && !ParseFormat2(MsgDTO))
+            if (!ParseFormat(MsgDTO))
             {
                 return false;
             }
@@ -56,7 +56,7 @@ namespace Dolany.Ai.Core.Ai.SingleCommand.Dice
             return true;
         }
 
-        private bool ParseFormat1(MsgInformationEx MsgDTO)
+        private bool ParseFormat(MsgInformationEx MsgDTO)
         {
             var format = MsgDTO.Command;
 
@@ -68,50 +68,6 @@ namespace Dolany.Ai.Core.Ai.SingleCommand.Dice
 
             var result = ConsoleDice(model);
             SendResult(MsgDTO, result);
-            return true;
-        }
-
-        private bool ParseFormat2(MsgInformationEx MsgDTO)
-        {
-            if (!MsgDTO.FullMsg.Contains(".r"))
-            {
-                return false;
-            }
-
-            if (MsgDTO.FullMsg.Trim() == ".r")
-            {
-                var randInt = Rander.RandInt(6) + 1;
-                MsgSender.PushMsg(MsgDTO, $"你掷出了 {randInt}点！", true);
-                return true;
-            }
-
-            var afterPart = MsgDTO.FullMsg.Replace(".r", string.Empty).Trim();
-            if (int.TryParse(afterPart, out var extra))
-            {
-                var randInt = Rander.RandInt(6) + 1;
-                MsgSender.PushMsg(MsgDTO, $"你掷出了 {randInt}+{extra}={randInt + extra}点！", true);
-                return true;
-            }
-
-            if (!afterPart.StartsWith("*"))
-            {
-                return false;
-            }
-
-            var multiPart = afterPart.Replace("*", string.Empty).Trim();
-            if (!int.TryParse(multiPart, out var multiNum) || multiNum <= 0 || multiNum > DiceCountMaxLimit)
-            {
-                return false;
-            }
-
-            var randInts = Enumerable.Range(0, multiNum).Select(p =>
-            {
-                Thread.Sleep(10);
-                return Rander.RandInt(6) + 1;
-            });
-            var intMsg = string.Join("+", randInts);
-            var msg = $"你掷出了 {intMsg}={randInts.Sum()}点！";
-            MsgSender.PushMsg(MsgDTO, msg, true);
             return true;
         }
 

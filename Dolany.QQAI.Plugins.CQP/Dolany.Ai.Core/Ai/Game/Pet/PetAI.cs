@@ -23,7 +23,7 @@ namespace Dolany.Ai.Core.Ai.Game.Pet
 
         public override int PriorityLevel { get; set; } = 10;
 
-        public override bool NeedManualOpeon { get; set; } = true;
+        public override bool NeedManualOpeon { get; } = true;
 
         private const string CachePath = "./images/Cache/";
 
@@ -44,7 +44,7 @@ namespace Dolany.Ai.Core.Ai.Game.Pet
             var levelModel = PetLevelMgr.Instance[pet.Level];
 
             var extEndur = VipArmerRecord.Get(MsgDTO.FromQQ).CheckArmer("耐力护符") ? "(+10)" : string.Empty;
-            var petEndur = levelModel.Endurance - PetEnduranceRecord.Get(MsgDTO.FromQQ).ConsumeTotal + extEndur;
+            var petEndur = levelModel.Endurance - PetEnduranceRecord.Get(MsgDTO.FromQQ).ConsumeTotal;
 
             var msg = $"{CodeApi.Code_Image_Relational(pet.PicPath)}\r" +
                       $"名称：{pet.Name}\r" +
@@ -52,7 +52,7 @@ namespace Dolany.Ai.Core.Ai.Game.Pet
                       $"食性：{pet.Attribute ?? "无"}\r" +
                       $"等级：{Utility.LevelEmoji(pet.Level)}\r" +
                       $"{Emoji.心}：{levelModel.HP}\r" +
-                      $"耐力：{petEndur}{extEndur}/{levelModel.Endurance}\r" +
+                      $"耐力：{petEndur}/{levelModel.Endurance}{extEndur}\r" +
                       $"经验值：{pet.Exp}/{levelModel.Exp}";
             if (!pet.Skills.IsNullOrEmpty())
             {

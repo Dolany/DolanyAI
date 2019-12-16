@@ -16,7 +16,7 @@ namespace Dolany.Ai.Core.Ai.Game.ChessAgainst
 
         public override int PriorityLevel { get; set; } = 10;
 
-        public override bool NeedManualOpeon { get; set; } = true;
+        public override bool NeedManualOpeon { get; } = true;
 
         [EnterCommand(ID = "ChessAgainstAI_Fight",
             Command = "对决 决斗",

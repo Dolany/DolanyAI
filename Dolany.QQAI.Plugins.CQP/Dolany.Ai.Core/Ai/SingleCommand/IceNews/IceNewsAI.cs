@@ -12,7 +12,7 @@ namespace Dolany.Ai.Core.Ai.SingleCommand.IceNews
         public override string AIName { get; set; } = "冰冰新闻";
         public override string Description { get; set; } = "AI for ice news";
         public override int PriorityLevel { get; set; } = 10;
-        public override bool Enable { get; set; } = false;
+        public override bool Enable { get; } = false;
 
         private const string CachePath = "./images/News/";
 
