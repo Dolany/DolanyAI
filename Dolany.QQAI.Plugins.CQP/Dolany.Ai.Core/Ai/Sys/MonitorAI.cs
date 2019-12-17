@@ -121,7 +121,7 @@ namespace Dolany.Ai.Core.Ai.Sys
                 return false;
             }
 
-            AIMgr.Instance.AIInstance<DeveloperOnlyAI>().ChargeTime(MsgDTO, new object[] {MsgDTO.FromGroup, days});
+            AIMgr.Instance.AIInstance<DeveloperOnlyAI>().ChargeTime(MsgDTO, new object[] {MsgDTO.FromGroup, (long)days});
             osPerson.Diamonds -= diamondNeed;
             osPerson.Update();
 

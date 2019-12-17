@@ -140,8 +140,9 @@ namespace Dolany.Ai.Core.Ai.Game.Shopping
             var goldsGen = Math.Min(ginfo.SuccessiveDays * 5, 50);
 
             OSPerson.GoldIncome(MsgDTO.FromQQ, goldsGen);
+            var indexNo = SignInGroupInfo.GetAndUpdate(MsgDTO.FromGroup);
 
-            var msg = $"签到成功！你已连续签到 {ginfo.SuccessiveDays}天，获得 {goldsGen}金币！";
+            var msg = $"签到成功！你已连续签到 {ginfo.SuccessiveDays}天，获得 {goldsGen}金币！\r本群签到排名：【No.{indexNo}】";
             if (ginfo.SuccessiveDays % 10 == 0)
             {
                 var cache = PersonCacheRecord.Get(MsgDTO.FromQQ, "抽奖");

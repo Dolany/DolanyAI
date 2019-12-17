@@ -450,7 +450,7 @@ namespace Dolany.Ai.Core.Ai.Sys
 
             GroupSettingMgr.Instance.Refresh();
 
-            MsgSender.PushMsg(MsgDTO, "充值成功");
+            MsgSender.PushMsg(MsgDTO, $"充值成功，有效期至 {setting.ExpiryTime?.ToLocalTime():yyyy-MM-dd HH:mm:ss}");
             return true;
         }
 

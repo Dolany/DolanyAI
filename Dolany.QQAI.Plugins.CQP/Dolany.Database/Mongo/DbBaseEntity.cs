@@ -7,6 +7,6 @@ namespace Dolany.Database
     [BsonIgnoreExtraElements]
     public abstract class DbBaseEntity
     {
-        public string Id { get; set; } = Guid.NewGuid().ToString();
+        public string Id { get; set; } = MongoDB.Bson.ObjectId.GenerateNewId().ToString();
     }
 }

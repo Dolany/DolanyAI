@@ -83,7 +83,7 @@ namespace Dolany.Ai.Core.Ai.Game.Pet.Expedition
             enduranceConsume.ConsumeTotal += aimExpedition.Endurance;
             enduranceConsume.Update();
 
-            MsgSender.PushMsg(MsgDTO, $"远征开始！目标：{aimExpedition.Name}！(请于{expRec.EndTime:yyyy-MM-dd HH:mm:ss}后使用 宠物远征 命令回收远征奖励！)");
+            MsgSender.PushMsg(MsgDTO, $"远征开始！目标：【{aimExpedition.Name}】！(请于{expRec.EndTime:yyyy-MM-dd HH:mm:ss}后使用 宠物远征 命令回收远征奖励！)");
             return true;
         }
 
