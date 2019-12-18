@@ -108,12 +108,6 @@
     <None Include="App.config" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\Dolany.Ai.Util\Dolany.Ai.Util.csproj">
-      <Project>{a08b684e-072a-4770-a005-4b5cc8ca726c}</Project>
-      <Name>Dolany.Ai.Util</Name>
-    </ProjectReference>
-  </ItemGroup>
-  <ItemGroup>
     <BootstrapperPackage Include=".NETFramework,Version=v4.7.2">
       <Visible>False</Visible>
       <ProductName>Microsoft .NET Framework 4.7.2 %28x86 和 x64%29</ProductName>

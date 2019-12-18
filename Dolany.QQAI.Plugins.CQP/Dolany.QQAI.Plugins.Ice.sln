@@ -8,10 +8,6 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution 
 		Memo.txt = Memo.txt
 	EndProjectSection
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Dolany.Ai.MQ", "Dolany.Ai.MQ\Dolany.Ai.MQ.csproj", "{006767DB-7A2E-4652-A736-B853BC84C7C9}"
-EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Dolany.Ai.Util", "Dolany.Ai.Util\Dolany.Ai.Util.csproj", "{A08B684E-072A-4770-A005-4B5CC8CA726C}"
-EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Desktop", "Desktop", "{3D1D748A-8A7B-446B-8AFB-97877F34CCED}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Dolany.Ai.Core", "Dolany.Ai.Core\Dolany.Ai.Core.csproj", "{82107F59-6694-413C-84ED-92EAE2D3A2F9}"
@@ -36,7 +32,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Dolany.Ai.Doremi", "Dolany.
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DoremiDesktop", "DoremiDesktop\DoremiDesktop.csproj", "{45EA9ED1-E88A-4B31-BEA1-AAA593EE2CCE}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Dolany.Ai.WSMidware", "Dolany.Ai.WSMidware\Dolany.Ai.WSMidware.csproj", "{9219CE78-0A41-45EE-97B4-6A7EE786C2FA}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Dolany.Ai.WSMidware", "Dolany.Ai.WSMidware\Dolany.Ai.WSMidware.csproj", "{9219CE78-0A41-45EE-97B4-6A7EE786C2FA}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -44,14 +40,6 @@ Global
 		Release|Any CPU = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
-		{006767DB-7A2E-4652-A736-B853BC84C7C9}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{006767DB-7A2E-4652-A736-B853BC84C7C9}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{006767DB-7A2E-4652-A736-B853BC84C7C9}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{006767DB-7A2E-4652-A736-B853BC84C7C9}.Release|Any CPU.Build.0 = Release|Any CPU
-		{A08B684E-072A-4770-A005-4B5CC8CA726C}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{A08B684E-072A-4770-A005-4B5CC8CA726C}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{A08B684E-072A-4770-A005-4B5CC8CA726C}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{A08B684E-072A-4770-A005-4B5CC8CA726C}.Release|Any CPU.Build.0 = Release|Any CPU
 		{82107F59-6694-413C-84ED-92EAE2D3A2F9}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{82107F59-6694-413C-84ED-92EAE2D3A2F9}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{82107F59-6694-413C-84ED-92EAE2D3A2F9}.Release|Any CPU.ActiveCfg = Release|Any CPU
@@ -93,7 +81,6 @@ Global
 		HideSolutionNode = FALSE
 	EndGlobalSection
 	GlobalSection(NestedProjects) = preSolution
-		{A08B684E-072A-4770-A005-4B5CC8CA726C} = {9B6A40A7-85AA-4DE1-A17E-D7CF982D706F}
 		{82107F59-6694-413C-84ED-92EAE2D3A2F9} = {57495118-F4E5-4BDA-B6D9-DE6EBA01C783}
 		{8378C902-59D6-4E24-8347-51AEB956032C} = {57495118-F4E5-4BDA-B6D9-DE6EBA01C783}
 		{7A3EB285-4A87-4EC4-8406-164F426C4D12} = {9B6A40A7-85AA-4DE1-A17E-D7CF982D706F}
