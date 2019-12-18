@@ -592,6 +592,29 @@ namespace Dolany.Ai.Core.Ai.Sys
             return true;
         }
 
+        [EnterCommand(ID = "DeveloperOnlyAI_WithdrawMessage",
+            Command = "撤回消息测试",
+            Description = "撤回消息测试",
+            Syntax = "[消息ID]",
+            Tag = "开发者后台",
+            SyntaxChecker = "Long",
+            AuthorityLevel = AuthorityLevel.开发者,
+            IsPrivateAvailable = true)]
+        public bool WithdrawMessage(MsgInformationEx MsgDTO, object[] param)
+        {
+            var msgid = (long)param[0];
+
+            var withdrawCommond = new MsgCommand()
+            {
+                Msg = msgid.ToString(),
+                Command = CommandType.WithdrawMessage,
+                ToGroup = MsgDTO.FromGroup,
+                BindAi = MsgDTO.BindAi
+            };
+            MsgSender.PushMsg(withdrawCommond);
+            return true;
+        }
+
         [EnterCommand(ID = "DeveloperOnlyAI_RuleDestruction",
             Command = "规则析构",
             Description = "规则析构",

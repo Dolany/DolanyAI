@@ -2,10 +2,11 @@
 using System.Collections.Concurrent;
 using System.Collections.Generic;
 using System.Linq;
-using System.Threading;
 using System.Timers;
 using Dolany.Ai.Common;
 using Dolany.Ai.Common.Models;
+using Dolany.Ai.WSMidware.CommandResolver;
+using Dolany.Ai.WSMidware.MessageResolver;
 using Dolany.Ai.WSMidware.Models;
 using Newtonsoft.Json;
 
@@ -15,11 +16,14 @@ namespace Dolany.Ai.WSMidware
     {
         public static WSMgr Instance { get; } = new WSMgr();
 
-        private readonly ConcurrentDictionary<string, WSClient> ClientsDic = new ConcurrentDictionary<string, WSClient>();
+        public readonly ConcurrentDictionary<string, WSClient> ClientsDic = new ConcurrentDictionary<string, WSClient>();
 
-        private readonly ConcurrentDictionary<string, WaitingModel> WaitingDic = new ConcurrentDictionary<string, WaitingModel>();
+        public readonly ConcurrentDictionary<string, WaitingModel> WaitingDic = new ConcurrentDictionary<string, WaitingModel>();
 
-        private List<BindAiModel> AllAis { get; }
+        public List<BindAiModel> AllAis { get; }
+
+        private readonly List<ICmdResovler> CommandResolvers;
+        private readonly List<IMsgResolver> MessageResolvers;
 
         private WSMgr()
         {
@@ -31,6 +35,9 @@ namespace Dolany.Ai.WSMidware
             }
 
             Scheduler.Instance.Add(SchedulerTimer.SecondlyInterval * Global.Config.ReconnectSecords, Reconnect);
+
+            CommandResolvers = CommonUtil.LoadAllInstanceFromInterface<ICmdResovler>();
+            MessageResolvers = CommonUtil.LoadAllInstanceFromInterface<IMsgResolver>();
 
             Global.MQSvc.StartReceive<MsgCommand>(CommandInvoke);
         }
@@ -47,49 +54,8 @@ namespace Dolany.Ai.WSMidware
                     return;
                 }
 
-                switch (model.Event)
-                {
-                    case "message":
-                    {
-                        if (AllAis.Any(ai => ai.QQNum == model.Params.Qq))
-                        {
-                            return;
-                        }
-
-                        var info = new MsgInformation()
-                        {
-                            BindAi = bindAi,
-                            FromGroup = long.TryParse(model.Params.Group, out var groupNum) ? groupNum : 0,
-                            FromQQ = long.TryParse(model.Params.Qq, out var qqNum) ? qqNum : 0,
-                            Information = InformationType.Message,
-                            Msg = model.Params.Content
-                        };
-                        PublishInformation(info);
-                        break;
-                    }
-
-                    case "receiveMoney":
-                    {
-                        var chargeModel = new ChargeModel()
-                        {
-                            QQNum = long.TryParse(model.Params.Qq, out var qqNum) ? qqNum : 0,
-                            Amount = double.TryParse(model.Params.Amount, out var amount) ? Math.Round(amount, 2) : 0,
-                            Message = model.Params.Message,
-                            OrderID = model.Params.Id,
-                            BindAi = bindAi
-                        };
-
-                        var info = new MsgInformation()
-                        {
-                            BindAi = bindAi,
-                            Information = InformationType.ReceiveMoney,
-                            Msg = JsonConvert.SerializeObject(chargeModel),
-                            FromQQ = chargeModel.QQNum
-                        };
-                        PublishInformation(info);
-                        break;
-                    }
-                }
+                var resolver = MessageResolvers.FirstOrDefault(p => p.MsgEvent == model.Event);
+                resolver?.Resolver(bindAi, model);
             }
             catch (Exception e)
             {
@@ -97,7 +63,7 @@ namespace Dolany.Ai.WSMidware
             }
         }
 
-        private static void PublishInformation(MsgInformation info)
+        public void PublishInformation(MsgInformation info)
         {
             Global.MQSvc.Send(info, Global.Config.MQSendQueue);
         }
@@ -110,161 +76,20 @@ namespace Dolany.Ai.WSMidware
             }
         }
 
-        private static void WaitingCallBack(WaitingModel model, QQEventModel eventModel)
+        private void WaitingCallBack(WaitingModel model, QQEventModel eventModel)
         {
-            switch (model.Command)
-            {
-                case CommandType.GetGroupMemberInfo:
-                {
-                    var info = new MsgInformation()
-                    {
-                        Information = InformationType.CommandBack,
-                        RelationId = model.RelationId,
-                        Msg = JsonConvert.SerializeObject(eventModel.Result)
-                    };
-                    PublishInformation(info);
-                    break;
-                }
-
-                case CommandType.GetQQInfo:
-                {
-                    try
-                    {
-                        dynamic result = eventModel.Result["result"];
-                        var buddy = result["buddy"];
-                        var info_list = buddy["info_list"];
-
-                        var info = new MsgInformation()
-                        {
-                            Information = InformationType.CommandBack,
-                            RelationId = model.RelationId,
-                            Msg = JsonConvert.SerializeObject(info_list[0])
-                        };
-                        PublishInformation(info);
-                    }
-                    catch (Exception e)
-                    {
-                        RuntimeLogger.Log(e);
-                    }
-                    break;
-                }
-            }
+            var resolver = CommandResolvers.FirstOrDefault(p => p.CommandType == model.Command);
+            resolver?.CallBack(model, eventModel);
         }
 
         private void CommandInvoke(MsgCommand command)
         {
             Console.WriteLine(JsonConvert.SerializeObject(command));
-            switch (command.Command)
-            {
-                case CommandType.SendGroup:
-                {
-                    var model = new Dictionary<string, object>
-                    {
-                        {"id", command.Id },
-                        {"method", "sendMessage"},
-                        {
-                            "params", new Dictionary<string, object>()
-                            {
-                                {"type", 2},
-                                {"group", command.ToGroup.ToString()},
-                                {"content", command.Msg}
-                            }
-                        }
-                    };
-                    Send(command.BindAi, model);
-                    break;
-                }
-
-                case CommandType.SendPrivate:
-                {
-                    var model = new Dictionary<string, object>
-                    {
-                        {"id", command.Id },
-                        {"method", "sendMessage"},
-                        {
-                            "params", new Dictionary<string, object>()
-                            {
-                                {"type", 1},
-                                {"qq", command.ToQQ.ToString()},
-                                {"content", command.Msg}
-                            }
-                        }
-                    };
-                    Send(command.BindAi, model);
-                    break;
-                }
-
-                case CommandType.GetGroupMemberInfo:
-                {
-                    WaitingDic.TryAdd(command.Id, new WaitingModel() {BindAi = command.BindAi, Command = command.Command, RelationId = command.Id});
-
-                    var model = new Dictionary<string, object>()
-                    {
-                        {"id", command.Id },
-                        {"method", "getGroupMemberList" },
-                        {"params", new Dictionary<string, object>()
-                        {
-                            {"group", command.Msg }
-                        } }
-                    };
-                    Send(command.BindAi, model);
-                    break;
-                }
-
-                case CommandType.GetQQInfo:
-                {
-                    WaitingDic.TryAdd(command.Id, new WaitingModel() {BindAi = command.BindAi, Command = command.Command, RelationId = command.Id});
-
-                    var model = new Dictionary<string, object>()
-                    {
-                        {"id", command.Id },
-                        {"method", "getQQInfo" },
-                        {"params", new Dictionary<string, object>()
-                        {
-                            {"qq", command.ToQQ.ToString() }
-                        } }
-                    };
-                    Send(command.BindAi, model);
-                    break;
-                }
-
-                case CommandType.ConnectionState:
-                {
-                    var stateDic = ClientsDic.ToDictionary(c => c.Key, c => c.Value.IsConnected);
-                    var info = new MsgInformation()
-                    {
-                        Information = InformationType.CommandBack,
-                        Msg = JsonConvert.SerializeObject(stateDic),
-                        RelationId = command.Id
-                    };
-
-                    PublishInformation(info);
-                    break;
-                }
-
-                case CommandType.Praise:
-                {
-                    var count = int.Parse(command.Msg);
-                    for (var i = 0; i < count; i++)
-                    {
-                        var model = new Dictionary<string, object>()
-                        {
-                            {"method", "givePraise" },
-                            {"params", new Dictionary<string, object>()
-                            {
-                                {"qq", command.ToQQ.ToString() }
-                            } }
-                        };
-                        Send(command.BindAi, model);
-
-                        Thread.Sleep(100);
-                    }
-                    break;
-                }
-            }
+            var resolver = CommandResolvers.FirstOrDefault(p => p.CommandType == command.Command);
+            resolver?.Resolve(command);
         }
 
-        private void Send(string bindAi, object msgModel)
+        public void Send(string bindAi, object msgModel)
         {
             if (ClientsDic.ContainsKey(bindAi) && ClientsDic[bindAi].IsConnected)
             {

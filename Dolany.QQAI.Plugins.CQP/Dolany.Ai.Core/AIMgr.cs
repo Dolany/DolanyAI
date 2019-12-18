@@ -128,35 +128,14 @@ namespace Dolany.Ai.Core
 
         private void LoadCheckers()
         {
-            var assembly = Assembly.GetExecutingAssembly();
-            var list = assembly.GetTypes()
-                .Where(type => typeof(ISyntaxChecker).IsAssignableFrom(type) && type.IsClass)
-                .Where(type => type.FullName != null)
-                .Select(type => new { type, checker = assembly.CreateInstance(type.FullName) as ISyntaxChecker })
-                .Select(t => t.checker);
-
-            Checkers = list.ToList();
+            Checkers = CommonUtil.LoadAllInstanceFromInterface<ISyntaxChecker>();
         }
 
         private void LoadTools()
         {
-            var assembly = Assembly.GetExecutingAssembly();
-            foreach (var type in assembly.GetTypes())
+            foreach (var tool in CommonUtil.LoadAllInstanceFromInterface<IAITool>().Where(tool => tool.Enabled))
             {
-                if (!type.IsClass || !typeof(IAITool).IsAssignableFrom(type) || type.IsAbstract)
-                {
-                    continue;
-                }
-
-                if (type.FullName == null)
-                {
-                    continue;
-                }
-
-                if (assembly.CreateInstance(type.FullName) is IAITool tool && tool.Enabled)
-                {
-                    Tools.Add(tool);
-                }
+                Tools.Add(tool);
             }
 
             Logger.Log($"{Tools.Count} tools created.");
@@ -165,13 +144,7 @@ namespace Dolany.Ai.Core
 
         private void LoadAis()
         {
-            var assembly = Assembly.GetAssembly(typeof(AIBase));
-            var list = assembly.GetTypes()
-                .Where(type => type.IsSubclassOf(typeof(AIBase)))
-                .Where(type => type.FullName != null)
-                .Select(type => assembly.CreateInstance(type.FullName) as AIBase);
-
-            AIList = list.ToList();
+            AIList = CommonUtil.LoadAllInstanceFromClass<AIBase>();
         }
 
         [HandleProcessCorruptedStateExceptions]

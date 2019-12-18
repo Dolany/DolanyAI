@@ -1,6 +1,5 @@
 ﻿using System;
 using Dolany.Database;
-using MongoDB.Driver;
 
 namespace Dolany.Ai.Core.Ai.Game.Shopping
 {

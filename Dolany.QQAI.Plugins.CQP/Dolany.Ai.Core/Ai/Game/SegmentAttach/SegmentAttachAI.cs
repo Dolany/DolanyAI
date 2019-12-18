@@ -2,6 +2,7 @@
 using Dolany.Ai.Common;
 using Dolany.Ai.Common.Models;
 using Dolany.Ai.Core.Ai.Game.Pet;
+using Dolany.Ai.Core.API;
 using Dolany.Ai.Core.Base;
 using Dolany.Ai.Core.Cache;
 using Dolany.Ai.Core.Common;
@@ -39,7 +40,7 @@ namespace Dolany.Ai.Core.Ai.Game.SegmentAttach
             msg += $"\r可开启宝藏：{treasure.Name}";
             if (record.IsRare)
             {
-                msg += "\r恭喜你领取到了稀有碎片，拼接后将得到双倍奖励！";
+                msg += $"\r{Emoji.礼物}恭喜你领取到了稀有碎片，拼接后将得到双倍奖励！";
             }
             MsgSender.PushMsg(MsgDTO, msg, true);
             return true;
@@ -97,7 +98,7 @@ namespace Dolany.Ai.Core.Ai.Game.SegmentAttach
             var msg = $"{segment}\r可开启宝藏：{treasure.Name}";
             if (record.IsRare)
             {
-                msg += "\r稀有：拼接后将得到双倍奖励！";
+                msg += "\r【稀有】：拼接后将得到双倍奖励！";
             }
 
             MsgSender.PushMsg(MsgDTO, msg);

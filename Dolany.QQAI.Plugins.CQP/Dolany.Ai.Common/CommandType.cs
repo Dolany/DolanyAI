@@ -13,6 +13,7 @@
         GetGroups = 8,
         SetSilence = 9,
         ConnectionState = 10,
-        GetQQInfo = 11
+        GetQQInfo = 11,
+        WithdrawMessage = 12
     }
 }

@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Reflection;
 using Dolany.Ai.Common;
 using Dolany.Ai.Common.Models;
 using Dolany.Ai.Core.API;
@@ -21,12 +20,7 @@ namespace Dolany.Ai.Core.Ai.Vip
 
         private DailyVipShopMgr()
         {
-            var assembly = Assembly.GetAssembly(typeof(IVipArmer));
-            Armers = assembly.GetTypes()
-                .Where(type => typeof(IVipArmer).IsAssignableFrom(type) && type.IsClass)
-                .Where(type => type.FullName != null)
-                .Select(type => new { type, checker = assembly.CreateInstance(type.FullName) as IVipArmer })
-                .Select(t => t.checker).ToList();
+            Armers = CommonUtil.LoadAllInstanceFromInterface<IVipArmer>();
         }
 
         public string[] RandGoods(int count)

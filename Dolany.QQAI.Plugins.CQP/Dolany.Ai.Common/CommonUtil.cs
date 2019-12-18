@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Linq.Expressions;
+using System.Reflection;
 using Newtonsoft.Json;
 
 namespace Dolany.Ai.Common
@@ -140,6 +141,28 @@ namespace Dolany.Ai.Common
             }
 
             return dic.ContainsKey(key) ? dic[key] : default;
+        }
+
+        public static List<T> LoadAllInstanceFromClass<T>() where T : class
+        {
+            var assembly = Assembly.GetAssembly(typeof(T));
+            var list = assembly.GetTypes()
+                .Where(type => type.IsSubclassOf(typeof(T)))
+                .Where(type => type.FullName != null)
+                .Select(type => assembly.CreateInstance(type.FullName) as T);
+
+            return list.ToList();
+        }
+
+        public static List<T> LoadAllInstanceFromInterface<T>() where T : class
+        {
+            var assembly = Assembly.GetAssembly(typeof(T));
+            var list = assembly.GetTypes()
+                .Where(type => typeof(T).IsAssignableFrom(type) && type.IsClass && !type.IsAbstract)
+                .Where(type => type.FullName != null)
+                .Select(type => assembly.CreateInstance(type.FullName) as T);
+
+            return list.ToList();
         }
     }
 }
