@@ -2,11 +2,11 @@
 using Dolany.Ai.Common;
 using Dolany.Ai.Common.Models;
 using Dolany.Ai.Doremi.Ai.Game.Xiuxian;
-using Dolany.Ai.Doremi.API;
 using Dolany.Ai.Doremi.Base;
 using Dolany.Ai.Doremi.Cache;
 using Dolany.Ai.Doremi.OnlineStore;
 using Dolany.Ai.Doremi.Xiuxian;
+using Emoji = Dolany.Ai.Common.Emoji;
 
 namespace Dolany.Ai.Doremi.Ai.Game.Shopping
 {

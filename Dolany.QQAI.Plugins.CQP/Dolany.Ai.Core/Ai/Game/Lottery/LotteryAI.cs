@@ -32,7 +32,7 @@ namespace Dolany.Ai.Core.Ai.Game.Lottery
             var osPerson = OSPerson.GetPerson(MsgDTO.FromQQ);
             if (osPerson.Golds < LotteryMgr.LotteryFee)
             {
-                MsgSender.PushMsg(MsgDTO, $"你没有足够的金币开箱子({osPerson.Golds}/{LotteryMgr.LotteryFee})", true);
+                MsgSender.PushMsg(MsgDTO, $"你没有足够的金币开箱子({osPerson.Golds.CurencyFormat()}/{LotteryMgr.LotteryFee.CurencyFormat()})", true);
                 return false;
             }
 
@@ -55,7 +55,7 @@ namespace Dolany.Ai.Core.Ai.Game.Lottery
             var msg = lottery.ToString();
 
             var golds = OSPerson.GoldConsume(MsgDTO.FromQQ, LotteryMgr.LotteryFee - lottery.Bonus);
-            msg += $"\r你当前持有金币：{golds}{Emoji.钱袋}";
+            msg += $"\r你当前持有金币：{golds.CurencyFormat()}";
             MsgSender.PushMsg(MsgDTO, msg, true);
         }
 
@@ -111,7 +111,7 @@ namespace Dolany.Ai.Core.Ai.Game.Lottery
             var osPerson = OSPerson.GetPerson(MsgDTO.FromQQ);
             if (osPerson.Golds < 500)
             {
-                MsgSender.PushMsg(MsgDTO, $"你没有足够的金币兑换（{osPerson.Golds}/500）", true);
+                MsgSender.PushMsg(MsgDTO, $"你没有足够的金币兑换（{osPerson.Golds.CurencyFormat()}/{500.CurencyFormat()}）", true);
                 return false;
             }
 

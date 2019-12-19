@@ -1,5 +1,5 @@
-﻿using Dolany.Ai.Common.Models;
-using Dolany.Ai.Core.API;
+﻿using Dolany.Ai.Common;
+using Dolany.Ai.Common.Models;
 using Dolany.Ai.Core.Cache;
 using Dolany.Ai.Core.OnlineStore;
 

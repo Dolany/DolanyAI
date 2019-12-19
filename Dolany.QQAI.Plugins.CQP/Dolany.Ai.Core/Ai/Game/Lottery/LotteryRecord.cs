@@ -1,5 +1,5 @@
 ﻿using System;
-using Dolany.Ai.Core.API;
+using Dolany.Ai.Common;
 using Dolany.Database;
 
 namespace Dolany.Ai.Core.Ai.Game.Lottery

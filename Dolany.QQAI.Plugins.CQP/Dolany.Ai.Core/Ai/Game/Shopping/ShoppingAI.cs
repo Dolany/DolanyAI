@@ -161,7 +161,7 @@ namespace Dolany.Ai.Core.Ai.Game.Shopping
             }).ToList();
             var msg = $"你即将贩卖{ictm.Sum(i => i.Count)}件物品，" +
                       $"其中有{ictm.Count(i => i.IsLimit)}件限定物品，" +
-                      $"共价值{ictm.Sum(p => p.Price * p.Count)}金币，是否继续？";
+                      $"共价值{ictm.Sum(p => p.Price * p.Count).CurencyFormat()}，是否继续？";
             if (!Waiter.Instance.WaitForConfirm(MsgDTO, msg))
             {
                 MsgSender.PushMsg(MsgDTO, "操作取消！");
@@ -192,7 +192,7 @@ namespace Dolany.Ai.Core.Ai.Game.Shopping
             }
 
             var price = HonorHelper.GetItemPrice(item, MsgDTO.FromQQ);
-            var msg = $"贩卖 {item.Name}*{count} 将获得 {price * count} 金币，是否确认贩卖？";
+            var msg = $"贩卖 {item.Name}*{count} 将获得 {(price * count).CurencyFormat()}，是否确认贩卖？";
             if (!Waiter.Instance.WaitForConfirm(MsgDTO, msg))
             {
                 MsgSender.PushMsg(MsgDTO, "交易取消！");
@@ -203,7 +203,7 @@ namespace Dolany.Ai.Core.Ai.Game.Shopping
             TransHelper.SellItemToShop(item.Name, osPerson, count);
             osPerson.Update();
 
-            MsgSender.PushMsg(MsgDTO, $"贩卖成功！你当前拥有金币 {osPerson.Golds}");
+            MsgSender.PushMsg(MsgDTO, $"贩卖成功！你当前拥有金币 {osPerson.Golds.CurencyFormat()}");
             return true;
         }
 
@@ -225,7 +225,7 @@ namespace Dolany.Ai.Core.Ai.Game.Shopping
             }
 
             var price = HonorHelper.Instance.GetHonorPrice(honorName, MsgDTO.FromQQ);
-            var msg = $"贩卖此成就将获得 {price} 金币，是否确认贩卖？";
+            var msg = $"贩卖此成就将获得 {price.CurencyFormat()}，是否确认贩卖？";
             if (!Waiter.Instance.WaitForConfirm(MsgDTO, msg))
             {
                 MsgSender.PushMsg(MsgDTO, "交易取消！");
@@ -258,9 +258,9 @@ namespace Dolany.Ai.Core.Ai.Game.Shopping
             var sellItems = TransHelper.GetDailySellItems();
             var record = ItemCollectionRecord.Get(MsgDTO.FromQQ);
             var itemsStr = string.Join("\r", sellItems.Select(si =>
-                $"{si.Name}({HonorHelper.Instance.FindHonorFullName(si.Name)})({record.GetCount(si.Name)})({si.Attr})：{si.Price}{Emoji.钱袋}"));
+                $"{si.Name}({HonorHelper.Instance.FindHonorFullName(si.Name)})({record.GetCount(si.Name)})({si.Attr})：{si.Price.CurencyFormat()}"));
 
-            var msg = $"今日售卖的商品：\r{itemsStr}\r你当前持有 {golds}{Emoji.钱袋}";
+            var msg = $"今日售卖的商品：\r{itemsStr}\r你当前持有 {golds.CurencyFormat()}";
             MsgSender.PushMsg(MsgDTO, msg);
 
             return true;
@@ -300,7 +300,7 @@ namespace Dolany.Ai.Core.Ai.Game.Shopping
             var itemsStr = string.Join("\r", sellItems.Select(si =>
                 $"{si.Name}({HonorHelper.Instance.FindHonorFullName(si.Name)})({record.GetCount(si.Name)})({si.Attr})：{si.Price}{Emoji.钱袋}"));
 
-            var msg = $"当前售卖的商品：\r{itemsStr}\r你当前持有 {golds}{Emoji.钱袋}";
+            var msg = $"当前售卖的商品：\r{itemsStr}\r你当前持有 {golds.CurencyFormat()}";
             MsgSender.PushMsg(MsgDTO, msg);
 
             return true;
@@ -365,7 +365,7 @@ namespace Dolany.Ai.Core.Ai.Game.Shopping
 
             OSPerson.GoldConsume(osPerson.QQNum, price);
 
-            MsgSender.PushMsg(MsgDTO, $"{incomeMsg}\r购买成功！你当前剩余的金币为 {osPerson.Golds - sellItem.Price}");
+            MsgSender.PushMsg(MsgDTO, $"{incomeMsg}\r购买成功！你当前剩余的金币为 {(osPerson.Golds - sellItem.Price).CurencyFormat()}");
             return true;
         }
 
@@ -415,7 +415,7 @@ namespace Dolany.Ai.Core.Ai.Game.Shopping
                 var originPrice = HonorHelper.GetItemPrice(HonorHelper.Instance.FindItem(itemName), aimQQ);
                 if (originPrice > price)
                 {
-                    MsgSender.PushMsg(MsgDTO, $"收购价格无法低于系统价格({originPrice})！");
+                    MsgSender.PushMsg(MsgDTO, $"收购价格无法低于系统价格({originPrice.CurencyFormat()})！");
                     return false;
                 }
 
@@ -430,7 +430,7 @@ namespace Dolany.Ai.Core.Ai.Game.Shopping
                 var count = aimRecord.GetCount(itemName);
                 var msg = $"收到来自 {CodeApi.Code_At(MsgDTO.FromQQ)} 的交易请求：\r" +
                           $"希望得到的物品：{itemName}\r" +
-                          $"价格：{price}({originPrice})\r" +
+                          $"价格：{price.CurencyFormat()}({originPrice.CurencyFormat()})\r" +
                           $"你当前持有：{count}个，是否确认交易？";
                 if (!Waiter.Instance.WaitForConfirm(MsgDTO.FromGroup, aimQQ, msg,MsgDTO.BindAi, 10))
                 {
@@ -487,7 +487,7 @@ namespace Dolany.Ai.Core.Ai.Game.Shopping
             var msg = $"等级：{osPerson.EmojiLevel}\r" +
                       $"经验值：{items.Count}/{allNormalItems.Length}{(items.Count == allNormalItems.Length ? "(可转生)" : string.Empty)}\r" +
                       $"{(osPerson.HonorNames.IsNullOrEmpty() ? "" : string.Join("", osPerson.HonorNames.Select(h => $"【{h}】")) + "\r")}" +
-                      $"金币：{osPerson.Golds}\r" +
+                      $"金币：{osPerson.Golds.CurencyFormat()}\r" +
                       $"{(osPerson.Diamonds > 0 ? $"钻石：{osPerson.Diamonds}{Emoji.钻石}\r" : string.Empty)}" +
                       $"物品数量：{itemRecord.TotalItemCount()}\r" +
                       $"成就数量：{itemRecord.HonorList?.Count ?? 0}\r" +
@@ -566,7 +566,7 @@ namespace Dolany.Ai.Core.Ai.Game.Shopping
             var osPerson = OSPerson.GetPerson(MsgDTO.FromQQ);
             if (osPerson.Golds < 50)
             {
-                MsgSender.PushMsg(MsgDTO, $"你的金币余额不足({osPerson.Golds}/50)!");
+                MsgSender.PushMsg(MsgDTO, $"你的金币余额不足({osPerson.Golds.CurencyFormat()}/{50.CurencyFormat()})!");
                 return false;
             }
 
@@ -604,8 +604,8 @@ namespace Dolany.Ai.Core.Ai.Game.Shopping
             }
 
             var msg = "请查阅你的资产评估报告：\r" +
-                      $"{string.Join("\r", resultDic.Select(rd => $"{rd.Key}:{rd.Value}{Emoji.钱袋}"))}" +
-                      $"\r总资产:{resultDic.Sum(p => p.Value)}{Emoji.钱袋}";
+                      $"{string.Join("\r", resultDic.Select(rd => $"{rd.Key}:{rd.Value.CurencyFormat()}"))}" +
+                      $"\r总资产:{resultDic.Sum(p => p.Value).CurencyFormat()}";
             MsgSender.PushMsg(MsgDTO, msg, true);
             return true;
         }

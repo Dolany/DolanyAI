@@ -241,7 +241,7 @@ namespace Dolany.Ai.Core.Cache
 
         public bool WaitForConfirm_Gold(MsgInformationEx MsgDTO, int golds, int timeout = 7)
         {
-            return WaitForConfirm(MsgDTO, $"此操作将花费 {golds} 金币，是否继续？", timeout);
+            return WaitForConfirm(MsgDTO, $"此操作将花费 {golds.CurencyFormat()}，是否继续？", timeout);
         }
 
         public bool WaitForConfirm(long ToGroup, long ToQQ, string msg, string BindAi, int timeout = 7, string ConfirmTxt = "确认", string CancelTxt = "取消")

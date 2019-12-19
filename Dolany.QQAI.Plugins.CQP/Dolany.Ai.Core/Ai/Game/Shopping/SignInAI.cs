@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using Dolany.Ai.Common;
 using Dolany.Ai.Common.Models;
 using Dolany.Ai.Core.Base;
 using Dolany.Ai.Core.Cache;
@@ -142,7 +143,7 @@ namespace Dolany.Ai.Core.Ai.Game.Shopping
             OSPerson.GoldIncome(MsgDTO.FromQQ, goldsGen);
             var indexNo = SignInGroupInfo.GetAndUpdate(MsgDTO.FromGroup);
 
-            var msg = $"签到成功！你已连续签到 {ginfo.SuccessiveDays}天，获得 {goldsGen}金币！\r本群签到排名：【No.{indexNo}】";
+            var msg = $"签到成功！你已连续签到 {ginfo.SuccessiveDays}天，获得 {goldsGen.CurencyFormat()}！\r本群签到排名：【No.{indexNo}】";
             if (ginfo.SuccessiveDays % 10 == 0)
             {
                 var cache = PersonCacheRecord.Get(MsgDTO.FromQQ, "抽奖");

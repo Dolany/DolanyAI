@@ -58,6 +58,19 @@ namespace Dolany.Ai.Common
             return dt.ToString("yyyy-MM-dd HH:mm:ss");
         }
 
+        public static string CurencyFormat(this int value, string mode = "Gold")
+        {
+            var currency = $"{value:C}";
+            var replaceSymbol = mode switch
+            {
+                "Gold" => Emoji.钱袋,
+                "Diamond" => Emoji.钻石,
+                _ => ""
+            };
+
+            return currency.Replace("¥", replaceSymbol);
+        }
+
         /// <summary>
         /// 根据表达式去除字典中的某些项目
         /// </summary>

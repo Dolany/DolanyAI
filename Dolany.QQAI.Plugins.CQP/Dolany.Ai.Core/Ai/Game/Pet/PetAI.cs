@@ -7,7 +7,6 @@ using Dolany.Ai.Core.Ai.Game.Pet.Cooking;
 using Dolany.Ai.Core.Ai.Game.Pet.Expedition;
 using Dolany.Ai.Core.Ai.Game.Pet.PetAgainst;
 using Dolany.Ai.Core.Ai.Vip;
-using Dolany.Ai.Core.API;
 using Dolany.Ai.Core.Base;
 using Dolany.Ai.Core.Cache;
 using Dolany.Ai.Core.Common;
@@ -148,7 +147,7 @@ namespace Dolany.Ai.Core.Ai.Game.Pet
             var osPerson = OSPerson.GetPerson(MsgDTO.FromQQ);
             if (osPerson.Golds < 300)
             {
-                MsgSender.PushMsg(MsgDTO, $"你的金币余额不足（{osPerson.Golds}/300）");
+                MsgSender.PushMsg(MsgDTO, $"你的金币余额不足（{osPerson.Golds.CurencyFormat()}/{300.CurencyFormat()}）");
                 return false;
             }
 
@@ -233,7 +232,7 @@ namespace Dolany.Ai.Core.Ai.Game.Pet
 
                 if (osPerson.Golds < 300)
                 {
-                    MsgSender.PushMsg(MsgDTO, $"金币余额不足！({osPerson.Golds}/300)");
+                    MsgSender.PushMsg(MsgDTO, $"金币余额不足！({osPerson.Golds.CurencyFormat()}/{300.CurencyFormat()})");
                     return false;
                 }
 
@@ -503,7 +502,7 @@ namespace Dolany.Ai.Core.Ai.Game.Pet
             var osPerson = OSPerson.GetPerson(MsgDTO.FromQQ);
             if (osPerson.Golds < ResetSkillCost)
             {
-                MsgSender.PushMsg(MsgDTO, $"金币余额不足({osPerson.Golds}/{ResetSkillCost})");
+                MsgSender.PushMsg(MsgDTO, $"金币余额不足({osPerson.Golds.CurencyFormat()}/{ResetSkillCost.CurencyFormat()})");
                 return false;
             }
 

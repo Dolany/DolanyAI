@@ -191,7 +191,7 @@ namespace Dolany.Ai.Core.Ai.Game.SegmentAttach
                     osPerson.Golds += 500;
                     osPerson.Update();
 
-                    MsgSender.PushMsg(MsgDTO, "恭喜你获得了 500金币！");
+                    MsgSender.PushMsg(MsgDTO, $"恭喜你获得了 {500.CurencyFormat()}！");
                     break;
                 }
                 case 1:

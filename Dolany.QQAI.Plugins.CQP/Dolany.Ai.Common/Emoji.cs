@@ -1,7 +1,6 @@
 ﻿using System.Linq;
-using Dolany.Ai.Common;
 
-namespace Dolany.Ai.Core.API
+namespace Dolany.Ai.Common
 {
     public class Emoji
     {

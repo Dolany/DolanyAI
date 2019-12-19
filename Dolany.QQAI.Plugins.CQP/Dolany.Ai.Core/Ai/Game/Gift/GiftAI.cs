@@ -135,7 +135,7 @@ namespace Dolany.Ai.Core.Ai.Game.Gift
             msg += $"羁绊值：{gift.Intimate}\r";
             msg += $"魅力值：{gift.Glamour}\r";
             msg += $"兑换需要材料：{string.Join(",", gift.MaterialDic.Select(p => $"{p.Key}*{p.Value}"))}\r";
-            msg += $"兑换需要金币：{gift.GoldNeed}";
+            msg += $"兑换需要金币：{gift.GoldNeed.CurencyFormat()}";
 
             MsgSender.PushMsg(MsgDTO, msg);
 

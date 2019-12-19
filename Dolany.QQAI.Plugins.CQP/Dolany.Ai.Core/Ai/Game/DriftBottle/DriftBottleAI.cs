@@ -365,7 +365,7 @@ namespace Dolany.Ai.Core.Ai.Game.DriftBottle
                       $"{item.Name}\r" +
                       $"    {item.Description}\r" +
                       $"稀有率：{HonorHelper.Instance.ItemRate(item)}%\r" +
-                      $"价格：{HonorHelper.GetItemPrice(item, MsgDTO.FromQQ)}\r" +
+                      $"价格：{HonorHelper.GetItemPrice(item, MsgDTO.FromQQ).CurencyFormat()}\r" +
                       $"特性：{(item.Attributes == null ? "无" : string.Join(",", item.Attributes))}\r" +
                       $"可解锁成就：{HonorHelper.Instance.FindHonorFullName(item.Name)}\r" +
                       $"你拥有该物品：{record.GetCount(item.Name)}个";

@@ -1,6 +1,6 @@
 ﻿using System;
+using Dolany.Ai.Common;
 using Dolany.Ai.Common.Models;
-using Dolany.Ai.Core.API;
 using Dolany.Ai.Core.Cache;
 
 namespace Dolany.Ai.Core.OnlineStore.Vip

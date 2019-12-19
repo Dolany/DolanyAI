@@ -92,7 +92,7 @@ namespace Dolany.Ai.Core.Ai.Game.Pet.Expedition
                 osPerson.Golds += gold;
                 osPerson.Update();
 
-                msgList.Add($"金币：{gold}{Emoji.钱袋}");
+                msgList.Add($"金币：{gold.CurencyFormat()}");
             }
 
             if (ItemBonus != null)
