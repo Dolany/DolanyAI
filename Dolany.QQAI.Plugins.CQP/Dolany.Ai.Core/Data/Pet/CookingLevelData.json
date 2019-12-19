@@ -38,5 +38,17 @@
   "小有名气": {
     "Level": 10,
     "NeedPrice": 15000
+  },
+  "香飘四里": {
+    "Level": 11,
+    "NeedPrice": 19000
+  },
+  "厨界新星": {
+    "Level": 12,
+    "NeedPrice": 25000
+  },
+  "名震一方": {
+    "Level": 13,
+    "NeedPrice": 30000
   } 
 }

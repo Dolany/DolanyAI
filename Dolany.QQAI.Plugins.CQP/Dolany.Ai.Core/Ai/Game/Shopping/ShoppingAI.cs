@@ -5,10 +5,10 @@ using Dolany.Ai.Common;
 using Dolany.Ai.Common.Models;
 using Dolany.Ai.Core.Ai.Game.Gift;
 using Dolany.Ai.Core.Ai.Game.Pet;
+using Dolany.Ai.Core.Ai.Game.Pet.Cooking;
 using Dolany.Ai.Core.Ai.Vip;
 using Dolany.Ai.Core.Base;
 using Dolany.Ai.Core.Cache;
-using Dolany.Ai.Core.Common;
 using Dolany.Ai.Core.OnlineStore;
 using Dolany.Database.Ai;
 
@@ -371,8 +371,8 @@ namespace Dolany.Ai.Core.Ai.Game.Shopping
         [EnterCommand(ID = "ShoppingAI_DealWith",
             Command = "交易",
             AuthorityLevel = AuthorityLevel.成员,
-            Description = "向另一个成员求购一个物品，并指定价格(系统将收取5%的手续费)",
-            Syntax = "[@QQ号] [商品名] [价格]",
+            Description = "向另一个成员求购一个物品/菜肴，并指定价格(系统将收取5%的手续费)",
+            Syntax = "[@QQ号] [商品名/菜肴名] [价格]",
             Tag = "商店功能",
             SyntaxChecker = "At Word Long",
             IsPrivateAvailable = false,
@@ -380,88 +380,149 @@ namespace Dolany.Ai.Core.Ai.Game.Shopping
             TestingDailyLimit = 5)]
         public bool DealWith(MsgInformationEx MsgDTO, object[] param)
         {
-            try
+            if (OSPersonBuff.CheckBuff(MsgDTO.FromQQ, "快晴"))
             {
-                if (OSPersonBuff.CheckBuff(MsgDTO.FromQQ, "快晴"))
-                {
-                    MsgSender.PushMsg(MsgDTO, "你无法进行该操作！(快晴)");
-                    return false;
-                }
-
-                var aimQQ = (long) param[0];
-                var itemName = param[1] as string;
-                var price = (int)(long) param[2];
-
-                if (aimQQ == MsgDTO.FromQQ)
-                {
-                    MsgSender.PushMsg(MsgDTO, "你无法和自己交易！");
-                    return false;
-                }
-
-                if (price <= 0)
-                {
-                    MsgSender.PushMsg(MsgDTO, "价格异常！");
-                    return false;
-                }
-
-                var aimRecord = ItemCollectionRecord.Get(aimQQ);
-                if (!aimRecord.CheckItem(itemName))
-                {
-                    MsgSender.PushMsg(MsgDTO, "对方没有该物品！");
-                    return false;
-                }
-
-                var originPrice = HonorHelper.GetItemPrice(HonorHelper.Instance.FindItem(itemName), aimQQ);
-                if (originPrice > price)
-                {
-                    MsgSender.PushMsg(MsgDTO, $"收购价格无法低于系统价格({originPrice.CurencyFormat()})！");
-                    return false;
-                }
-
-                var sourceOSPerson = OSPerson.GetPerson(MsgDTO.FromQQ);
-                var fee = OSPersonBuff.CheckBuff(MsgDTO.FromQQ, "苍天") ? 0 : price / 20;
-                if (sourceOSPerson.Golds < price + fee)
-                {
-                    MsgSender.PushMsg(MsgDTO, "你没有足够的金币来支付！");
-                    return false;
-                }
-
-                var count = aimRecord.GetCount(itemName);
-                var msg = $"收到来自 {CodeApi.Code_At(MsgDTO.FromQQ)} 的交易请求：\r" +
-                          $"希望得到的物品：{itemName}\r" +
-                          $"价格：{price.CurencyFormat()}({originPrice.CurencyFormat()})\r" +
-                          $"你当前持有：{count}个，是否确认交易？";
-                if (!Waiter.Instance.WaitForConfirm(MsgDTO.FromGroup, aimQQ, msg,MsgDTO.BindAi, 10))
-                {
-                    MsgSender.PushMsg(MsgDTO, "交易取消！");
-                    return false;
-                }
-
-                aimRecord.ItemConsume(itemName);
-                aimRecord.Update();
-
-                var sourceRecord = ItemCollectionRecord.Get(MsgDTO.FromQQ);
-                var content = sourceRecord.ItemIncome(itemName);
-                if (!string.IsNullOrEmpty(content))
-                {
-                    MsgSender.PushMsg(MsgDTO, content, true);
-                }
-
-                var aimOSPerson = OSPerson.GetPerson(aimQQ);
-                sourceOSPerson.Golds -= price + fee;
-                aimOSPerson.Golds += price;
-
-                sourceOSPerson.Update();
-                aimOSPerson.Update();
-
-                MsgSender.PushMsg(MsgDTO, "交易完毕！");
-                return true;
-            }
-            catch (Exception e)
-            {
-                Logger.Log(e);
+                MsgSender.PushMsg(MsgDTO, "你无法进行该操作！(快晴)");
                 return false;
             }
+
+            var aimQQ = (long) param[0];
+            var name = param[1] as string;
+            var price = (int) (long) param[2];
+
+            if (aimQQ == MsgDTO.FromQQ)
+            {
+                MsgSender.PushMsg(MsgDTO, "你无法和自己交易！");
+                return false;
+            }
+
+            if (price <= 0)
+            {
+                MsgSender.PushMsg(MsgDTO, "价格异常！");
+                return false;
+            }
+
+            if (HonorHelper.Instance.FindItem(name) != null)
+            {
+                return DealItem(MsgDTO, name, aimQQ, price);
+            }
+
+            if (CookingDietMgr.Instance[name] != null)
+            {
+                return DealDiet(MsgDTO, name, aimQQ, price);
+            }
+
+            MsgSender.PushMsg(MsgDTO, "未查找到相关物品信息！");
+            return false;
+        }
+
+        private bool DealItem(MsgInformationEx MsgDTO, string name, long aimQQ, int price)
+        {
+            var aimRecord = ItemCollectionRecord.Get(aimQQ);
+            if (!aimRecord.CheckItem(name))
+            {
+                MsgSender.PushMsg(MsgDTO, "对方没有该物品！");
+                return false;
+            }
+
+            var originPrice = HonorHelper.GetItemPrice(HonorHelper.Instance.FindItem(name), aimQQ);
+            if (originPrice > price)
+            {
+                MsgSender.PushMsg(MsgDTO, $"收购价格无法低于系统价格({originPrice.CurencyFormat()})！");
+                return false;
+            }
+
+            var sourceOSPerson = OSPerson.GetPerson(MsgDTO.FromQQ);
+            var fee = OSPersonBuff.CheckBuff(MsgDTO.FromQQ, "苍天") ? 0 : price / 20;
+            if (sourceOSPerson.Golds < price + fee)
+            {
+                MsgSender.PushMsg(MsgDTO, "你没有足够的金币来支付！");
+                return false;
+            }
+
+            var count = aimRecord.GetCount(name);
+            var msg = $"收到来自 {CodeApi.Code_At(MsgDTO.FromQQ)} 的交易请求：\r" +
+                      $"希望得到的物品：{name}\r" +
+                      $"价格：{price.CurencyFormat()}({originPrice.CurencyFormat()})\r" +
+                      $"你当前持有：{count}个，是否确认交易？";
+            if (!Waiter.Instance.WaitForConfirm(MsgDTO.FromGroup, aimQQ, msg, MsgDTO.BindAi, 10))
+            {
+                MsgSender.PushMsg(MsgDTO, "交易取消！");
+                return false;
+            }
+
+            aimRecord.ItemConsume(name);
+            aimRecord.Update();
+
+            var sourceRecord = ItemCollectionRecord.Get(MsgDTO.FromQQ);
+            var content = sourceRecord.ItemIncome(name);
+            if (!string.IsNullOrEmpty(content))
+            {
+                MsgSender.PushMsg(MsgDTO, content, true);
+            }
+
+            var aimOSPerson = OSPerson.GetPerson(aimQQ);
+            sourceOSPerson.Golds -= price + fee;
+            aimOSPerson.Golds += price;
+
+            sourceOSPerson.Update();
+            aimOSPerson.Update();
+
+            MsgSender.PushMsg(MsgDTO, "交易完毕！");
+            return true;
+        }
+
+        private bool DealDiet(MsgInformationEx MsgDTO, string name, long aimQQ, int price)
+        {
+            var aimDietRec = CookingRecord.Get(aimQQ);
+            if (!aimDietRec.CheckDiet(name))
+            {
+                MsgSender.PushMsg(MsgDTO, "对方没有该菜肴！");
+                return false;
+            }
+
+            var dietModel = CookingDietMgr.Instance[name];
+            if (dietModel.EstimatedPrice < price)
+            {
+                MsgSender.PushMsg(MsgDTO, $"交易价格不能低于该菜肴的成本价格({dietModel.EstimatedPrice.CurencyFormat()})！");
+                return false;
+            }
+
+            var sourceOSPerson = OSPerson.GetPerson(MsgDTO.FromQQ);
+            var fee = OSPersonBuff.CheckBuff(MsgDTO.FromQQ, "苍天") ? 0 : price / 20;
+            if (sourceOSPerson.Golds < price + fee)
+            {
+                MsgSender.PushMsg(MsgDTO, "你没有足够的金币来支付！");
+                return false;
+            }
+
+            var count = aimDietRec.CookedDietDic[name];
+            var msg = $"收到来自 {CodeApi.Code_At(MsgDTO.FromQQ)} 的交易请求：\r" +
+                      $"希望得到的菜肴：{name}\r" +
+                      $"价格：{price.CurencyFormat()}({dietModel.EstimatedPrice.CurencyFormat()})\r" +
+                      $"你当前持有：{count}个，是否确认交易？";
+            if (!Waiter.Instance.WaitForConfirm(MsgDTO.FromGroup, aimQQ, msg, MsgDTO.BindAi, 10))
+            {
+                MsgSender.PushMsg(MsgDTO, "交易取消！");
+                return false;
+            }
+
+            var sourceDietRec = CookingRecord.Get(MsgDTO.FromQQ);
+            sourceDietRec.AddDiet(name);
+            sourceDietRec.Update();
+
+            aimDietRec.DietConsume(name);
+            aimDietRec.Update();
+
+            sourceOSPerson.Golds -= price + fee;
+            sourceOSPerson.Update();
+
+            var aimOSPerson = OSPerson.GetPerson(aimQQ);
+            aimOSPerson.Golds += price;
+            aimOSPerson.Update();
+            
+            MsgSender.PushMsg(MsgDTO, "交易完毕！");
+            return true;
         }
 
         [EnterCommand(ID = "ShoppingAI_ViewItem",
@@ -600,6 +661,16 @@ namespace Dolany.Ai.Core.Ai.Game.Shopping
             {
                 var petAssert = PetLevelMgr.Instance.ExpToGolds(pet.Level, pet.Exp);
                 resultDic.Add("宠物资产", petAssert);
+            }
+
+            var dietRec = CookingRecord.Get(MsgDTO.FromQQ);
+            if (!dietRec.LearndDietMenu.IsNullOrEmpty() || !dietRec.CookedDietDic.IsNullOrEmpty() || !dietRec.FlavoringDic.IsNullOrEmpty())
+            {
+                var dietAssert = dietRec.LearndDietMenu.Sum(menu =>
+                    HonorHelper.Instance.FindHonor(CookingDietMgr.Instance[menu].ExchangeHonor).Items.Sum(item => item.Price));
+                dietAssert += dietRec.CookedDietDic.Sum(diet => CookingDietMgr.Instance[diet.Key].EstimatedPrice * diet.Value);
+                dietAssert += dietRec.FlavoringDic.Sum(p => p.Value) * 20;
+                resultDic.Add("烹饪资产", dietAssert);
             }
 
             var msg = "请查阅你的资产评估报告：\r" +

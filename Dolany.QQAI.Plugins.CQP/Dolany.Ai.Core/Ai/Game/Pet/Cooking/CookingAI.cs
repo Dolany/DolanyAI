@@ -191,7 +191,8 @@ namespace Dolany.Ai.Core.Ai.Game.Pet.Cooking
         public bool MyKitchen(MsgInformationEx MsgDTO, object[] param)
         {
             var cookingRec = CookingRecord.Get(MsgDTO.FromQQ);
-            var msg = $"【{CookingLevelMgr.Instance.LocationLevel(cookingRec.TotalPrice).Name}】\r";
+            var level = CookingLevelMgr.Instance.LocationLevel(cookingRec.TotalPrice);
+            var msg = $"【{level.Name}(lv.{level.Level})】\r";
             msg += $"已学会的菜谱：{string.Join("，", cookingRec.LearndDietMenu)}\r";
             msg += $"当前持有菜肴：{string.Join("，", cookingRec.CookedDietDic.Select(p => $"{p.Key}*{p.Value}"))}\r";
             msg += $"当前持有调味料：{string.Join("，", cookingRec.FlavoringDic.Select(p => $"{p.Key}*{p.Value}"))}\r";
@@ -201,6 +202,4 @@ namespace Dolany.Ai.Core.Ai.Game.Pet.Cooking
             return true;
         }
     }
-
-    
 }
