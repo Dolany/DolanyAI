@@ -1,8 +1,6 @@
-﻿using System.Collections.Generic;
-using System.Linq;
+﻿using System.Linq;
 using Dolany.Ai.Common;
 using Dolany.Ai.Common.Models;
-using Dolany.Ai.Core.API;
 using Dolany.Ai.Core.Base;
 using Dolany.Ai.Core.Cache;
 using Dolany.Ai.Core.OnlineStore;
@@ -15,14 +13,7 @@ namespace Dolany.Ai.Core.Ai.Game.Pet.Cooking
         public override string Description { get; set; } = "Ai for cooking.";
         public override int PriorityLevel { get; set; } = 10;
 
-        public override bool Enable { get; } = false;
-
-        private List<CookingLevelModel> CookingLevels = new List<CookingLevelModel>();
-
-        public override void Initialization()
-        {
-            CookingLevels = CommonUtil.ReadJsonData_NamedList<CookingLevelModel>("CookingLevelData").OrderBy(p => p.Level).ToList();
-        }
+        public override bool Enable { get; } = true;
 
         [EnterCommand(ID = "CookingAI_Cook",
             Command = "烹饪",
@@ -53,7 +44,7 @@ namespace Dolany.Ai.Core.Ai.Game.Pet.Cooking
             var cookingRec = CookingRecord.Get(MsgDTO.FromQQ);
             if (cookingRec.LearndDietMenu.IsNullOrEmpty() || !cookingRec.LearndDietMenu.Contains(dietName))
             {
-                MsgSender.PushMsg(MsgDTO, $"你尚未学会{dietName}的烹饪方法！");
+                MsgSender.PushMsg(MsgDTO, $"你尚未学会{dietName}的烹饪方法！(可使用【{Diet.ExchangeHonor}】兑换，详情请参见【帮助 兑换菜谱】)");
                 return false;
             }
 
@@ -133,57 +124,83 @@ namespace Dolany.Ai.Core.Ai.Game.Pet.Cooking
             }
 
             var sumDietCount = history.Sum(p => p.Value);
-            var itemConsumeDic = new Dictionary<string, int>();
-            var flavoringTotal = 0;
-            foreach (var (key, value) in history)
+            var totalPrice = cookingRec.TotalPrice;
+
+            var curLevel = CookingLevelMgr.Instance.LocationLevel(totalPrice);
+            var nextLevel = CookingLevelMgr.Instance[curLevel.Level + 1];
+
+            var msg = $"你总共烹饪过 {sumDietCount} 道菜肴\r总共消耗了物品 {cookingRec.ItemConsumeDic.Sum(p => p.Value)} 个，调味料 {cookingRec.FlavoringTotal} 个\r" +
+                      $"总价值：{totalPrice.CurencyFormat()}\r当前烹饪评级为：{curLevel.Name}，距离下一等级({nextLevel.Name})还差 {(nextLevel.NeedPrice - totalPrice).CurencyFormat()}";
+
+            MsgSender.PushMsg(MsgDTO, msg);
+            return true;
+        }
+
+        [EnterCommand(ID = "CookingAI_ExchangeMenu",
+            Command = "兑换菜谱 学习菜谱",
+            AuthorityLevel = AuthorityLevel.成员,
+            Description = "兑换指定的菜谱",
+            Syntax = "[菜谱名]",
+            SyntaxChecker = "Word",
+            Tag = "烹饪功能",
+            IsPrivateAvailable = true)]
+        public bool ExchangeMenu(MsgInformationEx MsgDTO, object[] param)
+        {
+            var dietName = param[0] as string;
+            var diet = CookingDietMgr.Instance[dietName];
+            if (diet == null)
             {
-                var diet = CookingDietMgr.Instance[key];
-                flavoringTotal += diet.Flavorings?.Sum(p => p.Value) * value ?? 0;
-                if (diet.Materials.IsNullOrEmpty())
-                {
-                    continue;
-                }
-
-                foreach (var (material, count) in diet.Materials)
-                {
-                    if (!itemConsumeDic.ContainsKey(material))
-                    {
-                        itemConsumeDic.Add(material, 0);
-                    }
-
-                    itemConsumeDic[material] += count * value;
-                }
+                MsgSender.PushMsg(MsgDTO, "未查找到相关菜肴");
+                return false;
             }
 
-            var totalPrice = itemConsumeDic.Sum(p => HonorHelper.Instance.FindItem(p.Key).Price * p.Value) + flavoringTotal * 20;
-            var curLevel = CookingLevels.First();
-            var nextLevel = CookingLevels.First();
-            for (var i = 0; i < CookingLevels.Count; i++)
+            var cookingRec = CookingRecord.Get(MsgDTO.FromQQ);
+            if (cookingRec.LearndDietMenu.Contains(dietName))
             {
-                if (CookingLevels[i].NeedPrice <= totalPrice)
-                {
-                    continue;
-                }
-
-                curLevel = CookingLevels[i - 1];
-                nextLevel = CookingLevels[i];
-                break;
+                MsgSender.PushMsg(MsgDTO, "你已经学会了该菜肴的烹饪方法！");
+                return false;
             }
 
-            var msg = $"你总共烹饪过 {sumDietCount} 道菜肴\r总共消耗了物品 {itemConsumeDic.Sum(p => p.Value)} 个，调味料 {flavoringTotal} 个\r" +
-                      $"总价值：{totalPrice}{Emoji.钱袋}\r当前烹饪评级为：{curLevel.Name}，距离下一等级({nextLevel.Name})还差 {nextLevel.NeedPrice - totalPrice}{Emoji.钱袋}";
+            var itemColle = ItemCollectionRecord.Get(MsgDTO.FromQQ);
+            var honorModel = HonorHelper.Instance.FindHonor(diet.ExchangeHonor);
+            var items = honorModel.Items.ToDictionary(p => p.Name, p => 1);
+            if (!itemColle.CheckItem(items))
+            {
+                MsgSender.PushMsg(MsgDTO, $"你尚未集齐【{diet.ExchangeHonor}】的所有物品！");
+                return false;
+            }
+
+            itemColle.ItemConsume(items);
+            itemColle.Update();
+
+            cookingRec.LearndDietMenu.Add(diet.Name);
+            cookingRec.Update();
+
+            MsgSender.PushMsg(MsgDTO, "兑换成功！");
+            return true;
+        }
+
+        [EnterCommand(ID = "CookingAI_MyKitchen",
+            Command = "我的厨房",
+            AuthorityLevel = AuthorityLevel.成员,
+            Description = "查看自己的厨房情况",
+            Syntax = "",
+            SyntaxChecker = "Empty",
+            Tag = "烹饪功能",
+            IsPrivateAvailable = true)]
+        public bool MyKitchen(MsgInformationEx MsgDTO, object[] param)
+        {
+            var cookingRec = CookingRecord.Get(MsgDTO.FromQQ);
+            var msg = $"【{CookingLevelMgr.Instance.LocationLevel(cookingRec.TotalPrice).Name}】\r";
+            msg += $"已学会的菜谱：{string.Join("，", cookingRec.LearndDietMenu)}\r";
+            msg += $"当前持有菜肴：{string.Join("，", cookingRec.CookedDietDic.Select(p => $"{p.Key}*{p.Value}"))}\r";
+            msg += $"当前持有调味料：{string.Join("，", cookingRec.FlavoringDic.Select(p => $"{p.Key}*{p.Value}"))}\r";
+            msg += $"推荐学习菜谱：{CookingDietMgr.Instance.SuggestDiet(cookingRec.LearndDietMenu)?.Name}";
 
             MsgSender.PushMsg(MsgDTO, msg);
             return true;
         }
     }
 
-    public class CookingLevelModel : INamedJsonModel
-    {
-        public string Name { get; set; }
-
-        public int Level { get; set; }
-
-        public int NeedPrice { get; set; }
-    }
+    
 }

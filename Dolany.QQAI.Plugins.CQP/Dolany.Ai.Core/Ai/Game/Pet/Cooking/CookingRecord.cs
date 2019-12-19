@@ -1,5 +1,7 @@
 ﻿using System.Collections.Generic;
+using System.Linq;
 using Dolany.Ai.Common;
+using Dolany.Ai.Core.OnlineStore;
 using Dolany.Database;
 
 namespace Dolany.Ai.Core.Ai.Game.Pet.Cooking
@@ -15,6 +17,60 @@ namespace Dolany.Ai.Core.Ai.Game.Pet.Cooking
         public Dictionary<string, int> FlavoringDic { get; set; } = new Dictionary<string, int>();
 
         public Dictionary<string, int> CookingHistory { get; set; } = new Dictionary<string, int>();
+
+        public int TotalPrice
+        {
+            get
+            {
+                var itemConsumeDic = ItemConsumeDic;
+                var flavoringTotal = FlavoringTotal;
+
+                return itemConsumeDic.Sum(p => HonorHelper.Instance.FindItem(p.Key).Price * p.Value) + flavoringTotal * 20;
+            }
+        }
+
+        public int FlavoringTotal
+        {
+            get
+            {
+                var flavoringTotal = 0;
+                foreach (var (key, value) in CookingHistory)
+                {
+                    var diet = CookingDietMgr.Instance[key];
+                    flavoringTotal += diet.Flavorings?.Sum(p => p.Value) * value ?? 0;
+                }
+
+                return flavoringTotal;
+            }
+        }
+
+        public Dictionary<string, int> ItemConsumeDic
+        {
+            get
+            {
+                var itemConsumeDic = new Dictionary<string, int>();
+                foreach (var (key, value) in CookingHistory)
+                {
+                    var diet = CookingDietMgr.Instance[key];
+                    if (diet.Materials.IsNullOrEmpty())
+                    {
+                        continue;
+                    }
+
+                    foreach (var (material, count) in diet.Materials)
+                    {
+                        if (!itemConsumeDic.ContainsKey(material))
+                        {
+                            itemConsumeDic.Add(material, 0);
+                        }
+
+                        itemConsumeDic[material] += count * value;
+                    }
+                }
+
+                return itemConsumeDic;
+            }
+        }
 
         public static CookingRecord Get(long QQNum)
         {

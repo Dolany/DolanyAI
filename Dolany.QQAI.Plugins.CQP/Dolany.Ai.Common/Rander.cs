@@ -30,8 +30,18 @@ namespace Dolany.Ai.Common
 
         public static T RandElement<T>(this IEnumerable<T> collection)
         {
+            if (collection == null)
+            {
+                return default;
+            }
+
             var enumerable = collection.ToList();
-            var length = enumerable.Count();
+            if (enumerable.IsNullOrEmpty())
+            {
+                return default;
+            }
+
+            var length = enumerable.Count;
             var idx = RandInt(length);
             return enumerable.ElementAt(idx);
         }

@@ -16,6 +16,12 @@ namespace Dolany.Ai.Core.Ai.Game.Pet.Cooking
         {
             DietList = CommonUtil.ReadJsonData_NamedList<CookingDietModel>("Pet/CookingDietData");
         }
+
+        public CookingDietModel SuggestDiet(List<string> LearnedDiets)
+        {
+            var availables = DietList.Where(p => !LearnedDiets.Contains(p.Name));
+            return availables.RandElement();
+        }
     }
 
     public class CookingDietModel : INamedJsonModel
@@ -34,6 +40,8 @@ namespace Dolany.Ai.Core.Ai.Game.Pet.Cooking
 
         public string[] Attributes { get; set; }
 
+        public string ExchangeHonor { get; set; }
+
         public override string ToString()
         {
             var str = $"{Name}\r    {Description}\r需要等级：{Level}\r";
@@ -48,6 +56,7 @@ namespace Dolany.Ai.Core.Ai.Game.Pet.Cooking
             }
 
             str += $"可提供经验值：{Exp}\r特性：{string.Join(",", Attributes)}";
+            str += $"\r可使用【{ExchangeHonor}】兑换";
             return str;
         }
     }

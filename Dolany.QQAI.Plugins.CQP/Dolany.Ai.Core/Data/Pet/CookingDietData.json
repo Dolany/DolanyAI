@@ -11,7 +11,8 @@
       "海鲜酱油": 1
     },
     "Exp": 25,
-    "Attributes": [ "海洋", "自然" ]
+    "Attributes": [ "海洋", "自然" ],
+    "ExchangeHonor": "腐败食物"
   },
   "蛇鱼烧烤": {
     "Level": 4,
@@ -26,7 +27,8 @@
       "精品海盐": 5
     },
     "Exp": 150,
-    "Attributes": [ "海洋", "钢铁" ]
+    "Attributes": [ "海洋", "钢铁" ],
+    "ExchangeHonor": "肥宅套餐"
   },
   "蒸黑燕鱼": {
     "Level": 5,
@@ -41,7 +43,8 @@
       "蓝巧果果汁": 1
     },
     "Exp": 550,
-    "Attributes": [ "深渊", "钢铁" ]
+    "Attributes": [ "深渊", "钢铁" ],
+    "ExchangeHonor": "巨人之国"
   },
   "烤土狐腿": {
     "Level": 3,
@@ -56,7 +59,8 @@
       "龙鳞草茎": 1
     },
     "Exp": 80,
-    "Attributes": [ "神秘", "自然" ]
+    "Attributes": [ "神秘", "自然" ],
+    "ExchangeHonor": "野兽踪迹"
   },
   "蓝巧果派": {
     "Level": 3,
@@ -71,6 +75,7 @@
       "龙鳞草茎": 1
     },
     "Exp": 83,
-    "Attributes": [ "神秘", "自然", "深渊", "钢铁" ]
+    "Attributes": [ "神秘", "自然", "深渊", "钢铁" ],
+    "ExchangeHonor": "伪物"
   } 
 }

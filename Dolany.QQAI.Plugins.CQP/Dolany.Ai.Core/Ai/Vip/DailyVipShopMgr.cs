@@ -40,7 +40,7 @@ namespace Dolany.Ai.Core.Ai.Vip
             var osPerson = OSPerson.GetPerson(MsgDTO.FromQQ);
             if (osPerson.Diamonds < armer.DiamondsNeed)
             {
-                MsgSender.PushMsg(MsgDTO, $"钻石余额不足({osPerson.Diamonds}/{armer.DiamondsNeed})！");
+                MsgSender.PushMsg(MsgDTO, $"钻石余额不足({osPerson.Diamonds.CurencyFormat("Diamond")}/{armer.DiamondsNeed.CurencyFormat("Diamond")})！");
                 return;
             }
 
@@ -54,7 +54,7 @@ namespace Dolany.Ai.Core.Ai.Vip
                 return;
             }
 
-            if (!Waiter.Instance.WaitForConfirm(MsgDTO, $"此操作将花费{armer.DiamondsNeed}{Emoji.钻石}，是否继续？"))
+            if (!Waiter.Instance.WaitForConfirm(MsgDTO, $"此操作将花费{armer.DiamondsNeed.CurencyFormat("Diamond")}，是否继续？"))
             {
                 MsgSender.PushMsg(MsgDTO, "操作取消！");
                 return;

@@ -60,7 +60,7 @@ namespace Dolany.Ai.Common
 
         public static string CurencyFormat(this int value, string mode = "Gold")
         {
-            var currency = $"{value:C}";
+            var currency = $"{value:C0}";
             var replaceSymbol = mode switch
             {
                 "Gold" => Emoji.钱袋,
@@ -160,7 +160,7 @@ namespace Dolany.Ai.Common
         {
             var assembly = Assembly.GetAssembly(typeof(T));
             var list = assembly.GetTypes()
-                .Where(type => type.IsSubclassOf(typeof(T)))
+                .Where(type => type.IsSubclassOf(typeof(T)) && !type.IsAbstract)
                 .Where(type => type.FullName != null)
                 .Select(type => assembly.CreateInstance(type.FullName) as T);
 

@@ -1,7 +1,6 @@
 ﻿using System.Linq;
 using Dolany.Ai.Common;
 using Dolany.Ai.Common.Models;
-using Dolany.Ai.Core.API;
 using Dolany.Ai.Core.Base;
 using Dolany.Ai.Core.Cache;
 using Dolany.Ai.Core.OnlineStore;
@@ -33,8 +32,8 @@ namespace Dolany.Ai.Core.Ai.Vip
 
             var goodsName = DailyVipGoodsRecord.GetToday(MsgDTO.FromQQ).GoodsName;
             var goods = goodsName.Select(g => DailyVipShopMgr.Instance[g]).ToList();
-            var goodsMsg = string.Join("\r", goods.Select(g => $"{g.Name}({g.DiamondsNeed}{Emoji.钻石}):{g.Description}"));
-            var msg = $"今天提供的vip服务有：\r{goodsMsg}\r你当前余额为：{osPerson.Diamonds}{Emoji.钻石}";
+            var goodsMsg = string.Join("\r", goods.Select(g => $"{g.Name}({g.DiamondsNeed.CurencyFormat("Diamond")}):{g.Description}"));
+            var msg = $"今天提供的vip服务有：\r{goodsMsg}\r你当前余额为：{osPerson.Diamonds.CurencyFormat("Diamond")}";
 
             MsgSender.PushMsg(MsgDTO, msg);
             return true;
@@ -58,7 +57,7 @@ namespace Dolany.Ai.Core.Ai.Vip
                 return false;
             }
 
-            var msg = $"{armer.Name}\r    {armer.Description}\r售价：{armer.DiamondsNeed}{Emoji.钻石}";
+            var msg = $"{armer.Name}\r    {armer.Description}\r售价：{armer.DiamondsNeed.CurencyFormat("Diamond")}";
             MsgSender.PushMsg(MsgDTO, msg);
             return true;
         }

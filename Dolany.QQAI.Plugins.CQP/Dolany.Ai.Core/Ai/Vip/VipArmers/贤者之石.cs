@@ -18,7 +18,7 @@ namespace Dolany.Ai.Core.Ai.Vip.VipArmers
             osPerson.Golds += 10000;
             osPerson.Update();
 
-            MsgSender.PushMsg(MsgDTO, $"兑换成功，你当前持有的金币为：{osPerson.Golds}{Emoji.钱袋}");
+            MsgSender.PushMsg(MsgDTO, $"兑换成功，你当前持有的金币为：{osPerson.Golds.CurencyFormat()}");
             return true;
         }
 

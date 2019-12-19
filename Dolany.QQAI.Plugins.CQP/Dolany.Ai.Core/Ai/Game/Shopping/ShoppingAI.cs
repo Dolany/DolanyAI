@@ -6,7 +6,6 @@ using Dolany.Ai.Common.Models;
 using Dolany.Ai.Core.Ai.Game.Gift;
 using Dolany.Ai.Core.Ai.Game.Pet;
 using Dolany.Ai.Core.Ai.Vip;
-using Dolany.Ai.Core.API;
 using Dolany.Ai.Core.Base;
 using Dolany.Ai.Core.Cache;
 using Dolany.Ai.Core.Common;
@@ -178,7 +177,7 @@ namespace Dolany.Ai.Core.Ai.Game.Shopping
             osPerson.Golds += ictm.Sum(p => p.Price * p.Count);
             osPerson.Update();
 
-            MsgSender.PushMsg(MsgDTO, $"贩卖成功，你当前拥有{osPerson.Golds}金币！");
+            MsgSender.PushMsg(MsgDTO, $"贩卖成功，你当前拥有{osPerson.Golds.CurencyFormat()}！");
             return true;
         }
 
@@ -238,7 +237,7 @@ namespace Dolany.Ai.Core.Ai.Game.Shopping
             colleRec.Update();
             osPerson.Update();
 
-            MsgSender.PushMsg(MsgDTO, $"贩卖成功！你当前拥有金币 {osPerson.Golds}");
+            MsgSender.PushMsg(MsgDTO, $"贩卖成功！你当前拥有金币 {osPerson.Golds.CurencyFormat()}");
             return true;
         }
 
@@ -298,7 +297,7 @@ namespace Dolany.Ai.Core.Ai.Game.Shopping
             var sellItems = todayRec.Items;
             var record = ItemCollectionRecord.Get(MsgDTO.FromQQ);
             var itemsStr = string.Join("\r", sellItems.Select(si =>
-                $"{si.Name}({HonorHelper.Instance.FindHonorFullName(si.Name)})({record.GetCount(si.Name)})({si.Attr})：{si.Price}{Emoji.钱袋}"));
+                $"{si.Name}({HonorHelper.Instance.FindHonorFullName(si.Name)})({record.GetCount(si.Name)})({si.Attr})：{si.Price.CurencyFormat()}"));
 
             var msg = $"当前售卖的商品：\r{itemsStr}\r你当前持有 {golds.CurencyFormat()}";
             MsgSender.PushMsg(MsgDTO, msg);
@@ -488,7 +487,7 @@ namespace Dolany.Ai.Core.Ai.Game.Shopping
                       $"经验值：{items.Count}/{allNormalItems.Length}{(items.Count == allNormalItems.Length ? "(可转生)" : string.Empty)}\r" +
                       $"{(osPerson.HonorNames.IsNullOrEmpty() ? "" : string.Join("", osPerson.HonorNames.Select(h => $"【{h}】")) + "\r")}" +
                       $"金币：{osPerson.Golds.CurencyFormat()}\r" +
-                      $"{(osPerson.Diamonds > 0 ? $"钻石：{osPerson.Diamonds}{Emoji.钻石}\r" : string.Empty)}" +
+                      $"{(osPerson.Diamonds > 0 ? $"钻石：{osPerson.Diamonds.CurencyFormat("Diamond")}\r" : string.Empty)}" +
                       $"物品数量：{itemRecord.TotalItemCount()}\r" +
                       $"成就数量：{itemRecord.HonorList?.Count ?? 0}\r" +
                       $"魅力值：{glamourRecord.Glamour}";
@@ -613,7 +612,7 @@ namespace Dolany.Ai.Core.Ai.Game.Shopping
         [EnterCommand(ID = "ShoppingAI_Reborn",
             Command = "灵魂转生",
             AuthorityLevel = AuthorityLevel.成员,
-            Description = "献祭所有物品，等级+1",
+            Description = "献祭所有物品，等级+1，获取一个自定义荣誉称号",
             Syntax = "",
             Tag = "商店功能",
             SyntaxChecker = "Empty",
