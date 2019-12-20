@@ -6,6 +6,7 @@ using Dolany.Ai.Core.Base;
 using Dolany.Ai.Core.Cache;
 using Dolany.Ai.Core.Common;
 using Dolany.Ai.Core.OnlineStore;
+using Dolany.Database;
 using Dolany.Database.Sqlite;
 
 namespace Dolany.Ai.Core.Ai.SingleCommand.GroupManage
@@ -145,6 +146,88 @@ namespace Dolany.Ai.Core.Ai.SingleCommand.GroupManage
             SCacheService.Cache(key, cache, DateTime.Now);
 
             MsgSender.PushMsg(MsgDTO, $"复活成功！你当前剩余金币：{osPerson.Golds}", true);
+            return true;
+        }
+
+        [EnterCommand(ID = "GroupManagerOnlyAI_AutoPowerOn",
+            Command = "定时开机",
+            AuthorityLevel = AuthorityLevel.管理员,
+            Description = "定时整点开机",
+            Syntax = "[整点数(0-23)]",
+            Tag = "群管理",
+            SyntaxChecker = "Long",
+            IsPrivateAvailable = false)]
+        public bool AutoPowerOn(MsgInformationEx MsgDTO, object[] param)
+        {
+            var hour = (int) (long) param[0];
+            if (hour < 0 || hour > 23)
+            {
+                MsgSender.PushMsg(MsgDTO, "时间错误！");
+                return false;
+            }
+
+            var setting = MongoService<AutoPowerSetting>.GetOnly(p => p.GroupNum == MsgDTO.FromGroup && p.Hour == hour);
+            if (setting == null)
+            {
+                setting = new AutoPowerSetting(){GroupNum = MsgDTO.FromGroup, Hour = hour, ActionType = AutoPowerSettingActionType.PowerOn};
+                MongoService<AutoPowerSetting>.Insert(setting);
+            }
+            else
+            {
+                setting.ActionType = AutoPowerSettingActionType.PowerOn;
+                MongoService<AutoPowerSetting>.Update(setting);
+            }
+
+            MsgSender.PushMsg(MsgDTO, "设置成功！");
+            return true;
+        }
+
+        [EnterCommand(ID = "GroupManagerOnlyAI_AutoPowerOff",
+            Command = "定时关机",
+            AuthorityLevel = AuthorityLevel.管理员,
+            Description = "定时整点关机",
+            Syntax = "[整点数(0-23)]",
+            Tag = "群管理",
+            SyntaxChecker = "Long",
+            IsPrivateAvailable = false)]
+        public bool AutoPowerOff(MsgInformationEx MsgDTO, object[] param)
+        {
+            var hour = (int) (long) param[0];
+            if (hour < 0 || hour > 23)
+            {
+                MsgSender.PushMsg(MsgDTO, "时间错误！");
+                return false;
+            }
+
+            var setting = MongoService<AutoPowerSetting>.GetOnly(p => p.GroupNum == MsgDTO.FromGroup && p.Hour == hour);
+            if (setting == null)
+            {
+                setting = new AutoPowerSetting(){GroupNum = MsgDTO.FromGroup, Hour = hour, ActionType = AutoPowerSettingActionType.PowerOff};
+                MongoService<AutoPowerSetting>.Insert(setting);
+            }
+            else
+            {
+                setting.ActionType = AutoPowerSettingActionType.PowerOff;
+                MongoService<AutoPowerSetting>.Update(setting);
+            }
+
+            MsgSender.PushMsg(MsgDTO, "设置成功！");
+            return true;
+        }
+
+        [EnterCommand(ID = "GroupManagerOnlyAI_ClearAutoPower",
+            Command = "清除定时开关机",
+            AuthorityLevel = AuthorityLevel.管理员,
+            Description = "清除所有定时开关机设定",
+            Syntax = "",
+            Tag = "群管理",
+            SyntaxChecker = "Empty",
+            IsPrivateAvailable = false)]
+        public bool ClearAutoPower(MsgInformationEx MsgDTO, object[] param)
+        {
+            MongoService<AutoPowerSetting>.DeleteMany(p => p.GroupNum == MsgDTO.FromGroup);
+
+            MsgSender.PushMsg(MsgDTO, "清除成功！");
             return true;
         }
 

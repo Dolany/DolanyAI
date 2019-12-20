@@ -21,6 +21,9 @@ namespace Dolany.Ai.Common
 
         public static double MinutelyInterval => 60 * SecondlyInterval;
 
+        public static double NextHourInterval =>
+            (DateTime.Now.AddHours(1).AddMinutes(-DateTime.Now.Minute).AddSeconds(-DateTime.Now.Second) - DateTime.Now).TotalMilliseconds;
+
         public static double SecondlyInterval => 1000;
     }
 
