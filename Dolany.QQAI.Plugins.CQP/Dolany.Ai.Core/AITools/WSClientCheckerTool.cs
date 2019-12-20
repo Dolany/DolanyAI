@@ -23,6 +23,7 @@ namespace Dolany.Ai.Core.AITools
             var command = new MsgCommand()
             {
                 Command = CommandType.ConnectionState,
+                BindAi = Global.DefaultConfig.MainAi
             };
 
             var info = Waiter.Instance.WaitForRelationId(command);

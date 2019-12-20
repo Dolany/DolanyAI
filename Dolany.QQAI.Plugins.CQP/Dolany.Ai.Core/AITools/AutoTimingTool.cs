@@ -17,7 +17,8 @@ namespace Dolany.Ai.Core.AITools
                 Interval = SchedulerTimer.NextHourInterval
             }
         };
-        public override bool Enabled { get; set; }
+
+        public override bool Enabled { get; set; } = true;
         protected override void ScheduleDo(SchedulerTimer timer)
         {
             var curHour = DateTime.Now.Hour;

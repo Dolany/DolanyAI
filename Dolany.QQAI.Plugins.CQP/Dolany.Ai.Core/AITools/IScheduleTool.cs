@@ -8,7 +8,7 @@ namespace Dolany.Ai.Core.AITools
     {
         protected abstract List<ScheduleDoModel> ModelList { get; set; }
 
-        public abstract bool Enabled { get; set; }
+        public virtual bool Enabled { get; set; } = true;
 
         public virtual void Work()
         {
