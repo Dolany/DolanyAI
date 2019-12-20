@@ -16,7 +16,7 @@ namespace Dolany.Ai.Core.Ai.Game.Pet.Cooking
         public override bool Enable { get; } = true;
 
         [EnterCommand(ID = "CookingAI_Cook",
-            Command = "烹饪",
+            Command = "烹饪 烹饪菜肴 制作菜肴",
             AuthorityLevel = AuthorityLevel.成员,
             Description = "开始烹饪一道指定的菜肴",
             Syntax = "[菜品名]",

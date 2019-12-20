@@ -11,7 +11,6 @@ using Dolany.Ai.Core.Ai.Game.Pet.PetAgainst;
 using Dolany.Ai.Core.Ai.Game.SegmentAttach;
 using Dolany.Ai.Core.Ai.Sys.Version;
 using Dolany.Ai.Core.Ai.Vip;
-using Dolany.Ai.Core.API;
 using Dolany.Ai.Core.Base;
 using Dolany.Ai.Core.Cache;
 using Dolany.Ai.Core.Common;
@@ -241,6 +240,31 @@ namespace Dolany.Ai.Core.Ai.Sys
             if (DailyVipShopMgr.Instance[name] != null)
             {
                 return AIMgr.Instance.AIInstance<VipServiceAi>().ViewArmer(MsgDTO, param);
+            }
+
+            MsgSender.PushMsg(MsgDTO, "未查找到相关信息！");
+            return false;
+        }
+
+        [EnterCommand(ID = "HelperAI_LearnSomething",
+            Command = "学习",
+            AuthorityLevel = AuthorityLevel.成员,
+            Description = "学习某个技能/菜谱",
+            Syntax = "[名称]",
+            SyntaxChecker = "Word",
+            Tag = "系统命令",
+            IsPrivateAvailable = true)]
+        public bool LearnSomething(MsgInformationEx MsgDTO, object[] param)
+        {
+            var name = param[0] as string;
+            if (CookingDietMgr.Instance[name] != null)
+            {
+                return AIMgr.Instance.AIInstance<CookingAI>().ExchangeMenu(MsgDTO, param);
+            }
+
+            if (PetSkillMgr.Instance[name] != null)
+            {
+                return AIMgr.Instance.AIInstance<PetAI>().UpgradePetSkill(MsgDTO, param);
             }
 
             MsgSender.PushMsg(MsgDTO, "未查找到相关信息！");

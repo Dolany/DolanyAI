@@ -216,7 +216,7 @@ namespace Dolany.Ai.Core.Ai.SingleCommand.GroupManage
         }
 
         [EnterCommand(ID = "GroupManagerOnlyAI_ClearAutoPower",
-            Command = "清除定时开关机",
+            Command = "清除定时开关机 清除自动开关机",
             AuthorityLevel = AuthorityLevel.管理员,
             Description = "清除所有定时开关机设定",
             Syntax = "",
