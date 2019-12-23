@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using System.Linq;
 using Dolany.Ai.Common;
 using Dolany.Ai.Common.Models;
-using Dolany.Ai.Core.API;
 using Dolany.Ai.Core.Cache;
 using Dolany.Ai.Core.OnlineStore;
 using Dolany.Database;
@@ -65,6 +64,7 @@ namespace Dolany.Ai.Core.Ai.Vip
                 return;
             }
 
+            osPerson = OSPerson.GetPerson(MsgDTO.FromQQ);
             osPerson.Diamonds -= armer.DiamondsNeed;
             osPerson.Update();
 
