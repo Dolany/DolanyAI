@@ -30,14 +30,6 @@ namespace Dolany.Ai.Core.Ai.Sys
 
         private static void FiltPicMsg(MsgInformationEx MsgDTO)
         {
-            var guid = Utility.ParsePicGuid(MsgDTO.FullMsg);
-            var bindAi = BindAiMgr.Instance[MsgDTO.BindAi];
-            var cacheInfo = Utility.ReadImageCacheInfo(guid, bindAi.ImagePath);
-            if (cacheInfo == null || string.IsNullOrEmpty(cacheInfo.url))
-            {
-                return;
-            }
-
             if (MsgDTO.Type == MsgType.Group)
             {
                 var addtionSettings = GroupSettingMgr.Instance[MsgDTO.FromGroup].AdditionSettings;
@@ -45,6 +37,14 @@ namespace Dolany.Ai.Core.Ai.Sys
                 {
                     return;
                 }
+            }
+
+            var guid = Utility.ParsePicGuid(MsgDTO.FullMsg);
+            var bindAi = BindAiMgr.Instance[MsgDTO.BindAi];
+            var cacheInfo = Utility.ReadImageCacheInfo(guid, bindAi.ImagePath);
+            if (cacheInfo == null || string.IsNullOrEmpty(cacheInfo.url))
+            {
+                return;
             }
 
             PicCacher.Cache(cacheInfo.url, cacheInfo.type);
