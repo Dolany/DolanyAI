@@ -484,5 +484,40 @@ namespace Dolany.Ai.Core.Ai.Game.DriftBottle
             MsgSender.PushMsg(MsgDTO, $"当前{name}被收集了{count}个");
             return true;
         }
+
+        [EnterCommand(ID = "DriftBottleAI_MyLackItems",
+            Command = "我缺少的物品",
+            AuthorityLevel = AuthorityLevel.成员,
+            Description = "查看自己缺少的物品（仅当缺少的物品少于10件时显示详情信息）",
+            Syntax = "",
+            SyntaxChecker = "Empty",
+            Tag = "漂流瓶功能",
+            IsPrivateAvailable = true)]
+        public bool MyLackItems(MsgInformationEx MsgDTO, object[] param)
+        {
+            var itemColle = ItemCollectionRecord.Get(MsgDTO.FromQQ);
+            var allColleItems = itemColle.HonorCollections.SelectMany(p => p.Value.Items).Select(p => p.Key);
+            var allItems = HonorHelper.Instance.HonorList.Where(h => !h.IsLimit).SelectMany(h => h.Items);
+
+            var lackItems = allItems.Where(p => !allColleItems.Contains(p.Name)).ToList();
+            if (lackItems.IsNullOrEmpty())
+            {
+                MsgSender.PushMsg(MsgDTO, "恭喜你已经集齐了所有物品，快使用【灵魂转生】命令来升级吧！");
+                return false;
+            }
+
+            var msg = $"你总共缺少{lackItems.Count}件物品\r";
+            if (lackItems.Count < 10)
+            {
+                msg += string.Join(",", lackItems.Select(p => p.Name));
+            }
+            else
+            {
+                msg += "你缺少的物品太多啦！这里就不一一列举了！";
+            }
+
+            MsgSender.PushMsg(MsgDTO, msg);
+            return true;
+        }
     }
 }

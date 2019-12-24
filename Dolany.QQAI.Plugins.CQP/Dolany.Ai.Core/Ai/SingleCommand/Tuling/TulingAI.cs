@@ -25,7 +25,7 @@ namespace Dolany.Ai.Core.Ai.SingleCommand.Tuling
 
         private readonly string RequestUrl = Global.DefaultConfig.TulingRequestUrl;
         private List<TulingConfigModel> ApiKeys = new List<TulingConfigModel>();
-        private const int TulingDailyLimit = 10;
+        private const int TulingDailyLimit = 20;
 
         private int CurTulingIndex;
 
@@ -46,7 +46,7 @@ namespace Dolany.Ai.Core.Ai.SingleCommand.Tuling
                 return true;
             }
 
-            if (MsgDTO.Type == MsgType.Group && !MsgDTO.FullMsg.Contains(CodeApi.Code_At(BindAiMgr.Instance[MsgDTO.BindAi].SelfNum)))
+            if (MsgDTO.Type == MsgType.Group && BindAiMgr.Instance.AllAiNums.All(p => !MsgDTO.FullMsg.Contains(CodeApi.Code_At(p))))
             {
                 return false;
             }
@@ -67,7 +67,10 @@ namespace Dolany.Ai.Core.Ai.SingleCommand.Tuling
             limitRecord.Cache();
             limitRecord.Update();
 
-            MsgDTO.FullMsg = MsgDTO.FullMsg.Replace(CodeApi.Code_At(BindAiMgr.Instance[MsgDTO.BindAi].SelfNum), string.Empty);
+            foreach (var aiNum in BindAiMgr.Instance.AllAiNums)
+            {
+                MsgDTO.FullMsg = MsgDTO.FullMsg.Replace(CodeApi.Code_At(aiNum), string.Empty);
+            }
 
             var i = 0;
             string response = null;

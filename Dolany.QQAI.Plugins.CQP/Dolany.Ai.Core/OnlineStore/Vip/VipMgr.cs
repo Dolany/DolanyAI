@@ -2,6 +2,7 @@
 using Dolany.Ai.Common;
 using Dolany.Ai.Common.Models;
 using Dolany.Ai.Core.Cache;
+using Dolany.Ai.Core.Common;
 
 namespace Dolany.Ai.Core.OnlineStore.Vip
 {
@@ -30,6 +31,7 @@ namespace Dolany.Ai.Core.OnlineStore.Vip
             osPerson.Update();
 
             MsgSender.PushMsg(0, model.QQNum, $"恭喜充值成功！当前余额：{osPerson.Diamonds}{Emoji.钻石}", model.BindAi);
+            MsgSender.PushMsg(0, Global.DeveloperNumber, $"{model.QQNum}充值{model.Amount}元！", Global.DefaultConfig.MainAi);
         }
     }
 }

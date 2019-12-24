@@ -98,6 +98,8 @@ namespace Dolany.Ai.Core.Cache
                 case InformationType.ReceiveMoney:
                     VipMgr.Charge(JsonConvert.DeserializeObject<ChargeModel>(info.Msg));
                     break;
+                default:
+                    throw new ArgumentOutOfRangeException();
             }
         }
 

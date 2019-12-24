@@ -559,6 +559,7 @@ namespace Dolany.Ai.Core.Ai.Sys
             var command = new MsgCommand()
             {
                 Command = CommandType.ConnectionState,
+                BindAi = MsgDTO.BindAi
             };
 
             var info = Waiter.Instance.WaitForRelationId(command);
