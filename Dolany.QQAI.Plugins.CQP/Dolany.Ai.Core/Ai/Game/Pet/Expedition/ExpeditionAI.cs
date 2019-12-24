@@ -1,9 +1,11 @@
 ﻿using System;
 using System.Linq;
 using Dolany.Ai.Common.Models;
+using Dolany.Ai.Core.Ai.Game.Pet.Cooking;
 using Dolany.Ai.Core.Ai.Vip;
 using Dolany.Ai.Core.Base;
 using Dolany.Ai.Core.Cache;
+using Dolany.Ai.Core.OnlineStore;
 
 namespace Dolany.Ai.Core.Ai.Game.Pet.Expedition
 {
@@ -95,6 +97,70 @@ namespace Dolany.Ai.Core.Ai.Game.Pet.Expedition
 
             expeditionRec.IsDrawn = true;
             expeditionRec.Update();
+        }
+
+        [EnterCommand(ID = "ExpeditionAI_ViewExpedition",
+            Command = "查看远征地点",
+            AuthorityLevel = AuthorityLevel.成员,
+            Description = "查看某个远征地点的信息",
+            Syntax = "[远征地点名称]",
+            Tag = "宠物功能",
+            SyntaxChecker = "Word",
+            IsPrivateAvailable = true)]
+        public bool ViewExpedition(MsgInformationEx MsgDTO, object[] param)
+        {
+            var name = param[0] as string;
+            var scene = ExpeditionSceneMgr.Instance[name];
+            if (scene == null)
+            {
+                MsgSender.PushMsg(MsgDTO, "未查找到相关地点！");
+                return false;
+            }
+
+            MsgSender.PushMsg(MsgDTO, scene.ToString());
+            return true;
+        }
+
+        [EnterCommand(ID = "ExpeditionAI_ResolveItem",
+            Command = "分解 分解物品",
+            AuthorityLevel = AuthorityLevel.成员,
+            Description = "将某个物品分解为调味料",
+            Syntax = "[物品名]",
+            Tag = "宠物功能",
+            SyntaxChecker = "Word",
+            IsPrivateAvailable = true,
+            DailyLimit = 5,
+            TestingDailyLimit = 5)]
+        public bool ResolveItem(MsgInformationEx MsgDTO, object[] param)
+        {
+            var name = param[0] as string;
+            var item = HonorHelper.Instance.FindItem(name);
+            if (item == null)
+            {
+                MsgSender.PushMsg(MsgDTO, "未查找到相关物品！");
+                return false;
+            }
+
+            var itemColle = ItemCollectionRecord.Get(MsgDTO.FromQQ);
+            if (!itemColle.CheckItem(name))
+            {
+                MsgSender.PushMsg(MsgDTO, "你尚未持有该物品！");
+                return false;
+            }
+
+            itemColle.ItemConsume(name);
+            itemColle.Update();
+
+            var count = Math.Max(item.Price / 20, 1);
+            var flavorings = ExpeditionSceneMgr.Instance.RandFlavorings(count);
+
+            var cookingRec = CookingRecord.Get(MsgDTO.FromQQ);
+            cookingRec.FlavoringIncome(flavorings);
+            cookingRec.Update();
+
+            var msg = string.Join(",", flavorings.Select(p => $"{p.Key}×{p.Value}"));
+            MsgSender.PushMsg(MsgDTO, $"分解成功！你获得了：\r{msg}");
+            return true;
         }
     }
 }

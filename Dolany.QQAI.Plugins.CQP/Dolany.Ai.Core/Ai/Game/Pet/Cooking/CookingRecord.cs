@@ -162,6 +162,14 @@ namespace Dolany.Ai.Core.Ai.Game.Pet.Cooking
             FlavoringDic[flavoringName] += count;
         }
 
+        public void FlavoringIncome(Dictionary<string, int> flavoringDic)
+        {
+            foreach (var (name, count) in flavoringDic)
+            {
+                FlavoringIncome(name, count);
+            }
+        }
+
         public void Update()
         {
             CookedDietDic.Remove(p => p == 0);

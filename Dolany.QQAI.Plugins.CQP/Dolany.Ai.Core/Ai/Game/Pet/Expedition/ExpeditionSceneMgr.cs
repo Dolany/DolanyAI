@@ -1,8 +1,8 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
+using System.Threading;
 using Dolany.Ai.Common;
 using Dolany.Ai.Core.Ai.Game.Pet.Cooking;
-using Dolany.Ai.Core.API;
 using Dolany.Ai.Core.Cache;
 using Dolany.Ai.Core.Common;
 using Dolany.Ai.Core.OnlineStore;
@@ -16,7 +16,9 @@ namespace Dolany.Ai.Core.Ai.Game.Pet.Expedition
 
         private readonly List<ExpeditionSceneModel> Scenes;
 
-        public ExpeditionSceneModel this[string SceneName] => Scenes.First(s => s.Name == SceneName);
+        public ExpeditionSceneModel this[string SceneName] => Scenes.FirstOrDefault(s => s.Name == SceneName);
+
+        public string[] Flavorings = {"海鲜酱油", "秘制番茄酱", "精品海盐", "风味辣酱", "蓝巧果果汁", "火桂", "龙鳞草茎"};
 
         private ExpeditionSceneMgr()
         {
@@ -38,6 +40,27 @@ namespace Dolany.Ai.Core.Ai.Game.Pet.Expedition
             cache.Update();
 
             return todayScenes;
+        }
+
+        public Dictionary<string, int> RandFlavorings(int count)
+        {
+            var result = new Dictionary<string, int>();
+            for (var i = 0; i < count; i++)
+            {
+                var randFlavoring = Flavorings.RandElement();
+                if (result.ContainsKey(randFlavoring))
+                {
+                    result[randFlavoring]++;
+                }
+                else
+                {
+                    result.Add(randFlavoring, 1);
+                }
+
+                Thread.Sleep(10);
+            }
+
+            return result;
         }
     }
 
@@ -141,6 +164,27 @@ namespace Dolany.Ai.Core.Ai.Game.Pet.Expedition
             if (FlavoringBonus != null)
             {
                 str += $"  调味料：{Utility.LevelToStars(FlavoringBonus.Level)}";
+            }
+
+            return str;
+        }
+
+        public override string ToString()
+        {
+            var str = $"【{Name}】\r    {Description}\r耐力：{Endurance}\r耗时：{TimeConsume}分钟";
+            if (GoldBonus != null)
+            {
+                str += $"\r金币奖励：{Utility.LevelToStars(GoldBonus.Level)}";
+            }
+
+            if (ItemBonus != null)
+            {
+                str += $"\r物品奖励：{Utility.LevelToStars(ItemBonus.Level)}";
+            }
+
+            if (FlavoringBonus != null)
+            {
+                str += $"\r调味料奖励：{Utility.LevelToStars(FlavoringBonus.Level)}";
             }
 
             return str;

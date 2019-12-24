@@ -7,6 +7,7 @@ using Dolany.Ai.Core.Ai.Game.DriftBottle;
 using Dolany.Ai.Core.Ai.Game.Gift;
 using Dolany.Ai.Core.Ai.Game.Pet;
 using Dolany.Ai.Core.Ai.Game.Pet.Cooking;
+using Dolany.Ai.Core.Ai.Game.Pet.Expedition;
 using Dolany.Ai.Core.Ai.Game.Pet.PetAgainst;
 using Dolany.Ai.Core.Ai.Game.SegmentAttach;
 using Dolany.Ai.Core.Ai.Sys.Version;
@@ -240,6 +241,12 @@ namespace Dolany.Ai.Core.Ai.Sys
             if (DailyVipShopMgr.Instance[name] != null)
             {
                 return AIMgr.Instance.AIInstance<VipServiceAi>().ViewArmer(MsgDTO, param);
+            }
+
+            // 远程地点
+            if (ExpeditionSceneMgr.Instance[name] != null)
+            {
+                return AIMgr.Instance.AIInstance<ExpeditionAI>().ViewExpedition(MsgDTO, param);
             }
 
             MsgSender.PushMsg(MsgDTO, "未查找到相关信息！");
