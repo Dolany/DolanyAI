@@ -23,19 +23,21 @@ namespace Dolany.Ai.Core.AITools
             if (todayRec.Items.IsNullOrEmpty())
             {
                 todayRec.Items = CreateDailySellItems_Rare();
-                todayRec.Hour = Rander.RandInt(22);
+                todayRec.Hour = 6 + Rander.RandInt(16);
 
                 todayRec.Update();
             }
 
             var tomorrowRec = DailySellItemRareRecord.GetTomorrow();
-            if (tomorrowRec.Items.IsNullOrEmpty())
+            if (!tomorrowRec.Items.IsNullOrEmpty())
             {
-                tomorrowRec.Items = CreateDailySellItems_Rare();
-                tomorrowRec.Hour = Rander.RandInt(22);
-
-                tomorrowRec.Update();
+                return;
             }
+
+            tomorrowRec.Items = CreateDailySellItems_Rare();
+            tomorrowRec.Hour = 6 + Rander.RandInt(16);
+
+            tomorrowRec.Update();
         }
 
         private static DailySellItemModel[] CreateDailySellItems_Rare()
