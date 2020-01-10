@@ -23,7 +23,7 @@ namespace Dolany.Ai.Common
 
         public static string 月亮 => CodeApi.Code_Emoji(4036988057);
 
-        public static string 太阳 => CodeApi.Code_Emoji(4036988062);
+        public static string 太阳 => CodeApi.Code_Emoji(14850176);
 
         public static string 王冠 => CodeApi.Code_Emoji(4036989329);
 
