@@ -205,7 +205,7 @@ namespace Dolany.Ai.Core.Ai.Sys
             switch (aspect)
             {
                 case "Group":
-                    var groupList = AIAnalyzer.AnalyzeGroup(MsgDTO.BindAi);
+                    var groupList = AIAnalyzer.AnalyzeGroup();
                     MsgSender.PushMsg(MsgDTO, string.Join("\r", groupList.Select(g =>
                     {
                         var groupNum = g.GroupNum == 0 ? "私聊" : Global.AllGroupsDic[g.GroupNum];
@@ -213,15 +213,15 @@ namespace Dolany.Ai.Core.Ai.Sys
                     })));
                     return true;
                 case "Ai":
-                    var aiList = AIAnalyzer.AnalyzeAI(MsgDTO.BindAi);
+                    var aiList = AIAnalyzer.AnalyzeAI();
                     MsgSender.PushMsg(MsgDTO, string.Join("\r", aiList.Select(a => $"{a.AIName}:{a.CommandCount}")));
                     return true;
                 case "Time":
-                    var timeList = AIAnalyzer.AnalyzeTime(MsgDTO.BindAi);
+                    var timeList = AIAnalyzer.AnalyzeTime();
                     MsgSender.PushMsg(MsgDTO, string.Join("\r", timeList.Select(t => $"{t.Hour}:{t.CommandCount}")));
                     return true;
                 case "Command":
-                    var commandList = AIAnalyzer.AnalyzeCommand(MsgDTO.BindAi);
+                    var commandList = AIAnalyzer.AnalyzeCommand();
                     MsgSender.PushMsg(MsgDTO, string.Join("\r", commandList.Select(c => $"{c.Command}:{c.CommandCount}")));
                     return true;
             }

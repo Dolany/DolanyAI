@@ -30,7 +30,7 @@ namespace Dolany.Ai.Core.Common
             }
         }
 
-        public static IEnumerable<GroupAnalyzeModel> AnalyzeGroup(string BindAi)
+        public static IEnumerable<GroupAnalyzeModel> AnalyzeGroup()
         {
             lock (Lock)
             {
@@ -42,7 +42,7 @@ namespace Dolany.Ai.Core.Common
             }
         }
 
-        public static IEnumerable<AIAnalyzeModel> AnalyzeAI(string BindAi)
+        public static IEnumerable<AIAnalyzeModel> AnalyzeAI()
         {
             lock (Lock)
             {
@@ -54,7 +54,7 @@ namespace Dolany.Ai.Core.Common
             }
         }
 
-        public static IEnumerable<TimeAnalyzeModel> AnalyzeTime(string BindAi)
+        public static IEnumerable<TimeAnalyzeModel> AnalyzeTime()
         {
             lock (Lock)
             {
@@ -66,7 +66,7 @@ namespace Dolany.Ai.Core.Common
             }
         }
 
-        public static IEnumerable<CommandAnalyzeModel> AnalyzeCommand(string BindAi)
+        public static IEnumerable<CommandAnalyzeModel> AnalyzeCommand()
         {
             lock (Lock)
             {

@@ -34,6 +34,10 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DoremiDesktop", "DoremiDesk
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Dolany.Ai.WSMidware", "Dolany.Ai.WSMidware\Dolany.Ai.WSMidware.csproj", "{9219CE78-0A41-45EE-97B4-6A7EE786C2FA}"
 EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "WorldLines", "WorldLines", "{1C0CE28F-F623-48B9-9237-46E7415D9BD2}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Dolany.WorldLine.Standard", "Dolany.WorldLine.Standard\Dolany.WorldLine.Standard.csproj", "{E6C9BAE2-F069-420E-802A-B5586DB8C338}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -76,6 +80,10 @@ Global
 		{9219CE78-0A41-45EE-97B4-6A7EE786C2FA}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{9219CE78-0A41-45EE-97B4-6A7EE786C2FA}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{9219CE78-0A41-45EE-97B4-6A7EE786C2FA}.Release|Any CPU.Build.0 = Release|Any CPU
+		{E6C9BAE2-F069-420E-802A-B5586DB8C338}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{E6C9BAE2-F069-420E-802A-B5586DB8C338}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{E6C9BAE2-F069-420E-802A-B5586DB8C338}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{E6C9BAE2-F069-420E-802A-B5586DB8C338}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -89,6 +97,8 @@ Global
 		{9AE0C7FF-BACB-4B71-94F6-58A089E29DC9} = {3D1D748A-8A7B-446B-8AFB-97877F34CCED}
 		{16DF626E-D73C-47BA-A62E-75E42242E662} = {FA17A76A-692A-45D9-8714-56396B0EFE36}
 		{45EA9ED1-E88A-4B31-BEA1-AAA593EE2CCE} = {FA17A76A-692A-45D9-8714-56396B0EFE36}
+		{1C0CE28F-F623-48B9-9237-46E7415D9BD2} = {57495118-F4E5-4BDA-B6D9-DE6EBA01C783}
+		{E6C9BAE2-F069-420E-802A-B5586DB8C338} = {1C0CE28F-F623-48B9-9237-46E7415D9BD2}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {16A16387-5510-46DA-B392-7152AF4264E7}
