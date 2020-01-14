@@ -26,7 +26,7 @@ namespace DolanyAiDesktop
 
             foreach (var worldLine in worlds)
             {
-                worldLine.AIGroup.AddRange(CrossWorldAiMgr.Instance.CrossWorldAis);
+                worldLine.AIGroup.AddRange(CrossWorldAiMgr.Instance.CrossWorldAis.ToArray());
                 worldLine.Load();
             }
 

@@ -10,12 +10,10 @@ namespace Dolany.Ai.Core
 
         public IWorldLine[] AllWorlds { get; set; }
 
-        public List<AIBase> CrossWorldAis { get; }
+        public List<AIBase> CrossWorldAis => CommonUtil.LoadAllInstanceFromClass<AIBase>(GetType().Assembly);
 
         private CrossWorldAiMgr()
         {
-            var assembly = GetType().Assembly;
-            CrossWorldAis = CommonUtil.LoadAllInstanceFromClass<AIBase>(assembly);
         }
     }
 }
