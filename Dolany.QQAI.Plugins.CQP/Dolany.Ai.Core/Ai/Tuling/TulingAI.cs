@@ -13,7 +13,7 @@ using System.Globalization;
 using System.Linq;
 using System.Text;
 
-namespace Dolany.WorldLine.Standard.Ai.SingleCommand.Tuling
+namespace Dolany.Ai.Core.Ai.SingleCommand.Tuling
 {
     public class TulingAI : AIBase
     {

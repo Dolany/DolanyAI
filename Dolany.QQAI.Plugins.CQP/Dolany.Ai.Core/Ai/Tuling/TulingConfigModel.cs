@@ -1,6 +1,6 @@
 ﻿using Dolany.Ai.Common;
 
-namespace Dolany.WorldLine.Standard.Ai.SingleCommand.Tuling
+namespace Dolany.Ai.Core.Ai.SingleCommand.Tuling
 {
     public class TulingConfigModel : INamedJsonModel
     {
