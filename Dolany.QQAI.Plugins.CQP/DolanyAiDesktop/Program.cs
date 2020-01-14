@@ -63,7 +63,7 @@ namespace DolanyAiDesktop
 
         private static void OnGroupMemberChanged(GroupMemberChangeModel model)
         {
-            var worldLine = JudgeWorldLine(0, model.QQNum);
+            var worldLine = JudgeWorldLine(model.GroupNum, model.QQNum);
             var world = worlds.FirstOrDefault(p => p.Name == worldLine);
             world?.OnGroupMemberChanged(model);
         }

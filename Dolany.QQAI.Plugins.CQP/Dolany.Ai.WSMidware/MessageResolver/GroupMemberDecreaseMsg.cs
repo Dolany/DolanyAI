@@ -20,7 +20,7 @@ namespace Dolany.Ai.WSMidware.MessageResolver
             var info = new MsgInformation()
             {
                 BindAi = bindAi,
-                Information = InformationType.ReceiveMoney,
+                Information = InformationType.GroupMemberDecrease,
                 Msg = JsonConvert.SerializeObject(changeModel),
                 FromQQ = changeModel.QQNum,
                 FromGroup = changeModel.GroupNum

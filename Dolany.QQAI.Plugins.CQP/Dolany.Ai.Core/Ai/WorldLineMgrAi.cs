@@ -8,7 +8,7 @@ namespace Dolany.Ai.Core.Ai
 {
     public class WorldLineMgrAi : AIBase
     {
-        public override string AIName { get; set; } = "时间线管理器";
+        public override string AIName { get; set; } = "世界线管理器";
         public override string Description { get; set; } = "Ai for world line management.";
         public override int PriorityLevel { get; set; } = 100;
 
