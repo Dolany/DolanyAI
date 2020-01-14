@@ -25,6 +25,8 @@ namespace Dolany.Database.Ai
 
         public GroupAuthInfoModel AuthInfo { get; set; }
 
+        public int MembersCount { get; set; }
+
         public Dictionary<string, string> AdditionSettings { get; set; } = new Dictionary<string, string>();
 
         public string WorldLine { get; set; }

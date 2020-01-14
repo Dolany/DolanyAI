@@ -6,6 +6,8 @@
         CommandBack = 1,
         AuthCode = 2,
         Error = 3,
-        ReceiveMoney = 4
+        ReceiveMoney = 4,
+        GroupMemberIncrease = 5,
+        GroupMemberDecrease = 6
     }
 }

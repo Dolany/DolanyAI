@@ -116,6 +116,11 @@ namespace Dolany.Ai.Core.Base
             return false;
         }
 
+        public virtual bool OnGroupMemberChanged(GroupMemberChangeModel model)
+        {
+            return false;
+        }
+
         private bool StateCheck(MsgInformationEx MsgDTO)
         {
             if (MsgDTO.Type != MsgType.Group)

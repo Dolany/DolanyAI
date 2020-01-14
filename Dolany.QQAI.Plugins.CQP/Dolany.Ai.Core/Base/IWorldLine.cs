@@ -129,6 +129,13 @@ namespace Dolany.Ai.Core.Base
             }
         }
 
+        public void OnGroupMemberChanged(GroupMemberChangeModel model)
+        {
+            if (AIGroup.Any(ai => ai.OnGroupMemberChanged(model)))
+            {
+            }
+        }
+
         [HandleProcessCorruptedStateExceptions]
         private void MsgCallBack(MsgInformationEx MsgDTO)
         {

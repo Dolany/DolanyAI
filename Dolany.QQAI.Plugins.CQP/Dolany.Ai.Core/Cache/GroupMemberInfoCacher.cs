@@ -19,6 +19,7 @@ namespace Dolany.Ai.Core.Cache
 
             var setting = GroupSettingMgr.Instance[GroupNum];
             setting.AuthInfo = new GroupAuthInfoModel {Owner = infos.owner, Mgrs = infos.adm?.ToList() ?? new List<long>()};
+            setting.MembersCount = infos.members.Count;
 
             setting.Update();
             GroupSettingMgr.Instance.Refresh();

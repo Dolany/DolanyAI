@@ -18,6 +18,7 @@ namespace Dolany.Ai.Core.Cache
 
         public Action<MsgInformation> MsgReceivedCallBack;
         public Action<ChargeModel> MoneyReceivedCallBack;
+        public Action<GroupMemberChangeModel> GroupMemberChangeCallBack;
 
         public static Waiter Instance { get; } = new Waiter();
 
@@ -99,6 +100,10 @@ namespace Dolany.Ai.Core.Cache
                     break;
                 case InformationType.ReceiveMoney:
                     MoneyReceivedCallBack(JsonConvert.DeserializeObject<ChargeModel>(info.Msg));
+                    break;
+                case InformationType.GroupMemberIncrease:
+                case InformationType.GroupMemberDecrease:
+                    GroupMemberChangeCallBack(JsonConvert.DeserializeObject<GroupMemberChangeModel>(info.Msg));
                     break;
                 default:
                     throw new ArgumentOutOfRangeException();
