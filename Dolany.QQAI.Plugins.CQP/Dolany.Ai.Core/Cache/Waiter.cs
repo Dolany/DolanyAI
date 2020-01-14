@@ -6,7 +6,6 @@ using System.Threading.Tasks;
 using Dolany.Ai.Common;
 using Dolany.Ai.Common.Models;
 using Dolany.Ai.Core.Common;
-using Dolany.Ai.Core.OnlineStore.Vip;
 using Newtonsoft.Json;
 
 namespace Dolany.Ai.Core.Cache
@@ -16,6 +15,9 @@ namespace Dolany.Ai.Core.Cache
         private readonly object _lockObj = new object();
 
         private readonly Dictionary<long, List<WaiterUnit>> UnitsDic = new Dictionary<long, List<WaiterUnit>>();
+
+        public Action<MsgInformation> MsgReceivedCallBack;
+        public Action<ChargeModel> MoneyReceivedCallBack;
 
         public static Waiter Instance { get; } = new Waiter();
 
@@ -50,7 +52,7 @@ namespace Dolany.Ai.Core.Cache
             }
 
             var msg = $"[Info] {info.BindAi} {source} {QQNumReflectMgr.Instance[info.FromQQ]} {info.Msg}";
-            AIMgr.Instance.MessagePublish(msg);
+            Global.MsgPublish(msg);
 
             if (BindAiMgr.Instance[info.FromQQ] != null)
             {
@@ -72,7 +74,7 @@ namespace Dolany.Ai.Core.Cache
 
                     if (waitUnit == null)
                     {
-                        AIMgr.Instance.OnMsgReceived(info);
+                        MsgReceivedCallBack(info);
                         break;
                     }
 
@@ -96,7 +98,7 @@ namespace Dolany.Ai.Core.Cache
                     AIAnalyzer.AddError(info.Msg);
                     break;
                 case InformationType.ReceiveMoney:
-                    VipMgr.Charge(JsonConvert.DeserializeObject<ChargeModel>(info.Msg));
+                    MoneyReceivedCallBack(JsonConvert.DeserializeObject<ChargeModel>(info.Msg));
                     break;
                 default:
                     throw new ArgumentOutOfRangeException();

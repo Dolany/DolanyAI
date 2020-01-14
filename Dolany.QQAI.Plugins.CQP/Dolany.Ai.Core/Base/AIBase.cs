@@ -7,6 +7,7 @@ using System;
 using System.Collections.Generic;
 using System.Globalization;
 using System.Linq;
+using Dolany.Ai.Core.SyntaxChecker;
 
 namespace Dolany.Ai.Core.Base
 {
@@ -27,6 +28,8 @@ namespace Dolany.Ai.Core.Base
         protected delegate bool AIModuleDel(MsgInformationEx MsgDTO, object[] param);
 
         protected readonly Dictionary<EnterCommandAttribute, AIModuleDel> ModuleDels = new Dictionary<EnterCommandAttribute, AIModuleDel>();
+
+        public IWorldLine WorldLine { get; set; }
 
         protected AIBase()
         {
@@ -105,6 +108,11 @@ namespace Dolany.Ai.Core.Base
                 Logger.Log(ex);
             }
 
+            return false;
+        }
+
+        public virtual bool OnMoneyReceived(ChargeModel model)
+        {
             return false;
         }
 
@@ -189,7 +197,7 @@ namespace Dolany.Ai.Core.Base
             var list = new List<object>();
             for (var i = 0; i < checkers.Length; i++)
             {
-                var checker = AIMgr.Instance.Checkers.FirstOrDefault(c => c.Name == checkers[i]);
+                var checker = SyntaxCheckerMgr.Instance.Checkers.FirstOrDefault(c => c.Name == checkers[i]);
 
                 if (checker == null)
                 {

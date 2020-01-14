@@ -8,7 +8,7 @@ namespace Dolany.Ai.Core.Common
     {
         public static void Log(string log)
         {
-            AIMgr.Instance.MessagePublish(log);
+            Global.MsgPublish(log);
             RuntimeLogger.Log(log);
         }
 
@@ -16,7 +16,7 @@ namespace Dolany.Ai.Core.Common
         {
             var error = ex.Message + "\r\n" + ex.StackTrace;
             AIAnalyzer.AddError(error);
-            AIMgr.Instance.MessagePublish(error);
+            Global.MsgPublish(error);
             RuntimeLogger.Log(ex);
 
             MsgSender.PushMsg(0, Global.DeveloperNumber, error, Global.DefaultConfig.MainAi);

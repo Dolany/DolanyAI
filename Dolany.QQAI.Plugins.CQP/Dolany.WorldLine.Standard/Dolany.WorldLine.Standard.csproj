@@ -5,7 +5,14 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <PackageReference Include="HtmlAgilityPack" Version="1.11.17" />
+    <PackageReference Include="Newtonsoft.Json" Version="12.0.3" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\Dolany.Ai.Common\Dolany.Ai.Common.csproj" />
     <ProjectReference Include="..\Dolany.Ai.Core\Dolany.Ai.Core.csproj" />
+    <ProjectReference Include="..\Dolany.Database\Dolany.Database.csproj" />
   </ItemGroup>
 
   <ItemGroup>

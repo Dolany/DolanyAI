@@ -156,9 +156,9 @@ namespace Dolany.Ai.Common
             return dic.ContainsKey(key) ? dic[key] : default;
         }
 
-        public static List<T> LoadAllInstanceFromClass<T>() where T : class
+        public static List<T> LoadAllInstanceFromClass<T>(Assembly assembly = null) where T : class
         {
-            var assembly = Assembly.GetAssembly(typeof(T));
+            assembly = assembly == null ? Assembly.GetAssembly(typeof(T)) : assembly;
             var list = assembly.GetTypes()
                 .Where(type => type.IsSubclassOf(typeof(T)) && !type.IsAbstract)
                 .Where(type => type.FullName != null)
@@ -167,9 +167,9 @@ namespace Dolany.Ai.Common
             return list.ToList();
         }
 
-        public static List<T> LoadAllInstanceFromInterface<T>() where T : class
+        public static List<T> LoadAllInstanceFromInterface<T>(Assembly assembly = null) where T : class
         {
-            var assembly = Assembly.GetAssembly(typeof(T));
+            assembly = assembly == null ? Assembly.GetAssembly(typeof(T)) : assembly;
             var list = assembly.GetTypes()
                 .Where(type => typeof(T).IsAssignableFrom(type) && type.IsClass && !type.IsAbstract)
                 .Where(type => type.FullName != null)

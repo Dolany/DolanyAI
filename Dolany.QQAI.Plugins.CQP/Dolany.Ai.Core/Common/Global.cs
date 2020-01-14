@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using Dolany.Ai.Common;
 using Dolany.Database;
@@ -22,5 +23,7 @@ namespace Dolany.Ai.Core.Common
         public static Dictionary<long, string> AllGroupsDic => GroupSettingMgr.Instance.SettingDic.ToDictionary(p => p.Key, p => p.Value.Name);
 
         public static readonly RabbitMQService CommandInfoService = new RabbitMQService(DefaultConfig.InformationQueueName);
+
+        public static Action<string> MsgPublish;
     }
 }
