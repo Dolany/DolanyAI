@@ -14,8 +14,8 @@ namespace Dolany.Ai.Core.Base
     {
         public abstract string Name { get; set; }
         public virtual bool IsDefault { get; } = false;
-        protected virtual List<AIBase> AIGroup { get; set; } = new List<AIBase>();
-        protected virtual List<IAITool> ToolGroup { get; set; } = new List<IAITool>();
+        public List<AIBase> AIGroup { get; set; }
+        protected List<IAITool> ToolGroup { get; set; }
 
         public string[] ManulOpenAiNames { get; set; }
         public List<EnterCommandAttribute> AllAvailableGroupCommands { get; } = new List<EnterCommandAttribute>();
@@ -26,12 +26,16 @@ namespace Dolany.Ai.Core.Base
             return AIGroup.FirstOrDefault(ai => ai.GetType().Name == typeof(T).Name) as T;
         }
 
-        public void Load()
+        protected IWorldLine()
         {
-            Logger.Log($"{Name} WorldLine is starting up...");
             var assembly = GetType().Assembly;
             AIGroup = CommonUtil.LoadAllInstanceFromClass<AIBase>(assembly);
             ToolGroup = CommonUtil.LoadAllInstanceFromInterface<IAITool>(assembly);
+        }
+
+        public void Load()
+        {
+            Logger.Log($"{Name} WorldLine is starting up...");
 
             try
             {

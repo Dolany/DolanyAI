@@ -165,7 +165,7 @@ namespace Dolany.WorldLine.Standard.Ai.Sys
             }
 
             var pState = string.Join("\r", setting.BindAis.Select(p => $"{p}:{(RecentCommandCache.IsTooFreq(p) ? "过热保护" : setting.IsPowerOn ? "开机" : "关机")}"));
-            return $"\r电源状态：\r{pState}" + expiryDate;
+            return $"\r电源状态：\r{pState}{expiryDate}\r";
         }
 
         [EnterCommand(ID = "MonitorAI_ExceptionMonitor",

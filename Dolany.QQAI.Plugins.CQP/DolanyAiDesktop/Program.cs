@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Linq;
 using Dolany.Ai.Common.Models;
+using Dolany.Ai.Core;
 using Dolany.Ai.Core.Base;
 using Dolany.Ai.Core.Cache;
 using Dolany.Ai.Core.Common;
@@ -21,9 +22,11 @@ namespace DolanyAiDesktop
             Waiter.Instance.MsgReceivedCallBack = OnMsgReceived;
             Waiter.Instance.MoneyReceivedCallBack = OnMoneyReceived;
             AIAnalyzer.Sys_StartTime = DateTime.Now;
+            CrossWorldAiMgr.Instance.AllWorlds = worlds;
 
             foreach (var worldLine in worlds)
             {
+                worldLine.AIGroup.AddRange(CrossWorldAiMgr.Instance.CrossWorldAis);
                 worldLine.Load();
             }
 
