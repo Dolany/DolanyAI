@@ -90,7 +90,14 @@ namespace Dolany.Ai.Core.Base
                         return true;
                     }
 
+                    if (!CommandLocker.Instance.Check(MsgDTO.FromQQ, enterCommandAttribute.ID))
+                    {
+                        return false;
+                    }
+
+                    var lockID = CommandLocker.Instance.Lock(MsgDTO.FromQQ, new[] {enterCommandAttribute.ID});
                     var result = moduleDel(MsgDTO, param);
+                    CommandLocker.Instance.FreeLock(lockID);
 
                     if (!result)
                     {
@@ -162,13 +169,13 @@ namespace Dolany.Ai.Core.Base
                 return false;
             }
 
-            if (AuthorityCheck(enterAttr.AuthorityLevel, enterAttr, MsgDTO))
+            if (!AuthorityCheck(enterAttr.AuthorityLevel, enterAttr, MsgDTO))
             {
-                return !enterAttr.IsTesting || Global.TestGroups.Contains(MsgDTO.FromGroup);
+                MsgSender.PushMsg(MsgDTO, $"权限不足！需要 {enterAttr.AuthorityLevel.ToString()} 权限！");
+                return false;
             }
 
-            MsgSender.PushMsg(MsgDTO, $"权限不足！需要 {enterAttr.AuthorityLevel.ToString()} 权限！");
-            return false;
+            return !enterAttr.IsTesting || Global.TestGroups.Contains(MsgDTO.FromGroup);
         }
 
         private static bool DailyLimitCheck(EnterCommandAttribute enterAttr, MsgInformation MsgDTO, DailyLimitRecord limitRecord)
