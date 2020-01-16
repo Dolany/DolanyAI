@@ -92,11 +92,21 @@ namespace Dolany.WorldLine.Standard.Ai.Game.Pet.Expedition
         private static void DrawAwards(ExpeditionRecord expeditionRec, MsgInformationEx MsgDTO)
         {
             var expeditionModel = ExpeditionSceneMgr.Instance[expeditionRec.Scene];
-            var msg = expeditionModel.Award(MsgDTO.FromQQ);
-            MsgSender.PushMsg(MsgDTO, msg);
+            var award = expeditionModel.Award(MsgDTO.FromQQ);
+            MsgSender.PushMsg(MsgDTO, award.ToString());
 
             expeditionRec.IsDrawn = true;
             expeditionRec.Update();
+
+            var history = ExpeditionHistory.Get(MsgDTO.FromQQ);
+            history.AddScene(expeditionModel.Name);
+            history.EnduranceConsume += expeditionModel.Endurance;
+            history.FlavoringTotal += award.Flavorings.Count;
+            history.GoldsTotal += award.Gold;
+            history.ItemBonusCount += award.Items.Count;
+            history.ItemBonusPriceTotal += award.Items.Sum(item => HonorHelper.Instance.FindItem(item).Price);
+
+            history.Update();
         }
 
         [EnterCommand(ID = "ExpeditionAI_ViewExpedition",

@@ -41,6 +41,38 @@ namespace Dolany.WorldLine.Standard.Ai.Vip
             return true;
         }
 
+        [EnterCommand(ID = "VipServiceAi_RefreshVipShop",
+            Command = "刷新vip商店 刷新钻石商店",
+            Description = "刷新vip商店（花费10钻石）",
+            Syntax = "",
+            Tag = "vip服务",
+            SyntaxChecker = "Empty",
+            AuthorityLevel = AuthorityLevel.成员,
+            IsPrivateAvailable = true)]
+        public bool RefreshVipShop(MsgInformationEx MsgDTO, object[] param)
+        {
+            var osPerson = OSPerson.GetPerson(MsgDTO.FromQQ);
+            if (osPerson.Diamonds < 10)
+            {
+                MsgSender.PushMsg(MsgDTO, $"很抱歉，你当前的钻石余额不足，无法刷新vip商店！({osPerson.Diamonds}/10)");
+                return false;
+            }
+
+            if (!Waiter.Instance.WaitForConfirm(MsgDTO, $"此操作将花费{10.CurencyFormat("Diamond")}，是否继续？"))
+            {
+                MsgSender.PushMsg(MsgDTO, "操作取消！");
+                return false;
+            }
+
+            osPerson.Diamonds -= 10;
+            osPerson.Update();
+
+            DailyVipGoodsRecord.Refresh(MsgDTO.FromQQ);
+
+            MsgSender.PushMsg(MsgDTO, "刷新成功！");
+            return true;
+        }
+
         [EnterCommand(ID = "VipServiceAi_ViewArmer",
             Command = "查看装备",
             Description = "查看指定名称的装备",

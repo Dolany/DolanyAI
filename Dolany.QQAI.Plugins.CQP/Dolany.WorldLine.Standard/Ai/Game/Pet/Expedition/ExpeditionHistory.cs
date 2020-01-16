@@ -33,6 +33,16 @@ namespace Dolany.WorldLine.Standard.Ai.Game.Pet.Expedition
             return rec;
         }
 
+        public void AddScene(string scene)
+        {
+            if (!SceneDic.ContainsKey(scene))
+            {
+                SceneDic.Add(scene, 0);
+            }
+
+            SceneDic[scene]++;
+        }
+
         public void Update()
         {
             MongoService<ExpeditionHistory>.Update(this);

@@ -31,6 +31,7 @@ namespace Dolany.WorldLine.Standard.Ai.Vip
 
             record.Date = dateStr;
             record.GoodsName = DailyVipShopMgr.Instance.RandGoods(7);
+            record.Update();
 
             return record;
         }
@@ -38,6 +39,12 @@ namespace Dolany.WorldLine.Standard.Ai.Vip
         public void Update()
         {
             MongoService<DailyVipGoodsRecord>.Update(this);
+        }
+
+        public static void Refresh(long QQNum)
+        {
+            var rec = GetToday(QQNum);
+            MongoService<DailyVipGoodsRecord>.Delete(rec);
         }
     }
 }

@@ -104,48 +104,41 @@ namespace Dolany.WorldLine.Standard.Ai.Game.Pet.Expedition
             }
         }
 
-        public string Award(long QQNum)
+        public ExpeditionAward Award(long QQNum)
         {
-            var msg = $"恭喜你在 【{Name}】 的伟大远征中获得以下奖励：";
-            var msgList = new List<string>();
+            var award = new ExpeditionAward(){Name = Name};
             if (GoldBonus != null)
             {
-                var gold = GoldBonus.Min + Rander.RandInt(GoldBonus.Max - GoldBonus.Min + 1);
+                award.Gold = GoldBonus.Min + Rander.RandInt(GoldBonus.Max - GoldBonus.Min + 1);
                 var osPerson = OSPerson.GetPerson(QQNum);
-                osPerson.Golds += gold;
+                osPerson.Golds += award.Gold;
                 osPerson.Update();
-
-                msgList.Add($"金币：{gold.CurencyFormat()}");
             }
 
             if (ItemBonus != null)
             {
                 var count = ItemBonus.Min + Rander.RandInt(ItemBonus.Max - ItemBonus.Min + 1);
-                var items = Enumerable.Range(0, count).Select(p => ItemBonus.Options.RandElement()).ToList();
+                award.Items = Enumerable.Range(0, count).Select(p => ItemBonus.Options.RandElement()).ToList();
                 var itemColle = ItemCollectionRecord.Get(QQNum);
-                foreach (var item in items)
+                foreach (var item in award.Items)
                 {
                     itemColle.ItemIncome(item);
                 }
-
-                msgList.Add($"物品：{string.Join(",", items)}");
             }
 
             if (FlavoringBonus != null)
             {
                 var count = FlavoringBonus.Min + Rander.RandInt(FlavoringBonus.Max - FlavoringBonus.Min + 1);
-                var flavorings = Enumerable.Range(0, count).Select(p => FlavoringBonus.Options.RandElement()).ToList();
+                award.Flavorings = Enumerable.Range(0, count).Select(p => FlavoringBonus.Options.RandElement()).ToList();
                 var flavoringRec = CookingRecord.Get(QQNum);
-                foreach (var flavoring in flavorings)
+                foreach (var flavoring in award.Flavorings)
                 {
                     flavoringRec.FlavoringIncome(flavoring);
                 }
                 flavoringRec.Update();
-
-                msgList.Add($"调味料：{string.Join(",", flavorings)}");
             }
 
-            return $"{msg}\r{string.Join("\r", msgList)}";
+            return award;
         }
 
         public string ToString(int curEndurance)
@@ -188,6 +181,39 @@ namespace Dolany.WorldLine.Standard.Ai.Game.Pet.Expedition
             }
 
             return str;
+        }
+    }
+
+    public class ExpeditionAward
+    {
+        public string Name { get; set; }
+
+        public int Gold { get; set; }
+
+        public List<string> Items { get; set; } = new List<string>();
+
+        public List<string> Flavorings { get; set; } = new List<string>();
+
+        public override string ToString()
+        {
+            var msg = $"恭喜你在 【{Name}】 的伟大远征中获得以下奖励：";
+            var msgList = new List<string>();
+            if (Gold > 0)
+            {
+                msgList.Add($"金币：{Gold.CurencyFormat()}");
+            }
+
+            if (!Items.IsNullOrEmpty())
+            {
+                msgList.Add($"物品：{string.Join(",", Items)}");
+            }
+
+            if (!Flavorings.IsNullOrEmpty())
+            {
+                msgList.Add($"调味料：{string.Join(",", Flavorings)}");
+            }
+
+            return $"{msg}\r{string.Join("\r", msgList)}";
         }
     }
 
