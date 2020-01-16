@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Linq;
+using Dolany.Ai.Common;
 using Dolany.Ai.Common.Models;
 using Dolany.Ai.Core.Base;
 using Dolany.Ai.Core.Cache;
@@ -128,6 +129,34 @@ namespace Dolany.WorldLine.Standard.Ai.Game.Pet.Expedition
             }
 
             MsgSender.PushMsg(MsgDTO, scene.ToString());
+            return true;
+        }
+
+        [EnterCommand(ID = "ExpeditionAI_MyExpeditionHistory",
+            Command = "我的远征记录",
+            AuthorityLevel = AuthorityLevel.成员,
+            Description = "查看我的远征记录",
+            Syntax = "",
+            Tag = "宠物功能",
+            SyntaxChecker = "Empty",
+            IsPrivateAvailable = true)]
+        public bool MyExpeditionHistory(MsgInformationEx MsgDTO, object[] param)
+        {
+            var history = ExpeditionHistory.Get(MsgDTO.FromQQ);
+            if (history.SceneDic.IsNullOrEmpty())
+            {
+                MsgSender.PushMsg(MsgDTO, "尚未记录到远征信息！");
+                return false;
+            }
+
+            var hotScenes = history.SceneDic.OrderByDescending(p => p.Value).Take(3).ToList();
+            var msg = $"你最热衷的远征地点：{string.Join(",", hotScenes.Select(s => $"{s.Key}*{s.Value}次"))}\r";
+            msg += $"共获得金币：{history.GoldsTotal.CurencyFormat()}\r";
+            msg += $"共获得调味料：{history.FlavoringTotal}个\r";
+            msg += $"共获得物品：{history.ItemBonusCount}个\r";
+            msg += $"物品总价值：{history.ItemBonusPriceTotal.CurencyFormat()}";
+
+            MsgSender.PushMsg(MsgDTO, msg);
             return true;
         }
 
