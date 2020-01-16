@@ -13,6 +13,7 @@
     <ProjectReference Include="..\Dolany.Ai.Common\Dolany.Ai.Common.csproj" />
     <ProjectReference Include="..\Dolany.Ai.Core\Dolany.Ai.Core.csproj" />
     <ProjectReference Include="..\Dolany.Database\Dolany.Database.csproj" />
+    <ProjectReference Include="..\Dolany.WorldLine.Standard\Dolany.WorldLine.Standard.csproj" />
   </ItemGroup>
 
 </Project>

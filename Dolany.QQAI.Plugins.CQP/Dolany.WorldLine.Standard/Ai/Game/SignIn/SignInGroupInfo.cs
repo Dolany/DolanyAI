@@ -1,7 +1,7 @@
 ﻿using System;
 using Dolany.Database;
 
-namespace Dolany.WorldLine.Standard.Ai.Game.Shopping
+namespace Dolany.WorldLine.Standard.Ai.Game.SignIn
 {
     public class SignInGroupInfo : DbBaseEntity
     {

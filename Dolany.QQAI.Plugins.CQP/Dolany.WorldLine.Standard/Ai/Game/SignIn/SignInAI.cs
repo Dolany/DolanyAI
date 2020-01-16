@@ -10,7 +10,7 @@ using Dolany.Database;
 using Dolany.Database.Ai;
 using Dolany.WorldLine.Standard.OnlineStore;
 
-namespace Dolany.WorldLine.Standard.Ai.Game.Shopping
+namespace Dolany.WorldLine.Standard.Ai.Game.SignIn
 {
     public class SignInAI : AIBase
     {
@@ -98,53 +98,26 @@ namespace Dolany.WorldLine.Standard.Ai.Game.Shopping
             });
 
             // 个人签到验证
-            var personRecord = SignInPersonRecord.Get(MsgDTO.FromQQ);
-            SignInPersonGroupInfo ginfo;
-            if (personRecord.GroupInfos.ContainsKey(MsgDTO.FromGroup.ToString()))
-            {
-                ginfo = personRecord.GroupInfos[MsgDTO.FromGroup.ToString()];
-            }
-            else
-            {
-                ginfo = new SignInPersonGroupInfo();
-                personRecord.GroupInfos.Add(MsgDTO.FromGroup.ToString(), ginfo);
-            }
-
-            if (ginfo.LastSignInDate.HasValue && ginfo.LastSignInDate.Value.ToLocalTime() > DateTime.Now.Date)
+            if (SignInSuccessiveRecord.IsTodaySigned(MsgDTO.FromGroup, MsgDTO.FromQQ))
             {
                 MsgSender.PushMsg(MsgDTO, "你今天已经签过到啦！");
                 return true;
             }
 
-            Sign(ginfo, MsgDTO);
-            personRecord.Update();
+            Sign(MsgDTO);
             return true;
         }
 
-        private static void Sign(SignInPersonGroupInfo ginfo, MsgInformationEx MsgDTO)
+        private static void Sign(MsgInformationEx MsgDTO)
         {
-            if (ginfo.LastSignInDate == null || ginfo.LastSignInDate.Value.ToLocalTime().Date < DateTime.Today.AddDays(-1))
-            {
-                ginfo.SuccessiveDays = 0;
-            }
-
-            if (string.IsNullOrEmpty(GlobalVarRecord.Get("SignInAcc").Value))
-            {
-                ginfo.SuccessiveDays++;
-            }
-            else
-            {
-                ginfo.SuccessiveDays += 2;
-            }
-
-            ginfo.LastSignInDate = DateTime.Now;
-            var goldsGen = Math.Min(ginfo.SuccessiveDays * 5, 50);
+            var sign = SignInSuccessiveRecord.Sign(MsgDTO.FromGroup, MsgDTO.FromQQ);
+            var goldsGen = Math.Min(sign.SuccessiveDays * 5, 50);
 
             OSPerson.GoldIncome(MsgDTO.FromQQ, goldsGen);
             var indexNo = SignInGroupInfo.GetAndUpdate(MsgDTO.FromGroup);
 
-            var msg = $"签到成功！你已连续签到 {ginfo.SuccessiveDays}天，获得 {goldsGen.CurencyFormat()}！\r本群签到排名：【No.{indexNo}】";
-            if (ginfo.SuccessiveDays % 10 == 0)
+            var msg = $"签到成功！你已连续签到 {sign.SuccessiveDays}天，获得 {goldsGen.CurencyFormat()}！\r本群签到排名：【No.{indexNo}】";
+            if (sign.SuccessiveDays % 10 == 0)
             {
                 var cache = PersonCacheRecord.Get(MsgDTO.FromQQ, "抽奖");
                 cache.Value = !string.IsNullOrEmpty(cache.Value) && int.TryParse(cache.Value, out var times) ? (times + 1).ToString() : 1.ToString();
