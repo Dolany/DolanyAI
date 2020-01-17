@@ -11,29 +11,9 @@ namespace Dolany.Temp
     {
         static void Main(string[] args)
         {
-            var r = MongoService<SignInSuccessiveRecord>.Get();
+            var today = DateTime.Today;
+            var r = MongoService<SignInSuccessiveRecord>.Get(p => p.EndDate > today);
             MongoService<SignInSuccessiveRecord>.DeleteMany(r);
-
-            var oldSigns = MongoService<SignInPersonRecord>.Get();
-            foreach (var oldSign in oldSigns.Where(oldSign => !oldSign.GroupInfos.IsNullOrEmpty()))
-            {
-                foreach (var (groupNum, info) in oldSign.GroupInfos)
-                {
-                    if (info.LastSignInDate == null)
-                    {
-                        continue;
-                    }
-
-                    var newSign = new SignInSuccessiveRecord()
-                    {
-                        GroupNum = long.Parse(groupNum),
-                        QQNum = oldSign.QQNum,
-                        EndDate = info.LastSignInDate.Value.ToLocalTime().Date,
-                        StartDate = info.LastSignInDate.Value.ToLocalTime().Date.AddDays(info.SuccessiveDays - 1)
-                    };
-                    MongoService<SignInSuccessiveRecord>.Insert(newSign);
-                }
-            }
 
             Console.WriteLine("Completed");
             Console.ReadKey();

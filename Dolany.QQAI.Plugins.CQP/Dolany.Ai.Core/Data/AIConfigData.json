@@ -14,7 +14,7 @@
   "InformationQueueName": "MsgInformation",
   "CacheDb": "C:/AIDB/aidb_ice.db",
   "IsTesting": false,
-  "TestGroups": [ 411277569, 885421620 ],
+  "TestGroups": [ 411277569, 885421620, 975709023 ],
   "AnonymousNumber": 80000000,
   "Mutex": "DolanyAI",
   "FixedSetMutex": "DolanyFixed",

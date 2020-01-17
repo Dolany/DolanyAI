@@ -44,7 +44,7 @@ namespace DolanyAiDesktop
 
         private static void PrintMsg(string Msg)
         {
-            Console.WriteLine(Msg);
+            Console.WriteLine($"{DateTime.Now:yyyy-MM-dd HH:mm:ss} {Msg}");
         }
 
         private static void OnMsgReceived(MsgInformation MsgDTO)

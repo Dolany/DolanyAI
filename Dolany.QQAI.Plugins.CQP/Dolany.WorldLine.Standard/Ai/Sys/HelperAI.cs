@@ -169,15 +169,11 @@ namespace Dolany.WorldLine.Standard.Ai.Sys
                 return false;
             }
 
-            var helpMsg = @"当前标签下有以下命令：";
-            var builder = new StringBuilder();
-            builder.Append(helpMsg);
+            var helpMsg = "当前标签下有以下命令：\r";
             var groups = commands.GroupBy(p => p.ID);
-            foreach (var group in groups)
-            {
-                builder.Append('\r' + string.Join("/", group.Select(g => g.Command)));
-            }
-            helpMsg = builder.ToString();
+            var subCommands = groups.Select(group => string.Join("/", group.Select(g => g.Command))).ToList();
+            helpMsg += string.Join("", subCommands.Select((command, idx) =>
+                idx % 2 == 0 ? $"{Emoji.AllEmojis().RandElement()}{command}{Emoji.AllEmojis().RandElement()}" : $"{command}{Emoji.AllEmojis().RandElement()}\r"));
             helpMsg += '\r' + "可以使用 帮助 [命令名] 来查询具体命令信息。";
 
             MsgSender.PushMsg(MsgDTO, helpMsg);
