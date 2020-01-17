@@ -18,7 +18,7 @@ namespace Dolany.WorldLine.Standard.AITools
                 Interval = SchedulerTimer.HourlyInterval
             }
         };
-        public override bool Enabled { get; set; } = true;
+        public override bool Enabled { get; set; } = false;
         protected override void ScheduleDo(SchedulerTimer timer)
         {
             var command = new MsgCommand()

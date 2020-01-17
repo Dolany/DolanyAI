@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using Dolany.Ai.Common;
 using Dolany.Ai.Common.Models;
 using Dolany.Ai.Core.Base;
 using Dolany.Ai.Core.Cache;
@@ -268,6 +269,60 @@ namespace Dolany.Ai.Core.Ai
             GroupSettingMgr.Instance.Refresh();
 
             MsgSender.PushMsg(MsgDTO, $"充值成功，有效期至 {setting.ExpiryTime?.ToLocalTime():yyyy-MM-dd HH:mm:ss}");
+            return true;
+        }
+
+        [EnterCommand(ID = "SuperAdminAI_EmergencyUnload",
+            Command = "紧急卸载",
+            Description = "紧急停用某个机器人，取消其所有群组的绑定",
+            Syntax = "[机器人名]",
+            Tag = "超管",
+            SyntaxChecker = "Word",
+            AuthorityLevel = AuthorityLevel.开发者,
+            IsPrivateAvailable = true)]
+        public bool EmergencyUnload(MsgInformationEx MsgDTO, object[] param)
+        {
+            var bingAiName = param[0] as string;
+            if (BindAiMgr.Instance[bingAiName] == null)
+            {
+                MsgSender.PushMsg(MsgDTO, "未找到该机器人！");
+                return false;
+            }
+
+            var failedGroups = new List<GroupSettings>();
+            var successGroups = new List<GroupSettings>();
+            foreach (var setting in from GroupSettings setting in GroupSettingMgr.Instance.SettingDic
+                where !setting.BindAis.IsNullOrEmpty()
+                where setting.BindAis.Contains(bingAiName)
+                select setting)
+            {
+                if (setting.BindAis.Count == 1)
+                {
+                    failedGroups.Add(setting);
+                    continue;
+                }
+
+                setting.BindAis = setting.BindAis.Where(p => p != bingAiName).ToList();
+                if (setting.BindAi == bingAiName)
+                {
+                    setting.BindAi = setting.BindAis.RandElement();
+                }
+
+                setting.Update();
+                successGroups.Add(setting);
+            }
+
+            var msg = "卸载完毕！";
+            if (!successGroups.IsNullOrEmpty())
+            {
+                msg += $"\r以下群组卸载成功！\r{string.Join(",", successGroups.Select(p => p.Name))}";
+            }
+            if (!failedGroups.IsNullOrEmpty())
+            {
+                msg += $"\r以下群组卸载失败，请手动处理！\r{string.Join(",", failedGroups.Select(p => p.Name))}";
+            }
+
+            MsgSender.PushMsg(MsgDTO, msg);
             return true;
         }
     }
