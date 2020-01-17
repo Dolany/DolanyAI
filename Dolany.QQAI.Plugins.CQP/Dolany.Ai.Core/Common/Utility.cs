@@ -56,30 +56,26 @@ namespace Dolany.Ai.Core.Common
             return setting.AuthInfo.Mgrs.Contains(MsgDTO.FromQQ) ? AuthorityLevel.管理员 : AuthorityLevel.成员;
         }
 
-        [NotNull]
         private static ImageCacheModel ReadImageCacheInfo(FileSystemInfo file)
         {
-            var model = new ImageCacheModel();
-
-            try
+            var model = CommonUtil.Retry(() =>
             {
+                var cache = new ImageCacheModel();
                 using var reader = new StreamReader(file.FullName);
                 string line;
                 while (!string.IsNullOrEmpty(line = reader.ReadLine()))
                 {
-                    var strs = line.Split(new[] { '=' }, StringSplitOptions.RemoveEmptyEntries);
+                    var strs = line.Split(new[] {'='}, StringSplitOptions.RemoveEmptyEntries);
                     if (strs.IsNullOrEmpty() || strs.Length < 2)
                     {
                         continue;
                     }
 
-                    SetPropertyValue(model, strs[0], strs[1]);
+                    SetPropertyValue(cache, strs[0], strs[1]);
                 }
-            }
-            catch (Exception e)
-            {
-                RuntimeLogger.Log(e);
-            }
+
+                return cache;
+            }, new[] {TimeSpan.FromSeconds(1), TimeSpan.FromSeconds(3), TimeSpan.FromSeconds(5)});
 
             return model;
         }
