@@ -57,7 +57,13 @@ namespace Dolany.WorldLine.Standard.Ai.Game.Pet.Expedition
             var enduranceConsume = PetEnduranceRecord.Get(MsgDTO.FromQQ);
             var curEndurance = petLevel.Endurance - enduranceConsume.ConsumeTotal + extEndur;
 
-            var todayExpeditions = ExpeditionSceneMgr.Instance.TodayExpedition();
+            var todayExpeditions = ExpeditionSceneMgr.Instance.TodayExpedition().Where(p => p.Endurance <= curEndurance).ToList();
+            if (todayExpeditions.IsNullOrEmpty())
+            {
+                MsgSender.PushMsg(MsgDTO, $"{pet.Name}已经累的完全动不了了！");
+                return false;
+            }
+
             var msg = $"请选择远征副本：\r{string.Join("\r", todayExpeditions.Select((exp, idx) => $"{idx + 1}:{exp.ToString(curEndurance)}"))}";
             var selection = Waiter.Instance.WaitForNum(MsgDTO.FromGroup, MsgDTO.FromQQ, msg, i => i > 0 && i <= todayExpeditions.Count, MsgDTO.BindAi, 12, false);
             if (selection < 0)
@@ -67,14 +73,6 @@ namespace Dolany.WorldLine.Standard.Ai.Game.Pet.Expedition
             }
 
             var aimExpedition = todayExpeditions[selection - 1];
-
-            if (curEndurance < aimExpedition.Endurance)
-            {
-                var extraMsg = curEndurance <= 5 ? $"{pet.Name}已经累的完全动不了了！\r" : string.Empty;
-                MsgSender.PushMsg(MsgDTO, $"{extraMsg}{pet.Name}的耐力不足({petLevel.Endurance - enduranceConsume.ConsumeTotal}/{aimExpedition.Endurance})！");
-                return false;
-            }
-
             var expRec = new ExpeditionRecord
             {
                 EndTime = DateTime.Now.AddMinutes(aimExpedition.TimeConsume),
