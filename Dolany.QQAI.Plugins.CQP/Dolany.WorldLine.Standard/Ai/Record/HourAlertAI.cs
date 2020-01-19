@@ -21,8 +21,6 @@ namespace Dolany.WorldLine.Standard.Ai.Record
 
         public override bool NeedManualOpeon { get; } = true;
 
-        public override bool IsAdvanced { get; } = true;
-
         public override void Initialization()
         {
             HourAlertFunc();

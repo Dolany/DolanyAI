@@ -19,8 +19,6 @@ namespace Dolany.WorldLine.Standard.Ai.SingleCommand.Voice
 
         private Beng3ConfigModel Beng3Config;
 
-        public override bool IsAdvanced { get; } = true;
-
         public override void Initialization()
         {
             Beng3Config = CommonUtil.ReadJsonData<Beng3ConfigModel>("Beng3VoiceConfigData");

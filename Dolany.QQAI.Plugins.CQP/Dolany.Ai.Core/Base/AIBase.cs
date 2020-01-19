@@ -21,8 +21,6 @@ namespace Dolany.Ai.Core.Base
 
         public virtual bool Enable { get; } = true;
 
-        public virtual bool IsAdvanced { get; } = false;
-
         public virtual bool NeedManualOpeon { get; } = false;
 
         protected delegate bool AIModuleDel(MsgInformationEx MsgDTO, object[] param);

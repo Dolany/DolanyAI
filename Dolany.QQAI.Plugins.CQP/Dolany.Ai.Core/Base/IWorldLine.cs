@@ -51,6 +51,7 @@ namespace Dolany.Ai.Core.Base
                     Logger.Log($"AI加载进度：{AIGroup[i].AIName}({i + 1}/{count})");
                 }
 
+                ToolGroup = ToolGroup.Where(p => p.Enabled).ToList();
                 foreach (var tool in ToolGroup)
                 {
                     tool.Work();
@@ -162,11 +163,6 @@ namespace Dolany.Ai.Core.Base
                     foreach (var ai in AIGroup)
                     {
                         var tempList = availableBindAis;
-                        if (ai.IsAdvanced)
-                        {
-                            tempList = availableBindAis.Where(p => p.IsAdvanced).ToList();
-                        }
-
                         if (tempList.Any())
                         {
                             MsgDTO.BindAi = tempList.RandElement().Name;

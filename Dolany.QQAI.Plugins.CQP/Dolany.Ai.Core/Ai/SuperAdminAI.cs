@@ -325,5 +325,28 @@ namespace Dolany.Ai.Core.Ai
             MsgSender.PushMsg(MsgDTO, msg);
             return true;
         }
+
+        [EnterCommand(ID = "SuperAdminAI_ForbiddenPicCache",
+            Command = "禁用图片缓存",
+            Description = "禁用一个群的图片缓存",
+            Syntax = "[群号]",
+            Tag = "开发者后台",
+            SyntaxChecker = "Long",
+            AuthorityLevel = AuthorityLevel.开发者,
+            IsPrivateAvailable = true)]
+        public bool ForbiddenPicCache(MsgInformationEx MsgDTO, object[] param)
+        {
+            var groupNum = (long) param[0];
+            var groupSetting = GroupSettingMgr.Instance[groupNum];
+            if (groupSetting.AdditionSettings == null)
+            {
+                groupSetting.AdditionSettings = new Dictionary<string, string>();
+            }
+            groupSetting.AdditionSettings.AddSafe("禁止图片缓存", true.ToString());
+            groupSetting.Update();
+
+            MsgSender.PushMsg(MsgDTO, "命令已完成！");
+            return true;
+        }
     }
 }

@@ -2,55 +2,46 @@
   "Cirno": {
     "SelfNum": 2097412422,
     "CommandQueue": "MsgCommand_Cirno",
-    "ClientPath": "C:/AI/Cirno/client/",
-    "IsAdvanced": true
+    "ClientPath": "C:/AI/Cirno/client/"
   },
   "Flandre": {
     "SelfNum": 3617452052,
     "CommandQueue": "MsgCommand_Flandre",
-    "ClientPath": "C:/AI/Flandre/client/",
-    "IsAdvanced": true
+    "ClientPath": "C:/AI/Flandre/client/"
   },
   "IWS2000": {
     "SelfNum": 3484599065,
     "CommandQueue": "MsgCommand_IWS2000",
-    "ClientPath": "C:/AI/IWS2000/client/",
-    "IsAdvanced": true
+    "ClientPath": "C:/AI/IWS2000/client/"
   },
   "Owl": {
     "SelfNum": 2040824098,
     "CommandQueue": "MsgCommand_Owl",
-    "ClientPath": "C:/AI/Owl/client/",
-    "IsAdvanced": true
+    "ClientPath": "C:/AI/Owl/client/"
   },
   "Patch": {
     "SelfNum": 3153037584,
     "CommandQueue": "MsgCommand_Patch",
-    "ClientPath": "C:/AI/Patch/client/",
-    "IsAdvanced": true
+    "ClientPath": "C:/AI/Patch/client/"
   },
   "Sanae": {
     "SelfNum": 2913492260,
     "CommandQueue": "MsgCommand_Sanae",
-    "ClientPath": "C:/AI/Sanae/client/",
-    "IsAdvanced": true
+    "ClientPath": "C:/AI/Sanae/client/"
   },
   "Marisa": {
     "SelfNum": 2145613171,
     "CommandQueue": "MsgCommand_Marisa",
-    "ClientPath": "C:/AI/Marisa/client/",
-    "IsAdvanced": true
+    "ClientPath": "C:/AI/Marisa/client/"
   },
   "Sakuya": {
     "SelfNum": 3021028334,
     "CommandQueue": "MsgCommand_Sakuya",
-    "ClientPath": "C:/AI/Sakuya/client/",
-    "IsAdvanced": true
+    "ClientPath": "C:/AI/Sakuya/client/"
   },
   "Angle": {
     "SelfNum": 2731544408,
     "CommandQueue": "MsgCommand_Angle",
-    "ClientPath": "C:/AI/Angle/client/",
-    "IsAdvanced": true
+    "ClientPath": "C:/AI/Angle/client/"
   }
 }

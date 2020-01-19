@@ -15,8 +15,6 @@ namespace Dolany.WorldLine.Standard.Ai.SingleCommand.OrderSong
 
         public override int PriorityLevel { get; set; } = 10;
 
-        public override bool IsAdvanced { get; } = true;
-
         public override bool Enable { get; } = false;
 
         [EnterCommand(ID = "OrderSongAI_OrderASong",
