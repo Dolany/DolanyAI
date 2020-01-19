@@ -15,6 +15,7 @@ namespace DolanyAiDesktop
     {
         private static readonly IWorldLine[] worlds = {new StandardWorldLine(), new KindomStormWorldLine(),};
         private static IWorldLine DefaultWorldLine => worlds.First(w => w.IsDefault);
+        private static DateTime LastPrintTime = DateTime.Now;
 
         static void Main(string[] args)
         {
@@ -44,7 +45,12 @@ namespace DolanyAiDesktop
 
         private static void PrintMsg(string Msg)
         {
-            Console.WriteLine($"{DateTime.Now:yyyy-MM-dd HH:mm:ss} {Msg}");
+            if (LastPrintTime.AddMinutes(2) < DateTime.Now)
+            {
+                LastPrintTime = DateTime.Now;
+                Console.WriteLine($"{DateTime.Now:yyyy/MM/dd HH:mm:ss}");
+            }
+            Console.WriteLine(Msg);
         }
 
         private static void OnMsgReceived(MsgInformation MsgDTO)
