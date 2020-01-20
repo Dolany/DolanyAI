@@ -17,7 +17,7 @@ namespace Dolany.WorldLine.Standard.Ai.SingleCommand.GroupManage
 
         public override string Description { get; set; } = "AI for killing somebody for some time.";
 
-        public override int PriorityLevel { get; set; } = 16;
+        public override AIPriority PriorityLevel { get;} = AIPriority.High;
 
         [EnterCommand(ID = "GroupManagerOnlyAI_DeathStaring",
             Command = "死亡凝视",
@@ -125,8 +125,7 @@ namespace Dolany.WorldLine.Standard.Ai.SingleCommand.GroupManage
         {
             var aimQQ = (long) param[0];
 
-            var key = $"AliveState-{MsgDTO.FromGroup}-{aimQQ}";
-            var cache = SCacheService.Get<AliveStateCache>(key);
+            var cache = AliveStateMgr.Instance.GetState(MsgDTO.FromGroup, aimQQ);
             if (cache == null)
             {
                 MsgSender.PushMsg(MsgDTO, "该成员不需要复活！", true);
@@ -143,7 +142,8 @@ namespace Dolany.WorldLine.Standard.Ai.SingleCommand.GroupManage
             osPerson.Golds -= 100;
             osPerson.Update();
 
-            SCacheService.Cache(key, cache, DateTime.Now);
+            cache.RebornTime = DateTime.Now;
+            AliveStateMgr.Instance.Cache(cache);
 
             MsgSender.PushMsg(MsgDTO, $"复活成功！你当前剩余金币：{osPerson.Golds}", true);
             return true;
@@ -239,7 +239,7 @@ namespace Dolany.WorldLine.Standard.Ai.SingleCommand.GroupManage
                 return false;
             }
 
-            var cache = SCacheService.Get<AliveStateCache>(key);
+            var cache = AliveStateMgr.Instance.GetState(MsgDTO.FromGroup, MsgDTO.FromQQ);
             if (cache == null)
             {
                 return true;
@@ -258,7 +258,7 @@ namespace Dolany.WorldLine.Standard.Ai.SingleCommand.GroupManage
                 Name = skillName,
                 RebornTime = rebornTime
             };
-            SCacheService.Cache(key, cache, rebornTime);
+            AliveStateMgr.Instance.Cache(cache);
 
             MsgSender.PushMsg(MsgDTO, $"成功对 {CodeApi.Code_At(aimQQ)} 使用了 {skillName}！他将于 {rebornTime.ToString(CultureInfo.CurrentCulture)} 后复活！");
         }

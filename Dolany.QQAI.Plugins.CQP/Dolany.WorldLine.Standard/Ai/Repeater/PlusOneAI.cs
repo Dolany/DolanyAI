@@ -2,6 +2,7 @@
 using System.Linq;
 using System.Threading;
 using Dolany.Ai.Common.Models;
+using Dolany.Ai.Core.Ai;
 using Dolany.Ai.Core.Base;
 using Dolany.Ai.Core.Cache;
 using Dolany.Ai.Core.Common;
@@ -16,7 +17,7 @@ namespace Dolany.WorldLine.Standard.Ai.Repeater
 
         public override string Description { get; set; } = "AI for Auto Plus One.";
 
-        public override int PriorityLevel { get; set; } = 1;
+        public override AIPriority PriorityLevel { get;} = AIPriority.SuperLow;
 
         public override bool NeedManualOpeon { get; } = true;
 

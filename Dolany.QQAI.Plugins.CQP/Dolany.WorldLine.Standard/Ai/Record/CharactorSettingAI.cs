@@ -3,6 +3,7 @@ using System.Linq;
 using System.Text;
 using Dolany.Ai.Common;
 using Dolany.Ai.Common.Models;
+using Dolany.Ai.Core.Ai;
 using Dolany.Ai.Core.Base;
 using Dolany.Ai.Core.Cache;
 using Dolany.Database;
@@ -16,7 +17,7 @@ namespace Dolany.WorldLine.Standard.Ai.Record
 
         public override string Description { get; set; } = "AI for Setting a Charactor.";
 
-        public override int PriorityLevel { get; set; } = 10;
+        public override AIPriority PriorityLevel { get;} = AIPriority.Normal;
 
         private const int MaxCharNumPerQQ = 10;
         private const int MaxSettingPerChar = 7;

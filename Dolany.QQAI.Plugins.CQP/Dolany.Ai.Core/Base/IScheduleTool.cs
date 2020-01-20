@@ -1,7 +1,6 @@
 ﻿using Dolany.Ai.Common;
 using System.Collections.Generic;
 using System.Timers;
-using Dolany.Ai.Core.Base;
 
 namespace Dolany.Ai.Core.Base
 {

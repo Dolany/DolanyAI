@@ -2,6 +2,7 @@
 using System.Linq;
 using Dolany.Ai.Common;
 using Dolany.Ai.Common.Models;
+using Dolany.Ai.Core.Ai;
 using Dolany.Ai.Core.Base;
 using Dolany.Ai.Core.Cache;
 
@@ -11,7 +12,7 @@ namespace Dolany.WorldLine.Standard.Ai.Sys.Version
     {
         public override string AIName { get; set; } = "版本信息";
         public override string Description { get; set; } = "Ai for showing verion info";
-        public override int PriorityLevel { get; set; } = 10;
+        public override AIPriority PriorityLevel { get;} = AIPriority.Normal;
 
         public List<VersionModel> Versions = new List<VersionModel>();
 

@@ -2,6 +2,7 @@
 using System.Linq;
 using Dolany.Ai.Common;
 using Dolany.Ai.Common.Models;
+using Dolany.Ai.Core.Ai;
 using Dolany.Ai.Core.Base;
 using Dolany.Ai.Core.Cache;
 using Dolany.WorldLine.Standard.Ai.Game.Pet.Cooking;
@@ -14,7 +15,7 @@ namespace Dolany.WorldLine.Standard.Ai.Game.Pet.Expedition
     {
         public override string AIName { get; set; } = "宠物远征";
         public override string Description { get; set; } = "AI for Pet Expedition.";
-        public override int PriorityLevel { get; set; } = 10;
+        public override AIPriority PriorityLevel { get;} = AIPriority.Normal;
 
         [EnterCommand(ID = "ExpeditionAI_Expedite",
             Command = "宠物远征",

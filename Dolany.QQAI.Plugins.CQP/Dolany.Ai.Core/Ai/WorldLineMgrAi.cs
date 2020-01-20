@@ -10,7 +10,7 @@ namespace Dolany.Ai.Core.Ai
     {
         public override string AIName { get; set; } = "世界线管理器";
         public override string Description { get; set; } = "Ai for world line management.";
-        public override int PriorityLevel { get; set; } = 100;
+        public override AIPriority PriorityLevel { get;} = AIPriority.Monitor;
 
         [EnterCommand(ID = "WorldLineMgrAi_SwitchWorldLine",
             Command = "切换世界线",

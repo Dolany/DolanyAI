@@ -1,9 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Threading;
 using Dolany.Ai.Common;
 using Dolany.Ai.Common.Models;
+using Dolany.Ai.Core.Ai;
 using Dolany.Ai.Core.Base;
 using Dolany.Ai.Core.Cache;
 using Dolany.Ai.Core.Common;
@@ -16,7 +16,7 @@ namespace Dolany.WorldLine.Standard.Ai.SingleCommand.Dice
 
         public override string Description { get; set; } = "AI for dice.";
 
-        public override int PriorityLevel { get; set; } = 5;
+        public override AIPriority PriorityLevel { get;} = AIPriority.Low;
 
         public override bool NeedManualOpeon { get; } = true;
 

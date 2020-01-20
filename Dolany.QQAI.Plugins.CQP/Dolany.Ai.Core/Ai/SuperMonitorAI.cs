@@ -13,7 +13,7 @@ namespace Dolany.Ai.Core.Ai
 
         public override string Description { get; set; } = "AI for Monitoring and managing Ais status.";
 
-        public override int PriorityLevel { get; set; } = 100;
+        public override AIPriority PriorityLevel { get;} = AIPriority.Monitor;
 
         public override bool OnMsgReceived(MsgInformationEx MsgDTO)
         {
@@ -24,7 +24,14 @@ namespace Dolany.Ai.Core.Ai
 
             FiltPicMsg(MsgDTO);
 
-            return MsgDTO.Type == MsgType.Group && !GroupSettingMgr.Instance[MsgDTO.FromGroup].IsPowerOn;
+            if (MsgDTO.Type == MsgType.Private)
+            {
+                return false;
+            }
+
+            MsgDTO.IsAlive = AliveStateMgr.Instance.GetState(MsgDTO.FromGroup, MsgDTO.FromQQ) == null;
+
+            return !GroupSettingMgr.Instance[MsgDTO.FromGroup].IsPowerOn;
         }
 
         private static void FiltPicMsg(MsgInformationEx MsgDTO)

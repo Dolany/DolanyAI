@@ -17,24 +17,22 @@ namespace Dolany.Database.Sqlite
             mutex.WaitOne();
             try
             {
-                using (var db = new SqliteContext(dataSource))
+                using var db = new SqliteContext(dataSource);
+                var query = db.SqliteCacheModel.FirstOrDefault(m => m.Key == key);
+                if (query == null)
                 {
-                    var query = db.SqliteCacheModel.FirstOrDefault(m => m.Key == key);
-                    if (query == null)
+                    db.SqliteCacheModel.Add(new SqliteCacheModel
                     {
-                        db.SqliteCacheModel.Add(new SqliteCacheModel
-                        {
-                            Key = key, Value = JsonConvert.SerializeObject(data), ExpTime = expTime.ToString(CultureInfo.CurrentCulture)
-                        });
-                    }
-                    else
-                    {
-                        query.Value = JsonConvert.SerializeObject(data);
-                        query.ExpTime = expTime.ToString(CultureInfo.CurrentCulture);
-                    }
-
-                    db.SaveChanges();
+                        Key = key, Value = JsonConvert.SerializeObject(data), ExpTime = expTime.ToString(CultureInfo.CurrentCulture)
+                    });
                 }
+                else
+                {
+                    query.Value = JsonConvert.SerializeObject(data);
+                    query.ExpTime = expTime.ToString(CultureInfo.CurrentCulture);
+                }
+
+                db.SaveChanges();
             }
             catch (Exception e)
             {
@@ -55,35 +53,33 @@ namespace Dolany.Database.Sqlite
         public static T Get<T>(string key)
         {
             mutex.WaitOne();
-            using (var db = new SqliteContext(dataSource))
+            using var db = new SqliteContext(dataSource);
+            try
             {
-                try
+                var query = db.SqliteCacheModel.FirstOrDefault(m => m.Key == key);
+                if (query == null)
                 {
-                    var query = db.SqliteCacheModel.FirstOrDefault(m => m.Key == key);
-                    if (query == null)
-                    {
-                        return default;
-                    }
-
-                    if (!string.IsNullOrEmpty(query.Value) && DateTime.TryParse(query.ExpTime, out var time) && time > DateTime.Now)
-                    {
-                        return JsonConvert.DeserializeObject<T>(query.Value);
-                    }
-
-                    db.SqliteCacheModel.Remove(query);
-                    db.SaveChanges();
-
                     return default;
                 }
-                catch (Exception ex)
+
+                if (!string.IsNullOrEmpty(query.Value) && DateTime.TryParse(query.ExpTime, out var time) && time > DateTime.Now)
                 {
-                    RuntimeLogger.Log(ex);
-                    return default;
+                    return JsonConvert.DeserializeObject<T>(query.Value);
                 }
-                finally
-                {
-                    mutex.ReleaseMutex();
-                }
+
+                db.SqliteCacheModel.Remove(query);
+                db.SaveChanges();
+
+                return default;
+            }
+            catch (Exception ex)
+            {
+                RuntimeLogger.Log(ex);
+                return default;
+            }
+            finally
+            {
+                mutex.ReleaseMutex();
             }
         }
     }

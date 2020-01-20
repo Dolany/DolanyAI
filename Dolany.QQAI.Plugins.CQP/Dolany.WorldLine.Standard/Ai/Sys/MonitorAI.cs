@@ -1,4 +1,5 @@
 ﻿using Dolany.Ai.Common.Models;
+using Dolany.Ai.Core.Ai;
 using Dolany.Ai.Core.Base;
 using Dolany.Ai.Core.Cache;
 using Dolany.WorldLine.Standard.OnlineStore;
@@ -11,7 +12,7 @@ namespace Dolany.WorldLine.Standard.Ai.Sys
 
         public override string Description { get; set; } = "AI for Monitoring and managing Ais status.";
 
-        public override int PriorityLevel { get; set; } = 100;
+        public override AIPriority PriorityLevel { get;} = AIPriority.Monitor;
 
         [EnterCommand(ID = "MonitorAI_SelfExcharge",
             Command = "自助充值",

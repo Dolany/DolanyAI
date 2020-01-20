@@ -167,7 +167,7 @@ namespace Dolany.Ai.Core.Base
                         {
                             MsgDTO.BindAi = tempList.RandElement().Name;
                         }
-                        else if(ai.PriorityLevel < 25)
+                        else if((int)ai.PriorityLevel < (int)AIPriority.System)
                         {
                             break;
                         }

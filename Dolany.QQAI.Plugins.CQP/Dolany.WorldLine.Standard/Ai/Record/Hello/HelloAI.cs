@@ -20,7 +20,7 @@ namespace Dolany.WorldLine.Standard.Ai.Record.Hello
 
         public override string Description { get; set; } = "AI for Saying Hello to you at everyday you say at the first time in one group.";
 
-        public override int PriorityLevel { get; set; } = 15;
+        public override AIPriority PriorityLevel { get;} = AIPriority.High;
 
         private List<HelloRecord> HelloList = new List<HelloRecord>();
         private List<MultiMediaHelloRecord> MultiMediaHelloList = new List<MultiMediaHelloRecord>();
@@ -76,7 +76,7 @@ namespace Dolany.WorldLine.Standard.Ai.Record.Hello
                 return false;
             }
 
-            MsgSender.PushMsg(MsgDTO, $"{CodeApi.Code_At(MsgDTO.FromQQ)} {hello.Content}");
+            MsgSender.PushMsg(MsgDTO, hello.Content, true);
             var model = new HelloCache
             {
                 GroupNum = MsgDTO.FromGroup,

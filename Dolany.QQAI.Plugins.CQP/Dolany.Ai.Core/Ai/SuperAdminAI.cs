@@ -15,7 +15,7 @@ namespace Dolany.Ai.Core.Ai
     {
         public override string AIName { get; set; } = "超管";
         public override string Description { get; set; } = "Ai for Super Admin.";
-        public override int PriorityLevel { get; set; } = 50;
+        public override AIPriority PriorityLevel { get;} = AIPriority.SuperHigh;
 
         [EnterCommand(ID = "SuperAdminAI_FishingBonus",
             Command = "功能奖励",

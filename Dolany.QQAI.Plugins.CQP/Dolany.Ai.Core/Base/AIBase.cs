@@ -7,6 +7,7 @@ using System;
 using System.Collections.Generic;
 using System.Globalization;
 using System.Linq;
+using Dolany.Ai.Core.Ai;
 using Dolany.Ai.Core.SyntaxChecker;
 
 namespace Dolany.Ai.Core.Base
@@ -17,7 +18,7 @@ namespace Dolany.Ai.Core.Base
 
         public abstract string Description { get; set; }
 
-        public abstract int PriorityLevel { get; set; }
+        public virtual AIPriority PriorityLevel { get; } = AIPriority.Normal;
 
         public virtual bool Enable { get; } = true;
 
@@ -133,9 +134,9 @@ namespace Dolany.Ai.Core.Base
                 return true;
             }
 
-            var stateCache = AliveStateMgr.GetState(MsgDTO.FromGroup, MsgDTO.FromQQ);
-            if (stateCache != null)
+            if (!MsgDTO.IsAlive)
             {
+                var stateCache = AliveStateMgr.Instance.GetState(MsgDTO.FromGroup, MsgDTO.FromQQ);
                 MsgSender.PushMsg(MsgDTO, $"你已经死了({stateCache.Name})！复活时间：{stateCache.RebornTime.ToString(CultureInfo.CurrentCulture)}", true);
                 return false;
             }
@@ -162,9 +163,14 @@ namespace Dolany.Ai.Core.Base
                 return false;
             }
 
-            if (!SyntaxCheck(enterAttr.SyntaxChecker, MsgDTO.Msg, out param))
+            if (!SyntaxCheckerMgr.Instance.SyntaxCheck(enterAttr.SyntaxChecker, MsgDTO.Msg, out param))
             {
                 return false;
+            }
+
+            if (MsgDTO.Type == MsgType.Private)
+            {
+                return true;
             }
 
             if (!AuthorityCheck(enterAttr.AuthorityLevel, enterAttr, MsgDTO))
@@ -183,71 +189,8 @@ namespace Dolany.Ai.Core.Base
             return timesLimit == 0 || limitRecord.Check(timesLimit);
         }
 
-        private static bool SyntaxCheck(string SyntaxChecker, string msg, out object[] param)
-        {
-            param = null;
-            if (string.IsNullOrEmpty(SyntaxChecker))
-            {
-                return false;
-            }
-
-            var checkers = SyntaxChecker.Split(' ');
-            var paramStrs = msg.Split(' ');
-
-            if (checkers.Length > paramStrs.Length)
-            {
-                return false;
-            }
-
-            if (!checkers.Contains("Any") && checkers.Length < paramStrs.Length)
-            {
-                return false;
-            }
-
-            var list = new List<object>();
-            for (var i = 0; i < checkers.Length; i++)
-            {
-                var checker = SyntaxCheckerMgr.Instance.Checkers.FirstOrDefault(c => c.Name == checkers[i]);
-
-                if (checker == null)
-                {
-                    return false;
-                }
-
-                if (checker.Name == "Any")
-                {
-                    var anyValue = string.Join(" ", paramStrs.Skip(i));
-                    if (string.IsNullOrEmpty(anyValue.Trim()))
-                    {
-                        return false;
-                    }
-
-                    list.Add(anyValue);
-                    break;
-                }
-
-                if (!checker.Check(paramStrs[i], out var p))
-                {
-                    return false;
-                }
-
-                if (p != null)
-                {
-                    list.AddRange(p);
-                }
-            }
-
-            param = list.ToArray();
-            return true;
-        }
-
         private static bool AuthorityCheck(AuthorityLevel authorityLevel, EnterCommandAttribute enterAttr, MsgInformationEx MsgDTO)
         {
-            if (MsgDTO.Type == MsgType.Private)
-            {
-                return PrivateAuthCheck(enterAttr);
-            }
-
             if (MsgDTO.Auth == AuthorityLevel.未知)
             {
                 MsgDTO.Auth = Utility.GetAuth(MsgDTO);
@@ -282,11 +225,6 @@ namespace Dolany.Ai.Core.Base
             }
 
             return authorityLevel != AuthorityLevel.管理员;
-        }
-
-        private static bool PrivateAuthCheck(EnterCommandAttribute enterAttr)
-        {
-            return enterAttr.IsPrivateAvailable;
         }
     }
 }

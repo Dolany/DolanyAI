@@ -1,5 +1,6 @@
 ﻿using Dolany.Ai.Common;
 using Dolany.Ai.Common.Models;
+using Dolany.Ai.Core.Ai;
 using Dolany.Ai.Core.Base;
 using Dolany.Ai.Core.Cache;
 using Dolany.Ai.Core.Model;
@@ -13,7 +14,7 @@ namespace Dolany.WorldLine.Standard.Ai.SingleCommand.OrderSong
 
         public override string Description { get; set; } = "AI for Ordering a song by name.";
 
-        public override int PriorityLevel { get; set; } = 10;
+        public override AIPriority PriorityLevel { get;} = AIPriority.Normal;
 
         public override bool Enable { get; } = false;
 

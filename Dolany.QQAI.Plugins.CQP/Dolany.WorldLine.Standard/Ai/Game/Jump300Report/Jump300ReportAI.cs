@@ -1,5 +1,6 @@
 ﻿using System.Threading.Tasks;
 using Dolany.Ai.Common.Models;
+using Dolany.Ai.Core.Ai;
 using Dolany.Ai.Core.Base;
 using Dolany.Ai.Core.Cache;
 
@@ -11,7 +12,7 @@ namespace Dolany.WorldLine.Standard.Ai.Game.Jump300Report
 
         public override string Description { get; set; } = "AI for 300 heros report.";
 
-        public override int PriorityLevel { get; set; } = 10;
+        public override AIPriority PriorityLevel { get;} = AIPriority.Normal;
 
         public override bool NeedManualOpeon { get; } = true;
 

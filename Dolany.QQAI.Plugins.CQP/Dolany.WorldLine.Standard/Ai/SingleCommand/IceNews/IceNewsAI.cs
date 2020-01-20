@@ -4,6 +4,7 @@ using Dolany.Ai.Core.Base;
 using Dolany.Ai.Core.Cache;
 using Dolany.Ai.Core.Common;
 using System;
+using Dolany.Ai.Core.Ai;
 
 namespace Dolany.WorldLine.Standard.Ai.SingleCommand.IceNews
 {
@@ -11,7 +12,7 @@ namespace Dolany.WorldLine.Standard.Ai.SingleCommand.IceNews
     {
         public override string AIName { get; set; } = "冰冰新闻";
         public override string Description { get; set; } = "AI for ice news";
-        public override int PriorityLevel { get; set; } = 10;
+        public override AIPriority PriorityLevel { get;} = AIPriority.Normal;
         public override bool Enable { get; } = false;
 
         private const string CachePath = "./images/News/";

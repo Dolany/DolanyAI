@@ -21,7 +21,7 @@ namespace Dolany.Ai.Core.Ai.SingleCommand.Tuling
 
         public override string Description { get; set; } = "AI for Tuling Robot.";
 
-        public override int PriorityLevel { get; set; } = 2;
+        public override AIPriority PriorityLevel { get;} = AIPriority.SuperLow;
 
         private readonly string RequestUrl = Global.DefaultConfig.TulingRequestUrl;
         private List<TulingConfigModel> ApiKeys = new List<TulingConfigModel>();
@@ -51,10 +51,10 @@ namespace Dolany.Ai.Core.Ai.SingleCommand.Tuling
                 return false;
             }
 
-            var stateCache = AliveStateMgr.GetState(MsgDTO.FromGroup, MsgDTO.FromQQ);
+            var stateCache = AliveStateMgr.Instance.GetState(MsgDTO.FromGroup, MsgDTO.FromQQ);
             if (stateCache != null)
             {
-                MsgSender.PushMsg(MsgDTO, $"你已经死了({stateCache.Name})！复活时间：{stateCache.RebornTime.ToString(CultureInfo.CurrentCulture)}", true);
+                MsgSender.PushMsg(MsgDTO, $"你已经死了({stateCache.Name})！复活时间：{stateCache.RebornTime:yyyy-MM-dd HH:mm:ss}", true);
                 return false;
             }
 
@@ -72,11 +72,9 @@ namespace Dolany.Ai.Core.Ai.SingleCommand.Tuling
                 MsgDTO.FullMsg = MsgDTO.FullMsg.Replace(CodeApi.Code_At(aiNum), string.Empty);
             }
 
-            var i = 0;
             string response = null;
-            for (; i < ApiKeys.Count; i++)
+            foreach (var tuling in ApiKeys.Select(_ => ApiKeys[CurTulingIndex]))
             {
-                var tuling = ApiKeys[CurTulingIndex];
                 response = RequestMsg(MsgDTO, tuling.ApiKey);
                 if (!string.IsNullOrEmpty(response))
                 {

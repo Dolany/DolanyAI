@@ -2,7 +2,6 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading;
-using System.Threading.Tasks;
 using Dolany.Ai.Common;
 using Dolany.Ai.Common.Models;
 using Dolany.Ai.Core.Common;
@@ -166,74 +165,6 @@ namespace Dolany.Ai.Core.Cache
             return unit?.ResultInfos.FirstOrDefault();
         }
 
-        public IEnumerable<MsgInformation> WaitForInformations(MsgInformationEx MsgDTO, string msg, IEnumerable<Predicate<MsgInformation>> judgeFuncs, int timeout = 7)
-        {
-            MsgSender.PushMsg(MsgDTO, msg);
-
-            var tasks = judgeFuncs.Select(func => Task.Factory.StartNew(() =>
-            {
-                var signal = new AutoResetEvent(false);
-                var unit = new WaiterUnit {JudgePredicate = func, Signal = signal};
-                lock (_lockObj)
-                {
-                    if (UnitsDic.ContainsKey(MsgDTO.FromGroup))
-                    {
-                        UnitsDic[MsgDTO.FromGroup].Add(unit);
-                    }
-                    else
-                    {
-                        UnitsDic.Add(MsgDTO.FromGroup, new List<WaiterUnit>() {unit});
-                    }
-                }
-
-                signal.WaitOne(timeout * 1000);
-
-                lock (_lockObj)
-                {
-                    unit = UnitsDic[MsgDTO.FromGroup].FirstOrDefault(u => u.Id == unit.Id);
-                    UnitsDic[MsgDTO.FromGroup].Remove(unit);
-                }
-
-                return unit?.ResultInfos.FirstOrDefault();
-            })).ToArray();
-            Task.WaitAll(tasks, timeout * 1000);
-
-            return tasks.Select(task => task.Result);
-        }
-
-        public List<MsgInformation> WaitWhile(MsgInformationEx MsgDTO, string msg, Predicate<MsgInformation> judgeFunc, int timeout)
-        {
-            var signal = new AutoResetEvent(false);
-            var unit = new WaiterUnit { JudgePredicate = judgeFunc, Signal = signal, Type = WaiterUnitType.Multi};
-            lock (_lockObj)
-            {
-                if (UnitsDic.ContainsKey(MsgDTO.FromGroup))
-                {
-                    UnitsDic[MsgDTO.FromGroup].Add(unit);
-                }
-                else
-                {
-                    UnitsDic.Add(MsgDTO.FromGroup, new List<WaiterUnit>() {unit});
-                }
-            }
-
-            MsgSender.PushMsg(MsgDTO, msg);
-            signal.WaitOne(timeout * 1000);
-
-            lock (_lockObj)
-            {
-                unit = UnitsDic[MsgDTO.FromGroup].FirstOrDefault(u => u.Id == unit.Id);
-                UnitsDic[MsgDTO.FromGroup].Remove(unit);
-            }
-
-            return unit?.ResultInfos;
-        }
-
-        public MsgInformation WaitForRelationId(MsgInformationEx MsgDTO, string msg, int timeout = 7)
-        {
-            return WaitForInformation(MsgDTO, msg, information => information.RelationId == MsgDTO.Id, timeout);
-        }
-
         public MsgInformation WaitForRelationId(MsgCommand command, int timeout = 7)
         {
             return WaitForInformation(command, information => information.RelationId == command.Id, timeout);
@@ -286,9 +217,9 @@ namespace Dolany.Ai.Core.Cache
 
         public AutoResetEvent Signal { get; set; }
 
-        public List<MsgInformation> ResultInfos { get; set; } = new List<MsgInformation>();
+        public List<MsgInformation> ResultInfos { get; } = new List<MsgInformation>();
 
-        public WaiterUnitType Type { get; set; } = WaiterUnitType.Single;
+        public WaiterUnitType Type { get; } = WaiterUnitType.Single;
     }
 
     public enum WaiterUnitType

@@ -1,5 +1,6 @@
 ﻿using Dolany.Ai.Common;
 using Dolany.Ai.Common.Models;
+using Dolany.Ai.Core.Ai;
 using Dolany.Ai.Core.Base;
 using Dolany.Ai.Core.Cache;
 
@@ -11,7 +12,7 @@ namespace Dolany.WorldLine.Standard.Ai.SingleCommand.RandomPic
 
         public override string Description { get; set; } = "AI for Sending Random Pic By Keyword.";
 
-        public override int PriorityLevel { get; set; } = 10;
+        public override AIPriority PriorityLevel { get;} = AIPriority.Normal;
 
         [EnterCommand(ID = "RandomPicAI_RecentPic",
             Command = "随机图片 一键盗图",

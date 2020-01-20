@@ -1,6 +1,7 @@
 ﻿using System.Linq;
 using Dolany.Ai.Common;
 using Dolany.Ai.Common.Models;
+using Dolany.Ai.Core.Ai;
 using Dolany.Ai.Core.Base;
 using Dolany.Ai.Core.Cache;
 using Dolany.WorldLine.Standard.OnlineStore;
@@ -13,7 +14,7 @@ namespace Dolany.WorldLine.Standard.Ai.Game.Gift
 
         public override string Description { get; set; } = "AI for Gifts.";
 
-        public override int PriorityLevel { get; set; } = 10;
+        public override AIPriority PriorityLevel { get;} = AIPriority.Normal;
 
         public override bool NeedManualOpeon { get; } = true;
 

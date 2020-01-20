@@ -2,6 +2,7 @@
 using System.Linq;
 using Dolany.Ai.Common;
 using Dolany.Ai.Common.Models;
+using Dolany.Ai.Core.Ai;
 using Dolany.Ai.Core.Base;
 using Dolany.Ai.Core.Cache;
 using Dolany.Ai.Core.Common;
@@ -13,7 +14,7 @@ namespace Dolany.WorldLine.Standard.Ai.Vip
     {
         public override string AIName { get; set; } = "Vip服务";
         public override string Description { get; set; } = "Ai for vip services.";
-        public override int PriorityLevel { get; set; } = 10;
+        public override AIPriority PriorityLevel { get;} = AIPriority.Normal;
 
         [EnterCommand(ID = "VipServiceAi_VipShop",
             Command = "vip商店 钻石商店",

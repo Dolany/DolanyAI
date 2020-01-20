@@ -1,4 +1,5 @@
 ﻿using Dolany.Ai.Common.Models;
+using Dolany.Ai.Core.Ai;
 using Dolany.Ai.Core.Base;
 using Dolany.Ai.Core.Cache;
 using Dolany.Ai.Core.Common;
@@ -9,7 +10,7 @@ namespace Dolany.WorldLine.KindomStorm.Ai.Welcome
     {
         public override string AIName { get; set; } = "入群欢迎";
         public override string Description { get; set; } = "Ai for Welcome.";
-        public override int PriorityLevel { get; set; } = 10;
+        public override AIPriority PriorityLevel { get;} = AIPriority.Normal;
 
         public override bool OnGroupMemberChanged(GroupMemberChangeModel model)
         {

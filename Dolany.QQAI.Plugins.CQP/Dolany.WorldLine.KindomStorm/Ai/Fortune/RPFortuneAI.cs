@@ -1,6 +1,7 @@
 ﻿using System.Text;
 using Dolany.Ai.Common;
 using Dolany.Ai.Common.Models;
+using Dolany.Ai.Core.Ai;
 using Dolany.Ai.Core.Base;
 using Dolany.Ai.Core.Cache;
 using Dolany.Database.Sqlite.Model;
@@ -12,7 +13,7 @@ namespace Dolany.WorldLine.KindomStorm.Ai.Fortune
     {
         public override string AIName { get; set; } = "人品";
         public override string Description { get; set; } = "Ai for RP.";
-        public override int PriorityLevel { get; set; } = 10;
+        public override AIPriority PriorityLevel { get; } = AIPriority.Normal;
 
         [EnterCommand(ID = "RPFortuneAI_RandomFortune",
             Command = "人品鉴定",

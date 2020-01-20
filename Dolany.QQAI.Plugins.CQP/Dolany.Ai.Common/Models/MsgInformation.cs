@@ -18,6 +18,7 @@
         public string Command { get; set; }
         public MsgType Type { get; set; }
         public AuthorityLevel Auth { get; set; }
+        public bool IsAlive { get; set; } = true;
     }
 
     public enum MsgType

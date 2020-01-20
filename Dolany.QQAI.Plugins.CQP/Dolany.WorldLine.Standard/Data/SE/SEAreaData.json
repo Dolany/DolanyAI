@@ -1,0 +1,8 @@
+﻿{
+  "阿尔贝": {
+    "Description": "位于悲伤平原南部，被噩梦之力侵染的阿尔贝虫族占领着这里。",
+    "Scenes": [ "AirBeeCave_Town" ],
+    "DefaultScene": "AirBeeCave_Town",
+    "NeighbourAreas": [ "蛇鱼海滩", "红杉林地" ] 
+  } 
+}

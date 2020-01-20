@@ -1,6 +1,7 @@
 ﻿using System.Linq;
 using Dolany.Ai.Common;
 using Dolany.Ai.Common.Models;
+using Dolany.Ai.Core.Ai;
 using Dolany.Ai.Core.Base;
 using Dolany.Ai.Core.Cache;
 using Dolany.Ai.Core.Common;
@@ -14,7 +15,7 @@ namespace Dolany.WorldLine.Standard.Ai.Game.SegmentAttach
     {
         public override string AIName { get; set; } = "碎片拼接";
         public override string Description { get; set; } = "AI for segments attaching game.";
-        public override int PriorityLevel { get; set; } = 10;
+        public override AIPriority PriorityLevel { get;} = AIPriority.Normal;
 
         [EnterCommand(ID = "SegmentAttachAI_TakeSegment",
             Command = "领取宝藏碎片",

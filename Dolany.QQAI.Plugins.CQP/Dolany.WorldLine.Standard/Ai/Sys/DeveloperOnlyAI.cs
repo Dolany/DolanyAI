@@ -5,6 +5,7 @@ using System.Linq;
 using System.Threading;
 using Dolany.Ai.Common;
 using Dolany.Ai.Common.Models;
+using Dolany.Ai.Core.Ai;
 using Dolany.Ai.Core.API;
 using Dolany.Ai.Core.Base;
 using Dolany.Ai.Core.Cache;
@@ -25,7 +26,7 @@ namespace Dolany.WorldLine.Standard.Ai.Sys
 
         public override string Description { get; set; } = "Ai for developer only operations.";
 
-        public override int PriorityLevel { get; set; } = 50;
+        public override AIPriority PriorityLevel { get;} = AIPriority.Monitor;
 
         [EnterCommand(ID = "DeveloperOnlyAI_Board",
             Command = "广播",

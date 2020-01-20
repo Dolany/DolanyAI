@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using Dolany.Ai.Common.Models;
+using Dolany.Ai.Core.Ai;
 using Dolany.Ai.Core.API;
 using Dolany.Ai.Core.Base;
 using Dolany.Ai.Core.Cache;
@@ -14,7 +15,7 @@ namespace Dolany.WorldLine.Standard.Ai.SingleCommand.PraiseMe
 
         public override string Description { get; set; } = "AI for Praise someone.";
 
-        public override int PriorityLevel { get; set; } = 10;
+        public override AIPriority PriorityLevel { get;} = AIPriority.Normal;
 
         private readonly Dictionary<string, DateTime> LastTimeDic = new Dictionary<string, DateTime>();
 

@@ -1,5 +1,6 @@
 ﻿using System.Linq;
 using Dolany.Ai.Common.Models;
+using Dolany.Ai.Core.Ai;
 using Dolany.Ai.Core.Base;
 using Dolany.Ai.Core.Cache;
 using Dolany.Ai.Core.Common;
@@ -12,7 +13,7 @@ namespace Dolany.WorldLine.Standard.Ai.Sys
 
         public override string Description { get; set; } = "AI for ais's state(open or closed).";
 
-        public override int PriorityLevel { get; set; } = 12;
+        public override AIPriority PriorityLevel { get;} = AIPriority.High;
 
         [EnterCommand(ID = "AIEnableAI_OpenFunction",
             Command = "开启功能",

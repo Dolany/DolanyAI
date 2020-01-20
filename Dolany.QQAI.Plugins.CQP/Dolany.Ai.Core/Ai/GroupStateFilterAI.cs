@@ -9,7 +9,7 @@ namespace Dolany.Ai.Core.Ai
     {
         public override string AIName { get; set; } = "群组状态过滤器";
         public override string Description { get; set; } = "AI for filter group state.";
-        public override int PriorityLevel { get; set; } = 25;
+        public override AIPriority PriorityLevel { get;} = AIPriority.System;
 
         public override bool OnMsgReceived(MsgInformationEx MsgDTO)
         {
