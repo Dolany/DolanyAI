@@ -63,15 +63,15 @@ namespace Dolany.WorldLine.Standard.Ai.Record.Hello
 
         private bool ProcessHello(MsgInformationEx MsgDTO)
         {
-            var key = $"Hello-{MsgDTO.FromGroup}-{MsgDTO.FromQQ}";
-            var response = SCacheService.Get<HelloCache>(key);
-            if (response != null)
+            var hello = HelloList.FirstOrDefault(h => h.GroupNum == MsgDTO.FromGroup && h.QQNum == MsgDTO.FromQQ);
+            if (hello == null)
             {
                 return false;
             }
 
-            var hello = HelloList.FirstOrDefault(h => h.GroupNum == MsgDTO.FromGroup && h.QQNum == MsgDTO.FromQQ);
-            if (hello == null)
+            var key = $"Hello-{MsgDTO.FromGroup}-{MsgDTO.FromQQ}";
+            var response = SCacheService.Get<HelloCache>(key);
+            if (response != null)
             {
                 return false;
             }
@@ -89,15 +89,15 @@ namespace Dolany.WorldLine.Standard.Ai.Record.Hello
 
         private bool ProcessMultiMediaHello(MsgInformationEx MsgDTO)
         {
-            var key = $"MultiMediaHello-{MsgDTO.FromGroup}-{MsgDTO.FromQQ}";
-            var response = SCacheService.Get<MultiMediaCache>(key);
-            if (response != null)
+            var hello = MultiMediaHelloList.FirstOrDefault(p => p.QQNum == MsgDTO.FromQQ);
+            if (hello == null)
             {
                 return false;
             }
 
-            var hello = MultiMediaHelloList.FirstOrDefault(p => p.QQNum == MsgDTO.FromQQ);
-            if (hello == null)
+            var key = $"MultiMediaHello-{MsgDTO.FromGroup}-{MsgDTO.FromQQ}";
+            var response = SCacheService.Get<MultiMediaCache>(key);
+            if (response != null)
             {
                 return false;
             }
