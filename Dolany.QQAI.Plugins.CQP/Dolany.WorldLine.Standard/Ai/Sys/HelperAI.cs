@@ -1,9 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
-using System.Text;
 using Dolany.Ai.Common;
 using Dolany.Ai.Common.Models;
-using Dolany.Ai.Core.Ai;
 using Dolany.Ai.Core.Base;
 using Dolany.Ai.Core.Cache;
 using Dolany.Ai.Core.Common;
@@ -253,7 +251,7 @@ namespace Dolany.WorldLine.Standard.Ai.Sys
         [EnterCommand(ID = "HelperAI_LearnSomething",
             Command = "学习",
             AuthorityLevel = AuthorityLevel.成员,
-            Description = "学习某个技能/菜谱",
+            Description = "学习某个技能/菜谱/...",
             Syntax = "[名称]",
             SyntaxChecker = "Word",
             Tag = "系统命令",
@@ -261,14 +259,43 @@ namespace Dolany.WorldLine.Standard.Ai.Sys
         public bool LearnSomething(MsgInformationEx MsgDTO, object[] param)
         {
             var name = param[0] as string;
+            // 菜谱
             if (CookingDietMgr.Instance[name] != null)
             {
                 return WorldLine.AIInstance<CookingAI>().ExchangeMenu(MsgDTO, param);
             }
 
+            // 宠物技能
             if (PetSkillMgr.Instance[name] != null)
             {
                 return WorldLine.AIInstance<PetAI>().UpgradePetSkill(MsgDTO, param);
+            }
+
+            MsgSender.PushMsg(MsgDTO, "未查找到相关信息！");
+            return false;
+        }
+
+        [EnterCommand(ID = "HelperAI_ExchangeSomething",
+            Command = "兑换",
+            AuthorityLevel = AuthorityLevel.成员,
+            Description = "兑换菜谱/礼物/...",
+            Syntax = "[名称]",
+            SyntaxChecker = "Word",
+            Tag = "系统命令",
+            IsPrivateAvailable = true)]
+        public bool ExchangeSomething(MsgInformationEx MsgDTO, object[] param)
+        {
+            var name = param[0] as string;
+            // 菜谱
+            if (CookingDietMgr.Instance[name] != null)
+            {
+                return WorldLine.AIInstance<CookingAI>().ExchangeMenu(MsgDTO, param);
+            }
+
+            // 礼物
+            if (GiftMgr.Instance[name] != null)
+            {
+                return WorldLine.AIInstance<GiftAI>().MakeGift(MsgDTO, param);
             }
 
             MsgSender.PushMsg(MsgDTO, "未查找到相关信息！");

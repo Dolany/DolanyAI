@@ -1,5 +1,4 @@
 ﻿using Dolany.Ai.Common.Models;
-using Dolany.Ai.Core.Ai;
 using Dolany.Ai.Core.Base;
 using Dolany.Ai.Core.Common;
 

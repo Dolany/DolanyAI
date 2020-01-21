@@ -1,7 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
 using Dolany.Ai.Common;
-using Dolany.Ai.Core.API;
 
 namespace Dolany.WorldLine.Standard.Ai.Game.Lottery
 {

@@ -6,7 +6,6 @@ using System.Linq;
 using System.Net;
 using Dolany.Ai.Common;
 using Dolany.Ai.Common.Models;
-using Dolany.Ai.Core.API;
 using JetBrains.Annotations;
 
 namespace Dolany.Ai.Core.Common

@@ -4,7 +4,6 @@ using Dolany.Ai.Core.Base;
 using Dolany.Ai.Core.Cache;
 using Dolany.Ai.Core.Common;
 using System;
-using Dolany.Ai.Core.Ai;
 
 namespace Dolany.WorldLine.Standard.Ai.SingleCommand.IceNews
 {

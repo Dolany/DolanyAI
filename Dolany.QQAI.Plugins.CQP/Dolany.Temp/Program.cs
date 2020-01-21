@@ -1,8 +1,5 @@
 ﻿using System;
-using System.Linq;
-using Dolany.Ai.Common;
 using Dolany.Database;
-using Dolany.Database.Ai;
 using Dolany.WorldLine.Standard.Ai.Game.SignIn;
 
 namespace Dolany.Temp
