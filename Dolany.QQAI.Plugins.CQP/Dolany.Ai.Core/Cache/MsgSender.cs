@@ -10,7 +10,7 @@ namespace Dolany.Ai.Core.Cache
         public static void PushMsg(MsgCommand msg)
         {
             msg.Time = DateTime.Now;
-            var callback = $"[Command] {(msg.ToGroup == 0 ? "私聊" : GroupSettingMgr.Instance[msg.ToGroup].Name)} {msg.ToQQ} {msg.Command} {msg.Msg}";
+            var callback = $"[{msg.BindAi}][Command] {(msg.ToGroup == 0 ? "私聊" : GroupSettingMgr.Instance[msg.ToGroup].Name)} {msg.ToQQ} {msg.Command} {msg.Msg}";
             Global.MsgPublish(callback);
 
             Global.CommandInfoService.Send(msg, Global.DefaultConfig.CommandQueueName);
