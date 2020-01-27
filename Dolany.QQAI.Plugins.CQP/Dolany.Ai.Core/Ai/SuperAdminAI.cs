@@ -6,6 +6,7 @@ using Dolany.Ai.Common.Models;
 using Dolany.Ai.Core.Base;
 using Dolany.Ai.Core.Cache;
 using Dolany.Ai.Core.Common;
+using Dolany.Ai.Core.Common.PicReview;
 using Dolany.Database;
 using Dolany.Database.Ai;
 
@@ -346,6 +347,21 @@ namespace Dolany.Ai.Core.Ai
             groupSetting.Update();
 
             MsgSender.PushMsg(MsgDTO, "命令已完成！");
+            return true;
+        }
+
+        [EnterCommand(ID = "SuperAdminAI_PicReview",
+            Command = "图片审核",
+            Description = "审核一张图片",
+            Syntax = "",
+            Tag = "开发者后台",
+            SyntaxChecker = "Empty",
+            AuthorityLevel = AuthorityLevel.开发者,
+            IsPrivateAvailable = true,
+            IsGroupAvailable = false)]
+        public bool PicReview(MsgInformationEx MsgDTO, object[] param)
+        {
+            PicReviewer.Instance.Review(MsgDTO);
             return true;
         }
     }

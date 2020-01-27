@@ -9,7 +9,6 @@ using Dolany.Ai.Core.API;
 using Dolany.Ai.Core.Base;
 using Dolany.Ai.Core.Cache;
 using Dolany.Ai.Core.Common;
-using Dolany.Database;
 using Dolany.Database.Ai;
 using Dolany.Database.Sqlite;
 using Dolany.WorldLine.Standard.Ai.Game.Gift;
@@ -335,28 +334,6 @@ namespace Dolany.WorldLine.Standard.Ai.Sys
                 BindAi = MsgDTO.BindAi
             };
             MsgSender.PushMsg(withdrawCommond);
-            return true;
-        }
-
-        public bool ChargeTime(MsgInformationEx MsgDTO, object[] param)
-        {
-            var groupNum = (long) param[0];
-            var days = (int) (long) param[1];
-
-            var setting = MongoService<GroupSettings>.GetOnly(p => p.GroupNum == groupNum);
-            if (setting.ExpiryTime == null || setting.ExpiryTime.Value < DateTime.Now)
-            {
-                setting.ExpiryTime = DateTime.Now.AddDays(days);
-            }
-            else
-            {
-                setting.ExpiryTime = setting.ExpiryTime.Value.AddDays(days);
-            }
-            setting.Update();
-
-            GroupSettingMgr.Instance.Refresh();
-
-            MsgSender.PushMsg(MsgDTO, $"充值成功，有效期至 {setting.ExpiryTime?.ToLocalTime():yyyy-MM-dd HH:mm:ss}");
             return true;
         }
 

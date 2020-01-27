@@ -6,6 +6,7 @@ using Dolany.Ai.Common.Models;
 using Dolany.Ai.Core.Base;
 using Dolany.Ai.Core.Cache;
 using Dolany.Ai.Core.Common;
+using Dolany.Ai.Core.Common.PicReview;
 using Dolany.WorldLine.Standard.Ai.Game.Pet.Cooking;
 using Dolany.WorldLine.Standard.Ai.Game.Pet.Expedition;
 using Dolany.WorldLine.Standard.Ai.Game.Pet.PetAgainst;
@@ -26,7 +27,14 @@ namespace Dolany.WorldLine.Standard.Ai.Game.Pet
 
         private const string CachePath = "./images/Cache/";
 
+        private const string PetPicFolder = "./images/Custom/Pet/";
+
         private const int FeedInterval = 2;
+
+        public PetAI()
+        {
+            PicReviewer.Instance.Register("宠物头像", SetPetPicCallBack);
+        }
 
         [EnterCommand(ID = "PetAI_MyPet",
             Command = "我的宠物",
@@ -171,13 +179,13 @@ namespace Dolany.WorldLine.Standard.Ai.Game.Pet
             var picGuid = Utility.ParsePicGuid(info.Msg);
             var imageCache = Utility.ReadImageCacheInfo(picGuid, bindai.ImagePath);
 
-            if (imageCache?.type?.ToLower() != "jpg")
+            if (imageCache == null)
             {
-                MsgSender.PushMsg(MsgDTO, "抱歉，暂时只支持jpg格式的图片！");
+                MsgSender.PushMsg(MsgDTO, "未读取到图片！");
                 return false;
             }
 
-            var fileName = $"{MsgDTO.FromQQ}.{imageCache.type}";
+            var fileName = $"PetPic-{MsgDTO.FromQQ}.{imageCache.type}";
             if (!Utility.DownloadImage(imageCache.url, CachePath + fileName))
             {
                 MsgSender.PushMsg(MsgDTO, "图片下载失败，请稍后再试！");
@@ -187,7 +195,7 @@ namespace Dolany.WorldLine.Standard.Ai.Game.Pet
             var picFile = new FileInfo(CachePath + fileName);
             if (picFile.Length / 1024 > 300)
             {
-                MsgSender.PushMsg(MsgDTO, "图片过大，请重新上传！", true);
+                MsgSender.PushMsg(MsgDTO, "图片过大，请选择较小的图片重新上传！", true);
                 picFile.Delete();
                 return false;
             }
@@ -196,19 +204,30 @@ namespace Dolany.WorldLine.Standard.Ai.Game.Pet
             osPerson.Update();
 
             MsgSender.PushMsg(MsgDTO, "上传成功！待审核通过后方可生效！");
-            Confirm(MsgDTO);
+            var review = new PicReviewRecord()
+            {
+                GroupNum = MsgDTO.FromGroup,
+                QQNum = MsgDTO.FromQQ,
+                Usage = "宠物头像",
+                PicName = picFile.Name
+            };
+            PicReviewer.Instance.AddReview(review);
 
             return true;
         }
 
-        private static void Confirm(MsgInformation MsgDTO)
+        private static void SetPetPicCallBack(PicReviewRecord record)
         {
-            var folder = new DirectoryInfo(CachePath);
-            var count = folder.GetFiles().Length;
+            if (record.Status == PicReviewStatus.Refused)
+            {
+                return;
+            }
 
-            var setting = GroupSettingMgr.Instance[MsgDTO.FromGroup];
-            var msg = $"有新的待审核图片！\r来自 {setting.Name} 的 {MsgDTO.FromQQ}\r当前剩余 {count} 张图片待审核！";
-            MsgSender.PushMsg(0, Global.DeveloperNumber, msg, Global.DefaultConfig.MainAi);
+            var picFile = new FileInfo($"{CachePath}{record.PicName}");
+            picFile.CopyTo($"{PetPicFolder}{record.PicName}", true);
+            var pet = PetRecord.Get(record.QQNum);
+            pet.PicPath = $"{PetPicFolder}{record.PicName}";
+            pet.Update();
         }
 
         [EnterCommand(ID = "PetAI_SetPetAttr",

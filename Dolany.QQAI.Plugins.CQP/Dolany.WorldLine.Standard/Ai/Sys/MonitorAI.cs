@@ -1,6 +1,10 @@
-﻿using Dolany.Ai.Common.Models;
+﻿using System;
+using Dolany.Ai.Common.Models;
 using Dolany.Ai.Core.Base;
 using Dolany.Ai.Core.Cache;
+using Dolany.Ai.Core.Common;
+using Dolany.Database;
+using Dolany.Database.Ai;
 using Dolany.WorldLine.Standard.OnlineStore;
 
 namespace Dolany.WorldLine.Standard.Ai.Sys
@@ -38,11 +42,32 @@ namespace Dolany.WorldLine.Standard.Ai.Sys
                 return false;
             }
 
-            WorldLine.AIInstance<DeveloperOnlyAI>().ChargeTime(MsgDTO, new object[] {MsgDTO.FromGroup, (long)days});
+            ChargeTime(MsgDTO, new object[] {MsgDTO.FromGroup, (long)days});
             osPerson.Diamonds -= diamondNeed;
             osPerson.Update();
 
             return true;
+        }
+
+        public static void ChargeTime(MsgInformationEx MsgDTO, object[] param)
+        {
+            var groupNum = (long) param[0];
+            var days = (int) (long) param[1];
+
+            var setting = MongoService<GroupSettings>.GetOnly(p => p.GroupNum == groupNum);
+            if (setting.ExpiryTime == null || setting.ExpiryTime.Value < DateTime.Now)
+            {
+                setting.ExpiryTime = DateTime.Now.AddDays(days);
+            }
+            else
+            {
+                setting.ExpiryTime = setting.ExpiryTime.Value.AddDays(days);
+            }
+            setting.Update();
+
+            GroupSettingMgr.Instance.Refresh();
+
+            MsgSender.PushMsg(MsgDTO, $"充值成功，有效期至 {setting.ExpiryTime?.ToLocalTime():yyyy-MM-dd HH:mm:ss}");
         }
     }
 }

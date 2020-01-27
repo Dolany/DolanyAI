@@ -61,6 +61,11 @@ namespace Dolany.Database
             return Get(exp).FirstOrDefault();
         }
 
+        public static long Count(Expression<Func<T, bool>> exp)
+        {
+            return GetCollection().CountDocuments(exp);
+        }
+
         /// <summary>
         /// 插入
         /// </summary>

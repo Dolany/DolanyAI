@@ -186,13 +186,16 @@ namespace Dolany.Ai.Core.Cache
 
         public bool WaitForConfirm(long ToGroup, long ToQQ, string msg, string BindAi, int timeout = 7, string ConfirmTxt = "确认", string CancelTxt = "取消")
         {
-            return WaitForConfirm(new MsgInformationEx {FromQQ = ToQQ, FromGroup = ToGroup, Type = MsgType.Group, BindAi = BindAi}, msg, timeout, ConfirmTxt, CancelTxt);
+            return WaitForConfirm(new MsgInformationEx {FromQQ = ToQQ, FromGroup = ToGroup, Type = ToGroup == 0 ? MsgType.Private : MsgType.Group, BindAi = BindAi},
+                msg, timeout, ConfirmTxt, CancelTxt);
         }
 
         public int WaitForNum(long ToGroup, long ToQQ, string msg, Predicate<int> predicate, string BindAi, int timeout = 10, bool isNeedAt = true)
         {
-            var msgInfo = WaitForInformation(new MsgInformationEx() {FromGroup = ToGroup, FromQQ = ToQQ, BindAi = BindAi}, msg,
-                info => info.FromGroup == ToGroup && info.FromQQ == ToQQ && int.TryParse(info.Msg, out var res) && predicate(res), timeout, isNeedAt);
+            var msgInfo = WaitForInformation(
+                new MsgInformationEx() {FromGroup = ToGroup, FromQQ = ToQQ, BindAi = BindAi, Type = ToGroup == 0 ? MsgType.Private : MsgType.Group}, msg,
+                info => info.FromGroup == ToGroup && info.FromQQ == ToQQ && int.TryParse(info.Msg, out var res) && predicate(res), timeout,
+                isNeedAt && ToGroup != 0);
             if (msgInfo != null && int.TryParse(msgInfo.Msg, out var aimr))
             {
                 return aimr;
