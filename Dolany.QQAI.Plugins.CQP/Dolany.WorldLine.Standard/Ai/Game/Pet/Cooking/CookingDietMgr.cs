@@ -9,7 +9,7 @@ namespace Dolany.WorldLine.Standard.Ai.Game.Pet.Cooking
     {
         public static CookingDietMgr Instance { get; } = new CookingDietMgr();
 
-        private readonly List<CookingDietModel> DietList;
+        public readonly List<CookingDietModel> DietList;
 
         public CookingDietModel this[string name] => DietList.FirstOrDefault(p => p.Name == name);
 

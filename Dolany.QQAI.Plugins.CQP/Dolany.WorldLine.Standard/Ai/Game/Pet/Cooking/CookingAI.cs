@@ -201,5 +201,25 @@ namespace Dolany.WorldLine.Standard.Ai.Game.Pet.Cooking
             MsgSender.PushMsg(MsgDTO, msg);
             return true;
         }
+
+        [EnterCommand(ID = "CookingAI_DietMenu",
+            Command = "菜谱总览",
+            AuthorityLevel = AuthorityLevel.成员,
+            Description = "查看所有的菜谱",
+            Syntax = "",
+            SyntaxChecker = "Empty",
+            Tag = "烹饪功能",
+            IsPrivateAvailable = true)]
+        public bool DietMenu(MsgInformationEx MsgDTO, object[] param)
+        {
+            var cookingRec = CookingRecord.Get(MsgDTO.FromQQ);
+            var allDiets = CookingDietMgr.Instance.DietList;
+            var msg = string.Join("\r",
+                allDiets.Select(
+                    diet => $"{diet.Name}{(cookingRec.LearndDietMenu.Contains(diet.Name) ? "(已学会)" : string.Empty)}:{string.Join(",", diet.Attributes)}"));
+
+            MsgSender.PushMsg(MsgDTO, msg);
+            return true;
+        }
     }
 }
