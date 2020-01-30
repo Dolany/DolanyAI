@@ -9,6 +9,8 @@ namespace Dolany.WorldLine.KindomStorm.Ai.KindomStorm
     {
         public long QQNum { get; set; }
 
+        public int Level { get; set; } = 1;
+
         public string CharactorName { get; set; }
 
         public string CastleName { get; set; }

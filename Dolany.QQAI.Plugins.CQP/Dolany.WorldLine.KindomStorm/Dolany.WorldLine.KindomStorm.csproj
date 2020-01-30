@@ -11,4 +11,10 @@
     <ProjectReference Include="..\Dolany.Database\Dolany.Database.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <None Update="Data\CastleLevelData.json">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+  </ItemGroup>
+
 </Project>
