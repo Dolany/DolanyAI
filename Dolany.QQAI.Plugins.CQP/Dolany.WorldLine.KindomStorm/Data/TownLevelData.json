@@ -2,106 +2,106 @@
   {
     "Level": 1,
     "Gold": 50,
-    "SoldierLimit": 100
+    "PerDayGen": 10
   },
   {
     "Level": 2,
     "Gold": 100,
-    "SoldierLimit": 200
+    "PerDayGen": 20
   },
   {
     "Level": 3,
     "Gold": 180,
-    "SoldierLimit": 300
+    "PerDayGen": 30
   },
   {
     "Level": 4,
     "Gold": 300,
-    "SoldierLimit": 400
+    "PerDayGen": 40
   },
   {
     "Level": 5,
     "Gold": 450,
-    "SoldierLimit": 500
+    "PerDayGen": 50
   },
   {
     "Level": 6,
     "Gold": 650,
-    "SoldierLimit": 600
+    "PerDayGen": 60
   },
   {
     "Level": 7,
     "Gold": 850,
-    "SoldierLimit": 700
+    "PerDayGen": 70
   },
   {
     "Level": 8,
     "Gold": 1100,
-    "SoldierLimit": 800
+    "PerDayGen": 80
   },
   {
     "Level": 9,
     "Gold": 1500,
-    "SoldierLimit": 900
+    "PerDayGen": 90
   },
   {
     "Level": 9,
     "Gold": 2000,
-    "SoldierLimit": 1000
+    "PerDayGen": 100
   },
   {
     "Level": 10,
     "Gold": 2600,
-    "SoldierLimit": 1100
+    "PerDayGen": 110
   },
   {
     "Level": 11,
     "Gold": 3300,
-    "SoldierLimit": 1200
+    "PerDayGen": 120
   },
   {
     "Level": 12,
     "Gold": 4100,
-    "SoldierLimit": 1300
+    "PerDayGen": 130
   },
   {
     "Level": 13,
     "Gold": 5000,
-    "SoldierLimit": 1400
+    "PerDayGen": 140
   },
   {
     "Level": 14,
     "Gold": 6000,
-    "SoldierLimit": 1500
+    "PerDayGen": 150
   },
   {
     "Level": 15,
     "Gold": 7200,
-    "SoldierLimit": 1600
+    "PerDayGen": 160
   },
   {
     "Level": 16,
     "Gold": 8600,
-    "SoldierLimit": 1700
+    "PerDayGen": 170
   },
   {
     "Level": 17,
     "Gold": 10200,
-    "SoldierLimit": 1800
+    "PerDayGen": 180
   },
   {
     "Level": 18,
     "Gold": 12000,
-    "SoldierLimit": 1900
+    "PerDayGen": 190
   },
   {
     "Level": 19,
     "Gold": 14000,
-    "SoldierLimit": 2000
+    "PerDayGen": 200
   },
   {
     "Level": 20,
     "Gold": 16400,
-    "SoldierLimit": 2100
+    "PerDayGen": 210
   }
 ]

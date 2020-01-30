@@ -60,11 +60,25 @@ namespace Dolany.Ai.Core.Common.PicReview
 
             var picTempFile = new FileInfo($"{CachePath}{record.PicName}");
             picTempFile.Delete();
+
+            var count = MongoService<PicReviewRecord>.Count(p => p.Status == PicReviewStatus.Waiting);
+            MsgSender.PushMsg(MsgDTO, $"审核完毕！还有{count}张待审核的图片！");
         }
 
-        public void AddReview(PicReviewRecord record)
+        public static void AddReview(PicReviewRecord record)
         {
-            record.Insert();
+            var oldRec = MongoService<PicReviewRecord>.GetOnly(p => p.QQNum == record.QQNum && p.Usage == record.Usage && p.Status == PicReviewStatus.Waiting);
+            if (oldRec == null)
+            {
+                record.Insert();
+            }
+            else
+            {
+                oldRec.PicName = record.PicName;
+                oldRec.CreateTime = record.CreateTime;
+                oldRec.GroupNum = record.GroupNum;
+                oldRec.Update();
+            }
 
             var count = MongoService<PicReviewRecord>.Count(p => p.Status == PicReviewStatus.Waiting);
             var msg = $"有新的待审核图片！\r来自 {GroupSettingMgr.Instance[record.GroupNum].Name} 的 {record.QQNum}\r当前剩余 {count} 张图片待审核！";

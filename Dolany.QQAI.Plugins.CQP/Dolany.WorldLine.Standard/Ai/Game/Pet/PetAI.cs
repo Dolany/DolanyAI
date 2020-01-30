@@ -211,7 +211,7 @@ namespace Dolany.WorldLine.Standard.Ai.Game.Pet
                 Usage = "宠物头像",
                 PicName = picFile.Name
             };
-            PicReviewer.Instance.AddReview(review);
+            PicReviewer.AddReview(review);
 
             return true;
         }

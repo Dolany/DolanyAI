@@ -2,6 +2,7 @@
 using Dolany.Ai.Common.Models;
 using Dolany.Ai.Core.Base;
 using Dolany.Ai.Core.Cache;
+using Dolany.Ai.Core.Common;
 
 namespace Dolany.WorldLine.KindomStorm.Ai.KindomStorm
 {
@@ -22,11 +23,31 @@ namespace Dolany.WorldLine.KindomStorm.Ai.KindomStorm
         {
             var castle = KindomCastle.Get(MsgDTO.FromGroup, MsgDTO.FromQQ);
             var msg = $"{castle.CastleName}";
+            msg += $"\r城堡等级：{Utility.LevelEmoji(castle.Level)}";
             msg += $"\r金钱：{castle.Golds}";
             msg += $"\r粮草：{castle.Commissariat}";
             msg += $"\r建筑：{string.Join(",", castle.Buildings.Select(p => $"{p.Key}(lv.{p.Value})"))}";
 
             MsgSender.PushMsg(MsgDTO, msg, true);
+            return true;
+        }
+
+        [EnterCommand(ID = "KindomStormAI_RenameCastle",
+            Command = "重命名城堡",
+            Description = "重命名自己的城堡",
+            Syntax = "[城堡名]",
+            Tag = "王国风云",
+            SyntaxChecker = "Word",
+            AuthorityLevel = AuthorityLevel.成员,
+            IsPrivateAvailable = false)]
+        public bool RenameCastle(MsgInformationEx MsgDTO, object[] param)
+        {
+            var name = param[0] as string;
+            var castle = KindomCastle.Get(MsgDTO.FromGroup, MsgDTO.FromQQ);
+            castle.CastleName = name;
+            castle.Update();
+
+            MsgSender.PushMsg(MsgDTO, "重命名成功！", true);
             return true;
         }
     }
