@@ -43,5 +43,10 @@
     "SelfNum": 2731544408,
     "CommandQueue": "MsgCommand_Angle",
     "ClientPath": "C:/AI/Angle/client/"
+  },
+  "Chen": {
+    "SelfNum": 2549453348,
+    "CommandQueue": "MsgCommand_Chen",
+    "ClientPath": "C:/AI/Chen/client/"
   }
 }

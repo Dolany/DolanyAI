@@ -104,6 +104,27 @@ namespace Dolany.WorldLine.Standard.Ai.Sys
             return true;
         }
 
+        [EnterCommand(ID = "DeveloperOnlyAI_DiamondBonus",
+            Command = "钻石奖励",
+            Description = "奖励某个人一些钻石",
+            Syntax = "[@QQ号] [钻石数量]",
+            Tag = "开发者后台",
+            SyntaxChecker = "At Long",
+            AuthorityLevel = AuthorityLevel.开发者,
+            IsPrivateAvailable = false)]
+        public bool DiamondBonus(MsgInformationEx MsgDTO, object[] param)
+        {
+            var qqNum = (long) param[0];
+            var diamonds = (int)(long)param[1];
+
+            var osPerson = OSPerson.GetPerson(qqNum);
+            osPerson.Diamonds += diamonds;
+            osPerson.Update();
+
+            MsgSender.PushMsg(MsgDTO, "奖励已生效！");
+            return true;
+        }
+
         [EnterCommand(ID = "DeveloperOnlyAI_GiftBonus",
             Command = "礼物奖励",
             Description = "奖励某个人若干件礼物",

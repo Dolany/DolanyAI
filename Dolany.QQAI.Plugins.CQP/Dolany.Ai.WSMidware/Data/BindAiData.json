@@ -8,11 +8,11 @@
     "QQNum": "3484599065"
   },
   "Patch": {
-    "BindPort": "49634",
+    "BindPort": "49643",
     "QQNum": "3153037584"
   },
   "Cirno": {
-    "BindPort": "49635",
+    "BindPort": "49642",
     "QQNum": "2097412422"
   },
   "Marisa": {
@@ -28,7 +28,11 @@
     "QQNum": "3021028334"
   },
   "Sanae": {
-    "BindPort": "49639",
+    "BindPort": "49640",
     "QQNum": "2913492260"
-  } 
+  },
+  "Chen": {
+    "BindPort": "49641",
+    "QQNum": "2549453348"
+  }
 }
