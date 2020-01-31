@@ -1,4 +1,6 @@
 ﻿using System.Collections.Generic;
+using System.Linq;
+using Dolany.Ai.Common;
 using Dolany.Database;
 
 namespace Dolany.WorldLine.Standard.Ai.Game.SwordExplore
@@ -19,48 +21,38 @@ namespace Dolany.WorldLine.Standard.Ai.Game.SwordExplore
 
         public List<string> ClearAreas { get; set; } = new List<string>();
 
-        public Dictionary<string, int> Materials { get; set; } = new Dictionary<string, int>();
+        public Dictionary<string, int> Skills { get; set; } = new Dictionary<string, int>();
 
-        public SuperWeapon SuperWeapon { get; set; }
+        public SEAttribute[] Attrs { get; set; }
 
         public static SERecord Get(long QQNum)
         {
-            var rec = MongoService<SERecord>.GetOnly(p => p.QQNum == QQNum);
-            if (rec != null)
-            {
-                return rec;
-            }
-
-            rec = new SERecord(){QQNum = QQNum, CurScene = SEMapMgr.Instance.DefaultScene.ID};
-            MongoService<SERecord>.Insert(rec);
-            return rec;
+            return MongoService<SERecord>.GetOnly(p => p.QQNum == QQNum);
         }
 
         public void Update()
         {
             MongoService<SERecord>.Update(this);
         }
+
+        public int RollAttr(string attrType)
+        {
+            if (Attrs.IsNullOrEmpty() || Attrs.All(a => a.AttrType != attrType))
+            {
+                return 0;
+            }
+
+            var attr = Attrs.First(a => a.AttrType == attrType);
+            return Rander.RandInt(attr.Max + 1 - attr.Min) + attr.Min;
+        }
     }
 
-    public class SuperWeapon
+    public class SEAttribute
     {
-        public string Name { get; set; }
+        public string AttrType { get; set; }
 
-        public string Kind { get; set; }
+        public int Max { get; set; }
 
-        public int Level { get; set; }
-
-        public int Exp { get; set; }
-
-        public List<MagicJewelry> EmbedJewelrys { get; set; } = new List<MagicJewelry>();
-    }
-
-    public class MagicJewelry
-    {
-        public string Name { get; set; }
-
-        public string Kind { get; set; }
-
-        public Dictionary<string, int> Affects { get; set; } = new Dictionary<string, int>();
+        public int Min { get; set; }
     }
 }

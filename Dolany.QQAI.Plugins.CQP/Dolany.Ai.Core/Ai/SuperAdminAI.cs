@@ -331,7 +331,7 @@ namespace Dolany.Ai.Core.Ai
             Command = "禁用图片缓存",
             Description = "禁用一个群的图片缓存",
             Syntax = "[群号]",
-            Tag = "开发者后台",
+            Tag = "超管",
             SyntaxChecker = "Long",
             AuthorityLevel = AuthorityLevel.开发者,
             IsPrivateAvailable = true)]
@@ -354,7 +354,7 @@ namespace Dolany.Ai.Core.Ai
             Command = "图片审核",
             Description = "审核一张图片",
             Syntax = "",
-            Tag = "开发者后台",
+            Tag = "超管",
             SyntaxChecker = "Empty",
             AuthorityLevel = AuthorityLevel.开发者,
             IsPrivateAvailable = true,
