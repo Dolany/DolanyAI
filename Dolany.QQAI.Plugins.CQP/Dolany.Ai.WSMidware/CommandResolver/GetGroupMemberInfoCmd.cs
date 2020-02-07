@@ -33,7 +33,7 @@ namespace Dolany.Ai.WSMidware.CommandResolver
                 RelationId = model.RelationId,
                 Msg = JsonConvert.SerializeObject(eventModel.Result)
             };
-            WSMgr.Instance.PublishInformation(info);
+            WSMgr.PublishInformation(info);
         }
     }
 }

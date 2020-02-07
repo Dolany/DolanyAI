@@ -63,9 +63,18 @@ namespace Dolany.Ai.WSMidware
             }
         }
 
-        public void PublishInformation(MsgInformation info)
+        public static void PublishInformation(MsgInformation info)
         {
             Global.MQSvc.Send(info, Global.Config.MQSendQueue);
+        }
+
+        public static void OnConnectStateChanged(string bindAi, bool isConnected)
+        {
+            PublishInformation(new MsgInformation()
+            {
+                BindAi = bindAi,
+                Msg = isConnected.ToString()
+            });
         }
 
         private void Reconnect(object sender, ElapsedEventArgs args)

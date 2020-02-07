@@ -40,7 +40,7 @@ namespace Dolany.Ai.WSMidware.CommandResolver
                     RelationId = model.RelationId,
                     Msg = JsonConvert.SerializeObject(info_list[0])
                 };
-                WSMgr.Instance.PublishInformation(info);
+                WSMgr.PublishInformation(info);
             }
             catch (Exception e)
             {

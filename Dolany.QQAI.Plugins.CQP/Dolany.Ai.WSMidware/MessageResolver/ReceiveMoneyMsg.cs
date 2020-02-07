@@ -26,7 +26,7 @@ namespace Dolany.Ai.WSMidware.MessageResolver
                 Msg = JsonConvert.SerializeObject(chargeModel),
                 FromQQ = chargeModel.QQNum
             };
-            WSMgr.Instance.PublishInformation(info);
+            WSMgr.PublishInformation(info);
         }
     }
 }

@@ -104,6 +104,10 @@ namespace Dolany.Ai.Core.Cache
                 case InformationType.GroupMemberDecrease:
                     GroupMemberChangeCallBack(JsonConvert.DeserializeObject<GroupMemberChangeModel>(info.Msg));
                     break;
+                case InformationType.ConnectStateChange:
+                    var bindai = BindAiMgr.Instance[info.BindAi];
+                    bindai.IsConnected = bool.Parse(info.Msg);
+                    break;
                 default:
                     throw new ArgumentOutOfRangeException();
             }

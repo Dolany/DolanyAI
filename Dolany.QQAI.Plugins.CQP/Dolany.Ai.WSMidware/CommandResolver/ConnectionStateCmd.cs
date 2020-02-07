@@ -19,7 +19,7 @@ namespace Dolany.Ai.WSMidware.CommandResolver
                 RelationId = command.Id
             };
 
-            WSMgr.Instance.PublishInformation(info);
+            WSMgr.PublishInformation(info);
         }
 
         public void CallBack(WaitingModel model, QQEventModel eventModel)

@@ -38,5 +38,7 @@ namespace Dolany.Ai.Core.Common
         public string VoicePath => ClientPath + "temp/voice/";
 
         public string Name { get; set; }
+
+        public bool IsConnected { get; set; } = true;
     }
 }

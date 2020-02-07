@@ -138,7 +138,28 @@ namespace Dolany.Ai.Core.Ai
                 expiryDate += "(已过期)";
             }
 
-            var pState = string.Join("\r", setting.BindAis.Select(p => $"{p}:{(RecentCommandCache.IsTooFreq(p) ? "过热保护" : setting.IsPowerOn ? "开机" : "关机")}"));
+            var pState = string.Join("\r", setting.BindAis.Select(p =>
+            {
+                var msg = $"{p}:";
+                if (!BindAiMgr.Instance[p].IsConnected)
+                {
+                    msg += "失联";
+                }
+                else if (RecentCommandCache.IsTooFreq(p))
+                {
+                    msg += "过热保护";
+                }
+                else if(setting.IsPowerOn)
+                {
+                    msg += "开机";
+                }
+                else
+                {
+                    msg += "关机";
+                }
+
+                return msg;
+            }));
             return $"\r电源状态：\r{pState}{expiryDate}\r";
         }
 

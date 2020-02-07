@@ -28,6 +28,7 @@ namespace Dolany.Ai.WSMidware
         {
             client.Open();
             IsConnected = true;
+            WSMgr.OnConnectStateChanged(BindAi, true);
         }
 
         private void OnMessageReceived(object sender, MessageReceivedEventArgs e)
@@ -41,6 +42,7 @@ namespace Dolany.Ai.WSMidware
         private void OnClosed(object sender, EventArgs e)
         {
             IsConnected = false;
+            WSMgr.OnConnectStateChanged(BindAi, false);
         }
 
         public void Send(string msg)

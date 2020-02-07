@@ -1,5 +1,4 @@
 ﻿using System.Collections.Generic;
-using System.Linq;
 using Dolany.Ai.Common;
 using Dolany.Ai.Common.Models;
 using Dolany.Ai.Core.Base;
@@ -15,7 +14,7 @@ namespace Dolany.WorldLine.Standard.AITools
         {
             new ScheduleDoModel()
             {
-                Interval = SchedulerTimer.HourlyInterval
+                Interval = SchedulerTimer.MinutelyInterval
             }
         };
         public override bool Enabled { get; set; } = false;
@@ -34,15 +33,10 @@ namespace Dolany.WorldLine.Standard.AITools
             }
 
             var dic = JsonConvert.DeserializeObject<Dictionary<string, bool>>(info.Msg);
-            var disabledAis = dic.Where(p => !p.Value).Select(p => p.Key).ToList();
-            if (disabledAis.Count <= 0 || disabledAis.Count >= dic.Count)
+            foreach (var (bindaiName, state) in dic)
             {
-                return;
+                BindAiMgr.Instance[bindaiName].IsConnected = state;
             }
-
-            var availbleAi = dic.Where(p => p.Value).RandElement().Key;
-            var msg = $"【警告！】{string.Join(",", disabledAis)} 失联！";
-            MsgSender.PushMsg(0, Global.DeveloperNumber, msg, availbleAi);
         }
     }
 }

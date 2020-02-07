@@ -8,6 +8,7 @@
         Error = 3,
         ReceiveMoney = 4,
         GroupMemberIncrease = 5,
-        GroupMemberDecrease = 6
+        GroupMemberDecrease = 6,
+        ConnectStateChange = 7
     }
 }

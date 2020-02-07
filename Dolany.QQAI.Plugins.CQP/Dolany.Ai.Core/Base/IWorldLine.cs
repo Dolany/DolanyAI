@@ -160,6 +160,7 @@ namespace Dolany.Ai.Core.Base
                         availableBindAis = new List<BindAiModel>(){BindAiMgr.Instance[MsgDTO.BindAi]};
                     }
 
+                    availableBindAis = availableBindAis.Where(p => p.IsConnected).ToList();
                     foreach (var ai in AIGroup)
                     {
                         var tempList = availableBindAis;

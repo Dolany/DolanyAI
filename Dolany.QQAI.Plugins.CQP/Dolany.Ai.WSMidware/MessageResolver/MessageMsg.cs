@@ -22,7 +22,7 @@ namespace Dolany.Ai.WSMidware.MessageResolver
                 Information = InformationType.Message,
                 Msg = model.Params.Content
             };
-            WSMgr.Instance.PublishInformation(info);
+            WSMgr.PublishInformation(info);
         }
     }
 }

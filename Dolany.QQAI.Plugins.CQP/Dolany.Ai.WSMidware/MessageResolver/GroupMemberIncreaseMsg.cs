@@ -25,7 +25,7 @@ namespace Dolany.Ai.WSMidware.MessageResolver
                 FromQQ = changeModel.QQNum,
                 FromGroup = changeModel.GroupNum
             };
-            WSMgr.Instance.PublishInformation(info);
+            WSMgr.PublishInformation(info);
         }
     }
 }
