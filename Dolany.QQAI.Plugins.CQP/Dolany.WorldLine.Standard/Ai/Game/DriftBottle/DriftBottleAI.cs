@@ -283,7 +283,8 @@ namespace Dolany.WorldLine.Standard.Ai.Game.DriftBottle
                 return false;
             }
 
-            var msg = $"你获得的成就有：{string.Join(",", query.HonorList.Where(p => !HonorHelper.Instance.IsLimitHonor(p)))}";
+            var msg = $"你获得的普通成就有：{string.Join(",", query.HonorList.Where(p => !HonorHelper.Instance.IsLimitHonor(p)))}\r";
+            msg += $"你获得的限定成就有：{string.Join(",", query.HonorList.Where(p => HonorHelper.Instance.IsLimitHonor(p)))}";
             MsgSender.PushMsg(MsgDTO, msg, true);
             return true;
         }

@@ -39,7 +39,7 @@ namespace Dolany.WorldLine.Standard.Ai.Game.Pet
             }
 
             var aimPath = $"./images/Custom/Pet/{QQNum}.jpg";
-            File.Copy("./images/Pet/Neptune/Default.jpg", aimPath);
+            File.Copy("./images/Pet/Neptune/Default.jpg", aimPath, true);
             pet = new PetRecord(){QQNum = QQNum, PetNo = "Neptune", Name = "涅普", Level = 1, PicPath = aimPath};
             MongoService<PetRecord>.Insert(pet);
 

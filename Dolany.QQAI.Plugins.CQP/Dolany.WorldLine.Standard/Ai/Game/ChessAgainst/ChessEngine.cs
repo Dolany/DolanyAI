@@ -103,7 +103,7 @@ namespace Dolany.WorldLine.Standard.Ai.Game.ChessAgainst
 
             if (string.IsNullOrEmpty(response) || !int.TryParse(response, out var selectedNum) || !AvailableNums.Contains(selectedNum))
             {
-                MsgSender.PushMsg(GroupNum, 0, "回合结束！", BindAi);
+                //MsgSender.PushMsg(GroupNum, 0, "回合结束！", BindAi);
                 return;
             }
 
@@ -116,7 +116,7 @@ namespace Dolany.WorldLine.Standard.Ai.Game.ChessAgainst
             model.IsChecked = true;
 
             Thread.Sleep(1000);
-            MsgSender.PushMsg(GroupNum, 0, "回合结束！", BindAi);
+            //MsgSender.PushMsg(GroupNum, 0, "回合结束！", BindAi);
         }
 
         private void InitChessBoard()

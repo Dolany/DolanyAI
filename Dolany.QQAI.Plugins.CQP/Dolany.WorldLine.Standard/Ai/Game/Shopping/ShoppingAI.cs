@@ -25,7 +25,7 @@ namespace Dolany.WorldLine.Standard.Ai.Game.Shopping
         private const int RebornHonorLimit = 7;
 
         [EnterCommand(ID = "ShoppingAI_Sell",
-            Command = "贩卖 出售",
+            Command = "贩卖 出售 贩卖物品 出售物品",
             AuthorityLevel = AuthorityLevel.成员,
             Description = "贩卖物品或者成就",
             Syntax = "[物品名或成就名]",
@@ -520,7 +520,7 @@ namespace Dolany.WorldLine.Standard.Ai.Game.Shopping
             var aimOSPerson = OSPerson.GetPerson(aimQQ);
             aimOSPerson.Golds += price;
             aimOSPerson.Update();
-            
+
             MsgSender.PushMsg(MsgDTO, "交易完毕！");
             return true;
         }
