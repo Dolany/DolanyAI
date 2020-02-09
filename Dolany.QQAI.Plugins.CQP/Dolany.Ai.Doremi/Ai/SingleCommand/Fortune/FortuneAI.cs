@@ -17,7 +17,7 @@ namespace Dolany.Ai.Doremi.Ai.SingleCommand.Fortune
         Enable = true,
         PriorityLevel = 10,
         BindAi = "Doremi")]
-    public class FortuneAI : AIBase
+    public class FortuneAI : AIBase, IDataMgr
     {
         private const string TarotServerPath = "https://m.sheup.com/";
         private List<TarotFortuneDataModel> DataList;
@@ -25,6 +25,12 @@ namespace Dolany.Ai.Doremi.Ai.SingleCommand.Fortune
         private List<FortuneItemModel> FortuneItemList;
 
         public override void Initialization()
+        {
+            RefreshData();
+            DataRefresher.Instance.Register(this);
+        }
+
+        public void RefreshData()
         {
             DataList = CommonUtil.ReadJsonData_NamedList<TarotFortuneDataModel>("TarotFortuneData");
             FortuneItemList = CommonUtil.ReadJsonData_NamedList<FortuneItemModel>("FortuneItemData");

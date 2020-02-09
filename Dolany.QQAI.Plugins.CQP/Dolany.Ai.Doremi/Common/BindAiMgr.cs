@@ -3,18 +3,23 @@ using Dolany.Ai.Common;
 
 namespace Dolany.Ai.Doremi.Common
 {
-    public class BindAiMgr
+    public class BindAiMgr : IDataMgr
     {
         public static BindAiMgr Instance { get; } = new BindAiMgr();
 
-        public readonly Dictionary<string, BindAiModel> AiDic;
+        public Dictionary<string, BindAiModel> AiDic;
 
         private BindAiMgr()
         {
-            AiDic = CommonUtil.ReadJsonData<Dictionary<string, BindAiModel>>("BindAiData");
+            RefreshData();
+            DataRefresher.Instance.Register(this);
         }
 
         public BindAiModel this[string AiName] => AiDic[AiName];
+        public void RefreshData()
+        {
+            AiDic = CommonUtil.ReadJsonData<Dictionary<string, BindAiModel>>("BindAiData");
+        }
     }
 
     public class BindAiModel

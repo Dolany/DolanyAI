@@ -4,18 +4,18 @@ using Dolany.Ai.Common;
 
 namespace Dolany.WorldLine.Standard.Ai.Game.Pet
 {
-    public class PetLevelMgr
+    public class PetLevelMgr : IDataMgr
     {
         public static PetLevelMgr Instance { get; } = new PetLevelMgr();
 
-        private readonly Dictionary<int, PetLevelModel> LevelDic;
+        private Dictionary<int, PetLevelModel> LevelDic;
 
         public PetLevelModel this[int level] => LevelDic[level];
 
         private PetLevelMgr()
         {
-            LevelDic = CommonUtil.ReadJsonData_NamedList<PetLevelModel>("Pet/PetLevelData")
-                .ToDictionary(p => p.Level, p => p);
+            RefreshData();
+            DataRefresher.Instance.Register(this);
         }
 
         public int ExpToGolds(int level, int exp)
@@ -28,6 +28,12 @@ namespace Dolany.WorldLine.Standard.Ai.Game.Pet
 
             petAssert += exp * 10;
             return petAssert;
+        }
+
+        public void RefreshData()
+        {
+            LevelDic = CommonUtil.ReadJsonData_NamedList<PetLevelModel>("Pet/PetLevelData")
+                .ToDictionary(p => p.Level, p => p);
         }
     }
 

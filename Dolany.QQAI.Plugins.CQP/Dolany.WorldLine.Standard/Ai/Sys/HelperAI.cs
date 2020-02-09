@@ -18,7 +18,7 @@ using Dolany.WorldLine.Standard.OnlineStore;
 
 namespace Dolany.WorldLine.Standard.Ai.Sys
 {
-    public class HelperAI : AIBase
+    public class HelperAI : AIBase, IDataMgr
     {
         public override string AIName { get; set; } = "帮助";
 
@@ -29,6 +29,12 @@ namespace Dolany.WorldLine.Standard.Ai.Sys
         private List<ExtraHelpModel> ExtraHelps = new List<ExtraHelpModel>();
 
         public override void Initialization()
+        {
+            RefreshData();
+            DataRefresher.Instance.Register(this);
+        }
+
+        public void RefreshData()
         {
             ExtraHelps = CommonUtil.ReadJsonData_NamedList<ExtraHelpModel>("ExtraHelpData");
         }

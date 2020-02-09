@@ -4,22 +4,28 @@ using Dolany.Ai.Common;
 
 namespace Dolany.WorldLine.Standard.Ai.Game.Pet.Cooking
 {
-    public class CookingLevelMgr
+    public class CookingLevelMgr : IDataMgr
     {
         public static CookingLevelMgr Instance { get; } = new CookingLevelMgr();
 
-        private readonly List<CookingLevelModel> CookingLevels;
+        private List<CookingLevelModel> CookingLevels;
 
         public CookingLevelModel this[int level] => CookingLevels.FirstOrDefault(p => p.Level == level);
 
         private CookingLevelMgr()
         {
-            CookingLevels = CommonUtil.ReadJsonData_NamedList<CookingLevelModel>("Pet/CookingLevelData").OrderBy(p => p.Level).ToList();
+            RefreshData();
+            DataRefresher.Instance.Register(this);
         }
 
         public CookingLevelModel LocationLevel(int totalPrice)
         {
             return CookingLevels.LastOrDefault(p => p.NeedPrice <= totalPrice);
+        }
+
+        public void RefreshData()
+        {
+            CookingLevels = CommonUtil.ReadJsonData_NamedList<CookingLevelModel>("Pet/CookingLevelData").OrderBy(p => p.Level).ToList();
         }
     }
 

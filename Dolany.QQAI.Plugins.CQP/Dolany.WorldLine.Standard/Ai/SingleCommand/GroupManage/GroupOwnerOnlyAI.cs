@@ -180,7 +180,7 @@ namespace Dolany.WorldLine.Standard.Ai.SingleCommand.GroupManage
             setting.AuthInfo.Owner = aimQQ;
 
             setting.Update();
-            GroupSettingMgr.Instance.Refresh();
+            GroupSettingMgr.Instance.RefreshData();
 
             MsgSender.PushMsg(MsgDTO, "已成功移交群主！");
 
@@ -218,7 +218,7 @@ namespace Dolany.WorldLine.Standard.Ai.SingleCommand.GroupManage
             setting.AuthInfo.Mgrs.Add(aimQQ);
 
             setting.Update();
-            GroupSettingMgr.Instance.Refresh();
+            GroupSettingMgr.Instance.RefreshData();
 
             MsgSender.PushMsg(MsgDTO, "任命成功！");
             return true;

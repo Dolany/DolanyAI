@@ -120,7 +120,7 @@ namespace Dolany.Ai.Doremi.Ai.Sys
                 MongoService<BlackList>.Update(query);
             }
 
-            DirtyFilter.Instance.Refresh();
+            DirtyFilter.Instance.RefreshData();
 
             MsgSender.PushMsg(MsgDTO, "Success");
             return true;
@@ -146,7 +146,7 @@ namespace Dolany.Ai.Doremi.Ai.Sys
 
             MongoService<BlackList>.Delete(query);
 
-            DirtyFilter.Instance.Refresh();
+            DirtyFilter.Instance.RefreshData();
             MsgSender.PushMsg(MsgDTO, "Success");
             return true;
         }

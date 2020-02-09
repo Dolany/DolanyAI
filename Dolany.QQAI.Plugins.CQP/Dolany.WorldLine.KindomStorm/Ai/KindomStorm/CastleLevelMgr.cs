@@ -4,15 +4,21 @@ using Dolany.Ai.Common;
 
 namespace Dolany.WorldLine.KindomStorm.Ai.KindomStorm
 {
-    public class CastleLevelMgr
+    public class CastleLevelMgr : IDataMgr
     {
         public static CastleLevelMgr Instance { get; } = new CastleLevelMgr();
 
         public CastleLevelModel this[int level] => Levels.FirstOrDefault(p => p.Level == level);
 
-        private readonly List<CastleLevelModel> Levels;
+        private List<CastleLevelModel> Levels;
 
         private CastleLevelMgr()
+        {
+            RefreshData();
+            DataRefresher.Instance.Register(this);
+        }
+
+        public void RefreshData()
         {
             Levels = CommonUtil.ReadJsonData<List<CastleLevelModel>>("CastleLevelData");
         }

@@ -9,7 +9,7 @@ using Dolany.Database.Ai;
 
 namespace Dolany.WorldLine.Standard.Ai.SingleCommand.Voice
 {
-    public class VoiceAI : AIBase
+    public class VoiceAI : AIBase, IDataMgr
     {
         public override string AIName { get; set; } = "语音";
 
@@ -20,6 +20,12 @@ namespace Dolany.WorldLine.Standard.Ai.SingleCommand.Voice
         private Beng3ConfigModel Beng3Config;
 
         public override void Initialization()
+        {
+            RefreshData();
+            DataRefresher.Instance.Register(this);
+        }
+
+        public void RefreshData()
         {
             Beng3Config = CommonUtil.ReadJsonData<Beng3ConfigModel>("Beng3VoiceConfigData");
         }

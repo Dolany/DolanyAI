@@ -4,11 +4,11 @@ using Dolany.Ai.Common;
 
 namespace Dolany.Ai.Doremi.Xiuxian
 {
-    public class ArmerMgr
+    public class ArmerMgr : IDataMgr
     {
         public static ArmerMgr Instance { get; } = new ArmerMgr();
 
-        private readonly List<ArmerModel> NormalArmerList;
+        private List<ArmerModel> NormalArmerList;
 
         public ArmerModel this[string name]
         {
@@ -17,7 +17,8 @@ namespace Dolany.Ai.Doremi.Xiuxian
 
         private ArmerMgr()
         {
-            NormalArmerList = CommonUtil.ReadJsonData_NamedList<ArmerModel>("ArmerData");
+            RefreshData();
+            DataRefresher.Instance.Register(this);
         }
 
         public IEnumerable<ArmerModel> GetRandArmers(int count)
@@ -50,6 +51,11 @@ namespace Dolany.Ai.Doremi.Xiuxian
 
             var modelsDic = ArmerList.ToDictionary(p => this[p.Key], p => p.Value);
             return modelsDic.Where(p => p.Key.Kind == "Weapon").Sum(p => p.Key.Value * p.Value);
+        }
+
+        public void RefreshData()
+        {
+            NormalArmerList = CommonUtil.ReadJsonData_NamedList<ArmerModel>("ArmerData");
         }
     }
 }

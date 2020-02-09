@@ -69,7 +69,7 @@ namespace Dolany.Ai.Core.Ai
                 MongoService<BlackList>.Update(query);
             }
 
-            DirtyFilter.Instance.Refresh();
+            DirtyFilter.Instance.RefreshData();
 
             MsgSender.PushMsg(MsgDTO, "Success");
             return true;
@@ -95,7 +95,7 @@ namespace Dolany.Ai.Core.Ai
 
             MongoService<BlackList>.Delete(query);
 
-            DirtyFilter.Instance.Refresh();
+            DirtyFilter.Instance.RefreshData();
             MsgSender.PushMsg(MsgDTO, "Success");
             return true;
         }
@@ -143,7 +143,7 @@ namespace Dolany.Ai.Core.Ai
                 BindAis = new List<string>(){MsgDTO.BindAi}
             };
             MongoService<GroupSettings>.Insert(setting);
-            GroupSettingMgr.Instance.Refresh();
+            GroupSettingMgr.Instance.RefreshData();
 
             MsgSender.PushMsg(MsgDTO, "注册成功！");
             return true;
@@ -267,7 +267,7 @@ namespace Dolany.Ai.Core.Ai
             }
             setting.Update();
 
-            GroupSettingMgr.Instance.Refresh();
+            GroupSettingMgr.Instance.RefreshData();
 
             MsgSender.PushMsg(MsgDTO, $"充值成功，有效期至 {setting.ExpiryTime?.ToLocalTime():yyyy-MM-dd HH:mm:ss}");
             return true;
@@ -358,10 +358,26 @@ namespace Dolany.Ai.Core.Ai
             SyntaxChecker = "Empty",
             AuthorityLevel = AuthorityLevel.开发者,
             IsPrivateAvailable = true,
-            IsGroupAvailable = false)]
+            IsGroupAvailable = true)]
         public bool PicReview(MsgInformationEx MsgDTO, object[] param)
         {
             PicReviewer.Instance.Review(MsgDTO);
+            return true;
+        }
+
+        [EnterCommand(ID = "SuperAdminAI_DataRefresh",
+            Command = "刷新数据 数据刷新",
+            Description = "刷新所有数据信息",
+            Syntax = "",
+            Tag = "超管",
+            SyntaxChecker = "Empty",
+            AuthorityLevel = AuthorityLevel.开发者,
+            IsPrivateAvailable = true,
+            IsGroupAvailable = true)]
+        public bool DataRefresh(MsgInformationEx MsgDTO, object[] param)
+        {
+            var count = DataRefresher.Instance.RefreshAll();
+            MsgSender.PushMsg(MsgDTO, $"刷新成功！共刷新 {count}个数据项！");
             return true;
         }
     }

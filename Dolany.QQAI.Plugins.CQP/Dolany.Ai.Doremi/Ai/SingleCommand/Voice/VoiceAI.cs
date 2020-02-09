@@ -14,11 +14,17 @@ namespace Dolany.Ai.Doremi.Ai.SingleCommand.Voice
         Enable = true,
         PriorityLevel = 10,
         BindAi = "Doremi")]
-    public class VoiceAI : AIBase
+    public class VoiceAI : AIBase, IDataMgr
     {
         private Beng3ConfigModel Beng3Config;
 
         public override void Initialization()
+        {
+            RefreshData();
+            DataRefresher.Instance.Register(this);
+        }
+
+        public void RefreshData()
         {
             Beng3Config = CommonUtil.ReadJsonData<Beng3ConfigModel>("Beng3VoiceConfigData");
         }

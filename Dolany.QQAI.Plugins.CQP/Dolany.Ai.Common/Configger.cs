@@ -1,12 +1,18 @@
 ﻿namespace Dolany.Ai.Common
 {
-    public class Configger<ConfigType>
+    public class Configger<ConfigType> : IDataMgr
     {
-        public ConfigType AIConfig { get; }
+        public ConfigType AIConfig { get; set; }
 
         public static Configger<ConfigType> Instance { get; } = new Configger<ConfigType>();
 
         private Configger()
+        {
+            RefreshData();
+            DataRefresher.Instance.Register(this);
+        }
+
+        public void RefreshData()
         {
             AIConfig = CommonUtil.ReadJsonData<ConfigType>("AIConfigData");
         }

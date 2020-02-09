@@ -4,15 +4,16 @@ using Dolany.Ai.Common;
 
 namespace Dolany.WorldLine.Standard.Ai.Game.SegmentAttach
 {
-    public class SegmentMgr
+    public class SegmentMgr : IDataMgr
     {
         public static SegmentMgr Instance { get; } = new SegmentMgr();
 
-        public readonly List<TreasureModel> Treasures;
+        public List<TreasureModel> Treasures;
 
         private SegmentMgr()
         {
-            Treasures = CommonUtil.ReadJsonData_NamedList<TreasureModel>("TreasureData");
+            RefreshData();
+            DataRefresher.Instance.Register(this);
         }
 
         public SegmentModel RandSegment()
@@ -34,6 +35,11 @@ namespace Dolany.WorldLine.Standard.Ai.Game.SegmentAttach
         public SegmentModel FindSegmentByName(string segmentName)
         {
             return Treasures.SelectMany(p => p.Segments).FirstOrDefault(p => p.Name == segmentName);
+        }
+
+        public void RefreshData()
+        {
+            Treasures = CommonUtil.ReadJsonData_NamedList<TreasureModel>("TreasureData");
         }
     }
 

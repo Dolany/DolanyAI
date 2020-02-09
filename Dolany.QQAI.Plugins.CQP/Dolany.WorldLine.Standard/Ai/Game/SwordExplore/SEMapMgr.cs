@@ -4,13 +4,13 @@ using Dolany.Ai.Common;
 
 namespace Dolany.WorldLine.Standard.Ai.Game.SwordExplore
 {
-    public class SEMapMgr
+    public class SEMapMgr : IDataMgr
     {
         public static SEMapMgr Instance { get; } = new SEMapMgr();
 
-        private SESceneModel[] Map { get; }
+        private SESceneModel[] Map { get; set; }
 
-        private List<SEAreaModel> Areas { get; }
+        private List<SEAreaModel> Areas { get; set; }
 
         public SESceneModel this[string SceneID] => Map.FirstOrDefault(p => p.ID == SceneID);
 
@@ -18,8 +18,8 @@ namespace Dolany.WorldLine.Standard.Ai.Game.SwordExplore
 
         private SEMapMgr()
         {
-            Map = CommonUtil.ReadJsonData<SESceneModel[]>("SE/SEMapData");
-            Areas = CommonUtil.ReadJsonData_NamedList<SEAreaModel>("SE/SEAreaData");
+            RefreshData();
+            DataRefresher.Instance.Register(this);
         }
 
         public SEAreaModel FindAreaByScene(string SceneName)
@@ -30,6 +30,12 @@ namespace Dolany.WorldLine.Standard.Ai.Game.SwordExplore
         public SEAreaModel FindAreaByName(string AreaName)
         {
             return Areas.FirstOrDefault(p => p.Name == AreaName);
+        }
+
+        public void RefreshData()
+        {
+            Map = CommonUtil.ReadJsonData<SESceneModel[]>("SE/SEMapData");
+            Areas = CommonUtil.ReadJsonData_NamedList<SEAreaModel>("SE/SEAreaData");
         }
     }
 }

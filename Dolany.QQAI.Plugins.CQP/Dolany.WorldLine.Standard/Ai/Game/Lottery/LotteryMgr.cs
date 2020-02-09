@@ -4,11 +4,11 @@ using Dolany.Ai.Common;
 
 namespace Dolany.WorldLine.Standard.Ai.Game.Lottery
 {
-    public class LotteryMgr
+    public class LotteryMgr : IDataMgr
     {
         public static LotteryMgr Instance { get; } = new LotteryMgr();
 
-        private readonly List<LotteryModel> Models;
+        private List<LotteryModel> Models;
 
         public const int LotteryFee = 100;
 
@@ -16,12 +16,18 @@ namespace Dolany.WorldLine.Standard.Ai.Game.Lottery
 
         private LotteryMgr()
         {
-            Models = CommonUtil.ReadJsonData_NamedList<LotteryModel>("LotteryData");
+            RefreshData();
+            DataRefresher.Instance.Register(this);
         }
 
         public LotteryModel RandLottery()
         {
             return Models.ToDictionary(p => p, p => p.Rate).RandRated();
+        }
+
+        public void RefreshData()
+        {
+            Models = CommonUtil.ReadJsonData_NamedList<LotteryModel>("LotteryData");
         }
     }
 

@@ -7,15 +7,16 @@ using Newtonsoft.Json;
 
 namespace Dolany.WorldLine.Standard.Ai.Game.Gift
 {
-    public class GiftMgr
+    public class GiftMgr : IDataMgr
     {
         public static GiftMgr Instance { get; } = new GiftMgr();
 
-        public List<GiftModel> GiftList { get; }
+        public List<GiftModel> GiftList { get; set; }
 
         private GiftMgr()
         {
-            GiftList = CommonUtil.ReadJsonData_NamedList<GiftModel>("GiftData");
+            RefreshData();
+            DataRefresher.Instance.Register(this);
         }
 
         public GiftModel this[string GiftName] => GiftList.FirstOrDefault(p => p.Name == GiftName);
@@ -48,6 +49,11 @@ namespace Dolany.WorldLine.Standard.Ai.Game.Gift
         private List<string> RandomGifts(int count)
         {
             return Rander.RandSort(GiftList.Select(p => p.Name).ToArray()).Take(count).ToList();
+        }
+
+        public void RefreshData()
+        {
+            GiftList = CommonUtil.ReadJsonData_NamedList<GiftModel>("GiftData");
         }
     }
 

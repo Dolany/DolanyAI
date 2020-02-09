@@ -10,22 +10,28 @@ using Newtonsoft.Json;
 
 namespace Dolany.WorldLine.Standard.Ai.Game.Pet.Expedition
 {
-    public class ExpeditionSceneMgr
+    public class ExpeditionSceneMgr : IDataMgr
     {
         public static ExpeditionSceneMgr Instance { get; } = new ExpeditionSceneMgr();
 
-        private readonly List<ExpeditionSceneModel> Scenes;
+        private List<ExpeditionSceneModel> Scenes;
 
         public ExpeditionSceneModel this[string SceneName] => Scenes.FirstOrDefault(s => s.Name == SceneName);
 
-        public string[] Flavorings = {"海鲜酱油", "秘制番茄酱", "精品海盐", "风味辣酱", "蓝巧果果汁", "火桂", "龙鳞草茎"};
+        public readonly string[] Flavorings = {"海鲜酱油", "秘制番茄酱", "精品海盐", "风味辣酱", "蓝巧果果汁", "火桂", "龙鳞草茎"};
 
         private ExpeditionSceneMgr()
+        {
+            RefreshData();
+            DataRefresher.Instance.Register(this);
+        }
+
+        public void RefreshData()
         {
             Scenes = CommonUtil.ReadJsonData_NamedList<ExpeditionSceneModel>("Pet/ExpeditionSceneData");
         }
 
-        public List<ExpeditionSceneModel> TodayExpedition()
+        public IEnumerable<ExpeditionSceneModel> TodayExpedition()
         {
             var cache = GlobalVarRecord.Get("TodayExpedition");
             if (!string.IsNullOrEmpty(cache.Value))

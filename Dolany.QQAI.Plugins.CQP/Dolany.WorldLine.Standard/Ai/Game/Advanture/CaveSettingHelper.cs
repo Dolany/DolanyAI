@@ -4,15 +4,16 @@ using Dolany.Ai.Common;
 
 namespace Dolany.WorldLine.Standard.Ai.Game.Advanture
 {
-    public class CaveSettingHelper
+    public class CaveSettingHelper : IDataMgr
     {
-        private readonly List<CaveDataModel> CaveDatas;
+        private List<CaveDataModel> CaveDatas;
 
         public static CaveSettingHelper Instance { get; } = new CaveSettingHelper();
 
         private CaveSettingHelper()
         {
-            CaveDatas = CommonUtil.ReadJsonData_NamedList<CaveDataModel>("CaveSettingData");
+            RefreshData();
+            DataRefresher.Instance.Register(this);
         }
 
         public CaveDataModel GetCaveByName(string name)
@@ -23,6 +24,11 @@ namespace Dolany.WorldLine.Standard.Ai.Game.Advanture
         public CaveDataModel GetCaveByNo(int no)
         {
             return CaveDatas.FirstOrDefault(p => p.No == no);
+        }
+
+        public void RefreshData()
+        {
+            CaveDatas = CommonUtil.ReadJsonData_NamedList<CaveDataModel>("CaveSettingData");
         }
     }
 }

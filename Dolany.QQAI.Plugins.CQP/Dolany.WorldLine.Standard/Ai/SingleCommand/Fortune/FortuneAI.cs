@@ -13,7 +13,7 @@ using Newtonsoft.Json;
 
 namespace Dolany.WorldLine.Standard.Ai.SingleCommand.Fortune
 {
-    public class FortuneAI : AIBase
+    public class FortuneAI : AIBase, IDataMgr
     {
         public override string AIName { get; set; } = "随机运势";
 
@@ -29,6 +29,12 @@ namespace Dolany.WorldLine.Standard.Ai.SingleCommand.Fortune
         private List<FortuneItemModel> FortuneItemList;
 
         public override void Initialization()
+        {
+            RefreshData();
+            DataRefresher.Instance.Register(this);
+        }
+
+        public void RefreshData()
         {
             ModelList = CommonUtil.ReadJsonData_NamedList<TarotFortuneDataModel>("TarotFortuneData");
             FortuneItemList = CommonUtil.ReadJsonData_NamedList<FortuneItemModel>("FortuneItemData");

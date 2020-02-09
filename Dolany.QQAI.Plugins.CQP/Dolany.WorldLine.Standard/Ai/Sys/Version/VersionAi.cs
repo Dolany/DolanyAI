@@ -7,7 +7,7 @@ using Dolany.Ai.Core.Cache;
 
 namespace Dolany.WorldLine.Standard.Ai.Sys.Version
 {
-    public class VersionAi : AIBase
+    public class VersionAi : AIBase, IDataMgr
     {
         public override string AIName { get; set; } = "版本信息";
         public override string Description { get; set; } = "Ai for showing verion info";
@@ -16,6 +16,12 @@ namespace Dolany.WorldLine.Standard.Ai.Sys.Version
         public List<VersionModel> Versions = new List<VersionModel>();
 
         public override void Initialization()
+        {
+            RefreshData();
+            DataRefresher.Instance.Register(this);
+        }
+
+        public void RefreshData()
         {
             Versions = CommonUtil.ReadJsonData_NamedList<VersionModel>("VersionData");
             Versions = Versions.OrderByDescending(v => v.PublishDate).ToList();

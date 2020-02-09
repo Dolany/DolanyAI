@@ -20,7 +20,7 @@ namespace Dolany.WorldLine.Standard.AITools
 
         protected override void ScheduleDo(SchedulerTimer timer)
         {
-            HonorHelper.Instance.Refresh();
+            HonorHelper.Instance.RefreshData();
 
             timer.Interval = (DateTime.Now.Date.AddDays(1) - DateTime.Now).TotalMilliseconds;
         }

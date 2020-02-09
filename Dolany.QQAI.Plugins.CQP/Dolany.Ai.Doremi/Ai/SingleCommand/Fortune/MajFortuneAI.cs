@@ -16,7 +16,7 @@ namespace Dolany.Ai.Doremi.Ai.SingleCommand.Fortune
         Enable = true,
         PriorityLevel = 10,
         BindAi = "Doremi")]
-    public class MajFortuneAI : AIBase
+    public class MajFortuneAI : AIBase, IDataMgr
     {
         private readonly string[] PosArray = { "东", "南", "西", "北" };
 
@@ -30,7 +30,8 @@ namespace Dolany.Ai.Doremi.Ai.SingleCommand.Fortune
         public override void Initialization()
         {
             ReadCharactorsDic();
-            ReadKindsList();
+            RefreshData();
+            DataRefresher.Instance.Register(this);
         }
 
         private void ReadCharactorsDic()
@@ -43,7 +44,7 @@ namespace Dolany.Ai.Doremi.Ai.SingleCommand.Fortune
             }
         }
 
-        private void ReadKindsList()
+        public void RefreshData()
         {
             KindDic = CommonUtil.ReadJsonData<Dictionary<string, int>>("majConfigData");
             SumRate = KindDic.Sum(p => p.Value);

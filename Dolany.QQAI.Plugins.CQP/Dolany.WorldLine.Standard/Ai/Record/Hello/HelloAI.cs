@@ -14,7 +14,7 @@ using Dolany.Database.Sqlite.Model;
 
 namespace Dolany.WorldLine.Standard.Ai.Record.Hello
 {
-    public class HelloAI : AIBase
+    public class HelloAI : AIBase, IDataMgr
     {
         public override string AIName { get; set; } = "打招呼";
 
@@ -27,9 +27,8 @@ namespace Dolany.WorldLine.Standard.Ai.Record.Hello
 
         public override void Initialization()
         {
-            var Groups = Global.AllGroupsDic.Keys.ToArray();
-            HelloList = MongoService<HelloRecord>.Get(p => Groups.Contains(p.GroupNum));
-            MultiMediaHelloList = CommonUtil.ReadJsonData_NamedList<MultiMediaHelloRecord>("MultiMediaHelloData");
+            RefreshData();
+            DataRefresher.Instance.Register(this);
         }
 
         public override bool OnMsgReceived(MsgInformationEx MsgDTO)
@@ -232,6 +231,13 @@ namespace Dolany.WorldLine.Standard.Ai.Record.Hello
             SendMultiMediaHello(MsgDTO, hello);
 
             return true;
+        }
+
+        public void RefreshData()
+        {
+            var Groups = Global.AllGroupsDic.Keys.ToArray();
+            HelloList = MongoService<HelloRecord>.Get(p => Groups.Contains(p.GroupNum));
+            MultiMediaHelloList = CommonUtil.ReadJsonData_NamedList<MultiMediaHelloRecord>("MultiMediaHelloData");
         }
     }
 }

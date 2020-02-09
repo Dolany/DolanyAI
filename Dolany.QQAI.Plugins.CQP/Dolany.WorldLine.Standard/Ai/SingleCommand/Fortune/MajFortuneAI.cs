@@ -12,7 +12,7 @@ using Newtonsoft.Json;
 
 namespace Dolany.WorldLine.Standard.Ai.SingleCommand.Fortune
 {
-    public class MajFortuneAI : AIBase
+    public class MajFortuneAI : AIBase, IDataMgr
     {
         public override string AIName { get; set; } = "麻将运势";
 
@@ -32,7 +32,8 @@ namespace Dolany.WorldLine.Standard.Ai.SingleCommand.Fortune
         public override void Initialization()
         {
             ReadCharactorsDic();
-            ReadKindsList();
+            RefreshData();
+            DataRefresher.Instance.Register(this);
         }
 
         private void ReadCharactorsDic()
@@ -45,7 +46,7 @@ namespace Dolany.WorldLine.Standard.Ai.SingleCommand.Fortune
             }
         }
 
-        private void ReadKindsList()
+        public void RefreshData()
         {
             KindDic = CommonUtil.ReadJsonData<Dictionary<string, int>>("majConfigData");
             SumRate = KindDic.Sum(p => p.Value);

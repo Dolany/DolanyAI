@@ -8,7 +8,7 @@ using Dolany.Database.Ai;
 
 namespace Dolany.Ai.Core.Common
 {
-    public class DirtyFilter
+    public class DirtyFilter : IDataMgr
     {
         private string[] WordList;
 
@@ -20,13 +20,8 @@ namespace Dolany.Ai.Core.Common
 
         private DirtyFilter()
         {
-            Refresh();
-        }
-
-        public void Refresh()
-        {
-            WordList = CommonUtil.ReadJsonData<Dictionary<string, string[]>>("DirtyWordData").First().Value;
-            BlackList = MongoService<BlackList>.Get(p => p.BlackCount >= MaxTolerateCount).Select(p => p.QQNum).ToList();
+            RefreshData();
+            DataRefresher.Instance.Register(this);
         }
 
         public bool Filter(MsgInformationEx MsgDTO)
@@ -73,6 +68,12 @@ namespace Dolany.Ai.Core.Common
         public bool IsInBlackList(long fromQQ)
         {
             return BlackList.Contains(fromQQ);
+        }
+
+        public void RefreshData()
+        {
+            WordList = CommonUtil.ReadJsonData<Dictionary<string, string[]>>("DirtyWordData").First().Value;
+            BlackList = MongoService<BlackList>.Get(p => p.BlackCount >= MaxTolerateCount).Select(p => p.QQNum).ToList();
         }
     }
 }

@@ -19,12 +19,18 @@ namespace Dolany.Ai.Doremi.Ai.Record.Hello
         Enable = true,
         PriorityLevel = 15,
         BindAi = "Doremi")]
-    public class HelloAI : AIBase
+    public class HelloAI : AIBase, IDataMgr
     {
         private List<HelloRecord> HelloList = new List<HelloRecord>();
         private List<MultiMediaHelloRecord> MultiMediaHelloList = new List<MultiMediaHelloRecord>();
 
         public override void Initialization()
+        {
+            RefreshData();
+            DataRefresher.Instance.Register(this);
+        }
+
+        public void RefreshData()
         {
             var Groups = Global.AllGroupsDic.Keys.ToArray();
             HelloList = MongoService<HelloRecord>.Get(p => Groups.Contains(p.GroupNum));

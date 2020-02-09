@@ -4,20 +4,26 @@ using Dolany.Ai.Common;
 
 namespace Dolany.Ai.Doremi.Xiuxian
 {
-    public class LevelMgr
+    public class LevelMgr : IDataMgr
     {
         public static LevelMgr Instance { get; } = new LevelMgr();
 
-        private readonly List<LevelDataModel> LevelDataList;
+        private List<LevelDataModel> LevelDataList;
 
         private LevelMgr()
         {
-            LevelDataList = CommonUtil.ReadJsonData_NamedList<LevelDataModel>("LevelData");
+            RefreshData();
+            DataRefresher.Instance.Register(this);
         }
 
         public LevelDataModel GetByLevel(int level)
         {
             return LevelDataList.FirstOrDefault(p => p.Level == level);
+        }
+
+        public void RefreshData()
+        {
+            LevelDataList = CommonUtil.ReadJsonData_NamedList<LevelDataModel>("LevelData");
         }
     }
 

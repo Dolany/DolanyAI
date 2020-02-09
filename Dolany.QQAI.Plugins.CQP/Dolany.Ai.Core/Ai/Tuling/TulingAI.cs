@@ -14,7 +14,7 @@ using System.Text;
 
 namespace Dolany.Ai.Core.Ai.SingleCommand.Tuling
 {
-    public class TulingAI : AIBase
+    public class TulingAI : AIBase, IDataMgr
     {
         public override string AIName { get; set; } = "图灵";
 
@@ -34,6 +34,12 @@ namespace Dolany.Ai.Core.Ai.SingleCommand.Tuling
             };
 
         public override void Initialization()
+        {
+            RefreshData();
+            DataRefresher.Instance.Register(this);
+        }
+
+        public void RefreshData()
         {
             ApiKeys = CommonUtil.ReadJsonData_NamedList<TulingConfigModel>("TulingData");
         }

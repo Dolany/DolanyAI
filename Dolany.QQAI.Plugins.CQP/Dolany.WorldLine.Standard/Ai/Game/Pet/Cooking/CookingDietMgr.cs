@@ -5,23 +5,29 @@ using Dolany.WorldLine.Standard.OnlineStore;
 
 namespace Dolany.WorldLine.Standard.Ai.Game.Pet.Cooking
 {
-    public class CookingDietMgr
+    public class CookingDietMgr : IDataMgr
     {
         public static CookingDietMgr Instance { get; } = new CookingDietMgr();
 
-        public readonly List<CookingDietModel> DietList;
+        public List<CookingDietModel> DietList;
 
         public CookingDietModel this[string name] => DietList.FirstOrDefault(p => p.Name == name);
 
         private CookingDietMgr()
         {
-            DietList = CommonUtil.ReadJsonData_NamedList<CookingDietModel>("Pet/CookingDietData");
+            RefreshData();
+            DataRefresher.Instance.Register(this);
         }
 
         public CookingDietModel SuggestDiet(List<string> LearnedDiets)
         {
             var availables = DietList.Where(p => !LearnedDiets.Contains(p.Name));
             return availables.RandElement();
+        }
+
+        public void RefreshData()
+        {
+            DietList = CommonUtil.ReadJsonData_NamedList<CookingDietModel>("Pet/CookingDietData");
         }
     }
 

@@ -33,7 +33,7 @@ namespace Dolany.WorldLine.Standard.AITools
                         var groupSetting = GroupSettingMgr.Instance[setting.GroupNum];
                         groupSetting.IsPowerOn = true;
                         groupSetting.Update();
-                        GroupSettingMgr.Instance.Refresh();
+                        GroupSettingMgr.Instance.RefreshData();
 
                         MsgSender.PushMsg(setting.GroupNum, 0, "开机成功！", groupSetting.BindAi);
                         break;
@@ -43,7 +43,7 @@ namespace Dolany.WorldLine.Standard.AITools
                         var groupSetting = GroupSettingMgr.Instance[setting.GroupNum];
                         groupSetting.IsPowerOn = false;
                         groupSetting.Update();
-                        GroupSettingMgr.Instance.Refresh();
+                        GroupSettingMgr.Instance.RefreshData();
 
                         MsgSender.PushMsg(setting.GroupNum, 0, "关机成功！", groupSetting.BindAi);
                         break;

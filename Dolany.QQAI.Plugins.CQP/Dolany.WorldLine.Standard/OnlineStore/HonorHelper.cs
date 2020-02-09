@@ -7,7 +7,7 @@ using Dolany.Database.Ai;
 
 namespace Dolany.WorldLine.Standard.OnlineStore
 {
-    public class HonorHelper
+    public class HonorHelper : IDataMgr
     {
         public static HonorHelper Instance { get; } = new HonorHelper();
 
@@ -19,10 +19,11 @@ namespace Dolany.WorldLine.Standard.OnlineStore
 
         private HonorHelper()
         {
-            Refresh();
+            RefreshData();
+            DataRefresher.Instance.Register(this);
         }
 
-        public void Refresh()
+        public void RefreshData()
         {
             var HonorDic = CommonUtil.ReadJsonData<Dictionary<string, DriftBottleItemModel[]>>("driftBottleItemData");
             var LimitHonors = CommonUtil.ReadJsonData<Dictionary<string, LimitHonorModel>>("driftBottleItemData_Limit");

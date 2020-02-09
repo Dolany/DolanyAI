@@ -4,20 +4,26 @@ using Dolany.Ai.Common;
 
 namespace Dolany.Ai.Doremi.Ai.Game.Xiuxian
 {
-    public class DujieMgr
+    public class DujieMgr : IDataMgr
     {
         public static DujieMgr Instance { get; } = new DujieMgr();
 
-        private readonly List<DujieQAModel> QAs;
+        private List<DujieQAModel> QAs;
 
         private DujieMgr()
         {
-            QAs = CommonUtil.ReadJsonData_NamedList<DujieQAModel>("DujieQAData");
+            RefreshData();
+            DataRefresher.Instance.Register(this);
         }
 
         public DujieQAModel[] RandQAs(int count)
         {
             return Rander.RandSort(QAs.ToArray()).Take(count).ToArray();
+        }
+
+        public void RefreshData()
+        {
+            QAs = CommonUtil.ReadJsonData_NamedList<DujieQAModel>("DujieQAData");
         }
     }
 

@@ -4,11 +4,11 @@ using Dolany.Ai.Common;
 
 namespace Dolany.WorldLine.Standard.Ai.Game.Pet.PetAgainst
 {
-    public class PetSkillMgr
+    public class PetSkillMgr : IDataMgr
     {
         public static PetSkillMgr Instance { get; } = new PetSkillMgr();
 
-        public readonly List<PetSkillModel> AllSkills;
+        public List<PetSkillModel> AllSkills;
 
         public PetSkillModel this[string name]
         {
@@ -16,6 +16,12 @@ namespace Dolany.WorldLine.Standard.Ai.Game.Pet.PetAgainst
         }
 
         private PetSkillMgr()
+        {
+            RefreshData();
+            DataRefresher.Instance.Register(this);
+        }
+
+        public void RefreshData()
         {
             AllSkills = CommonUtil.ReadJsonData_NamedList<PetSkillModel>("Pet/PetSkillData");
         }

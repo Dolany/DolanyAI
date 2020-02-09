@@ -73,7 +73,8 @@ namespace Dolany.Ai.WSMidware
             PublishInformation(new MsgInformation()
             {
                 BindAi = bindAi,
-                Msg = isConnected.ToString()
+                Msg = isConnected.ToString(),
+                Information = InformationType.ConnectStateChange
             });
         }
 
