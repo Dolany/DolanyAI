@@ -120,7 +120,7 @@ namespace Dolany.WorldLine.Standard.OnlineStore
         private DriftBottleItemModel LocalateItem(int index)
         {
             var totalSum = 0;
-            foreach (var item in this.Items)
+            foreach (var item in Items)
             {
                 if (index < totalSum + item.Rate)
                 {
@@ -130,12 +130,12 @@ namespace Dolany.WorldLine.Standard.OnlineStore
                 totalSum += item.Rate;
             }
 
-            return this.Items.First();
+            return Items.First();
         }
 
         public DriftBottleItemModel RandItem()
         {
-            return LocalateItem(Rander.RandInt(this.SumRate));
+            return LocalateItem(Rander.RandInt(SumRate));
         }
 
         public List<DriftBottleItemModel> RandItems(int count)
@@ -156,7 +156,7 @@ namespace Dolany.WorldLine.Standard.OnlineStore
             {
                 return 0;
             }
-            return Math.Round(item.Rate * 1.0 / this.SumRate * 100, 2);
+            return Math.Round(item.Rate * 1.0 / SumRate * 100, 2);
         }
 
         public IList<string> GetOrderedItemsStr(Dictionary<string, int> items)
