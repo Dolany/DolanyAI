@@ -50,8 +50,9 @@ namespace Dolany.WorldLine.Standard.Ai.Game.Pet
 
             var levelModel = PetLevelMgr.Instance[pet.Level];
 
-            var extEndur = VipArmerRecord.Get(MsgDTO.FromQQ).CheckArmer("耐力护符") ? "(+10)" : string.Empty;
-            var petEndur = levelModel.Endurance - PetEnduranceRecord.Get(MsgDTO.FromQQ).ConsumeTotal;
+            var HasExtEndur = VipArmerRecord.Get(MsgDTO.FromQQ).CheckArmer("耐力护符");
+            var extEndur = HasExtEndur ? "(+10)" : string.Empty;
+            var petEndur = levelModel.Endurance - PetEnduranceRecord.Get(MsgDTO.FromQQ).ConsumeTotal + (HasExtEndur ? 10 : 0);
 
             var msg = $"{CodeApi.Code_Image_Relational(pet.PicPath)}\r" +
                       $"名称：{pet.Name}\r" +
