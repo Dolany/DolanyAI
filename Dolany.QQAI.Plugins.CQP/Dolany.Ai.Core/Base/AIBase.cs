@@ -84,7 +84,7 @@ namespace Dolany.Ai.Core.Base
                     var checkResult = DailyLimitCheck(enterCommandAttribute, MsgDTO, limitRecord);
                     if (!checkResult)
                     {
-                        MsgSender.PushMsg(MsgDTO, $"你今天 {enterCommandAttribute.Command} 的次数已用完");
+                        MsgSender.PushMsg(MsgDTO, $"你今天 【{enterCommandAttribute.Command}】 的次数已用完");
                         return true;
                     }
 
@@ -145,7 +145,7 @@ namespace Dolany.Ai.Core.Base
                 return true;
             }
 
-            MsgSender.PushMsg(MsgDTO, $"本群尚未开启 {AIName} 功能，请联系群主使用 开启功能 命令来开启此功能！");
+            MsgSender.PushMsg(MsgDTO, $"本群尚未开启 【{AIName}】 功能，请联系群主使用 【开启功能】 命令来开启此功能！");
             return false;
         }
 
@@ -174,7 +174,7 @@ namespace Dolany.Ai.Core.Base
 
             if (!AuthorityCheck(enterAttr.AuthorityLevel, enterAttr, MsgDTO))
             {
-                MsgSender.PushMsg(MsgDTO, $"权限不足！需要 {enterAttr.AuthorityLevel.ToString()} 权限！");
+                MsgSender.PushMsg(MsgDTO, $"权限不足！需要 【{enterAttr.AuthorityLevel.ToString()}】 权限！");
                 return false;
             }
 

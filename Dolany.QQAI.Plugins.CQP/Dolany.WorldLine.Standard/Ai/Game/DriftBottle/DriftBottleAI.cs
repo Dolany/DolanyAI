@@ -188,7 +188,7 @@ namespace Dolany.WorldLine.Standard.Ai.Game.DriftBottle
             var msg = $"你收集到的限定物品有：\r{string.Join("\r", itemMsgs.Take(5))}";
             if (itemMsgs.Count > 5)
             {
-                msg += $"\r当前显示第 1/{(itemMsgs.Count - 1) / 5 + 1}页，请使用 我的物品 [页码] 命令查看更多物品！";
+                msg += $"\r当前显示第 1/{(itemMsgs.Count - 1) / 5 + 1}页，请使用 我的限定物品 [页码] 命令查看更多物品！";
             }
             MsgSender.PushMsg(MsgDTO, msg, true);
             return true;
@@ -223,7 +223,7 @@ namespace Dolany.WorldLine.Standard.Ai.Game.DriftBottle
             }
 
             var msg = $"该页的物品有：\r{string.Join("\r", itemMsgs.Skip((pageNo - 1) * 7).Take(7))}";
-            msg += $"\r当前显示第 {pageNo}/{(itemMsgs.Count - 1) / 7 + 1}页，请使用 我的限定物品 [页码] 命令查看更多物品！";
+            msg += $"\r当前显示第 {pageNo}/{(itemMsgs.Count - 1) / 7 + 1}页，请使用 我的物品 [页码] 命令查看更多物品！";
             MsgSender.PushMsg(MsgDTO, msg, true);
             return true;
         }
@@ -488,7 +488,7 @@ namespace Dolany.WorldLine.Standard.Ai.Game.DriftBottle
         [EnterCommand(ID = "DriftBottleAI_MyLackItems",
             Command = "我缺少的物品",
             AuthorityLevel = AuthorityLevel.成员,
-            Description = "查看自己缺少的物品（仅当缺少的物品少于10件时显示详情信息）",
+            Description = "查看自己缺少的物品（仅当缺少的物品少于20件时显示详情信息）",
             Syntax = "",
             SyntaxChecker = "Empty",
             Tag = "漂流瓶功能",
@@ -507,7 +507,7 @@ namespace Dolany.WorldLine.Standard.Ai.Game.DriftBottle
             }
 
             var msg = $"你总共缺少{lackItems.Count}件物品\r";
-            if (lackItems.Count < 10)
+            if (lackItems.Count <= 20)
             {
                 msg += string.Join(",", lackItems.Select(p => p.Name));
             }

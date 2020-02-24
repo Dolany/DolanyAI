@@ -303,7 +303,7 @@ namespace Dolany.WorldLine.Standard.Ai.Game.Pet
             var expRec = ExpeditionRecord.GetLastest(MsgDTO.FromQQ);
             if (expRec != null && expRec.IsExpediting)
             {
-                MsgSender.PushMsg(MsgDTO, $"{pet.Name}正在{expRec.Scene}进行一项伟大的远征，请于{expRec.EndTime.ToLocalTime():yyyy-MM-dd HH:mm:ss}后再试！");
+                MsgSender.PushMsg(MsgDTO, $"{pet.Name}正在【{expRec.Scene}】进行一项伟大的远征，请于{expRec.EndTime.ToLocalTime():yyyy-MM-dd HH:mm:ss}后再试！");
                 return false;
             }
 
@@ -478,7 +478,7 @@ namespace Dolany.WorldLine.Standard.Ai.Game.Pet
             var expRec = ExpeditionRecord.GetLastest(MsgDTO.FromQQ);
             if (expRec != null && expRec.IsExpediting)
             {
-                MsgSender.PushMsg(MsgDTO, $"{pet.Name}正在{expRec.Scene}进行一项伟大的远征，请于{expRec.EndTime.ToLocalTime():yyyy-MM-dd HH:mm:ss}后再试！");
+                MsgSender.PushMsg(MsgDTO, $"{pet.Name}正在【{expRec.Scene}】进行一项伟大的远征，请于{expRec.EndTime.ToLocalTime():yyyy-MM-dd HH:mm:ss}后再试！");
                 return false;
             }
 
@@ -536,7 +536,7 @@ namespace Dolany.WorldLine.Standard.Ai.Game.Pet
             var expRec = ExpeditionRecord.GetLastest(MsgDTO.FromQQ);
             if (expRec != null && expRec.IsExpediting)
             {
-                MsgSender.PushMsg(MsgDTO, $"{pet.Name}正在{expRec.Scene}进行一项伟大的远征，请于{expRec.EndTime.ToLocalTime():yyyy-MM-dd HH:mm:ss}后再试！");
+                MsgSender.PushMsg(MsgDTO, $"{pet.Name}正在【{expRec.Scene}】进行一项伟大的远征，请于{expRec.EndTime.ToLocalTime():yyyy-MM-dd HH:mm:ss}后再试！");
                 return false;
             }
 
@@ -553,7 +553,7 @@ namespace Dolany.WorldLine.Standard.Ai.Game.Pet
         [EnterCommand(ID = "PetAI_Fight",
             Command = "宠物对决",
             AuthorityLevel = AuthorityLevel.成员,
-            Description = "要求指定群员进行宠物对决",
+            Description = "邀请指定群员进行宠物对决",
             Syntax = "[@QQ号]",
             Tag = "宠物功能",
             SyntaxChecker = "At",
@@ -597,7 +597,7 @@ namespace Dolany.WorldLine.Standard.Ai.Game.Pet
             var expRec = ExpeditionRecord.GetLastest(MsgDTO.FromQQ);
             if (expRec != null && expRec.IsExpediting)
             {
-                MsgSender.PushMsg(MsgDTO, $"{sourcePet.Name}正在{expRec.Scene}进行一项伟大的远征，请于{expRec.EndTime.ToLocalTime():yyyy-MM-dd HH:mm:ss}后再试！");
+                MsgSender.PushMsg(MsgDTO, $"{sourcePet.Name}正在【{expRec.Scene}】进行一项伟大的远征，请于{expRec.EndTime.ToLocalTime():yyyy-MM-dd HH:mm:ss}后再试！");
                 return false;
             }
 
@@ -610,14 +610,14 @@ namespace Dolany.WorldLine.Standard.Ai.Game.Pet
             var aimPet = PetRecord.Get(aimQQ);
             if (aimPet.Level < 3)
             {
-                MsgSender.PushMsg(MsgDTO, $"对方的宠物还没到3级，无法参加宠物对决！");
+                MsgSender.PushMsg(MsgDTO, "对方的宠物还没到3级，无法参加宠物对决！");
                 return false;
             }
 
             expRec = ExpeditionRecord.GetLastest(aimQQ);
             if (expRec != null && expRec.IsExpediting)
             {
-                MsgSender.PushMsg(MsgDTO, $"{aimPet.Name}正在{expRec.Scene}进行一项伟大的远征，请于{expRec.EndTime.ToLocalTime():yyyy-MM-dd HH:mm:ss}后再试！");
+                MsgSender.PushMsg(MsgDTO, $"{aimPet.Name}正在【{expRec.Scene}】进行一项伟大的远征，请于{expRec.EndTime.ToLocalTime():yyyy-MM-dd HH:mm:ss}后再试！");
                 return false;
             }
 

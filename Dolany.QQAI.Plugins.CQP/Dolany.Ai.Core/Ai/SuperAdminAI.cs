@@ -48,11 +48,11 @@ namespace Dolany.Ai.Core.Ai
         }
 
         [EnterCommand(ID = "SuperAdminAI_BlackList",
-            Command = "BlackList",
+            Command = "BlackList 黑名单",
             Description = "Put someone to blacklist",
-            Syntax = "qqnum",
+            Syntax = "[@QQ号]",
             Tag = "超管",
-            SyntaxChecker = "Long",
+            SyntaxChecker = "At",
             AuthorityLevel = AuthorityLevel.开发者,
             IsPrivateAvailable = true)]
         public bool BlackList(MsgInformationEx MsgDTO, object[] param)
@@ -76,11 +76,11 @@ namespace Dolany.Ai.Core.Ai
         }
 
         [EnterCommand(ID = "SuperAdminAI_FreeBlackList",
-            Command = "FreeBlackList",
+            Command = "FreeBlackList 解除黑名单",
             Description = "Pull someone out from blacklist",
-            Syntax = "qqnum",
+            Syntax = "[@QQ号]",
             Tag = "超管",
-            SyntaxChecker = "Long",
+            SyntaxChecker = "At",
             AuthorityLevel = AuthorityLevel.开发者,
             IsPrivateAvailable = true)]
         public bool FreeBlackList(MsgInformationEx MsgDTO, object[] param)
