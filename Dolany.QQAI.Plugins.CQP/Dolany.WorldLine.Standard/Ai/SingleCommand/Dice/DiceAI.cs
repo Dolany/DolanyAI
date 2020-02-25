@@ -6,6 +6,7 @@ using Dolany.Ai.Common.Models;
 using Dolany.Ai.Core.Base;
 using Dolany.Ai.Core.Cache;
 using Dolany.Ai.Core.Common;
+using Dolany.Database.Ai;
 
 namespace Dolany.WorldLine.Standard.Ai.SingleCommand.Dice
 {
@@ -45,9 +46,9 @@ namespace Dolany.WorldLine.Standard.Ai.SingleCommand.Dice
                 return false;
             }
 
-            AIAnalyzer.AddCommandCount(new CommandAnalyzeDTO()
+            AIAnalyzer.AddCommandCount(new CmdRec()
             {
-                Ai = AIName,
+                FunctionalAi = AIName,
                 Command = "DiceOverride",
                 GroupNum = MsgDTO.FromGroup,
                 BindAi = MsgDTO.BindAi

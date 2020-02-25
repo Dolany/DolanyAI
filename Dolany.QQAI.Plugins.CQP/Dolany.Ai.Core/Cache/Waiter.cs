@@ -5,6 +5,7 @@ using System.Threading;
 using Dolany.Ai.Common;
 using Dolany.Ai.Common.Models;
 using Dolany.Ai.Core.Common;
+using Dolany.Database.Ai;
 using Newtonsoft.Json;
 
 namespace Dolany.Ai.Core.Cache
@@ -83,9 +84,9 @@ namespace Dolany.Ai.Core.Cache
                     {
                         waitUnit.Signal.Set();
                     }
-                    AIAnalyzer.AddCommandCount(new CommandAnalyzeDTO()
+                    AIAnalyzer.AddCommandCount(new CmdRec()
                     {
-                        Ai = "Waiter",
+                        FunctionalAi = "Waiter",
                         Command = "WaiterCallBack",
                         GroupNum = info.FromGroup,
                         BindAi = info.BindAi

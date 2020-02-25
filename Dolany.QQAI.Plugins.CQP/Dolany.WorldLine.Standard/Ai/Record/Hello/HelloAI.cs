@@ -48,9 +48,9 @@ namespace Dolany.WorldLine.Standard.Ai.Record.Hello
 
             if (result)
             {
-                AIAnalyzer.AddCommandCount(new CommandAnalyzeDTO()
+                AIAnalyzer.AddCommandCount(new CmdRec()
                 {
-                    Ai = AIName,
+                    FunctionalAi = AIName,
                     Command = "HelloOverride",
                     GroupNum = MsgDTO.FromGroup,
                     BindAi = MsgDTO.BindAi

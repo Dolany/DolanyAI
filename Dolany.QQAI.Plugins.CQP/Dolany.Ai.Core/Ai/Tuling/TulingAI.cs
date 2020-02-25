@@ -95,9 +95,9 @@ namespace Dolany.Ai.Core.Ai.SingleCommand.Tuling
                 return false;
             }
 
-            AIAnalyzer.AddCommandCount(new CommandAnalyzeDTO()
+            AIAnalyzer.AddCommandCount(new CmdRec()
             {
-                Ai = AIName,
+                FunctionalAi = AIName,
                 Command = "TulingOverride",
                 GroupNum = MsgDTO.FromGroup,
                 BindAi = MsgDTO.BindAi

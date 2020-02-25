@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using Dolany.Database.Ai;
 
 namespace Dolany.Ai.Core.Common
 {
@@ -10,72 +11,58 @@ namespace Dolany.Ai.Core.Common
 
         public static DateTime Sys_StartTime;
 
-        private static readonly List<CommandAnalyzeDTO> Commands = new List<CommandAnalyzeDTO>();
-
         private static readonly List<ErrorModel> ErrorList = new List<ErrorModel>();
 
-        public static void AddCommandCount(CommandAnalyzeDTO model)
+        private const int AnalyzeHours = 24;
+
+        public static void AddCommandCount(CmdRec rec)
         {
-            lock (Lock)
-            {
-                Commands.Add(model);
-            }
+            rec.Insert();
         }
 
-        public static int GetCommandCount()
+        public static long GetCommandCount()
         {
-            lock (Lock)
-            {
-                return Commands.Count;
-            }
+            return CmdRec.RecentCmdsCount(AnalyzeHours);
         }
 
         public static IEnumerable<GroupAnalyzeModel> AnalyzeGroup()
         {
-            lock (Lock)
+            var Commands = CmdRec.RecentCmds(AnalyzeHours);
+            return Commands.GroupBy(c => c.GroupNum).Select(c => new GroupAnalyzeModel()
             {
-                return Commands.GroupBy(c => c.GroupNum).Select(c => new GroupAnalyzeModel()
-                {
-                    GroupNum = c.Key,
-                    CommandCount = c.Count()
-                }).OrderByDescending(c => c.CommandCount).Take(10).ToList();
-            }
+                GroupNum = c.Key,
+                CommandCount = c.Count()
+            }).OrderByDescending(c => c.CommandCount).Take(10).ToList();
         }
 
         public static IEnumerable<AIAnalyzeModel> AnalyzeAI()
         {
-            lock (Lock)
+            var Commands = CmdRec.RecentCmds(AnalyzeHours);
+            return Commands.GroupBy(c => c.FunctionalAi).Select(c => new AIAnalyzeModel()
             {
-                return Commands.GroupBy(c => c.Ai).Select(c => new AIAnalyzeModel()
-                {
-                    AIName = c.Key,
-                    CommandCount = c.Count()
-                }).OrderByDescending(c => c.CommandCount).Take(10).ToList();
-            }
+                AIName = c.Key,
+                CommandCount = c.Count()
+            }).OrderByDescending(c => c.CommandCount).Take(10).ToList();
         }
 
         public static IEnumerable<TimeAnalyzeModel> AnalyzeTime()
         {
-            lock (Lock)
+            var Commands = CmdRec.RecentCmds(AnalyzeHours);
+            return Commands.GroupBy(c => c.Time.Hour).Select(c => new TimeAnalyzeModel()
             {
-                return Commands.Where(c => c.Time.AddHours(12) > DateTime.Now).GroupBy(c => c.Time.Hour).Select(c => new TimeAnalyzeModel()
-                {
-                    Hour = c.Key,
-                    CommandCount = c.Count()
-                }).ToList();
-            }
+                Hour = c.Key,
+                CommandCount = c.Count()
+            }).ToList();
         }
 
         public static IEnumerable<CommandAnalyzeModel> AnalyzeCommand()
         {
-            lock (Lock)
+            var Commands = CmdRec.RecentCmds(AnalyzeHours);
+            return Commands.GroupBy(c => c.Command).Select(c => new CommandAnalyzeModel()
             {
-                return Commands.GroupBy(c => c.Command).Select(c => new CommandAnalyzeModel()
-                {
-                    Command = c.Key,
-                    CommandCount = c.Count()
-                }).OrderByDescending(c => c.CommandCount).Take(10).ToList();
-            }
+                Command = c.Key,
+                CommandCount = c.Count()
+            }).OrderByDescending(c => c.CommandCount).Take(10).ToList();
         }
 
         public static int GetErrorCount()
@@ -125,19 +112,6 @@ namespace Dolany.Ai.Core.Common
         public string Msg { get; set; }
 
         public int Count { get; set; }
-    }
-
-    public class CommandAnalyzeDTO
-    {
-        public long GroupNum { get; set; }
-
-        public string Ai { get; set; }
-
-        public string Command { get; set; }
-
-        public DateTime Time { get; set; } = DateTime.Now;
-
-        public string BindAi { get; set; }
     }
 
     public class GroupAnalyzeModel

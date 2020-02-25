@@ -7,6 +7,7 @@ using Dolany.Ai.Core.Cache;
 using Dolany.Ai.Core.Common;
 using Dolany.Ai.Core.Model;
 using Dolany.Ai.Core.SyntaxChecker;
+using Dolany.Database.Ai;
 
 namespace Dolany.WorldLine.Standard.Ai.Repeater
 {
@@ -77,9 +78,9 @@ namespace Dolany.WorldLine.Standard.Ai.Repeater
                 return;
             }
 
-            AIAnalyzer.AddCommandCount(new CommandAnalyzeDTO()
+            AIAnalyzer.AddCommandCount(new CmdRec()
             {
-                Ai = AIName,
+                FunctionalAi = AIName,
                 Command = "PlusOneOverride",
                 GroupNum = MsgDTO.FromGroup,
                 BindAi = MsgDTO.BindAi

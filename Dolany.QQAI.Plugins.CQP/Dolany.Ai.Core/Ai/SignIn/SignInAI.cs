@@ -86,9 +86,9 @@ namespace Dolany.WorldLine.Standard.Ai.Game.SignIn
                 return false;
             }
 
-            AIAnalyzer.AddCommandCount(new CommandAnalyzeDTO()
+            AIAnalyzer.AddCommandCount(new CmdRec()
             {
-                Ai = AIName,
+                FunctionalAi = AIName,
                 Command = "SignInOverride",
                 GroupNum = MsgDTO.FromGroup,
                 BindAi = MsgDTO.BindAi

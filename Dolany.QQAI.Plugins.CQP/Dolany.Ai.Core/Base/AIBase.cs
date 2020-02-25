@@ -67,9 +67,9 @@ namespace Dolany.Ai.Core.Base
                         continue;
                     }
 
-                    AIAnalyzer.AddCommandCount(new CommandAnalyzeDTO()
+                    AIAnalyzer.AddCommandCount(new CmdRec()
                     {
-                        Ai = AIName,
+                        FunctionalAi = AIName,
                         Command = enterCommandAttribute.Command,
                         GroupNum = MsgDTO.FromGroup,
                         BindAi = MsgDTO.BindAi
