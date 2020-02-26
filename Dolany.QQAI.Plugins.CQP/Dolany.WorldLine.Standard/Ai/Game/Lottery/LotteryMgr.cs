@@ -6,18 +6,18 @@ namespace Dolany.WorldLine.Standard.Ai.Game.Lottery
 {
     public class LotteryMgr : IDataMgr
     {
-        public static LotteryMgr Instance { get; } = new LotteryMgr();
-
         private List<LotteryModel> Models;
 
         public const int LotteryFee = 100;
 
         public LotteryModel this[string Name] => Models.FirstOrDefault(p => p.Name == Name);
 
-        private LotteryMgr()
+        private static DataRefresher DataRefresher => AutofacSvc.Resolve<DataRefresher>();
+
+        public LotteryMgr()
         {
             RefreshData();
-            DataRefresher.Instance.Register(this);
+            DataRefresher.Register(this);
         }
 
         public LotteryModel RandLottery()

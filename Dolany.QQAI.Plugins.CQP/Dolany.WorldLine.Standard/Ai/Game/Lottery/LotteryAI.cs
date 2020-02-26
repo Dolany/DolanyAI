@@ -16,6 +16,9 @@ namespace Dolany.WorldLine.Standard.Ai.Game.Lottery
 
         public override bool NeedManualOpeon { get; } = false;
 
+        private static LotteryMgr LotteryMgr => AutofacSvc.Resolve<LotteryMgr>();
+        private static HonorHelper HonorHelper => AutofacSvc.Resolve<HonorHelper>();
+
         [EnterCommand(ID = "LotteryAI_DrawLottery",
             Command = "开箱子",
             AuthorityLevel = AuthorityLevel.成员,
@@ -42,7 +45,7 @@ namespace Dolany.WorldLine.Standard.Ai.Game.Lottery
 
         private static void RandomLottery(MsgInformationEx MsgDTO)
         {
-            var lottery = LotteryMgr.Instance.RandLottery();
+            var lottery = LotteryMgr.RandLottery();
 
             var absBonus = lottery.Bonus - LotteryMgr.LotteryFee;
             LotteryRecord.Record(absBonus);
@@ -75,7 +78,7 @@ namespace Dolany.WorldLine.Standard.Ai.Game.Lottery
                 return false;
             }
 
-            var items = HonorHelper.Instance.CurMonthLimitItems();
+            var items = HonorHelper.CurMonthLimitItems();
             var item = items.RandElement();
 
             var msg = $"恭喜你抽到了 {item.Name}*1\r" +
@@ -114,7 +117,7 @@ namespace Dolany.WorldLine.Standard.Ai.Game.Lottery
                 return false;
             }
 
-            if (!Waiter.Instance.WaitForConfirm_Gold(MsgDTO, 500))
+            if (!Waiter.WaitForConfirm_Gold(MsgDTO, 500))
             {
                 MsgSender.PushMsg(MsgDTO, "操作取消");
                 return false;

@@ -13,7 +13,7 @@ namespace Dolany.Ai.Doremi.Ai.Game.Xiuxian
         private DujieMgr()
         {
             RefreshData();
-            DataRefresher.Instance.Register(this);
+            //DataRefresher.Instance.Register(this);
         }
 
         public DujieQAModel[] RandQAs(int count)

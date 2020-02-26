@@ -18,7 +18,7 @@ namespace Dolany.Ai.Doremi.Xiuxian
         private ArmerMgr()
         {
             RefreshData();
-            DataRefresher.Instance.Register(this);
+            //DataRefresher.Instance.Register(this);
         }
 
         public IEnumerable<ArmerModel> GetRandArmers(int count)

@@ -16,6 +16,10 @@ namespace Dolany.WorldLine.Standard.Ai.Game.SegmentAttach
         public override string Description { get; set; } = "AI for segments attaching game.";
         public override AIPriority PriorityLevel { get;} = AIPriority.Normal;
 
+        private static SegmentMgr SegmentMgr => AutofacSvc.Resolve<SegmentMgr>();
+        private static HonorHelper HonorHelper => AutofacSvc.Resolve<HonorHelper>();
+        private static BindAiMgr BindAiMgr => AutofacSvc.Resolve<BindAiMgr>();
+
         [EnterCommand(ID = "SegmentAttachAI_TakeSegment",
             Command = "领取宝藏碎片",
             AuthorityLevel = AuthorityLevel.成员,
@@ -28,14 +32,14 @@ namespace Dolany.WorldLine.Standard.Ai.Game.SegmentAttach
             TestingDailyLimit = 1)]
         public bool TakeSegment(MsgInformationEx MsgDTO, object[] param)
         {
-            var segment = SegmentMgr.Instance.RandSegment();
+            var segment = SegmentMgr.RandSegment();
             var record = SegmentRecord.Get(MsgDTO.FromQQ);
             record.Segment = segment.Name;
             record.IsRare = Rander.RandInt(100) > 90;
             record.Update();
 
             var msg = $"你领取到了新的宝藏碎片！\r{segment}";
-            var treasure = SegmentMgr.Instance.FindTreasureBySegment(record.Segment);
+            var treasure = SegmentMgr.FindTreasureBySegment(record.Segment);
             msg += $"\r可开启宝藏：{treasure.Name}";
             if (record.IsRare)
             {
@@ -56,14 +60,14 @@ namespace Dolany.WorldLine.Standard.Ai.Game.SegmentAttach
         public bool ViewSegment(MsgInformationEx MsgDTO, object[] param)
         {
             var name = param[0] as string;
-            var segment = SegmentMgr.Instance.FindSegmentByName(name);
+            var segment = SegmentMgr.FindSegmentByName(name);
             if (segment == null)
             {
                 MsgSender.PushMsg(MsgDTO, "未找到指定的宝藏碎片");
                 return false;
             }
 
-            var treasure = SegmentMgr.Instance.FindTreasureBySegment(name);
+            var treasure = SegmentMgr.FindTreasureBySegment(name);
             var msg = $"{segment}\r可开启宝藏：{treasure.Name}";
 
             MsgSender.PushMsg(MsgDTO, msg);
@@ -86,14 +90,14 @@ namespace Dolany.WorldLine.Standard.Ai.Game.SegmentAttach
                 MsgSender.PushMsg(MsgDTO, "你尚未持有任何宝藏碎片！", true);
                 return false;
             }
-            var segment = SegmentMgr.Instance.FindSegmentByName(record.Segment);
+            var segment = SegmentMgr.FindSegmentByName(record.Segment);
             if (segment == null)
             {
                 MsgSender.PushMsg(MsgDTO, "未找到指定的宝藏碎片");
                 return false;
             }
 
-            var treasure = SegmentMgr.Instance.FindTreasureBySegment(record.Segment);
+            var treasure = SegmentMgr.FindTreasureBySegment(record.Segment);
             var msg = $"{segment}\r可开启宝藏：{treasure.Name}";
             if (record.IsRare)
             {
@@ -116,7 +120,7 @@ namespace Dolany.WorldLine.Standard.Ai.Game.SegmentAttach
         {
             var name = param[0] as string;
 
-            var treasure = SegmentMgr.Instance.FindTreasureByName(name);
+            var treasure = SegmentMgr.FindTreasureByName(name);
             if (treasure == null)
             {
                 MsgSender.PushMsg(MsgDTO, "未找到指定的宝藏");
@@ -175,7 +179,7 @@ namespace Dolany.WorldLine.Standard.Ai.Game.SegmentAttach
             }
 
             var options = new[] {"获取500金币", "随机获取商店售卖的一件商品*5", "宠物获取50点经验值", "捞瓶子机会*5(仅当日有效)"};
-            var selectedIdx = Waiter.Instance.WaitForOptions(MsgDTO.FromGroup, MsgDTO.FromQQ, "请选择你要开启的宝藏：", options, MsgDTO.BindAi);
+            var selectedIdx = Waiter.WaitForOptions(MsgDTO.FromGroup, MsgDTO.FromQQ, "请选择你要开启的宝藏：", options, MsgDTO.BindAi);
             if (selectedIdx < 0)
             {
                 MsgSender.PushMsg(MsgDTO, "你已经放弃了思考！");
@@ -249,7 +253,7 @@ namespace Dolany.WorldLine.Standard.Ai.Game.SegmentAttach
                 return false;
             }
 
-            if (BindAiMgr.Instance.AllAiNums.Contains(aimQQ))
+            if (BindAiMgr.AllAiNums.Contains(aimQQ))
             {
                 MsgSender.PushMsg(MsgDTO, "Stupid Human!", true);
                 return false;
@@ -269,7 +273,7 @@ namespace Dolany.WorldLine.Standard.Ai.Game.SegmentAttach
                 return false;
             }
 
-            var treasure = SegmentMgr.Instance.FindTreasureBySegment(selfRecord.Segment);
+            var treasure = SegmentMgr.FindTreasureBySegment(selfRecord.Segment);
             if (!treasure.IsMatch(selfRecord.Segment, aimRecord.Segment))
             {
                 MsgSender.PushMsg(MsgDTO, $"拼接失败，碎片不匹配！({selfRecord.Segment}×{aimRecord.Segment})");
@@ -279,8 +283,8 @@ namespace Dolany.WorldLine.Standard.Ai.Game.SegmentAttach
             selfRecord.AddTreasureRecord(treasure.Name);
             aimRecord.AddTreasureRecord(treasure.Name);
 
-            var selfBonusItems = HonorHelper.Instance.RandItems(3);
-            var aimBonusItems = HonorHelper.Instance.RandItems(3);
+            var selfBonusItems = HonorHelper.RandItems(3);
+            var aimBonusItems = HonorHelper.RandItems(3);
 
             var selfIcRecord = ItemCollectionRecord.Get(MsgDTO.FromQQ);
             var aimIcRecord = ItemCollectionRecord.Get(aimQQ);

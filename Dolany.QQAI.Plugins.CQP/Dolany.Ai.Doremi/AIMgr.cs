@@ -39,6 +39,8 @@ namespace Dolany.Ai.Doremi
 
         private event MessageCallBack OnMessageCallBack;
 
+        private static RandShopper RandShopper => AutofacSvc.Resolve<RandShopper>();
+
         public T AIInstance<T>() where T : AIBase
         {
             return AIList.FirstOrDefault(ai => ai.GetType().Name == typeof(T).Name) as T;
@@ -68,7 +70,7 @@ namespace Dolany.Ai.Doremi
                 Logger.Log("加载所有可用AI");
                 StartAIs();
                 Waiter.Instance.Listen();
-                RandShopper.Instance.BindAi = "DoreFun";
+                RandShopper.BindAi = "DoreFun";
 
                 AIAnalyzer.Sys_StartTime = DateTime.Now;
             }

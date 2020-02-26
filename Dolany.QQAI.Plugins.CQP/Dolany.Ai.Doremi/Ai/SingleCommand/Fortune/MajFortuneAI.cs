@@ -31,7 +31,7 @@ namespace Dolany.Ai.Doremi.Ai.SingleCommand.Fortune
         {
             ReadCharactorsDic();
             RefreshData();
-            DataRefresher.Instance.Register(this);
+            //DataRefresher.Instance.Register(this);
         }
 
         private void ReadCharactorsDic()

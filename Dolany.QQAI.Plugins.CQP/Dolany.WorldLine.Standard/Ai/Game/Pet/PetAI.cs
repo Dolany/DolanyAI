@@ -31,9 +31,17 @@ namespace Dolany.WorldLine.Standard.Ai.Game.Pet
 
         private const int FeedInterval = 2;
 
+        private static CookingDietMgr CookingDietMgr => AutofacSvc.Resolve<CookingDietMgr>();
+        private static PicReviewer PicReviewer => AutofacSvc.Resolve<PicReviewer>();
+        private static PetSkillMgr PetSkillMgr => AutofacSvc.Resolve<PetSkillMgr>();
+        private static PetLevelMgr PetLevelMgr => AutofacSvc.Resolve<PetLevelMgr>();
+        private static PetAgainstMgr PetAgainstMgr => AutofacSvc.Resolve<PetAgainstMgr>();
+        private static HonorHelper HonorHelper => AutofacSvc.Resolve<HonorHelper>();
+        private static BindAiMgr BindAiMgr => AutofacSvc.Resolve<BindAiMgr>();
+
         public PetAI()
         {
-            PicReviewer.Instance.Register("宠物头像", SetPetPicCallBack);
+            PicReviewer.Register("宠物头像", SetPetPicCallBack);
         }
 
         [EnterCommand(ID = "PetAI_MyPet",
@@ -48,7 +56,7 @@ namespace Dolany.WorldLine.Standard.Ai.Game.Pet
         {
             var pet = PetRecord.Get(MsgDTO.FromQQ);
 
-            var levelModel = PetLevelMgr.Instance[pet.Level];
+            var levelModel = PetLevelMgr[pet.Level];
 
             var HasExtEndur = VipArmerRecord.Get(MsgDTO.FromQQ).CheckArmer("耐力护符");
             var extEndur = HasExtEndur ? "(+10)" : string.Empty;
@@ -160,13 +168,13 @@ namespace Dolany.WorldLine.Standard.Ai.Game.Pet
                 return false;
             }
 
-            if (!Waiter.Instance.WaitForConfirm_Gold(MsgDTO, 300))
+            if (!Waiter.WaitForConfirm_Gold(MsgDTO, 300))
             {
                 MsgSender.PushMsg(MsgDTO, "操作取消！");
                 return false;
             }
 
-            var info = Waiter.Instance.WaitForInformation(MsgDTO, "请上传图片（不能超过300KB）！",
+            var info = Waiter.WaitForInformation(MsgDTO, "请上传图片（不能超过300KB）！",
                 information => information.FromGroup == MsgDTO.FromGroup && information.FromQQ == MsgDTO.FromQQ &&
                                !string.IsNullOrEmpty(Utility.ParsePicGuid(information.Msg)), 10);
             if(info == null)
@@ -175,7 +183,7 @@ namespace Dolany.WorldLine.Standard.Ai.Game.Pet
                 return false;
             }
 
-            var bindai = BindAiMgr.Instance[MsgDTO.BindAi];
+            var bindai = BindAiMgr[MsgDTO.BindAi];
 
             var picGuid = Utility.ParsePicGuid(info.Msg);
             var imageCache = Utility.ReadImageCacheInfo(picGuid, bindai.ImagePath);
@@ -256,7 +264,7 @@ namespace Dolany.WorldLine.Standard.Ai.Game.Pet
                     return false;
                 }
 
-                if (!Waiter.Instance.WaitForConfirm_Gold(MsgDTO, 300))
+                if (!Waiter.WaitForConfirm_Gold(MsgDTO, 300))
                 {
                     MsgSender.PushMsg(MsgDTO, "操作取消");
                     return false;
@@ -267,7 +275,7 @@ namespace Dolany.WorldLine.Standard.Ai.Game.Pet
 
             var randAttrs = Rander.RandSort(PetExtent.AllAttributes.ToArray());
             var msg = $"请选择宠物食性：\r{string.Join("\r", randAttrs.Select((p, idx) => $"{idx + 1}:{p}"))}";
-            var selectedIdx = Waiter.Instance.WaitForNum(MsgDTO.FromGroup, MsgDTO.FromQQ, msg, i => i > 0 && i <= randAttrs.Length, MsgDTO.BindAi);
+            var selectedIdx = Waiter.WaitForNum(MsgDTO.FromGroup, MsgDTO.FromQQ, msg, i => i > 0 && i <= randAttrs.Length, MsgDTO.BindAi);
             if (selectedIdx == -1)
             {
                 MsgSender.PushMsg(MsgDTO, "操作取消");
@@ -320,13 +328,13 @@ namespace Dolany.WorldLine.Standard.Ai.Game.Pet
                 return false;
             }
 
-            var item = HonorHelper.Instance.FindItem(name);
+            var item = HonorHelper.FindItem(name);
             if (item != null)
             {
                 return FeedPetWithItem(MsgDTO, pet, item);
             }
 
-            var diet = CookingDietMgr.Instance[name];
+            var diet = CookingDietMgr[name];
             if (diet != null)
             {
                 return FeedPetWithDiet(MsgDTO, pet, diet);
@@ -422,7 +430,7 @@ namespace Dolany.WorldLine.Standard.Ai.Game.Pet
         public bool PetLevelRank(MsgInformationEx MsgDTO, object[] param)
         {
             var data = PetRecord.LevelTop(10);
-            var msg = string.Join("\r", data.Select((p, idx) => $"{idx + 1}:{p.Name}(lv.{p.Level})({p.Exp}/{PetLevelMgr.Instance[p.Level].Exp})"));
+            var msg = string.Join("\r", data.Select((p, idx) => $"{idx + 1}:{p.Name}(lv.{p.Level})({p.Exp}/{PetLevelMgr[p.Level].Exp})"));
 
             MsgSender.PushMsg(MsgDTO, msg);
             return true;
@@ -439,7 +447,7 @@ namespace Dolany.WorldLine.Standard.Ai.Game.Pet
         public bool ViewPetSkill(MsgInformationEx MsgDTO, object[] param)
         {
             var name = param[0] as string;
-            var skill = PetSkillMgr.Instance[name];
+            var skill = PetSkillMgr[name];
             if (skill == null)
             {
                 MsgSender.PushMsg(MsgDTO, "未查找到该技能！", true);
@@ -467,7 +475,7 @@ namespace Dolany.WorldLine.Standard.Ai.Game.Pet
         public bool UpgradePetSkill(MsgInformationEx MsgDTO, object[] param)
         {
             var name = param[0] as string;
-            var skill = PetSkillMgr.Instance[name];
+            var skill = PetSkillMgr[name];
             if (skill == null)
             {
                 MsgSender.PushMsg(MsgDTO, "未查找到该技能！", true);
@@ -526,7 +534,7 @@ namespace Dolany.WorldLine.Standard.Ai.Game.Pet
                 return false;
             }
 
-            if (!Waiter.Instance.WaitForConfirm_Gold(MsgDTO, ResetSkillCost, 10))
+            if (!Waiter.WaitForConfirm_Gold(MsgDTO, ResetSkillCost, 10))
             {
                 MsgSender.PushMsg(MsgDTO, "操作取消！");
                 return false;
@@ -569,25 +577,25 @@ namespace Dolany.WorldLine.Standard.Ai.Game.Pet
                 return false;
             }
 
-            if (!PetAgainstMgr.Instance.CheckGroup(MsgDTO.FromGroup))
+            if (!PetAgainstMgr.CheckGroup(MsgDTO.FromGroup))
             {
                 MsgSender.PushMsg(MsgDTO, "本群正在进行一场宠物对决，请稍后再试！");
                 return false;
             }
 
-            if (!PetAgainstMgr.Instance.CheckQQ(MsgDTO.FromQQ))
+            if (!PetAgainstMgr.CheckQQ(MsgDTO.FromQQ))
             {
                 MsgSender.PushMsg(MsgDTO, "你的宠物正在进行一场宠物对决，请稍后再试！");
                 return false;
             }
 
-            if (!PetAgainstMgr.Instance.CheckQQ(aimQQ))
+            if (!PetAgainstMgr.CheckQQ(aimQQ))
             {
                 MsgSender.PushMsg(MsgDTO, "你的对手正在进行一场宠物对决，请稍后再试！");
                 return false;
             }
 
-            if (BindAiMgr.Instance.AllAiNums.Contains(aimQQ))
+            if (BindAiMgr.AllAiNums.Contains(aimQQ))
             {
                 MsgSender.PushMsg(MsgDTO, "鱼唇的人类，你无法挑战AI的威严！", true);
                 return false;
@@ -621,13 +629,13 @@ namespace Dolany.WorldLine.Standard.Ai.Game.Pet
                 return false;
             }
 
-            if(!Waiter.Instance.WaitForConfirm(MsgDTO.FromGroup, aimQQ, "你被邀请参加一场宠物对决，是否同意？", MsgDTO.BindAi, 10))
+            if(!Waiter.WaitForConfirm(MsgDTO.FromGroup, aimQQ, "你被邀请参加一场宠物对决，是否同意？", MsgDTO.BindAi, 10))
             {
                 MsgSender.PushMsg(MsgDTO, "对决取消！");
                 return false;
             }
 
-            PetAgainstMgr.Instance.StartGame(sourcePet, aimPet, MsgDTO.FromGroup, MsgDTO.BindAi);
+            PetAgainstMgr.StartGame(sourcePet, aimPet, MsgDTO.FromGroup, MsgDTO.BindAi);
             return true;
         }
     }

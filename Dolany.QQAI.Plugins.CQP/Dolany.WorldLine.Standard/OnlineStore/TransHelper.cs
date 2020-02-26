@@ -9,9 +9,11 @@ namespace Dolany.WorldLine.Standard.OnlineStore
 {
     public class TransHelper
     {
+        private static HonorHelper HonorHelper => AutofacSvc.Resolve<HonorHelper>();
+
         public static void SellItemToShop(string itemName, OSPerson osPerson, int count = 1)
         {
-            var price = HonorHelper.GetItemPrice(HonorHelper.Instance.FindItem(itemName), osPerson.QQNum);
+            var price = HonorHelper.GetItemPrice(HonorHelper.FindItem(itemName), osPerson.QQNum);
 
             osPerson.Golds += price * count;
             var record = ItemCollectionRecord.Get(osPerson.QQNum);
@@ -21,7 +23,7 @@ namespace Dolany.WorldLine.Standard.OnlineStore
 
         public static void SellHonorToShop(ItemCollectionRecord record, string honorName, OSPerson osPerson)
         {
-            var price = HonorHelper.Instance.GetHonorPrice(honorName, osPerson.QQNum);
+            var price = HonorHelper.GetHonorPrice(honorName, osPerson.QQNum);
             osPerson.Golds += price;
             var honorCollection = record.HonorCollections[honorName];
             for (var i = 0; i < honorCollection.Items.Count; i++)
@@ -33,7 +35,7 @@ namespace Dolany.WorldLine.Standard.OnlineStore
 
         private static DailySellItemModel[] CreateDailySellItems()
         {
-            var honors = HonorHelper.Instance.HonorList.Where(h => !h.IsLimit);
+            var honors = HonorHelper.HonorList.Where(h => !h.IsLimit);
             var items = honors.SelectMany(h => h.Items).ToArray();
             var randSort = Rander.RandSort(items).Take(5);
             return randSort.Select(rs => new DailySellItemModel

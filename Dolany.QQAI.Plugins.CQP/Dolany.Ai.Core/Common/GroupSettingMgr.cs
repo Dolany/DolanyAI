@@ -8,16 +8,16 @@ namespace Dolany.Ai.Core.Common
 {
     public class GroupSettingMgr : IDataMgr
     {
-        public static GroupSettingMgr Instance { get; } = new GroupSettingMgr();
-
         public Dictionary<long, GroupSettings> SettingDic;
 
         public GroupSettings this[long GroupNum] => SettingDic.ContainsKey(GroupNum) ? SettingDic[GroupNum] : null;
 
-        private GroupSettingMgr()
+        private static DataRefresher DataRefresher => AutofacSvc.Resolve<DataRefresher>();
+
+        public GroupSettingMgr()
         {
             RefreshData();
-            DataRefresher.Instance.Register(this);
+            DataRefresher.Register(this);
         }
 
         public void RefreshData()

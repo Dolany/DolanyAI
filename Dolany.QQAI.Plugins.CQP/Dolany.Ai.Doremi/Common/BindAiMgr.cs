@@ -12,7 +12,7 @@ namespace Dolany.Ai.Doremi.Common
         private BindAiMgr()
         {
             RefreshData();
-            DataRefresher.Instance.Register(this);
+            //DataRefresher.Instance.Register(this);
         }
 
         public BindAiModel this[string AiName] => AiDic[AiName];

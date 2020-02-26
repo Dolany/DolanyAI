@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Linq;
+using Dolany.Ai.Common;
 using Dolany.Ai.Common.Models;
 using Dolany.Ai.Core.Base;
 using Dolany.Ai.Core.Cache;
@@ -15,6 +16,9 @@ namespace Dolany.Ai.Core.Ai
 
         public override AIPriority PriorityLevel { get;} = AIPriority.Monitor;
 
+        private static BindAiMgr BindAiMgr => AutofacSvc.Resolve<BindAiMgr>();
+        private static AliveStateMgr AliveStateMgr => AutofacSvc.Resolve<AliveStateMgr>();
+
         public override bool OnMsgReceived(MsgInformationEx MsgDTO)
         {
             if (base.OnMsgReceived(MsgDTO))
@@ -29,16 +33,16 @@ namespace Dolany.Ai.Core.Ai
                 return false;
             }
 
-            MsgDTO.IsAlive = AliveStateMgr.Instance.GetState(MsgDTO.FromGroup, MsgDTO.FromQQ) == null;
+            MsgDTO.IsAlive = AliveStateMgr.GetState(MsgDTO.FromGroup, MsgDTO.FromQQ) == null;
 
-            return !GroupSettingMgr.Instance[MsgDTO.FromGroup].IsPowerOn;
+            return !GroupSettingMgr[MsgDTO.FromGroup].IsPowerOn;
         }
 
         private static void FiltPicMsg(MsgInformationEx MsgDTO)
         {
             if (MsgDTO.Type == MsgType.Group)
             {
-                var addtionSettings = GroupSettingMgr.Instance[MsgDTO.FromGroup].AdditionSettings;
+                var addtionSettings = GroupSettingMgr[MsgDTO.FromGroup].AdditionSettings;
                 if (addtionSettings != null && addtionSettings.ContainsKey("禁止图片缓存"))
                 {
                     return;
@@ -46,7 +50,7 @@ namespace Dolany.Ai.Core.Ai
             }
 
             var guid = Utility.ParsePicGuid(MsgDTO.FullMsg);
-            var bindAi = BindAiMgr.Instance[MsgDTO.BindAi];
+            var bindAi = BindAiMgr[MsgDTO.BindAi];
             var cacheInfo = Utility.ReadImageCacheInfo(guid, bindAi.ImagePath);
             if (cacheInfo == null || string.IsNullOrEmpty(cacheInfo.url))
             {
@@ -66,7 +70,7 @@ namespace Dolany.Ai.Core.Ai
             IsPrivateAvailable = false)]
         public bool PowerOff(MsgInformationEx MsgDTO, object[] param)
         {
-            var groupInfo = GroupSettingMgr.Instance[MsgDTO.FromGroup];
+            var groupInfo = GroupSettingMgr[MsgDTO.FromGroup];
             if (!groupInfo.IsPowerOn)
             {
                 return false;
@@ -89,7 +93,7 @@ namespace Dolany.Ai.Core.Ai
             IsPrivateAvailable = false)]
         public bool PowerOn(MsgInformationEx MsgDTO, object[] param)
         {
-            var groupInfo = GroupSettingMgr.Instance[MsgDTO.FromGroup];
+            var groupInfo = GroupSettingMgr[MsgDTO.FromGroup];
             if (groupInfo.IsPowerOn)
             {
                 return false;
@@ -131,7 +135,7 @@ namespace Dolany.Ai.Core.Ai
                 return string.Empty;
             }
 
-            var setting = GroupSettingMgr.Instance[MsgDTO.FromGroup];
+            var setting = GroupSettingMgr[MsgDTO.FromGroup];
             var expiryDate = $"\r有效期至：{setting.ExpiryTime?.ToLocalTime()}";
             if (setting.ExpiryTime == null || setting.ExpiryTime < DateTime.Now)
             {
@@ -141,7 +145,7 @@ namespace Dolany.Ai.Core.Ai
             var pState = string.Join("\r", setting.BindAis.Select(p =>
             {
                 var msg = $"{p}:";
-                if (!BindAiMgr.Instance[p].IsConnected)
+                if (!BindAiMgr[p].IsConnected)
                 {
                     msg += "失联";
                 }

@@ -31,7 +31,7 @@ namespace Dolany.WorldLine.Standard.Ai.Sys
                 return false;
             }
 
-            var setting = GroupSettingMgr.Instance[MsgDTO.FromGroup];
+            var setting = GroupSettingMgr[MsgDTO.FromGroup];
             setting.EnabledFunctions.Add(name);
             setting.Update();
 
@@ -56,7 +56,7 @@ namespace Dolany.WorldLine.Standard.Ai.Sys
                 return false;
             }
 
-            var setting = GroupSettingMgr.Instance[MsgDTO.FromGroup];
+            var setting = GroupSettingMgr[MsgDTO.FromGroup];
             setting.EnabledFunctions.Remove(name);
             setting.Update();
 

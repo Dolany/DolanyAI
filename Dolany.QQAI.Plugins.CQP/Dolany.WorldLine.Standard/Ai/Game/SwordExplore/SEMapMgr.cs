@@ -6,8 +6,6 @@ namespace Dolany.WorldLine.Standard.Ai.Game.SwordExplore
 {
     public class SEMapMgr : IDataMgr
     {
-        public static SEMapMgr Instance { get; } = new SEMapMgr();
-
         private SESceneModel[] Map { get; set; }
 
         private List<SEAreaModel> Areas { get; set; }
@@ -16,10 +14,12 @@ namespace Dolany.WorldLine.Standard.Ai.Game.SwordExplore
 
         public SESceneModel DefaultScene => this[Areas.First().DefaultScene];
 
-        private SEMapMgr()
+        private static DataRefresher DataRefresher => AutofacSvc.Resolve<DataRefresher>();
+
+        public SEMapMgr()
         {
             RefreshData();
-            DataRefresher.Instance.Register(this);
+            DataRefresher.Register(this);
         }
 
         public SEAreaModel FindAreaByScene(string SceneName)

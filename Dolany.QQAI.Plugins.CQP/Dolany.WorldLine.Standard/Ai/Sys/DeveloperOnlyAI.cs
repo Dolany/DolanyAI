@@ -26,6 +26,9 @@ namespace Dolany.WorldLine.Standard.Ai.Sys
 
         public override AIPriority PriorityLevel { get;} = AIPriority.Monitor;
 
+        private static GiftMgr GiftMgr => AutofacSvc.Resolve<GiftMgr>();
+        private static HonorHelper HonorHelper => AutofacSvc.Resolve<HonorHelper>();
+
         [EnterCommand(ID = "DeveloperOnlyAI_Board",
             Command = "广播",
             Description = "在所有群组广播消息",
@@ -37,7 +40,7 @@ namespace Dolany.WorldLine.Standard.Ai.Sys
         public bool Board(MsgInformationEx MsgDTO, object[] param)
         {
             var content = param[0] as string;
-            var groups = GroupSettingMgr.Instance.SettingDic.Values.Where(g => g.ExpiryTime.HasValue && g.ExpiryTime.Value > DateTime.Now);
+            var groups = GroupSettingMgr.SettingDic.Values.Where(g => g.ExpiryTime.HasValue && g.ExpiryTime.Value > DateTime.Now);
 
             foreach (var group in groups)
             {
@@ -65,7 +68,7 @@ namespace Dolany.WorldLine.Standard.Ai.Sys
             var itemName = param[1] as string;
             var count = (int) (long) param[2];
 
-            var item = HonorHelper.Instance.FindItem(itemName);
+            var item = HonorHelper.FindItem(itemName);
             if (item == null)
             {
                 MsgSender.PushMsg(MsgDTO, "未找到该物品！");
@@ -139,7 +142,7 @@ namespace Dolany.WorldLine.Standard.Ai.Sys
             var name = param[1] as string;
             var count = (int) (long) param[2];
 
-            var gift = GiftMgr.Instance[name];
+            var gift = GiftMgr[name];
             if(gift == null)
             {
                 MsgSender.PushMsg(MsgDTO, "未找到该礼物！");
@@ -304,7 +307,7 @@ namespace Dolany.WorldLine.Standard.Ai.Sys
                 BindAi = MsgDTO.BindAi
             };
 
-            var info = Waiter.Instance.WaitForRelationId(command);
+            var info = Waiter.WaitForRelationId(command);
             if (info == null)
             {
                 MsgSender.PushMsg(MsgDTO, "超时！");

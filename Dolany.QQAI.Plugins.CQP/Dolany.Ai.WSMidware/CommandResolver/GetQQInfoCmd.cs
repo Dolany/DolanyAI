@@ -10,9 +10,10 @@ namespace Dolany.Ai.WSMidware.CommandResolver
     public class GetQQInfoCmd : ICmdResovler
     {
         public CommandType CommandType { get; } = CommandType.GetQQInfo;
+        private static WSMgr WSMgr => AutofacSvc.Resolve<WSMgr>();
         public void Resolve(MsgCommand command)
         {
-            WSMgr.Instance.WaitingDic.TryAdd(command.Id, new WaitingModel() {BindAi = command.BindAi, Command = command.Command, RelationId = command.Id});
+            WSMgr.WaitingDic.TryAdd(command.Id, new WaitingModel() {BindAi = command.BindAi, Command = command.Command, RelationId = command.Id});
 
             var model = new Dictionary<string, object>()
             {
@@ -23,7 +24,7 @@ namespace Dolany.Ai.WSMidware.CommandResolver
                     {"qq", command.ToQQ.ToString() }
                 } }
             };
-            WSMgr.Instance.Send(command.BindAi, model);
+            WSMgr.Send(command.BindAi, model);
         }
 
         public void CallBack(WaitingModel model, QQEventModel eventModel)

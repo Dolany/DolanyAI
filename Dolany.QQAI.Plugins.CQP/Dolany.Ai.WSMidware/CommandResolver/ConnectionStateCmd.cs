@@ -9,9 +9,10 @@ namespace Dolany.Ai.WSMidware.CommandResolver
     public class ConnectionStateCmd : ICmdResovler
     {
         public CommandType CommandType { get; } = CommandType.ConnectionState;
+        private static WSMgr WSMgr => AutofacSvc.Resolve<WSMgr>();
         public void Resolve(MsgCommand command)
         {
-            var stateDic = WSMgr.Instance.ClientsDic.ToDictionary(c => c.Key, c => c.Value.IsConnected);
+            var stateDic = WSMgr.ClientsDic.ToDictionary(c => c.Key, c => c.Value.IsConnected);
             var info = new MsgInformation()
             {
                 Information = InformationType.CommandBack,

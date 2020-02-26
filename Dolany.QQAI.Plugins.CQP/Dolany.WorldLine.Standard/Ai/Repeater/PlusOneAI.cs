@@ -35,7 +35,7 @@ namespace Dolany.WorldLine.Standard.Ai.Repeater
                 return false;
             }
 
-            var setting = GroupSettingMgr.Instance[MsgDTO.FromGroup];
+            var setting = GroupSettingMgr[MsgDTO.FromGroup];
             if (!setting.HasFunction("+1复读"))
             {
                 return false;

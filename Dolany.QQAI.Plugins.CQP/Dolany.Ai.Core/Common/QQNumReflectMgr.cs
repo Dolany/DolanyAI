@@ -6,16 +6,16 @@ namespace Dolany.Ai.Core.Common
 {
     public class QQNumReflectMgr : IDataMgr
     {
-        public static QQNumReflectMgr Instance { get; } = new QQNumReflectMgr();
-
         private Dictionary<long, string> RelectDic;
 
         public string this[long QQNum] => RelectDic.ContainsKey(QQNum) ? RelectDic[QQNum] : QQNum.ToString();
 
-        private QQNumReflectMgr()
+        private static DataRefresher DataRefresher => AutofacSvc.Resolve<DataRefresher>();
+
+        public QQNumReflectMgr()
         {
             RefreshData();
-            DataRefresher.Instance.Register(this);
+            DataRefresher.Register(this);
         }
 
         public void RefreshData()

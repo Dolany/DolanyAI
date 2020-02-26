@@ -6,16 +6,16 @@ namespace Dolany.WorldLine.Standard.Ai.Game.Pet.Cooking
 {
     public class CookingLevelMgr : IDataMgr
     {
-        public static CookingLevelMgr Instance { get; } = new CookingLevelMgr();
-
         private List<CookingLevelModel> CookingLevels;
 
         public CookingLevelModel this[int level] => CookingLevels.FirstOrDefault(p => p.Level == level);
 
-        private CookingLevelMgr()
+        private static DataRefresher DataRefresher => AutofacSvc.Resolve<DataRefresher>();
+
+        public CookingLevelMgr()
         {
             RefreshData();
-            DataRefresher.Instance.Register(this);
+            DataRefresher.Register(this);
         }
 
         public CookingLevelModel LocationLevel(int totalPrice)

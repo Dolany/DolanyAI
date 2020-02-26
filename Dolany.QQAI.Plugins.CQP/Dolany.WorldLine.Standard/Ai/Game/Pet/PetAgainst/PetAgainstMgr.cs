@@ -5,11 +5,11 @@ namespace Dolany.WorldLine.Standard.Ai.Game.Pet.PetAgainst
 {
     public class PetAgainstMgr
     {
-        public static PetAgainstMgr Instance { get; set; } = new PetAgainstMgr();
-
         private List<PetAgainstEngine> Engines { get; set; }
 
-        private PetAgainstMgr()
+        public PetLevelMgr PetLevelMgr { get; set; }
+
+        public PetAgainstMgr()
         {
             Engines = new List<PetAgainstEngine>();
         }
@@ -31,7 +31,7 @@ namespace Dolany.WorldLine.Standard.Ai.Game.Pet.PetAgainst
                 SelfPet = new GamingPet()
                 {
                     Name = selfPet.Name,
-                    HP = PetLevelMgr.Instance[selfPet.Level].HP,
+                    HP = PetLevelMgr[selfPet.Level].HP,
                     QQNum = selfPet.QQNum,
                     Skills = new Dictionary<string, int>(selfPet.Skills),
                     Level = selfPet.Level
@@ -39,7 +39,7 @@ namespace Dolany.WorldLine.Standard.Ai.Game.Pet.PetAgainst
                 AimPet = new GamingPet()
                 {
                     Name = aimPet.Name,
-                    HP = PetLevelMgr.Instance[aimPet.Level].HP,
+                    HP = PetLevelMgr[aimPet.Level].HP,
                     QQNum = aimPet.QQNum,
                     Skills = new Dictionary<string, int>(aimPet.Skills),
                     Level = aimPet.Level

@@ -21,7 +21,7 @@ namespace Dolany.Ai.Doremi.Ai.SingleCommand.Voice
         public override void Initialization()
         {
             RefreshData();
-            DataRefresher.Instance.Register(this);
+            //DataRefresher.Instance.Register(this);
         }
 
         public void RefreshData()

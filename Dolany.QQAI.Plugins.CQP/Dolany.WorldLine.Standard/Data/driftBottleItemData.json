@@ -995,5 +995,70 @@
       "Price": 189,
       "Attributes": [ "深渊" ]
     }
+  ],
+  "永远的缪斯": [
+    {
+      "Name": "高坂穗乃果",
+      "Description": "又元气满满的一天呢！嘿嘿，今天的面包也很好吃！...",
+      "Rate": 10,
+      "Price": 803,
+      "Attributes": [ "自然" ]
+    },
+    {
+      "Name": "南小鸟",
+      "Description": "你是要先洗澡，先吃饭？还是说？啾啾，开玩笑的啦！...",
+      "Rate": 9,
+      "Price": 912,
+      "Attributes": [ "深渊" ]
+    },
+    {
+      "Name": "园田海未",
+      "Description": "弓道能使人心如止水！嗯，今天也要好好练习！...",
+      "Rate": 20,
+      "Price": 315,
+      "Attributes": [ "海洋" ]
+    },
+    {
+      "Name": "西木野真姬",
+      "Description": "真是讨厌啊！最讨厌了！哼！才没有喜欢你呢！...",
+      "Rate": 17,
+      "Price": 419,
+      "Attributes": [ "海洋" ]
+    },
+    {
+      "Name": "星空凛",
+      "Description": "元气满满的凛向你报道！喵~你们在做些什么有意思的事情啊！...",
+      "Rate": 5,
+      "Price": 1101,
+      "Attributes": [ "自然" ]
+    },
+    {
+      "Name": "小泉花阳",
+      "Description": "秋天新收的黄金米最棒了！哎？我不需要减肥的啦！...",
+      "Rate": 50,
+      "Price": 117,
+      "Attributes": [ "钢铁" ]
+    },
+    {
+      "Name": "矢泽妮可",
+      "Description": "niconiconi！啊哈！妮可啊，可是超级偶像呢！...",
+      "Rate": 12,
+      "Price": 722,
+      "Attributes": [ "钢铁" ]
+    },
+    {
+      "Name": "东条希",
+      "Description": "要不要我帮你占卜一下呢？哈哈！我的占卜可是很准的！...",
+      "Rate": 14,
+      "Price": 609,
+      "Attributes": [ "神秘" ]
+    },
+    {
+      "Name": "绚濑绘里",
+      "Description": "虽然我有俄罗斯血统，但我是日本人哦！哈啦咻！...",
+      "Rate": 5,
+      "Price": 1021,
+      "Attributes": [ "神秘" ]
+    }
   ] 
 }

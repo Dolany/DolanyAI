@@ -43,7 +43,7 @@ namespace Dolany.WorldLine.Standard.AITools
 
         private static DailySellItemModel[] CreateDailySellItems_Rare()
         {
-            var honors = HonorHelper.Instance.HonorList.Where(h => !h.IsLimit);
+            var honors = AutofacSvc.Resolve<HonorHelper>().HonorList.Where(h => !h.IsLimit);
             var items = honors.SelectMany(h => h.Items).Where(p => p.Price >= 500).ToArray();
             var randSort = Rander.RandSort(items).Take(5);
             return randSort.Select(rs => new DailySellItemModel

@@ -18,6 +18,8 @@ namespace Dolany.WorldLine.Standard.AITools
             }
         };
         public override bool Enabled { get; set; } = false;
+
+        private static BindAiMgr BindAiMgr => AutofacSvc.Resolve<BindAiMgr>();
         protected override void ScheduleDo(SchedulerTimer timer)
         {
             var command = new MsgCommand()
@@ -26,7 +28,7 @@ namespace Dolany.WorldLine.Standard.AITools
                 BindAi = Global.DefaultConfig.MainAi
             };
 
-            var info = Waiter.Instance.WaitForRelationId(command);
+            var info = AutofacSvc.Resolve<Waiter>().WaitForRelationId(command);
             if (info == null)
             {
                 return;
@@ -35,7 +37,7 @@ namespace Dolany.WorldLine.Standard.AITools
             var dic = JsonConvert.DeserializeObject<Dictionary<string, bool>>(info.Msg);
             foreach (var (bindaiName, state) in dic)
             {
-                BindAiMgr.Instance[bindaiName].IsConnected = state;
+                BindAiMgr[bindaiName].IsConnected = state;
             }
         }
     }

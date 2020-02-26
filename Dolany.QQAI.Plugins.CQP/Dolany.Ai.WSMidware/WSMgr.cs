@@ -14,18 +14,18 @@ namespace Dolany.Ai.WSMidware
 {
     public class WSMgr
     {
-        public static WSMgr Instance { get; } = new WSMgr();
-
         public readonly ConcurrentDictionary<string, WSClient> ClientsDic = new ConcurrentDictionary<string, WSClient>();
 
         public readonly ConcurrentDictionary<string, WaitingModel> WaitingDic = new ConcurrentDictionary<string, WaitingModel>();
 
-        public List<BindAiModel> AllAis { get; }
+        public List<BindAiModel> AllAis { get; set; }
 
-        private readonly List<ICmdResovler> CommandResolvers;
-        private readonly List<IMsgResolver> MessageResolvers;
+        private List<ICmdResovler> CommandResolvers;
+        private List<IMsgResolver> MessageResolvers;
 
-        private WSMgr()
+        private static Scheduler Scheduler => AutofacSvc.Resolve<Scheduler>();
+
+        public void Init()
         {
             AllAis = CommonUtil.ReadJsonData_NamedList<BindAiModel>("BindAiData");
 
@@ -34,7 +34,7 @@ namespace Dolany.Ai.WSMidware
                 ClientsDic.TryAdd(ai.Name, new WSClient($"ws://localhost:{ai.BindPort}/{ai.Name}/", ai.Name, MessageInvoke));
             }
 
-            Scheduler.Instance.Add(SchedulerTimer.SecondlyInterval * Global.Config.ReconnectSecords, Reconnect);
+            Scheduler.Add(SchedulerTimer.SecondlyInterval * Global.Config.ReconnectSecords, Reconnect);
 
             CommandResolvers = CommonUtil.LoadAllInstanceFromInterface<ICmdResovler>();
             MessageResolvers = CommonUtil.LoadAllInstanceFromInterface<IMsgResolver>();

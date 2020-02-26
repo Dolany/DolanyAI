@@ -24,6 +24,8 @@ namespace Dolany.WorldLine.Standard.Ai.Game.DriftBottle
 
         private const int ItemRate = 60;
 
+        private static HonorHelper HonorHelper => AutofacSvc.Resolve<HonorHelper>();
+
         [EnterCommand(ID = "DriftBottleAI_FishingBottle",
             Command = "捞瓶子",
             AuthorityLevel = AuthorityLevel.成员,
@@ -112,7 +114,7 @@ namespace Dolany.WorldLine.Standard.Ai.Game.DriftBottle
                 return false;
             }
 
-            var itemMsgs = HonorHelper.Instance.GetOrderedItemsStr(query.HonorCollections.Where(p => p.Value.Type == HonorType.Normal).SelectMany(p => p.Value.Items)
+            var itemMsgs = HonorHelper.GetOrderedItemsStr(query.HonorCollections.Where(p => p.Value.Type == HonorType.Normal).SelectMany(p => p.Value.Items)
                 .ToDictionary(p => p.Key, p => p.Value));
             var msg = $"你收集到的物品有：\r{string.Join("\r", itemMsgs.Take(7))}";
             if (itemMsgs.Count > 7)
@@ -150,7 +152,7 @@ namespace Dolany.WorldLine.Standard.Ai.Game.DriftBottle
             var items = record.HonorCollections.Where(p => p.Value.Items != null).SelectMany(p => p.Value.Items
                 .Where(item =>
                 {
-                    var itemModel = HonorHelper.Instance.FindItem(item.Key);
+                    var itemModel = HonorHelper.FindItem(item.Key);
                     return itemModel.Attributes != null && itemModel.Attributes.Contains(name);
                 })).ToList();
             if (!items.Any())
@@ -182,8 +184,8 @@ namespace Dolany.WorldLine.Standard.Ai.Game.DriftBottle
                 return false;
             }
 
-            var itemMsgs = HonorHelper.Instance.GetOrderedItemsStr(query.HonorCollections.Where(p => p.Value.Type == HonorType.Limit)
-                .OrderByDescending(p => (HonorHelper.Instance.FindHonor(p.Key) as LimitHonorModel)?.SortKey).SelectMany(p => p.Value.Items)
+            var itemMsgs = HonorHelper.GetOrderedItemsStr(query.HonorCollections.Where(p => p.Value.Type == HonorType.Limit)
+                .OrderByDescending(p => (HonorHelper.FindHonor(p.Key) as LimitHonorModel)?.SortKey).SelectMany(p => p.Value.Items)
                 .ToDictionary(p => p.Key, p => p.Value));
             var msg = $"你收集到的限定物品有：\r{string.Join("\r", itemMsgs.Take(5))}";
             if (itemMsgs.Count > 5)
@@ -213,7 +215,7 @@ namespace Dolany.WorldLine.Standard.Ai.Game.DriftBottle
                 return false;
             }
 
-            var itemMsgs = HonorHelper.Instance.GetOrderedItemsStr(query.HonorCollections.Where(p => p.Value.Type == HonorType.Normal).SelectMany(p => p.Value.Items)
+            var itemMsgs = HonorHelper.GetOrderedItemsStr(query.HonorCollections.Where(p => p.Value.Type == HonorType.Normal).SelectMany(p => p.Value.Items)
                 .ToDictionary(p => p.Key, p => p.Value));
             var totalPageCount = (itemMsgs.Count - 1) / 7 + 1;
             if (pageNo <= 0 || pageNo > totalPageCount)
@@ -247,8 +249,8 @@ namespace Dolany.WorldLine.Standard.Ai.Game.DriftBottle
                 return false;
             }
 
-            var itemMsgs = HonorHelper.Instance.GetOrderedItemsStr(query.HonorCollections.Where(p => p.Value.Type == HonorType.Limit)
-                .OrderByDescending(p => (HonorHelper.Instance.FindHonor(p.Key) as LimitHonorModel)?.SortKey).SelectMany(p => p.Value.Items)
+            var itemMsgs = HonorHelper.GetOrderedItemsStr(query.HonorCollections.Where(p => p.Value.Type == HonorType.Limit)
+                .OrderByDescending(p => (HonorHelper.FindHonor(p.Key) as LimitHonorModel)?.SortKey).SelectMany(p => p.Value.Items)
                 .ToDictionary(p => p.Key, p => p.Value));
             var totalPageCount = (itemMsgs.Count - 1) / 5 + 1;
             if (pageNo <= 0 || pageNo > totalPageCount)
@@ -277,14 +279,14 @@ namespace Dolany.WorldLine.Standard.Ai.Game.DriftBottle
         public bool MyHonors(MsgInformationEx MsgDTO, object[] param)
         {
             var query = ItemCollectionRecord.Get(MsgDTO.FromQQ);
-            if (query.HonorList == null || query.HonorList.All(p => HonorHelper.Instance.IsLimitHonor(p)))
+            if (query.HonorList == null || query.HonorList.All(p => HonorHelper.IsLimitHonor(p)))
             {
                 MsgSender.PushMsg(MsgDTO, "你还没有获得任何成就，继续加油吧~", true);
                 return false;
             }
 
-            var msg = $"你获得的普通成就有：{string.Join(",", query.HonorList.Where(p => !HonorHelper.Instance.IsLimitHonor(p)))}\r";
-            msg += $"你获得的限定成就有：{string.Join(",", query.HonorList.Where(p => HonorHelper.Instance.IsLimitHonor(p)))}";
+            var msg = $"你获得的普通成就有：{string.Join(",", query.HonorList.Where(p => !HonorHelper.IsLimitHonor(p)))}\r";
+            msg += $"你获得的限定成就有：{string.Join(",", query.HonorList.Where(p => HonorHelper.IsLimitHonor(p)))}";
             MsgSender.PushMsg(MsgDTO, msg, true);
             return true;
         }
@@ -297,9 +299,9 @@ namespace Dolany.WorldLine.Standard.Ai.Game.DriftBottle
                 return;
             }
 
-            var item = HonorHelper.Instance.RandItem();
+            var item = HonorHelper.RandItem();
             var record = ItemCollectionRecord.Get(MsgDTO.FromQQ);
-            var honorName = HonorHelper.Instance.FindHonorName(item.Name);
+            var honorName = HonorHelper.FindHonorName(item.Name);
 
             var count = 1;
             var vipArmers = VipArmerRecord.Get(MsgDTO.FromQQ);
@@ -317,7 +319,7 @@ namespace Dolany.WorldLine.Standard.Ai.Game.DriftBottle
                       $"{(string.IsNullOrEmpty(item.PicPath) ? string.Empty : $"{CodeApi.Code_Image_Relational(item.PicPath)}\r")}" +
                       $"{item.Name}{(count > 1 ? $"*{count}" : string.Empty)} \r" +
                       $"    {item.Description} \r" +
-                      $"稀有率为 {HonorHelper.Instance.ItemRate(item)}%\r" +
+                      $"稀有率为 {HonorHelper.ItemRate(item)}%\r" +
                       $"售价为：{item.Price} 金币\r" +
                       $"特性：{(item.Attributes == null ? "无" : string.Join(",", item.Attributes))}\r" +
                       $"你总共拥有该物品 {record.HonorCollections[honorName].Items[item.Name]}个";
@@ -353,7 +355,7 @@ namespace Dolany.WorldLine.Standard.Ai.Game.DriftBottle
         public bool ViewItem(MsgInformationEx MsgDTO, object[] param)
         {
             var name = param[0] as string;
-            var item = HonorHelper.Instance.FindItem(name);
+            var item = HonorHelper.FindItem(name);
             if (item == null)
             {
                 MsgSender.PushMsg(MsgDTO, $"未找到该物品：{name}");
@@ -364,10 +366,10 @@ namespace Dolany.WorldLine.Standard.Ai.Game.DriftBottle
             var msg = $"{(string.IsNullOrEmpty(item.PicPath) ? string.Empty : $"{CodeApi.Code_Image_Relational(item.PicPath)}\r")}" +
                       $"{item.Name}\r" +
                       $"    {item.Description}\r" +
-                      $"稀有率：{HonorHelper.Instance.ItemRate(item)}%\r" +
+                      $"稀有率：{HonorHelper.ItemRate(item)}%\r" +
                       $"价格：{HonorHelper.GetItemPrice(item, MsgDTO.FromQQ).CurencyFormat()}\r" +
                       $"特性：{(item.Attributes == null ? "无" : string.Join(",", item.Attributes))}\r" +
-                      $"可解锁成就：{HonorHelper.Instance.FindHonorFullName(item.Name)}\r" +
+                      $"可解锁成就：{HonorHelper.FindHonorFullName(item.Name)}\r" +
                       $"你拥有该物品：{record.GetCount(item.Name)}个";
             MsgSender.PushMsg(MsgDTO, msg);
             return true;
@@ -384,7 +386,7 @@ namespace Dolany.WorldLine.Standard.Ai.Game.DriftBottle
         public bool ViewHonor(MsgInformationEx MsgDTO, object[] param)
         {
             var name = param[0] as string;
-            var honor = HonorHelper.Instance.FindHonor(name);
+            var honor = HonorHelper.FindHonor(name);
             if (honor == null)
             {
                 MsgSender.PushMsg(MsgDTO, $"未找到该成就：{name}");
@@ -409,7 +411,7 @@ namespace Dolany.WorldLine.Standard.Ai.Game.DriftBottle
             IsPrivateAvailable = true)]
         public bool LimitItemReport(MsgInformationEx MsgDTO, object[] param)
         {
-            var LimitHonor = HonorHelper.Instance.HonorList.First(h => h is LimitHonorModel model && model.IsCurLimit);
+            var LimitHonor = HonorHelper.HonorList.First(h => h is LimitHonorModel model && model.IsCurLimit);
             var LimitItemsNames = LimitHonor.Items.Select(i => i.Name);
 
             var allRecord = MongoService<ItemCollectionRecord>.Get(r => r.HonorCollections.ContainsKey(LimitHonor.Name));
@@ -448,7 +450,7 @@ namespace Dolany.WorldLine.Standard.Ai.Game.DriftBottle
                 return false;
             }
 
-            var modelDic = todayRec.ItemDic.ToDictionary(p => HonorHelper.Instance.FindItem(p.Key), p => p.Value);
+            var modelDic = todayRec.ItemDic.ToDictionary(p => HonorHelper.FindItem(p.Key), p => p.Value);
             var msg = "今日捞瓶子统计\r";
             msg += $"总次数：{todayRec.ItemDic.Sum(p => p.Value)}\r";
             msg += $"总价值：{modelDic.Sum(p => p.Key.Price * p.Value)}";
@@ -469,13 +471,13 @@ namespace Dolany.WorldLine.Standard.Ai.Game.DriftBottle
         {
             var name = param[0] as string;
 
-            if (HonorHelper.Instance.FindItem(name) == null)
+            if (HonorHelper.FindItem(name) == null)
             {
                 MsgSender.PushMsg(MsgDTO, "未查找到相关物品！");
                 return false;
             }
 
-            var honor = HonorHelper.Instance.FindHonorName(name);
+            var honor = HonorHelper.FindHonorName(name);
 
             var recs = MongoService<ItemCollectionRecord>.Get(p =>
                 p.HonorCollections != null && p.HonorCollections.ContainsKey(honor) && p.HonorCollections[honor].Items.ContainsKey(name));
@@ -497,7 +499,7 @@ namespace Dolany.WorldLine.Standard.Ai.Game.DriftBottle
         {
             var itemColle = ItemCollectionRecord.Get(MsgDTO.FromQQ);
             var allColleItems = itemColle.HonorCollections.SelectMany(p => p.Value.Items).Select(p => p.Key);
-            var allItems = HonorHelper.Instance.HonorList.Where(h => !h.IsLimit).SelectMany(h => h.Items);
+            var allItems = HonorHelper.HonorList.Where(h => !h.IsLimit).SelectMany(h => h.Items);
 
             var lackItems = allItems.Where(p => !allColleItems.Contains(p.Name)).ToList();
             if (lackItems.IsNullOrEmpty())

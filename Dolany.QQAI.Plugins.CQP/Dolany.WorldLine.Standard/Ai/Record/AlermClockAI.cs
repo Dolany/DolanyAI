@@ -28,6 +28,8 @@ namespace Dolany.WorldLine.Standard.Ai.Record
 
         private List<string> ClockIdList { get; } = new List<string>();
 
+        private static Scheduler Scheduler => AutofacSvc.Resolve<Scheduler>();
+
         public override void Initialization()
         {
             ReloadAllClocks();
@@ -37,7 +39,7 @@ namespace Dolany.WorldLine.Standard.Ai.Record
         {
             foreach (var clockId in ClockIdList)
             {
-                Scheduler.Instance.Remove(clockId);
+                Scheduler.Remove(clockId);
             }
             ClockIdList.Clear();
 
@@ -85,7 +87,7 @@ namespace Dolany.WorldLine.Standard.Ai.Record
         private void StartClock(AlermClock entity)
         {
             var interval = GetNextInterval(entity.AimHourt, entity.AimMinute);
-            var clockId = Scheduler.Instance.Add(interval, TimeUp, entity);
+            var clockId = Scheduler.Add(interval, TimeUp, entity);
             ClockIdList.Add(clockId);
         }
 
@@ -97,7 +99,7 @@ namespace Dolany.WorldLine.Standard.Ai.Record
                 return;
             }
 
-            var setting = GroupSettingMgr.Instance[entity.GroupNumber];
+            var setting = GroupSettingMgr[entity.GroupNumber];
             if (setting.ExpiryTime.HasValue && setting.ExpiryTime.Value > DateTime.Now && setting.IsPowerOn)
             {
                 MsgSender.PushMsg(
@@ -183,13 +185,8 @@ namespace Dolany.WorldLine.Standard.Ai.Record
         {
             var Groups = Global.AllGroupsDic.Keys.ToArray();
             var clocks = MongoService<AlermClock>.Get(p => Groups.Contains(p.GroupNumber));
-            foreach (var clock in clocks)
+            foreach (var clock in from clock in clocks let isActiveOff = !GroupSettingMgr[clock.GroupNumber].IsPowerOn where !isActiveOff select clock)
             {
-                var isActiveOff = !GroupSettingMgr.Instance[clock.GroupNumber].IsPowerOn;
-                if (isActiveOff)
-                {
-                    continue;
-                }
                 StartClock(clock.Clone());
             }
         }

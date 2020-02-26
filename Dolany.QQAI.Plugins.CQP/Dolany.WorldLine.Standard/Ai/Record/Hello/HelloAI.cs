@@ -25,10 +25,12 @@ namespace Dolany.WorldLine.Standard.Ai.Record.Hello
         private List<HelloRecord> HelloList = new List<HelloRecord>();
         private List<MultiMediaHelloRecord> MultiMediaHelloList = new List<MultiMediaHelloRecord>();
 
+        private static DataRefresher DataRefresher => AutofacSvc.Resolve<DataRefresher>();
+
         public override void Initialization()
         {
             RefreshData();
-            DataRefresher.Instance.Register(this);
+            DataRefresher.Register(this);
         }
 
         public override bool OnMsgReceived(MsgInformationEx MsgDTO)

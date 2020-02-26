@@ -8,6 +8,7 @@ namespace Dolany.Ai.WSMidware.CommandResolver
     public class SendGroupCmd : ICmdResovler
     {
         public CommandType CommandType { get; } = CommandType.SendGroup;
+        private static WSMgr WSMgr => AutofacSvc.Resolve<WSMgr>();
         public void Resolve(MsgCommand command)
         {
             var model = new Dictionary<string, object>
@@ -23,7 +24,7 @@ namespace Dolany.Ai.WSMidware.CommandResolver
                     }
                 }
             };
-            WSMgr.Instance.Send(command.BindAi, model);
+            WSMgr.Send(command.BindAi, model);
         }
 
         public void CallBack(WaitingModel model, QQEventModel eventModel)

@@ -14,12 +14,13 @@ namespace Dolany.WorldLine.Standard.Ai.Game.Pet
         {
             var remainExp = pet.Exp + exp;
             var lvl = pet.Level;
-            var levelMode = PetLevelMgr.Instance[lvl];
+            var PetLevelMgr = AutofacSvc.Resolve<PetLevelMgr>();
+            var levelMode = PetLevelMgr[lvl];
             while (levelMode.Exp <= remainExp)
             {
                 remainExp -= levelMode.Exp;
                 lvl++;
-                levelMode = PetLevelMgr.Instance[lvl];
+                levelMode = PetLevelMgr[lvl];
             }
 
             var msg = $"{pet.Name}获得了 {exp} 点经验值！";
@@ -31,7 +32,7 @@ namespace Dolany.WorldLine.Standard.Ai.Game.Pet
 
                 pet.RemainSkillPoints += points;
 
-                var skills = PetSkillMgr.Instance.AllSkills.Where(p => p.LearnLevel > pet.Level && p.LearnLevel <= lvl).ToList();
+                var skills = AutofacSvc.Resolve<PetSkillMgr>().AllSkills.Where(p => p.LearnLevel > pet.Level && p.LearnLevel <= lvl).ToList();
 
                 if (!skills.IsNullOrEmpty())
                 {

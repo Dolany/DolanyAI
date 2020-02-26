@@ -29,11 +29,13 @@ namespace Dolany.WorldLine.Standard.Ai.SingleCommand.Fortune
 
         private int SumRate;
 
+        private static DataRefresher DataRefresher => AutofacSvc.Resolve<DataRefresher>();
+
         public override void Initialization()
         {
             ReadCharactorsDic();
             RefreshData();
-            DataRefresher.Instance.Register(this);
+            DataRefresher.Register(this);
         }
 
         private void ReadCharactorsDic()

@@ -7,16 +7,16 @@ namespace Dolany.WorldLine.Standard.Ai.Game.Pet.Cooking
 {
     public class CookingDietMgr : IDataMgr
     {
-        public static CookingDietMgr Instance { get; } = new CookingDietMgr();
+        private static DataRefresher DataRefresher => AutofacSvc.Resolve<DataRefresher>();
 
         public List<CookingDietModel> DietList;
 
         public CookingDietModel this[string name] => DietList.FirstOrDefault(p => p.Name == name);
 
-        private CookingDietMgr()
+        public CookingDietMgr()
         {
             RefreshData();
-            DataRefresher.Instance.Register(this);
+            DataRefresher.Register(this);
         }
 
         public CookingDietModel SuggestDiet(List<string> LearnedDiets)
@@ -49,7 +49,7 @@ namespace Dolany.WorldLine.Standard.Ai.Game.Pet.Cooking
 
         public string ExchangeHonor { get; set; }
 
-        public int EstimatedPrice => Materials.Sum(p => HonorHelper.Instance.FindItem(p.Key).Price * p.Value) + Flavorings.Sum(p => p.Value) * 20;
+        public int EstimatedPrice => Materials.Sum(p => AutofacSvc.Resolve<HonorHelper>().FindItem(p.Key).Price * p.Value) + Flavorings.Sum(p => p.Value) * 20;
 
         public override string ToString()
         {

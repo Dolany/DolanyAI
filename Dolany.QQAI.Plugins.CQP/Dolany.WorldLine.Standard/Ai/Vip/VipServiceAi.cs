@@ -15,6 +15,8 @@ namespace Dolany.WorldLine.Standard.Ai.Vip
         public override string Description { get; set; } = "Ai for vip services.";
         public override AIPriority PriorityLevel { get;} = AIPriority.Normal;
 
+        private static DailyVipShopMgr DailyVipShopMgr => AutofacSvc.Resolve<DailyVipShopMgr>();
+
         [EnterCommand(ID = "VipServiceAi_VipShop",
             Command = "vip商店 钻石商店",
             Description = "打开vip商店(每日刷新7个服务项目)",
@@ -33,7 +35,7 @@ namespace Dolany.WorldLine.Standard.Ai.Vip
             }
 
             var goodsName = DailyVipGoodsRecord.GetToday(MsgDTO.FromQQ).GoodsName;
-            var goods = goodsName.Select(g => DailyVipShopMgr.Instance[g]).ToList();
+            var goods = goodsName.Select(g => DailyVipShopMgr[g]).ToList();
             var goodsMsg = string.Join("\r", goods.Select(g => $"{g.Name}({g.DiamondsNeed.CurencyFormat("Diamond")}):{g.Description}"));
             var msg = $"今天提供的vip服务有：\r{goodsMsg}\r你当前余额为：{osPerson.Diamonds.CurencyFormat("Diamond")}";
 
@@ -58,7 +60,7 @@ namespace Dolany.WorldLine.Standard.Ai.Vip
                 return false;
             }
 
-            if (!Waiter.Instance.WaitForConfirm(MsgDTO, $"此操作将花费{10.CurencyFormat("Diamond")}，是否继续？"))
+            if (!Waiter.WaitForConfirm(MsgDTO, $"此操作将花费{10.CurencyFormat("Diamond")}，是否继续？"))
             {
                 MsgSender.PushMsg(MsgDTO, "操作取消！");
                 return false;
@@ -84,7 +86,7 @@ namespace Dolany.WorldLine.Standard.Ai.Vip
         public bool ViewArmer(MsgInformationEx MsgDTO, object[] param)
         {
             var name = param[0] as string;
-            var armer = DailyVipShopMgr.Instance[name];
+            var armer = DailyVipShopMgr[name];
             if (armer == null)
             {
                 MsgSender.PushMsg(MsgDTO, "未查找到相关装备！");

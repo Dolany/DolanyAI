@@ -9,6 +9,7 @@ namespace Dolany.Ai.WSMidware.CommandResolver
     public class PraiseCmd : ICmdResovler
     {
         public CommandType CommandType { get; } = CommandType.Praise;
+        private static WSMgr WSMgr => AutofacSvc.Resolve<WSMgr>();
         public void Resolve(MsgCommand command)
         {
             var count = int.Parse(command.Msg);
@@ -22,7 +23,7 @@ namespace Dolany.Ai.WSMidware.CommandResolver
                         {"qq", command.ToQQ.ToString() }
                     } }
                 };
-                WSMgr.Instance.Send(command.BindAi, model);
+                WSMgr.Send(command.BindAi, model);
 
                 Thread.Sleep(100);
             }

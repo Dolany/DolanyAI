@@ -5,7 +5,6 @@ using Dolany.Ai.Common;
 using Dolany.Ai.Common.Models;
 using Dolany.Ai.Core.Base;
 using Dolany.Ai.Core.Cache;
-using Dolany.Ai.Core.Common;
 using Dolany.Database;
 using Dolany.Database.Ai;
 
@@ -21,6 +20,8 @@ namespace Dolany.WorldLine.Standard.Ai.Record
 
         public override bool NeedManualOpeon { get; } = true;
 
+        private static Scheduler Scheduler => AutofacSvc.Resolve<Scheduler>();
+
         public override void Initialization()
         {
             HourAlertFunc();
@@ -29,7 +30,7 @@ namespace Dolany.WorldLine.Standard.Ai.Record
         private static void HourAlertFunc()
         {
             var ts = GetNextHourSpan();
-            Scheduler.Instance.Add(ts.TotalMilliseconds, TimeUp);
+            Scheduler.Add(ts.TotalMilliseconds, TimeUp);
         }
 
         private static void TimeUp(object sender, System.Timers.ElapsedEventArgs e)
@@ -49,7 +50,7 @@ namespace Dolany.WorldLine.Standard.Ai.Record
 
         private static void HourAlert(int curHour)
         {
-            var availableList = GroupSettingMgr.Instance.SettingDic.Where(p => p.Value.ExpiryTime.HasValue &&
+            var availableList = GroupSettingMgr.SettingDic.Where(p => p.Value.ExpiryTime.HasValue &&
                                                                                p.Value.ExpiryTime.Value > DateTime.Now &&
                                                                                p.Value.HasFunction("报时")).Select(p => p.Key).ToList();
             if (availableList.IsNullOrEmpty())
@@ -59,7 +60,7 @@ namespace Dolany.WorldLine.Standard.Ai.Record
 
             foreach (var groupNum in availableList)
             {
-                var groupSetting = GroupSettingMgr.Instance[groupNum];
+                var groupSetting = GroupSettingMgr[groupNum];
                 var isActiveOff = !groupSetting.IsPowerOn;
                 if (isActiveOff)
                 {

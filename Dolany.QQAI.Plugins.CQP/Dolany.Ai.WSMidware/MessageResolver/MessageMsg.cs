@@ -1,4 +1,5 @@
 ﻿using System.Linq;
+using Dolany.Ai.Common;
 using Dolany.Ai.Common.Models;
 using Dolany.Ai.WSMidware.Models;
 
@@ -7,9 +8,10 @@ namespace Dolany.Ai.WSMidware.MessageResolver
     public class MessageMsg : IMsgResolver
     {
         public string MsgEvent { get; } = "message";
+        private static WSMgr WSMgr => AutofacSvc.Resolve<WSMgr>();
         public void Resolver(string bindAi, QQEventModel model)
         {
-            if (WSMgr.Instance.AllAis.Any(ai => ai.QQNum == model.Params.Qq))
+            if (WSMgr.AllAis.Any(ai => ai.QQNum == model.Params.Qq))
             {
                 return;
             }

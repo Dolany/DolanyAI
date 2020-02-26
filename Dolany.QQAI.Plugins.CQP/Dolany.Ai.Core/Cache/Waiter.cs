@@ -20,11 +20,9 @@ namespace Dolany.Ai.Core.Cache
         public Action<ChargeModel> MoneyReceivedCallBack;
         public Action<GroupMemberChangeModel> GroupMemberChangeCallBack;
 
-        public static Waiter Instance { get; } = new Waiter();
-
-        private Waiter()
-        {
-        }
+        public GroupSettingMgr GroupSettingMgr { get; set; }
+        public BindAiMgr BindAiMgr { get; set; }
+        public QQNumReflectMgr QQNumReflectMgr { get; set; }
 
         public void Listen()
         {
@@ -45,17 +43,17 @@ namespace Dolany.Ai.Core.Cache
 
             if (info.FromGroup != 0)
             {
-                var setting = GroupSettingMgr.Instance[info.FromGroup];
+                var setting = GroupSettingMgr[info.FromGroup];
                 if (setting == null || setting.BindAi != info.BindAi)
                 {
                     return;
                 }
             }
 
-            var msg = $"[Info] {info.BindAi} {source} {QQNumReflectMgr.Instance[info.FromQQ]} {info.Msg}";
+            var msg = $"[Info] {info.BindAi} {source} {QQNumReflectMgr[info.FromQQ]} {info.Msg}";
             Global.MsgPublish(msg);
 
-            if (BindAiMgr.Instance[info.FromQQ] != null)
+            if (BindAiMgr[info.FromQQ] != null)
             {
                 return;
             }
@@ -106,7 +104,7 @@ namespace Dolany.Ai.Core.Cache
                     GroupMemberChangeCallBack(JsonConvert.DeserializeObject<GroupMemberChangeModel>(info.Msg));
                     break;
                 case InformationType.ConnectStateChange:
-                    var bindai = BindAiMgr.Instance[info.BindAi];
+                    var bindai = BindAiMgr[info.BindAi];
                     bindai.IsConnected = bool.Parse(info.Msg);
                     break;
                 default:

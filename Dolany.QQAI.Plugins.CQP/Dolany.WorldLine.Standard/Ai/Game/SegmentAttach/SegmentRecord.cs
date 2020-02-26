@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
+using Dolany.Ai.Common;
 using Dolany.Database;
 
 namespace Dolany.WorldLine.Standard.Ai.Game.SegmentAttach
@@ -10,7 +11,7 @@ namespace Dolany.WorldLine.Standard.Ai.Game.SegmentAttach
 
         public string Segment { get; set; }
 
-        public bool IsRare { get; set; } = false;
+        public bool IsRare { get; set; }
 
         public Dictionary<string, int> TreasureRecord { get; set; } = new Dictionary<string, int>();
 
@@ -20,7 +21,7 @@ namespace Dolany.WorldLine.Standard.Ai.Game.SegmentAttach
         {
             get
             {
-                if (TreasureRecord.Count < SegmentMgr.Instance.Treasures.Count)
+                if (TreasureRecord.Count < AutofacSvc.Resolve<SegmentMgr>().Treasures.Count)
                 {
                     return false;
                 }

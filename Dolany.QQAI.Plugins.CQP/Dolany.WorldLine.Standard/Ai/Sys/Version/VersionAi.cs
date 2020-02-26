@@ -14,11 +14,12 @@ namespace Dolany.WorldLine.Standard.Ai.Sys.Version
         public override AIPriority PriorityLevel { get;} = AIPriority.Normal;
 
         public List<VersionModel> Versions = new List<VersionModel>();
+        private static DataRefresher DataRefresher => AutofacSvc.Resolve<DataRefresher>();
 
         public override void Initialization()
         {
             RefreshData();
-            DataRefresher.Instance.Register(this);
+            DataRefresher.Register(this);
         }
 
         public void RefreshData()

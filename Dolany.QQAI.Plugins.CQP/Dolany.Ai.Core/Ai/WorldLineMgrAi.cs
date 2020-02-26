@@ -1,8 +1,8 @@
 ﻿using System.Linq;
+using Dolany.Ai.Common;
 using Dolany.Ai.Common.Models;
 using Dolany.Ai.Core.Base;
 using Dolany.Ai.Core.Cache;
-using Dolany.Ai.Core.Common;
 
 namespace Dolany.Ai.Core.Ai
 {
@@ -11,6 +11,8 @@ namespace Dolany.Ai.Core.Ai
         public override string AIName { get; set; } = "世界线管理器";
         public override string Description { get; set; } = "Ai for world line management.";
         public override AIPriority PriorityLevel { get;} = AIPriority.Monitor;
+
+        private static CrossWorldAiMgr CrossWorldAiMgr => AutofacSvc.Resolve<CrossWorldAiMgr>();
 
         [EnterCommand(ID = "WorldLineMgrAi_SwitchWorldLine",
             Command = "切换世界线",
@@ -22,16 +24,16 @@ namespace Dolany.Ai.Core.Ai
             IsPrivateAvailable = false)]
         public bool SwitchWorldLine(MsgInformationEx MsgDTO, object[] param)
         {
-            var option = Waiter.Instance.WaitForOptions(MsgDTO.FromGroup, MsgDTO.FromQQ, "请选择需要切换的世界线：",
-                CrossWorldAiMgr.Instance.AllWorlds.Select(w => w.Name).ToArray(), MsgDTO.BindAi);
+            var option = Waiter.WaitForOptions(MsgDTO.FromGroup, MsgDTO.FromQQ, "请选择需要切换的世界线：",
+                CrossWorldAiMgr.AllWorlds.Select(w => w.Name).ToArray(), MsgDTO.BindAi);
             if (option < 0)
             {
                 MsgSender.PushMsg(MsgDTO, "操作取消！");
                 return false;
             }
 
-            var worldLine = CrossWorldAiMgr.Instance.AllWorlds[option];
-            var group = GroupSettingMgr.Instance[MsgDTO.FromGroup];
+            var worldLine = CrossWorldAiMgr.AllWorlds[option];
+            var group = GroupSettingMgr[MsgDTO.FromGroup];
             group.WorldLine = worldLine.Name;
             group.Update();
 

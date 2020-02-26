@@ -6,6 +6,10 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <PackageReference Include="Autofac" Version="5.1.2" />
+  </ItemGroup>
+
+  <ItemGroup>
     <ProjectReference Include="..\Dolany.Ai.Doremi\Dolany.Ai.Doremi.csproj" />
   </ItemGroup>
 

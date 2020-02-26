@@ -6,14 +6,7 @@ namespace Dolany.Ai.Core.Common
 {
     public class CommandLocker
     {
-        public static CommandLocker Instance { get; } = new CommandLocker();
-
         private readonly ConcurrentDictionary<string, LockUnit> LockUnits = new ConcurrentDictionary<string, LockUnit>();
-
-        private CommandLocker()
-        {
-
-        }
 
         public bool Check(long QQNum, string Command)
         {

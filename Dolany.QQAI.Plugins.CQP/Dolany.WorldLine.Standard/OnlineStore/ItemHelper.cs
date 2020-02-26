@@ -1,4 +1,5 @@
 ﻿using System.Linq;
+using Dolany.Ai.Common;
 
 namespace Dolany.WorldLine.Standard.OnlineStore
 {
@@ -7,8 +8,9 @@ namespace Dolany.WorldLine.Standard.OnlineStore
         public static string ItemIncome(this ItemCollectionRecord record, string itemName, int count = 1)
         {
             var isNew = false;
-            var honorName = HonorHelper.Instance.FindHonorName(itemName);
-            var honor = HonorHelper.Instance.FindHonor(honorName);
+            var HonorHelper = AutofacSvc.Resolve<HonorHelper>();
+            var honorName = HonorHelper.FindHonorName(itemName);
+            var honor = HonorHelper.FindHonor(honorName);
             if (!record.HonorCollections.ContainsKey(honorName))
             {
                 record.HonorCollections.Add(honorName, new HonorItemCollection()

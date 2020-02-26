@@ -29,6 +29,12 @@ namespace Dolany.Ai.Core.Base
 
         public IWorldLine WorldLine { get; set; }
 
+        protected static Waiter Waiter => AutofacSvc.Resolve<Waiter>();
+        protected static GroupSettingMgr GroupSettingMgr => AutofacSvc.Resolve<GroupSettingMgr>();
+        protected static AliveStateMgr AliveStateMgr => AutofacSvc.Resolve<AliveStateMgr>();
+        private static CommandLocker CommandLocker => AutofacSvc.Resolve<CommandLocker>();
+        private static SyntaxCheckerMgr SyntaxCheckerMgr => AutofacSvc.Resolve<SyntaxCheckerMgr>();
+
         protected AIBase()
         {
             var t = GetType();
@@ -88,14 +94,14 @@ namespace Dolany.Ai.Core.Base
                         return true;
                     }
 
-                    if (!CommandLocker.Instance.Check(MsgDTO.FromQQ, enterCommandAttribute.ID))
+                    if (!CommandLocker.Check(MsgDTO.FromQQ, enterCommandAttribute.ID))
                     {
                         return false;
                     }
 
-                    var lockID = CommandLocker.Instance.Lock(MsgDTO.FromQQ, new[] {enterCommandAttribute.ID});
+                    var lockID = CommandLocker.Lock(MsgDTO.FromQQ, new[] {enterCommandAttribute.ID});
                     var result = moduleDel(MsgDTO, param);
-                    CommandLocker.Instance.FreeLock(lockID);
+                    CommandLocker.FreeLock(lockID);
 
                     if (!result)
                     {
@@ -135,12 +141,12 @@ namespace Dolany.Ai.Core.Base
 
             if (!MsgDTO.IsAlive)
             {
-                var stateCache = AliveStateMgr.Instance.GetState(MsgDTO.FromGroup, MsgDTO.FromQQ);
+                var stateCache = AliveStateMgr.GetState(MsgDTO.FromGroup, MsgDTO.FromQQ);
                 MsgSender.PushMsg(MsgDTO, $"你已经死了({stateCache.Name})！复活时间：{stateCache.RebornTime.ToString(CultureInfo.CurrentCulture)}", true);
                 return false;
             }
 
-            if (!NeedManualOpeon || GroupSettingMgr.Instance[MsgDTO.FromGroup].HasFunction(AIName))
+            if (!NeedManualOpeon || GroupSettingMgr[MsgDTO.FromGroup].HasFunction(AIName))
             {
                 return true;
             }
@@ -162,7 +168,7 @@ namespace Dolany.Ai.Core.Base
                 return false;
             }
 
-            if (!SyntaxCheckerMgr.Instance.SyntaxCheck(enterAttr.SyntaxChecker, MsgDTO.Msg, out param))
+            if (!SyntaxCheckerMgr.SyntaxCheck(enterAttr.SyntaxChecker, MsgDTO.Msg, out param))
             {
                 return false;
             }

@@ -22,7 +22,7 @@ namespace Dolany.Database.Ai
             MongoService<CmdRec>.Insert(this);
         }
 
-        public static List<CmdRec> RecentCmds(int hour)
+        public static IEnumerable<CmdRec> RecentCmds(int hour)
         {
             var startTime = DateTime.Now.AddHours(-hour);
             return MongoService<CmdRec>.Get(p => p.Time >= startTime);

@@ -33,10 +33,14 @@ namespace Dolany.Ai.Core.Ai.SingleCommand.Tuling
                 5000, 6000, 4000, 4001, 4002, 4003, 4005, 4007, 4100, 4200, 4300, 4400, 4500, 4600, 4602, 7002, 8008
             };
 
+        private static DataRefresher DataRefresher => AutofacSvc.Resolve<DataRefresher>();
+        private static BindAiMgr BindAiMgr => AutofacSvc.Resolve<BindAiMgr>();
+        private static AliveStateMgr AliveStateMgr => AutofacSvc.Resolve<AliveStateMgr>();
+
         public override void Initialization()
         {
             RefreshData();
-            DataRefresher.Instance.Register(this);
+            DataRefresher.Register(this);
         }
 
         public void RefreshData()
@@ -51,12 +55,12 @@ namespace Dolany.Ai.Core.Ai.SingleCommand.Tuling
                 return true;
             }
 
-            if (MsgDTO.Type == MsgType.Group && BindAiMgr.Instance.AllAiNums.All(p => !MsgDTO.FullMsg.Contains(CodeApi.Code_At(p))))
+            if (MsgDTO.Type == MsgType.Group && BindAiMgr.AllAiNums.All(p => !MsgDTO.FullMsg.Contains(CodeApi.Code_At(p))))
             {
                 return false;
             }
 
-            var stateCache = AliveStateMgr.Instance.GetState(MsgDTO.FromGroup, MsgDTO.FromQQ);
+            var stateCache = AliveStateMgr.GetState(MsgDTO.FromGroup, MsgDTO.FromQQ);
             if (stateCache != null)
             {
                 MsgSender.PushMsg(MsgDTO, $"你已经死了({stateCache.Name})！复活时间：{stateCache.RebornTime:yyyy-MM-dd HH:mm:ss}", true);
@@ -72,7 +76,7 @@ namespace Dolany.Ai.Core.Ai.SingleCommand.Tuling
             limitRecord.Cache();
             limitRecord.Update();
 
-            foreach (var aiNum in BindAiMgr.Instance.AllAiNums)
+            foreach (var aiNum in BindAiMgr.AllAiNums)
             {
                 MsgDTO.FullMsg = MsgDTO.FullMsg.Replace(CodeApi.Code_At(aiNum), string.Empty);
             }
@@ -125,7 +129,7 @@ namespace Dolany.Ai.Core.Ai.SingleCommand.Tuling
 
         private PostReq_Param GetPostReq(MsgInformationEx MsgDTO, string ApiKey)
         {
-            var bindAi = BindAiMgr.Instance[MsgDTO.BindAi];
+            var bindAi = BindAiMgr[MsgDTO.BindAi];
             var imageInfo = ParseImgText(MsgDTO.FullMsg, bindAi.ImagePath);
             var perception = string.IsNullOrEmpty(imageInfo)
                 ? new perceptionData

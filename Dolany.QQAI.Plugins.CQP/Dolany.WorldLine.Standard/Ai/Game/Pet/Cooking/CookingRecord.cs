@@ -25,7 +25,7 @@ namespace Dolany.WorldLine.Standard.Ai.Game.Pet.Cooking
                 var itemConsumeDic = ItemConsumeDic;
                 var flavoringTotal = FlavoringTotal;
 
-                return itemConsumeDic.Sum(p => HonorHelper.Instance.FindItem(p.Key).Price * p.Value) + flavoringTotal * 20;
+                return itemConsumeDic.Sum(p => AutofacSvc.Resolve<HonorHelper>().FindItem(p.Key).Price * p.Value) + flavoringTotal * 20;
             }
         }
 
@@ -34,9 +34,10 @@ namespace Dolany.WorldLine.Standard.Ai.Game.Pet.Cooking
             get
             {
                 var flavoringTotal = 0;
+                var CookingDietMgr = AutofacSvc.Resolve<CookingDietMgr>();
                 foreach (var (key, value) in CookingHistory)
                 {
-                    var diet = CookingDietMgr.Instance[key];
+                    var diet = CookingDietMgr[key];
                     flavoringTotal += diet.Flavorings?.Sum(p => p.Value) * value ?? 0;
                 }
 
@@ -49,9 +50,10 @@ namespace Dolany.WorldLine.Standard.Ai.Game.Pet.Cooking
             get
             {
                 var itemConsumeDic = new Dictionary<string, int>();
+                var CookingDietMgr = AutofacSvc.Resolve<CookingDietMgr>();
                 foreach (var (key, value) in CookingHistory)
                 {
-                    var diet = CookingDietMgr.Instance[key];
+                    var diet = CookingDietMgr[key];
                     if (diet.Materials.IsNullOrEmpty())
                     {
                         continue;

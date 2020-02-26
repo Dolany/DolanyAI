@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using Dolany.Ai.Common;
 using Dolany.Ai.Core.API;
 using Dolany.Ai.Core.Common;
 using Dolany.Database;
@@ -32,7 +33,7 @@ namespace Dolany.WorldLine.KindomStorm.Ai.KindomStorm
                 return castle;
             }
 
-            var group = GroupSettingMgr.Instance[GroupNum];
+            var group = AutofacSvc.Resolve<GroupSettingMgr>()[GroupNum];
             var info = APIEx.GetQQInfo(QQNum, group.BindAi);
             castle = new KindomCastle()
             {

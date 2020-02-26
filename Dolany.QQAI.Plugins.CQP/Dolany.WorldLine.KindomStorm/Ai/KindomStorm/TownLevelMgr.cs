@@ -6,16 +6,16 @@ namespace Dolany.WorldLine.KindomStorm.Ai.KindomStorm
 {
     public class TownLevelMgr : IDataMgr
     {
-        public static TownLevelMgr Instance { get; } = new TownLevelMgr();
-
         private List<TownLevelModel> Levels;
 
         private TownLevelModel this[int level] => Levels.FirstOrDefault(p => p.Level == level);
 
-        private TownLevelMgr()
+        private static DataRefresher DataRefresher => AutofacSvc.Resolve<DataRefresher>();
+
+        public TownLevelMgr()
         {
             RefreshData();
-            DataRefresher.Instance.Register(this);
+            DataRefresher.Register(this);
         }
 
         public void RefreshData()

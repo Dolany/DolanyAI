@@ -13,7 +13,7 @@ namespace Dolany.Ai.Doremi.Xiuxian
         private LevelMgr()
         {
             RefreshData();
-            DataRefresher.Instance.Register(this);
+            //DataRefresher.Instance.Register(this);
         }
 
         public LevelDataModel GetByLevel(int level)

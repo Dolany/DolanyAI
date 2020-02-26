@@ -11,13 +11,13 @@ namespace Dolany.WorldLine.Standard.Ai.Vip
 {
     public class DailyVipShopMgr
     {
-        public static DailyVipShopMgr Instance { get; } = new DailyVipShopMgr();
-
         private List<IVipArmer> Armers { get; set; }
 
         public IVipArmer this[string Name] => Armers.FirstOrDefault(p => p.Name == Name);
 
-        private DailyVipShopMgr()
+        public Waiter Waiter { get; set; }
+
+        public DailyVipShopMgr()
         {
             Armers = CommonUtil.LoadAllInstanceFromInterface<IVipArmer>();
         }
@@ -53,7 +53,7 @@ namespace Dolany.WorldLine.Standard.Ai.Vip
                 return;
             }
 
-            if (!Waiter.Instance.WaitForConfirm(MsgDTO, $"此操作将花费{armer.DiamondsNeed.CurencyFormat("Diamond")}，是否继续？"))
+            if (!Waiter.WaitForConfirm(MsgDTO, $"此操作将花费{armer.DiamondsNeed.CurencyFormat("Diamond")}，是否继续？"))
             {
                 MsgSender.PushMsg(MsgDTO, "操作取消！");
                 return;

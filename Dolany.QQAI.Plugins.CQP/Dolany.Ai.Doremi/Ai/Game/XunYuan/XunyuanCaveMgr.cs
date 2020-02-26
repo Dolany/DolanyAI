@@ -14,7 +14,7 @@ namespace Dolany.Ai.Doremi.Ai.Game.XunYuan
         public XunyuanCaveMgr()
         {
             RefreshData();
-            DataRefresher.Instance.Register(this);
+            //DataRefresher.Instance.Register(this);
         }
 
         public void RefreshData()

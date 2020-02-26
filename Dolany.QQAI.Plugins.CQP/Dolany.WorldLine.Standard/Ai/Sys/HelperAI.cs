@@ -28,10 +28,19 @@ namespace Dolany.WorldLine.Standard.Ai.Sys
 
         private List<ExtraHelpModel> ExtraHelps = new List<ExtraHelpModel>();
 
+        private static DailyVipShopMgr DailyVipShopMgr => AutofacSvc.Resolve<DailyVipShopMgr>();
+        private static DataRefresher DataRefresher => AutofacSvc.Resolve<DataRefresher>();
+        private static GiftMgr GiftMgr => AutofacSvc.Resolve<GiftMgr>();
+        private static PetSkillMgr PetSkillMgr => AutofacSvc.Resolve<PetSkillMgr>();
+        private static SegmentMgr SegmentMgr => AutofacSvc.Resolve<SegmentMgr>();
+        private static CookingDietMgr CookingDietMgr => AutofacSvc.Resolve<CookingDietMgr>();
+        private static ExpeditionSceneMgr ExpeditionSceneMgr => AutofacSvc.Resolve<ExpeditionSceneMgr>();
+        private static HonorHelper HonorHelper => AutofacSvc.Resolve<HonorHelper>();
+
         public override void Initialization()
         {
             RefreshData();
-            DataRefresher.Instance.Register(this);
+            DataRefresher.Register(this);
         }
 
         public void RefreshData()
@@ -197,55 +206,55 @@ namespace Dolany.WorldLine.Standard.Ai.Sys
         {
             var name = param[0] as string;
             // 漂流瓶物品
-            if (HonorHelper.Instance.FindItem(name) != null)
+            if (HonorHelper.FindItem(name) != null)
             {
                 return WorldLine.AIInstance<DriftBottleAI>().ViewItem(MsgDTO, param);
             }
 
             // 漂流瓶成就
-            if (HonorHelper.Instance.FindHonor(name) != null)
+            if (HonorHelper.FindHonor(name) != null)
             {
                 return WorldLine.AIInstance<DriftBottleAI>().ViewHonor(MsgDTO, param);
             }
 
             // 礼物
-            if (GiftMgr.Instance[name] != null)
+            if (GiftMgr[name] != null)
             {
                 return WorldLine.AIInstance<GiftAI>().ViewGift(MsgDTO, param);
             }
 
             // 宠物技能
-            if (PetSkillMgr.Instance[name] != null)
+            if (PetSkillMgr[name] != null)
             {
                 return WorldLine.AIInstance<PetAI>().ViewPetSkill(MsgDTO, param);
             }
 
             // 宝藏碎片
-            if (SegmentMgr.Instance.FindSegmentByName(name) != null)
+            if (SegmentMgr.FindSegmentByName(name) != null)
             {
                 return WorldLine.AIInstance<SegmentAttachAI>().ViewSegment(MsgDTO, param);
             }
 
             // 宝藏
-            if (SegmentMgr.Instance.FindTreasureByName(name) != null)
+            if (SegmentMgr.FindTreasureByName(name) != null)
             {
                 return WorldLine.AIInstance<SegmentAttachAI>().ViewTreasure(MsgDTO, param);
             }
 
             // 菜肴
-            if (CookingDietMgr.Instance[name] != null)
+            if (CookingDietMgr[name] != null)
             {
                 return WorldLine.AIInstance<CookingAI>().ViewDiet(MsgDTO, param);
             }
 
             // 装备
-            if (DailyVipShopMgr.Instance[name] != null)
+            if (DailyVipShopMgr[name] != null)
             {
                 return WorldLine.AIInstance<VipServiceAi>().ViewArmer(MsgDTO, param);
             }
 
             // 远程地点
-            if (ExpeditionSceneMgr.Instance[name] != null)
+            if (ExpeditionSceneMgr[name] != null)
             {
                 return WorldLine.AIInstance<ExpeditionAI>().ViewExpedition(MsgDTO, param);
             }
@@ -266,13 +275,13 @@ namespace Dolany.WorldLine.Standard.Ai.Sys
         {
             var name = param[0] as string;
             // 菜谱
-            if (CookingDietMgr.Instance[name] != null)
+            if (CookingDietMgr[name] != null)
             {
                 return WorldLine.AIInstance<CookingAI>().ExchangeMenu(MsgDTO, param);
             }
 
             // 宠物技能
-            if (PetSkillMgr.Instance[name] != null)
+            if (PetSkillMgr[name] != null)
             {
                 return WorldLine.AIInstance<PetAI>().UpgradePetSkill(MsgDTO, param);
             }
@@ -293,13 +302,13 @@ namespace Dolany.WorldLine.Standard.Ai.Sys
         {
             var name = param[0] as string;
             // 菜谱
-            if (CookingDietMgr.Instance[name] != null)
+            if (CookingDietMgr[name] != null)
             {
                 return WorldLine.AIInstance<CookingAI>().ExchangeMenu(MsgDTO, param);
             }
 
             // 礼物
-            if (GiftMgr.Instance[name] != null)
+            if (GiftMgr[name] != null)
             {
                 return WorldLine.AIInstance<GiftAI>().MakeGift(MsgDTO, param);
             }

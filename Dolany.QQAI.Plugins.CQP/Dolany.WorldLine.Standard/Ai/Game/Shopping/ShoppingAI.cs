@@ -24,6 +24,12 @@ namespace Dolany.WorldLine.Standard.Ai.Game.Shopping
 
         private const int RebornHonorLimit = 7;
 
+        private static DailyVipShopMgr DailyVipShopMgr => AutofacSvc.Resolve<DailyVipShopMgr>();
+        private static CookingDietMgr CookingDietMgr => AutofacSvc.Resolve<CookingDietMgr>();
+        private static GiftMgr GiftMgr => AutofacSvc.Resolve<GiftMgr>();
+        private static PetLevelMgr PetLevelMgr => AutofacSvc.Resolve<PetLevelMgr>();
+        private static HonorHelper HonorHelper => AutofacSvc.Resolve<HonorHelper>();
+
         [EnterCommand(ID = "ShoppingAI_Sell",
             Command = "贩卖 出售 贩卖物品 出售物品",
             AuthorityLevel = AuthorityLevel.成员,
@@ -44,13 +50,13 @@ namespace Dolany.WorldLine.Standard.Ai.Game.Shopping
 
             var name = param[0] as string;
 
-            var item = HonorHelper.Instance.FindItem(name);
+            var item = HonorHelper.FindItem(name);
             if (item != null)
             {
                 return SellItem(MsgDTO, item);
             }
 
-            if (HonorHelper.Instance.FindHonor(name) != null)
+            if (HonorHelper.FindHonor(name) != null)
             {
                 return SellHonor(MsgDTO, name);
             }
@@ -79,7 +85,7 @@ namespace Dolany.WorldLine.Standard.Ai.Game.Shopping
 
             var name = param[0] as string;
 
-            if (HonorHelper.Instance.FindHonor(name) != null)
+            if (HonorHelper.FindHonor(name) != null)
             {
                 return SellHonor(MsgDTO, name);
             }
@@ -114,7 +120,7 @@ namespace Dolany.WorldLine.Standard.Ai.Game.Shopping
                 return false;
             }
 
-            var item = HonorHelper.Instance.FindItem(name);
+            var item = HonorHelper.FindItem(name);
             if (item != null)
             {
                 SellItem(MsgDTO, item, count);
@@ -155,13 +161,13 @@ namespace Dolany.WorldLine.Standard.Ai.Game.Shopping
             {
                 p.Key,
                 Count = p.Value - 1,
-                IsLimit = HonorHelper.Instance.IsLimitItem(p.Key),
-                Price = HonorHelper.GetItemPrice(HonorHelper.Instance.FindItem(p.Key), MsgDTO.FromQQ)
+                IsLimit = HonorHelper.IsLimitItem(p.Key),
+                Price = HonorHelper.GetItemPrice(HonorHelper.FindItem(p.Key), MsgDTO.FromQQ)
             }).ToList();
             var msg = $"你即将贩卖{ictm.Sum(i => i.Count)}件物品，" +
                       $"其中有{ictm.Count(i => i.IsLimit)}件限定物品，" +
                       $"共价值{ictm.Sum(p => p.Price * p.Count).CurencyFormat()}，是否继续？";
-            if (!Waiter.Instance.WaitForConfirm(MsgDTO, msg))
+            if (!Waiter.WaitForConfirm(MsgDTO, msg))
             {
                 MsgSender.PushMsg(MsgDTO, "操作取消！");
                 return false;
@@ -192,7 +198,7 @@ namespace Dolany.WorldLine.Standard.Ai.Game.Shopping
 
             var price = HonorHelper.GetItemPrice(item, MsgDTO.FromQQ);
             var msg = $"贩卖 {item.Name}*{count} 将获得 {(price * count).CurencyFormat()}，是否确认贩卖？";
-            if (!Waiter.Instance.WaitForConfirm(MsgDTO, msg))
+            if (!Waiter.WaitForConfirm(MsgDTO, msg))
             {
                 MsgSender.PushMsg(MsgDTO, "交易取消！");
                 return false;
@@ -215,7 +221,7 @@ namespace Dolany.WorldLine.Standard.Ai.Game.Shopping
                 return false;
             }
 
-            var items = HonorHelper.Instance.FindHonor(honorName).Items;
+            var items = HonorHelper.FindHonor(honorName).Items;
             var honorCollection = colleRec.HonorCollections;
             if (!honorCollection.ContainsKey(honorName) || honorCollection[honorName].Items.Count < items.Count)
             {
@@ -223,9 +229,9 @@ namespace Dolany.WorldLine.Standard.Ai.Game.Shopping
                 return false;
             }
 
-            var price = HonorHelper.Instance.GetHonorPrice(honorName, MsgDTO.FromQQ);
+            var price = HonorHelper.GetHonorPrice(honorName, MsgDTO.FromQQ);
             var msg = $"贩卖此成就将获得 {price.CurencyFormat()}，是否确认贩卖？";
-            if (!Waiter.Instance.WaitForConfirm(MsgDTO, msg))
+            if (!Waiter.WaitForConfirm(MsgDTO, msg))
             {
                 MsgSender.PushMsg(MsgDTO, "交易取消！");
                 return false;
@@ -257,7 +263,7 @@ namespace Dolany.WorldLine.Standard.Ai.Game.Shopping
             var sellItems = TransHelper.GetDailySellItems();
             var record = ItemCollectionRecord.Get(MsgDTO.FromQQ);
             var itemsStr = string.Join("\r", sellItems.Select(si =>
-                $"{si.Name}({HonorHelper.Instance.FindHonorFullName(si.Name)})({record.GetCount(si.Name)})({si.Attr})：{si.Price.CurencyFormat()}"));
+                $"{si.Name}({HonorHelper.FindHonorFullName(si.Name)})({record.GetCount(si.Name)})({si.Attr})：{si.Price.CurencyFormat()}"));
 
             var msg = $"今日售卖的商品：\r{itemsStr}\r你当前持有 {golds.CurencyFormat()}";
             MsgSender.PushMsg(MsgDTO, msg);
@@ -297,7 +303,7 @@ namespace Dolany.WorldLine.Standard.Ai.Game.Shopping
             var sellItems = todayRec.Items;
             var record = ItemCollectionRecord.Get(MsgDTO.FromQQ);
             var itemsStr = string.Join("\r", sellItems.Select(si =>
-                $"{si.Name}({HonorHelper.Instance.FindHonorFullName(si.Name)})({record.GetCount(si.Name)})({si.Attr})：{si.Price.CurencyFormat()}"));
+                $"{si.Name}({HonorHelper.FindHonorFullName(si.Name)})({record.GetCount(si.Name)})({si.Attr})：{si.Price.CurencyFormat()}"));
 
             var msg = $"当前售卖的商品：\r{itemsStr}\r你当前持有 {golds.CurencyFormat()}";
             MsgSender.PushMsg(MsgDTO, msg);
@@ -318,10 +324,10 @@ namespace Dolany.WorldLine.Standard.Ai.Game.Shopping
         public bool Buy(MsgInformationEx MsgDTO, object[] param)
         {
             var name = param[0] as string;
-            var vipSvc = DailyVipShopMgr.Instance[name];
+            var vipSvc = DailyVipShopMgr[name];
             if (vipSvc != null)
             {
-                DailyVipShopMgr.Instance.Serve(MsgDTO, name);
+                DailyVipShopMgr.Serve(MsgDTO, name);
                 return false;
             }
 
@@ -353,7 +359,7 @@ namespace Dolany.WorldLine.Standard.Ai.Game.Shopping
             }
 
             var price = OSPersonBuff.CheckBuff(MsgDTO.FromQQ, "极光") ? sellItem.Price * 80 / 100 : sellItem.Price;
-            if (!Waiter.Instance.WaitForConfirm_Gold(MsgDTO, price))
+            if (!Waiter.WaitForConfirm_Gold(MsgDTO, price))
             {
                 MsgSender.PushMsg(MsgDTO, "交易取消！");
                 return false;
@@ -402,12 +408,12 @@ namespace Dolany.WorldLine.Standard.Ai.Game.Shopping
                 return false;
             }
 
-            if (HonorHelper.Instance.FindItem(name) != null)
+            if (HonorHelper.FindItem(name) != null)
             {
                 return DealItem(MsgDTO, name, aimQQ, price);
             }
 
-            if (CookingDietMgr.Instance[name] != null)
+            if (CookingDietMgr[name] != null)
             {
                 return DealDiet(MsgDTO, name, aimQQ, price);
             }
@@ -425,7 +431,7 @@ namespace Dolany.WorldLine.Standard.Ai.Game.Shopping
                 return false;
             }
 
-            var originPrice = HonorHelper.GetItemPrice(HonorHelper.Instance.FindItem(name), aimQQ);
+            var originPrice = HonorHelper.GetItemPrice(HonorHelper.FindItem(name), aimQQ);
             if (originPrice > price)
             {
                 MsgSender.PushMsg(MsgDTO, $"收购价格无法低于系统价格({originPrice.CurencyFormat()})！");
@@ -445,7 +451,7 @@ namespace Dolany.WorldLine.Standard.Ai.Game.Shopping
                       $"希望得到的物品：{name}\r" +
                       $"价格：{price.CurencyFormat()}({originPrice.CurencyFormat()})\r" +
                       $"你当前持有：{count}个，是否确认交易？";
-            if (!Waiter.Instance.WaitForConfirm(MsgDTO.FromGroup, aimQQ, msg, MsgDTO.BindAi, 10))
+            if (!Waiter.WaitForConfirm(MsgDTO.FromGroup, aimQQ, msg, MsgDTO.BindAi, 10))
             {
                 MsgSender.PushMsg(MsgDTO, "交易取消！");
                 return false;
@@ -481,7 +487,7 @@ namespace Dolany.WorldLine.Standard.Ai.Game.Shopping
                 return false;
             }
 
-            var dietModel = CookingDietMgr.Instance[name];
+            var dietModel = CookingDietMgr[name];
             if (dietModel.EstimatedPrice < price)
             {
                 MsgSender.PushMsg(MsgDTO, $"交易价格不能低于该菜肴的成本价格({dietModel.EstimatedPrice.CurencyFormat()})！");
@@ -501,7 +507,7 @@ namespace Dolany.WorldLine.Standard.Ai.Game.Shopping
                       $"希望得到的菜肴：{name}\r" +
                       $"价格：{price.CurencyFormat()}({dietModel.EstimatedPrice.CurencyFormat()})\r" +
                       $"你当前持有：{count}个，是否确认交易？";
-            if (!Waiter.Instance.WaitForConfirm(MsgDTO.FromGroup, aimQQ, msg, MsgDTO.BindAi, 10))
+            if (!Waiter.WaitForConfirm(MsgDTO.FromGroup, aimQQ, msg, MsgDTO.BindAi, 10))
             {
                 MsgSender.PushMsg(MsgDTO, "交易取消！");
                 return false;
@@ -542,7 +548,7 @@ namespace Dolany.WorldLine.Standard.Ai.Game.Shopping
             var normalHonors = itemRecord.HonorCollections.Where(h => h.Value.Type == HonorType.Normal).ToList();
             var items = normalHonors.Select(p => p.Value).SelectMany(h => h.Items.Keys).ToList();
 
-            var allNormalItems = HonorHelper.Instance.HonorList.Where(h => !h.IsLimit).SelectMany(h => h.Items).Select(p => p.Name).ToArray();
+            var allNormalItems = HonorHelper.HonorList.Where(h => !h.IsLimit).SelectMany(h => h.Items).Select(p => p.Name).ToArray();
 
             var msg = $"等级：{osPerson.EmojiLevel}\r" +
                       $"经验值：{items.Count}/{allNormalItems.Length}{(items.Count == allNormalItems.Length ? "(可转生)" : string.Empty)}\r" +
@@ -585,9 +591,9 @@ namespace Dolany.WorldLine.Standard.Ai.Game.Shopping
                 return false;
             }
 
-            var itemModel = HonorHelper.Instance.FindItem(name);
+            var itemModel = HonorHelper.FindItem(name);
             var price = HonorHelper.GetItemPrice(itemModel, MsgDTO.FromQQ) * 5 / 100;
-            if (!Waiter.Instance.WaitForConfirm_Gold(MsgDTO, price))
+            if (!Waiter.WaitForConfirm_Gold(MsgDTO, price))
             {
                 MsgSender.PushMsg(MsgDTO, "操作取消!");
                 return false;
@@ -630,7 +636,7 @@ namespace Dolany.WorldLine.Standard.Ai.Game.Shopping
                 return false;
             }
 
-            if (!Waiter.Instance.WaitForConfirm_Gold(MsgDTO, 50))
+            if (!Waiter.WaitForConfirm_Gold(MsgDTO, 50))
             {
                 MsgSender.PushMsg(MsgDTO, "操作取消！");
                 return false;
@@ -651,15 +657,15 @@ namespace Dolany.WorldLine.Standard.Ai.Game.Shopping
 
             if (!osPerson.GiftDic.IsNullOrEmpty())
             {
-                var giftsMaterialDic = osPerson.GiftDic.SelectMany(p => GiftMgr.Instance[p.Key].MaterialDic);
-                var giftAssert = giftsMaterialDic.Sum(g => HonorHelper.Instance.FindItem(g.Key).Price * g.Value);
+                var giftsMaterialDic = osPerson.GiftDic.SelectMany(p => GiftMgr[p.Key].MaterialDic);
+                var giftAssert = giftsMaterialDic.Sum(g => HonorHelper.FindItem(g.Key).Price * g.Value);
                 resultDic.Add("礼物资产", giftAssert);
             }
 
             var pet = PetRecord.Get(MsgDTO.FromQQ);
             if (pet.Level > 0 || pet.Exp > 0)
             {
-                var petAssert = PetLevelMgr.Instance.ExpToGolds(pet.Level, pet.Exp);
+                var petAssert = PetLevelMgr.ExpToGolds(pet.Level, pet.Exp);
                 resultDic.Add("宠物资产", petAssert);
             }
 
@@ -667,8 +673,8 @@ namespace Dolany.WorldLine.Standard.Ai.Game.Shopping
             if (!dietRec.LearndDietMenu.IsNullOrEmpty() || !dietRec.CookedDietDic.IsNullOrEmpty() || !dietRec.FlavoringDic.IsNullOrEmpty())
             {
                 var dietAssert = dietRec.LearndDietMenu.Sum(menu =>
-                    HonorHelper.Instance.FindHonor(CookingDietMgr.Instance[menu].ExchangeHonor).Items.Sum(item => item.Price));
-                dietAssert += dietRec.CookedDietDic.Sum(diet => CookingDietMgr.Instance[diet.Key].EstimatedPrice * diet.Value);
+                    HonorHelper.FindHonor(CookingDietMgr[menu].ExchangeHonor).Items.Sum(item => item.Price));
+                dietAssert += dietRec.CookedDietDic.Sum(diet => CookingDietMgr[diet.Key].EstimatedPrice * diet.Value);
                 dietAssert += dietRec.FlavoringDic.Sum(p => p.Value) * 20;
                 resultDic.Add("烹饪资产", dietAssert);
             }
@@ -700,14 +706,14 @@ namespace Dolany.WorldLine.Standard.Ai.Game.Shopping
             var normalHonors = itemColl.HonorCollections.Where(h => h.Value.Type == HonorType.Normal).ToList();
             var items = normalHonors.Select(p => p.Value).SelectMany(h => h.Items.Keys).ToList();
 
-            var allItems = HonorHelper.Instance.HonorList.Where(h => !(h is LimitHonorModel)).SelectMany(h => h.Items).Select(p => p.Name);
+            var allItems = HonorHelper.HonorList.Where(h => !(h is LimitHonorModel)).SelectMany(h => h.Items).Select(p => p.Name);
             if (items.Count != allItems.Count())
             {
                 MsgSender.PushMsg(MsgDTO, "你尚未集齐所有非限定物品！", true);
                 return false;
             }
 
-            var response = Waiter.Instance.WaitForInformation(MsgDTO, $"请输入想获取的荣誉称号名称(不能超过{RebornHonorLimit}个字)",
+            var response = Waiter.WaitForInformation(MsgDTO, $"请输入想获取的荣誉称号名称(不能超过{RebornHonorLimit}个字)",
                 info => info.FromQQ == MsgDTO.FromQQ && info.FromGroup == MsgDTO.FromGroup && info.Msg != null && info.Msg.Length <= RebornHonorLimit, 10);
             if (response == null)
             {

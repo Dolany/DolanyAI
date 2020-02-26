@@ -6,16 +6,16 @@ namespace Dolany.WorldLine.Standard.Ai.Game.Pet
 {
     public class PetLevelMgr : IDataMgr
     {
-        public static PetLevelMgr Instance { get; } = new PetLevelMgr();
-
         private Dictionary<int, PetLevelModel> LevelDic;
 
         public PetLevelModel this[int level] => LevelDic[level];
 
-        private PetLevelMgr()
+        private static DataRefresher DataRefresher => AutofacSvc.Resolve<DataRefresher>();
+
+        public PetLevelMgr()
         {
             RefreshData();
-            DataRefresher.Instance.Register(this);
+            DataRefresher.Register(this);
         }
 
         public int ExpToGolds(int level, int exp)

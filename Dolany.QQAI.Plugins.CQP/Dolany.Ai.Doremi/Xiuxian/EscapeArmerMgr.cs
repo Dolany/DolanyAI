@@ -15,7 +15,7 @@ namespace Dolany.Ai.Doremi.Xiuxian
         private EscapeArmerMgr()
         {
             RefreshData();
-            DataRefresher.Instance.Register(this);
+            //DataRefresher.Instance.Register(this);
         }
 
         public EscapeArmerModel RandArmer()

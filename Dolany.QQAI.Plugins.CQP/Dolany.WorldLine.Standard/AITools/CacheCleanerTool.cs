@@ -25,9 +25,11 @@ namespace Dolany.WorldLine.Standard.AITools
         protected override List<ScheduleDoModel> ModelList { get; set; } = new List<ScheduleDoModel>();
         public override bool Enabled { get; set; } = true;
 
+        private static BindAiMgr BindAiMgr => AutofacSvc.Resolve<BindAiMgr>();
+
         private void InitModelList()
         {
-            foreach (var (_, value) in BindAiMgr.Instance.AiDic)
+            foreach (var (_, value) in BindAiMgr.AiDic)
             {
                 ModelList.Add(new ScheduleDoModel()
                 {

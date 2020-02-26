@@ -7,11 +7,9 @@ namespace Dolany.Ai.Core.Common
 {
     public class AliveStateMgr
     {
-        public static AliveStateMgr Instance { get; } = new AliveStateMgr();
-
         public readonly ConcurrentDictionary<string, AliveStateCache> CacheDic;
 
-        private AliveStateMgr()
+        public AliveStateMgr()
         {
             CacheDic = new ConcurrentDictionary<string, AliveStateCache>();
             var allCaches = MongoService<AliveStateCache>.Get();

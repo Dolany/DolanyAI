@@ -9,14 +9,7 @@ namespace Dolany.Ai.Common
 
     public class DataRefresher
     {
-        public static DataRefresher Instance { get; } = new DataRefresher();
-
         private readonly List<IDataMgr> AllMgrs = new List<IDataMgr>();
-
-        private DataRefresher()
-        {
-
-        }
 
         public void Register(IDataMgr mgr)
         {

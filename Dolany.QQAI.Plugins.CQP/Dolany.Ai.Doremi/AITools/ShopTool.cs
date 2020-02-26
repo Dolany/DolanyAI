@@ -12,6 +12,8 @@ namespace Dolany.Ai.Doremi.AITools
     {
         public override bool Enable { get; set; } = true;
 
+        private static RandShopper RandShopper => AutofacSvc.Resolve<RandShopper>();
+
         protected override List<ScheduleDoModel> ModelList { get; set; } = new List<ScheduleDoModel>()
         {
             new ScheduleDoModel()
@@ -41,7 +43,7 @@ namespace Dolany.Ai.Doremi.AITools
             todayRecord.ExpiryTime = CommonUtil.UntilTommorow();
             todayRecord.Update();
 
-            RandShopper.Instance.Refresh();
+            RandShopper.Refresh();
         }
 
         private static IEnumerable<int> GetHours(int count)

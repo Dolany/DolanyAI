@@ -30,11 +30,15 @@ namespace Dolany.WorldLine.Standard.Ai.Game.Advanture
 
         private int Bonus;
 
+        private static Waiter Waiter => AutofacSvc.Resolve<Waiter>();
+        private static CaveSettingHelper CaveSettingHelper => AutofacSvc.Resolve<CaveSettingHelper>();
+        private static HonorHelper HonorHelper => AutofacSvc.Resolve<HonorHelper>();
+
         public AdvGameEngine(AdvPlayer[] players, long GroupNum, int CaveNo, string BindAi)
         {
             this.players = players;
             this.GroupNum = GroupNum;
-            CaveModel = CaveSettingHelper.Instance.GetCaveByNo(CaveNo);
+            CaveModel = CaveSettingHelper.GetCaveByNo(CaveNo);
             this.BindAi = BindAi;
 
             for (var i = 0; i < 3; i++)
@@ -69,7 +73,7 @@ namespace Dolany.WorldLine.Standard.Ai.Game.Advanture
         private void ProcessTurn()
         {
             var msg = $"回合开始！请选择合适的数字！\r{PrintCaves()}";
-            var response = Waiter.Instance.WaitForNum(GroupNum, CurPlayer.QQNum, msg, i => i > 0 && i <= CaveList.Count, BindAi);
+            var response = Waiter.WaitForNum(GroupNum, CurPlayer.QQNum, msg, i => i > 0 && i <= CaveList.Count, BindAi);
             if (response < 0)
             {
                 response = 1;
@@ -205,7 +209,7 @@ namespace Dolany.WorldLine.Standard.Ai.Game.Advanture
                     continue;
                 }
 
-                var items = HonorHelper.Instance.CurMonthLimitItems();
+                var items = HonorHelper.CurMonthLimitItems();
                 var item = items.RandElement();
                 MsgSender.PushMsg(GroupNum, p.QQNum, $"你已经累计赢得 {p.WinTotal}场对决，获取额外奖励 {item.Name}*1", BindAi);
 

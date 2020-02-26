@@ -6,11 +6,9 @@ namespace Dolany.Ai.Core.SyntaxChecker
 {
     public class SyntaxCheckerMgr
     {
-        public static SyntaxCheckerMgr Instance { get; } = new SyntaxCheckerMgr();
-
         public List<ISyntaxChecker> Checkers { get; }
 
-        private SyntaxCheckerMgr()
+        public SyntaxCheckerMgr()
         {
             Checkers = CommonUtil.LoadAllInstanceFromInterface<ISyntaxChecker>();
         }

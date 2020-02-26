@@ -11,13 +11,13 @@ namespace Dolany.Ai.Doremi.Xiuxian
 {
     public class RandShopper
     {
-        public static RandShopper Instance { get; } = new RandShopper();
-
         private List<ShoppingNoticeModel> Models = new List<ShoppingNoticeModel>();
 
         public string[] SellingGoods;
 
         public string BindAi { private get; set; }
+
+        public Scheduler Scheduler { get; set; }
 
         private RandShopper()
         {
@@ -28,7 +28,7 @@ namespace Dolany.Ai.Doremi.Xiuxian
         {
             foreach (var model in Models.Where(model => !string.IsNullOrEmpty(model.TimerID)))
             {
-                Scheduler.Instance.Remove(model.TimerID);
+                Scheduler.Remove(model.TimerID);
             }
 
             Models = new List<ShoppingNoticeModel>();
@@ -66,7 +66,7 @@ namespace Dolany.Ai.Doremi.Xiuxian
             foreach (var model in Models)
             {
                 var interval = (model.NoticeTime - DateTime.Now).TotalMilliseconds;
-                model.TimerID = Scheduler.Instance.Add(interval, TimeUp, model, false);
+                //model.TimerID = Scheduler.Instance.Add(interval, TimeUp, model, false);
             }
         }
 

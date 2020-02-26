@@ -16,6 +16,10 @@ namespace Dolany.WorldLine.Standard.Ai.Game.Pet.Expedition
         public override string Description { get; set; } = "AI for Pet Expedition.";
         public override AIPriority PriorityLevel { get;} = AIPriority.Normal;
 
+        private static ExpeditionSceneMgr ExpeditionSceneMgr => AutofacSvc.Resolve<ExpeditionSceneMgr>();
+        private static PetLevelMgr PetLevelMgr => AutofacSvc.Resolve<PetLevelMgr>();
+        private static HonorHelper HonorHelper => AutofacSvc.Resolve<HonorHelper>();
+
         [EnterCommand(ID = "ExpeditionAI_Expedite",
             Command = "宠物远征",
             AuthorityLevel = AuthorityLevel.成员,
@@ -53,11 +57,11 @@ namespace Dolany.WorldLine.Standard.Ai.Game.Pet.Expedition
             var extEndur = VipArmerRecord.Get(MsgDTO.FromQQ).CheckArmer("耐力护符") ? 10 : 0;
 
             var pet = PetRecord.Get(MsgDTO.FromQQ);
-            var petLevel = PetLevelMgr.Instance[pet.Level];
+            var petLevel = PetLevelMgr[pet.Level];
             var enduranceConsume = PetEnduranceRecord.Get(MsgDTO.FromQQ);
             var curEndurance = petLevel.Endurance - enduranceConsume.ConsumeTotal + extEndur;
 
-            var todayExpeditions = ExpeditionSceneMgr.Instance.TodayExpedition().Where(p => p.Endurance <= curEndurance).ToList();
+            var todayExpeditions = ExpeditionSceneMgr.TodayExpedition().Where(p => p.Endurance <= curEndurance).ToList();
             if (todayExpeditions.IsNullOrEmpty())
             {
                 MsgSender.PushMsg(MsgDTO, $"{pet.Name}已经累的完全动不了了！");
@@ -65,7 +69,7 @@ namespace Dolany.WorldLine.Standard.Ai.Game.Pet.Expedition
             }
 
             var msg = $"请选择远征副本：\r{string.Join("\r", todayExpeditions.Select((exp, idx) => $"{idx + 1}:{exp.ToString(curEndurance)}"))}";
-            var selection = Waiter.Instance.WaitForNum(MsgDTO.FromGroup, MsgDTO.FromQQ, msg, i => i > 0 && i <= todayExpeditions.Count, MsgDTO.BindAi, 12, false);
+            var selection = Waiter.WaitForNum(MsgDTO.FromGroup, MsgDTO.FromQQ, msg, i => i > 0 && i <= todayExpeditions.Count, MsgDTO.BindAi, 12, false);
             if (selection < 0)
             {
                 MsgSender.PushMsg(MsgDTO, "操作取消");
@@ -90,7 +94,7 @@ namespace Dolany.WorldLine.Standard.Ai.Game.Pet.Expedition
 
         private static void DrawAwards(ExpeditionRecord expeditionRec, MsgInformationEx MsgDTO)
         {
-            var expeditionModel = ExpeditionSceneMgr.Instance[expeditionRec.Scene];
+            var expeditionModel = ExpeditionSceneMgr[expeditionRec.Scene];
             var award = expeditionModel.Award(MsgDTO.FromQQ);
             MsgSender.PushMsg(MsgDTO, award.ToString());
 
@@ -103,7 +107,7 @@ namespace Dolany.WorldLine.Standard.Ai.Game.Pet.Expedition
             history.FlavoringTotal += award.Flavorings.Count;
             history.GoldsTotal += award.Gold;
             history.ItemBonusCount += award.Items.Count;
-            history.ItemBonusPriceTotal += award.Items.Sum(item => HonorHelper.Instance.FindItem(item).Price);
+            history.ItemBonusPriceTotal += award.Items.Sum(item => HonorHelper.FindItem(item).Price);
 
             history.Update();
         }
@@ -119,7 +123,7 @@ namespace Dolany.WorldLine.Standard.Ai.Game.Pet.Expedition
         public bool ViewExpedition(MsgInformationEx MsgDTO, object[] param)
         {
             var name = param[0] as string;
-            var scene = ExpeditionSceneMgr.Instance[name];
+            var scene = ExpeditionSceneMgr[name];
             if (scene == null)
             {
                 MsgSender.PushMsg(MsgDTO, "未查找到相关地点！");
@@ -171,7 +175,7 @@ namespace Dolany.WorldLine.Standard.Ai.Game.Pet.Expedition
         public bool ResolveItem(MsgInformationEx MsgDTO, object[] param)
         {
             var name = param[0] as string;
-            var item = HonorHelper.Instance.FindItem(name);
+            var item = HonorHelper.FindItem(name);
             if (item == null)
             {
                 MsgSender.PushMsg(MsgDTO, "未查找到相关物品！");
@@ -189,7 +193,7 @@ namespace Dolany.WorldLine.Standard.Ai.Game.Pet.Expedition
             itemColle.Update();
 
             var count = Math.Max(item.Price / 20, 1);
-            var flavorings = ExpeditionSceneMgr.Instance.RandFlavorings(count);
+            var flavorings = ExpeditionSceneMgr.RandFlavorings(count);
 
             var cookingRec = CookingRecord.Get(MsgDTO.FromQQ);
             cookingRec.FlavoringIncome(flavorings);

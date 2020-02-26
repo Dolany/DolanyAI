@@ -4,7 +4,6 @@ using Dolany.Ai.Common;
 using Dolany.Ai.Common.Models;
 using Dolany.Ai.Core.Base;
 using Dolany.Ai.Core.Cache;
-using Dolany.Ai.Core.Common;
 using Dolany.Database.Ai;
 using Dolany.WorldLine.Standard.OnlineStore;
 
@@ -66,7 +65,7 @@ namespace Dolany.WorldLine.Standard.Ai.SingleCommand.GroupManage
                 return false;
             }
 
-            if (!Waiter.Instance.WaitForConfirm_Gold(MsgDTO, 500))
+            if (!Waiter.WaitForConfirm_Gold(MsgDTO, 500))
             {
                 MsgSender.PushMsg(MsgDTO, "操作取消！");
                 return false;
@@ -107,7 +106,7 @@ namespace Dolany.WorldLine.Standard.Ai.SingleCommand.GroupManage
                 return false;
             }
 
-            if (!Waiter.Instance.WaitForConfirm_Gold(MsgDTO, 100))
+            if (!Waiter.WaitForConfirm_Gold(MsgDTO, 100))
             {
                 MsgSender.PushMsg(MsgDTO, "操作取消！");
                 return false;
@@ -132,7 +131,7 @@ namespace Dolany.WorldLine.Standard.Ai.SingleCommand.GroupManage
             IsPrivateAvailable = false)]
         public bool EnableAllModules(MsgInformationEx MsgDTO, object[] param)
         {
-            var setting = GroupSettingMgr.Instance[MsgDTO.FromGroup];
+            var setting = GroupSettingMgr[MsgDTO.FromGroup];
             setting.EnabledFunctions = WorldLine.OptionalAINames;
             setting.Update();
 
@@ -150,7 +149,7 @@ namespace Dolany.WorldLine.Standard.Ai.SingleCommand.GroupManage
             IsPrivateAvailable = false)]
         public bool ViewAllOptionalModules(MsgInformationEx MsgDTO, object[] param)
         {
-            var setting = GroupSettingMgr.Instance[MsgDTO.FromGroup];
+            var setting = GroupSettingMgr[MsgDTO.FromGroup];
             var allModules = WorldLine.OptionalAINames;
 
             var msgs = allModules.Select(m => $"{m}  {(setting.EnabledFunctions.Contains(m) ? "√" : "×")}");
@@ -170,17 +169,17 @@ namespace Dolany.WorldLine.Standard.Ai.SingleCommand.GroupManage
         public bool ExchangeOwner(MsgInformationEx MsgDTO, object[] param)
         {
             var aimQQ = (long) param[0];
-            if (!Waiter.Instance.WaitForConfirm(MsgDTO, $"【警告】是否确认将群主移交给 {CodeApi.Code_At(aimQQ)}？（此操作不可逆）"))
+            if (!Waiter.WaitForConfirm(MsgDTO, $"【警告】是否确认将群主移交给 {CodeApi.Code_At(aimQQ)}？（此操作不可逆）"))
             {
                 MsgSender.PushMsg(MsgDTO, "操作取消！");
                 return false;
             }
 
-            var setting = GroupSettingMgr.Instance[MsgDTO.FromGroup];
+            var setting = GroupSettingMgr[MsgDTO.FromGroup];
             setting.AuthInfo.Owner = aimQQ;
 
             setting.Update();
-            GroupSettingMgr.Instance.RefreshData();
+            GroupSettingMgr.RefreshData();
 
             MsgSender.PushMsg(MsgDTO, "已成功移交群主！");
 
@@ -199,7 +198,7 @@ namespace Dolany.WorldLine.Standard.Ai.SingleCommand.GroupManage
         {
             var aimQQ = (long) param[0];
 
-            var setting = GroupSettingMgr.Instance[MsgDTO.FromGroup];
+            var setting = GroupSettingMgr[MsgDTO.FromGroup];
             if (setting.AuthInfo.Owner == aimQQ)
             {
                 MsgSender.PushMsg(MsgDTO, "你不能让群主成为管理员！");
@@ -218,7 +217,7 @@ namespace Dolany.WorldLine.Standard.Ai.SingleCommand.GroupManage
             setting.AuthInfo.Mgrs.Add(aimQQ);
 
             setting.Update();
-            GroupSettingMgr.Instance.RefreshData();
+            GroupSettingMgr.RefreshData();
 
             MsgSender.PushMsg(MsgDTO, "任命成功！");
             return true;

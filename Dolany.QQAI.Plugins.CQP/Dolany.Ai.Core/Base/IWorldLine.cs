@@ -21,6 +21,9 @@ namespace Dolany.Ai.Core.Base
         public List<EnterCommandAttribute> AllAvailableGroupCommands { get; } = new List<EnterCommandAttribute>();
         public List<string> OptionalAINames => AIGroup.Where(ai => ai.NeedManualOpeon).Select(ai => ai.AIName).ToList();
 
+        private static BindAiMgr BindAiMgr => AutofacSvc.Resolve<BindAiMgr>();
+        private static DirtyFilter DirtyFilter => AutofacSvc.Resolve<DirtyFilter>();
+
         public T AIInstance<T>() where T : AIBase
         {
             return AIGroup.FirstOrDefault(ai => ai.GetType().Name == typeof(T).Name) as T;
@@ -144,20 +147,21 @@ namespace Dolany.Ai.Core.Base
             {
                 try
                 {
-                    if (!DirtyFilter.Instance.Filter(MsgDTO))
+                    if (!DirtyFilter.Filter(MsgDTO))
                     {
                         return;
                     }
 
                     var availableBindAis = new List<BindAiModel>();
-                    if (MsgDTO.Type == MsgType.Group && GroupSettingMgr.Instance[MsgDTO.FromGroup] != null)
+                    var GroupSettingMgr = AutofacSvc.Resolve<GroupSettingMgr>();
+                    if (MsgDTO.Type == MsgType.Group && GroupSettingMgr[MsgDTO.FromGroup] != null)
                     {
-                        availableBindAis = GroupSettingMgr.Instance[MsgDTO.FromGroup].BindAis.Where(p => !RecentCommandCache.IsTooFreq(p))
-                            .Select(p => BindAiMgr.Instance[p]).ToList();
+                        availableBindAis = GroupSettingMgr[MsgDTO.FromGroup].BindAis.Where(p => !RecentCommandCache.IsTooFreq(p))
+                            .Select(p => BindAiMgr[p]).ToList();
                     }
                     else if(!RecentCommandCache.IsTooFreq(MsgDTO.BindAi))
                     {
-                        availableBindAis = new List<BindAiModel>(){BindAiMgr.Instance[MsgDTO.BindAi]};
+                        availableBindAis = new List<BindAiModel>(){BindAiMgr[MsgDTO.BindAi]};
                     }
 
                     availableBindAis = availableBindAis.Where(p => p.IsConnected).ToList();

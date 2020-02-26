@@ -17,6 +17,8 @@ namespace Dolany.WorldLine.Standard.Ai.Game.Gift
 
         public override bool NeedManualOpeon { get; } = true;
 
+        private static GiftMgr GiftMgr => AutofacSvc.Resolve<GiftMgr>();
+
         [EnterCommand(ID = "GiftAI_MakeGift",
             Command = "兑换礼物",
             AuthorityLevel = AuthorityLevel.成员,
@@ -30,14 +32,14 @@ namespace Dolany.WorldLine.Standard.Ai.Game.Gift
         public bool MakeGift(MsgInformationEx MsgDTO, object[] param)
         {
             var name = param[0] as string;
-            var gift = GiftMgr.Instance[name];
+            var gift = GiftMgr[name];
             if (gift == null)
             {
                 MsgSender.PushMsg(MsgDTO, "未查找到该礼物！");
                 return false;
             }
 
-            var sellingGifts = GiftMgr.Instance.SellingGifts;
+            var sellingGifts = GiftMgr.SellingGifts;
             if (sellingGifts.All(p => p.Name != name))
             {
                 MsgSender.PushMsg(MsgDTO, "该礼物未在礼物商店中出售，请使用 礼物商店 命令查看今日可兑换的礼物！", true);
@@ -53,7 +55,7 @@ namespace Dolany.WorldLine.Standard.Ai.Game.Gift
                 return false;
             }
 
-            if (!Waiter.Instance.WaitForConfirm(MsgDTO, $"兑换{name}需要：\r{msg}是否兑换？", 7))
+            if (!Waiter.WaitForConfirm(MsgDTO, $"兑换{name}需要：\r{msg}是否兑换？", 7))
             {
                 MsgSender.PushMsg(MsgDTO, "操作取消！");
                 return false;
@@ -103,7 +105,7 @@ namespace Dolany.WorldLine.Standard.Ai.Game.Gift
             IsPrivateAvailable = true)]
         public bool GiftShop(MsgInformationEx MsgDTO, object[] param)
         {
-            var sellingGifts = GiftMgr.Instance.SellingGifts;
+            var sellingGifts = GiftMgr.SellingGifts;
             var msg = sellingGifts.Aggregate("当前可兑换的礼物有(礼物名/羁绊值/魅力值)：\r", (current, gift) => current + $"{gift.Name}/{gift.Intimate}/{gift.Glamour}\r");
 
             msg += "可以使用 查看礼物 [礼物名] 命令来查看详细信息；或者使用 兑换礼物 [礼物名] 命令来兑换指定礼物";
@@ -123,7 +125,7 @@ namespace Dolany.WorldLine.Standard.Ai.Game.Gift
         public bool ViewGift(MsgInformationEx MsgDTO, object[] param)
         {
             var name = param[0] as string;
-            var gift = GiftMgr.Instance[name];
+            var gift = GiftMgr[name];
             if (gift == null)
             {
                 MsgSender.PushMsg(MsgDTO, "未查找到该礼物！");
@@ -192,7 +194,7 @@ namespace Dolany.WorldLine.Standard.Ai.Game.Gift
                 return false;
             }
 
-            var gift = GiftMgr.Instance[name];
+            var gift = GiftMgr[name];
             osPerson.GiftDic[name]--;
             osPerson.Update();
 

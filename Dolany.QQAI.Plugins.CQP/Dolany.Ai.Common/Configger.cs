@@ -6,10 +6,12 @@
 
         public static Configger<ConfigType> Instance { get; } = new Configger<ConfigType>();
 
+        private static DataRefresher DataRefresher => AutofacSvc.Resolve<DataRefresher>();
+
         private Configger()
         {
             RefreshData();
-            DataRefresher.Instance.Register(this);
+            DataRefresher.Register(this);
         }
 
         public void RefreshData()

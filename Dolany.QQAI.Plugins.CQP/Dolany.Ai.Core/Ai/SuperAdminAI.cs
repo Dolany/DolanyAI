@@ -18,6 +18,11 @@ namespace Dolany.Ai.Core.Ai
         public override string Description { get; set; } = "Ai for Super Admin.";
         public override AIPriority PriorityLevel { get;} = AIPriority.SuperHigh;
 
+        private static PicReviewer PicReviewer => AutofacSvc.Resolve<PicReviewer>();
+        private static DataRefresher DataRefresher => AutofacSvc.Resolve<DataRefresher>();
+        private static BindAiMgr BindAiMgr => AutofacSvc.Resolve<BindAiMgr>();
+        private static DirtyFilter DirtyFilter => AutofacSvc.Resolve<DirtyFilter>();
+
         [EnterCommand(ID = "SuperAdminAI_FishingBonus",
             Command = "功能奖励",
             Description = "奖励某个人某个功能若个使用次数（当日有效）",
@@ -69,7 +74,7 @@ namespace Dolany.Ai.Core.Ai
                 MongoService<BlackList>.Update(query);
             }
 
-            DirtyFilter.Instance.RefreshData();
+            DirtyFilter.RefreshData();
 
             MsgSender.PushMsg(MsgDTO, "Success");
             return true;
@@ -95,7 +100,7 @@ namespace Dolany.Ai.Core.Ai
 
             MongoService<BlackList>.Delete(query);
 
-            DirtyFilter.Instance.RefreshData();
+            DirtyFilter.RefreshData();
             MsgSender.PushMsg(MsgDTO, "Success");
             return true;
         }
@@ -143,7 +148,7 @@ namespace Dolany.Ai.Core.Ai
                 BindAis = new List<string>(){MsgDTO.BindAi}
             };
             MongoService<GroupSettings>.Insert(setting);
-            GroupSettingMgr.Instance.RefreshData();
+            GroupSettingMgr.RefreshData();
 
             MsgSender.PushMsg(MsgDTO, "注册成功！");
             return true;
@@ -162,19 +167,19 @@ namespace Dolany.Ai.Core.Ai
             var groupNum = (long) param[0];
             var name = param[1] as string;
 
-            if (!GroupSettingMgr.Instance.SettingDic.ContainsKey(groupNum))
+            if (!GroupSettingMgr.SettingDic.ContainsKey(groupNum))
             {
                 MsgSender.PushMsg(MsgDTO, "错误的群号");
                 return false;
             }
 
-            if (!BindAiMgr.Instance.AiDic.ContainsKey(name))
+            if (!BindAiMgr.AiDic.ContainsKey(name))
             {
                 MsgSender.PushMsg(MsgDTO, "错误的机器人名");
                 return false;
             }
 
-            var setting = GroupSettingMgr.Instance[groupNum];
+            var setting = GroupSettingMgr[groupNum];
             if (setting.BindAis == null)
             {
                 setting.BindAis = new List<string>();
@@ -202,13 +207,13 @@ namespace Dolany.Ai.Core.Ai
         public bool Freeze(MsgInformationEx MsgDTO, object[] param)
         {
             var groupNum = (long) param[0];
-            if (!GroupSettingMgr.Instance.SettingDic.ContainsKey(groupNum))
+            if (!GroupSettingMgr.SettingDic.ContainsKey(groupNum))
             {
                 MsgSender.PushMsg(MsgDTO, "未找到相关群组");
                 return false;
             }
 
-            var setting = GroupSettingMgr.Instance[groupNum];
+            var setting = GroupSettingMgr[groupNum];
             setting.ForcedShutDown = true;
             setting.Update();
 
@@ -228,13 +233,13 @@ namespace Dolany.Ai.Core.Ai
         public bool Defreeze(MsgInformationEx MsgDTO, object[] param)
         {
             var groupNum = (long) param[0];
-            if (!GroupSettingMgr.Instance.SettingDic.ContainsKey(groupNum))
+            if (!GroupSettingMgr.SettingDic.ContainsKey(groupNum))
             {
                 MsgSender.PushMsg(MsgDTO, "未找到相关群组");
                 return false;
             }
 
-            var setting = GroupSettingMgr.Instance[groupNum];
+            var setting = GroupSettingMgr[groupNum];
             setting.ForcedShutDown = false;
             setting.Update();
 
@@ -267,7 +272,7 @@ namespace Dolany.Ai.Core.Ai
             }
             setting.Update();
 
-            GroupSettingMgr.Instance.RefreshData();
+            GroupSettingMgr.RefreshData();
 
             MsgSender.PushMsg(MsgDTO, $"充值成功，有效期至 {setting.ExpiryTime?.ToLocalTime():yyyy-MM-dd HH:mm:ss}");
             return true;
@@ -284,7 +289,7 @@ namespace Dolany.Ai.Core.Ai
         public bool EmergencyUnload(MsgInformationEx MsgDTO, object[] param)
         {
             var bingAiName = param[0] as string;
-            if (BindAiMgr.Instance[bingAiName] == null)
+            if (BindAiMgr[bingAiName] == null)
             {
                 MsgSender.PushMsg(MsgDTO, "未找到该机器人！");
                 return false;
@@ -292,7 +297,7 @@ namespace Dolany.Ai.Core.Ai
 
             var failedGroups = new List<GroupSettings>();
             var successGroups = new List<GroupSettings>();
-            foreach (var setting in from GroupSettings setting in GroupSettingMgr.Instance.SettingDic
+            foreach (var setting in from GroupSettings setting in GroupSettingMgr.SettingDic
                 where !setting.BindAis.IsNullOrEmpty()
                 where setting.BindAis.Contains(bingAiName)
                 select setting)
@@ -338,7 +343,7 @@ namespace Dolany.Ai.Core.Ai
         public bool ForbiddenPicCache(MsgInformationEx MsgDTO, object[] param)
         {
             var groupNum = (long) param[0];
-            var groupSetting = GroupSettingMgr.Instance[groupNum];
+            var groupSetting = GroupSettingMgr[groupNum];
             if (groupSetting.AdditionSettings == null)
             {
                 groupSetting.AdditionSettings = new Dictionary<string, string>();
@@ -361,7 +366,7 @@ namespace Dolany.Ai.Core.Ai
             IsGroupAvailable = true)]
         public bool PicReview(MsgInformationEx MsgDTO, object[] param)
         {
-            PicReviewer.Instance.Review(MsgDTO);
+            PicReviewer.Review(MsgDTO);
             return true;
         }
 
@@ -376,7 +381,7 @@ namespace Dolany.Ai.Core.Ai
             IsGroupAvailable = true)]
         public bool DataRefresh(MsgInformationEx MsgDTO, object[] param)
         {
-            var count = DataRefresher.Instance.RefreshAll();
+            var count = DataRefresher.RefreshAll();
             MsgSender.PushMsg(MsgDTO, $"刷新成功！共刷新 {count}个数据项！");
             return true;
         }

@@ -9,14 +9,14 @@ namespace Dolany.WorldLine.Standard.Ai.Game.Gift
 {
     public class GiftMgr : IDataMgr
     {
-        public static GiftMgr Instance { get; } = new GiftMgr();
-
         public List<GiftModel> GiftList { get; set; }
 
-        private GiftMgr()
+        private static DataRefresher DataRefresher => AutofacSvc.Resolve<DataRefresher>();
+
+        public GiftMgr()
         {
             RefreshData();
-            DataRefresher.Instance.Register(this);
+            DataRefresher.Register(this);
         }
 
         public GiftModel this[string GiftName] => GiftList.FirstOrDefault(p => p.Name == GiftName);

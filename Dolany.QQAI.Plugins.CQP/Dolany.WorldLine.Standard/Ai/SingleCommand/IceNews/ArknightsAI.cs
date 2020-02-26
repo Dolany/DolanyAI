@@ -15,6 +15,8 @@ namespace Dolany.WorldLine.Standard.Ai.SingleCommand.IceNews
 
         private const string CachePath = "./images/Arknights/";
 
+        private static BindAiMgr BindAiMgr => AutofacSvc.Resolve<BindAiMgr>();
+
         [EnterCommand(ID = "ArknightsAI_MiniStory",
             Command = "方舟剧场",
             AuthorityLevel = AuthorityLevel.成员,
@@ -67,7 +69,7 @@ namespace Dolany.WorldLine.Standard.Ai.SingleCommand.IceNews
             IsPrivateAvailable = true)]
         public bool StoryContribute(MsgInformationEx MsgDTO, object[] param)
         {
-            var info = Waiter.Instance.WaitForInformation(MsgDTO, "请上传图片！",
+            var info = Waiter.WaitForInformation(MsgDTO, "请上传图片！",
                 information => information.FromGroup == MsgDTO.FromGroup && information.FromQQ == MsgDTO.FromQQ &&
                                !string.IsNullOrEmpty(Utility.ParsePicGuid(information.Msg)), 10);
             if (info == null)
@@ -76,7 +78,7 @@ namespace Dolany.WorldLine.Standard.Ai.SingleCommand.IceNews
                 return false;
             }
 
-            var bindai = BindAiMgr.Instance[MsgDTO.BindAi];
+            var bindai = BindAiMgr[MsgDTO.BindAi];
 
             var picGuid = Utility.ParsePicGuid(info.Msg);
             var imageCache = Utility.ReadImageCacheInfo(picGuid, bindai.ImagePath);

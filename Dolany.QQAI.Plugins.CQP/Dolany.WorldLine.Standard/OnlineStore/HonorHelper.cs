@@ -9,18 +9,18 @@ namespace Dolany.WorldLine.Standard.OnlineStore
 {
     public class HonorHelper : IDataMgr
     {
-        public static HonorHelper Instance { get; } = new HonorHelper();
-
         public readonly List<HonorModel> HonorList = new List<HonorModel>();
 
         public List<DriftBottleItemModel> Items = new List<DriftBottleItemModel>();
 
         private int SumRate;
 
-        private HonorHelper()
+        private static DataRefresher DataRefresher => AutofacSvc.Resolve<DataRefresher>();
+
+        public HonorHelper()
         {
             RefreshData();
-            DataRefresher.Instance.Register(this);
+            DataRefresher.Register(this);
         }
 
         public void RefreshData()

@@ -6,14 +6,14 @@ namespace Dolany.WorldLine.Standard.Ai.Game.SegmentAttach
 {
     public class SegmentMgr : IDataMgr
     {
-        public static SegmentMgr Instance { get; } = new SegmentMgr();
-
         public List<TreasureModel> Treasures;
 
-        private SegmentMgr()
+        private static DataRefresher DataRefresher => AutofacSvc.Resolve<DataRefresher>();
+
+        public SegmentMgr()
         {
             RefreshData();
-            DataRefresher.Instance.Register(this);
+            DataRefresher.Register(this);
         }
 
         public SegmentModel RandSegment()

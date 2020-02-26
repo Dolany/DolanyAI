@@ -18,7 +18,7 @@ namespace Dolany.Ai.Core.Ai
                 return false;
             }
 
-            var groupSetting = GroupSettingMgr.Instance[MsgDTO.FromGroup];
+            var groupSetting = GroupSettingMgr[MsgDTO.FromGroup];
             if (groupSetting == null)
             {
                 return true;

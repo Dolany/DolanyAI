@@ -1,7 +1,6 @@
 ﻿using Dolany.Ai.Common.Models;
 using Dolany.Ai.Core.Base;
 using Dolany.Ai.Core.Cache;
-using Dolany.Ai.Core.Common;
 
 namespace Dolany.WorldLine.KindomStorm.Ai.Welcome
 {
@@ -13,7 +12,7 @@ namespace Dolany.WorldLine.KindomStorm.Ai.Welcome
 
         public override bool OnGroupMemberChanged(GroupMemberChangeModel model)
         {
-            var group = GroupSettingMgr.Instance[model.GroupNum];
+            var group = GroupSettingMgr[model.GroupNum];
             if (model.Type == 1)
             {
                 group.MembersCount--;

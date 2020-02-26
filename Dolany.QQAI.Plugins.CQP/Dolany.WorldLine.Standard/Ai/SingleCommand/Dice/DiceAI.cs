@@ -35,7 +35,7 @@ namespace Dolany.WorldLine.Standard.Ai.SingleCommand.Dice
                 return false;
             }
 
-            var setting = GroupSettingMgr.Instance[MsgDTO.FromGroup];
+            var setting = GroupSettingMgr[MsgDTO.FromGroup];
             if (!setting.HasFunction("骰娘"))
             {
                 return false;

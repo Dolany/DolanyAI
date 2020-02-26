@@ -12,18 +12,18 @@ namespace Dolany.WorldLine.Standard.Ai.Game.Pet.Expedition
 {
     public class ExpeditionSceneMgr : IDataMgr
     {
-        public static ExpeditionSceneMgr Instance { get; } = new ExpeditionSceneMgr();
-
         private List<ExpeditionSceneModel> Scenes;
 
         public ExpeditionSceneModel this[string SceneName] => Scenes.FirstOrDefault(s => s.Name == SceneName);
 
         public readonly string[] Flavorings = {"海鲜酱油", "秘制番茄酱", "精品海盐", "风味辣酱", "蓝巧果果汁", "火桂", "龙鳞草茎"};
 
-        private ExpeditionSceneMgr()
+        private static DataRefresher DataRefresher => AutofacSvc.Resolve<DataRefresher>();
+
+        public ExpeditionSceneMgr()
         {
             RefreshData();
-            DataRefresher.Instance.Register(this);
+            DataRefresher.Register(this);
         }
 
         public void RefreshData()
@@ -270,7 +270,7 @@ namespace Dolany.WorldLine.Standard.Ai.Game.Pet.Expedition
         {
             get
             {
-                var models = HonorHelper.Instance.Items.Where(item => Options.Contains(item.Name));
+                var models = AutofacSvc.Resolve<HonorHelper>().Items.Where(item => Options.Contains(item.Name));
                 var sumPrice = models.Max(m => m.Price) * Max;
                 if (sumPrice > 3000)
                 {

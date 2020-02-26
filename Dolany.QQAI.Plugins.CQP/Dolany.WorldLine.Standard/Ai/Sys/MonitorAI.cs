@@ -2,7 +2,6 @@
 using Dolany.Ai.Common.Models;
 using Dolany.Ai.Core.Base;
 using Dolany.Ai.Core.Cache;
-using Dolany.Ai.Core.Common;
 using Dolany.Database;
 using Dolany.Database.Ai;
 using Dolany.WorldLine.Standard.OnlineStore;
@@ -65,7 +64,7 @@ namespace Dolany.WorldLine.Standard.Ai.Sys
             }
             setting.Update();
 
-            GroupSettingMgr.Instance.RefreshData();
+            GroupSettingMgr.RefreshData();
 
             MsgSender.PushMsg(MsgDTO, $"充值成功，有效期至 {setting.ExpiryTime?.ToLocalTime():yyyy-MM-dd HH:mm:ss}");
         }

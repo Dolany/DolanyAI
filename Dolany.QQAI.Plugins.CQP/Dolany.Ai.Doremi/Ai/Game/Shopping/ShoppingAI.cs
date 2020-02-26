@@ -18,6 +18,8 @@ namespace Dolany.Ai.Doremi.Ai.Game.Shopping
         BindAi = "DoreFun")]
     public class ShoppingAI : AIBase
     {
+        private static RandShopper RandShopper => AutofacSvc.Resolve<RandShopper>();
+
         [EnterCommand(ID = "ShoppingAI_MyStatus",
             Command = "我的状态",
             AuthorityLevel = AuthorityLevel.成员,
@@ -54,13 +56,13 @@ namespace Dolany.Ai.Doremi.Ai.Game.Shopping
         public bool Buy(MsgInformationEx MsgDTO, object[] param)
         {
             var name = param[0] as string;
-            if (RandShopper.Instance.SellingGoods.IsNullOrEmpty())
+            if (RandShopper.SellingGoods.IsNullOrEmpty())
             {
                 MsgSender.PushMsg(MsgDTO, "商店尚未营业！", true);
                 return false;
             }
 
-            if (!RandShopper.Instance.SellingGoods.Contains(name))
+            if (!RandShopper.SellingGoods.Contains(name))
             {
                 MsgSender.PushMsg(MsgDTO, "此商品未在商店中出售！", true);
                 return false;

@@ -21,7 +21,7 @@ namespace Dolany.Ai.Doremi.Common
         private DirtyFilter()
         {
             RefreshData();
-            DataRefresher.Instance.Register(this);
+            //DataRefresher.Instance.Register(this);
         }
 
         public bool Filter(MsgInformationEx MsgDTO)

@@ -6,19 +6,19 @@ namespace Dolany.WorldLine.Standard.Ai.Game.Pet.PetAgainst
 {
     public class PetSkillMgr : IDataMgr
     {
-        public static PetSkillMgr Instance { get; } = new PetSkillMgr();
-
         public List<PetSkillModel> AllSkills;
+
+        private static DataRefresher DataRefresher => AutofacSvc.Resolve<DataRefresher>();
 
         public PetSkillModel this[string name]
         {
             get { return AllSkills.FirstOrDefault(p => p.Name == name); }
         }
 
-        private PetSkillMgr()
+        public PetSkillMgr()
         {
             RefreshData();
-            DataRefresher.Instance.Register(this);
+            DataRefresher.Register(this);
         }
 
         public void RefreshData()
