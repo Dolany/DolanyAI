@@ -7,14 +7,7 @@ namespace Dolany.WorldLine.Standard.Ai.Game.ChessAgainst
 {
     public class ChessMgr
     {
-        public static ChessMgr Instance { get; } = new ChessMgr();
-
         private readonly List<ChessEngine> WorkingEngine = new List<ChessEngine>();
-
-        private ChessMgr()
-        {
-
-        }
 
         public bool IsGroupInPlaying(long GroupNum)
         {

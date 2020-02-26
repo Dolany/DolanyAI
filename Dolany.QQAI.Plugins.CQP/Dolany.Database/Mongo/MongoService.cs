@@ -2,13 +2,14 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Linq.Expressions;
+using Dolany.Ai.Common;
 using MongoDB.Driver;
 
 namespace Dolany.Database
 {
     public class MongoService<T> where T : DbBaseEntity
     {
-        private static MongoContext Repo => MongoContext.Instance;
+        private static MongoContext Repo => AutofacSvc.Resolve<MongoContext>();
 
         /// <summary>
         /// 获取集合（表）

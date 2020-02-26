@@ -40,6 +40,7 @@ namespace Dolany.Ai.Doremi
         public RandShopper RandShopper { get; set; }
         public Waiter Waiter { get; set; }
         public PowerStateMgr PowerStateMgr { get; set; }
+        public DirtyFilter DirtyFilter { get; set; }
 
         public T AIInstance<T>() where T : AIBase
         {
@@ -222,7 +223,7 @@ namespace Dolany.Ai.Doremi
             {
                 try
                 {
-                    if (!DirtyFilter.Instance.Filter(MsgDTO))
+                    if (!DirtyFilter.Filter(MsgDTO))
                     {
                         return;
                     }

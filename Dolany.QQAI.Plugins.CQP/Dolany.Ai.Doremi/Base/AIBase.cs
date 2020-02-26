@@ -21,6 +21,7 @@ namespace Dolany.Ai.Doremi.Base
 
         protected static AIMgr AIMgr => AutofacSvc.Resolve<AIMgr>();
         private static GroupSettingMgr GroupSettingMgr => AutofacSvc.Resolve<GroupSettingMgr>();
+        private static AliveStateMgr AliveStateMgr => AutofacSvc.Resolve<AliveStateMgr>();
 
         protected AIBase()
         {
@@ -108,7 +109,7 @@ namespace Dolany.Ai.Doremi.Base
                 return true;
             }
 
-            var stateCache = AliveStateMgr.Instance.GetState(MsgDTO.FromGroup, MsgDTO.FromQQ);
+            var stateCache = AliveStateMgr.GetState(MsgDTO.FromGroup, MsgDTO.FromQQ);
             if (stateCache != null)
             {
                 MsgSender.PushMsg(MsgDTO, $"你已经死了({stateCache.Name})！复活时间：{stateCache.RebornTime.ToString(CultureInfo.CurrentCulture)}", true);

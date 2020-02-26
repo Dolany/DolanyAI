@@ -9,11 +9,13 @@ using Dolany.Ai.Core.Cache;
 using Dolany.Ai.Core.Common;
 using Dolany.Ai.Core.Common.PicReview;
 using Dolany.Ai.Core.SyntaxChecker;
+using Dolany.Database;
 using Dolany.Database.Sqlite;
 using Dolany.WorldLine.KindomStorm;
 using Dolany.WorldLine.KindomStorm.Ai.KindomStorm;
 using Dolany.WorldLine.Standard;
 using Dolany.WorldLine.Standard.Ai.Game.Advanture;
+using Dolany.WorldLine.Standard.Ai.Game.ChessAgainst;
 using Dolany.WorldLine.Standard.Ai.Game.Gift;
 using Dolany.WorldLine.Standard.Ai.Game.Lottery;
 using Dolany.WorldLine.Standard.Ai.Game.Pet;
@@ -22,6 +24,7 @@ using Dolany.WorldLine.Standard.Ai.Game.Pet.Expedition;
 using Dolany.WorldLine.Standard.Ai.Game.Pet.PetAgainst;
 using Dolany.WorldLine.Standard.Ai.Game.SegmentAttach;
 using Dolany.WorldLine.Standard.Ai.Game.SwordExplore;
+using Dolany.WorldLine.Standard.Ai.SingleCommand.IceNews;
 using Dolany.WorldLine.Standard.Ai.Vip;
 using Dolany.WorldLine.Standard.OnlineStore;
 
@@ -153,6 +156,11 @@ namespace DolanyAiDesktop
             builder.RegisterType<CommandLocker>().AsSelf().PropertiesAutowired(PropertyWiringOptions.AllowCircularDependencies).SingleInstance();
             builder.RegisterType<SyntaxCheckerMgr>().AsSelf().PropertiesAutowired(PropertyWiringOptions.AllowCircularDependencies).SingleInstance();
             builder.RegisterType<Scheduler>().AsSelf().PropertiesAutowired(PropertyWiringOptions.AllowCircularDependencies).SingleInstance();
+            builder.RegisterType<ChessMgr>().AsSelf().PropertiesAutowired(PropertyWiringOptions.AllowCircularDependencies).SingleInstance();
+            builder.RegisterType<AdvGameMgr>().AsSelf().PropertiesAutowired(PropertyWiringOptions.AllowCircularDependencies).SingleInstance();
+            builder.RegisterType<NewsMgr>().AsSelf().PropertiesAutowired(PropertyWiringOptions.AllowCircularDependencies).SingleInstance();
+            builder.RegisterType<MongoContext>().AsSelf().PropertiesAutowired(PropertyWiringOptions.AllowCircularDependencies).SingleInstance();
+            builder.RegisterType<SEAttributeMgr>().AsSelf().PropertiesAutowired(PropertyWiringOptions.AllowCircularDependencies).SingleInstance();
 
             AutofacSvc.Container = builder.Build();
         }

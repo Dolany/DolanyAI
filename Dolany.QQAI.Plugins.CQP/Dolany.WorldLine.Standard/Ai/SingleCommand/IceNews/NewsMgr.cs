@@ -8,13 +8,11 @@ namespace Dolany.WorldLine.Standard.Ai.SingleCommand.IceNews
 {
     public class NewsMgr
     {
-        public static NewsMgr Instance { get; } = new NewsMgr();
-
         private Queue<string> NewsQueue { get; } = new Queue<string>();
 
         public string LastNews { get; private set; }
 
-        private NewsMgr()
+        public NewsMgr()
         {
             var lastR = GlobalVarRecord.Get("LastNews");
             if (lastR != null && !string.IsNullOrEmpty(lastR.Value))

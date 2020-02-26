@@ -5,13 +5,6 @@ namespace Dolany.Ai.Doremi.Common
 {
     public class AliveStateMgr
     {
-        public static AliveStateMgr Instance { get; } = new AliveStateMgr();
-
-        private AliveStateMgr()
-        {
-
-        }
-
         public AliveStateCache GetState(long GroupNum, long QQNum)
         {
             var key = $"AliveState-{GroupNum}-{QQNum}";

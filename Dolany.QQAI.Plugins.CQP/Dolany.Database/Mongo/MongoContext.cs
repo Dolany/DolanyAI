@@ -5,11 +5,9 @@ namespace Dolany.Database
 {
     public class MongoContext
     {
-        public static MongoContext Instance { get; } = new MongoContext();
-
         private readonly IMongoDatabase _Database;
 
-        private MongoContext()
+        public MongoContext()
         {
             var mongoConnStr = Configger<AIConfigBase>.Instance.AIConfig.MongoConnStr;
             var mongoDbName = Configger<AIConfigBase>.Instance.AIConfig.MongoDbName;

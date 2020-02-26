@@ -14,14 +14,14 @@ namespace Dolany.Ai.Doremi.Common
 
         private List<long> BlackList;
 
-        public static DirtyFilter Instance { get; } = new DirtyFilter();
-
         private const int MaxTolerateCount = 10;
 
-        private DirtyFilter()
+        private static DataRefresher DataRefresher => AutofacSvc.Resolve<DataRefresher>();
+
+        public DirtyFilter()
         {
             RefreshData();
-            //DataRefresher.Instance.Register(this);
+            DataRefresher.Register(this);
         }
 
         public bool Filter(MsgInformationEx MsgDTO)

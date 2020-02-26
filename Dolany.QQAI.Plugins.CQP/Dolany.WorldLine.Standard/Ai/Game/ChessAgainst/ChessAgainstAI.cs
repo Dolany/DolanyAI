@@ -19,6 +19,7 @@ namespace Dolany.WorldLine.Standard.Ai.Game.ChessAgainst
         public override bool NeedManualOpeon { get; } = true;
 
         private static BindAiMgr BindAiMgr => AutofacSvc.Resolve<BindAiMgr>();
+        private static ChessMgr ChessMgr => AutofacSvc.Resolve<ChessMgr>();
 
         [EnterCommand(ID = "ChessAgainstAI_Fight",
             Command = "对决 决斗",
@@ -46,7 +47,7 @@ namespace Dolany.WorldLine.Standard.Ai.Game.ChessAgainst
                 return false;
             }
 
-            if (ChessMgr.Instance.IsGroupInPlaying(MsgDTO.FromGroup))
+            if (ChessMgr.IsGroupInPlaying(MsgDTO.FromGroup))
             {
                 MsgSender.PushMsg(MsgDTO, "本群正在进行一场对决，请稍后再试！");
                 return false;
@@ -64,19 +65,19 @@ namespace Dolany.WorldLine.Standard.Ai.Game.ChessAgainst
                 return false;
             }
 
-            if (ChessMgr.Instance.IsQQInPlaying(MsgDTO.FromQQ))
+            if (ChessMgr.IsQQInPlaying(MsgDTO.FromQQ))
             {
                 MsgSender.PushMsg(MsgDTO, "你正在进行一场对决，请稍后再试！");
                 return false;
             }
 
-            if (ChessMgr.Instance.IsQQInPlaying(aimNum))
+            if (ChessMgr.IsQQInPlaying(aimNum))
             {
                 MsgSender.PushMsg(MsgDTO, "你的对手正在进行一场对决，请稍后再试！");
                 return false;
             }
 
-            ChessMgr.Instance.StartAGame(MsgDTO.FromGroup, MsgDTO.FromQQ, aimNum, (GroupNum, QQNum, Msg, judge) =>
+            ChessMgr.StartAGame(MsgDTO.FromGroup, MsgDTO.FromQQ, aimNum, (GroupNum, QQNum, Msg, judge) =>
             {
                 var msg = MsgDTO.Clone();
                 msg.FromQQ = QQNum;

@@ -17,6 +17,7 @@ namespace Dolany.WorldLine.Standard.Ai.SingleCommand.IceNews
         private const string CachePath = "./images/News/";
 
         private static BindAiMgr BindAiMgr => AutofacSvc.Resolve<BindAiMgr>();
+        private static NewsMgr NewsMgr => AutofacSvc.Resolve<NewsMgr>();
 
         [EnterCommand(ID = "IceNewsAI_DialyNews",
             Command = "冰冰日报",
@@ -29,7 +30,7 @@ namespace Dolany.WorldLine.Standard.Ai.SingleCommand.IceNews
             DailyLimit = 3)]
         public bool DialyNews(MsgInformationEx MsgDTO, object[] param)
         {
-            var lastNews = NewsMgr.Instance.LastNews;
+            var lastNews = NewsMgr.LastNews;
             if (string.IsNullOrEmpty(lastNews))
             {
                 MsgSender.PushMsg(MsgDTO, "抱歉，尚未读取到任何新闻！");
@@ -75,7 +76,7 @@ namespace Dolany.WorldLine.Standard.Ai.SingleCommand.IceNews
                 MsgSender.PushMsg(MsgDTO, "图片下载失败，请稍后再试！");
                 return false;
             }
-            NewsMgr.Instance.AddNews(fileName);
+            NewsMgr.AddNews(fileName);
 
             MsgSender.PushMsg(MsgDTO, "保存成功！");
             return true;

@@ -8,15 +8,13 @@ namespace Dolany.Ai.Doremi.OnlineStore
 {
     public class HonorHelper : IDataMgr
     {
-        public static HonorHelper Instance { get; set; } = new HonorHelper();
-
         public readonly List<HonorModel> HonorList = new List<HonorModel>();
 
         private List<DriftBottleItemModel> Items = new List<DriftBottleItemModel>();
 
         private int SumRate;
 
-        private HonorHelper()
+        public HonorHelper()
         {
             RefreshData();
         }

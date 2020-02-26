@@ -17,7 +17,8 @@ namespace Dolany.WorldLine.Standard.Ai.Game.Advanture
 
         public override bool NeedManualOpeon { get; } = true;
 
-        public static BindAiMgr BindAiMgr => AutofacSvc.Resolve<BindAiMgr>();
+        private static BindAiMgr BindAiMgr => AutofacSvc.Resolve<BindAiMgr>();
+        private static AdvGameMgr AdvGameMgr => AutofacSvc.Resolve<AdvGameMgr>();
 
         [EnterCommand(ID = "AdvantureAi_AdvantureAgainst",
             Command = "冒险对决",
@@ -44,7 +45,7 @@ namespace Dolany.WorldLine.Standard.Ai.Game.Advanture
                 return false;
             }
 
-            if (!AdvGameMgr.Instance.CheckGroup(MsgDTO.FromGroup))
+            if (!AdvGameMgr.CheckGroup(MsgDTO.FromGroup))
             {
                 MsgSender.PushMsg(MsgDTO, "本群正在进行一场对决，请稍后再试！");
                 return false;
@@ -57,19 +58,19 @@ namespace Dolany.WorldLine.Standard.Ai.Game.Advanture
                 return false;
             }
 
-            if (!AdvGameMgr.Instance.CheckPlayer(aimNum))
+            if (!AdvGameMgr.CheckPlayer(aimNum))
             {
                 MsgSender.PushMsg(MsgDTO, "你的对手正在进行一场对决，请稍后再试！");
                 return false;
             }
 
-            if (!AdvGameMgr.Instance.CheckPlayer(MsgDTO.FromQQ))
+            if (!AdvGameMgr.CheckPlayer(MsgDTO.FromQQ))
             {
                 MsgSender.PushMsg(MsgDTO, "你正在进行一场对决，请稍后再试！");
                 return false;
             }
 
-            AdvGameMgr.Instance.GameStart(MsgDTO.FromGroup, MsgDTO.FromQQ, aimNum, 1, MsgDTO.BindAi);
+            AdvGameMgr.GameStart(MsgDTO.FromGroup, MsgDTO.FromQQ, aimNum, 1, MsgDTO.BindAi);
             return true;
         }
     }

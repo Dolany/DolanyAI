@@ -8,13 +8,6 @@ namespace Dolany.WorldLine.Standard.Ai.Game.Advanture
     {
         private readonly List<AdvGameEngine> Engines = new List<AdvGameEngine>();
 
-        public static AdvGameMgr Instance { get; } = new AdvGameMgr();
-
-        private AdvGameMgr()
-        {
-
-        }
-
         public bool CheckGroup(long groupNum)
         {
             return Engines.All(p => p.GroupNum != groupNum);

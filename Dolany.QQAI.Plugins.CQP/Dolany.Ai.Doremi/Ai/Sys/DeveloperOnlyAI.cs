@@ -24,6 +24,7 @@ namespace Dolany.Ai.Doremi.Ai.Sys
     public class DeveloperOnlyAI : AIBase
     {
         private static GroupSettingMgr GroupSettingMgr => AutofacSvc.Resolve<GroupSettingMgr>();
+        private static DirtyFilter DirtyFilter => AutofacSvc.Resolve<DirtyFilter>();
 
         [EnterCommand(ID = "DeveloperOnlyAI_Board",
             Command = "广播",
@@ -122,7 +123,7 @@ namespace Dolany.Ai.Doremi.Ai.Sys
                 MongoService<BlackList>.Update(query);
             }
 
-            DirtyFilter.Instance.RefreshData();
+            DirtyFilter.RefreshData();
 
             MsgSender.PushMsg(MsgDTO, "Success");
             return true;
@@ -148,7 +149,7 @@ namespace Dolany.Ai.Doremi.Ai.Sys
 
             MongoService<BlackList>.Delete(query);
 
-            DirtyFilter.Instance.RefreshData();
+            DirtyFilter.RefreshData();
             MsgSender.PushMsg(MsgDTO, "Success");
             return true;
         }
