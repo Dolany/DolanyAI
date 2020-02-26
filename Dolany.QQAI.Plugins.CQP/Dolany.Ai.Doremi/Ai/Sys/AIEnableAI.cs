@@ -1,4 +1,5 @@
 ﻿using System.Linq;
+using Dolany.Ai.Common;
 using Dolany.Ai.Common.Models;
 using Dolany.Ai.Doremi.Base;
 using Dolany.Ai.Doremi.Cache;
@@ -13,6 +14,8 @@ namespace Dolany.Ai.Doremi.Ai.Sys
         BindAi = "Doremi")]
     public class AIEnableAI : AIBase
     {
+        private static GroupSettingMgr GroupSettingMgr => AutofacSvc.Resolve<GroupSettingMgr>();
+
         [EnterCommand(ID = "AIEnableAI_OpenFunction",
             Command = "开启功能",
             AuthorityLevel = AuthorityLevel.群主,
@@ -24,13 +27,13 @@ namespace Dolany.Ai.Doremi.Ai.Sys
         public bool OpenFunction(MsgInformationEx MsgDTO, object[] param)
         {
             var name = param[0] as string;
-            if (!AIMgr.Instance.ManulOpenAiNames.Contains(name))
+            if (!AIMgr.ManulOpenAiNames.Contains(name))
             {
                 MsgSender.PushMsg(MsgDTO, "未查找到该功能名称，或者该功能无需手动开启！");
                 return false;
             }
 
-            var setting = GroupSettingMgr.Instance[MsgDTO.FromGroup];
+            var setting = GroupSettingMgr[MsgDTO.FromGroup];
             setting.EnabledFunctions.Add(name);
             setting.Update();
 
@@ -49,13 +52,13 @@ namespace Dolany.Ai.Doremi.Ai.Sys
         public bool CloseFunction(MsgInformationEx MsgDTO, object[] param)
         {
             var name = param[0] as string;
-            if (!AIMgr.Instance.ManulOpenAiNames.Contains(name))
+            if (!AIMgr.ManulOpenAiNames.Contains(name))
             {
                 MsgSender.PushMsg(MsgDTO, "未查找到该功能名称，或者该功能无需手动关闭！");
                 return false;
             }
 
-            var setting = GroupSettingMgr.Instance[MsgDTO.FromGroup];
+            var setting = GroupSettingMgr[MsgDTO.FromGroup];
             setting.EnabledFunctions.Remove(name);
             setting.Update();
 

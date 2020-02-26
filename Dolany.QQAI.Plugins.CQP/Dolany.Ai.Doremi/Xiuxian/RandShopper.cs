@@ -13,13 +13,17 @@ namespace Dolany.Ai.Doremi.Xiuxian
     {
         private List<ShoppingNoticeModel> Models = new List<ShoppingNoticeModel>();
 
+        public ArmerMgr ArmerMgr { get; set; }
+        public GroupSettingMgr GroupSettingMgr { get; set; }
+        public PowerStateMgr PowerStateMgr { get; set; }
+
         public string[] SellingGoods;
 
         public string BindAi { private get; set; }
 
         public Scheduler Scheduler { get; set; }
 
-        private RandShopper()
+        public RandShopper()
         {
             Refresh();
         }
@@ -66,7 +70,7 @@ namespace Dolany.Ai.Doremi.Xiuxian
             foreach (var model in Models)
             {
                 var interval = (model.NoticeTime - DateTime.Now).TotalMilliseconds;
-                //model.TimerID = Scheduler.Instance.Add(interval, TimeUp, model, false);
+                model.TimerID = Scheduler.Add(interval, TimeUp, model, false);
             }
         }
 
@@ -86,7 +90,7 @@ namespace Dolany.Ai.Doremi.Xiuxian
                     break;
                 case ShoppingNoticeType.OpenShop:
                     SellingGoods = model.Data as string[];
-                    var goodsMsg = string.Join("\r", SellingGoods?.Select(goods => $"{goods}:{ArmerMgr.Instance[goods].Price}金币"));
+                    var goodsMsg = string.Join("\r", SellingGoods?.Select(goods => $"{goods}:{ArmerMgr[goods].Price}金币"));
                     Broadcast($"系统商店开启！当前售卖的商品有：\r{goodsMsg}\r请使用 购买 [商品名] 命令来购买指定商品！");
                     break;
                 case ShoppingNoticeType.CloseShop:
@@ -98,12 +102,12 @@ namespace Dolany.Ai.Doremi.Xiuxian
 
         private void Broadcast(string msg)
         {
-            if (!PowerStateMgr.Instance.CheckPower(BindAi))
+            if (!PowerStateMgr.CheckPower(BindAi))
             {
                 return;
             }
 
-            foreach (var (groupNum, _) in GroupSettingMgr.Instance.SettingDic)
+            foreach (var (groupNum, _) in GroupSettingMgr.SettingDic)
             {
                 MsgSender.PushMsg(groupNum, 0, msg, BindAi);
             }

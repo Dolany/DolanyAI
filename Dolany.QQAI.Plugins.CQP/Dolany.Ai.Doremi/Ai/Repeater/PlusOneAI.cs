@@ -1,6 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
 using System.Threading;
+using Dolany.Ai.Common;
 using Dolany.Ai.Common.Models;
 using Dolany.Ai.Doremi.Base;
 using Dolany.Ai.Doremi.Cache;
@@ -20,6 +21,8 @@ namespace Dolany.Ai.Doremi.Ai.Repeater
     {
         private List<PlusOneModel> Cache { get; } = new List<PlusOneModel>();
 
+        private static GroupSettingMgr GroupSettingMgr => AutofacSvc.Resolve<GroupSettingMgr>();
+
         public override bool OnMsgReceived(MsgInformationEx MsgDTO)
         {
             if (base.OnMsgReceived(MsgDTO))
@@ -32,7 +35,7 @@ namespace Dolany.Ai.Doremi.Ai.Repeater
                 return false;
             }
 
-            var setting = GroupSettingMgr.Instance[MsgDTO.FromGroup];
+            var setting = GroupSettingMgr[MsgDTO.FromGroup];
             if (!setting.HasFunction("+1复读"))
             {
                 return false;

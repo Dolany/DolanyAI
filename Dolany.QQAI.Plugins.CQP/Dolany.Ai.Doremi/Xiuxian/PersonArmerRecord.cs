@@ -60,7 +60,7 @@ namespace Dolany.Ai.Doremi.Xiuxian
                 EscapeArmers.Add(name, 0);
             }
 
-            var model = EscapeArmerMgr.Instance[name];
+            var model = AutofacSvc.Resolve<EscapeArmerMgr>()[name];
             EscapeArmers[name] = Math.Min(model.MaxContains, EscapeArmers[name] + count);
         }
 

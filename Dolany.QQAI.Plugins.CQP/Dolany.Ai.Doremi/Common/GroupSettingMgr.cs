@@ -7,13 +7,11 @@ namespace Dolany.Ai.Doremi.Common
 {
     public class GroupSettingMgr
     {
-        public static GroupSettingMgr Instance { get; } = new GroupSettingMgr();
-
         public Dictionary<long, GroupSettings> SettingDic;
 
         public GroupSettings this[long GroupNum] => SettingDic[GroupNum];
 
-        private GroupSettingMgr()
+        public GroupSettingMgr()
         {
             Refresh();
         }

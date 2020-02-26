@@ -5,14 +5,14 @@ namespace Dolany.Ai.Doremi.Common
 {
     public class BindAiMgr : IDataMgr
     {
-        public static BindAiMgr Instance { get; } = new BindAiMgr();
-
         public Dictionary<string, BindAiModel> AiDic;
 
-        private BindAiMgr()
+        private static DataRefresher DataRefresher => AutofacSvc.Resolve<DataRefresher>();
+
+        public BindAiMgr()
         {
             RefreshData();
-            //DataRefresher.Instance.Register(this);
+            DataRefresher.Register(this);
         }
 
         public BindAiModel this[string AiName] => AiDic[AiName];

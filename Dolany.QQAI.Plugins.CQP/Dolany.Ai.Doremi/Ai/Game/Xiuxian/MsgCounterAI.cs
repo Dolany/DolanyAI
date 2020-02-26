@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
+using Dolany.Ai.Common;
 using Dolany.Ai.Common.Models;
 using Dolany.Ai.Doremi.Base;
 using Dolany.Ai.Doremi.Cache;
@@ -18,6 +19,10 @@ namespace Dolany.Ai.Doremi.Ai.Game.Xiuxian
     {
         private List<long> EnablePersons = new List<long>();
         private const int DujieQACount = 3;
+
+        private static DujieMgr DujieMgr => AutofacSvc.Resolve<DujieMgr>();
+        private static LevelMgr LevelMgr => AutofacSvc.Resolve<LevelMgr>();
+        private static Waiter Waiter => AutofacSvc.Resolve<Waiter>();
 
         public override void Initialization()
         {
@@ -97,7 +102,7 @@ namespace Dolany.Ai.Doremi.Ai.Game.Xiuxian
         public bool Upgrade(MsgInformationEx MsgDTO, object[] param)
         {
             var osPerson = OSPerson.GetPerson(MsgDTO.FromQQ);
-            var level = LevelMgr.Instance.GetByLevel(osPerson.Level);
+            var level = LevelMgr.GetByLevel(osPerson.Level);
             var exp = MsgCounterSvc.Get(MsgDTO.FromQQ);
 
             if (exp < level.Exp)
@@ -108,7 +113,7 @@ namespace Dolany.Ai.Doremi.Ai.Game.Xiuxian
 
             MsgSender.PushMsg(MsgDTO, "渡劫开始！你需要回答对全部问题才能成功渡劫！");
 
-            var qas = DujieMgr.Instance.RandQAs(DujieQACount);
+            var qas = DujieMgr.RandQAs(DujieQACount);
             int i;
             for (i = 0; i < DujieQACount; i++)
             {
@@ -117,7 +122,7 @@ namespace Dolany.Ai.Doremi.Ai.Game.Xiuxian
                           $"{qas[i].Q}\r" +
                           $"{string.Join("\r", randAs.Select((p, idx) => $"{idx + 1}:{p}"))}";
                 var i1 = i;
-                var info = Waiter.Instance.WaitForInformation(MsgDTO, msg, information => information.FromGroup == MsgDTO.FromGroup &&
+                var info = Waiter.WaitForInformation(MsgDTO, msg, information => information.FromGroup == MsgDTO.FromGroup &&
                                                                                           information.FromQQ == MsgDTO.FromQQ &&
                                                                                           int.TryParse(information.Msg, out var idx) &&
                                                                                           idx > 0 && idx <= qas[i1].A.Length, 10);

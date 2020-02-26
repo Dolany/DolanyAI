@@ -6,14 +6,14 @@ namespace Dolany.Ai.Doremi.Xiuxian
 {
     public class LevelMgr : IDataMgr
     {
-        public static LevelMgr Instance { get; } = new LevelMgr();
-
         private List<LevelDataModel> LevelDataList;
+
+        private static DataRefresher DataRefresher => AutofacSvc.Resolve<DataRefresher>();
 
         private LevelMgr()
         {
             RefreshData();
-            //DataRefresher.Instance.Register(this);
+            DataRefresher.Register(this);
         }
 
         public LevelDataModel GetByLevel(int level)

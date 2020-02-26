@@ -19,6 +19,9 @@ namespace Dolany.Ai.Doremi.Base
 
         public readonly AIAttribute AIAttr;
 
+        protected static AIMgr AIMgr => AutofacSvc.Resolve<AIMgr>();
+        private static GroupSettingMgr GroupSettingMgr => AutofacSvc.Resolve<GroupSettingMgr>();
+
         protected AIBase()
         {
             var t = GetType();
@@ -112,7 +115,7 @@ namespace Dolany.Ai.Doremi.Base
                 return false;
             }
 
-            if (!AIAttr.NeedManulOpen || GroupSettingMgr.Instance[MsgDTO.FromGroup].HasFunction(AIAttr.Name))
+            if (!AIAttr.NeedManulOpen || GroupSettingMgr[MsgDTO.FromGroup].HasFunction(AIAttr.Name))
             {
                 return true;
             }
@@ -183,7 +186,7 @@ namespace Dolany.Ai.Doremi.Base
             var list = new List<object>();
             for (var i = 0; i < checkers.Length; i++)
             {
-                var checker = AIMgr.Instance.Checkers.FirstOrDefault(c => c.Name == checkers[i]);
+                var checker = AIMgr.Checkers.FirstOrDefault(c => c.Name == checkers[i]);
 
                 if (checker == null)
                 {

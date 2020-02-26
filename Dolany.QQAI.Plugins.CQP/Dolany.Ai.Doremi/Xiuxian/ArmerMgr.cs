@@ -6,19 +6,19 @@ namespace Dolany.Ai.Doremi.Xiuxian
 {
     public class ArmerMgr : IDataMgr
     {
-        public static ArmerMgr Instance { get; } = new ArmerMgr();
-
         private List<ArmerModel> NormalArmerList;
+
+        private static DataRefresher DataRefresher => AutofacSvc.Resolve<DataRefresher>();
 
         public ArmerModel this[string name]
         {
             get { return NormalArmerList.FirstOrDefault(p => p.Name == name); }
         }
 
-        private ArmerMgr()
+        public ArmerMgr()
         {
             RefreshData();
-            //DataRefresher.Instance.Register(this);
+            DataRefresher.Register(this);
         }
 
         public IEnumerable<ArmerModel> GetRandArmers(int count)

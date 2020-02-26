@@ -26,6 +26,11 @@ namespace Dolany.Ai.Doremi.Ai.Game.XunYuan
 
         private const int MaxTurn = 3;
 
+        private static ArmerMgr ArmerMgr => AutofacSvc.Resolve<ArmerMgr>();
+        private static Waiter Waiter => AutofacSvc.Resolve<Waiter>();
+        private static XunyuanCaveMgr XunyuanCaveMgr => AutofacSvc.Resolve<XunyuanCaveMgr>();
+        private static EscapeArmerMgr EscapeArmerMgr => AutofacSvc.Resolve<EscapeArmerMgr>();
+
         public XunyuanEngine(XunYuanGamingModel[] Gamers, long GroupNum, string BindAi)
         {
             this.Gamers = Rander.RandSort(Gamers).ToList();
@@ -38,7 +43,7 @@ namespace Dolany.Ai.Doremi.Ai.Game.XunYuan
 
         public void StartGame()
         {
-            Cave = XunyuanCaveMgr.Instance.RandCaves;
+            Cave = XunyuanCaveMgr.RandCaves;
             PushMsg($"寻缘开始！当前副本为：{Cave.Name}");
 
             try
@@ -96,7 +101,7 @@ namespace Dolany.Ai.Doremi.Ai.Game.XunYuan
             var choice = 0;
             if (randPlayers.Length > 1)
             {
-                choice = Waiter.Instance.WaitForOptions(GroupNum, firstPlayer.QQNum, "请做出抉择！", new[] {"攻击怪物", "攻击队友"}, BindAi);
+                choice = Waiter.WaitForOptions(GroupNum, firstPlayer.QQNum, "请做出抉择！", new[] {"攻击怪物", "攻击队友"}, BindAi);
             }
 
             PlayerAct(firstPlayer, choice, monster, randPlayers.Length > 1 ? randPlayers[1] : null);
@@ -107,7 +112,7 @@ namespace Dolany.Ai.Doremi.Ai.Game.XunYuan
             }
 
             var secondPlayer = randPlayers[1];
-            choice = Waiter.Instance.WaitForOptions(GroupNum, secondPlayer.QQNum, "请做出抉择！", new[] {"攻击怪物", "攻击队友"}, BindAi);
+            choice = Waiter.WaitForOptions(GroupNum, secondPlayer.QQNum, "请做出抉择！", new[] {"攻击怪物", "攻击队友"}, BindAi);
             PlayerAct(secondPlayer, choice, monster, firstPlayer);
         }
 
@@ -161,7 +166,7 @@ namespace Dolany.Ai.Doremi.Ai.Game.XunYuan
             {
                 if (monster.Name == "逃跑的小偷")
                 {
-                    var armer = EscapeArmerMgr.Instance.RandArmer();
+                    var armer = EscapeArmerMgr.RandArmer();
                     PushMsg($"已经成功击败了 {monster.Name} !获得了 \r{armer.Name} * 1");
                     TreasureTotal.AddEscape(armer.Name);
                 }
@@ -170,7 +175,7 @@ namespace Dolany.Ai.Doremi.Ai.Game.XunYuan
                     var bonusDic = new Dictionary<string, int>();
                     if (!string.IsNullOrEmpty(monster.DropArmerTag))
                     {
-                        var armer = ArmerMgr.Instance.RandTagArmer(monster.DropArmerTag);
+                        var armer = ArmerMgr.RandTagArmer(monster.DropArmerTag);
                         bonusDic.Add(armer.Name, 1);
                         TreasureTotal.AddArmer(armer.Name);
                     }

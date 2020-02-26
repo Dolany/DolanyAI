@@ -10,9 +10,7 @@ namespace Dolany.Ai.Doremi.Common
 
         private readonly List<PowerStateRecord> StateRecords;
 
-        public static PowerStateMgr Instance { get; } = new PowerStateMgr();
-
-        private PowerStateMgr()
+        public PowerStateMgr()
         {
             StateRecords = Ais.Select(PowerStateRecord.Get).ToList();
         }

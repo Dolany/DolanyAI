@@ -6,14 +6,14 @@ namespace Dolany.Ai.Doremi.Ai.Game.Xiuxian
 {
     public class DujieMgr : IDataMgr
     {
-        public static DujieMgr Instance { get; } = new DujieMgr();
-
         private List<DujieQAModel> QAs;
 
-        private DujieMgr()
+        private static DataRefresher DataRefresher => AutofacSvc.Resolve<DataRefresher>();
+
+        public DujieMgr()
         {
             RefreshData();
-            //DataRefresher.Instance.Register(this);
+            DataRefresher.Register(this);
         }
 
         public DujieQAModel[] RandQAs(int count)

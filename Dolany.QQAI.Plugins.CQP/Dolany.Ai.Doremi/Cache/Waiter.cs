@@ -15,11 +15,8 @@ namespace Dolany.Ai.Doremi.Cache
 
         private readonly Dictionary<long, List<WaiterUnit>> UnitsDic = new Dictionary<long, List<WaiterUnit>>();
 
-        public static Waiter Instance { get; } = new Waiter();
-
-        private Waiter()
-        {
-        }
+        public AIMgr AIMgr { get; set; }
+        public GroupSettingMgr GroupSettingMgr { get; set; }
 
         public void Listen()
         {
@@ -40,7 +37,7 @@ namespace Dolany.Ai.Doremi.Cache
 
             if (info.FromGroup != 0)
             {
-                var setting = GroupSettingMgr.Instance[info.FromGroup];
+                var setting = GroupSettingMgr[info.FromGroup];
                 if (setting.BindAi != info.BindAi || (setting.ExpiryTime != null && setting.ExpiryTime < DateTime.Now))
                 {
                     return;
@@ -48,7 +45,7 @@ namespace Dolany.Ai.Doremi.Cache
             }
 
             var msg = $"[Info] {info.BindAi} {source} {info.FromQQ} {info.Msg}";
-            AIMgr.Instance.MessagePublish(msg);
+            AIMgr.MessagePublish(msg);
 
             switch (info.Information)
             {
@@ -65,7 +62,7 @@ namespace Dolany.Ai.Doremi.Cache
 
                     if (waitUnit == null)
                     {
-                        AIMgr.Instance.OnMsgReceived(info);
+                        AIMgr.OnMsgReceived(info);
                         break;
                     }
 
@@ -88,6 +85,16 @@ namespace Dolany.Ai.Doremi.Cache
                 case InformationType.Error:
                     AIAnalyzer.AddError(info.Msg);
                     break;
+                case InformationType.ReceiveMoney:
+                    break;
+                case InformationType.GroupMemberIncrease:
+                    break;
+                case InformationType.GroupMemberDecrease:
+                    break;
+                case InformationType.ConnectStateChange:
+                    break;
+                default:
+                    throw new ArgumentOutOfRangeException();
             }
         }
 

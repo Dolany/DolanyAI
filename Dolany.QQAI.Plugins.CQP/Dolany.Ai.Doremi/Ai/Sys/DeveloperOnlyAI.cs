@@ -23,6 +23,8 @@ namespace Dolany.Ai.Doremi.Ai.Sys
         BindAi = "Doremi")]
     public class DeveloperOnlyAI : AIBase
     {
+        private static GroupSettingMgr GroupSettingMgr => AutofacSvc.Resolve<GroupSettingMgr>();
+
         [EnterCommand(ID = "DeveloperOnlyAI_Board",
             Command = "广播",
             Description = "在所有群组广播消息",
@@ -34,7 +36,7 @@ namespace Dolany.Ai.Doremi.Ai.Sys
         public bool Board(MsgInformationEx MsgDTO, object[] param)
         {
             var content = param[0] as string;
-            var groups = GroupSettingMgr.Instance.SettingDic.Values.Where(g => g.ExpiryTime.HasValue && g.ExpiryTime.Value > DateTime.Now);
+            var groups = GroupSettingMgr.SettingDic.Values.Where(g => g.ExpiryTime.HasValue && g.ExpiryTime.Value > DateTime.Now);
 
             foreach (var group in groups)
             {
@@ -62,7 +64,7 @@ namespace Dolany.Ai.Doremi.Ai.Sys
             var qqNum = (long)param[1];
             var count = (int) (long) param[2];
 
-            var enter = AIMgr.Instance.AllAvailableGroupCommands.FirstOrDefault(p => p.CommandsList.Contains(command));
+            var enter = AIMgr.AllAvailableGroupCommands.FirstOrDefault(p => p.CommandsList.Contains(command));
             if (enter == null)
             {
                 MsgSender.PushMsg(MsgDTO, "未找到该功能！", true);
@@ -193,7 +195,7 @@ namespace Dolany.Ai.Doremi.Ai.Sys
                 BindAi = MsgDTO.BindAi
             };
             MongoService<GroupSettings>.Insert(setting);
-            GroupSettingMgr.Instance.Refresh();
+            GroupSettingMgr.Refresh();
 
             MsgSender.PushMsg(MsgDTO, "注册成功！");
             return true;
@@ -210,13 +212,13 @@ namespace Dolany.Ai.Doremi.Ai.Sys
         public bool Freeze(MsgInformationEx MsgDTO, object[] param)
         {
             var groupNum = (long) param[0];
-            if (!GroupSettingMgr.Instance.SettingDic.ContainsKey(groupNum))
+            if (!GroupSettingMgr.SettingDic.ContainsKey(groupNum))
             {
                 MsgSender.PushMsg(MsgDTO, "未找到相关群组");
                 return false;
             }
 
-            var setting = GroupSettingMgr.Instance[groupNum];
+            var setting = GroupSettingMgr[groupNum];
             setting.ForcedShutDown = true;
             setting.Update();
 
@@ -236,13 +238,13 @@ namespace Dolany.Ai.Doremi.Ai.Sys
         public bool Defreeze(MsgInformationEx MsgDTO, object[] param)
         {
             var groupNum = (long) param[0];
-            if (!GroupSettingMgr.Instance.SettingDic.ContainsKey(groupNum))
+            if (!GroupSettingMgr.SettingDic.ContainsKey(groupNum))
             {
                 MsgSender.PushMsg(MsgDTO, "未找到相关群组");
                 return false;
             }
 
-            var setting = GroupSettingMgr.Instance[groupNum];
+            var setting = GroupSettingMgr[groupNum];
             setting.ForcedShutDown = false;
             setting.Update();
 
@@ -275,7 +277,7 @@ namespace Dolany.Ai.Doremi.Ai.Sys
             }
             setting.Update();
 
-            GroupSettingMgr.Instance.Refresh();
+            GroupSettingMgr.Refresh();
 
             MsgSender.PushMsg(MsgDTO, "充值成功");
             return true;
@@ -297,7 +299,7 @@ namespace Dolany.Ai.Doremi.Ai.Sys
             setting.BindAi = MsgDTO.BindAi;
             setting.Update();
 
-            GroupSettingMgr.Instance.Refresh();
+            GroupSettingMgr.Refresh();
 
             MsgSender.PushMsg(MsgDTO, "绑定成功");
             return true;

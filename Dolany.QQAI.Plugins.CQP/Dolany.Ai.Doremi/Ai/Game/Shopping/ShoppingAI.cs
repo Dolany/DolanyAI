@@ -19,6 +19,9 @@ namespace Dolany.Ai.Doremi.Ai.Game.Shopping
     public class ShoppingAI : AIBase
     {
         private static RandShopper RandShopper => AutofacSvc.Resolve<RandShopper>();
+        private static ArmerMgr ArmerMgr => AutofacSvc.Resolve<ArmerMgr>();
+        private static LevelMgr LevelMgr => AutofacSvc.Resolve<LevelMgr>();
+        private static Waiter Waiter => AutofacSvc.Resolve<Waiter>();
 
         [EnterCommand(ID = "ShoppingAI_MyStatus",
             Command = "我的状态",
@@ -31,14 +34,14 @@ namespace Dolany.Ai.Doremi.Ai.Game.Shopping
         public bool MyStatus(MsgInformationEx MsgDTO, object[] param)
         {
             var osPerson = OSPerson.GetPerson(MsgDTO.FromQQ);
-            var level = LevelMgr.Instance.GetByLevel(osPerson.Level);
+            var level = LevelMgr.GetByLevel(osPerson.Level);
             var exp = MsgCounterSvc.Get(MsgDTO.FromQQ);
             var armerRecord = PersonArmerRecord.Get(MsgDTO.FromQQ);
 
             var msg = $"等级：{level.Name}\r" +
                       $"经验值：{exp}/{level.Exp}{(exp >= level.Exp ? "(可渡劫)" : "")}\r" +
-                      $"{Emoji.心}:{level.HP}(+{ArmerMgr.Instance.CountHP(armerRecord.Armers)})\r" +
-                      $"{Emoji.剑}:{level.Atk}(+{ArmerMgr.Instance.CountAtk(armerRecord.Armers)})\r" +
+                      $"{Emoji.心}:{level.HP}(+{ArmerMgr.CountHP(armerRecord.Armers)})\r" +
+                      $"{Emoji.剑}:{level.Atk}(+{ArmerMgr.CountAtk(armerRecord.Armers)})\r" +
                       $"金币：{osPerson.Golds}";
 
             MsgSender.PushMsg(MsgDTO, msg, true);
@@ -69,14 +72,14 @@ namespace Dolany.Ai.Doremi.Ai.Game.Shopping
             }
 
             var osPerson = OSPerson.GetPerson(MsgDTO.FromQQ);
-            var armerModel = ArmerMgr.Instance[name];
+            var armerModel = ArmerMgr[name];
             if (osPerson.Golds < armerModel.Price)
             {
                 MsgSender.PushMsg(MsgDTO, $"你持有的金币不足以购买此物品({osPerson.Golds}/{armerModel.Price})", true);
                 return false;
             }
 
-            if (!Waiter.Instance.WaitForConfirm_Gold(MsgDTO, armerModel.Price))
+            if (!Waiter.WaitForConfirm_Gold(MsgDTO, armerModel.Price))
             {
                 MsgSender.PushMsg(MsgDTO, "操作取消！");
                 return false;
@@ -109,7 +112,7 @@ namespace Dolany.Ai.Doremi.Ai.Game.Shopping
                 return true;
             }
 
-            var armerInfos = paRec.Armers.Select(a => new {Count = a.Value, Model = ArmerMgr.Instance[a.Key]}).OrderBy(p => p.Model.Kind).ThenByDescending(p => p.Model.Price).ToList();
+            var armerInfos = paRec.Armers.Select(a => new {Count = a.Value, Model = ArmerMgr[a.Key]}).OrderBy(p => p.Model.Kind).ThenByDescending(p => p.Model.Price).ToList();
             var showInfos = armerInfos.Take(20);
             var msg = string.Join(", ", showInfos.Select(a => $"{a.Model.Name}*{a.Count}"));
             msg = $"你持有的装备有：\r{msg}";
@@ -140,7 +143,7 @@ namespace Dolany.Ai.Doremi.Ai.Game.Shopping
                 return true;
             }
 
-            var armerInfos = paRec.Armers.Select(a => new {Count = a.Value, Model = ArmerMgr.Instance[a.Key]}).OrderBy(p => p.Model.Kind).ThenByDescending(p => p.Model.Price).ToList();
+            var armerInfos = paRec.Armers.Select(a => new {Count = a.Value, Model = ArmerMgr[a.Key]}).OrderBy(p => p.Model.Kind).ThenByDescending(p => p.Model.Price).ToList();
             var totalPageCount = (armerInfos.Count - 1) / 20 + 1;
             if (pageNo <= 0 || pageNo > totalPageCount)
             {

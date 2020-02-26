@@ -6,16 +6,16 @@ namespace Dolany.Ai.Doremi.Xiuxian
 {
     public class EscapeArmerMgr : IDataMgr
     {
-        public static EscapeArmerMgr Instance { get; } = new EscapeArmerMgr();
-
         private List<EscapeArmerModel> Armers;
 
         public EscapeArmerModel this[string Name] => Armers.FirstOrDefault(p => p.Name == Name);
 
-        private EscapeArmerMgr()
+        private static DataRefresher DataRefresher => AutofacSvc.Resolve<DataRefresher>();
+
+        public EscapeArmerMgr()
         {
             RefreshData();
-            //DataRefresher.Instance.Register(this);
+            DataRefresher.Register(this);
         }
 
         public EscapeArmerModel RandArmer()

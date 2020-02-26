@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using Dolany.Ai.Common;
 using Dolany.Ai.Common.Models;
 using Dolany.Ai.Doremi.Base;
 using Dolany.Ai.Doremi.Cache;
@@ -20,6 +21,8 @@ namespace Dolany.Ai.Doremi.Ai.Game.Shopping
     public class SignInAI : AIBase
     {
         private Dictionary<long, SignInGroupRecord> GroupSignInDic = new Dictionary<long, SignInGroupRecord>();
+
+        private static GroupSettingMgr GroupSettingMgr => AutofacSvc.Resolve<GroupSettingMgr>();
 
         public override void Initialization()
         {
@@ -41,7 +44,7 @@ namespace Dolany.Ai.Doremi.Ai.Game.Shopping
         {
             var content = param[0] as string;
 
-            if (AIMgr.Instance.AllAvailableGroupCommands.Any(comm => comm.Command == content))
+            if (AIMgr.AllAvailableGroupCommands.Any(comm => comm.Command == content))
             {
                 MsgSender.PushMsg(MsgDTO, "不能与系统自带命令重复！");
                 return false;
@@ -70,7 +73,7 @@ namespace Dolany.Ai.Doremi.Ai.Game.Shopping
                 return true;
             }
 
-            if (MsgDTO.Type == MsgType.Private || !GroupSettingMgr.Instance[MsgDTO.FromGroup].HasFunction(AIAttr.Name))
+            if (MsgDTO.Type == MsgType.Private || !GroupSettingMgr[MsgDTO.FromGroup].HasFunction(AIAttr.Name))
             {
                 return false;
             }

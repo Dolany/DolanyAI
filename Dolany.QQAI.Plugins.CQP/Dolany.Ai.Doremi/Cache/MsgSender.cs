@@ -8,11 +8,14 @@ namespace Dolany.Ai.Doremi.Cache
 {
     public class MsgSender
     {
+        private static AIMgr AIMgr => AutofacSvc.Resolve<AIMgr>();
+        private static GroupSettingMgr GroupSettingMgr => AutofacSvc.Resolve<GroupSettingMgr>();
+
         public static void PushMsg(MsgCommand msg)
         {
             msg.Time = DateTime.Now;
-            var callback = $"[Command] {(msg.ToGroup == 0 ? "私聊" : GroupSettingMgr.Instance[msg.ToGroup].Name)} {msg.ToQQ} {msg.Command} {msg.Msg}";
-            AIMgr.Instance.MessagePublish(callback);
+            var callback = $"[Command] {(msg.ToGroup == 0 ? "私聊" : GroupSettingMgr[msg.ToGroup].Name)} {msg.ToQQ} {msg.Command} {msg.Msg}";
+            AIMgr.MessagePublish(callback);
 
             if (string.IsNullOrEmpty(msg.BindAi))
             {

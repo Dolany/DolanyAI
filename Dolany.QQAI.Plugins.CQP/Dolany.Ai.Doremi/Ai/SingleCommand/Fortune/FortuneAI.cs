@@ -24,10 +24,12 @@ namespace Dolany.Ai.Doremi.Ai.SingleCommand.Fortune
 
         private List<FortuneItemModel> FortuneItemList;
 
+        private static DataRefresher DataRefresher => AutofacSvc.Resolve<DataRefresher>();
+
         public override void Initialization()
         {
             RefreshData();
-            //DataRefresher.Instance.Register(this);
+            DataRefresher.Register(this);
         }
 
         public void RefreshData()

@@ -25,8 +25,6 @@ namespace Dolany.Ai.Doremi
 
         public string[] ManulOpenAiNames { get; set; }
 
-        public static AIMgr Instance { get; } = new AIMgr();
-
         private List<IAITool> Tools { get; } = new List<IAITool>();
 
         public List<EnterCommandAttribute> AllAvailableGroupCommands { get; } = new List<EnterCommandAttribute>();
@@ -39,15 +37,13 @@ namespace Dolany.Ai.Doremi
 
         private event MessageCallBack OnMessageCallBack;
 
-        private static RandShopper RandShopper => AutofacSvc.Resolve<RandShopper>();
+        public RandShopper RandShopper { get; set; }
+        public Waiter Waiter { get; set; }
+        public PowerStateMgr PowerStateMgr { get; set; }
 
         public T AIInstance<T>() where T : AIBase
         {
             return AIList.FirstOrDefault(ai => ai.GetType().Name == typeof(T).Name) as T;
-        }
-
-        private AIMgr()
-        {
         }
 
         public void MessagePublish(string message)
@@ -69,7 +65,7 @@ namespace Dolany.Ai.Doremi
                 Init();
                 Logger.Log("加载所有可用AI");
                 StartAIs();
-                Waiter.Instance.Listen();
+                Waiter.Listen();
                 RandShopper.BindAi = "DoreFun";
 
                 AIAnalyzer.Sys_StartTime = DateTime.Now;
@@ -234,7 +230,7 @@ namespace Dolany.Ai.Doremi
                     foreach (var ai in AIList)
                     {
                         MsgDTO.BindAi = ai.AIAttr.BindAi;
-                        if (ai.AIAttr.PriorityLevel < 100 && !PowerStateMgr.Instance.CheckPower(MsgDTO.BindAi))
+                        if (ai.AIAttr.PriorityLevel < 100 && !PowerStateMgr.CheckPower(MsgDTO.BindAi))
                         {
                             continue;
                         }
