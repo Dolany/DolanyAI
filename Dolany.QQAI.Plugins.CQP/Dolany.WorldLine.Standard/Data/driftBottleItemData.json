@@ -1060,5 +1060,49 @@
       "Price": 1021,
       "Attributes": [ "神秘" ]
     }
+  ],
+  "上古六神兽": [
+    {
+      "Name": "勾陈",
+      "Description": "勾陈之象，实名麒麟，位居中央，权司戊日。...",
+      "Rate": 10,
+      "Price": 803,
+      "Attributes": [ "自然" ]
+    },
+    {
+      "Name": "腾蛇",
+      "Description": "螣，螣蛇。龙类也，能兴云雾而游其中...",
+      "Rate": 9,
+      "Price": 912,
+      "Attributes": [ "深渊" ]
+    },
+    {
+      "Name": "青龙",
+      "Description": "天之四灵——孟章神君。其神勾芒者，物之始生，其精青龙。...",
+      "Rate": 20,
+      "Price": 315,
+      "Attributes": [ "海洋" ]
+    },
+    {
+      "Name": "白虎",
+      "Description": "天之四灵——监兵神君。王者德至鸟兽，则白虎动...",
+      "Rate": 17,
+      "Price": 419,
+      "Attributes": [ "海洋" ]
+    },
+    {
+      "Name": "朱雀",
+      "Description": "天之四灵——陵光神君。言己吸天元气得道真，即朱雀神鸟为我先导...",
+      "Rate": 5,
+      "Price": 1021,
+      "Attributes": [ "神秘" ]
+    },
+    {
+      "Name": "玄武",
+      "Description": "天之四灵——执明神君。时暧其曭莽兮，召玄武而奔属。...",
+      "Rate": 14,
+      "Price": 609,
+      "Attributes": [ "神秘" ]
+    }
   ] 
 }
