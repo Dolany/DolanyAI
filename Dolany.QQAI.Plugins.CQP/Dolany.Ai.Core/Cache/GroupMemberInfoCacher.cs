@@ -18,7 +18,7 @@ namespace Dolany.Ai.Core.Cache
                 return false;
             }
 
-            var GroupSettingMgr = AutofacSvc.Resolve<GroupSettingMgr>();
+            var GroupSettingMgr = AutofacSvc.Resolve<GroupSettingSvc>();
             var setting = GroupSettingMgr[GroupNum];
             setting.AuthInfo = new GroupAuthInfoModel {Owner = infos.owner, Mgrs = infos.adm?.ToList() ?? new List<long>()};
             setting.MembersCount = infos.members.Count;

@@ -10,7 +10,7 @@ using Newtonsoft.Json;
 
 namespace Dolany.Ai.Core.Cache
 {
-    public class Waiter : IDependency
+    public class WaiterSvc : IDependency
     {
         private readonly object _lockObj = new object();
 
@@ -20,8 +20,8 @@ namespace Dolany.Ai.Core.Cache
         public Action<ChargeModel> MoneyReceivedCallBack;
         public Action<GroupMemberChangeModel> GroupMemberChangeCallBack;
 
-        public GroupSettingMgr GroupSettingMgr { get; set; }
-        public BindAiMgr BindAiMgr { get; set; }
+        public GroupSettingSvc GroupSettingSvc { get; set; }
+        public BindAiSvc BindAiSvc { get; set; }
         public QQNumReflectMgr QQNumReflectMgr { get; set; }
 
         public void Listen()
@@ -43,7 +43,7 @@ namespace Dolany.Ai.Core.Cache
 
             if (info.FromGroup != 0)
             {
-                var setting = GroupSettingMgr[info.FromGroup];
+                var setting = GroupSettingSvc[info.FromGroup];
                 if (setting == null || setting.BindAi != info.BindAi)
                 {
                     return;
@@ -53,7 +53,7 @@ namespace Dolany.Ai.Core.Cache
             var msg = $"[Info] {info.BindAi} {source} {QQNumReflectMgr[info.FromQQ]} {info.Msg}";
             Global.MsgPublish(msg);
 
-            if (BindAiMgr[info.FromQQ] != null)
+            if (BindAiSvc[info.FromQQ] != null)
             {
                 return;
             }
@@ -104,7 +104,7 @@ namespace Dolany.Ai.Core.Cache
                     GroupMemberChangeCallBack(JsonConvert.DeserializeObject<GroupMemberChangeModel>(info.Msg));
                     break;
                 case InformationType.ConnectStateChange:
-                    var bindai = BindAiMgr[info.BindAi];
+                    var bindai = BindAiSvc[info.BindAi];
                     bindai.IsConnected = bool.Parse(info.Msg);
                     break;
                 default:

@@ -33,7 +33,7 @@ namespace Dolany.WorldLine.KindomStorm.Ai.KindomStorm
                 return castle;
             }
 
-            var group = AutofacSvc.Resolve<GroupSettingMgr>()[GroupNum];
+            var group = AutofacSvc.Resolve<GroupSettingSvc>()[GroupNum];
             var info = APIEx.GetQQInfo(QQNum, group.BindAi);
             castle = new KindomCastle()
             {

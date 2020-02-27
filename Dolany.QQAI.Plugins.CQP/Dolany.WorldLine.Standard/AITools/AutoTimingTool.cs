@@ -26,7 +26,7 @@ namespace Dolany.WorldLine.Standard.AITools
             var settings = MongoService<AutoPowerSetting>.Get(p => p.Hour == curHour);
             foreach (var setting in settings)
             {
-                var GroupSettingMgr = AutofacSvc.Resolve<GroupSettingMgr>();
+                var GroupSettingMgr = AutofacSvc.Resolve<GroupSettingSvc>();
                 switch (setting.ActionType)
                 {
                     case AutoPowerSettingActionType.PowerOn:

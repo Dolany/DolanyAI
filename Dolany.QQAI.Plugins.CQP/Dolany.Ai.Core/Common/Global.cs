@@ -20,7 +20,7 @@ namespace Dolany.Ai.Core.Common
 
         public static AIConfigBase DefaultConfig => Configger<AIConfigBase>.Instance.AIConfig;
 
-        public static Dictionary<long, string> AllGroupsDic => AutofacSvc.Resolve<GroupSettingMgr>().SettingDic.ToDictionary(p => p.Key, p => p.Value.Name);
+        public static Dictionary<long, string> AllGroupsDic => AutofacSvc.Resolve<GroupSettingSvc>().SettingDic.ToDictionary(p => p.Key, p => p.Value.Name);
 
         public static readonly RabbitMQService CommandInfoService = new RabbitMQService(DefaultConfig.InformationQueueName);
 

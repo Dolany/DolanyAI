@@ -16,7 +16,7 @@ namespace Dolany.WorldLine.Standard.Ai.SingleCommand.IceNews
 
         private const string CachePath = "./images/News/";
 
-        public BindAiMgr BindAiMgr { get; set; }
+        public BindAiSvc BindAiSvc { get; set; }
         public NewsMgr NewsMgr { get; set; }
 
         [EnterCommand(ID = "IceNewsAI_DialyNews",
@@ -51,7 +51,7 @@ namespace Dolany.WorldLine.Standard.Ai.SingleCommand.IceNews
             IsPrivateAvailable = true)]
         public bool NewsContribute(MsgInformationEx MsgDTO, object[] param)
         {
-            var info = Waiter.WaitForInformation(MsgDTO, "请上传图片（不能超过300KB）！",
+            var info = WaiterSvc.WaitForInformation(MsgDTO, "请上传图片（不能超过300KB）！",
                 information => information.FromGroup == MsgDTO.FromGroup && information.FromQQ == MsgDTO.FromQQ &&
                                !string.IsNullOrEmpty(Utility.ParsePicGuid(information.Msg)), 10);
             if (info == null)
@@ -60,7 +60,7 @@ namespace Dolany.WorldLine.Standard.Ai.SingleCommand.IceNews
                 return false;
             }
 
-            var bindai = BindAiMgr[MsgDTO.BindAi];
+            var bindai = BindAiSvc[MsgDTO.BindAi];
 
             var picGuid = Utility.ParsePicGuid(info.Msg);
             var imageCache = Utility.ReadImageCacheInfo(picGuid, bindai.ImagePath);

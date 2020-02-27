@@ -37,7 +37,7 @@ namespace Dolany.WorldLine.Standard.Ai.Game.Pet
         public PetLevelMgr PetLevelMgr { get; set; }
         public PetAgainstMgr PetAgainstMgr { get; set; }
         public HonorHelper HonorHelper { get; set; }
-        public BindAiMgr BindAiMgr { get; set; }
+        public BindAiSvc BindAiSvc { get; set; }
 
         public override void Initialization()
         {
@@ -168,13 +168,13 @@ namespace Dolany.WorldLine.Standard.Ai.Game.Pet
                 return false;
             }
 
-            if (!Waiter.WaitForConfirm_Gold(MsgDTO, 300))
+            if (!WaiterSvc.WaitForConfirm_Gold(MsgDTO, 300))
             {
                 MsgSender.PushMsg(MsgDTO, "操作取消！");
                 return false;
             }
 
-            var info = Waiter.WaitForInformation(MsgDTO, "请上传图片（不能超过300KB）！",
+            var info = WaiterSvc.WaitForInformation(MsgDTO, "请上传图片（不能超过300KB）！",
                 information => information.FromGroup == MsgDTO.FromGroup && information.FromQQ == MsgDTO.FromQQ &&
                                !string.IsNullOrEmpty(Utility.ParsePicGuid(information.Msg)), 10);
             if(info == null)
@@ -183,7 +183,7 @@ namespace Dolany.WorldLine.Standard.Ai.Game.Pet
                 return false;
             }
 
-            var bindai = BindAiMgr[MsgDTO.BindAi];
+            var bindai = BindAiSvc[MsgDTO.BindAi];
 
             var picGuid = Utility.ParsePicGuid(info.Msg);
             var imageCache = Utility.ReadImageCacheInfo(picGuid, bindai.ImagePath);
@@ -264,7 +264,7 @@ namespace Dolany.WorldLine.Standard.Ai.Game.Pet
                     return false;
                 }
 
-                if (!Waiter.WaitForConfirm_Gold(MsgDTO, 300))
+                if (!WaiterSvc.WaitForConfirm_Gold(MsgDTO, 300))
                 {
                     MsgSender.PushMsg(MsgDTO, "操作取消");
                     return false;
@@ -275,7 +275,7 @@ namespace Dolany.WorldLine.Standard.Ai.Game.Pet
 
             var randAttrs = Rander.RandSort(PetExtent.AllAttributes.ToArray());
             var msg = $"请选择宠物食性：\r{string.Join("\r", randAttrs.Select((p, idx) => $"{idx + 1}:{p}"))}";
-            var selectedIdx = Waiter.WaitForNum(MsgDTO.FromGroup, MsgDTO.FromQQ, msg, i => i > 0 && i <= randAttrs.Length, MsgDTO.BindAi);
+            var selectedIdx = WaiterSvc.WaitForNum(MsgDTO.FromGroup, MsgDTO.FromQQ, msg, i => i > 0 && i <= randAttrs.Length, MsgDTO.BindAi);
             if (selectedIdx == -1)
             {
                 MsgSender.PushMsg(MsgDTO, "操作取消");
@@ -534,7 +534,7 @@ namespace Dolany.WorldLine.Standard.Ai.Game.Pet
                 return false;
             }
 
-            if (!Waiter.WaitForConfirm_Gold(MsgDTO, ResetSkillCost, 10))
+            if (!WaiterSvc.WaitForConfirm_Gold(MsgDTO, ResetSkillCost, 10))
             {
                 MsgSender.PushMsg(MsgDTO, "操作取消！");
                 return false;
@@ -595,7 +595,7 @@ namespace Dolany.WorldLine.Standard.Ai.Game.Pet
                 return false;
             }
 
-            if (BindAiMgr.AllAiNums.Contains(aimQQ))
+            if (BindAiSvc.AllAiNums.Contains(aimQQ))
             {
                 MsgSender.PushMsg(MsgDTO, "鱼唇的人类，你无法挑战AI的威严！", true);
                 return false;
@@ -629,7 +629,7 @@ namespace Dolany.WorldLine.Standard.Ai.Game.Pet
                 return false;
             }
 
-            if(!Waiter.WaitForConfirm(MsgDTO.FromGroup, aimQQ, "你被邀请参加一场宠物对决，是否同意？", MsgDTO.BindAi, 10))
+            if(!WaiterSvc.WaitForConfirm(MsgDTO.FromGroup, aimQQ, "你被邀请参加一场宠物对决，是否同意？", MsgDTO.BindAi, 10))
             {
                 MsgSender.PushMsg(MsgDTO, "对决取消！");
                 return false;

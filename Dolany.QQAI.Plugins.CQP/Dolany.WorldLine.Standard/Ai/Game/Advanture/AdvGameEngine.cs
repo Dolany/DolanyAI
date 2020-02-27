@@ -30,7 +30,7 @@ namespace Dolany.WorldLine.Standard.Ai.Game.Advanture
 
         private int Bonus;
 
-        private static Waiter Waiter => AutofacSvc.Resolve<Waiter>();
+        private static WaiterSvc WaiterSvc => AutofacSvc.Resolve<WaiterSvc>();
         private static CaveSettingHelper CaveSettingHelper => AutofacSvc.Resolve<CaveSettingHelper>();
         private static HonorHelper HonorHelper => AutofacSvc.Resolve<HonorHelper>();
 
@@ -73,7 +73,7 @@ namespace Dolany.WorldLine.Standard.Ai.Game.Advanture
         private void ProcessTurn()
         {
             var msg = $"回合开始！请选择合适的数字！\r{PrintCaves()}";
-            var response = Waiter.WaitForNum(GroupNum, CurPlayer.QQNum, msg, i => i > 0 && i <= CaveList.Count, BindAi);
+            var response = WaiterSvc.WaitForNum(GroupNum, CurPlayer.QQNum, msg, i => i > 0 && i <= CaveList.Count, BindAi);
             if (response < 0)
             {
                 response = 1;

@@ -20,8 +20,8 @@ namespace Dolany.Ai.Core.Ai
 
         public PicReviewer PicReviewer { get; set; }
         public DataRefresher DataRefresher { get; set; }
-        public BindAiMgr BindAiMgr { get; set; }
-        public DirtyFilter DirtyFilter { get; set; }
+        public BindAiSvc BindAiSvc { get; set; }
+        public DirtyFilterSvc DirtyFilterSvc { get; set; }
 
         [EnterCommand(ID = "SuperAdminAI_FishingBonus",
             Command = "功能奖励",
@@ -74,7 +74,7 @@ namespace Dolany.Ai.Core.Ai
                 MongoService<BlackList>.Update(query);
             }
 
-            DirtyFilter.RefreshData();
+            DirtyFilterSvc.RefreshData();
 
             MsgSender.PushMsg(MsgDTO, "Success");
             return true;
@@ -100,7 +100,7 @@ namespace Dolany.Ai.Core.Ai
 
             MongoService<BlackList>.Delete(query);
 
-            DirtyFilter.RefreshData();
+            DirtyFilterSvc.RefreshData();
             MsgSender.PushMsg(MsgDTO, "Success");
             return true;
         }
@@ -148,7 +148,7 @@ namespace Dolany.Ai.Core.Ai
                 BindAis = new List<string>(){MsgDTO.BindAi}
             };
             MongoService<GroupSettings>.Insert(setting);
-            GroupSettingMgr.RefreshData();
+            GroupSettingSvc.RefreshData();
 
             MsgSender.PushMsg(MsgDTO, "注册成功！");
             return true;
@@ -167,19 +167,19 @@ namespace Dolany.Ai.Core.Ai
             var groupNum = (long) param[0];
             var name = param[1] as string;
 
-            if (!GroupSettingMgr.SettingDic.ContainsKey(groupNum))
+            if (!GroupSettingSvc.SettingDic.ContainsKey(groupNum))
             {
                 MsgSender.PushMsg(MsgDTO, "错误的群号");
                 return false;
             }
 
-            if (!BindAiMgr.AiDic.ContainsKey(name))
+            if (!BindAiSvc.AiDic.ContainsKey(name))
             {
                 MsgSender.PushMsg(MsgDTO, "错误的机器人名");
                 return false;
             }
 
-            var setting = GroupSettingMgr[groupNum];
+            var setting = GroupSettingSvc[groupNum];
             if (setting.BindAis == null)
             {
                 setting.BindAis = new List<string>();
@@ -207,13 +207,13 @@ namespace Dolany.Ai.Core.Ai
         public bool Freeze(MsgInformationEx MsgDTO, object[] param)
         {
             var groupNum = (long) param[0];
-            if (!GroupSettingMgr.SettingDic.ContainsKey(groupNum))
+            if (!GroupSettingSvc.SettingDic.ContainsKey(groupNum))
             {
                 MsgSender.PushMsg(MsgDTO, "未找到相关群组");
                 return false;
             }
 
-            var setting = GroupSettingMgr[groupNum];
+            var setting = GroupSettingSvc[groupNum];
             setting.ForcedShutDown = true;
             setting.Update();
 
@@ -233,13 +233,13 @@ namespace Dolany.Ai.Core.Ai
         public bool Defreeze(MsgInformationEx MsgDTO, object[] param)
         {
             var groupNum = (long) param[0];
-            if (!GroupSettingMgr.SettingDic.ContainsKey(groupNum))
+            if (!GroupSettingSvc.SettingDic.ContainsKey(groupNum))
             {
                 MsgSender.PushMsg(MsgDTO, "未找到相关群组");
                 return false;
             }
 
-            var setting = GroupSettingMgr[groupNum];
+            var setting = GroupSettingSvc[groupNum];
             setting.ForcedShutDown = false;
             setting.Update();
 
@@ -272,7 +272,7 @@ namespace Dolany.Ai.Core.Ai
             }
             setting.Update();
 
-            GroupSettingMgr.RefreshData();
+            GroupSettingSvc.RefreshData();
 
             MsgSender.PushMsg(MsgDTO, $"充值成功，有效期至 {setting.ExpiryTime?.ToLocalTime():yyyy-MM-dd HH:mm:ss}");
             return true;
@@ -289,7 +289,7 @@ namespace Dolany.Ai.Core.Ai
         public bool EmergencyUnload(MsgInformationEx MsgDTO, object[] param)
         {
             var bingAiName = param[0] as string;
-            if (BindAiMgr[bingAiName] == null)
+            if (BindAiSvc[bingAiName] == null)
             {
                 MsgSender.PushMsg(MsgDTO, "未找到该机器人！");
                 return false;
@@ -297,7 +297,7 @@ namespace Dolany.Ai.Core.Ai
 
             var failedGroups = new List<GroupSettings>();
             var successGroups = new List<GroupSettings>();
-            foreach (var setting in from GroupSettings setting in GroupSettingMgr.SettingDic
+            foreach (var setting in from GroupSettings setting in GroupSettingSvc.SettingDic
                 where !setting.BindAis.IsNullOrEmpty()
                 where setting.BindAis.Contains(bingAiName)
                 select setting)
@@ -343,7 +343,7 @@ namespace Dolany.Ai.Core.Ai
         public bool ForbiddenPicCache(MsgInformationEx MsgDTO, object[] param)
         {
             var groupNum = (long) param[0];
-            var groupSetting = GroupSettingMgr[groupNum];
+            var groupSetting = GroupSettingSvc[groupNum];
             if (groupSetting.AdditionSettings == null)
             {
                 groupSetting.AdditionSettings = new Dictionary<string, string>();

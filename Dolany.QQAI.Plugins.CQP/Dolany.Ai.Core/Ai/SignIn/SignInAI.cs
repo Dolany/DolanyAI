@@ -68,7 +68,7 @@ namespace Dolany.WorldLine.Standard.Ai.Game.SignIn
                 return true;
             }
 
-            if (MsgDTO.Type == MsgType.Private || !GroupSettingMgr[MsgDTO.FromGroup].HasFunction(AIName))
+            if (MsgDTO.Type == MsgType.Private || !GroupSettingSvc[MsgDTO.FromGroup].HasFunction(AIName))
             {
                 return false;
             }

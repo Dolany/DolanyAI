@@ -18,7 +18,7 @@ namespace Dolany.WorldLine.Standard.Ai.Game.SegmentAttach
 
         public SegmentMgr SegmentMgr { get; set; }
         public HonorHelper HonorHelper { get; set; }
-        public BindAiMgr BindAiMgr { get; set; }
+        public BindAiSvc BindAiSvc { get; set; }
 
         [EnterCommand(ID = "SegmentAttachAI_TakeSegment",
             Command = "领取宝藏碎片",
@@ -179,7 +179,7 @@ namespace Dolany.WorldLine.Standard.Ai.Game.SegmentAttach
             }
 
             var options = new[] {"获取500金币", "随机获取商店售卖的一件商品*5", "宠物获取50点经验值", "捞瓶子机会*5(仅当日有效)"};
-            var selectedIdx = Waiter.WaitForOptions(MsgDTO.FromGroup, MsgDTO.FromQQ, "请选择你要开启的宝藏：", options, MsgDTO.BindAi);
+            var selectedIdx = WaiterSvc.WaitForOptions(MsgDTO.FromGroup, MsgDTO.FromQQ, "请选择你要开启的宝藏：", options, MsgDTO.BindAi);
             if (selectedIdx < 0)
             {
                 MsgSender.PushMsg(MsgDTO, "你已经放弃了思考！");
@@ -253,7 +253,7 @@ namespace Dolany.WorldLine.Standard.Ai.Game.SegmentAttach
                 return false;
             }
 
-            if (BindAiMgr.AllAiNums.Contains(aimQQ))
+            if (BindAiSvc.AllAiNums.Contains(aimQQ))
             {
                 MsgSender.PushMsg(MsgDTO, "Stupid Human!", true);
                 return false;

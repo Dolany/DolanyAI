@@ -20,10 +20,10 @@ namespace DolanyAiDesktop
     {
         private static readonly IWorldLine[] worlds = {new StandardWorldLine(), new KindomStormWorldLine(),};
         private static IWorldLine DefaultWorldLine => worlds.First(w => w.IsDefault);
-        private static DateTime LastPrintTime = DateTime.Now;
 
-        private static Waiter Waiter => AutofacSvc.Resolve<Waiter>();
+        private static WaiterSvc WaiterSvc => AutofacSvc.Resolve<WaiterSvc>();
         private static CrossWorldAiMgr CrossWorldAiMgr => AutofacSvc.Resolve<CrossWorldAiMgr>();
+        private static GroupSettingSvc GroupSettingSvc => AutofacSvc.Resolve<GroupSettingSvc>();
 
         static void Main(string[] args)
         {
@@ -44,9 +44,9 @@ namespace DolanyAiDesktop
 
                 Global.MsgPublish = PrintMsg;
                 SFixedSetService.SetMaxCount("PicCache", Global.DefaultConfig.MaxPicCacheCount);
-                Waiter.MsgReceivedCallBack = OnMsgReceived;
-                Waiter.MoneyReceivedCallBack = OnMoneyReceived;
-                Waiter.GroupMemberChangeCallBack = OnGroupMemberChanged;
+                WaiterSvc.MsgReceivedCallBack = OnMsgReceived;
+                WaiterSvc.MoneyReceivedCallBack = OnMoneyReceived;
+                WaiterSvc.GroupMemberChangeCallBack = OnGroupMemberChanged;
 
                 AIAnalyzer.Sys_StartTime = DateTime.Now;
                 CrossWorldAiMgr.AllWorlds = worlds;
@@ -57,7 +57,7 @@ namespace DolanyAiDesktop
                     worldLine.Load();
                 }
 
-                Waiter.Listen();
+                WaiterSvc.Listen();
             }
             catch (Exception e)
             {
@@ -73,12 +73,7 @@ namespace DolanyAiDesktop
 
         private static void PrintMsg(string Msg)
         {
-            if (LastPrintTime.AddMinutes(2) < DateTime.Now)
-            {
-                LastPrintTime = DateTime.Now;
-                Console.WriteLine($"{DateTime.Now:yyyy/MM/dd HH:mm:ss}");
-            }
-            Console.WriteLine(Msg);
+            Console.WriteLine($"{DateTime.Now:yyyy/MM/dd HH:mm:ss} {Msg}");
         }
 
         private static void OnMsgReceived(MsgInformation MsgDTO)
@@ -109,7 +104,7 @@ namespace DolanyAiDesktop
                 return JudgePersonalWorldLine(QQNum);
             }
 
-            var group = AutofacSvc.Resolve<GroupSettingMgr>()[groupNum];
+            var group = GroupSettingSvc[groupNum];
             if (group == null)
             {
                 return DefaultWorldLine.Name;

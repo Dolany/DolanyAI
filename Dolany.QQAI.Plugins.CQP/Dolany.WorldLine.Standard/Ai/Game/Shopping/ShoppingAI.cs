@@ -167,7 +167,7 @@ namespace Dolany.WorldLine.Standard.Ai.Game.Shopping
             var msg = $"你即将贩卖{ictm.Sum(i => i.Count)}件物品，" +
                       $"其中有{ictm.Count(i => i.IsLimit)}件限定物品，" +
                       $"共价值{ictm.Sum(p => p.Price * p.Count).CurencyFormat()}，是否继续？";
-            if (!Waiter.WaitForConfirm(MsgDTO, msg))
+            if (!WaiterSvc.WaitForConfirm(MsgDTO, msg))
             {
                 MsgSender.PushMsg(MsgDTO, "操作取消！");
                 return false;
@@ -198,7 +198,7 @@ namespace Dolany.WorldLine.Standard.Ai.Game.Shopping
 
             var price = HonorHelper.GetItemPrice(item, MsgDTO.FromQQ);
             var msg = $"贩卖 {item.Name}*{count} 将获得 {(price * count).CurencyFormat()}，是否确认贩卖？";
-            if (!Waiter.WaitForConfirm(MsgDTO, msg))
+            if (!WaiterSvc.WaitForConfirm(MsgDTO, msg))
             {
                 MsgSender.PushMsg(MsgDTO, "交易取消！");
                 return false;
@@ -231,7 +231,7 @@ namespace Dolany.WorldLine.Standard.Ai.Game.Shopping
 
             var price = HonorHelper.GetHonorPrice(honorName, MsgDTO.FromQQ);
             var msg = $"贩卖此成就将获得 {price.CurencyFormat()}，是否确认贩卖？";
-            if (!Waiter.WaitForConfirm(MsgDTO, msg))
+            if (!WaiterSvc.WaitForConfirm(MsgDTO, msg))
             {
                 MsgSender.PushMsg(MsgDTO, "交易取消！");
                 return false;
@@ -359,7 +359,7 @@ namespace Dolany.WorldLine.Standard.Ai.Game.Shopping
             }
 
             var price = OSPersonBuff.CheckBuff(MsgDTO.FromQQ, "极光") ? sellItem.Price * 80 / 100 : sellItem.Price;
-            if (!Waiter.WaitForConfirm_Gold(MsgDTO, price))
+            if (!WaiterSvc.WaitForConfirm_Gold(MsgDTO, price))
             {
                 MsgSender.PushMsg(MsgDTO, "交易取消！");
                 return false;
@@ -451,7 +451,7 @@ namespace Dolany.WorldLine.Standard.Ai.Game.Shopping
                       $"希望得到的物品：{name}\r" +
                       $"价格：{price.CurencyFormat()}({originPrice.CurencyFormat()})\r" +
                       $"你当前持有：{count}个，是否确认交易？";
-            if (!Waiter.WaitForConfirm(MsgDTO.FromGroup, aimQQ, msg, MsgDTO.BindAi, 10))
+            if (!WaiterSvc.WaitForConfirm(MsgDTO.FromGroup, aimQQ, msg, MsgDTO.BindAi, 10))
             {
                 MsgSender.PushMsg(MsgDTO, "交易取消！");
                 return false;
@@ -507,7 +507,7 @@ namespace Dolany.WorldLine.Standard.Ai.Game.Shopping
                       $"希望得到的菜肴：{name}\r" +
                       $"价格：{price.CurencyFormat()}({dietModel.EstimatedPrice.CurencyFormat()})\r" +
                       $"你当前持有：{count}个，是否确认交易？";
-            if (!Waiter.WaitForConfirm(MsgDTO.FromGroup, aimQQ, msg, MsgDTO.BindAi, 10))
+            if (!WaiterSvc.WaitForConfirm(MsgDTO.FromGroup, aimQQ, msg, MsgDTO.BindAi, 10))
             {
                 MsgSender.PushMsg(MsgDTO, "交易取消！");
                 return false;
@@ -593,7 +593,7 @@ namespace Dolany.WorldLine.Standard.Ai.Game.Shopping
 
             var itemModel = HonorHelper.FindItem(name);
             var price = HonorHelper.GetItemPrice(itemModel, MsgDTO.FromQQ) * 5 / 100;
-            if (!Waiter.WaitForConfirm_Gold(MsgDTO, price))
+            if (!WaiterSvc.WaitForConfirm_Gold(MsgDTO, price))
             {
                 MsgSender.PushMsg(MsgDTO, "操作取消!");
                 return false;
@@ -636,7 +636,7 @@ namespace Dolany.WorldLine.Standard.Ai.Game.Shopping
                 return false;
             }
 
-            if (!Waiter.WaitForConfirm_Gold(MsgDTO, 50))
+            if (!WaiterSvc.WaitForConfirm_Gold(MsgDTO, 50))
             {
                 MsgSender.PushMsg(MsgDTO, "操作取消！");
                 return false;
@@ -713,7 +713,7 @@ namespace Dolany.WorldLine.Standard.Ai.Game.Shopping
                 return false;
             }
 
-            var response = Waiter.WaitForInformation(MsgDTO, $"请输入想获取的荣誉称号名称(不能超过{RebornHonorLimit}个字)",
+            var response = WaiterSvc.WaitForInformation(MsgDTO, $"请输入想获取的荣誉称号名称(不能超过{RebornHonorLimit}个字)",
                 info => info.FromQQ == MsgDTO.FromQQ && info.FromGroup == MsgDTO.FromGroup && info.Msg != null && info.Msg.Length <= RebornHonorLimit, 10);
             if (response == null)
             {

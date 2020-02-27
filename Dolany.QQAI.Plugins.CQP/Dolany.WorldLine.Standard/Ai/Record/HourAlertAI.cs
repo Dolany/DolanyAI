@@ -50,7 +50,7 @@ namespace Dolany.WorldLine.Standard.Ai.Record
 
         private void HourAlert(int curHour)
         {
-            var availableList = GroupSettingMgr.SettingDic.Where(p => p.Value.ExpiryTime.HasValue &&
+            var availableList = GroupSettingSvc.SettingDic.Where(p => p.Value.ExpiryTime.HasValue &&
                                                                                p.Value.ExpiryTime.Value > DateTime.Now &&
                                                                                p.Value.HasFunction("报时")).Select(p => p.Key).ToList();
             if (availableList.IsNullOrEmpty())
@@ -60,7 +60,7 @@ namespace Dolany.WorldLine.Standard.Ai.Record
 
             foreach (var groupNum in availableList)
             {
-                var groupSetting = GroupSettingMgr[groupNum];
+                var groupSetting = GroupSettingSvc[groupNum];
                 var isActiveOff = !groupSetting.IsPowerOn;
                 if (isActiveOff)
                 {

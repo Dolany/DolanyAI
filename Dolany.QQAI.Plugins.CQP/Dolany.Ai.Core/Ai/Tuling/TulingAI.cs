@@ -33,7 +33,7 @@ namespace Dolany.Ai.Core.Ai.SingleCommand.Tuling
                 5000, 6000, 4000, 4001, 4002, 4003, 4005, 4007, 4100, 4200, 4300, 4400, 4500, 4600, 4602, 7002, 8008
             };
 
-        public BindAiMgr BindAiMgr { get; set; }
+        public BindAiSvc BindAiSvc { get; set; }
 
         public void RefreshData()
         {
@@ -47,7 +47,7 @@ namespace Dolany.Ai.Core.Ai.SingleCommand.Tuling
                 return true;
             }
 
-            if (MsgDTO.Type == MsgType.Group && BindAiMgr.AllAiNums.All(p => !MsgDTO.FullMsg.Contains(CodeApi.Code_At(p))))
+            if (MsgDTO.Type == MsgType.Group && BindAiSvc.AllAiNums.All(p => !MsgDTO.FullMsg.Contains(CodeApi.Code_At(p))))
             {
                 return false;
             }
@@ -68,7 +68,7 @@ namespace Dolany.Ai.Core.Ai.SingleCommand.Tuling
             limitRecord.Cache();
             limitRecord.Update();
 
-            foreach (var aiNum in BindAiMgr.AllAiNums)
+            foreach (var aiNum in BindAiSvc.AllAiNums)
             {
                 MsgDTO.FullMsg = MsgDTO.FullMsg.Replace(CodeApi.Code_At(aiNum), string.Empty);
             }
@@ -121,7 +121,7 @@ namespace Dolany.Ai.Core.Ai.SingleCommand.Tuling
 
         private PostReq_Param GetPostReq(MsgInformationEx MsgDTO, string ApiKey)
         {
-            var bindAi = BindAiMgr[MsgDTO.BindAi];
+            var bindAi = BindAiSvc[MsgDTO.BindAi];
             var imageInfo = ParseImgText(MsgDTO.FullMsg, bindAi.ImagePath);
             var perception = string.IsNullOrEmpty(imageInfo)
                 ? new perceptionData

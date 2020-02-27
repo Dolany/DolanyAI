@@ -55,7 +55,7 @@ namespace Dolany.WorldLine.Standard.Ai.Game.Gift
                 return false;
             }
 
-            if (!Waiter.WaitForConfirm(MsgDTO, $"兑换{name}需要：\r{msg}是否兑换？", 7))
+            if (!WaiterSvc.WaitForConfirm(MsgDTO, $"兑换{name}需要：\r{msg}是否兑换？", 7))
             {
                 MsgSender.PushMsg(MsgDTO, "操作取消！");
                 return false;

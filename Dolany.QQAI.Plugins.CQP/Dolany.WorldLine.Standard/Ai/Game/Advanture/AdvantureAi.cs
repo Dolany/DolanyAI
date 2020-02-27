@@ -17,7 +17,7 @@ namespace Dolany.WorldLine.Standard.Ai.Game.Advanture
 
         public override bool NeedManualOpeon { get; } = true;
 
-        public BindAiMgr BindAiMgr { get; set; }
+        public BindAiSvc BindAiSvc { get; set; }
         public AdvGameMgr AdvGameMgr { get; set; }
 
         [EnterCommand(ID = "AdvantureAi_AdvantureAgainst",
@@ -39,7 +39,7 @@ namespace Dolany.WorldLine.Standard.Ai.Game.Advanture
                 return false;
             }
 
-            if (BindAiMgr.AllAiNums.Contains(aimNum))
+            if (BindAiSvc.AllAiNums.Contains(aimNum))
             {
                 MsgSender.PushMsg(MsgDTO, "鱼唇的人类，你无法挑战ai的威严！");
                 return false;
@@ -51,7 +51,7 @@ namespace Dolany.WorldLine.Standard.Ai.Game.Advanture
                 return false;
             }
 
-            if (!Waiter.WaitForConfirm(MsgDTO.FromGroup, aimNum,
+            if (!WaiterSvc.WaitForConfirm(MsgDTO.FromGroup, aimNum,
                 $"{CodeApi.Code_At(MsgDTO.FromQQ)} 正在向你发起一场冒险对决，是否接受？",MsgDTO.BindAi, 10))
             {
                 MsgSender.PushMsg(MsgDTO, "对决取消！");

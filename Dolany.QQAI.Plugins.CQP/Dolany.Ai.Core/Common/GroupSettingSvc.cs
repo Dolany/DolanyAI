@@ -6,7 +6,7 @@ using Dolany.Database.Ai;
 
 namespace Dolany.Ai.Core.Common
 {
-    public class GroupSettingMgr : IDataMgr, IDependency
+    public class GroupSettingSvc : IDataMgr, IDependency
     {
         public Dictionary<long, GroupSettings> SettingDic;
 

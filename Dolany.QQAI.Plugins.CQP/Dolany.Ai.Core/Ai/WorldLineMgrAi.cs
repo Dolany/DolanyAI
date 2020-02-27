@@ -23,7 +23,7 @@ namespace Dolany.Ai.Core.Ai
             IsPrivateAvailable = false)]
         public bool SwitchWorldLine(MsgInformationEx MsgDTO, object[] param)
         {
-            var option = Waiter.WaitForOptions(MsgDTO.FromGroup, MsgDTO.FromQQ, "请选择需要切换的世界线：",
+            var option = WaiterSvc.WaitForOptions(MsgDTO.FromGroup, MsgDTO.FromQQ, "请选择需要切换的世界线：",
                 CrossWorldAiMgr.AllWorlds.Select(w => w.Name).ToArray(), MsgDTO.BindAi);
             if (option < 0)
             {
@@ -32,7 +32,7 @@ namespace Dolany.Ai.Core.Ai
             }
 
             var worldLine = CrossWorldAiMgr.AllWorlds[option];
-            var group = GroupSettingMgr[MsgDTO.FromGroup];
+            var group = GroupSettingSvc[MsgDTO.FromGroup];
             group.WorldLine = worldLine.Name;
             group.Update();
 

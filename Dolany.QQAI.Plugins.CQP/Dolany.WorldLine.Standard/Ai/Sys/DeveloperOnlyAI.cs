@@ -40,7 +40,7 @@ namespace Dolany.WorldLine.Standard.Ai.Sys
         public bool Board(MsgInformationEx MsgDTO, object[] param)
         {
             var content = param[0] as string;
-            var groups = GroupSettingMgr.SettingDic.Values.Where(g => g.ExpiryTime.HasValue && g.ExpiryTime.Value > DateTime.Now);
+            var groups = GroupSettingSvc.SettingDic.Values.Where(g => g.ExpiryTime.HasValue && g.ExpiryTime.Value > DateTime.Now);
 
             foreach (var group in groups)
             {
@@ -307,7 +307,7 @@ namespace Dolany.WorldLine.Standard.Ai.Sys
                 BindAi = MsgDTO.BindAi
             };
 
-            var info = Waiter.WaitForRelationId(command);
+            var info = WaiterSvc.WaitForRelationId(command);
             if (info == null)
             {
                 MsgSender.PushMsg(MsgDTO, "超时！");

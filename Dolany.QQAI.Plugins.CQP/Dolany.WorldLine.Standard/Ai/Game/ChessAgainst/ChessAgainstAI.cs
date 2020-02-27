@@ -18,7 +18,7 @@ namespace Dolany.WorldLine.Standard.Ai.Game.ChessAgainst
 
         public override bool NeedManualOpeon { get; } = true;
 
-        public BindAiMgr BindAiMgr { get; set; }
+        public BindAiSvc BindAiSvc { get; set; }
         public ChessMgr ChessMgr { get; set; }
 
         [EnterCommand(ID = "ChessAgainstAI_Fight",
@@ -41,7 +41,7 @@ namespace Dolany.WorldLine.Standard.Ai.Game.ChessAgainst
                 return false;
             }
 
-            if (BindAiMgr.AllAiNums.Contains(aimNum))
+            if (BindAiSvc.AllAiNums.Contains(aimNum))
             {
                 MsgSender.PushMsg(MsgDTO, "鱼唇的人类，你无法挑战ai的威严！");
                 return false;
@@ -59,7 +59,7 @@ namespace Dolany.WorldLine.Standard.Ai.Game.ChessAgainst
                 return false;
             }
 
-            if (!Waiter.WaitForConfirm(MsgDTO.FromGroup, aimNum, $"{CodeApi.Code_At(MsgDTO.FromQQ)} 正在向你发起一场对决，是否接受？",MsgDTO.BindAi, 10))
+            if (!WaiterSvc.WaitForConfirm(MsgDTO.FromGroup, aimNum, $"{CodeApi.Code_At(MsgDTO.FromQQ)} 正在向你发起一场对决，是否接受？",MsgDTO.BindAi, 10))
             {
                 MsgSender.PushMsg(MsgDTO, "对决取消！");
                 return false;
@@ -83,7 +83,7 @@ namespace Dolany.WorldLine.Standard.Ai.Game.ChessAgainst
                 msg.FromQQ = QQNum;
                 msg.FromGroup = GroupNum;
 
-                var info = Waiter.WaitForInformation(msg, Msg,
+                var info = WaiterSvc.WaitForInformation(msg, Msg,
                     information => information.FromGroup == GroupNum && information.FromQQ == QQNum && judge(information.Msg), 10, true);
                 return info == null ? string.Empty : info.Msg;
             }, MsgDTO.BindAi);

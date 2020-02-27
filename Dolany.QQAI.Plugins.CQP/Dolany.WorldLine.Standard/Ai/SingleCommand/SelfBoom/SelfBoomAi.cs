@@ -28,7 +28,7 @@ namespace Dolany.WorldLine.Standard.Ai.SingleCommand.SelfBoom
             IsPrivateAvailable = false)]
         public bool Boom(MsgInformationEx MsgDTO, object[] param)
         {
-            var backInfo = Waiter.WaitForInformation(
+            var backInfo = WaiterSvc.WaitForInformation(
                 new MsgCommand
                     {
                         Command = CommandType.SendGroup,

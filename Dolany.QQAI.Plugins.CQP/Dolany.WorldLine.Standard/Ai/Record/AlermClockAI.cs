@@ -99,7 +99,7 @@ namespace Dolany.WorldLine.Standard.Ai.Record
                 return;
             }
 
-            var setting = GroupSettingMgr[entity.GroupNumber];
+            var setting = GroupSettingSvc[entity.GroupNumber];
             if (setting.ExpiryTime.HasValue && setting.ExpiryTime.Value > DateTime.Now && setting.IsPowerOn)
             {
                 MsgSender.PushMsg(
@@ -185,7 +185,7 @@ namespace Dolany.WorldLine.Standard.Ai.Record
         {
             var Groups = Global.AllGroupsDic.Keys.ToArray();
             var clocks = MongoService<AlermClock>.Get(p => Groups.Contains(p.GroupNumber));
-            foreach (var clock in from clock in clocks let isActiveOff = !GroupSettingMgr[clock.GroupNumber].IsPowerOn where !isActiveOff select clock)
+            foreach (var clock in from clock in clocks let isActiveOff = !GroupSettingSvc[clock.GroupNumber].IsPowerOn where !isActiveOff select clock)
             {
                 StartClock(clock.Clone());
             }

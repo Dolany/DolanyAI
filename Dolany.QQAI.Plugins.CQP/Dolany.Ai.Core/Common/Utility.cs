@@ -41,7 +41,7 @@ namespace Dolany.Ai.Core.Common
                 return AuthorityLevel.成员;
             }
 
-            var setting = AutofacSvc.Resolve<GroupSettingMgr>()[MsgDTO.FromGroup];
+            var setting = AutofacSvc.Resolve<GroupSettingSvc>()[MsgDTO.FromGroup];
             if (setting.AuthInfo == null)
             {
                 return AuthorityLevel.成员;

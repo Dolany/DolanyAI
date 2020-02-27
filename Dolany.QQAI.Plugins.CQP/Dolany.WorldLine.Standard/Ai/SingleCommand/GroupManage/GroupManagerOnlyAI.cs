@@ -131,7 +131,7 @@ namespace Dolany.WorldLine.Standard.Ai.SingleCommand.GroupManage
                 return false;
             }
 
-            if (!Waiter.WaitForConfirm_Gold(MsgDTO, 100))
+            if (!WaiterSvc.WaitForConfirm_Gold(MsgDTO, 100))
             {
                 MsgSender.PushMsg(MsgDTO, "操作取消！");
                 return false;

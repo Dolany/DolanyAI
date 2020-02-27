@@ -29,8 +29,8 @@ namespace Dolany.Ai.Core.Base
 
         public IWorldLine WorldLine { get; set; }
 
-        public Waiter Waiter { get; set; }
-        public GroupSettingMgr GroupSettingMgr { get; set; }
+        public WaiterSvc WaiterSvc { get; set; }
+        public GroupSettingSvc GroupSettingSvc { get; set; }
         public AliveStateMgr AliveStateMgr { get; set; }
         public CommandLocker CommandLocker { get; set; }
         public SyntaxCheckerMgr SyntaxCheckerMgr { get; set; }
@@ -146,7 +146,7 @@ namespace Dolany.Ai.Core.Base
                 return false;
             }
 
-            if (!NeedManualOpeon || GroupSettingMgr[MsgDTO.FromGroup].HasFunction(AIName))
+            if (!NeedManualOpeon || GroupSettingSvc[MsgDTO.FromGroup].HasFunction(AIName))
             {
                 return true;
             }

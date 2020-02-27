@@ -117,7 +117,7 @@ namespace Dolany.WorldLine.Standard.Ai.Game.Lottery
                 return false;
             }
 
-            if (!Waiter.WaitForConfirm_Gold(MsgDTO, 500))
+            if (!WaiterSvc.WaitForConfirm_Gold(MsgDTO, 500))
             {
                 MsgSender.PushMsg(MsgDTO, "操作取消");
                 return false;

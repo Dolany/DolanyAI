@@ -11,7 +11,7 @@ namespace Dolany.Ai.Core.Cache
         {
             msg.Time = DateTime.Now;
             var callback =
-                $"[{msg.BindAi}][Command] {(msg.ToGroup == 0 ? "私聊" : AutofacSvc.Resolve<GroupSettingMgr>()[msg.ToGroup].Name)} {msg.ToQQ} {msg.Command} {msg.Msg}";
+                $"[{msg.BindAi}][Command] {(msg.ToGroup == 0 ? "私聊" : AutofacSvc.Resolve<GroupSettingSvc>()[msg.ToGroup].Name)} {msg.ToQQ} {msg.Command} {msg.Msg}";
             Global.MsgPublish(callback);
 
             Global.CommandInfoService.Send(msg, Global.DefaultConfig.CommandQueueName);

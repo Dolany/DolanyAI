@@ -19,7 +19,7 @@ namespace Dolany.WorldLine.Standard.AITools
 
         protected override void ScheduleDo(SchedulerTimer timer)
         {
-            AutofacSvc.Resolve<GroupSettingMgr>().RefreshData();
+            AutofacSvc.Resolve<GroupSettingSvc>().RefreshData();
         }
     }
 }

@@ -19,8 +19,8 @@ namespace Dolany.WorldLine.Standard.AITools
         };
         public override bool Enabled { get; set; } = false;
 
-        public BindAiMgr BindAiMgr { get; set; }
-        public Waiter Waiter { get; set; }
+        public BindAiSvc BindAiSvc { get; set; }
+        public WaiterSvc WaiterSvc { get; set; }
         protected override void ScheduleDo(SchedulerTimer timer)
         {
             var command = new MsgCommand()
@@ -29,7 +29,7 @@ namespace Dolany.WorldLine.Standard.AITools
                 BindAi = Global.DefaultConfig.MainAi
             };
 
-            var info = Waiter.WaitForRelationId(command);
+            var info = WaiterSvc.WaitForRelationId(command);
             if (info == null)
             {
                 return;
@@ -38,7 +38,7 @@ namespace Dolany.WorldLine.Standard.AITools
             var dic = JsonConvert.DeserializeObject<Dictionary<string, bool>>(info.Msg);
             foreach (var (bindaiName, state) in dic)
             {
-                BindAiMgr[bindaiName].IsConnected = state;
+                BindAiSvc[bindaiName].IsConnected = state;
             }
         }
     }

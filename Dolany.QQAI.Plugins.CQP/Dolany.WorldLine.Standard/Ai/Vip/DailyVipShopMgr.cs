@@ -15,7 +15,7 @@ namespace Dolany.WorldLine.Standard.Ai.Vip
 
         public IVipArmer this[string Name] => Armers.FirstOrDefault(p => p.Name == Name);
 
-        public Waiter Waiter { get; set; }
+        public WaiterSvc WaiterSvc { get; set; }
 
         public DailyVipShopMgr()
         {
@@ -53,7 +53,7 @@ namespace Dolany.WorldLine.Standard.Ai.Vip
                 return;
             }
 
-            if (!Waiter.WaitForConfirm(MsgDTO, $"此操作将花费{armer.DiamondsNeed.CurencyFormat("Diamond")}，是否继续？"))
+            if (!WaiterSvc.WaitForConfirm(MsgDTO, $"此操作将花费{armer.DiamondsNeed.CurencyFormat("Diamond")}，是否继续？"))
             {
                 MsgSender.PushMsg(MsgDTO, "操作取消！");
                 return;

@@ -21,8 +21,8 @@ namespace Dolany.Ai.Core.Base
         public List<EnterCommandAttribute> AllAvailableGroupCommands { get; } = new List<EnterCommandAttribute>();
         public List<string> OptionalAINames => AIGroup.Where(ai => ai.NeedManualOpeon).Select(ai => ai.AIName).ToList();
 
-        private static BindAiMgr BindAiMgr => AutofacSvc.Resolve<BindAiMgr>();
-        private static DirtyFilter DirtyFilter => AutofacSvc.Resolve<DirtyFilter>();
+        private static BindAiSvc BindAiSvc => AutofacSvc.Resolve<BindAiSvc>();
+        private static DirtyFilterSvc DirtyFilterSvc => AutofacSvc.Resolve<DirtyFilterSvc>();
 
         public T AIInstance<T>() where T : AIBase
         {
@@ -147,21 +147,21 @@ namespace Dolany.Ai.Core.Base
             {
                 try
                 {
-                    if (!DirtyFilter.Filter(MsgDTO))
+                    if (!DirtyFilterSvc.Filter(MsgDTO))
                     {
                         return;
                     }
 
                     var availableBindAis = new List<BindAiModel>();
-                    var GroupSettingMgr = AutofacSvc.Resolve<GroupSettingMgr>();
+                    var GroupSettingMgr = AutofacSvc.Resolve<GroupSettingSvc>();
                     if (MsgDTO.Type == MsgType.Group && GroupSettingMgr[MsgDTO.FromGroup] != null)
                     {
                         availableBindAis = GroupSettingMgr[MsgDTO.FromGroup].BindAis.Where(p => !RecentCommandCache.IsTooFreq(p))
-                            .Select(p => BindAiMgr[p]).ToList();
+                            .Select(p => BindAiSvc[p]).ToList();
                     }
                     else if(!RecentCommandCache.IsTooFreq(MsgDTO.BindAi))
                     {
-                        availableBindAis = new List<BindAiModel>(){BindAiMgr[MsgDTO.BindAi]};
+                        availableBindAis = new List<BindAiModel>(){BindAiSvc[MsgDTO.BindAi]};
                     }
 
                     availableBindAis = availableBindAis.Where(p => p.IsConnected).ToList();

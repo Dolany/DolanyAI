@@ -60,7 +60,7 @@ namespace Dolany.WorldLine.Standard.Ai.Vip
                 return false;
             }
 
-            if (!Waiter.WaitForConfirm(MsgDTO, $"此操作将花费{10.CurencyFormat("Diamond")}，是否继续？"))
+            if (!WaiterSvc.WaitForConfirm(MsgDTO, $"此操作将花费{10.CurencyFormat("Diamond")}，是否继续？"))
             {
                 MsgSender.PushMsg(MsgDTO, "操作取消！");
                 return false;

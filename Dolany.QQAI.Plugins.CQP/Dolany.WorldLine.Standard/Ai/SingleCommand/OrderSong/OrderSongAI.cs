@@ -73,7 +73,7 @@ namespace Dolany.WorldLine.Standard.Ai.SingleCommand.OrderSong
                 return string.Empty;
             }
 
-            var song = Waiter.WaitForRelationId(
+            var song = WaiterSvc.WaitForRelationId(
                 new MsgCommand
                     {
                         Command = CommandType.Get163Music,

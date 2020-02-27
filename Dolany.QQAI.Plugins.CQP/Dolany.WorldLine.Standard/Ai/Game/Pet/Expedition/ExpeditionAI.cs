@@ -69,7 +69,7 @@ namespace Dolany.WorldLine.Standard.Ai.Game.Pet.Expedition
             }
 
             var msg = $"请选择远征副本：\r{string.Join("\r", todayExpeditions.Select((exp, idx) => $"{idx + 1}:{exp.ToString(curEndurance)}"))}";
-            var selection = Waiter.WaitForNum(MsgDTO.FromGroup, MsgDTO.FromQQ, msg, i => i > 0 && i <= todayExpeditions.Count, MsgDTO.BindAi, 12, false);
+            var selection = WaiterSvc.WaitForNum(MsgDTO.FromGroup, MsgDTO.FromQQ, msg, i => i > 0 && i <= todayExpeditions.Count, MsgDTO.BindAi, 12, false);
             if (selection < 0)
             {
                 MsgSender.PushMsg(MsgDTO, "操作取消");

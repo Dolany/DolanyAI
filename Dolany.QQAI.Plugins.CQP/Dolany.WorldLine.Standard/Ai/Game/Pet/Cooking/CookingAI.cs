@@ -69,7 +69,7 @@ namespace Dolany.WorldLine.Standard.Ai.Game.Pet.Cooking
             }
 
             var msg = $"烹饪 {dietName} 将需要消耗\r{falvoringNeedStr}\r{materialNeedStr}\r是否确认？";
-            if (!Waiter.WaitForConfirm(MsgDTO, msg))
+            if (!WaiterSvc.WaitForConfirm(MsgDTO, msg))
             {
                 MsgSender.PushMsg(MsgDTO, "操作取消！");
                 return false;

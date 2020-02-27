@@ -12,7 +12,7 @@ namespace Dolany.WorldLine.KindomStorm.Ai.Welcome
 
         public override bool OnGroupMemberChanged(GroupMemberChangeModel model)
         {
-            var group = GroupSettingMgr[model.GroupNum];
+            var group = GroupSettingSvc[model.GroupNum];
             if (model.Type == 1)
             {
                 group.MembersCount--;
