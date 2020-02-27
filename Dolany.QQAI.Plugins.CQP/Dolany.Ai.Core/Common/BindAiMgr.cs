@@ -4,7 +4,7 @@ using Dolany.Ai.Common;
 
 namespace Dolany.Ai.Core.Common
 {
-    public class BindAiMgr : IDataMgr
+    public class BindAiMgr : IDataMgr, IDependency
     {
         public Dictionary<string, BindAiModel> AiDic;
 

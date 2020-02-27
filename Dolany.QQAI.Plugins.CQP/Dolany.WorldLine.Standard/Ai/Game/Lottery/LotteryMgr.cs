@@ -4,7 +4,7 @@ using Dolany.Ai.Common;
 
 namespace Dolany.WorldLine.Standard.Ai.Game.Lottery
 {
-    public class LotteryMgr : IDataMgr
+    public class LotteryMgr : IDataMgr, IDependency
     {
         private List<LotteryModel> Models;
 

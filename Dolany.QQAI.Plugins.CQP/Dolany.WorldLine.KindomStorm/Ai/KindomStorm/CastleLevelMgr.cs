@@ -4,7 +4,7 @@ using Dolany.Ai.Common;
 
 namespace Dolany.WorldLine.KindomStorm.Ai.KindomStorm
 {
-    public class CastleLevelMgr : IDataMgr
+    public class CastleLevelMgr : IDataMgr, IDependency
     {
         private static DataRefresher DataRefresher => AutofacSvc.Resolve<DataRefresher>();
 

@@ -1,8 +1,9 @@
 ﻿using System.Collections.Generic;
+using Dolany.Ai.Common;
 
 namespace Dolany.WorldLine.Standard.Ai.Game.SwordExplore
 {
-    public class SEAttributeMgr
+    public class SEAttributeMgr : IDependency
     {
         public string[] Attrs = {"火焰", "寒冰", "雷电"};
 

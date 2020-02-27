@@ -10,7 +10,7 @@ using Newtonsoft.Json;
 
 namespace Dolany.WorldLine.Standard.Ai.Game.Pet.Expedition
 {
-    public class ExpeditionSceneMgr : IDataMgr
+    public class ExpeditionSceneMgr : IDataMgr, IDependency
     {
         private List<ExpeditionSceneModel> Scenes;
 

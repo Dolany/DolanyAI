@@ -7,7 +7,7 @@ using Newtonsoft.Json;
 
 namespace Dolany.WorldLine.Standard.Ai.Game.Gift
 {
-    public class GiftMgr : IDataMgr
+    public class GiftMgr : IDataMgr, IDependency
     {
         public List<GiftModel> GiftList { get; set; }
 

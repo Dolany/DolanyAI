@@ -4,7 +4,7 @@ using Dolany.Ai.Common;
 
 namespace Dolany.WorldLine.Standard.Ai.Game.SegmentAttach
 {
-    public class SegmentMgr : IDataMgr
+    public class SegmentMgr : IDataMgr, IDependency
     {
         public List<TreasureModel> Treasures;
 

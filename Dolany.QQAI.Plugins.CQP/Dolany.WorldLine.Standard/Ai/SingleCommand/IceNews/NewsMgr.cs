@@ -6,7 +6,7 @@ using Newtonsoft.Json;
 
 namespace Dolany.WorldLine.Standard.Ai.SingleCommand.IceNews
 {
-    public class NewsMgr
+    public class NewsMgr : IDependency
     {
         private Queue<string> NewsQueue { get; } = new Queue<string>();
 

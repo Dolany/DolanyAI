@@ -9,7 +9,7 @@ using Dolany.WorldLine.Standard.OnlineStore;
 
 namespace Dolany.WorldLine.Standard.Ai.Vip
 {
-    public class DailyVipShopMgr
+    public class DailyVipShopMgr : IDependency
     {
         private List<IVipArmer> Armers { get; set; }
 

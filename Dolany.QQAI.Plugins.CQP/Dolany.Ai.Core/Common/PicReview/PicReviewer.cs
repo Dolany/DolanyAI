@@ -9,7 +9,7 @@ using Dolany.Database;
 
 namespace Dolany.Ai.Core.Common.PicReview
 {
-    public class PicReviewer
+    public class PicReviewer : IDependency
     {
         private const string CachePath = "./images/Cache/";
 

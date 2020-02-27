@@ -4,7 +4,7 @@ using Dolany.Ai.Core.Base;
 
 namespace Dolany.Ai.Core
 {
-    public class CrossWorldAiMgr
+    public class CrossWorldAiMgr : IDependency
     {
         public IWorldLine[] AllWorlds { get; set; }
 

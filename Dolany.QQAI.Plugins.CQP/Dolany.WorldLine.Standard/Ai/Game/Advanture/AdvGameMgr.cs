@@ -4,7 +4,7 @@ using Dolany.Ai.Common;
 
 namespace Dolany.WorldLine.Standard.Ai.Game.Advanture
 {
-    public class AdvGameMgr
+    public class AdvGameMgr : IDependency
     {
         private readonly List<AdvGameEngine> Engines = new List<AdvGameEngine>();
 

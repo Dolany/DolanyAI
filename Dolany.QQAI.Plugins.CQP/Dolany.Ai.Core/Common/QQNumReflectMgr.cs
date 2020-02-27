@@ -4,7 +4,7 @@ using Dolany.Ai.Common;
 
 namespace Dolany.Ai.Core.Common
 {
-    public class QQNumReflectMgr : IDataMgr
+    public class QQNumReflectMgr : IDataMgr, IDependency
     {
         private Dictionary<long, string> RelectDic;
 

@@ -4,7 +4,7 @@ using Dolany.Ai.Common;
 
 namespace Dolany.WorldLine.Standard.Ai.Game.SwordExplore
 {
-    public class SEMapMgr : IDataMgr
+    public class SEMapMgr : IDataMgr, IDependency
     {
         private SESceneModel[] Map { get; set; }
 

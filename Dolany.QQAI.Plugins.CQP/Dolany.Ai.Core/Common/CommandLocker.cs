@@ -1,10 +1,11 @@
 ﻿using System;
 using System.Collections.Concurrent;
 using System.Linq;
+using Dolany.Ai.Common;
 
 namespace Dolany.Ai.Core.Common
 {
-    public class CommandLocker
+    public class CommandLocker : IDependency
     {
         private readonly ConcurrentDictionary<string, LockUnit> LockUnits = new ConcurrentDictionary<string, LockUnit>();
 

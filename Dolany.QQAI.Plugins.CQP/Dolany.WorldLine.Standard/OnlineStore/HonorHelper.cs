@@ -7,7 +7,7 @@ using Dolany.Database.Ai;
 
 namespace Dolany.WorldLine.Standard.OnlineStore
 {
-    public class HonorHelper : IDataMgr
+    public class HonorHelper : IDataMgr, IDependency
     {
         public readonly List<HonorModel> HonorList = new List<HonorModel>();
 

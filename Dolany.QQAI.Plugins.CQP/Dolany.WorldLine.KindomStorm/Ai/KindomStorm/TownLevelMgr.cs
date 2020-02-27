@@ -4,7 +4,7 @@ using Dolany.Ai.Common;
 
 namespace Dolany.WorldLine.KindomStorm.Ai.KindomStorm
 {
-    public class TownLevelMgr : IDataMgr
+    public class TownLevelMgr : IDataMgr, IDependency
     {
         private List<TownLevelModel> Levels;
 

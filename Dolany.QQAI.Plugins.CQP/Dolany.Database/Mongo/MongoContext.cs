@@ -3,7 +3,7 @@ using MongoDB.Driver;
 
 namespace Dolany.Database
 {
-    public class MongoContext
+    public class MongoContext : IDependency
     {
         private readonly IMongoDatabase _Database;
 

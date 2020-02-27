@@ -4,7 +4,7 @@ using Dolany.Ai.Common;
 
 namespace Dolany.WorldLine.Standard.Ai.Game.Pet.Cooking
 {
-    public class CookingLevelMgr : IDataMgr
+    public class CookingLevelMgr : IDataMgr, IDependency
     {
         private List<CookingLevelModel> CookingLevels;
 

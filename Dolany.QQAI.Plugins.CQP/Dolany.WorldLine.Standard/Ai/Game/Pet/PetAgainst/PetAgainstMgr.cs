@@ -1,9 +1,10 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
+using Dolany.Ai.Common;
 
 namespace Dolany.WorldLine.Standard.Ai.Game.Pet.PetAgainst
 {
-    public class PetAgainstMgr
+    public class PetAgainstMgr : IDependency
     {
         private List<PetAgainstEngine> Engines { get; set; }
 

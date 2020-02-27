@@ -10,7 +10,7 @@ using Newtonsoft.Json;
 
 namespace Dolany.Ai.Core.Cache
 {
-    public class Waiter
+    public class Waiter : IDependency
     {
         private readonly object _lockObj = new object();
 

@@ -5,7 +5,7 @@ using Dolany.WorldLine.Standard.OnlineStore;
 
 namespace Dolany.WorldLine.Standard.Ai.Game.Pet.Cooking
 {
-    public class CookingDietMgr : IDataMgr
+    public class CookingDietMgr : IDataMgr, IDependency
     {
         private static DataRefresher DataRefresher => AutofacSvc.Resolve<DataRefresher>();
 

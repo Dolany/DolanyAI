@@ -8,7 +8,7 @@ using Dolany.Database.Ai;
 
 namespace Dolany.Ai.Core.Common
 {
-    public class DirtyFilter : IDataMgr
+    public class DirtyFilter : IDataMgr, IDependency
     {
         private string[] WordList;
 

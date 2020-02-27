@@ -1,11 +1,12 @@
 ﻿using System;
 using System.Collections.Concurrent;
+using Dolany.Ai.Common;
 using Dolany.Database;
 using MongoDB.Bson.Serialization.Attributes;
 
 namespace Dolany.Ai.Core.Common
 {
-    public class AliveStateMgr
+    public class AliveStateMgr : IDependency
     {
         public readonly ConcurrentDictionary<string, AliveStateCache> CacheDic;
 
