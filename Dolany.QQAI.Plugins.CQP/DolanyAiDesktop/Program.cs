@@ -1,5 +1,7 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Linq;
+using System.Reflection;
 using Autofac;
 using Dolany.Ai.Common;
 using Dolany.Ai.Common.Models;
@@ -7,6 +9,7 @@ using Dolany.Ai.Core;
 using Dolany.Ai.Core.Base;
 using Dolany.Ai.Core.Cache;
 using Dolany.Ai.Core.Common;
+using Dolany.Database;
 using Dolany.Database.Sqlite;
 using Dolany.WorldLine.KindomStorm;
 using Dolany.WorldLine.Standard;
@@ -113,9 +116,17 @@ namespace DolanyAiDesktop
         {
             var builder = new ContainerBuilder();
             var baseType = typeof(IDependency);
-            var assemblies = AppDomain.CurrentDomain.GetAssemblies();
+            var assemblies = new List<Assembly>()
+            {
+                Assembly.GetAssembly(typeof(IDependency)),
+                Assembly.GetAssembly(typeof(Program)),
+                Assembly.GetAssembly(typeof(DbBaseEntity)),
+                Assembly.GetAssembly(typeof(IWorldLine)),
+                Assembly.GetAssembly(typeof(StandardWorldLine)),
+                Assembly.GetAssembly(typeof(KindomStormWorldLine))
+            };
 
-            builder.RegisterAssemblyTypes(assemblies).Where(type => baseType.IsAssignableFrom(type) && !type.IsAbstract).AsSelf()
+            builder.RegisterAssemblyTypes(assemblies.ToArray()).Where(type => baseType.IsAssignableFrom(type) && !type.IsAbstract).AsSelf()
                 .PropertiesAutowired(PropertyWiringOptions.AllowCircularDependencies).SingleInstance();
 
             AutofacSvc.Container = builder.Build();
