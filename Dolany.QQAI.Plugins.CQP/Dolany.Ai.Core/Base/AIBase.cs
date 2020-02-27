@@ -33,7 +33,7 @@ namespace Dolany.Ai.Core.Base
         public GroupSettingSvc GroupSettingSvc { get; set; }
         public AliveStateSvc AliveStateSvc { get; set; }
         public CommandLockerSvc CommandLockerSvc { get; set; }
-        public SyntaxCheckerMgr SyntaxCheckerMgr { get; set; }
+        public SyntaxCheckerSvc SyntaxCheckerSvc { get; set; }
 
         protected AIBase()
         {
@@ -168,7 +168,7 @@ namespace Dolany.Ai.Core.Base
                 return false;
             }
 
-            if (!SyntaxCheckerMgr.SyntaxCheck(enterAttr.SyntaxChecker, MsgDTO.Msg, out param))
+            if (!SyntaxCheckerSvc.SyntaxCheck(enterAttr.SyntaxChecker, MsgDTO.Msg, out param))
             {
                 return false;
             }

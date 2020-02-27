@@ -4,11 +4,11 @@ using Dolany.Ai.Common;
 
 namespace Dolany.Ai.Core.SyntaxChecker
 {
-    public class SyntaxCheckerMgr : IDependency
+    public class SyntaxCheckerSvc : IDependency
     {
         public List<ISyntaxChecker> Checkers { get; }
 
-        public SyntaxCheckerMgr()
+        public SyntaxCheckerSvc()
         {
             Checkers = CommonUtil.LoadAllInstanceFromInterface<ISyntaxChecker>();
         }
