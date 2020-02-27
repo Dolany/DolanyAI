@@ -26,8 +26,8 @@ namespace Dolany.WorldLine.Standard.Ai.Sys
 
         public override AIPriority PriorityLevel { get;} = AIPriority.Monitor;
 
-        private static GiftMgr GiftMgr => AutofacSvc.Resolve<GiftMgr>();
-        private static HonorHelper HonorHelper => AutofacSvc.Resolve<HonorHelper>();
+        public GiftMgr GiftMgr { get; set; }
+        public HonorHelper HonorHelper { get; set; }
 
         [EnterCommand(ID = "DeveloperOnlyAI_Board",
             Command = "广播",

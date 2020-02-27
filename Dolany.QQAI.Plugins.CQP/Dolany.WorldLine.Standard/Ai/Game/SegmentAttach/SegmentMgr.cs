@@ -8,14 +8,6 @@ namespace Dolany.WorldLine.Standard.Ai.Game.SegmentAttach
     {
         public List<TreasureModel> Treasures;
 
-        private static DataRefresher DataRefresher => AutofacSvc.Resolve<DataRefresher>();
-
-        public SegmentMgr()
-        {
-            RefreshData();
-            DataRefresher.Register(this);
-        }
-
         public SegmentModel RandSegment()
         {
             var randTreasure = Treasures.RandElement();

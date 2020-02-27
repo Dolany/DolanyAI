@@ -18,8 +18,6 @@ namespace Dolany.WorldLine.Standard.Ai.SingleCommand.GroupManage
 
         public override AIPriority PriorityLevel { get;} = AIPriority.High;
 
-        private static AliveStateMgr AliveStateMgr => AutofacSvc.Resolve<AliveStateMgr>();
-
         [EnterCommand(ID = "GroupManagerOnlyAI_DeathStaring",
             Command = "死亡凝视",
             AuthorityLevel = AuthorityLevel.群主,
@@ -232,7 +230,7 @@ namespace Dolany.WorldLine.Standard.Ai.SingleCommand.GroupManage
             return true;
         }
 
-        private static bool SkillCheck(MsgInformationEx MsgDTO, long aimQQ, string key)
+        private bool SkillCheck(MsgInformationEx MsgDTO, long aimQQ, string key)
         {
             if (MsgDTO.FromQQ == aimQQ)
             {
@@ -250,7 +248,7 @@ namespace Dolany.WorldLine.Standard.Ai.SingleCommand.GroupManage
             return false;
         }
 
-        private static void DoSkill(MsgInformationEx MsgDTO, long aimQQ, string key, DateTime rebornTime, string skillName)
+        private void DoSkill(MsgInformationEx MsgDTO, long aimQQ, string key, DateTime rebornTime, string skillName)
         {
             var cache = new AliveStateCache
             {

@@ -8,19 +8,6 @@ namespace Dolany.WorldLine.Standard.Ai.Game.Advanture
     {
         private List<CaveDataModel> CaveDatas;
 
-        private static DataRefresher DataRefresher => AutofacSvc.Resolve<DataRefresher>();
-
-        public CaveSettingHelper()
-        {
-            RefreshData();
-            DataRefresher.Register(this);
-        }
-
-        public CaveDataModel GetCaveByName(string name)
-        {
-            return CaveDatas.FirstOrDefault(p => p.Name == name);
-        }
-
         public CaveDataModel GetCaveByNo(int no)
         {
             return CaveDatas.FirstOrDefault(p => p.No == no);

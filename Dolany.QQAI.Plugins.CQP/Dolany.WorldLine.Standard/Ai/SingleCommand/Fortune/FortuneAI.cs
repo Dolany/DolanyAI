@@ -28,14 +28,6 @@ namespace Dolany.WorldLine.Standard.Ai.SingleCommand.Fortune
 
         private List<FortuneItemModel> FortuneItemList;
 
-        private static DataRefresher DataRefresher => AutofacSvc.Resolve<DataRefresher>();
-
-        public override void Initialization()
-        {
-            RefreshData();
-            DataRefresher.Register(this);
-        }
-
         public void RefreshData()
         {
             ModelList = CommonUtil.ReadJsonData_NamedList<TarotFortuneDataModel>("TarotFortuneData");

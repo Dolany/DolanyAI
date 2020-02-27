@@ -15,7 +15,7 @@ namespace Dolany.WorldLine.Standard.Ai.SingleCommand.IceNews
 
         private const string CachePath = "./images/Arknights/";
 
-        private static BindAiMgr BindAiMgr => AutofacSvc.Resolve<BindAiMgr>();
+        public BindAiMgr BindAiMgr { get; set; }
 
         [EnterCommand(ID = "ArknightsAI_MiniStory",
             Command = "方舟剧场",

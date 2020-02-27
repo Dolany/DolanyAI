@@ -8,17 +8,9 @@ namespace Dolany.WorldLine.Standard.Ai.Game.Pet.PetAgainst
     {
         public List<PetSkillModel> AllSkills;
 
-        private static DataRefresher DataRefresher => AutofacSvc.Resolve<DataRefresher>();
-
         public PetSkillModel this[string name]
         {
             get { return AllSkills.FirstOrDefault(p => p.Name == name); }
-        }
-
-        public PetSkillMgr()
-        {
-            RefreshData();
-            DataRefresher.Register(this);
         }
 
         public void RefreshData()

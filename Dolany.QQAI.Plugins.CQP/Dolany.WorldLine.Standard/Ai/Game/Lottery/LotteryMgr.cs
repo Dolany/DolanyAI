@@ -12,14 +12,6 @@ namespace Dolany.WorldLine.Standard.Ai.Game.Lottery
 
         public LotteryModel this[string Name] => Models.FirstOrDefault(p => p.Name == Name);
 
-        private static DataRefresher DataRefresher => AutofacSvc.Resolve<DataRefresher>();
-
-        public LotteryMgr()
-        {
-            RefreshData();
-            DataRefresher.Register(this);
-        }
-
         public LotteryModel RandLottery()
         {
             return Models.ToDictionary(p => p, p => p.Rate).RandRated();

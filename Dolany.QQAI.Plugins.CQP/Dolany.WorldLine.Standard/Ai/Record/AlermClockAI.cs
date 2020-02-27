@@ -28,7 +28,7 @@ namespace Dolany.WorldLine.Standard.Ai.Record
 
         private List<string> ClockIdList { get; } = new List<string>();
 
-        private static Scheduler Scheduler => AutofacSvc.Resolve<Scheduler>();
+        public Scheduler Scheduler { get; set; }
 
         public override void Initialization()
         {
@@ -91,7 +91,7 @@ namespace Dolany.WorldLine.Standard.Ai.Record
             ClockIdList.Add(clockId);
         }
 
-        private static void TimeUp(object sender, ElapsedEventArgs e)
+        private void TimeUp(object sender, ElapsedEventArgs e)
         {
             var timer = sender as SchedulerTimer;
             if (!(timer?.Data is AlermClock entity))
@@ -181,7 +181,7 @@ namespace Dolany.WorldLine.Standard.Ai.Record
             return (aimTime - now).TotalMilliseconds;
         }
 
-        private static void LoadAlerms(Action<AlermClock> StartClock)
+        private void LoadAlerms(Action<AlermClock> StartClock)
         {
             var Groups = Global.AllGroupsDic.Keys.ToArray();
             var clocks = MongoService<AlermClock>.Get(p => Groups.Contains(p.GroupNumber));

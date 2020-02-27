@@ -52,7 +52,7 @@ namespace Dolany.WorldLine.Standard.Ai.Game.Pet.Expedition
             return true;
         }
 
-        private static bool StartExpedite(MsgInformationEx MsgDTO)
+        private bool StartExpedite(MsgInformationEx MsgDTO)
         {
             var extEndur = VipArmerRecord.Get(MsgDTO.FromQQ).CheckArmer("耐力护符") ? 10 : 0;
 

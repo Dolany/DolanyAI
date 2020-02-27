@@ -16,9 +16,9 @@ namespace Dolany.WorldLine.Standard.Ai.Game.SegmentAttach
         public override string Description { get; set; } = "AI for segments attaching game.";
         public override AIPriority PriorityLevel { get;} = AIPriority.Normal;
 
-        private static SegmentMgr SegmentMgr => AutofacSvc.Resolve<SegmentMgr>();
-        private static HonorHelper HonorHelper => AutofacSvc.Resolve<HonorHelper>();
-        private static BindAiMgr BindAiMgr => AutofacSvc.Resolve<BindAiMgr>();
+        public SegmentMgr SegmentMgr { get; set; }
+        public HonorHelper HonorHelper { get; set; }
+        public BindAiMgr BindAiMgr { get; set; }
 
         [EnterCommand(ID = "SegmentAttachAI_TakeSegment",
             Command = "领取宝藏碎片",

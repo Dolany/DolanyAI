@@ -12,14 +12,6 @@ namespace Dolany.Ai.Core.Common
 
         public GroupSettings this[long GroupNum] => SettingDic.ContainsKey(GroupNum) ? SettingDic[GroupNum] : null;
 
-        private static DataRefresher DataRefresher => AutofacSvc.Resolve<DataRefresher>();
-
-        public GroupSettingMgr()
-        {
-            RefreshData();
-            DataRefresher.Register(this);
-        }
-
         public void RefreshData()
         {
             SettingDic = MongoService<GroupSettings>.Get(p => !p.ForcedShutDown).ToDictionary(p => p.GroupNum, p => p);

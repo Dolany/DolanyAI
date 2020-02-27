@@ -15,14 +15,6 @@ namespace Dolany.WorldLine.Standard.OnlineStore
 
         private int SumRate;
 
-        private static DataRefresher DataRefresher => AutofacSvc.Resolve<DataRefresher>();
-
-        public HonorHelper()
-        {
-            RefreshData();
-            DataRefresher.Register(this);
-        }
-
         public void RefreshData()
         {
             var HonorDic = CommonUtil.ReadJsonData<Dictionary<string, DriftBottleItemModel[]>>("driftBottleItemData");

@@ -15,7 +15,7 @@ namespace Dolany.WorldLine.Standard.Ai.Vip
         public override string Description { get; set; } = "Ai for vip services.";
         public override AIPriority PriorityLevel { get;} = AIPriority.Normal;
 
-        private static DailyVipShopMgr DailyVipShopMgr => AutofacSvc.Resolve<DailyVipShopMgr>();
+        public DailyVipShopMgr DailyVipShopMgr { get; set; }
 
         [EnterCommand(ID = "VipServiceAi_VipShop",
             Command = "vip商店 钻石商店",

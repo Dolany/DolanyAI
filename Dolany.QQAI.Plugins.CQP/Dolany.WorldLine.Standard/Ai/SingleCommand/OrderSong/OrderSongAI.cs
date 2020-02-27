@@ -66,7 +66,7 @@ namespace Dolany.WorldLine.Standard.Ai.SingleCommand.OrderSong
             return song.Id;
         }
 
-        private static string GetMusicXml(string songId, string BindAi)
+        private string GetMusicXml(string songId, string BindAi)
         {
             if (string.IsNullOrEmpty(songId))
             {

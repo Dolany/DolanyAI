@@ -18,14 +18,6 @@ namespace Dolany.WorldLine.Standard.Ai.Game.Pet.Expedition
 
         public readonly string[] Flavorings = {"海鲜酱油", "秘制番茄酱", "精品海盐", "风味辣酱", "蓝巧果果汁", "火桂", "龙鳞草茎"};
 
-        private static DataRefresher DataRefresher => AutofacSvc.Resolve<DataRefresher>();
-
-        public ExpeditionSceneMgr()
-        {
-            RefreshData();
-            DataRefresher.Register(this);
-        }
-
         public void RefreshData()
         {
             Scenes = CommonUtil.ReadJsonData_NamedList<ExpeditionSceneModel>("Pet/ExpeditionSceneData");

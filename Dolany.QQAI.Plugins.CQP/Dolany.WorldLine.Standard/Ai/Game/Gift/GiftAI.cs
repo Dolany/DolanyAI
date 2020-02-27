@@ -17,7 +17,7 @@ namespace Dolany.WorldLine.Standard.Ai.Game.Gift
 
         public override bool NeedManualOpeon { get; } = true;
 
-        private static GiftMgr GiftMgr => AutofacSvc.Resolve<GiftMgr>();
+        public GiftMgr GiftMgr { get; set; }
 
         [EnterCommand(ID = "GiftAI_MakeGift",
             Command = "兑换礼物",

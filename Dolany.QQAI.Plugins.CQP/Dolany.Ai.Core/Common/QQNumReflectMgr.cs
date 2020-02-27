@@ -10,14 +10,6 @@ namespace Dolany.Ai.Core.Common
 
         public string this[long QQNum] => RelectDic.ContainsKey(QQNum) ? RelectDic[QQNum] : QQNum.ToString();
 
-        private static DataRefresher DataRefresher => AutofacSvc.Resolve<DataRefresher>();
-
-        public QQNumReflectMgr()
-        {
-            RefreshData();
-            DataRefresher.Register(this);
-        }
-
         public void RefreshData()
         {
             RelectDic = CommonUtil.ReadJsonData<Dictionary<string, string>>("QQNumReflectData").ToDictionary(p => long.Parse(p.Key), p => p.Value);

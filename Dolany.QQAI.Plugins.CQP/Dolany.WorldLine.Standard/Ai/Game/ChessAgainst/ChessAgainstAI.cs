@@ -18,8 +18,8 @@ namespace Dolany.WorldLine.Standard.Ai.Game.ChessAgainst
 
         public override bool NeedManualOpeon { get; } = true;
 
-        private static BindAiMgr BindAiMgr => AutofacSvc.Resolve<BindAiMgr>();
-        private static ChessMgr ChessMgr => AutofacSvc.Resolve<ChessMgr>();
+        public BindAiMgr BindAiMgr { get; set; }
+        public ChessMgr ChessMgr { get; set; }
 
         [EnterCommand(ID = "ChessAgainstAI_Fight",
             Command = "对决 决斗",

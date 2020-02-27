@@ -16,8 +16,8 @@ namespace Dolany.WorldLine.Standard.Ai.Game.Lottery
 
         public override bool NeedManualOpeon { get; } = false;
 
-        private static LotteryMgr LotteryMgr => AutofacSvc.Resolve<LotteryMgr>();
-        private static HonorHelper HonorHelper => AutofacSvc.Resolve<HonorHelper>();
+        public LotteryMgr LotteryMgr { get; set; }
+        public HonorHelper HonorHelper { get; set; }
 
         [EnterCommand(ID = "LotteryAI_DrawLottery",
             Command = "开箱子",
@@ -43,7 +43,7 @@ namespace Dolany.WorldLine.Standard.Ai.Game.Lottery
             return true;
         }
 
-        private static void RandomLottery(MsgInformationEx MsgDTO)
+        private void RandomLottery(MsgInformationEx MsgDTO)
         {
             var lottery = LotteryMgr.RandLottery();
 

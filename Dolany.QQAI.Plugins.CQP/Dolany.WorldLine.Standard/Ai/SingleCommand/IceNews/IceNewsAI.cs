@@ -16,8 +16,8 @@ namespace Dolany.WorldLine.Standard.Ai.SingleCommand.IceNews
 
         private const string CachePath = "./images/News/";
 
-        private static BindAiMgr BindAiMgr => AutofacSvc.Resolve<BindAiMgr>();
-        private static NewsMgr NewsMgr => AutofacSvc.Resolve<NewsMgr>();
+        public BindAiMgr BindAiMgr { get; set; }
+        public NewsMgr NewsMgr { get; set; }
 
         [EnterCommand(ID = "IceNewsAI_DialyNews",
             Command = "冰冰日报",

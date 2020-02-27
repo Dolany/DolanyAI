@@ -31,15 +31,15 @@ namespace Dolany.WorldLine.Standard.Ai.Game.Pet
 
         private const int FeedInterval = 2;
 
-        private static CookingDietMgr CookingDietMgr => AutofacSvc.Resolve<CookingDietMgr>();
-        private static PicReviewer PicReviewer => AutofacSvc.Resolve<PicReviewer>();
-        private static PetSkillMgr PetSkillMgr => AutofacSvc.Resolve<PetSkillMgr>();
-        private static PetLevelMgr PetLevelMgr => AutofacSvc.Resolve<PetLevelMgr>();
-        private static PetAgainstMgr PetAgainstMgr => AutofacSvc.Resolve<PetAgainstMgr>();
-        private static HonorHelper HonorHelper => AutofacSvc.Resolve<HonorHelper>();
-        private static BindAiMgr BindAiMgr => AutofacSvc.Resolve<BindAiMgr>();
+        public CookingDietMgr CookingDietMgr { get; set; }
+        public PicReviewer PicReviewer { get; set; }
+        public PetSkillMgr PetSkillMgr { get; set; }
+        public PetLevelMgr PetLevelMgr { get; set; }
+        public PetAgainstMgr PetAgainstMgr { get; set; }
+        public HonorHelper HonorHelper { get; set; }
+        public BindAiMgr BindAiMgr { get; set; }
 
-        public PetAI()
+        public override void Initialization()
         {
             PicReviewer.Register("宠物头像", SetPetPicCallBack);
         }

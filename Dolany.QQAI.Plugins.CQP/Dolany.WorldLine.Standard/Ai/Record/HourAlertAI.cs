@@ -20,20 +20,20 @@ namespace Dolany.WorldLine.Standard.Ai.Record
 
         public override bool NeedManualOpeon { get; } = true;
 
-        private static Scheduler Scheduler => AutofacSvc.Resolve<Scheduler>();
+        public Scheduler Scheduler { get; set; }
 
         public override void Initialization()
         {
             HourAlertFunc();
         }
 
-        private static void HourAlertFunc()
+        private void HourAlertFunc()
         {
             var ts = GetNextHourSpan();
             Scheduler.Add(ts.TotalMilliseconds, TimeUp);
         }
 
-        private static void TimeUp(object sender, System.Timers.ElapsedEventArgs e)
+        private void TimeUp(object sender, System.Timers.ElapsedEventArgs e)
         {
             HourAlert(DateTime.Now.Hour);
             if (sender is SchedulerTimer timer)
@@ -48,7 +48,7 @@ namespace Dolany.WorldLine.Standard.Ai.Record
             return nextHour - DateTime.Now;
         }
 
-        private static void HourAlert(int curHour)
+        private void HourAlert(int curHour)
         {
             var availableList = GroupSettingMgr.SettingDic.Where(p => p.Value.ExpiryTime.HasValue &&
                                                                                p.Value.ExpiryTime.Value > DateTime.Now &&

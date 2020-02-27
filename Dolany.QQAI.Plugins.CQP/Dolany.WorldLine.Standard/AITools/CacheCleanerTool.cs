@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using Dolany.Ai.Core.Base;
+using Newtonsoft.Json;
 
 namespace Dolany.WorldLine.Standard.AITools
 {
@@ -25,7 +26,7 @@ namespace Dolany.WorldLine.Standard.AITools
         protected override List<ScheduleDoModel> ModelList { get; set; } = new List<ScheduleDoModel>();
         public override bool Enabled { get; set; } = true;
 
-        private static BindAiMgr BindAiMgr => AutofacSvc.Resolve<BindAiMgr>();
+        public BindAiMgr BindAiMgr { get; set; }
 
         private void InitModelList()
         {

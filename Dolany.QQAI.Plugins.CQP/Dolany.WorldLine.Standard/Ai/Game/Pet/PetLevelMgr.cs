@@ -10,14 +10,6 @@ namespace Dolany.WorldLine.Standard.Ai.Game.Pet
 
         public PetLevelModel this[int level] => LevelDic[level];
 
-        private static DataRefresher DataRefresher => AutofacSvc.Resolve<DataRefresher>();
-
-        public PetLevelMgr()
-        {
-            RefreshData();
-            DataRefresher.Register(this);
-        }
-
         public int ExpToGolds(int level, int exp)
         {
             var petAssert = 0;

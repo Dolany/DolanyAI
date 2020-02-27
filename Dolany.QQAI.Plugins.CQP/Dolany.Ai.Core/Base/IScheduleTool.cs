@@ -4,13 +4,13 @@ using System.Timers;
 
 namespace Dolany.Ai.Core.Base
 {
-    public abstract class IScheduleTool : IAITool
+    public abstract class IScheduleTool : IAITool, IDependency
     {
         protected abstract List<ScheduleDoModel> ModelList { get; set; }
 
         public virtual bool Enabled { get; set; } = true;
 
-        protected Scheduler Scheduler => AutofacSvc.Resolve<Scheduler>();
+        public Scheduler Scheduler { get; set; }
 
         public virtual void Work()
         {

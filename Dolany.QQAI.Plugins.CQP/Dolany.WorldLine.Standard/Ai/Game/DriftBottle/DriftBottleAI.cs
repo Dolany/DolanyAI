@@ -24,7 +24,7 @@ namespace Dolany.WorldLine.Standard.Ai.Game.DriftBottle
 
         private const int ItemRate = 60;
 
-        private static HonorHelper HonorHelper => AutofacSvc.Resolve<HonorHelper>();
+        public HonorHelper HonorHelper { get; set; }
 
         [EnterCommand(ID = "DriftBottleAI_FishingBottle",
             Command = "捞瓶子",
@@ -291,7 +291,7 @@ namespace Dolany.WorldLine.Standard.Ai.Game.DriftBottle
             return true;
         }
 
-        private static void FishItem(MsgInformationEx MsgDTO)
+        private void FishItem(MsgInformationEx MsgDTO)
         {
             if (OSPersonBuff.CheckBuff(MsgDTO.FromQQ, "梅雨") && Rander.RandInt(100) < 30)
             {

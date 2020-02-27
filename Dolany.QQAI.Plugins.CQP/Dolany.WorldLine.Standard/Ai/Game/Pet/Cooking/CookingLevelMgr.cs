@@ -10,14 +10,6 @@ namespace Dolany.WorldLine.Standard.Ai.Game.Pet.Cooking
 
         public CookingLevelModel this[int level] => CookingLevels.FirstOrDefault(p => p.Level == level);
 
-        private static DataRefresher DataRefresher => AutofacSvc.Resolve<DataRefresher>();
-
-        public CookingLevelMgr()
-        {
-            RefreshData();
-            DataRefresher.Register(this);
-        }
-
         public CookingLevelModel LocationLevel(int totalPrice)
         {
             return CookingLevels.LastOrDefault(p => p.NeedPrice <= totalPrice);

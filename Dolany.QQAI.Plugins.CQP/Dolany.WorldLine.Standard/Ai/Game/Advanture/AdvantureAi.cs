@@ -17,8 +17,8 @@ namespace Dolany.WorldLine.Standard.Ai.Game.Advanture
 
         public override bool NeedManualOpeon { get; } = true;
 
-        private static BindAiMgr BindAiMgr => AutofacSvc.Resolve<BindAiMgr>();
-        private static AdvGameMgr AdvGameMgr => AutofacSvc.Resolve<AdvGameMgr>();
+        public BindAiMgr BindAiMgr { get; set; }
+        public AdvGameMgr AdvGameMgr { get; set; }
 
         [EnterCommand(ID = "AdvantureAi_AdvantureAgainst",
             Command = "冒险对决",

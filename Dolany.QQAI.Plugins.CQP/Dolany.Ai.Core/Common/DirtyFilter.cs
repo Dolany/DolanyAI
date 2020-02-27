@@ -16,14 +16,6 @@ namespace Dolany.Ai.Core.Common
 
         private const int MaxTolerateCount = 10;
 
-        private static DataRefresher DataRefresher => AutofacSvc.Resolve<DataRefresher>();
-
-        public DirtyFilter()
-        {
-            RefreshData();
-            DataRefresher.Register(this);
-        }
-
         public bool Filter(MsgInformationEx MsgDTO)
         {
             if (BlackList.Contains(MsgDTO.FromQQ))

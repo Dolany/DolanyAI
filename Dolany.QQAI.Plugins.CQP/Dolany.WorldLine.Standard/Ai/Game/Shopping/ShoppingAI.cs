@@ -24,11 +24,11 @@ namespace Dolany.WorldLine.Standard.Ai.Game.Shopping
 
         private const int RebornHonorLimit = 7;
 
-        private static DailyVipShopMgr DailyVipShopMgr => AutofacSvc.Resolve<DailyVipShopMgr>();
-        private static CookingDietMgr CookingDietMgr => AutofacSvc.Resolve<CookingDietMgr>();
-        private static GiftMgr GiftMgr => AutofacSvc.Resolve<GiftMgr>();
-        private static PetLevelMgr PetLevelMgr => AutofacSvc.Resolve<PetLevelMgr>();
-        private static HonorHelper HonorHelper => AutofacSvc.Resolve<HonorHelper>();
+        public DailyVipShopMgr DailyVipShopMgr { get; set; }
+        public CookingDietMgr CookingDietMgr { get; set; }
+        public GiftMgr GiftMgr { get; set; }
+        public PetLevelMgr PetLevelMgr { get; set; }
+        public HonorHelper HonorHelper { get; set; }
 
         [EnterCommand(ID = "ShoppingAI_Sell",
             Command = "贩卖 出售 贩卖物品 出售物品",
@@ -187,7 +187,7 @@ namespace Dolany.WorldLine.Standard.Ai.Game.Shopping
             return true;
         }
 
-        private static bool SellItem(MsgInformationEx MsgDTO, DriftBottleItemModel item, int count = 1)
+        private bool SellItem(MsgInformationEx MsgDTO, DriftBottleItemModel item, int count = 1)
         {
             var record = ItemCollectionRecord.Get(MsgDTO.FromQQ);
             if (!record.CheckItem(item.Name, count))
@@ -212,7 +212,7 @@ namespace Dolany.WorldLine.Standard.Ai.Game.Shopping
             return true;
         }
 
-        private static bool SellHonor(MsgInformationEx MsgDTO, string honorName)
+        private bool SellHonor(MsgInformationEx MsgDTO, string honorName)
         {
             var colleRec = ItemCollectionRecord.Get(MsgDTO.FromQQ);
             if (colleRec.HonorCollections.IsNullOrEmpty())

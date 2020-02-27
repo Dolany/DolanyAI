@@ -15,9 +15,9 @@ namespace Dolany.WorldLine.Standard.Ai.Game.Pet.Cooking
 
         public override bool Enable { get; } = true;
 
-        private static CookingDietMgr CookingDietMgr => AutofacSvc.Resolve<CookingDietMgr>();
-        private static CookingLevelMgr CookingLevelMgr => AutofacSvc.Resolve<CookingLevelMgr>();
-        private static HonorHelper HonorHelper => AutofacSvc.Resolve<HonorHelper>();
+        public CookingDietMgr CookingDietMgr { get; set; }
+        public CookingLevelMgr CookingLevelMgr { get; set; }
+        public HonorHelper HonorHelper { get; set; }
 
         [EnterCommand(ID = "CookingAI_Cook",
             Command = "烹饪 烹饪菜肴 制作菜肴",

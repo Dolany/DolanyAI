@@ -27,10 +27,21 @@ namespace DolanyAiDesktop
 
         static void Main(string[] args)
         {
-            RegisterAutofac();
+            var assemblies = new List<Assembly>()
+            {
+                Assembly.GetAssembly(typeof(IDependency)),
+                Assembly.GetAssembly(typeof(Program)),
+                Assembly.GetAssembly(typeof(DbBaseEntity)),
+                Assembly.GetAssembly(typeof(IWorldLine)),
+                Assembly.GetAssembly(typeof(StandardWorldLine)),
+                Assembly.GetAssembly(typeof(KindomStormWorldLine))
+            };
 
             try
             {
+                RegisterAutofac(assemblies);
+                RegisterDataRefresher(assemblies);
+
                 Global.MsgPublish = PrintMsg;
                 SFixedSetService.SetMaxCount("PicCache", Global.DefaultConfig.MaxPicCacheCount);
                 Waiter.MsgReceivedCallBack = OnMsgReceived;
@@ -112,24 +123,28 @@ namespace DolanyAiDesktop
             return DefaultWorldLine.Name;
         }
 
-        private static void RegisterAutofac()
+        private static void RegisterAutofac(List<Assembly> assemblies)
         {
             var builder = new ContainerBuilder();
             var baseType = typeof(IDependency);
-            var assemblies = new List<Assembly>()
-            {
-                Assembly.GetAssembly(typeof(IDependency)),
-                Assembly.GetAssembly(typeof(Program)),
-                Assembly.GetAssembly(typeof(DbBaseEntity)),
-                Assembly.GetAssembly(typeof(IWorldLine)),
-                Assembly.GetAssembly(typeof(StandardWorldLine)),
-                Assembly.GetAssembly(typeof(KindomStormWorldLine))
-            };
 
             builder.RegisterAssemblyTypes(assemblies.ToArray()).Where(type => baseType.IsAssignableFrom(type) && !type.IsAbstract).AsSelf()
                 .PropertiesAutowired(PropertyWiringOptions.AllowCircularDependencies).SingleInstance();
 
             AutofacSvc.Container = builder.Build();
+        }
+
+        private static void RegisterDataRefresher(IEnumerable<Assembly> assemblies)
+        {
+            var baseType = typeof(IDataMgr);
+            var datamgrs = assemblies.SelectMany(p => p.GetTypes().Where(type => baseType.IsAssignableFrom(type) && !type.IsAbstract))
+                .Where(type => AutofacSvc.Container.IsRegistered(type)).Select(type => AutofacSvc.Container.Resolve(type) as IDataMgr).Where(d => d != null).ToList();
+
+            foreach (var datamgr in datamgrs)
+            {
+                datamgr.RefreshData();
+                AutofacSvc.Resolve<DataRefresher>().Register(datamgr);
+            }
         }
     }
 }

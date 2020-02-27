@@ -19,7 +19,8 @@ namespace Dolany.WorldLine.Standard.AITools
         };
         public override bool Enabled { get; set; } = false;
 
-        private static BindAiMgr BindAiMgr => AutofacSvc.Resolve<BindAiMgr>();
+        public BindAiMgr BindAiMgr { get; set; }
+        public Waiter Waiter { get; set; }
         protected override void ScheduleDo(SchedulerTimer timer)
         {
             var command = new MsgCommand()
@@ -28,7 +29,7 @@ namespace Dolany.WorldLine.Standard.AITools
                 BindAi = Global.DefaultConfig.MainAi
             };
 
-            var info = AutofacSvc.Resolve<Waiter>().WaitForRelationId(command);
+            var info = Waiter.WaitForRelationId(command);
             if (info == null)
             {
                 return;

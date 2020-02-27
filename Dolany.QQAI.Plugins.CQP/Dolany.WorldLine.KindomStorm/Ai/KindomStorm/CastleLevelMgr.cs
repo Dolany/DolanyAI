@@ -6,17 +6,9 @@ namespace Dolany.WorldLine.KindomStorm.Ai.KindomStorm
 {
     public class CastleLevelMgr : IDataMgr, IDependency
     {
-        private static DataRefresher DataRefresher => AutofacSvc.Resolve<DataRefresher>();
-
         public CastleLevelModel this[int level] => Levels.FirstOrDefault(p => p.Level == level);
 
         private List<CastleLevelModel> Levels;
-
-        public CastleLevelMgr()
-        {
-            RefreshData();
-            DataRefresher.Register(this);
-        }
 
         public void RefreshData()
         {

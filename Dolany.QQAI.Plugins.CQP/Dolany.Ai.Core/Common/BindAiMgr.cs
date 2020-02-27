@@ -10,14 +10,6 @@ namespace Dolany.Ai.Core.Common
 
         public IEnumerable<long> AllAiNums => AiDic.Values.Select(p => p.SelfNum).ToArray();
 
-        private static DataRefresher DataRefresher => AutofacSvc.Resolve<DataRefresher>();
-
-        public BindAiMgr()
-        {
-            RefreshData();
-            DataRefresher.Register(this);
-        }
-
         public BindAiModel this[string AiName] => AiDic.ContainsKey(AiName) ? AiDic[AiName] : null;
         public BindAiModel this[long AiNum] => AiDic.Values.FirstOrDefault(p => p.SelfNum == AiNum);
         public void RefreshData()

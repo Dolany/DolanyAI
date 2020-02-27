@@ -7,17 +7,10 @@ namespace Dolany.WorldLine.Standard.Ai.Game.Pet.Cooking
 {
     public class CookingDietMgr : IDataMgr, IDependency
     {
-        private static DataRefresher DataRefresher => AutofacSvc.Resolve<DataRefresher>();
-
         public List<CookingDietModel> DietList;
 
         public CookingDietModel this[string name] => DietList.FirstOrDefault(p => p.Name == name);
 
-        public CookingDietMgr()
-        {
-            RefreshData();
-            DataRefresher.Register(this);
-        }
 
         public CookingDietModel SuggestDiet(List<string> LearnedDiets)
         {

@@ -14,14 +14,6 @@ namespace Dolany.WorldLine.Standard.Ai.Game.SwordExplore
 
         public SESceneModel DefaultScene => this[Areas.First().DefaultScene];
 
-        private static DataRefresher DataRefresher => AutofacSvc.Resolve<DataRefresher>();
-
-        public SEMapMgr()
-        {
-            RefreshData();
-            DataRefresher.Register(this);
-        }
-
         public SEAreaModel FindAreaByScene(string SceneName)
         {
             return Areas.FirstOrDefault(p => p.Scenes.Contains(SceneName));

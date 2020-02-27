@@ -1,5 +1,4 @@
 ﻿using System.Linq;
-using Dolany.Ai.Common;
 using Dolany.Ai.Common.Models;
 using Dolany.Ai.Core.Base;
 using Dolany.Ai.Core.Cache;
@@ -12,7 +11,7 @@ namespace Dolany.Ai.Core.Ai
         public override string Description { get; set; } = "Ai for world line management.";
         public override AIPriority PriorityLevel { get;} = AIPriority.Monitor;
 
-        private static CrossWorldAiMgr CrossWorldAiMgr => AutofacSvc.Resolve<CrossWorldAiMgr>();
+        public CrossWorldAiMgr CrossWorldAiMgr { get; set; }
 
         [EnterCommand(ID = "WorldLineMgrAi_SwitchWorldLine",
             Command = "切换世界线",

@@ -18,10 +18,10 @@ namespace Dolany.Ai.Core.Ai
         public override string Description { get; set; } = "Ai for Super Admin.";
         public override AIPriority PriorityLevel { get;} = AIPriority.SuperHigh;
 
-        private static PicReviewer PicReviewer => AutofacSvc.Resolve<PicReviewer>();
-        private static DataRefresher DataRefresher => AutofacSvc.Resolve<DataRefresher>();
-        private static BindAiMgr BindAiMgr => AutofacSvc.Resolve<BindAiMgr>();
-        private static DirtyFilter DirtyFilter => AutofacSvc.Resolve<DirtyFilter>();
+        public PicReviewer PicReviewer { get; set; }
+        public DataRefresher DataRefresher { get; set; }
+        public BindAiMgr BindAiMgr { get; set; }
+        public DirtyFilter DirtyFilter { get; set; }
 
         [EnterCommand(ID = "SuperAdminAI_FishingBonus",
             Command = "功能奖励",

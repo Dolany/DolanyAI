@@ -48,7 +48,7 @@ namespace Dolany.WorldLine.Standard.Ai.Sys
             return true;
         }
 
-        public static void ChargeTime(MsgInformationEx MsgDTO, object[] param)
+        public void ChargeTime(MsgInformationEx MsgDTO, object[] param)
         {
             var groupNum = (long) param[0];
             var days = (int) (long) param[1];

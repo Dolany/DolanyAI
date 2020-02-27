@@ -10,14 +10,6 @@ namespace Dolany.WorldLine.KindomStorm.Ai.KindomStorm
 
         private TownLevelModel this[int level] => Levels.FirstOrDefault(p => p.Level == level);
 
-        private static DataRefresher DataRefresher => AutofacSvc.Resolve<DataRefresher>();
-
-        public TownLevelMgr()
-        {
-            RefreshData();
-            DataRefresher.Register(this);
-        }
-
         public void RefreshData()
         {
             Levels = CommonUtil.ReadJsonData<List<TownLevelModel>>("TownLevelData");

@@ -5,6 +5,7 @@ using System.Linq;
 using System.Linq.Expressions;
 using System.Reflection;
 using System.Threading;
+using Autofac;
 using Newtonsoft.Json;
 
 namespace Dolany.Ai.Common
@@ -153,10 +154,8 @@ namespace Dolany.Ai.Common
         public static List<T> LoadAllInstanceFromClass<T>(Assembly assembly = null) where T : class
         {
             assembly = assembly == null ? Assembly.GetAssembly(typeof(T)) : assembly;
-            var list = assembly.GetTypes()
-                .Where(type => type.IsSubclassOf(typeof(T)) && !type.IsAbstract)
-                .Where(type => type.FullName != null)
-                .Select(type => assembly.CreateInstance(type.FullName) as T);
+            var list = assembly.GetTypes().Where(type => type.IsSubclassOf(typeof(T)) && !type.IsAbstract).Where(type => type.FullName != null).Select(type =>
+                AutofacSvc.Container.IsRegistered(type) ? AutofacSvc.Container.Resolve(type) as T : assembly.CreateInstance(type.FullName) as T);
 
             return list.ToList();
         }
@@ -167,7 +166,7 @@ namespace Dolany.Ai.Common
             var list = assembly.GetTypes()
                 .Where(type => typeof(T).IsAssignableFrom(type) && type.IsClass && !type.IsAbstract)
                 .Where(type => type.FullName != null)
-                .Select(type => assembly.CreateInstance(type.FullName) as T);
+                .Select(type => AutofacSvc.Container.IsRegistered(type) ? AutofacSvc.Container.Resolve(type) as T : assembly.CreateInstance(type.FullName) as T);
 
             return list.ToList();
         }

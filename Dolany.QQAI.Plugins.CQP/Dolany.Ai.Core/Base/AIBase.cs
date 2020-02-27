@@ -11,7 +11,7 @@ using Dolany.Ai.Core.SyntaxChecker;
 
 namespace Dolany.Ai.Core.Base
 {
-    public abstract class AIBase
+    public abstract class AIBase : IDependency
     {
         public abstract string AIName { get; set; }
 
@@ -29,11 +29,11 @@ namespace Dolany.Ai.Core.Base
 
         public IWorldLine WorldLine { get; set; }
 
-        protected static Waiter Waiter => AutofacSvc.Resolve<Waiter>();
-        protected static GroupSettingMgr GroupSettingMgr => AutofacSvc.Resolve<GroupSettingMgr>();
-        protected static AliveStateMgr AliveStateMgr => AutofacSvc.Resolve<AliveStateMgr>();
-        private static CommandLocker CommandLocker => AutofacSvc.Resolve<CommandLocker>();
-        private static SyntaxCheckerMgr SyntaxCheckerMgr => AutofacSvc.Resolve<SyntaxCheckerMgr>();
+        public Waiter Waiter { get; set; }
+        public GroupSettingMgr GroupSettingMgr { get; set; }
+        public AliveStateMgr AliveStateMgr { get; set; }
+        public CommandLocker CommandLocker { get; set; }
+        public SyntaxCheckerMgr SyntaxCheckerMgr { get; set; }
 
         protected AIBase()
         {
@@ -155,7 +155,7 @@ namespace Dolany.Ai.Core.Base
             return false;
         }
 
-        private static bool Check(EnterCommandAttribute enterAttr, MsgInformationEx MsgDTO, out object[] param)
+        private bool Check(EnterCommandAttribute enterAttr, MsgInformationEx MsgDTO, out object[] param)
         {
             param = null;
             if (!enterAttr.CommandsList.Contains(MsgDTO.Command))

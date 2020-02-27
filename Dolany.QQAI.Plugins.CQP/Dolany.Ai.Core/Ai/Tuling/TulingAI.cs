@@ -33,15 +33,7 @@ namespace Dolany.Ai.Core.Ai.SingleCommand.Tuling
                 5000, 6000, 4000, 4001, 4002, 4003, 4005, 4007, 4100, 4200, 4300, 4400, 4500, 4600, 4602, 7002, 8008
             };
 
-        private static DataRefresher DataRefresher => AutofacSvc.Resolve<DataRefresher>();
-        private static BindAiMgr BindAiMgr => AutofacSvc.Resolve<BindAiMgr>();
-        private static AliveStateMgr AliveStateMgr => AutofacSvc.Resolve<AliveStateMgr>();
-
-        public override void Initialization()
-        {
-            RefreshData();
-            DataRefresher.Register(this);
-        }
+        public BindAiMgr BindAiMgr { get; set; }
 
         public void RefreshData()
         {

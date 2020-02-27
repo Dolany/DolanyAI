@@ -28,20 +28,13 @@ namespace Dolany.WorldLine.Standard.Ai.Sys
 
         private List<ExtraHelpModel> ExtraHelps = new List<ExtraHelpModel>();
 
-        private static DailyVipShopMgr DailyVipShopMgr => AutofacSvc.Resolve<DailyVipShopMgr>();
-        private static DataRefresher DataRefresher => AutofacSvc.Resolve<DataRefresher>();
-        private static GiftMgr GiftMgr => AutofacSvc.Resolve<GiftMgr>();
-        private static PetSkillMgr PetSkillMgr => AutofacSvc.Resolve<PetSkillMgr>();
-        private static SegmentMgr SegmentMgr => AutofacSvc.Resolve<SegmentMgr>();
-        private static CookingDietMgr CookingDietMgr => AutofacSvc.Resolve<CookingDietMgr>();
-        private static ExpeditionSceneMgr ExpeditionSceneMgr => AutofacSvc.Resolve<ExpeditionSceneMgr>();
-        private static HonorHelper HonorHelper => AutofacSvc.Resolve<HonorHelper>();
-
-        public override void Initialization()
-        {
-            RefreshData();
-            DataRefresher.Register(this);
-        }
+        public DailyVipShopMgr DailyVipShopMgr { get; set; }
+        public GiftMgr GiftMgr { get; set; }
+        public PetSkillMgr PetSkillMgr { get; set; }
+        public SegmentMgr SegmentMgr { get; set; }
+        public CookingDietMgr CookingDietMgr { get; set; }
+        public ExpeditionSceneMgr ExpeditionSceneMgr { get; set; }
+        public HonorHelper HonorHelper { get; set; }
 
         public void RefreshData()
         {

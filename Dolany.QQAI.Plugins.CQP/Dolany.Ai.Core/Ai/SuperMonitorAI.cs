@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Linq;
-using Dolany.Ai.Common;
 using Dolany.Ai.Common.Models;
 using Dolany.Ai.Core.Base;
 using Dolany.Ai.Core.Cache;
@@ -16,8 +15,7 @@ namespace Dolany.Ai.Core.Ai
 
         public override AIPriority PriorityLevel { get;} = AIPriority.Monitor;
 
-        private static BindAiMgr BindAiMgr => AutofacSvc.Resolve<BindAiMgr>();
-        private static AliveStateMgr AliveStateMgr => AutofacSvc.Resolve<AliveStateMgr>();
+        public BindAiMgr BindAiMgr { get; set; }
 
         public override bool OnMsgReceived(MsgInformationEx MsgDTO)
         {
@@ -38,7 +36,7 @@ namespace Dolany.Ai.Core.Ai
             return !GroupSettingMgr[MsgDTO.FromGroup].IsPowerOn;
         }
 
-        private static void FiltPicMsg(MsgInformationEx MsgDTO)
+        private void FiltPicMsg(MsgInformationEx MsgDTO)
         {
             if (MsgDTO.Type == MsgType.Group)
             {
@@ -128,7 +126,7 @@ namespace Dolany.Ai.Core.Ai
             return true;
         }
 
-        private static string PowerState(MsgInformationEx MsgDTO)
+        private string PowerState(MsgInformationEx MsgDTO)
         {
             if (MsgDTO.Type == MsgType.Private)
             {

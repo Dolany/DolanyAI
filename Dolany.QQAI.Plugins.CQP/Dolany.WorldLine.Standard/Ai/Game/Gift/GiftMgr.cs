@@ -11,14 +11,6 @@ namespace Dolany.WorldLine.Standard.Ai.Game.Gift
     {
         public List<GiftModel> GiftList { get; set; }
 
-        private static DataRefresher DataRefresher => AutofacSvc.Resolve<DataRefresher>();
-
-        public GiftMgr()
-        {
-            RefreshData();
-            DataRefresher.Register(this);
-        }
-
         public GiftModel this[string GiftName] => GiftList.FirstOrDefault(p => p.Name == GiftName);
 
         public IEnumerable<GiftModel> SellingGifts
