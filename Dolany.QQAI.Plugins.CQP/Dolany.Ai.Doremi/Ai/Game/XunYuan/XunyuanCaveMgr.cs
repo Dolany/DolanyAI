@@ -9,12 +9,12 @@ namespace Dolany.Ai.Doremi.Ai.Game.XunYuan
 
         public XunyuanCaveModel RandCaves => Caves.RandElement();
 
-        private static DataRefresher DataRefresher => AutofacSvc.Resolve<DataRefresher>();
+        private static DataRefreshSvc DataRefreshSvc => AutofacSvc.Resolve<DataRefreshSvc>();
 
         public XunyuanCaveMgr()
         {
             RefreshData();
-            DataRefresher.Register(this);
+            DataRefreshSvc.Register(this);
         }
 
         public void RefreshData()

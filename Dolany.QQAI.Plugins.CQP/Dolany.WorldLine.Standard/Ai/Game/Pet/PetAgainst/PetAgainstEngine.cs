@@ -24,7 +24,7 @@ namespace Dolany.WorldLine.Standard.Ai.Game.Pet.PetAgainst
 
         private readonly List<string> MsgList = new List<string>();
 
-        private static PetSkillMgr PetSkillMgr => AutofacSvc.Resolve<PetSkillMgr>();
+        private static PetSkillSvc PetSkillSvc => AutofacSvc.Resolve<PetSkillSvc>();
 
         public void StartGame()
         {
@@ -138,7 +138,7 @@ namespace Dolany.WorldLine.Standard.Ai.Game.Pet.PetAgainst
             var selectedIdx = Rander.RandInt(skills.Count);
 
             var (skillName, skillLevel) = skills.ElementAt(selectedIdx);
-            var skillModel = PetSkillMgr[skillName];
+            var skillModel = PetSkillSvc[skillName];
 
             SendMessage($"{SelfPet.Name}施放了 {skillModel.Name}(lv.{skillLevel})！");
 

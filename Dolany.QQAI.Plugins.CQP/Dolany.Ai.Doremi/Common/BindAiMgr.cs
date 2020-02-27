@@ -7,12 +7,12 @@ namespace Dolany.Ai.Doremi.Common
     {
         public Dictionary<string, BindAiModel> AiDic;
 
-        private static DataRefresher DataRefresher => AutofacSvc.Resolve<DataRefresher>();
+        private static DataRefreshSvc DataRefreshSvc => AutofacSvc.Resolve<DataRefreshSvc>();
 
         public BindAiMgr()
         {
             RefreshData();
-            DataRefresher.Register(this);
+            DataRefreshSvc.Register(this);
         }
 
         public BindAiModel this[string AiName] => AiDic[AiName];

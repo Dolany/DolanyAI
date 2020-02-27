@@ -7,7 +7,7 @@ namespace Dolany.Ai.Common
         void RefreshData();
     }
 
-    public class DataRefresher : IDependency
+    public class DataRefreshSvc : IDependency
     {
         private readonly List<IDataMgr> AllMgrs = new List<IDataMgr>();
 

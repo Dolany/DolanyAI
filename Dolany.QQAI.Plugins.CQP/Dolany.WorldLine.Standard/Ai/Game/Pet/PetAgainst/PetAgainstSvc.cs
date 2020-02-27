@@ -4,13 +4,13 @@ using Dolany.Ai.Common;
 
 namespace Dolany.WorldLine.Standard.Ai.Game.Pet.PetAgainst
 {
-    public class PetAgainstMgr : IDependency
+    public class PetAgainstSvc : IDependency
     {
         private List<PetAgainstEngine> Engines { get; set; }
 
-        public PetLevelMgr PetLevelMgr { get; set; }
+        public PetLevelSvc PetLevelSvc { get; set; }
 
-        public PetAgainstMgr()
+        public PetAgainstSvc()
         {
             Engines = new List<PetAgainstEngine>();
         }
@@ -32,7 +32,7 @@ namespace Dolany.WorldLine.Standard.Ai.Game.Pet.PetAgainst
                 SelfPet = new GamingPet()
                 {
                     Name = selfPet.Name,
-                    HP = PetLevelMgr[selfPet.Level].HP,
+                    HP = PetLevelSvc[selfPet.Level].HP,
                     QQNum = selfPet.QQNum,
                     Skills = new Dictionary<string, int>(selfPet.Skills),
                     Level = selfPet.Level
@@ -40,7 +40,7 @@ namespace Dolany.WorldLine.Standard.Ai.Game.Pet.PetAgainst
                 AimPet = new GamingPet()
                 {
                     Name = aimPet.Name,
-                    HP = PetLevelMgr[aimPet.Level].HP,
+                    HP = PetLevelSvc[aimPet.Level].HP,
                     QQNum = aimPet.QQNum,
                     Skills = new Dictionary<string, int>(aimPet.Skills),
                     Level = aimPet.Level

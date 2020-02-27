@@ -8,12 +8,12 @@ namespace Dolany.Ai.Doremi.Ai.Game.Xiuxian
     {
         private List<DujieQAModel> QAs;
 
-        private static DataRefresher DataRefresher => AutofacSvc.Resolve<DataRefresher>();
+        private static DataRefreshSvc DataRefreshSvc => AutofacSvc.Resolve<DataRefreshSvc>();
 
         public DujieMgr()
         {
             RefreshData();
-            DataRefresher.Register(this);
+            DataRefreshSvc.Register(this);
         }
 
         public DujieQAModel[] RandQAs(int count)

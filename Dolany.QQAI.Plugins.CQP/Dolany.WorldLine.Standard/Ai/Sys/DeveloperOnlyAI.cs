@@ -26,8 +26,8 @@ namespace Dolany.WorldLine.Standard.Ai.Sys
 
         public override AIPriority PriorityLevel { get;} = AIPriority.Monitor;
 
-        public GiftMgr GiftMgr { get; set; }
-        public HonorHelper HonorHelper { get; set; }
+        public GiftSvc GiftSvc { get; set; }
+        public HonorSvc HonorSvc { get; set; }
 
         [EnterCommand(ID = "DeveloperOnlyAI_Board",
             Command = "广播",
@@ -68,7 +68,7 @@ namespace Dolany.WorldLine.Standard.Ai.Sys
             var itemName = param[1] as string;
             var count = (int) (long) param[2];
 
-            var item = HonorHelper.FindItem(itemName);
+            var item = HonorSvc.FindItem(itemName);
             if (item == null)
             {
                 MsgSender.PushMsg(MsgDTO, "未找到该物品！");
@@ -142,7 +142,7 @@ namespace Dolany.WorldLine.Standard.Ai.Sys
             var name = param[1] as string;
             var count = (int) (long) param[2];
 
-            var gift = GiftMgr[name];
+            var gift = GiftSvc[name];
             if(gift == null)
             {
                 MsgSender.PushMsg(MsgDTO, "未找到该礼物！");

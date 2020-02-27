@@ -4,7 +4,7 @@ using Dolany.Ai.Common;
 
 namespace Dolany.WorldLine.Standard.Ai.Game.Pet.PetAgainst
 {
-    public class PetSkillMgr : IDataMgr, IDependency
+    public class PetSkillSvc : IDataMgr, IDependency
     {
         public List<PetSkillModel> AllSkills;
 

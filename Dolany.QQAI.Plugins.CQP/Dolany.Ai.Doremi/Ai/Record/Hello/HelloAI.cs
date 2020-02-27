@@ -24,12 +24,12 @@ namespace Dolany.Ai.Doremi.Ai.Record.Hello
         private List<HelloRecord> HelloList = new List<HelloRecord>();
         private List<MultiMediaHelloRecord> MultiMediaHelloList = new List<MultiMediaHelloRecord>();
 
-        private static DataRefresher DataRefresher => AutofacSvc.Resolve<DataRefresher>();
+        private static DataRefreshSvc DataRefreshSvc => AutofacSvc.Resolve<DataRefreshSvc>();
 
         public override void Initialization()
         {
             RefreshData();
-            DataRefresher.Register(this);
+            DataRefreshSvc.Register(this);
         }
 
         public void RefreshData()

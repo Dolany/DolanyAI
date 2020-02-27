@@ -5,7 +5,7 @@ using Dolany.Ai.Common;
 
 namespace Dolany.Ai.Core.Common
 {
-    public class CommandLocker : IDependency
+    public class CommandLockerSvc : IDependency
     {
         private readonly ConcurrentDictionary<string, LockUnit> LockUnits = new ConcurrentDictionary<string, LockUnit>();
 

@@ -4,7 +4,7 @@ using Dolany.Ai.Common;
 
 namespace Dolany.WorldLine.Standard.Ai.Game.Pet
 {
-    public class PetLevelMgr : IDataMgr, IDependency
+    public class PetLevelSvc : IDataMgr, IDependency
     {
         private Dictionary<int, PetLevelModel> LevelDic;
 

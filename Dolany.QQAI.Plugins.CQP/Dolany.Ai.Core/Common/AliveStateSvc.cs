@@ -6,11 +6,11 @@ using MongoDB.Bson.Serialization.Attributes;
 
 namespace Dolany.Ai.Core.Common
 {
-    public class AliveStateMgr : IDependency
+    public class AliveStateSvc : IDependency
     {
         public readonly ConcurrentDictionary<string, AliveStateCache> CacheDic;
 
-        public AliveStateMgr()
+        public AliveStateSvc()
         {
             CacheDic = new ConcurrentDictionary<string, AliveStateCache>();
             var allCaches = MongoService<AliveStateCache>.Get();

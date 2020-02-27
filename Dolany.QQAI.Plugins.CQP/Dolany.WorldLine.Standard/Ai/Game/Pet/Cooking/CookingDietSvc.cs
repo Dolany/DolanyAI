@@ -5,7 +5,7 @@ using Dolany.WorldLine.Standard.OnlineStore;
 
 namespace Dolany.WorldLine.Standard.Ai.Game.Pet.Cooking
 {
-    public class CookingDietMgr : IDataMgr, IDependency
+    public class CookingDietSvc : IDataMgr, IDependency
     {
         public List<CookingDietModel> DietList;
 
@@ -42,7 +42,7 @@ namespace Dolany.WorldLine.Standard.Ai.Game.Pet.Cooking
 
         public string ExchangeHonor { get; set; }
 
-        public int EstimatedPrice => Materials.Sum(p => AutofacSvc.Resolve<HonorHelper>().FindItem(p.Key).Price * p.Value) + Flavorings.Sum(p => p.Value) * 20;
+        public int EstimatedPrice => Materials.Sum(p => AutofacSvc.Resolve<HonorSvc>().FindItem(p.Key).Price * p.Value) + Flavorings.Sum(p => p.Value) * 20;
 
         public override string ToString()
         {

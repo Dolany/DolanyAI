@@ -16,12 +16,12 @@ namespace Dolany.Ai.Doremi.Common
 
         private const int MaxTolerateCount = 10;
 
-        private static DataRefresher DataRefresher => AutofacSvc.Resolve<DataRefresher>();
+        private static DataRefreshSvc DataRefreshSvc => AutofacSvc.Resolve<DataRefreshSvc>();
 
         public DirtyFilter()
         {
             RefreshData();
-            DataRefresher.Register(this);
+            DataRefreshSvc.Register(this);
         }
 
         public bool Filter(MsgInformationEx MsgDTO)

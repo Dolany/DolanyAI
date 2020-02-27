@@ -8,12 +8,12 @@ namespace Dolany.Ai.Doremi.Xiuxian
     {
         private List<LevelDataModel> LevelDataList;
 
-        private static DataRefresher DataRefresher => AutofacSvc.Resolve<DataRefresher>();
+        private static DataRefreshSvc DataRefreshSvc => AutofacSvc.Resolve<DataRefreshSvc>();
 
         private LevelMgr()
         {
             RefreshData();
-            DataRefresher.Register(this);
+            DataRefreshSvc.Register(this);
         }
 
         public LevelDataModel GetByLevel(int level)

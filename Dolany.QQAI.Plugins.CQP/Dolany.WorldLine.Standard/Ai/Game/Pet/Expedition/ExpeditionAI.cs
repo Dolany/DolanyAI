@@ -16,9 +16,9 @@ namespace Dolany.WorldLine.Standard.Ai.Game.Pet.Expedition
         public override string Description { get; set; } = "AI for Pet Expedition.";
         public override AIPriority PriorityLevel { get;} = AIPriority.Normal;
 
-        private static ExpeditionSceneMgr ExpeditionSceneMgr => AutofacSvc.Resolve<ExpeditionSceneMgr>();
-        private static PetLevelMgr PetLevelMgr => AutofacSvc.Resolve<PetLevelMgr>();
-        private static HonorHelper HonorHelper => AutofacSvc.Resolve<HonorHelper>();
+        private static ExpeditionSceneSvc ExpeditionSceneSvc => AutofacSvc.Resolve<ExpeditionSceneSvc>();
+        private static PetLevelSvc PetLevelSvc => AutofacSvc.Resolve<PetLevelSvc>();
+        private static HonorSvc HonorSvc => AutofacSvc.Resolve<HonorSvc>();
 
         [EnterCommand(ID = "ExpeditionAI_Expedite",
             Command = "宠物远征",
@@ -57,11 +57,11 @@ namespace Dolany.WorldLine.Standard.Ai.Game.Pet.Expedition
             var extEndur = VipArmerRecord.Get(MsgDTO.FromQQ).CheckArmer("耐力护符") ? 10 : 0;
 
             var pet = PetRecord.Get(MsgDTO.FromQQ);
-            var petLevel = PetLevelMgr[pet.Level];
+            var petLevel = PetLevelSvc[pet.Level];
             var enduranceConsume = PetEnduranceRecord.Get(MsgDTO.FromQQ);
             var curEndurance = petLevel.Endurance - enduranceConsume.ConsumeTotal + extEndur;
 
-            var todayExpeditions = ExpeditionSceneMgr.TodayExpedition().Where(p => p.Endurance <= curEndurance).ToList();
+            var todayExpeditions = ExpeditionSceneSvc.TodayExpedition().Where(p => p.Endurance <= curEndurance).ToList();
             if (todayExpeditions.IsNullOrEmpty())
             {
                 MsgSender.PushMsg(MsgDTO, $"{pet.Name}已经累的完全动不了了！");
@@ -94,7 +94,7 @@ namespace Dolany.WorldLine.Standard.Ai.Game.Pet.Expedition
 
         private static void DrawAwards(ExpeditionRecord expeditionRec, MsgInformationEx MsgDTO)
         {
-            var expeditionModel = ExpeditionSceneMgr[expeditionRec.Scene];
+            var expeditionModel = ExpeditionSceneSvc[expeditionRec.Scene];
             var award = expeditionModel.Award(MsgDTO.FromQQ);
             MsgSender.PushMsg(MsgDTO, award.ToString());
 
@@ -107,7 +107,7 @@ namespace Dolany.WorldLine.Standard.Ai.Game.Pet.Expedition
             history.FlavoringTotal += award.Flavorings.Count;
             history.GoldsTotal += award.Gold;
             history.ItemBonusCount += award.Items.Count;
-            history.ItemBonusPriceTotal += award.Items.Sum(item => HonorHelper.FindItem(item).Price);
+            history.ItemBonusPriceTotal += award.Items.Sum(item => HonorSvc.FindItem(item).Price);
 
             history.Update();
         }
@@ -123,7 +123,7 @@ namespace Dolany.WorldLine.Standard.Ai.Game.Pet.Expedition
         public bool ViewExpedition(MsgInformationEx MsgDTO, object[] param)
         {
             var name = param[0] as string;
-            var scene = ExpeditionSceneMgr[name];
+            var scene = ExpeditionSceneSvc[name];
             if (scene == null)
             {
                 MsgSender.PushMsg(MsgDTO, "未查找到相关地点！");
@@ -175,7 +175,7 @@ namespace Dolany.WorldLine.Standard.Ai.Game.Pet.Expedition
         public bool ResolveItem(MsgInformationEx MsgDTO, object[] param)
         {
             var name = param[0] as string;
-            var item = HonorHelper.FindItem(name);
+            var item = HonorSvc.FindItem(name);
             if (item == null)
             {
                 MsgSender.PushMsg(MsgDTO, "未查找到相关物品！");
@@ -193,7 +193,7 @@ namespace Dolany.WorldLine.Standard.Ai.Game.Pet.Expedition
             itemColle.Update();
 
             var count = Math.Max(item.Price / 20, 1);
-            var flavorings = ExpeditionSceneMgr.RandFlavorings(count);
+            var flavorings = ExpeditionSceneSvc.RandFlavorings(count);
 
             var cookingRec = CookingRecord.Get(MsgDTO.FromQQ);
             cookingRec.FlavoringIncome(flavorings);

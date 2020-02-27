@@ -16,8 +16,8 @@ namespace Dolany.WorldLine.Standard.Ai.Game.Lottery
 
         public override bool NeedManualOpeon { get; } = false;
 
-        public LotteryMgr LotteryMgr { get; set; }
-        public HonorHelper HonorHelper { get; set; }
+        public LotterySvc LotterySvc { get; set; }
+        public HonorSvc HonorSvc { get; set; }
 
         [EnterCommand(ID = "LotteryAI_DrawLottery",
             Command = "开箱子",
@@ -32,9 +32,9 @@ namespace Dolany.WorldLine.Standard.Ai.Game.Lottery
         public bool DrawLottery(MsgInformationEx MsgDTO, object[] param)
         {
             var osPerson = OSPerson.GetPerson(MsgDTO.FromQQ);
-            if (osPerson.Golds < LotteryMgr.LotteryFee)
+            if (osPerson.Golds < LotterySvc.LotteryFee)
             {
-                MsgSender.PushMsg(MsgDTO, $"你没有足够的金币开箱子({osPerson.Golds.CurencyFormat()}/{LotteryMgr.LotteryFee.CurencyFormat()})", true);
+                MsgSender.PushMsg(MsgDTO, $"你没有足够的金币开箱子({osPerson.Golds.CurencyFormat()}/{LotterySvc.LotteryFee.CurencyFormat()})", true);
                 return false;
             }
 
@@ -45,9 +45,9 @@ namespace Dolany.WorldLine.Standard.Ai.Game.Lottery
 
         private void RandomLottery(MsgInformationEx MsgDTO)
         {
-            var lottery = LotteryMgr.RandLottery();
+            var lottery = LotterySvc.RandLottery();
 
-            var absBonus = lottery.Bonus - LotteryMgr.LotteryFee;
+            var absBonus = lottery.Bonus - LotterySvc.LotteryFee;
             LotteryRecord.Record(absBonus);
 
             var personRec = LotteryPersonRecord.Get(MsgDTO.FromQQ);
@@ -56,7 +56,7 @@ namespace Dolany.WorldLine.Standard.Ai.Game.Lottery
 
             var msg = lottery.ToString();
 
-            var golds = OSPerson.GoldConsume(MsgDTO.FromQQ, LotteryMgr.LotteryFee - lottery.Bonus);
+            var golds = OSPerson.GoldConsume(MsgDTO.FromQQ, LotterySvc.LotteryFee - lottery.Bonus);
             msg += $"\r你当前持有金币：{golds.CurencyFormat()}";
             MsgSender.PushMsg(MsgDTO, msg, true);
         }
@@ -78,7 +78,7 @@ namespace Dolany.WorldLine.Standard.Ai.Game.Lottery
                 return false;
             }
 
-            var items = HonorHelper.CurMonthLimitItems();
+            var items = HonorSvc.CurMonthLimitItems();
             var item = items.RandElement();
 
             var msg = $"恭喜你抽到了 {item.Name}*1\r" +

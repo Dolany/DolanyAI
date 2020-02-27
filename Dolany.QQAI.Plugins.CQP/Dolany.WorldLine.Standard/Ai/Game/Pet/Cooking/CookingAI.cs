@@ -15,9 +15,9 @@ namespace Dolany.WorldLine.Standard.Ai.Game.Pet.Cooking
 
         public override bool Enable { get; } = true;
 
-        public CookingDietMgr CookingDietMgr { get; set; }
-        public CookingLevelMgr CookingLevelMgr { get; set; }
-        public HonorHelper HonorHelper { get; set; }
+        public CookingDietSvc CookingDietSvc { get; set; }
+        public CookingLevelSvc CookingLevelSvc { get; set; }
+        public HonorSvc HonorSvc { get; set; }
 
         [EnterCommand(ID = "CookingAI_Cook",
             Command = "烹饪 烹饪菜肴 制作菜肴",
@@ -31,7 +31,7 @@ namespace Dolany.WorldLine.Standard.Ai.Game.Pet.Cooking
         {
             var dietName = param[0] as string;
 
-            var Diet = CookingDietMgr[dietName];
+            var Diet = CookingDietSvc[dietName];
             if (Diet == null)
             {
                 MsgSender.PushMsg(MsgDTO, "未查找到相关菜肴名称！");
@@ -98,7 +98,7 @@ namespace Dolany.WorldLine.Standard.Ai.Game.Pet.Cooking
         public bool ViewDiet(MsgInformationEx MsgDTO, object[] param)
         {
             var dietName = param[0] as string;
-            var Diet = CookingDietMgr[dietName];
+            var Diet = CookingDietSvc[dietName];
             if (Diet == null)
             {
                 MsgSender.PushMsg(MsgDTO, "未查找到相关菜肴名称！");
@@ -130,8 +130,8 @@ namespace Dolany.WorldLine.Standard.Ai.Game.Pet.Cooking
             var sumDietCount = history.Sum(p => p.Value);
             var totalPrice = cookingRec.TotalPrice;
 
-            var curLevel = CookingLevelMgr.LocationLevel(totalPrice);
-            var nextLevel = CookingLevelMgr[curLevel.Level + 1];
+            var curLevel = CookingLevelSvc.LocationLevel(totalPrice);
+            var nextLevel = CookingLevelSvc[curLevel.Level + 1];
 
             var msg = $"你总共烹饪过 {sumDietCount} 道菜肴\r总共消耗了物品 {cookingRec.ItemConsumeDic.Sum(p => p.Value)} 个，调味料 {cookingRec.FlavoringTotal} 个\r" +
                       $"总价值：{totalPrice.CurencyFormat()}\r当前烹饪评级为：{curLevel.Name}，距离下一等级({nextLevel.Name})还差 {(nextLevel.NeedPrice - totalPrice).CurencyFormat()}";
@@ -151,7 +151,7 @@ namespace Dolany.WorldLine.Standard.Ai.Game.Pet.Cooking
         public bool ExchangeMenu(MsgInformationEx MsgDTO, object[] param)
         {
             var dietName = param[0] as string;
-            var diet = CookingDietMgr[dietName];
+            var diet = CookingDietSvc[dietName];
             if (diet == null)
             {
                 MsgSender.PushMsg(MsgDTO, "未查找到相关菜肴");
@@ -166,7 +166,7 @@ namespace Dolany.WorldLine.Standard.Ai.Game.Pet.Cooking
             }
 
             var itemColle = ItemCollectionRecord.Get(MsgDTO.FromQQ);
-            var honorModel = HonorHelper.FindHonor(diet.ExchangeHonor);
+            var honorModel = HonorSvc.FindHonor(diet.ExchangeHonor);
             var items = honorModel.Items.ToDictionary(p => p.Name, p => 1);
             if (!itemColle.CheckItem(items))
             {
@@ -195,12 +195,12 @@ namespace Dolany.WorldLine.Standard.Ai.Game.Pet.Cooking
         public bool MyKitchen(MsgInformationEx MsgDTO, object[] param)
         {
             var cookingRec = CookingRecord.Get(MsgDTO.FromQQ);
-            var level = CookingLevelMgr.LocationLevel(cookingRec.TotalPrice);
+            var level = CookingLevelSvc.LocationLevel(cookingRec.TotalPrice);
             var msg = $"【{level.Name}(lv.{level.Level})】\r";
             msg += $"已学会的菜谱：{string.Join("，", cookingRec.LearndDietMenu)}\r";
             msg += $"当前持有菜肴：{string.Join("，", cookingRec.CookedDietDic.Select(p => $"{p.Key}*{p.Value}"))}\r";
             msg += $"当前持有调味料：{string.Join("，", cookingRec.FlavoringDic.Select(p => $"{p.Key}*{p.Value}"))}\r";
-            msg += $"推荐学习菜谱：{CookingDietMgr.SuggestDiet(cookingRec.LearndDietMenu)?.Name}";
+            msg += $"推荐学习菜谱：{CookingDietSvc.SuggestDiet(cookingRec.LearndDietMenu)?.Name}";
 
             MsgSender.PushMsg(MsgDTO, msg);
             return true;
@@ -217,7 +217,7 @@ namespace Dolany.WorldLine.Standard.Ai.Game.Pet.Cooking
         public bool DietMenu(MsgInformationEx MsgDTO, object[] param)
         {
             var cookingRec = CookingRecord.Get(MsgDTO.FromQQ);
-            var allDiets = CookingDietMgr.DietList;
+            var allDiets = CookingDietSvc.DietList;
             var msg = string.Join("\r",
                 allDiets.Select(
                     diet => $"{diet.Name}{(cookingRec.LearndDietMenu.Contains(diet.Name) ? "(已学会)" : string.Empty)}:{string.Join(",", diet.Attributes)}"));

@@ -8,7 +8,7 @@ namespace Dolany.Ai.Doremi.Xiuxian
     {
         private List<ArmerModel> NormalArmerList;
 
-        private static DataRefresher DataRefresher => AutofacSvc.Resolve<DataRefresher>();
+        private static DataRefreshSvc DataRefreshSvc => AutofacSvc.Resolve<DataRefreshSvc>();
 
         public ArmerModel this[string name]
         {
@@ -18,7 +18,7 @@ namespace Dolany.Ai.Doremi.Xiuxian
         public ArmerMgr()
         {
             RefreshData();
-            DataRefresher.Register(this);
+            DataRefreshSvc.Register(this);
         }
 
         public IEnumerable<ArmerModel> GetRandArmers(int count)

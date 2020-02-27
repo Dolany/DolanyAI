@@ -24,7 +24,7 @@ namespace Dolany.WorldLine.Standard.Ai.Game.ChessAgainst
 
         private ChessEffectModel[] Chessborad;
 
-        private static ChessMgr ChessMgr => AutofacSvc.Resolve<ChessMgr>();
+        private static ChessSvc ChessSvc => AutofacSvc.Resolve<ChessSvc>();
 
         private IEnumerable<int> AvailableNums
         {
@@ -95,7 +95,7 @@ namespace Dolany.WorldLine.Standard.Ai.Game.ChessAgainst
                 MsgSender.PushMsg(GroupNum, 0, "系统异常，游戏结束！", BindAi);
             }
 
-            ChessMgr.GameOver(this);
+            ChessSvc.GameOver(this);
         }
 
         private void ProceedTurn()

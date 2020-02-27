@@ -16,8 +16,8 @@ namespace Dolany.WorldLine.Standard.Ai.Game.SegmentAttach
         public override string Description { get; set; } = "AI for segments attaching game.";
         public override AIPriority PriorityLevel { get;} = AIPriority.Normal;
 
-        public SegmentMgr SegmentMgr { get; set; }
-        public HonorHelper HonorHelper { get; set; }
+        public SegmentSvc SegmentSvc { get; set; }
+        public HonorSvc HonorSvc { get; set; }
         public BindAiSvc BindAiSvc { get; set; }
 
         [EnterCommand(ID = "SegmentAttachAI_TakeSegment",
@@ -32,14 +32,14 @@ namespace Dolany.WorldLine.Standard.Ai.Game.SegmentAttach
             TestingDailyLimit = 1)]
         public bool TakeSegment(MsgInformationEx MsgDTO, object[] param)
         {
-            var segment = SegmentMgr.RandSegment();
+            var segment = SegmentSvc.RandSegment();
             var record = SegmentRecord.Get(MsgDTO.FromQQ);
             record.Segment = segment.Name;
             record.IsRare = Rander.RandInt(100) > 90;
             record.Update();
 
             var msg = $"你领取到了新的宝藏碎片！\r{segment}";
-            var treasure = SegmentMgr.FindTreasureBySegment(record.Segment);
+            var treasure = SegmentSvc.FindTreasureBySegment(record.Segment);
             msg += $"\r可开启宝藏：{treasure.Name}";
             if (record.IsRare)
             {
@@ -60,14 +60,14 @@ namespace Dolany.WorldLine.Standard.Ai.Game.SegmentAttach
         public bool ViewSegment(MsgInformationEx MsgDTO, object[] param)
         {
             var name = param[0] as string;
-            var segment = SegmentMgr.FindSegmentByName(name);
+            var segment = SegmentSvc.FindSegmentByName(name);
             if (segment == null)
             {
                 MsgSender.PushMsg(MsgDTO, "未找到指定的宝藏碎片");
                 return false;
             }
 
-            var treasure = SegmentMgr.FindTreasureBySegment(name);
+            var treasure = SegmentSvc.FindTreasureBySegment(name);
             var msg = $"{segment}\r可开启宝藏：{treasure.Name}";
 
             MsgSender.PushMsg(MsgDTO, msg);
@@ -90,14 +90,14 @@ namespace Dolany.WorldLine.Standard.Ai.Game.SegmentAttach
                 MsgSender.PushMsg(MsgDTO, "你尚未持有任何宝藏碎片！", true);
                 return false;
             }
-            var segment = SegmentMgr.FindSegmentByName(record.Segment);
+            var segment = SegmentSvc.FindSegmentByName(record.Segment);
             if (segment == null)
             {
                 MsgSender.PushMsg(MsgDTO, "未找到指定的宝藏碎片");
                 return false;
             }
 
-            var treasure = SegmentMgr.FindTreasureBySegment(record.Segment);
+            var treasure = SegmentSvc.FindTreasureBySegment(record.Segment);
             var msg = $"{segment}\r可开启宝藏：{treasure.Name}";
             if (record.IsRare)
             {
@@ -120,7 +120,7 @@ namespace Dolany.WorldLine.Standard.Ai.Game.SegmentAttach
         {
             var name = param[0] as string;
 
-            var treasure = SegmentMgr.FindTreasureByName(name);
+            var treasure = SegmentSvc.FindTreasureByName(name);
             if (treasure == null)
             {
                 MsgSender.PushMsg(MsgDTO, "未找到指定的宝藏");
@@ -273,7 +273,7 @@ namespace Dolany.WorldLine.Standard.Ai.Game.SegmentAttach
                 return false;
             }
 
-            var treasure = SegmentMgr.FindTreasureBySegment(selfRecord.Segment);
+            var treasure = SegmentSvc.FindTreasureBySegment(selfRecord.Segment);
             if (!treasure.IsMatch(selfRecord.Segment, aimRecord.Segment))
             {
                 MsgSender.PushMsg(MsgDTO, $"拼接失败，碎片不匹配！({selfRecord.Segment}×{aimRecord.Segment})");
@@ -283,8 +283,8 @@ namespace Dolany.WorldLine.Standard.Ai.Game.SegmentAttach
             selfRecord.AddTreasureRecord(treasure.Name);
             aimRecord.AddTreasureRecord(treasure.Name);
 
-            var selfBonusItems = HonorHelper.RandItems(3);
-            var aimBonusItems = HonorHelper.RandItems(3);
+            var selfBonusItems = HonorSvc.RandItems(3);
+            var aimBonusItems = HonorSvc.RandItems(3);
 
             var selfIcRecord = ItemCollectionRecord.Get(MsgDTO.FromQQ);
             var aimIcRecord = ItemCollectionRecord.Get(aimQQ);

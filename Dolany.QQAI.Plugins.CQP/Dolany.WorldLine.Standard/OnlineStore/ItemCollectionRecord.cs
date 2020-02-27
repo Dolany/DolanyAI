@@ -12,7 +12,7 @@ namespace Dolany.WorldLine.Standard.OnlineStore
         public Dictionary<string, HonorItemCollection> HonorCollections { get; set; } = new Dictionary<string, HonorItemCollection>();
 
         public List<string> HonorList =>
-            HonorCollections.Where(colle => colle.Value.Items.Count == AutofacSvc.Resolve<HonorHelper>().FindHonor(colle.Key).Items.Count).Select(p => p.Key).ToList();
+            HonorCollections.Where(colle => colle.Value.Items.Count == AutofacSvc.Resolve<HonorSvc>().FindHonor(colle.Key).Items.Count).Select(p => p.Key).ToList();
 
         public Dictionary<string, int> AllItemsDic => HonorCollections.Select(p => p.Value).SelectMany(p => p.Items).ToDictionary(p => p.Key, p => p.Value);
 
@@ -91,7 +91,7 @@ namespace Dolany.WorldLine.Standard.OnlineStore
         public int AssertToGold()
         {
             var itemAssert = 0;
-            var HonorHelper = AutofacSvc.Resolve<HonorHelper>();
+            var HonorHelper = AutofacSvc.Resolve<HonorSvc>();
             foreach (var (honorName, collection) in HonorCollections)
             {
                 var honorModel = HonorHelper.FindHonor(honorName);

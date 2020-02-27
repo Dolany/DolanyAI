@@ -21,7 +21,7 @@ namespace Dolany.WorldLine.Standard.Ai.Game.SegmentAttach
         {
             get
             {
-                if (TreasureRecord.Count < AutofacSvc.Resolve<SegmentMgr>().Treasures.Count)
+                if (TreasureRecord.Count < AutofacSvc.Resolve<SegmentSvc>().Treasures.Count)
                 {
                     return false;
                 }

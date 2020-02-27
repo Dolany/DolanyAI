@@ -22,7 +22,7 @@ namespace DolanyAiDesktop
         private static IWorldLine DefaultWorldLine => worlds.First(w => w.IsDefault);
 
         private static WaiterSvc WaiterSvc => AutofacSvc.Resolve<WaiterSvc>();
-        private static CrossWorldAiMgr CrossWorldAiMgr => AutofacSvc.Resolve<CrossWorldAiMgr>();
+        private static CrossWorldAiSvc CrossWorldAiSvc => AutofacSvc.Resolve<CrossWorldAiSvc>();
         private static GroupSettingSvc GroupSettingSvc => AutofacSvc.Resolve<GroupSettingSvc>();
 
         static void Main(string[] args)
@@ -49,11 +49,11 @@ namespace DolanyAiDesktop
                 WaiterSvc.GroupMemberChangeCallBack = OnGroupMemberChanged;
 
                 AIAnalyzer.Sys_StartTime = DateTime.Now;
-                CrossWorldAiMgr.AllWorlds = worlds;
+                CrossWorldAiSvc.AllWorlds = worlds;
 
                 foreach (var worldLine in worlds)
                 {
-                    worldLine.AIGroup.AddRange(CrossWorldAiMgr.CrossWorldAis.ToArray());
+                    worldLine.AIGroup.AddRange(CrossWorldAiSvc.CrossWorldAis.ToArray());
                     worldLine.Load();
                 }
 
@@ -138,7 +138,7 @@ namespace DolanyAiDesktop
             foreach (var datamgr in datamgrs)
             {
                 datamgr.RefreshData();
-                AutofacSvc.Resolve<DataRefresher>().Register(datamgr);
+                AutofacSvc.Resolve<DataRefreshSvc>().Register(datamgr);
             }
         }
     }

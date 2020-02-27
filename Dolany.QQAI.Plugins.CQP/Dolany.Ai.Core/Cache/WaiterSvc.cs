@@ -22,7 +22,7 @@ namespace Dolany.Ai.Core.Cache
 
         public GroupSettingSvc GroupSettingSvc { get; set; }
         public BindAiSvc BindAiSvc { get; set; }
-        public QQNumReflectMgr QQNumReflectMgr { get; set; }
+        public QQNumReflectSvc QqNumReflectSvc { get; set; }
 
         public void Listen()
         {
@@ -50,7 +50,7 @@ namespace Dolany.Ai.Core.Cache
                 }
             }
 
-            var msg = $"[Info] {info.BindAi} {source} {QQNumReflectMgr[info.FromQQ]} {info.Msg}";
+            var msg = $"[Info] {info.BindAi} {source} {QqNumReflectSvc[info.FromQQ]} {info.Msg}";
             Global.MsgPublish(msg);
 
             if (BindAiSvc[info.FromQQ] != null)

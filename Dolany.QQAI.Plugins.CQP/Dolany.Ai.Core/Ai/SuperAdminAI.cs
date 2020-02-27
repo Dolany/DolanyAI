@@ -18,8 +18,8 @@ namespace Dolany.Ai.Core.Ai
         public override string Description { get; set; } = "Ai for Super Admin.";
         public override AIPriority PriorityLevel { get;} = AIPriority.SuperHigh;
 
-        public PicReviewer PicReviewer { get; set; }
-        public DataRefresher DataRefresher { get; set; }
+        public PicReviewSvc PicReviewSvc { get; set; }
+        public DataRefreshSvc DataRefreshSvc { get; set; }
         public BindAiSvc BindAiSvc { get; set; }
         public DirtyFilterSvc DirtyFilterSvc { get; set; }
 
@@ -366,7 +366,7 @@ namespace Dolany.Ai.Core.Ai
             IsGroupAvailable = true)]
         public bool PicReview(MsgInformationEx MsgDTO, object[] param)
         {
-            PicReviewer.Review(MsgDTO);
+            PicReviewSvc.Review(MsgDTO);
             return true;
         }
 
@@ -381,7 +381,7 @@ namespace Dolany.Ai.Core.Ai
             IsGroupAvailable = true)]
         public bool DataRefresh(MsgInformationEx MsgDTO, object[] param)
         {
-            var count = DataRefresher.RefreshAll();
+            var count = DataRefreshSvc.RefreshAll();
             MsgSender.PushMsg(MsgDTO, $"刷新成功！共刷新 {count}个数据项！");
             return true;
         }

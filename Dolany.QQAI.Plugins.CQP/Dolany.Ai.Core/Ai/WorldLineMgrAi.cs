@@ -11,7 +11,7 @@ namespace Dolany.Ai.Core.Ai
         public override string Description { get; set; } = "Ai for world line management.";
         public override AIPriority PriorityLevel { get;} = AIPriority.Monitor;
 
-        public CrossWorldAiMgr CrossWorldAiMgr { get; set; }
+        public CrossWorldAiSvc CrossWorldAiSvc { get; set; }
 
         [EnterCommand(ID = "WorldLineMgrAi_SwitchWorldLine",
             Command = "切换世界线",
@@ -24,14 +24,14 @@ namespace Dolany.Ai.Core.Ai
         public bool SwitchWorldLine(MsgInformationEx MsgDTO, object[] param)
         {
             var option = WaiterSvc.WaitForOptions(MsgDTO.FromGroup, MsgDTO.FromQQ, "请选择需要切换的世界线：",
-                CrossWorldAiMgr.AllWorlds.Select(w => w.Name).ToArray(), MsgDTO.BindAi);
+                CrossWorldAiSvc.AllWorlds.Select(w => w.Name).ToArray(), MsgDTO.BindAi);
             if (option < 0)
             {
                 MsgSender.PushMsg(MsgDTO, "操作取消！");
                 return false;
             }
 
-            var worldLine = CrossWorldAiMgr.AllWorlds[option];
+            var worldLine = CrossWorldAiSvc.AllWorlds[option];
             var group = GroupSettingSvc[MsgDTO.FromGroup];
             group.WorldLine = worldLine.Name;
             group.Update();

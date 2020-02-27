@@ -124,7 +124,7 @@ namespace Dolany.WorldLine.Standard.Ai.SingleCommand.GroupManage
         {
             var aimQQ = (long) param[0];
 
-            var cache = AliveStateMgr.GetState(MsgDTO.FromGroup, aimQQ);
+            var cache = AliveStateSvc.GetState(MsgDTO.FromGroup, aimQQ);
             if (cache == null)
             {
                 MsgSender.PushMsg(MsgDTO, "该成员不需要复活！", true);
@@ -142,7 +142,7 @@ namespace Dolany.WorldLine.Standard.Ai.SingleCommand.GroupManage
             osPerson.Update();
 
             cache.RebornTime = DateTime.Now;
-            AliveStateMgr.Cache(cache);
+            AliveStateSvc.Cache(cache);
 
             MsgSender.PushMsg(MsgDTO, $"复活成功！你当前剩余金币：{osPerson.Golds}", true);
             return true;
@@ -238,7 +238,7 @@ namespace Dolany.WorldLine.Standard.Ai.SingleCommand.GroupManage
                 return false;
             }
 
-            var cache = AliveStateMgr.GetState(MsgDTO.FromGroup, MsgDTO.FromQQ);
+            var cache = AliveStateSvc.GetState(MsgDTO.FromGroup, MsgDTO.FromQQ);
             if (cache == null)
             {
                 return true;
@@ -257,7 +257,7 @@ namespace Dolany.WorldLine.Standard.Ai.SingleCommand.GroupManage
                 Name = skillName,
                 RebornTime = rebornTime
             };
-            AliveStateMgr.Cache(cache);
+            AliveStateSvc.Cache(cache);
 
             MsgSender.PushMsg(MsgDTO, $"成功对 {CodeApi.Code_At(aimQQ)} 使用了 {skillName}！他将于 {rebornTime.ToString(CultureInfo.CurrentCulture)} 后复活！");
         }

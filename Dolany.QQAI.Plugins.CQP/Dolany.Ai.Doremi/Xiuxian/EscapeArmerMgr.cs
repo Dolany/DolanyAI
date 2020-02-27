@@ -10,12 +10,12 @@ namespace Dolany.Ai.Doremi.Xiuxian
 
         public EscapeArmerModel this[string Name] => Armers.FirstOrDefault(p => p.Name == Name);
 
-        private static DataRefresher DataRefresher => AutofacSvc.Resolve<DataRefresher>();
+        private static DataRefreshSvc DataRefreshSvc => AutofacSvc.Resolve<DataRefreshSvc>();
 
         public EscapeArmerMgr()
         {
             RefreshData();
-            DataRefresher.Register(this);
+            DataRefreshSvc.Register(this);
         }
 
         public EscapeArmerModel RandArmer()

@@ -31,17 +31,17 @@ namespace Dolany.WorldLine.Standard.Ai.Game.Pet
 
         private const int FeedInterval = 2;
 
-        public CookingDietMgr CookingDietMgr { get; set; }
-        public PicReviewer PicReviewer { get; set; }
-        public PetSkillMgr PetSkillMgr { get; set; }
-        public PetLevelMgr PetLevelMgr { get; set; }
-        public PetAgainstMgr PetAgainstMgr { get; set; }
-        public HonorHelper HonorHelper { get; set; }
+        public CookingDietSvc CookingDietSvc { get; set; }
+        public PicReviewSvc PicReviewSvc { get; set; }
+        public PetSkillSvc PetSkillSvc { get; set; }
+        public PetLevelSvc PetLevelSvc { get; set; }
+        public PetAgainstSvc PetAgainstSvc { get; set; }
+        public HonorSvc HonorSvc { get; set; }
         public BindAiSvc BindAiSvc { get; set; }
 
         public override void Initialization()
         {
-            PicReviewer.Register("宠物头像", SetPetPicCallBack);
+            PicReviewSvc.Register("宠物头像", SetPetPicCallBack);
         }
 
         [EnterCommand(ID = "PetAI_MyPet",
@@ -56,7 +56,7 @@ namespace Dolany.WorldLine.Standard.Ai.Game.Pet
         {
             var pet = PetRecord.Get(MsgDTO.FromQQ);
 
-            var levelModel = PetLevelMgr[pet.Level];
+            var levelModel = PetLevelSvc[pet.Level];
 
             var HasExtEndur = VipArmerRecord.Get(MsgDTO.FromQQ).CheckArmer("耐力护符");
             var extEndur = HasExtEndur ? "(+10)" : string.Empty;
@@ -220,7 +220,7 @@ namespace Dolany.WorldLine.Standard.Ai.Game.Pet
                 Usage = "宠物头像",
                 PicName = picFile.Name
             };
-            PicReviewer.AddReview(review);
+            PicReviewSvc.AddReview(review);
 
             return true;
         }
@@ -328,13 +328,13 @@ namespace Dolany.WorldLine.Standard.Ai.Game.Pet
                 return false;
             }
 
-            var item = HonorHelper.FindItem(name);
+            var item = HonorSvc.FindItem(name);
             if (item != null)
             {
                 return FeedPetWithItem(MsgDTO, pet, item);
             }
 
-            var diet = CookingDietMgr[name];
+            var diet = CookingDietSvc[name];
             if (diet != null)
             {
                 return FeedPetWithDiet(MsgDTO, pet, diet);
@@ -430,7 +430,7 @@ namespace Dolany.WorldLine.Standard.Ai.Game.Pet
         public bool PetLevelRank(MsgInformationEx MsgDTO, object[] param)
         {
             var data = PetRecord.LevelTop(10);
-            var msg = string.Join("\r", data.Select((p, idx) => $"{idx + 1}:{p.Name}(lv.{p.Level})({p.Exp}/{PetLevelMgr[p.Level].Exp})"));
+            var msg = string.Join("\r", data.Select((p, idx) => $"{idx + 1}:{p.Name}(lv.{p.Level})({p.Exp}/{PetLevelSvc[p.Level].Exp})"));
 
             MsgSender.PushMsg(MsgDTO, msg);
             return true;
@@ -447,7 +447,7 @@ namespace Dolany.WorldLine.Standard.Ai.Game.Pet
         public bool ViewPetSkill(MsgInformationEx MsgDTO, object[] param)
         {
             var name = param[0] as string;
-            var skill = PetSkillMgr[name];
+            var skill = PetSkillSvc[name];
             if (skill == null)
             {
                 MsgSender.PushMsg(MsgDTO, "未查找到该技能！", true);
@@ -475,7 +475,7 @@ namespace Dolany.WorldLine.Standard.Ai.Game.Pet
         public bool UpgradePetSkill(MsgInformationEx MsgDTO, object[] param)
         {
             var name = param[0] as string;
-            var skill = PetSkillMgr[name];
+            var skill = PetSkillSvc[name];
             if (skill == null)
             {
                 MsgSender.PushMsg(MsgDTO, "未查找到该技能！", true);
@@ -577,19 +577,19 @@ namespace Dolany.WorldLine.Standard.Ai.Game.Pet
                 return false;
             }
 
-            if (!PetAgainstMgr.CheckGroup(MsgDTO.FromGroup))
+            if (!PetAgainstSvc.CheckGroup(MsgDTO.FromGroup))
             {
                 MsgSender.PushMsg(MsgDTO, "本群正在进行一场宠物对决，请稍后再试！");
                 return false;
             }
 
-            if (!PetAgainstMgr.CheckQQ(MsgDTO.FromQQ))
+            if (!PetAgainstSvc.CheckQQ(MsgDTO.FromQQ))
             {
                 MsgSender.PushMsg(MsgDTO, "你的宠物正在进行一场宠物对决，请稍后再试！");
                 return false;
             }
 
-            if (!PetAgainstMgr.CheckQQ(aimQQ))
+            if (!PetAgainstSvc.CheckQQ(aimQQ))
             {
                 MsgSender.PushMsg(MsgDTO, "你的对手正在进行一场宠物对决，请稍后再试！");
                 return false;
@@ -635,7 +635,7 @@ namespace Dolany.WorldLine.Standard.Ai.Game.Pet
                 return false;
             }
 
-            PetAgainstMgr.StartGame(sourcePet, aimPet, MsgDTO.FromGroup, MsgDTO.BindAi);
+            PetAgainstSvc.StartGame(sourcePet, aimPet, MsgDTO.FromGroup, MsgDTO.BindAi);
             return true;
         }
     }

@@ -20,7 +20,7 @@ namespace Dolany.WorldLine.Standard.AITools
 
         protected override void ScheduleDo(SchedulerTimer timer)
         {
-            AutofacSvc.Resolve<HonorHelper>().RefreshData();
+            AutofacSvc.Resolve<HonorSvc>().RefreshData();
 
             timer.Interval = (DateTime.Now.Date.AddDays(1) - DateTime.Now).TotalMilliseconds;
         }

@@ -31,14 +31,14 @@ namespace Dolany.WorldLine.Standard.Ai.Game.Advanture
         private int Bonus;
 
         private static WaiterSvc WaiterSvc => AutofacSvc.Resolve<WaiterSvc>();
-        private static CaveSettingHelper CaveSettingHelper => AutofacSvc.Resolve<CaveSettingHelper>();
-        private static HonorHelper HonorHelper => AutofacSvc.Resolve<HonorHelper>();
+        private static CaveSettingSvc CaveSettingSvc => AutofacSvc.Resolve<CaveSettingSvc>();
+        private static HonorSvc HonorSvc => AutofacSvc.Resolve<HonorSvc>();
 
         public AdvGameEngine(AdvPlayer[] players, long GroupNum, int CaveNo, string BindAi)
         {
             this.players = players;
             this.GroupNum = GroupNum;
-            CaveModel = CaveSettingHelper.GetCaveByNo(CaveNo);
+            CaveModel = CaveSettingSvc.GetCaveByNo(CaveNo);
             this.BindAi = BindAi;
 
             for (var i = 0; i < 3; i++)
@@ -209,7 +209,7 @@ namespace Dolany.WorldLine.Standard.Ai.Game.Advanture
                     continue;
                 }
 
-                var items = HonorHelper.CurMonthLimitItems();
+                var items = HonorSvc.CurMonthLimitItems();
                 var item = items.RandElement();
                 MsgSender.PushMsg(GroupNum, p.QQNum, $"你已经累计赢得 {p.WinTotal}场对决，获取额外奖励 {item.Name}*1", BindAi);
 

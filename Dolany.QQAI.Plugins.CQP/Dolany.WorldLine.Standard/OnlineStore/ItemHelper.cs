@@ -8,7 +8,7 @@ namespace Dolany.WorldLine.Standard.OnlineStore
         public static string ItemIncome(this ItemCollectionRecord record, string itemName, int count = 1)
         {
             var isNew = false;
-            var HonorHelper = AutofacSvc.Resolve<HonorHelper>();
+            var HonorHelper = AutofacSvc.Resolve<HonorSvc>();
             var honorName = HonorHelper.FindHonorName(itemName);
             var honor = HonorHelper.FindHonor(honorName);
             if (!record.HonorCollections.ContainsKey(honorName))

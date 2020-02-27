@@ -52,7 +52,7 @@ namespace Dolany.Ai.Core.Ai.SingleCommand.Tuling
                 return false;
             }
 
-            var stateCache = AliveStateMgr.GetState(MsgDTO.FromGroup, MsgDTO.FromQQ);
+            var stateCache = AliveStateSvc.GetState(MsgDTO.FromGroup, MsgDTO.FromQQ);
             if (stateCache != null)
             {
                 MsgSender.PushMsg(MsgDTO, $"你已经死了({stateCache.Name})！复活时间：{stateCache.RebornTime:yyyy-MM-dd HH:mm:ss}", true);

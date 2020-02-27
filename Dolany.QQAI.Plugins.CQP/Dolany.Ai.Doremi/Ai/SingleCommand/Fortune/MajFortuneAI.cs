@@ -27,13 +27,13 @@ namespace Dolany.Ai.Doremi.Ai.SingleCommand.Fortune
 
         private int SumRate;
 
-        private static DataRefresher DataRefresher => AutofacSvc.Resolve<DataRefresher>();
+        private static DataRefreshSvc DataRefreshSvc => AutofacSvc.Resolve<DataRefreshSvc>();
 
         public override void Initialization()
         {
             ReadCharactorsDic();
             RefreshData();
-            DataRefresher.Register(this);
+            DataRefreshSvc.Register(this);
         }
 
         private void ReadCharactorsDic()

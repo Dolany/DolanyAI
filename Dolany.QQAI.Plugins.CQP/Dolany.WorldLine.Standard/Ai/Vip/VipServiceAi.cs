@@ -15,7 +15,7 @@ namespace Dolany.WorldLine.Standard.Ai.Vip
         public override string Description { get; set; } = "Ai for vip services.";
         public override AIPriority PriorityLevel { get;} = AIPriority.Normal;
 
-        public DailyVipShopMgr DailyVipShopMgr { get; set; }
+        public DailyVipShopSvc DailyVipShopSvc { get; set; }
 
         [EnterCommand(ID = "VipServiceAi_VipShop",
             Command = "vip商店 钻石商店",
@@ -35,7 +35,7 @@ namespace Dolany.WorldLine.Standard.Ai.Vip
             }
 
             var goodsName = DailyVipGoodsRecord.GetToday(MsgDTO.FromQQ).GoodsName;
-            var goods = goodsName.Select(g => DailyVipShopMgr[g]).ToList();
+            var goods = goodsName.Select(g => DailyVipShopSvc[g]).ToList();
             var goodsMsg = string.Join("\r", goods.Select(g => $"{g.Name}({g.DiamondsNeed.CurencyFormat("Diamond")}):{g.Description}"));
             var msg = $"今天提供的vip服务有：\r{goodsMsg}\r你当前余额为：{osPerson.Diamonds.CurencyFormat("Diamond")}";
 
@@ -86,7 +86,7 @@ namespace Dolany.WorldLine.Standard.Ai.Vip
         public bool ViewArmer(MsgInformationEx MsgDTO, object[] param)
         {
             var name = param[0] as string;
-            var armer = DailyVipShopMgr[name];
+            var armer = DailyVipShopSvc[name];
             if (armer == null)
             {
                 MsgSender.PushMsg(MsgDTO, "未查找到相关装备！");

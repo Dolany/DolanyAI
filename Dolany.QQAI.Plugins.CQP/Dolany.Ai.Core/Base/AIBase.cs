@@ -31,8 +31,8 @@ namespace Dolany.Ai.Core.Base
 
         public WaiterSvc WaiterSvc { get; set; }
         public GroupSettingSvc GroupSettingSvc { get; set; }
-        public AliveStateMgr AliveStateMgr { get; set; }
-        public CommandLocker CommandLocker { get; set; }
+        public AliveStateSvc AliveStateSvc { get; set; }
+        public CommandLockerSvc CommandLockerSvc { get; set; }
         public SyntaxCheckerMgr SyntaxCheckerMgr { get; set; }
 
         protected AIBase()
@@ -94,14 +94,14 @@ namespace Dolany.Ai.Core.Base
                         return true;
                     }
 
-                    if (!CommandLocker.Check(MsgDTO.FromQQ, enterCommandAttribute.ID))
+                    if (!CommandLockerSvc.Check(MsgDTO.FromQQ, enterCommandAttribute.ID))
                     {
                         return false;
                     }
 
-                    var lockID = CommandLocker.Lock(MsgDTO.FromQQ, new[] {enterCommandAttribute.ID});
+                    var lockID = CommandLockerSvc.Lock(MsgDTO.FromQQ, new[] {enterCommandAttribute.ID});
                     var result = moduleDel(MsgDTO, param);
-                    CommandLocker.FreeLock(lockID);
+                    CommandLockerSvc.FreeLock(lockID);
 
                     if (!result)
                     {
@@ -141,7 +141,7 @@ namespace Dolany.Ai.Core.Base
 
             if (!MsgDTO.IsAlive)
             {
-                var stateCache = AliveStateMgr.GetState(MsgDTO.FromGroup, MsgDTO.FromQQ);
+                var stateCache = AliveStateSvc.GetState(MsgDTO.FromGroup, MsgDTO.FromQQ);
                 MsgSender.PushMsg(MsgDTO, $"你已经死了({stateCache.Name})！复活时间：{stateCache.RebornTime.ToString(CultureInfo.CurrentCulture)}", true);
                 return false;
             }

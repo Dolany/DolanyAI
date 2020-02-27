@@ -5,7 +5,7 @@ using Dolany.Ai.Common;
 
 namespace Dolany.WorldLine.Standard.Ai.Game.ChessAgainst
 {
-    public class ChessMgr : IDependency
+    public class ChessSvc : IDependency
     {
         private readonly List<ChessEngine> WorkingEngine = new List<ChessEngine>();
 

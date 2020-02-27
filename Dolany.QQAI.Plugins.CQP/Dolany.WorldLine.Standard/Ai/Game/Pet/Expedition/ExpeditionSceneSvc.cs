@@ -10,7 +10,7 @@ using Newtonsoft.Json;
 
 namespace Dolany.WorldLine.Standard.Ai.Game.Pet.Expedition
 {
-    public class ExpeditionSceneMgr : IDataMgr, IDependency
+    public class ExpeditionSceneSvc : IDataMgr, IDependency
     {
         private List<ExpeditionSceneModel> Scenes;
 
@@ -262,7 +262,7 @@ namespace Dolany.WorldLine.Standard.Ai.Game.Pet.Expedition
         {
             get
             {
-                var models = AutofacSvc.Resolve<HonorHelper>().Items.Where(item => Options.Contains(item.Name));
+                var models = AutofacSvc.Resolve<HonorSvc>().Items.Where(item => Options.Contains(item.Name));
                 var sumPrice = models.Max(m => m.Price) * Max;
                 if (sumPrice > 3000)
                 {

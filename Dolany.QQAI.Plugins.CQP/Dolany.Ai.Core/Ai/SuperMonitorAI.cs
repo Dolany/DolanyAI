@@ -31,7 +31,7 @@ namespace Dolany.Ai.Core.Ai
                 return false;
             }
 
-            MsgDTO.IsAlive = AliveStateMgr.GetState(MsgDTO.FromGroup, MsgDTO.FromQQ) == null;
+            MsgDTO.IsAlive = AliveStateSvc.GetState(MsgDTO.FromGroup, MsgDTO.FromQQ) == null;
 
             return !GroupSettingSvc[MsgDTO.FromGroup].IsPowerOn;
         }

@@ -4,7 +4,7 @@ using Dolany.Ai.Common;
 
 namespace Dolany.WorldLine.Standard.Ai.Game.Advanture
 {
-    public class CaveSettingHelper : IDataMgr, IDependency
+    public class CaveSettingSvc : IDataMgr, IDependency
     {
         private List<CaveDataModel> CaveDatas;
 

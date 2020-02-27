@@ -31,7 +31,7 @@ namespace Dolany.WorldLine.Standard.Ai.Vip
             }
 
             record.Date = dateStr;
-            record.GoodsName = AutofacSvc.Resolve<DailyVipShopMgr>().RandGoods(7);
+            record.GoodsName = AutofacSvc.Resolve<DailyVipShopSvc>().RandGoods(7);
             record.Update();
 
             return record;
