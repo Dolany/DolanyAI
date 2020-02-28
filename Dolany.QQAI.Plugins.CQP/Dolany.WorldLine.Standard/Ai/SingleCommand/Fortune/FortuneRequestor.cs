@@ -25,22 +25,20 @@ namespace Dolany.WorldLine.Standard.Ai.SingleCommand.Fortune
         {
             var parser = new StarFortuneParser();
 
-            using (var requester = new HttpRequester())
+            using var requester = new HttpRequester();
+            var code = GetStarCode(MsgDTO.Msg);
+            if (code < 0)
             {
-                var code = GetStarCode(MsgDTO.Msg);
-                if (code < 0)
-                {
-                    ReportCallBack?.Invoke(MsgDTO, "未查找到该星座！");
-                    return;
-                }
-
-                var aimStr = $"http://astro.sina.cn/fortune/starent?type=day&ast={code}&vt=4";
-                var HtmlStr = requester.Request(aimStr);
-
-                parser.Load(HtmlStr);
-
-                ReportCallBack?.Invoke(MsgDTO, parser.Content);
+                ReportCallBack?.Invoke(MsgDTO, "未查找到该星座！");
+                return;
             }
+
+            var aimStr = $"http://astro.sina.cn/fortune/starent?type=day&ast={code}&vt=4";
+            var HtmlStr = requester.Request(aimStr);
+
+            parser.Load(HtmlStr);
+
+            ReportCallBack?.Invoke(MsgDTO, parser.Content);
         }
 
         private int GetStarCode(string starName)

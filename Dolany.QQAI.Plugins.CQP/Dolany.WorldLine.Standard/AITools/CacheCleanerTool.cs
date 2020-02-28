@@ -4,7 +4,6 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using Dolany.Ai.Core.Base;
-using Newtonsoft.Json;
 
 namespace Dolany.WorldLine.Standard.AITools
 {

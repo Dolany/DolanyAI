@@ -161,7 +161,7 @@ namespace Dolany.WorldLine.Standard.Ai.Game.DriftBottle
                 return false;
             }
 
-            var msg = $"你收集的物品中，{name} 特性的物品有：\r" +
+            var msg = $"你收集的物品中，【{name}】 特性的物品有：\r" +
                       string.Join(",", items.Select(item => $"{item.Key}*{item.Value}"));
             MsgSender.PushMsg(MsgDTO, msg);
             return true;
@@ -396,7 +396,7 @@ namespace Dolany.WorldLine.Standard.Ai.Game.DriftBottle
             var record = ItemCollectionRecord.Get(MsgDTO.FromQQ);
             var items = honor.Items.Select(h => $"{h.Name}*{record.GetCount(h.Name)}");
             var itemsMsg = string.Join(",", items);
-            var msg = $"解锁成就 {honor.FullName} 需要集齐：{itemsMsg}";
+            var msg = $"解锁成就 【{honor.FullName}】 需要集齐：{itemsMsg}";
             MsgSender.PushMsg(MsgDTO, msg);
             return true;
         }

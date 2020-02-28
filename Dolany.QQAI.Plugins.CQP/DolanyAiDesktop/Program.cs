@@ -18,12 +18,13 @@ namespace DolanyAiDesktop
 {
     class Program
     {
-        private static readonly IWorldLine[] worlds = {new StandardWorldLine(), new KindomStormWorldLine(),};
+        private static IWorldLine[] worlds;
         private static IWorldLine DefaultWorldLine => worlds.First(w => w.IsDefault);
 
         private static WaiterSvc WaiterSvc => AutofacSvc.Resolve<WaiterSvc>();
         private static CrossWorldAiSvc CrossWorldAiSvc => AutofacSvc.Resolve<CrossWorldAiSvc>();
         private static GroupSettingSvc GroupSettingSvc => AutofacSvc.Resolve<GroupSettingSvc>();
+        private static DataRefreshSvc DataRefreshSvc => AutofacSvc.Resolve<DataRefreshSvc>();
 
         static void Main(string[] args)
         {
@@ -41,6 +42,7 @@ namespace DolanyAiDesktop
             {
                 RegisterAutofac(assemblies);
                 RegisterDataRefresher(assemblies);
+                worlds = GetWorlds(assemblies);
 
                 Global.MsgPublish = PrintMsg;
                 SFixedSetService.SetMaxCount("PicCache", Global.DefaultConfig.MaxPicCacheCount);
@@ -53,6 +55,7 @@ namespace DolanyAiDesktop
 
                 foreach (var worldLine in worlds)
                 {
+                    worldLine.Init();
                     worldLine.AIGroup.AddRange(CrossWorldAiSvc.CrossWorldAis.ToArray());
                     worldLine.Load();
                 }
@@ -138,8 +141,16 @@ namespace DolanyAiDesktop
             foreach (var datamgr in datamgrs)
             {
                 datamgr.RefreshData();
-                AutofacSvc.Resolve<DataRefreshSvc>().Register(datamgr);
+                DataRefreshSvc.Register(datamgr);
             }
+        }
+
+        private static IWorldLine[] GetWorlds(IEnumerable<Assembly> assemblies)
+        {
+            var baseType = typeof(IWorldLine);
+            return assemblies.SelectMany(p => p.GetTypes().Where(type => type.IsSubclassOf(baseType) && !type.IsAbstract))
+                .Where(type => AutofacSvc.Container.IsRegistered(type)).Select(type => AutofacSvc.Container.Resolve(type) as IWorldLine).Where(d => d != null)
+                .ToArray();
         }
     }
 }

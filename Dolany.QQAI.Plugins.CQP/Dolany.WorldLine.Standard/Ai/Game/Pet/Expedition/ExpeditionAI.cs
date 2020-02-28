@@ -16,9 +16,9 @@ namespace Dolany.WorldLine.Standard.Ai.Game.Pet.Expedition
         public override string Description { get; set; } = "AI for Pet Expedition.";
         public override AIPriority PriorityLevel { get;} = AIPriority.Normal;
 
-        private static ExpeditionSceneSvc ExpeditionSceneSvc => AutofacSvc.Resolve<ExpeditionSceneSvc>();
-        private static PetLevelSvc PetLevelSvc => AutofacSvc.Resolve<PetLevelSvc>();
-        private static HonorSvc HonorSvc => AutofacSvc.Resolve<HonorSvc>();
+        public ExpeditionSceneSvc ExpeditionSceneSvc { get; set; }
+        public PetLevelSvc PetLevelSvc { get; set; }
+        public HonorSvc HonorSvc { get; set; }
 
         [EnterCommand(ID = "ExpeditionAI_Expedite",
             Command = "宠物远征",
@@ -92,7 +92,7 @@ namespace Dolany.WorldLine.Standard.Ai.Game.Pet.Expedition
             return true;
         }
 
-        private static void DrawAwards(ExpeditionRecord expeditionRec, MsgInformationEx MsgDTO)
+        private void DrawAwards(ExpeditionRecord expeditionRec, MsgInformationEx MsgDTO)
         {
             var expeditionModel = ExpeditionSceneSvc[expeditionRec.Scene];
             var award = expeditionModel.Award(MsgDTO.FromQQ);

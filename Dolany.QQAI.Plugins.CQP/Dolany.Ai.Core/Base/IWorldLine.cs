@@ -10,7 +10,7 @@ using Dolany.Ai.Core.Common;
 
 namespace Dolany.Ai.Core.Base
 {
-    public abstract class IWorldLine
+    public abstract class IWorldLine : IDependency
     {
         public abstract string Name { get; set; }
         public virtual bool IsDefault { get; } = false;
@@ -21,15 +21,16 @@ namespace Dolany.Ai.Core.Base
         public List<EnterCommandAttribute> AllAvailableGroupCommands { get; } = new List<EnterCommandAttribute>();
         public List<string> OptionalAINames => AIGroup.Where(ai => ai.NeedManualOpeon).Select(ai => ai.AIName).ToList();
 
-        private static BindAiSvc BindAiSvc => AutofacSvc.Resolve<BindAiSvc>();
-        private static DirtyFilterSvc DirtyFilterSvc => AutofacSvc.Resolve<DirtyFilterSvc>();
+        public BindAiSvc BindAiSvc { get; set; }
+        public DirtyFilterSvc DirtyFilterSvc { get; set; }
+        public GroupSettingSvc GroupSettingSvc { get; set; }
 
         public T AIInstance<T>() where T : AIBase
         {
             return AIGroup.FirstOrDefault(ai => ai.GetType().Name == typeof(T).Name) as T;
         }
 
-        protected IWorldLine()
+        public void Init()
         {
             var assembly = GetType().Assembly;
             AIGroup = CommonUtil.LoadAllInstanceFromClass<AIBase>(assembly);
@@ -153,10 +154,9 @@ namespace Dolany.Ai.Core.Base
                     }
 
                     var availableBindAis = new List<BindAiModel>();
-                    var GroupSettingMgr = AutofacSvc.Resolve<GroupSettingSvc>();
-                    if (MsgDTO.Type == MsgType.Group && GroupSettingMgr[MsgDTO.FromGroup] != null)
+                    if (MsgDTO.Type == MsgType.Group && GroupSettingSvc[MsgDTO.FromGroup] != null)
                     {
-                        availableBindAis = GroupSettingMgr[MsgDTO.FromGroup].BindAis.Where(p => !RecentCommandCache.IsTooFreq(p))
+                        availableBindAis = GroupSettingSvc[MsgDTO.FromGroup].BindAis.Where(p => !RecentCommandCache.IsTooFreq(p))
                             .Select(p => BindAiSvc[p]).ToList();
                     }
                     else if(!RecentCommandCache.IsTooFreq(MsgDTO.BindAi))
