@@ -385,5 +385,22 @@ namespace Dolany.Ai.Core.Ai
             MsgSender.PushMsg(MsgDTO, $"刷新成功！共刷新 {count}个数据项！");
             return true;
         }
+
+        [EnterCommand(ID = "SuperAdminAI_SysPressure",
+            Command = "系统压力",
+            Description = "查看系统压力信息",
+            Syntax = "",
+            Tag = "超管",
+            SyntaxChecker = "Empty",
+            AuthorityLevel = AuthorityLevel.开发者,
+            IsPrivateAvailable = true,
+            IsGroupAvailable = true)]
+        public bool SysPressure(MsgInformationEx MsgDTO, object[] param)
+        {
+            var msg = string.Join("\r",
+                RecentCommandCache.Pressures.Select(p => $"{p.Key}:{p.Value}{(p.Value >= RecentCommandCache.MaxRecentCommandCacheCount ? "(危)" : string.Empty)}"));
+            MsgSender.PushMsg(MsgDTO, msg);
+            return true;
+        }
     }
 }

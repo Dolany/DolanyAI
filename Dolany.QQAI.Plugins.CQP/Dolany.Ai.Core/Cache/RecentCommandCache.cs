@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Concurrent;
+using System.Collections.Generic;
 using System.Linq;
 using Dolany.Ai.Core.Common;
 
@@ -7,9 +8,12 @@ namespace Dolany.Ai.Core.Cache
 {
     public class RecentCommandCache
     {
-        private static readonly int MaxRecentCommandCacheCount = Global.DefaultConfig.MaxRecentCommandCacheCount;
+        public static readonly int MaxRecentCommandCacheCount = Global.DefaultConfig.MaxRecentCommandCacheCount;
 
         private static readonly ConcurrentDictionary<string, ConcurrentQueue<DateTime>> TimeCacheDic = new ConcurrentDictionary<string, ConcurrentQueue<DateTime>>();
+
+        public static Dictionary<string, int> Pressures =>
+            TimeCacheDic.ToDictionary(p => p.Key, p => p.Value.Count).OrderByDescending(p => p.Value).ToDictionary(p => p.Key, p => p.Value);
 
         public static void Cache(string BindAi)
         {
