@@ -13,7 +13,7 @@ namespace Dolany.Ai.Core.Cache
         private static readonly ConcurrentDictionary<string, ConcurrentQueue<DateTime>> TimeCacheDic = new ConcurrentDictionary<string, ConcurrentQueue<DateTime>>();
 
         public static Dictionary<string, int> Pressures =>
-            TimeCacheDic.ToDictionary(p => p.Key, p => p.Value.Count).OrderByDescending(p => p.Value).ToDictionary(p => p.Key, p => p.Value);
+            TimeCacheDic.ToDictionary(p => p.Key, p => p.Value.Count(d => d.AddHours(1) > DateTime.Now)).OrderByDescending(p => p.Value).ToDictionary(p => p.Key, p => p.Value);
 
         public static void Cache(string BindAi)
         {

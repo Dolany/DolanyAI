@@ -81,7 +81,7 @@ namespace Dolany.WorldLine.Standard.Ai.Game.Lottery
             var items = HonorSvc.CurMonthLimitItems();
             var item = items.RandElement();
 
-            var msg = $"恭喜你抽到了 {item.Name}*1\r" +
+            var msg = $"恭喜你抽到了 【{item.Name}】*1\r" +
                       $"    {item.Description} ";
             var record = ItemCollectionRecord.Get(MsgDTO.FromQQ);
             var m = record.ItemIncome(item.Name);
