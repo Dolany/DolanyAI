@@ -47,9 +47,15 @@ namespace Dolany.Ai.Core.Ai.SingleCommand.Tuling
                 return true;
             }
 
-            if (MsgDTO.Type == MsgType.Group && BindAiSvc.AllAiNums.All(p => !MsgDTO.FullMsg.Contains(CodeApi.Code_At(p))))
+            if (MsgDTO.Type == MsgType.Group)
             {
-                return false;
+                var bindAi = BindAiSvc.AiDic.Values.FirstOrDefault(p => MsgDTO.FullMsg.Contains(CodeApi.Code_At(p.SelfNum)));
+                if (bindAi == null)
+                {
+                    return false;
+                }
+
+                MsgDTO.BindAi = bindAi.Name;
             }
 
             var stateCache = AliveStateSvc.GetState(MsgDTO.FromGroup, MsgDTO.FromQQ);

@@ -1,6 +1,8 @@
 ﻿using System;
+using Dolany.Ai.Common.Models;
 using Dolany.Database;
 using Dolany.WorldLine.Standard.Ai.Game.SignIn;
+using Dolany.WorldLine.Standard.Ai.SingleCommand.Fortune;
 
 namespace Dolany.Temp
 {
@@ -8,9 +10,8 @@ namespace Dolany.Temp
     {
         static void Main(string[] args)
         {
-            var today = DateTime.Today;
-            var r = MongoService<SignInSuccessiveRecord>.Get(p => p.EndDate > today);
-            MongoService<SignInSuccessiveRecord>.DeleteMany(r);
+            var rq = new FortuneRequestor(new MsgInformationEx(){Msg = "双鱼"}, null);
+            rq.Work();
 
             Console.WriteLine("Completed");
             Console.ReadKey();

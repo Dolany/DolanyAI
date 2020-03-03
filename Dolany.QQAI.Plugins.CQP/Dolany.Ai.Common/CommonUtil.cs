@@ -3,8 +3,11 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Linq.Expressions;
+using System.Net;
 using System.Reflection;
+using System.Text;
 using System.Threading;
+using System.Web;
 using Autofac;
 using Newtonsoft.Json;
 
@@ -230,6 +233,43 @@ namespace Dolany.Ai.Common
             }
 
             return msg;
+        }
+
+        public static string GetData(string url, Dictionary<string, string> dic)
+        {
+            string result;
+            var builder = new StringBuilder();
+            builder.Append(url);
+            if (dic != null && dic.Count > 0)
+            {
+                builder.Append("?");
+                var i = 0;
+                foreach (var (key, value) in dic)
+                {
+                    if (i > 0)
+                    {
+                        builder.Append("&");
+                    }
+                    builder.AppendFormat("{0}={1}", key, HttpUtility.UrlEncode(value));
+                    i++;
+                }
+            }
+            var req = (HttpWebRequest)WebRequest.Create(builder.ToString());
+            //添加参数
+            var resp = (HttpWebResponse)req.GetResponse();
+            using (var stream = resp.GetResponseStream())
+            {
+                if (stream == null)
+                {
+                    return string.Empty;
+                }
+
+                //获取内容
+                using var reader = new StreamReader(stream);
+                result = reader.ReadToEnd();
+            }
+
+            return result;
         }
     }
 }
