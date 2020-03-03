@@ -27,6 +27,12 @@ namespace Dolany.Ai.WSMidware
         public void Connect()
         {
             client.Open();
+
+            if (client.State != WebSocketState.Open)
+            {
+                return;
+            }
+
             IsConnected = true;
             WSMgr.OnConnectStateChanged(BindAi, true);
         }
