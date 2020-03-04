@@ -82,7 +82,9 @@ namespace Dolany.Ai.WSMidware
         {
             foreach (var wsClient in ClientsDic.Values.Where(client => !client.IsConnected))
             {
+                Console.WriteLine($"Reconnecting:{wsClient.BindAi}");
                 wsClient.Connect();
+                Console.WriteLine($"Reconnect {wsClient.BindAi} {(wsClient.IsConnected ? "success" : "failed")}!");
             }
         }
 

@@ -1,5 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
 using Dolany.Ai.Common;
 using Dolany.Ai.Common.Models;
@@ -11,16 +10,14 @@ namespace Dolany.WorldLine.Standard.Ai.SingleCommand.Fortune
     public class FortuneRequestor
     {
         private readonly MsgInformationEx MsgDTO;
-        private readonly Action<MsgInformationEx, string> ReportCallBack;
 
         private readonly Dictionary<string, string> StarMap = new Dictionary<string, string>();
 
         private const string GetUrl = "https://interface.sina.cn/ast/get_app_fate.d.json";
 
-        public FortuneRequestor(MsgInformationEx MsgDTO, Action<MsgInformationEx, string> ReportCallBack)
+        public FortuneRequestor(MsgInformationEx MsgDTO)
         {
             this.MsgDTO = MsgDTO;
-            this.ReportCallBack = ReportCallBack;
 
             InitStarMap();
         }

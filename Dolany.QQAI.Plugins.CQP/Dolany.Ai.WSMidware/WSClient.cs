@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Threading;
 using Dolany.Ai.WSMidware.Models;
 using Newtonsoft.Json;
 using WebSocket4Net;
@@ -11,7 +12,7 @@ namespace Dolany.Ai.WSMidware
         private readonly Action<string, QQEventModel> MsgInvoke;
 
         public bool IsConnected;
-        private readonly string BindAi;
+        public readonly string BindAi;
 
         public WSClient(string url, string BindAi, Action<string, QQEventModel> MsgInvoke)
         {
@@ -28,6 +29,7 @@ namespace Dolany.Ai.WSMidware
         {
             client.Open();
 
+            Thread.Sleep(1000);
             if (client.State != WebSocketState.Open)
             {
                 return;

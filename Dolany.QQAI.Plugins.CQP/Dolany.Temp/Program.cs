@@ -10,8 +10,8 @@ namespace Dolany.Temp
     {
         static void Main(string[] args)
         {
-            var rq = new FortuneRequestor(new MsgInformationEx(){Msg = "双鱼"}, null);
-            rq.Work();
+            //var rq = new FortuneRequestor(new MsgInformationEx(){Msg = "双鱼"}, null);
+            //rq.Work();
 
             Console.WriteLine("Completed");
             Console.ReadKey();

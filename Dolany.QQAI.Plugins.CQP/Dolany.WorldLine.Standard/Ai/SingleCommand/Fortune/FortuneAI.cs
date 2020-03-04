@@ -89,14 +89,9 @@ namespace Dolany.WorldLine.Standard.Ai.SingleCommand.Fortune
             IsPrivateAvailable = true)]
         public bool StarFortune(MsgInformationEx MsgDTO, object[] param)
         {
-            var jr = new FortuneRequestor(MsgDTO, ReportCallBack);
-            Task.Run(() => jr.Work());
+            var jr = new FortuneRequestor(MsgDTO);
+            jr.Work();
             return true;
-        }
-
-        private static void ReportCallBack(MsgInformationEx MsgDTO, string Report)
-        {
-            MsgSender.PushMsg(MsgDTO, Report);
         }
 
         private static int GetRandomFortune()
