@@ -68,5 +68,28 @@
       "Phy": [ 2, 4, 6, 8, 10 ]
     },
     "LearnLevel": 5
+  },
+  "涂毒": {
+    "Description": "对方进入中毒状态，回合结束时造成(Hurt)点毒系伤害，持续(Turn)回合",
+    "Data": {
+      "Hurt": [ 4, 8, 10, 12, 14 ],
+      "Turn": [ 2, 2, 3, 3, 3 ]
+    },
+    "LearnLevel": 20
+  },
+  "圣光洗礼": {
+    "Description": "去除身上所有的buff，物理攻击+(Phy)，持续(Turn)回合",
+    "Data": {
+      "Phy": [ 4, 6, 8, 8, 10 ],
+      "Turn": [ 2, 2, 2, 3, 3 ]
+    },
+    "LearnLevel": 20
+  },
+  "穿刺打击": {
+    "Description": "造成(real)点真实伤害",
+    "Data": {
+      "Hurt": [ 7, 12, 15, 18, 21 ]
+    },
+    "LearnLevel": 21
   } 
 }

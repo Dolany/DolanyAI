@@ -63,6 +63,7 @@ namespace Dolany.WorldLine.Standard.Ai.Game.Pet.PetAgainst
                 DemageType.物理 => source.Buffs.Where(p => p.Trigger == CheckTrigger.PhyAttackFix),
                 DemageType.魔法 => source.Buffs.Where(p => p.Trigger == CheckTrigger.MagicAttackFix),
                 DemageType.毒系 => source.Buffs.Where(p => p.Trigger == CheckTrigger.PoisionAttackFix),
+                //DemageType.真实 => 
                 _ => new List<GamingBuff>()
             };
             foreach (var buff in buffs)
@@ -78,19 +79,14 @@ namespace Dolany.WorldLine.Standard.Ai.Game.Pet.PetAgainst
         private int CalDestDemage(GamingPet source, GamingPet dest, DemageType type, int value)
         {
             var result = value;
-            IEnumerable<GamingBuff> buffs = new List<GamingBuff>();
-            switch (type)
+            var buffs = type switch
             {
-                case DemageType.物理:
-                    buffs = dest.Buffs.Where(p => p.Trigger == CheckTrigger.PhyDefenceFix);
-                    break;
-                case DemageType.魔法:
-                    buffs = dest.Buffs.Where(p => p.Trigger == CheckTrigger.MagicDefenceFix);
-                    break;
-                case DemageType.毒系:
-                    buffs = dest.Buffs.Where(p => p.Trigger == CheckTrigger.PoisionDefenceFix);
-                    break;
-            }
+                DemageType.物理 => dest.Buffs.Where(p => p.Trigger == CheckTrigger.PhyDefenceFix),
+                DemageType.魔法 => dest.Buffs.Where(p => p.Trigger == CheckTrigger.MagicDefenceFix),
+                DemageType.毒系 => dest.Buffs.Where(p => p.Trigger == CheckTrigger.PoisionDefenceFix),
+                //DemageType.真实 => 
+                _ => new List<GamingBuff>()
+            };
             foreach (var buff in buffs)
             {
                 buff.Data.AddSafe("Source", source);
@@ -128,6 +124,15 @@ namespace Dolany.WorldLine.Standard.Ai.Game.Pet.PetAgainst
             var rate = (int) data["Rate"];
 
             return (value * (rate + 100) / 100).ToString();
+        }
+
+        [PetGamingEffect(Name = "物理攻击增加")]
+        public string 物理攻击增加Buff(Dictionary<string, object> data)
+        {
+            var value = (int) data["Value"];
+            var addPhy = (int) data["addPhy"];
+
+            return (value + addPhy).ToString();
         }
 
         [PetGamingEffect(Name = "反击Buff")]
@@ -279,6 +284,48 @@ namespace Dolany.WorldLine.Standard.Ai.Game.Pet.PetAgainst
             return msg;
         }
 
+        [PetGamingEffect(Name = "涂毒")]
+        public string 涂毒(Dictionary<string, object> data)
+        {
+            AimPet.Buffs.Add(new GamingBuff()
+            {
+                Name = "中毒",
+                Data = new Dictionary<string, object>()
+                {
+                    {"Hurt", (int)data["Hurt"] }
+                },
+                RemainTurn = (int)data["Turn"] + 1
+            });
+
+            var msg = $"对方已进入中毒状态！每回合受到{(int) data["Hurt"]}点毒系伤害，持续{(int) data["Turn"]}回合";
+            return msg;
+        }
+
+        [PetGamingEffect(Name = "圣光洗礼")]
+        public string 圣光洗礼(Dictionary<string, object> data)
+        {
+            SelfPet.Buffs.Clear();
+            SelfPet.Buffs.Add(new GamingBuff()
+            {
+                Name = "物理攻击增加",
+                Data = new Dictionary<string, object>()
+                {
+                    {"addPhy", (int)data["Phy"] }
+                },
+                RemainTurn = (int)data["Turn"],
+                Trigger = CheckTrigger.PhyAttackFix
+            });
+
+            var msg = $"自身所有buff已清除！物理攻击增加{(int) data["Phy"]}，持续{(int) data["Turn"]}回合";
+            return msg;
+        }
+
+        [PetGamingEffect(Name = "穿刺打击")]
+        public string 穿刺打击(Dictionary<string, object> data)
+        {
+            return DoDemage(SelfPet, AimPet, DemageType.真实, (int) data["Hurt"], "穿刺打击");
+        }
+
         #endregion
     }
 
@@ -294,6 +341,7 @@ namespace Dolany.WorldLine.Standard.Ai.Game.Pet.PetAgainst
     {
         物理,
         魔法,
-        毒系
+        毒系,
+        真实
     }
 }
