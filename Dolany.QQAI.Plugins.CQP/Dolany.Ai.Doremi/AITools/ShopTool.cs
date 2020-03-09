@@ -12,8 +12,8 @@ namespace Dolany.Ai.Doremi.AITools
     {
         public override bool Enable { get; set; } = true;
 
-        private static RandShopper RandShopper => AutofacSvc.Resolve<RandShopper>();
-        private static ArmerMgr ArmerMgr => AutofacSvc.Resolve<ArmerMgr>();
+        private static RandShopperSvc RandShopperSvc => AutofacSvc.Resolve<RandShopperSvc>();
+        private static ArmerSvc ArmerSvc => AutofacSvc.Resolve<ArmerSvc>();
 
         protected override List<ScheduleDoModel> ModelList { get; set; } = new List<ScheduleDoModel>()
         {
@@ -36,7 +36,7 @@ namespace Dolany.Ai.Doremi.AITools
             {
                 var isHalfHour = Rander.RandBool();
                 var dateTime = new DateTime(DateTime.Now.Year, DateTime.Now.Month, DateTime.Now.Day, hour, isHalfHour ? 30 : 0, 0);
-                var goods = ArmerMgr.GetRandArmers(5).Select(p => p.Name);
+                var goods = ArmerSvc.GetRandArmers(5).Select(p => p.Name);
                 return new ShopTimeRecord() {OpenTime = dateTime, SellingGoods = goods.ToArray()};
             }).ToList();
 
@@ -44,7 +44,7 @@ namespace Dolany.Ai.Doremi.AITools
             todayRecord.ExpiryTime = CommonUtil.UntilTommorow();
             todayRecord.Update();
 
-            RandShopper.Refresh();
+            RandShopperSvc.Refresh();
         }
 
         private static IEnumerable<int> GetHours(int count)

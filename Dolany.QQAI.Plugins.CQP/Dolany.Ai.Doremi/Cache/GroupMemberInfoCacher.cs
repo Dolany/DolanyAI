@@ -9,7 +9,7 @@ namespace Dolany.Ai.Doremi.Cache
 {
     public class GroupMemberInfoCacher
     {
-        private static GroupSettingMgr GroupSettingMgr => AutofacSvc.Resolve<GroupSettingMgr>();
+        private static GroupSettingSvc GroupSettingSvc => AutofacSvc.Resolve<GroupSettingSvc>();
 
         public static bool RefreshGroupInfo(long GroupNum, string BindAi)
         {
@@ -20,11 +20,11 @@ namespace Dolany.Ai.Doremi.Cache
                 return false;
             }
 
-            var setting = GroupSettingMgr[GroupNum];
+            var setting = GroupSettingSvc[GroupNum];
             setting.AuthInfo = new GroupAuthInfoModel {Owner = infos.owner, Mgrs = infos.adm?.ToList() ?? new List<long>()};
 
             setting.Update();
-            GroupSettingMgr.Refresh();
+            GroupSettingSvc.Refresh();
             Logger.Log($"Refresh Group Info: {GroupNum} completed");
 
             return true;

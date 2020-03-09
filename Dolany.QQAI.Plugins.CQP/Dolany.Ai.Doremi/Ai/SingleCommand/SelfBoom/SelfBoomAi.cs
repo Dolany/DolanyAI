@@ -17,7 +17,7 @@ namespace Dolany.Ai.Doremi.Ai.SingleCommand.SelfBoom
         private int BoomCode = Rander.RandInt(100000);
         private DateTime CodeDate = DateTime.Now;
 
-        private static Waiter Waiter => AutofacSvc.Resolve<Waiter>();
+        private static WaiterSvc WaiterSvc => AutofacSvc.Resolve<WaiterSvc>();
 
         [EnterCommand(ID = "SelfBoomAi_Boom",
             Command = "Boom",
@@ -29,7 +29,7 @@ namespace Dolany.Ai.Doremi.Ai.SingleCommand.SelfBoom
             IsPrivateAvailable = false)]
         public bool Boom(MsgInformationEx MsgDTO, object[] param)
         {
-            var backInfo = Waiter.WaitForInformation(
+            var backInfo = WaiterSvc.WaitForInformation(
                 new MsgCommand
                     {
                         Command = CommandType.SendGroup,

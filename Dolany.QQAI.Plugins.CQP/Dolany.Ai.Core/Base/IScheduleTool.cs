@@ -10,13 +10,13 @@ namespace Dolany.Ai.Core.Base
 
         public virtual bool Enabled { get; set; } = true;
 
-        public Scheduler Scheduler { get; set; }
+        public SchedulerSvc SchedulerSvc { get; set; }
 
         public virtual void Work()
         {
             foreach (var model in ModelList)
             {
-                Scheduler.Add(model.Interval, TimeUp, model.Data, IsImmdiately:model.IsImmediately);
+                SchedulerSvc.Add(model.Interval, TimeUp, model.Data, IsImmdiately:model.IsImmediately);
             }
         }
 

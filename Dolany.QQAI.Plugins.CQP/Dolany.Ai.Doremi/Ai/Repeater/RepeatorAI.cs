@@ -22,7 +22,7 @@ namespace Dolany.Ai.Doremi.Ai.Repeater
 
         private const int SleepTime = 2000;
 
-        private static GroupSettingMgr GroupSettingMgr => AutofacSvc.Resolve<GroupSettingMgr>();
+        private static GroupSettingSvc GroupSettingSvc => AutofacSvc.Resolve<GroupSettingSvc>();
 
         public override bool OnMsgReceived(MsgInformationEx MsgDTO)
         {
@@ -36,7 +36,7 @@ namespace Dolany.Ai.Doremi.Ai.Repeater
                 return false;
             }
 
-            var setting = GroupSettingMgr[MsgDTO.FromGroup];
+            var setting = GroupSettingSvc[MsgDTO.FromGroup];
             if (!setting.HasFunction("随机复读"))
             {
                 return false;

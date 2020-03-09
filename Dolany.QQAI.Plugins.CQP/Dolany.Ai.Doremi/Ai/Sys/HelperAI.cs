@@ -52,7 +52,7 @@ namespace Dolany.Ai.Doremi.Ai.Sys
         private static void HelpSummary(MsgInformationEx MsgDTO)
         {
             var helpMsg = "当前的命令标签有：";
-            var commandAttrs = AIMgr.AllAvailableGroupCommands.GroupBy(c => c.Tag)
+            var commandAttrs = AiSvc.AllAvailableGroupCommands.GroupBy(c => c.Tag)
                                                                        .Select(p => p.First());
             if (MsgDTO.Auth != AuthorityLevel.开发者)
             {
@@ -73,7 +73,7 @@ namespace Dolany.Ai.Doremi.Ai.Sys
 
         private static bool HelpCommand(MsgInformationEx MsgDTO)
         {
-            var commands = AIMgr.AllAvailableGroupCommands.Where(c => c.Command == MsgDTO.Msg).ToList();
+            var commands = AiSvc.AllAvailableGroupCommands.Where(c => c.Command == MsgDTO.Msg).ToList();
             if (!Global.TestGroups.Contains(MsgDTO.FromGroup))
             {
                 commands = commands.Where(c => !c.IsTesting).ToList();
@@ -112,7 +112,7 @@ namespace Dolany.Ai.Doremi.Ai.Sys
 
         private static void HelpTag(MsgInformationEx MsgDTO)
         {
-            var commands = AIMgr.AllAvailableGroupCommands
+            var commands = AiSvc.AllAvailableGroupCommands
                 .Where(c => c.Tag == MsgDTO.Msg).GroupBy(p => p.Command)
                 .Select(p => p.First()).ToList();
             if (!Global.TestGroups.Contains(MsgDTO.FromGroup))

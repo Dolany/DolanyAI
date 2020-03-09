@@ -4,7 +4,7 @@ using Dolany.Ai.Common;
 
 namespace Dolany.Ai.Doremi.Xiuxian
 {
-    public class EscapeArmerMgr : IDataMgr
+    public class EscapeArmerSvc : IDataMgr
     {
         private List<EscapeArmerModel> Armers;
 
@@ -12,7 +12,7 @@ namespace Dolany.Ai.Doremi.Xiuxian
 
         private static DataRefreshSvc DataRefreshSvc => AutofacSvc.Resolve<DataRefreshSvc>();
 
-        public EscapeArmerMgr()
+        public EscapeArmerSvc()
         {
             RefreshData();
             DataRefreshSvc.Register(this);

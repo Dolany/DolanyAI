@@ -15,9 +15,9 @@ namespace Dolany.Ai.Doremi.Ai.Sys
         BindAi = "Doremi")]
     public class MonitorAI : AIBase
     {
-        private static GroupSettingMgr GroupSettingMgr => AutofacSvc.Resolve<GroupSettingMgr>();
-        private static BindAiMgr BindAiMgr => AutofacSvc.Resolve<BindAiMgr>();
-        private static PowerStateMgr PowerStateMgr => AutofacSvc.Resolve<PowerStateMgr>();
+        private static GroupSettingSvc GroupSettingSvc => AutofacSvc.Resolve<GroupSettingSvc>();
+        private static BindAiSvc BindAiSvc => AutofacSvc.Resolve<BindAiSvc>();
+        private static PowerStateSvc PowerStateSvc => AutofacSvc.Resolve<PowerStateSvc>();
 
         public override bool OnMsgReceived(MsgInformationEx MsgDTO)
         {
@@ -33,7 +33,7 @@ namespace Dolany.Ai.Doremi.Ai.Sys
         private static void FiltPicMsg(MsgInformationEx MsgDTO)
         {
             var guid = Utility.ParsePicGuid(MsgDTO.FullMsg);
-            var bindAi = BindAiMgr[MsgDTO.BindAi];
+            var bindAi = BindAiSvc[MsgDTO.BindAi];
             var cacheInfo = Utility.ReadImageCacheInfo(guid, bindAi.ImagePath);
             if (cacheInfo == null || string.IsNullOrEmpty(cacheInfo.url))
             {
@@ -53,9 +53,9 @@ namespace Dolany.Ai.Doremi.Ai.Sys
             IsPrivateAvailable = false)]
         public bool PowerOff(MsgInformationEx MsgDTO, object[] param)
         {
-            foreach (var ai in PowerStateMgr.Ais)
+            foreach (var ai in PowerStateSvc.Ais)
             {
-                PowerStateMgr.PowerOff(ai);
+                PowerStateSvc.PowerOff(ai);
             }
 
             MsgSender.PushMsg(MsgDTO, "所有机器人关机成功！");
@@ -73,14 +73,14 @@ namespace Dolany.Ai.Doremi.Ai.Sys
         public bool PowerOffIndex(MsgInformationEx MsgDTO, object[] param)
         {
             var idx = (int) (long) param[0];
-            if (idx < 0 || idx >= PowerStateMgr.Ais.Length)
+            if (idx < 0 || idx >= PowerStateSvc.Ais.Length)
             {
                 MsgSender.PushMsg(MsgDTO, "编号错误！");
                 return false;
             }
 
-            var aiName = PowerStateMgr.Ais[idx];
-            PowerStateMgr.PowerOff(aiName);
+            var aiName = PowerStateSvc.Ais[idx];
+            PowerStateSvc.PowerOff(aiName);
             MsgDTO.BindAi = aiName;
 
             MsgSender.PushMsg(MsgDTO, "关机成功！");
@@ -97,9 +97,9 @@ namespace Dolany.Ai.Doremi.Ai.Sys
             IsPrivateAvailable = false)]
         public bool PowerOn(MsgInformationEx MsgDTO, object[] param)
         {
-            foreach (var ai in PowerStateMgr.Ais)
+            foreach (var ai in PowerStateSvc.Ais)
             {
-                PowerStateMgr.PowerOn(ai);
+                PowerStateSvc.PowerOn(ai);
             }
 
             MsgSender.PushMsg(MsgDTO, "所有机器人开机成功！");
@@ -117,14 +117,14 @@ namespace Dolany.Ai.Doremi.Ai.Sys
         public bool PowerOnIndex(MsgInformationEx MsgDTO, object[] param)
         {
             var idx = (int) (long) param[0];
-            if (idx < 0 || idx >= PowerStateMgr.Ais.Length)
+            if (idx < 0 || idx >= PowerStateSvc.Ais.Length)
             {
                 MsgSender.PushMsg(MsgDTO, "编号错误！");
                 return false;
             }
 
-            var aiName = PowerStateMgr.Ais[idx];
-            PowerStateMgr.PowerOn(aiName);
+            var aiName = PowerStateSvc.Ais[idx];
+            PowerStateSvc.PowerOn(aiName);
             MsgDTO.BindAi = aiName;
 
             MsgSender.PushMsg(MsgDTO, "开机成功！");
@@ -160,12 +160,12 @@ namespace Dolany.Ai.Doremi.Ai.Sys
                 return string.Empty;
             }
 
-            var setting = GroupSettingMgr[MsgDTO.FromGroup];
+            var setting = GroupSettingSvc[MsgDTO.FromGroup];
             var expiryDate = $"\r有效期至：{setting.ExpiryTime?.ToLocalTime()}";
 
             var pState = string.Join("\r",
-                PowerStateMgr.Ais.Select((ai, idx) =>
-                    $"{idx}号机:{(RecentCommandCache.IsTooFreq(ai) ? "过热保护" : PowerStateMgr.CheckPower(ai) ? "开机" : "关机")}"));
+                PowerStateSvc.Ais.Select((ai, idx) =>
+                    $"{idx}号机:{(RecentCommandCache.IsTooFreq(ai) ? "过热保护" : PowerStateSvc.CheckPower(ai) ? "开机" : "关机")}"));
             return $"\r电源状态：{pState}" + expiryDate;
         }
 

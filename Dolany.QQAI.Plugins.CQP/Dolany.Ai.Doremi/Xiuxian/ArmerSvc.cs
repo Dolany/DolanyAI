@@ -4,7 +4,7 @@ using Dolany.Ai.Common;
 
 namespace Dolany.Ai.Doremi.Xiuxian
 {
-    public class ArmerMgr : IDataMgr
+    public class ArmerSvc : IDataMgr
     {
         private List<ArmerModel> NormalArmerList;
 
@@ -15,7 +15,7 @@ namespace Dolany.Ai.Doremi.Xiuxian
             get { return NormalArmerList.FirstOrDefault(p => p.Name == name); }
         }
 
-        public ArmerMgr()
+        public ArmerSvc()
         {
             RefreshData();
             DataRefreshSvc.Register(this);

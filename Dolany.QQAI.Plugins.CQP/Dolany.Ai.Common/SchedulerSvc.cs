@@ -27,7 +27,7 @@ namespace Dolany.Ai.Common
         public static double SecondlyInterval => 1000;
     }
 
-    public class Scheduler : IDependency
+    public class SchedulerSvc : IDependency
     {
         private ImmutableList<SchedulerTimer> Timers { get; } = ImmutableList.Create<SchedulerTimer>();
 

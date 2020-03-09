@@ -16,8 +16,8 @@ namespace Dolany.Ai.Doremi.Ai.SingleCommand.GroupManage
         BindAi = "Doremi")]
     public class GroupOwnerOnlyAI : AIBase
     {
-        private static Waiter Waiter => AutofacSvc.Resolve<Waiter>();
-        private static GroupSettingMgr GroupSettingMgr => AutofacSvc.Resolve<GroupSettingMgr>();
+        private static WaiterSvc WaiterSvc => AutofacSvc.Resolve<WaiterSvc>();
+        private static GroupSettingSvc GroupSettingSvc => AutofacSvc.Resolve<GroupSettingSvc>();
 
         [EnterCommand(ID = "GroupOwnerOnlyAI_RefreshCommand",
             Command = "刷新",
@@ -32,7 +32,7 @@ namespace Dolany.Ai.Doremi.Ai.SingleCommand.GroupManage
         {
             var aimQQ = (long) param[0];
             var command = param[1] as string;
-            var enter = AIMgr.AllAvailableGroupCommands.FirstOrDefault(p => p.CommandsList.Contains(command));
+            var enter = AiSvc.AllAvailableGroupCommands.FirstOrDefault(p => p.CommandsList.Contains(command));
             if (enter == null)
             {
                 MsgSender.PushMsg(MsgDTO, "未找到该功能！", true);
@@ -67,7 +67,7 @@ namespace Dolany.Ai.Doremi.Ai.SingleCommand.GroupManage
                 return false;
             }
 
-            if (!Waiter.WaitForConfirm_Gold(MsgDTO, 500))
+            if (!WaiterSvc.WaitForConfirm_Gold(MsgDTO, 500))
             {
                 MsgSender.PushMsg(MsgDTO, "操作取消！");
                 return false;
@@ -108,7 +108,7 @@ namespace Dolany.Ai.Doremi.Ai.SingleCommand.GroupManage
                 return false;
             }
 
-            if (!Waiter.WaitForConfirm_Gold(MsgDTO, 100))
+            if (!WaiterSvc.WaitForConfirm_Gold(MsgDTO, 100))
             {
                 MsgSender.PushMsg(MsgDTO, "操作取消！");
                 return false;
@@ -133,8 +133,8 @@ namespace Dolany.Ai.Doremi.Ai.SingleCommand.GroupManage
             IsPrivateAvailable = false)]
         public bool EnableAllModules(MsgInformationEx MsgDTO, object[] param)
         {
-            var setting = GroupSettingMgr[MsgDTO.FromGroup];
-            setting.EnabledFunctions = AIMgr.OptionalAINames;
+            var setting = GroupSettingSvc[MsgDTO.FromGroup];
+            setting.EnabledFunctions = AiSvc.OptionalAINames;
             setting.Update();
 
             MsgSender.PushMsg(MsgDTO, "开启成功！");
@@ -151,8 +151,8 @@ namespace Dolany.Ai.Doremi.Ai.SingleCommand.GroupManage
             IsPrivateAvailable = false)]
         public bool ViewAllOptionalModules(MsgInformationEx MsgDTO, object[] param)
         {
-            var setting = GroupSettingMgr[MsgDTO.FromGroup];
-            var allModules = AIMgr.OptionalAINames;
+            var setting = GroupSettingSvc[MsgDTO.FromGroup];
+            var allModules = AiSvc.OptionalAINames;
 
             var msgs = allModules.Select(m => $"{m}  {(setting.EnabledFunctions.Contains(m) ? "√" : "×")}");
             var msg = $"{string.Join("\r", msgs)}\r可以使用 开启功能 [功能名] 来开启对应的功能；或使用 关闭功能 [功能名] 来关闭对应的功能";
@@ -171,17 +171,17 @@ namespace Dolany.Ai.Doremi.Ai.SingleCommand.GroupManage
         public bool ExchangeOwner(MsgInformationEx MsgDTO, object[] param)
         {
             var aimQQ = (long) param[0];
-            if (!Waiter.WaitForConfirm(MsgDTO, $"【警告】是否确认将群主移交给 {CodeApi.Code_At(aimQQ)}？（此操作不可逆）"))
+            if (!WaiterSvc.WaitForConfirm(MsgDTO, $"【警告】是否确认将群主移交给 {CodeApi.Code_At(aimQQ)}？（此操作不可逆）"))
             {
                 MsgSender.PushMsg(MsgDTO, "操作取消！");
                 return false;
             }
 
-            var setting = GroupSettingMgr[MsgDTO.FromGroup];
+            var setting = GroupSettingSvc[MsgDTO.FromGroup];
             setting.AuthInfo.Owner = aimQQ;
 
             setting.Update();
-            GroupSettingMgr.Refresh();
+            GroupSettingSvc.Refresh();
 
             MsgSender.PushMsg(MsgDTO, "已成功移交群主！");
 

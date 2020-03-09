@@ -19,7 +19,7 @@ namespace Dolany.Ai.Doremi
     /// <summary>
     /// AI管理类
     /// </summary>
-    public class AIMgr
+    public class AISvc
     {
         private List<AIBase> AIList { get; set; }
 
@@ -37,10 +37,10 @@ namespace Dolany.Ai.Doremi
 
         private event MessageCallBack OnMessageCallBack;
 
-        public RandShopper RandShopper { get; set; }
-        public Waiter Waiter { get; set; }
-        public PowerStateMgr PowerStateMgr { get; set; }
-        public DirtyFilter DirtyFilter { get; set; }
+        public RandShopperSvc RandShopperSvc { get; set; }
+        public WaiterSvc WaiterSvc { get; set; }
+        public PowerStateSvc PowerStateSvc { get; set; }
+        public DirtyFilterSvc DirtyFilterSvc { get; set; }
 
         public T AIInstance<T>() where T : AIBase
         {
@@ -66,8 +66,8 @@ namespace Dolany.Ai.Doremi
                 Init();
                 Logger.Log("加载所有可用AI");
                 StartAIs();
-                Waiter.Listen();
-                RandShopper.BindAi = "DoreFun";
+                WaiterSvc.Listen();
+                RandShopperSvc.BindAi = "DoreFun";
 
                 AIAnalyzer.Sys_StartTime = DateTime.Now;
             }
@@ -223,7 +223,7 @@ namespace Dolany.Ai.Doremi
             {
                 try
                 {
-                    if (!DirtyFilter.Filter(MsgDTO))
+                    if (!DirtyFilterSvc.Filter(MsgDTO))
                     {
                         return;
                     }
@@ -231,7 +231,7 @@ namespace Dolany.Ai.Doremi
                     foreach (var ai in AIList)
                     {
                         MsgDTO.BindAi = ai.AIAttr.BindAi;
-                        if (ai.AIAttr.PriorityLevel < 100 && !PowerStateMgr.CheckPower(MsgDTO.BindAi))
+                        if (ai.AIAttr.PriorityLevel < 100 && !PowerStateSvc.CheckPower(MsgDTO.BindAi))
                         {
                             continue;
                         }

@@ -22,7 +22,7 @@ namespace Dolany.Ai.Doremi.Ai.Game.Shopping
     {
         private Dictionary<long, SignInGroupRecord> GroupSignInDic = new Dictionary<long, SignInGroupRecord>();
 
-        private static GroupSettingMgr GroupSettingMgr => AutofacSvc.Resolve<GroupSettingMgr>();
+        private static GroupSettingSvc GroupSettingSvc => AutofacSvc.Resolve<GroupSettingSvc>();
 
         public override void Initialization()
         {
@@ -44,7 +44,7 @@ namespace Dolany.Ai.Doremi.Ai.Game.Shopping
         {
             var content = param[0] as string;
 
-            if (AIMgr.AllAvailableGroupCommands.Any(comm => comm.Command == content))
+            if (AiSvc.AllAvailableGroupCommands.Any(comm => comm.Command == content))
             {
                 MsgSender.PushMsg(MsgDTO, "不能与系统自带命令重复！");
                 return false;
@@ -73,7 +73,7 @@ namespace Dolany.Ai.Doremi.Ai.Game.Shopping
                 return true;
             }
 
-            if (MsgDTO.Type == MsgType.Private || !GroupSettingMgr[MsgDTO.FromGroup].HasFunction(AIAttr.Name))
+            if (MsgDTO.Type == MsgType.Private || !GroupSettingSvc[MsgDTO.FromGroup].HasFunction(AIAttr.Name))
             {
                 return false;
             }

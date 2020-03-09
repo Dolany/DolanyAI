@@ -23,7 +23,7 @@ namespace Dolany.Ai.WSMidware
         private List<ICmdResovler> CommandResolvers;
         private List<IMsgResolver> MessageResolvers;
 
-        private static Scheduler Scheduler => AutofacSvc.Resolve<Scheduler>();
+        private static SchedulerSvc SchedulerSvc => AutofacSvc.Resolve<SchedulerSvc>();
 
         public void Init()
         {
@@ -34,7 +34,7 @@ namespace Dolany.Ai.WSMidware
                 ClientsDic.TryAdd(ai.Name, new WSClient($"ws://localhost:{ai.BindPort}/{ai.Name}/", ai.Name, MessageInvoke));
             }
 
-            Scheduler.Add(SchedulerTimer.SecondlyInterval * Global.Config.ReconnectSecords, Reconnect);
+            SchedulerSvc.Add(SchedulerTimer.SecondlyInterval * Global.Config.ReconnectSecords, Reconnect);
 
             CommandResolvers = CommonUtil.LoadAllInstanceFromInterface<ICmdResovler>();
             MessageResolvers = CommonUtil.LoadAllInstanceFromInterface<IMsgResolver>();

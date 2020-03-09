@@ -21,7 +21,7 @@ namespace Dolany.Ai.Doremi.Ai.Repeater
     {
         private List<PlusOneModel> Cache { get; } = new List<PlusOneModel>();
 
-        private static GroupSettingMgr GroupSettingMgr => AutofacSvc.Resolve<GroupSettingMgr>();
+        private static GroupSettingSvc GroupSettingSvc => AutofacSvc.Resolve<GroupSettingSvc>();
 
         public override bool OnMsgReceived(MsgInformationEx MsgDTO)
         {
@@ -35,7 +35,7 @@ namespace Dolany.Ai.Doremi.Ai.Repeater
                 return false;
             }
 
-            var setting = GroupSettingMgr[MsgDTO.FromGroup];
+            var setting = GroupSettingSvc[MsgDTO.FromGroup];
             if (!setting.HasFunction("+1复读"))
             {
                 return false;

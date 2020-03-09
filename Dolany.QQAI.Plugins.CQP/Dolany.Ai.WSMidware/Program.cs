@@ -28,7 +28,7 @@ namespace Dolany.Ai.WSMidware
         {
             var builder = new ContainerBuilder();
             builder.RegisterType<DataRefreshSvc>().AsSelf().SingleInstance();
-            builder.RegisterType<Scheduler>().AsSelf().SingleInstance();
+            builder.RegisterType<SchedulerSvc>().AsSelf().SingleInstance();
             builder.RegisterType<WSMgr>().AsSelf().SingleInstance();
 
             AutofacSvc.Container = builder.Build();

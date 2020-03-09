@@ -5,13 +5,13 @@ using Dolany.Database.Ai;
 
 namespace Dolany.Ai.Doremi.Common
 {
-    public class GroupSettingMgr
+    public class GroupSettingSvc
     {
         public Dictionary<long, GroupSettings> SettingDic;
 
         public GroupSettings this[long GroupNum] => SettingDic[GroupNum];
 
-        public GroupSettingMgr()
+        public GroupSettingSvc()
         {
             Refresh();
         }

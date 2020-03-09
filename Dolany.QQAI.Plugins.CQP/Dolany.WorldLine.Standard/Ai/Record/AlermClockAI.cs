@@ -28,7 +28,7 @@ namespace Dolany.WorldLine.Standard.Ai.Record
 
         private List<string> ClockIdList { get; } = new List<string>();
 
-        public Scheduler Scheduler { get; set; }
+        public SchedulerSvc SchedulerSvc { get; set; }
 
         public override void Initialization()
         {
@@ -39,7 +39,7 @@ namespace Dolany.WorldLine.Standard.Ai.Record
         {
             foreach (var clockId in ClockIdList)
             {
-                Scheduler.Remove(clockId);
+                SchedulerSvc.Remove(clockId);
             }
             ClockIdList.Clear();
 
@@ -87,7 +87,7 @@ namespace Dolany.WorldLine.Standard.Ai.Record
         private void StartClock(AlermClock entity)
         {
             var interval = GetNextInterval(entity.AimHourt, entity.AimMinute);
-            var clockId = Scheduler.Add(interval, TimeUp, entity);
+            var clockId = SchedulerSvc.Add(interval, TimeUp, entity);
             ClockIdList.Add(clockId);
         }
 

@@ -9,13 +9,13 @@ namespace Dolany.Ai.Doremi.AITools
         protected abstract List<ScheduleDoModel> ModelList { get; set; }
         public abstract bool Enable { get; set; }
 
-        protected static Scheduler Scheduler => AutofacSvc.Resolve<Scheduler>();
+        protected static SchedulerSvc SchedulerSvc => AutofacSvc.Resolve<SchedulerSvc>();
 
         public virtual void Work()
         {
             foreach (var model in ModelList)
             {
-                Scheduler.Add(model.Interval, TimeUp, model.Data, IsImmdiately:model.IsImmediately);
+                SchedulerSvc.Add(model.Interval, TimeUp, model.Data, IsImmdiately:model.IsImmediately);
             }
         }
 

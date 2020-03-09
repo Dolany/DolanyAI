@@ -3,7 +3,7 @@ using Dolany.Database.Sqlite;
 
 namespace Dolany.Ai.Doremi.Common
 {
-    public class AliveStateMgr
+    public class AliveStateSvc
     {
         public AliveStateCache GetState(long GroupNum, long QQNum)
         {

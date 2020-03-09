@@ -17,7 +17,7 @@ namespace Dolany.Ai.Doremi.Ai.SingleCommand.GroupManage
         BindAi = "Doremi")]
     public class GroupManagerOnlyAI : AIBase
     {
-        private static Waiter Waiter => AutofacSvc.Resolve<Waiter>();
+        private static WaiterSvc WaiterSvc => AutofacSvc.Resolve<WaiterSvc>();
 
         [EnterCommand(ID = "GroupManagerOnlyAI_DeathStaring",
             Command = "死亡凝视",
@@ -133,7 +133,7 @@ namespace Dolany.Ai.Doremi.Ai.SingleCommand.GroupManage
                 return false;
             }
 
-            if (!Waiter.WaitForConfirm_Gold(MsgDTO, 100))
+            if (!WaiterSvc.WaitForConfirm_Gold(MsgDTO, 100))
             {
                 MsgSender.PushMsg(MsgDTO, "操作取消！");
                 return false;

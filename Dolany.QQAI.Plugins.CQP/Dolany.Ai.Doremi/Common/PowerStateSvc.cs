@@ -4,13 +4,13 @@ using Dolany.Ai.Doremi.Model;
 
 namespace Dolany.Ai.Doremi.Common
 {
-    public class PowerStateMgr
+    public class PowerStateSvc
     {
         public readonly string[] Ais = {"Doremi", "DoreFun"};
 
         private readonly List<PowerStateRecord> StateRecords;
 
-        public PowerStateMgr()
+        public PowerStateSvc()
         {
             StateRecords = Ais.Select(PowerStateRecord.Get).ToList();
         }

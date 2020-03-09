@@ -16,9 +16,9 @@ namespace Dolany.Ai.Doremi.Ai.Game.XunYuan
         BindAi = "DoreFun")]
     public class XunYuanAI : AIBase
     {
-        private static ArmerMgr ArmerMgr => AutofacSvc.Resolve<ArmerMgr>();
-        private static LevelMgr LevelMgr => AutofacSvc.Resolve<LevelMgr>();
-        private static Waiter Waiter => AutofacSvc.Resolve<Waiter>();
+        private static ArmerSvc ArmerSvc => AutofacSvc.Resolve<ArmerSvc>();
+        private static LevelSvc LevelSvc => AutofacSvc.Resolve<LevelSvc>();
+        private static WaiterSvc WaiterSvc => AutofacSvc.Resolve<WaiterSvc>();
 
         [EnterCommand(ID = "XunYuanAI_Xunyuan",
             Command = "寻缘",
@@ -58,7 +58,7 @@ namespace Dolany.Ai.Doremi.Ai.Game.XunYuan
             }
 
             var msg = $"{CodeApi.Code_At(aimQQ)} 你正被邀请参加一次寻缘，是否同意？";
-            if (!Waiter.WaitForConfirm(MsgDTO.FromGroup, aimQQ, msg, MsgDTO.BindAi))
+            if (!WaiterSvc.WaitForConfirm(MsgDTO.FromGroup, aimQQ, msg, MsgDTO.BindAi))
             {
                 MsgSender.PushMsg(MsgDTO, "操作取消！");
                 return false;
@@ -68,16 +68,16 @@ namespace Dolany.Ai.Doremi.Ai.Game.XunYuan
             {
                 var armerRecord = PersonArmerRecord.Get(p);
                 var osPerson = OSPerson.GetPerson(p);
-                var levelModel = LevelMgr.GetByLevel(osPerson.Level);
+                var levelModel = LevelSvc.GetByLevel(osPerson.Level);
                 return new XunYuanGamingModel()
                 {
                     QQNum = p,
                     Armers = armerRecord.Armers,
                     EscapeArmers = armerRecord.EscapeArmers,
                     BasicHP = levelModel.HP,
-                    HP = levelModel.HP + ArmerMgr.CountHP(armerRecord.Armers),
+                    HP = levelModel.HP + ArmerSvc.CountHP(armerRecord.Armers),
                     BasicAttack = levelModel.Atk,
-                    Attack = levelModel.Atk + ArmerMgr.CountAtk(armerRecord.Armers)
+                    Attack = levelModel.Atk + ArmerSvc.CountAtk(armerRecord.Armers)
                 };
             }).ToArray();
 

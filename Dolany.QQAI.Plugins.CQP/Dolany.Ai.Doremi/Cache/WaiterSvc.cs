@@ -9,14 +9,14 @@ using Dolany.Ai.Doremi.Common;
 
 namespace Dolany.Ai.Doremi.Cache
 {
-    public class Waiter
+    public class WaiterSvc
     {
         private readonly object _lockObj = new object();
 
         private readonly Dictionary<long, List<WaiterUnit>> UnitsDic = new Dictionary<long, List<WaiterUnit>>();
 
-        public AIMgr AIMgr { get; set; }
-        public GroupSettingMgr GroupSettingMgr { get; set; }
+        public AISvc AiSvc { get; set; }
+        public GroupSettingSvc GroupSettingSvc { get; set; }
 
         public void Listen()
         {
@@ -37,7 +37,7 @@ namespace Dolany.Ai.Doremi.Cache
 
             if (info.FromGroup != 0)
             {
-                var setting = GroupSettingMgr[info.FromGroup];
+                var setting = GroupSettingSvc[info.FromGroup];
                 if (setting.BindAi != info.BindAi || (setting.ExpiryTime != null && setting.ExpiryTime < DateTime.Now))
                 {
                     return;
@@ -45,7 +45,7 @@ namespace Dolany.Ai.Doremi.Cache
             }
 
             var msg = $"[Info] {info.BindAi} {source} {info.FromQQ} {info.Msg}";
-            AIMgr.MessagePublish(msg);
+            AiSvc.MessagePublish(msg);
 
             switch (info.Information)
             {
@@ -62,7 +62,7 @@ namespace Dolany.Ai.Doremi.Cache
 
                     if (waitUnit == null)
                     {
-                        AIMgr.OnMsgReceived(info);
+                        AiSvc.OnMsgReceived(info);
                         break;
                     }
 

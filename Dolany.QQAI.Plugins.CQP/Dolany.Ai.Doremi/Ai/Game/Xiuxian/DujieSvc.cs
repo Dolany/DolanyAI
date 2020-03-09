@@ -4,13 +4,13 @@ using Dolany.Ai.Common;
 
 namespace Dolany.Ai.Doremi.Ai.Game.Xiuxian
 {
-    public class DujieMgr : IDataMgr
+    public class DujieSvc : IDataMgr
     {
         private List<DujieQAModel> QAs;
 
         private static DataRefreshSvc DataRefreshSvc => AutofacSvc.Resolve<DataRefreshSvc>();
 
-        public DujieMgr()
+        public DujieSvc()
         {
             RefreshData();
             DataRefreshSvc.Register(this);

@@ -23,8 +23,8 @@ namespace Dolany.Ai.Doremi.Ai.Sys
         BindAi = "Doremi")]
     public class DeveloperOnlyAI : AIBase
     {
-        private static GroupSettingMgr GroupSettingMgr => AutofacSvc.Resolve<GroupSettingMgr>();
-        private static DirtyFilter DirtyFilter => AutofacSvc.Resolve<DirtyFilter>();
+        private static GroupSettingSvc GroupSettingSvc => AutofacSvc.Resolve<GroupSettingSvc>();
+        private static DirtyFilterSvc DirtyFilterSvc => AutofacSvc.Resolve<DirtyFilterSvc>();
 
         [EnterCommand(ID = "DeveloperOnlyAI_Board",
             Command = "广播",
@@ -37,7 +37,7 @@ namespace Dolany.Ai.Doremi.Ai.Sys
         public bool Board(MsgInformationEx MsgDTO, object[] param)
         {
             var content = param[0] as string;
-            var groups = GroupSettingMgr.SettingDic.Values.Where(g => g.ExpiryTime.HasValue && g.ExpiryTime.Value > DateTime.Now);
+            var groups = GroupSettingSvc.SettingDic.Values.Where(g => g.ExpiryTime.HasValue && g.ExpiryTime.Value > DateTime.Now);
 
             foreach (var group in groups)
             {
@@ -65,7 +65,7 @@ namespace Dolany.Ai.Doremi.Ai.Sys
             var qqNum = (long)param[1];
             var count = (int) (long) param[2];
 
-            var enter = AIMgr.AllAvailableGroupCommands.FirstOrDefault(p => p.CommandsList.Contains(command));
+            var enter = AiSvc.AllAvailableGroupCommands.FirstOrDefault(p => p.CommandsList.Contains(command));
             if (enter == null)
             {
                 MsgSender.PushMsg(MsgDTO, "未找到该功能！", true);
@@ -123,7 +123,7 @@ namespace Dolany.Ai.Doremi.Ai.Sys
                 MongoService<BlackList>.Update(query);
             }
 
-            DirtyFilter.RefreshData();
+            DirtyFilterSvc.RefreshData();
 
             MsgSender.PushMsg(MsgDTO, "Success");
             return true;
@@ -149,7 +149,7 @@ namespace Dolany.Ai.Doremi.Ai.Sys
 
             MongoService<BlackList>.Delete(query);
 
-            DirtyFilter.RefreshData();
+            DirtyFilterSvc.RefreshData();
             MsgSender.PushMsg(MsgDTO, "Success");
             return true;
         }
@@ -196,7 +196,7 @@ namespace Dolany.Ai.Doremi.Ai.Sys
                 BindAi = MsgDTO.BindAi
             };
             MongoService<GroupSettings>.Insert(setting);
-            GroupSettingMgr.Refresh();
+            GroupSettingSvc.Refresh();
 
             MsgSender.PushMsg(MsgDTO, "注册成功！");
             return true;
@@ -213,13 +213,13 @@ namespace Dolany.Ai.Doremi.Ai.Sys
         public bool Freeze(MsgInformationEx MsgDTO, object[] param)
         {
             var groupNum = (long) param[0];
-            if (!GroupSettingMgr.SettingDic.ContainsKey(groupNum))
+            if (!GroupSettingSvc.SettingDic.ContainsKey(groupNum))
             {
                 MsgSender.PushMsg(MsgDTO, "未找到相关群组");
                 return false;
             }
 
-            var setting = GroupSettingMgr[groupNum];
+            var setting = GroupSettingSvc[groupNum];
             setting.ForcedShutDown = true;
             setting.Update();
 
@@ -239,13 +239,13 @@ namespace Dolany.Ai.Doremi.Ai.Sys
         public bool Defreeze(MsgInformationEx MsgDTO, object[] param)
         {
             var groupNum = (long) param[0];
-            if (!GroupSettingMgr.SettingDic.ContainsKey(groupNum))
+            if (!GroupSettingSvc.SettingDic.ContainsKey(groupNum))
             {
                 MsgSender.PushMsg(MsgDTO, "未找到相关群组");
                 return false;
             }
 
-            var setting = GroupSettingMgr[groupNum];
+            var setting = GroupSettingSvc[groupNum];
             setting.ForcedShutDown = false;
             setting.Update();
 
@@ -278,7 +278,7 @@ namespace Dolany.Ai.Doremi.Ai.Sys
             }
             setting.Update();
 
-            GroupSettingMgr.Refresh();
+            GroupSettingSvc.Refresh();
 
             MsgSender.PushMsg(MsgDTO, "充值成功");
             return true;
@@ -300,7 +300,7 @@ namespace Dolany.Ai.Doremi.Ai.Sys
             setting.BindAi = MsgDTO.BindAi;
             setting.Update();
 
-            GroupSettingMgr.Refresh();
+            GroupSettingSvc.Refresh();
 
             MsgSender.PushMsg(MsgDTO, "绑定成功");
             return true;

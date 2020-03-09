@@ -203,12 +203,12 @@ namespace Dolany.WorldLine.Standard.Ai.Game.Pet.Expedition
 
             if (!Items.IsNullOrEmpty())
             {
-                msgList.Add($"物品：{string.Join(",", Items)}");
+                msgList.Add($"物品：{string.Join(",", Items.GroupBy(p => p).Select(p => $"{p.Key}*{p.Count()}"))}");
             }
 
             if (!Flavorings.IsNullOrEmpty())
             {
-                msgList.Add($"调味料：{string.Join(",", Flavorings)}");
+                msgList.Add($"调味料：{string.Join(",", Flavorings.GroupBy(p => p).Select(p => $"{p.Key}*{p.Count()}"))}");
             }
 
             return $"{msg}\r{string.Join("\r", msgList)}";

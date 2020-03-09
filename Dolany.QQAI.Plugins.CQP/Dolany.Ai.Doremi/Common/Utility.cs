@@ -9,7 +9,7 @@ namespace Dolany.Ai.Doremi.Common
 {
     public static class Utility
     {
-        private static GroupSettingMgr GroupSettingMgr => AutofacSvc.Resolve<GroupSettingMgr>();
+        private static GroupSettingSvc GroupSettingSvc => AutofacSvc.Resolve<GroupSettingSvc>();
 
         [CanBeNull]
         public static HourMinuteModel GenTimeFromStr(string timeStr)
@@ -45,7 +45,7 @@ namespace Dolany.Ai.Doremi.Common
                 return AuthorityLevel.成员;
             }
 
-            var setting = GroupSettingMgr[MsgDTO.FromGroup];
+            var setting = GroupSettingSvc[MsgDTO.FromGroup];
             if (setting.AuthInfo == null)
             {
                 return AuthorityLevel.成员;

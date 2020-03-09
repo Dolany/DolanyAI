@@ -23,11 +23,11 @@ namespace Dolany.Ai.Doremi.AITools
 
         protected override List<ScheduleDoModel> ModelList { get; set; } = new List<ScheduleDoModel>();
 
-        private static BindAiMgr BindAiMgr => AutofacSvc.Resolve<BindAiMgr>();
+        private static BindAiSvc BindAiSvc => AutofacSvc.Resolve<BindAiSvc>();
 
         private void InitModelList()
         {
-            foreach (var (_, value) in BindAiMgr.AiDic)
+            foreach (var (_, value) in BindAiSvc.AiDic)
             {
                 ModelList.Add(new ScheduleDoModel()
                 {

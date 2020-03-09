@@ -20,7 +20,7 @@ namespace Dolany.WorldLine.Standard.Ai.Record
 
         public override bool NeedManualOpeon { get; } = true;
 
-        public Scheduler Scheduler { get; set; }
+        public SchedulerSvc SchedulerSvc { get; set; }
 
         public override void Initialization()
         {
@@ -30,7 +30,7 @@ namespace Dolany.WorldLine.Standard.Ai.Record
         private void HourAlertFunc()
         {
             var ts = GetNextHourSpan();
-            Scheduler.Add(ts.TotalMilliseconds, TimeUp);
+            SchedulerSvc.Add(ts.TotalMilliseconds, TimeUp);
         }
 
         private void TimeUp(object sender, System.Timers.ElapsedEventArgs e)

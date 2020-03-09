@@ -6,7 +6,7 @@ using Dolany.Database.Ai;
 
 namespace Dolany.Ai.Doremi.OnlineStore
 {
-    public class HonorHelper : IDataMgr
+    public class HonorSvc : IDataMgr
     {
         public readonly List<HonorModel> HonorList = new List<HonorModel>();
 
@@ -14,7 +14,7 @@ namespace Dolany.Ai.Doremi.OnlineStore
 
         private int SumRate;
 
-        public HonorHelper()
+        public HonorSvc()
         {
             RefreshData();
         }

@@ -19,9 +19,9 @@ namespace Dolany.Ai.Doremi.Base
 
         public readonly AIAttribute AIAttr;
 
-        protected static AIMgr AIMgr => AutofacSvc.Resolve<AIMgr>();
-        private static GroupSettingMgr GroupSettingMgr => AutofacSvc.Resolve<GroupSettingMgr>();
-        private static AliveStateMgr AliveStateMgr => AutofacSvc.Resolve<AliveStateMgr>();
+        protected static AISvc AiSvc => AutofacSvc.Resolve<AISvc>();
+        private static GroupSettingSvc GroupSettingSvc => AutofacSvc.Resolve<GroupSettingSvc>();
+        private static AliveStateSvc AliveStateSvc => AutofacSvc.Resolve<AliveStateSvc>();
 
         protected AIBase()
         {
@@ -109,14 +109,14 @@ namespace Dolany.Ai.Doremi.Base
                 return true;
             }
 
-            var stateCache = AliveStateMgr.GetState(MsgDTO.FromGroup, MsgDTO.FromQQ);
+            var stateCache = AliveStateSvc.GetState(MsgDTO.FromGroup, MsgDTO.FromQQ);
             if (stateCache != null)
             {
                 MsgSender.PushMsg(MsgDTO, $"你已经死了({stateCache.Name})！复活时间：{stateCache.RebornTime.ToString(CultureInfo.CurrentCulture)}", true);
                 return false;
             }
 
-            if (!AIAttr.NeedManulOpen || GroupSettingMgr[MsgDTO.FromGroup].HasFunction(AIAttr.Name))
+            if (!AIAttr.NeedManulOpen || GroupSettingSvc[MsgDTO.FromGroup].HasFunction(AIAttr.Name))
             {
                 return true;
             }
@@ -187,7 +187,7 @@ namespace Dolany.Ai.Doremi.Base
             var list = new List<object>();
             for (var i = 0; i < checkers.Length; i++)
             {
-                var checker = AIMgr.Checkers.FirstOrDefault(c => c.Name == checkers[i]);
+                var checker = AiSvc.Checkers.FirstOrDefault(c => c.Name == checkers[i]);
 
                 if (checker == null)
                 {

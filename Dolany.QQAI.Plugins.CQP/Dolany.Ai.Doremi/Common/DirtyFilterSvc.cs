@@ -8,7 +8,7 @@ using Dolany.Database.Ai;
 
 namespace Dolany.Ai.Doremi.Common
 {
-    public class DirtyFilter : IDataMgr
+    public class DirtyFilterSvc : IDataMgr
     {
         private string[] WordList;
 
@@ -18,7 +18,7 @@ namespace Dolany.Ai.Doremi.Common
 
         private static DataRefreshSvc DataRefreshSvc => AutofacSvc.Resolve<DataRefreshSvc>();
 
-        public DirtyFilter()
+        public DirtyFilterSvc()
         {
             RefreshData();
             DataRefreshSvc.Register(this);

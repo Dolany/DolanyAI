@@ -11,12 +11,12 @@ namespace Dolany.Ai.Doremi.API
 {
     public class APIEx
     {
-        private static Waiter Waiter => AutofacSvc.Resolve<Waiter>();
+        private static WaiterSvc WaiterSvc => AutofacSvc.Resolve<WaiterSvc>();
 
         [CanBeNull]
         private static string GetGroupMemberList(string 群号, string BindAi)
         {
-            var info = Waiter.WaitForRelationId(
+            var info = WaiterSvc.WaitForRelationId(
                 new MsgCommand
                 {
                     Command = CommandType.GetGroupMemberInfo,
@@ -52,7 +52,7 @@ namespace Dolany.Ai.Doremi.API
 
         public static void SendPraise(long QQ号, string BindAi, int count = 10)
         {
-            Waiter.WaitForRelationId(
+            WaiterSvc.WaitForRelationId(
                 new MsgCommand
                 {
                     Command = CommandType.Praise,
@@ -64,7 +64,7 @@ namespace Dolany.Ai.Doremi.API
 
         public static void Silence(long GroupNum, long QQNum, int milliseconds, string BindAi)
         {
-            Waiter.WaitForRelationId(
+            WaiterSvc.WaitForRelationId(
                 new MsgCommand
                 {
                     Command = CommandType.SetSilence,
