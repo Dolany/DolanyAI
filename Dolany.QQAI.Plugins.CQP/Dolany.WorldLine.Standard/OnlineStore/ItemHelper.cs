@@ -33,10 +33,10 @@ namespace Dolany.WorldLine.Standard.OnlineStore
 
             if (!isNew || collection.Items.Count < honor.Items.Count)
             {
-                return $"成就 {honor.FullName} 完成度：{collection.Items.Count}/{honor.Items.Count}";
+                return $"成就 【{honor.FullName}】 完成度：{collection.Items.Count}/{honor.Items.Count}";
             }
 
-            return $"恭喜你解锁了成就 {honor.FullName}! (集齐物品：{string.Join("，", honor.Items.Select(p => p.Name))})";
+            return $"恭喜你解锁了成就 【{honor.FullName}】! (集齐物品：{string.Join("，", honor.Items.Select(p => p.Name))})";
         }
     }
 }
