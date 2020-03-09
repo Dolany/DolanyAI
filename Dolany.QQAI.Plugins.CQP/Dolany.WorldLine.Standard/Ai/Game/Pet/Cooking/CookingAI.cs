@@ -197,7 +197,20 @@ namespace Dolany.WorldLine.Standard.Ai.Game.Pet.Cooking
             var cookingRec = CookingRecord.Get(MsgDTO.FromQQ);
             var level = CookingLevelSvc.LocationLevel(cookingRec.TotalPrice);
             var msg = $"【{level.Name}(lv.{level.Level})】\r";
-            msg += $"已学会的菜谱：{string.Join("，", cookingRec.LearndDietMenu)}\r";
+            var itemColle = ItemCollectionRecord.Get(MsgDTO.FromQQ);
+            var dietList = cookingRec.LearndDietMenu.Select(diet =>
+            {
+                var Diet = CookingDietSvc[diet];
+                if (!Diet.Flavorings.IsNullOrEmpty() && !cookingRec.CheckFlavorings(Diet.Flavorings) ||
+                    !Diet.Materials.IsNullOrEmpty() && !itemColle.CheckItem(Diet.Materials))
+                {
+                    return $"{diet}(材料不足)";
+                }
+
+                return diet;
+            });
+            msg +=
+                $"已学会的菜谱：{string.Join("，", dietList)}\r";
             msg += $"当前持有菜肴：{string.Join("，", cookingRec.CookedDietDic.Select(p => $"{p.Key}*{p.Value}"))}\r";
             msg += $"当前持有调味料：{string.Join("，", cookingRec.FlavoringDic.Select(p => $"{p.Key}*{p.Value}"))}\r";
             msg += $"推荐学习菜谱：{CookingDietSvc.SuggestDiet(cookingRec.LearndDietMenu)?.Name}";

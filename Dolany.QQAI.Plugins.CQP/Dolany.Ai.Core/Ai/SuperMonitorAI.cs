@@ -119,7 +119,7 @@ namespace Dolany.Ai.Core.Ai
             var timeStr = span.ToString(@"dd\.hh\:mm\:ss");
 
             var msg = $@"系统已成功运行{timeStr}
-共处理{AIAnalyzer.GetCommandCount()}条指令
+最近{AIAnalyzer.AnalyzeHours}小时内共处理{AIAnalyzer.GetCommandCount()}条指令
 遇到{AIAnalyzer.GetErrorCount()}个错误{PowerState(MsgDTO)}";
 
             MsgSender.PushMsg(MsgDTO, msg);

@@ -13,7 +13,7 @@ namespace Dolany.Ai.Core.Common
 
         private static readonly List<ErrorModel> ErrorList = new List<ErrorModel>();
 
-        private const int AnalyzeHours = 24;
+        public const int AnalyzeHours = 24;
 
         public static void AddCommandCount(CmdRec rec)
         {

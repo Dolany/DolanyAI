@@ -174,7 +174,7 @@ namespace Dolany.WorldLine.Standard.Ai.Record.Hello
             var query = HelloList.FirstOrDefault(h => h.GroupNum == MsgDTO.FromGroup && h.QQNum == MsgDTO.FromQQ);
             if (query == null)
             {
-                MsgSender.PushMsg(MsgDTO, "你还没有设定过招呼内容哦~");
+                MsgSender.PushMsg(MsgDTO, "你还没有设定过招呼内容哦~(请使用【打招呼设定】命令来设定每日打招呼内容！)");
                 return false;
             }
 
