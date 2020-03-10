@@ -69,15 +69,17 @@ namespace Dolany.Ai.Doremi.Ai.Game.XunYuan
                 var armerRecord = PersonArmerRecord.Get(p);
                 var osPerson = OSPerson.GetPerson(p);
                 var levelModel = LevelSvc.GetByLevel(osPerson.Level);
+
+                var battleArmers = Rander.RandSort(armerRecord.Armers.ToArray()).Take(10).ToDictionary(a => a.Key, a => a.Value);
                 return new XunYuanGamingModel()
                 {
                     QQNum = p,
-                    Armers = armerRecord.Armers,
+                    Armers = battleArmers,
                     EscapeArmers = armerRecord.EscapeArmers,
                     BasicHP = levelModel.HP,
-                    HP = levelModel.HP + ArmerSvc.CountHP(armerRecord.Armers),
+                    HP = levelModel.HP + ArmerSvc.CountHP(battleArmers),
                     BasicAttack = levelModel.Atk,
-                    Attack = levelModel.Atk + ArmerSvc.CountAtk(armerRecord.Armers)
+                    Attack = levelModel.Atk + ArmerSvc.CountAtk(battleArmers)
                 };
             }).ToArray();
 

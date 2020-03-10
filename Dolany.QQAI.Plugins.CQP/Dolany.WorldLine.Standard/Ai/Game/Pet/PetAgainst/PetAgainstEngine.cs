@@ -64,7 +64,7 @@ namespace Dolany.WorldLine.Standard.Ai.Game.Pet.PetAgainst
             catch (Exception e)
             {
                 RuntimeLogger.Log(e);
-                SendMessage("发现异常，对决中止！");
+                SendMessage("系统异常，对决中止！");
                 DoSend();
             }
         }
@@ -140,7 +140,7 @@ namespace Dolany.WorldLine.Standard.Ai.Game.Pet.PetAgainst
             var (skillName, skillLevel) = skills.ElementAt(selectedIdx);
             var skillModel = PetSkillSvc[skillName];
 
-            SendMessage($"{SelfPet.Name}施放了 {skillModel.Name}(lv.{skillLevel})！");
+            SendMessage($"{SelfPet.Name}施放了 【{skillModel.Name}】(lv.{skillLevel})！");
 
             SelfPet.LastSkill = skillName;
 
@@ -177,7 +177,7 @@ namespace Dolany.WorldLine.Standard.Ai.Game.Pet.PetAgainst
 
             JudgeFirst();
             var skillName = SkillLevelUpBonus();
-            msg = $"{SelfPet.Name}获得了先手\r{AimPet.Name}的{skillName}获得等级+1";
+            msg = $"{SelfPet.Name}获得了先手\r{AimPet.Name}的【{skillName}】获得等级+1";
             SendMessage(msg);
         }
 

@@ -101,7 +101,7 @@ namespace Dolany.WorldLine.Standard.Ai.Sys
         {
             var versionAi = WorldLine.AIInstance<VersionAi>();
             var version = versionAi.Versions.First();
-            var helpMsg = $"当前版本为：{version.VersionNum}，请使用 版本信息 命令获取当前版本的更新内容！\r当前版本的命令标签有：\r";
+            var helpMsg = $"当前版本为：{version.VersionNum}，请使用 【版本信息】 命令获取当前版本的更新内容！\r当前版本的命令标签有：\r";
             var commandAttrs = WorldLine.AllAvailableGroupCommands.GroupBy(c => c.Tag)
                                                                        .Select(p => p.First());
             if (MsgDTO.Auth != AuthorityLevel.开发者)

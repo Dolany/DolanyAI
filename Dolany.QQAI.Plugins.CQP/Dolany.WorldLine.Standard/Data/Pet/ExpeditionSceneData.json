@@ -297,5 +297,43 @@
       "Max": 4,
       "Options": [ "蓝巧果果汁", "龙鳞草茎" ]
     }
+  },
+  "灰影河妖谷": {
+    "Description": "群妖生活的基地。",
+    "Endurance": 50,
+    "TimeConsume": 240,
+    "GoldBonus": {
+      "Min": 1,
+      "Max": 2000
+    },
+    "ItemBonus": {
+      "Min": 1,
+      "Max": 4,
+      "Options": [ "星空凛", "绚濑绘里", "魔法竖琴", "破烂的旗子", "小狐狸", "羊皮纸残片D", "炸鸡腿", "安康鱼", "安康鱼", "安康鱼" ]
+    },
+    "FlavoringBonus": {
+      "Min": 1,
+      "Max": 4,
+      "Options": [ "精品海盐", "龙鳞草茎" ]
+    }
+  },
+  "秘境湖泊": {
+    "Description": "在湖泊中的倒影能看见宝藏所藏的位置，位置随寻找人的心境所变。",
+    "Endurance": 14,
+    "TimeConsume": 41,
+    "GoldBonus": {
+      "Min": 1,
+      "Max": 200
+    },
+    "ItemBonus": {
+      "Min": 1,
+      "Max": 3,
+      "Options": [ "芝士汉堡", "印着“博丽”的存钱罐", "白虎", "中野四叶", "音", "一只小螃蟹", "一撮兽毛", "安康鱼", "安康鱼", "安康鱼" ]
+    },
+    "FlavoringBonus": {
+      "Min": 1,
+      "Max": 2,
+      "Options": [ "精品海盐", "蓝巧果果汁" ]
+    }
   } 
 }

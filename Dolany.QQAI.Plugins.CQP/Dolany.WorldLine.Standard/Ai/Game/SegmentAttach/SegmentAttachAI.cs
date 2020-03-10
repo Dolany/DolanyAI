@@ -174,7 +174,7 @@ namespace Dolany.WorldLine.Standard.Ai.Game.SegmentAttach
             var record = SegmentRecord.Get(MsgDTO.FromQQ);
             if (!record.CanOpenFinalTreasure)
             {
-                MsgSender.PushMsg(MsgDTO, "很遗憾，你还不能开启终极宝藏，继续努力吧！", true);
+                MsgSender.PushMsg(MsgDTO, "很遗憾，你还不能开启终极宝藏，继续努力吧！（开启过所有其他宝藏才能开启终极宝藏！）", true);
                 return false;
             }
 

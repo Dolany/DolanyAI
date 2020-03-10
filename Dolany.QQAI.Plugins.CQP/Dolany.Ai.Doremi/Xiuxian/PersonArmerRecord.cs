@@ -13,6 +13,8 @@ namespace Dolany.Ai.Doremi.Xiuxian
 
         public Dictionary<string, int> EscapeArmers { get; set; } = new Dictionary<string, int>();
 
+        public Dictionary<string, int> SpecialArmers { get; set; } = new Dictionary<string, int>();
+
         public static PersonArmerRecord Get(long QQNum)
         {
             var record = MongoService<PersonArmerRecord>.GetOnly(p => p.QQNum == QQNum);
@@ -30,6 +32,7 @@ namespace Dolany.Ai.Doremi.Xiuxian
         {
             Armers.Remove(p => p == 0);
             EscapeArmers.Remove(p => p == 0);
+            SpecialArmers.Remove(p => p == 0);
             MongoService<PersonArmerRecord>.Update(this);
         }
 
