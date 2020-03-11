@@ -18,9 +18,6 @@ namespace DolanyAiDesktop
 {
     class Program
     {
-        private static IWorldLine[] worlds;
-        private static IWorldLine DefaultWorldLine => worlds.First(w => w.IsDefault);
-
         private static WaiterSvc WaiterSvc => AutofacSvc.Resolve<WaiterSvc>();
         private static CrossWorldAiSvc CrossWorldAiSvc => AutofacSvc.Resolve<CrossWorldAiSvc>();
         private static GroupSettingSvc GroupSettingSvc => AutofacSvc.Resolve<GroupSettingSvc>();
@@ -42,7 +39,7 @@ namespace DolanyAiDesktop
             {
                 RegisterAutofac(assemblies);
                 RegisterDataRefresher(assemblies);
-                worlds = GetWorlds(assemblies);
+                CrossWorldAiSvc.AllWorlds = GetWorlds(assemblies);
 
                 Global.MsgPublish = PrintMsg;
                 SFixedSetService.SetMaxCount("PicCache", Global.DefaultConfig.MaxPicCacheCount);
@@ -51,12 +48,11 @@ namespace DolanyAiDesktop
                 WaiterSvc.GroupMemberChangeCallBack = OnGroupMemberChanged;
 
                 AIAnalyzer.Sys_StartTime = DateTime.Now;
-                CrossWorldAiSvc.AllWorlds = worlds;
 
-                foreach (var worldLine in worlds)
+                foreach (var worldLine in CrossWorldAiSvc.AllWorlds)
                 {
                     worldLine.Init();
-                    worldLine.AIGroup.AddRange(CrossWorldAiSvc.CrossWorldAis.ToArray());
+                    worldLine.AIGroup.AddRange(CrossWorldAiSvc.CrossWorldAis);
                     worldLine.Load();
                 }
 
@@ -82,21 +78,21 @@ namespace DolanyAiDesktop
         private static void OnMsgReceived(MsgInformation MsgDTO)
         {
             var worldLine = JudgeWorldLine(MsgDTO.FromGroup, MsgDTO.FromQQ);
-            var world = worlds.FirstOrDefault(p => p.Name == worldLine);
+            var world = CrossWorldAiSvc.AllWorlds.FirstOrDefault(p => p.Name == worldLine);
             world?.OnMsgReceived(MsgDTO);
         }
 
         private static void OnMoneyReceived(ChargeModel model)
         {
             var worldLine = JudgeWorldLine(0, model.QQNum);
-            var world = worlds.FirstOrDefault(p => p.Name == worldLine);
+            var world = CrossWorldAiSvc.AllWorlds.FirstOrDefault(p => p.Name == worldLine);
             world?.OnMoneyReceived(model);
         }
 
         private static void OnGroupMemberChanged(GroupMemberChangeModel model)
         {
             var worldLine = JudgeWorldLine(model.GroupNum, model.QQNum);
-            var world = worlds.FirstOrDefault(p => p.Name == worldLine);
+            var world = CrossWorldAiSvc.AllWorlds.FirstOrDefault(p => p.Name == worldLine);
             world?.OnGroupMemberChanged(model);
         }
 
@@ -110,15 +106,15 @@ namespace DolanyAiDesktop
             var group = GroupSettingSvc[groupNum];
             if (group == null)
             {
-                return DefaultWorldLine.Name;
+                return CrossWorldAiSvc.DefaultWorldLine.Name;
             }
 
-            return string.IsNullOrEmpty(group.WorldLine) ? DefaultWorldLine.Name : group.WorldLine;
+            return string.IsNullOrEmpty(group.WorldLine) ? CrossWorldAiSvc.DefaultWorldLine.Name : group.WorldLine;
         }
 
         private static string JudgePersonalWorldLine(long QQNum)
         {
-            return DefaultWorldLine.Name;
+            return CrossWorldAiSvc.DefaultWorldLine.Name;
         }
 
         private static void RegisterAutofac(List<Assembly> assemblies)
