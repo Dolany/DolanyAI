@@ -89,7 +89,7 @@ namespace Dolany.WorldLine.Standard.Ai.Game.Pet
             Description = "重命名自己的宠物（名字不能超过十个字）",
             Syntax = "[名称]",
             Tag = "宠物功能",
-            SyntaxChecker = "Word",
+            SyntaxChecker = "Any",
             IsPrivateAvailable = false,
             DailyLimit = 3,
             TestingDailyLimit = 4)]
@@ -122,7 +122,7 @@ namespace Dolany.WorldLine.Standard.Ai.Game.Pet
             Description = "设定宠物的种族（不能超过十个字）",
             Syntax = "[种族名]",
             Tag = "宠物功能",
-            SyntaxChecker = "Word",
+            SyntaxChecker = "Any",
             IsPrivateAvailable = false,
             DailyLimit = 3,
             TestingDailyLimit = 4)]
