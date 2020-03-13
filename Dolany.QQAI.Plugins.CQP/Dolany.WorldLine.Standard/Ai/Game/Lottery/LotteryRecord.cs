@@ -16,7 +16,7 @@ namespace Dolany.WorldLine.Standard.Ai.Game.Lottery
 
         public override string ToString()
         {
-            return $"共计开箱子 {Count} 次\r总盈利 {TotalPlus}{Emoji.钱袋}\r总亏损 {TotalMinus}{Emoji.钱袋}\r合计 {(TotalPlus > TotalMinus ? "+" : "")}{TotalPlus - TotalMinus}{Emoji.钱袋}";
+            return $"共计开箱子 {Count} 次\r总盈利 {TotalPlus.CurencyFormat()}\r总亏损 {TotalMinus.CurencyFormat()}\r合计 {(TotalPlus > TotalMinus ? "+" : "")}{(TotalPlus - TotalMinus).CurencyFormat()}";
         }
 
         public static LotteryRecord GetToday()

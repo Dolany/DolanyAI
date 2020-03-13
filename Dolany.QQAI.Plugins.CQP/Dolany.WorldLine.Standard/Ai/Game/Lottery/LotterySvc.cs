@@ -37,7 +37,7 @@ namespace Dolany.WorldLine.Standard.Ai.Game.Lottery
         {
             return $"【{Name}】\r" +
                    $"    {Description}\r" +
-                   $"你获得了 {Bonus}{Emoji.钱袋}";
+                   $"你获得了 {Bonus.CurencyFormat()}";
         }
     }
 }

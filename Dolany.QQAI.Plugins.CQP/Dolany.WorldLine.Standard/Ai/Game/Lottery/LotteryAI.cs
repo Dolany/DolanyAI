@@ -137,7 +137,7 @@ namespace Dolany.WorldLine.Standard.Ai.Game.Lottery
             osPerson.Update();
             cache.Update();
 
-            MsgSender.PushMsg(MsgDTO, $"兑换成功，你现在共有{times}次抽奖机会，快使用 抽奖 命令试试看吧！", true);
+            MsgSender.PushMsg(MsgDTO, $"兑换成功，你现在共有{times}次抽奖机会，快使用 【抽奖】 命令试试看吧！", true);
 
             return true;
         }
