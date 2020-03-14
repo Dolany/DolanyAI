@@ -1,9 +1,0 @@
-﻿[
-  {
-    "ID": "AirBeeCave_Town",
-    "Name": "阿尔贝营地",
-    "Description": "原王国驻阿尔贝地区的军事营地，废弃之后就变成了冒险者们的聚集地。",
-    "Type": "Town",
-    "AccessableScenes": [ "AirBeeCave_Wild01", "AirBeeCave_Wild02", "AirBeeCave_Wild03" ] 
-  }
-]

@@ -22,11 +22,7 @@ namespace Dolany.Ai.Core.Common
     {
         public long SelfNum { get; set; }
 
-        public string CommandQueue { get; set; }
-
         public string ClientPath { get; set; }
-
-        public bool IsAdvanced { get; set; }
 
         public string ImagePath => ClientPath + "temp/image/";
 

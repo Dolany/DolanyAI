@@ -8,7 +8,7 @@ namespace Dolany.Ai.Core.Common
 {
     public class AliveStateSvc : IDependency
     {
-        public readonly ConcurrentDictionary<string, AliveStateCache> CacheDic;
+        private readonly ConcurrentDictionary<string, AliveStateCache> CacheDic;
 
         public AliveStateSvc()
         {
