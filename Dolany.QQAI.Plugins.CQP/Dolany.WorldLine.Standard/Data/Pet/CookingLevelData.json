@@ -50,5 +50,29 @@
   "名震一方": {
     "Level": 13,
     "NeedPrice": 30000
+  },
+  "自立门派": {
+    "Level": 14,
+    "NeedPrice": 38000
+  },
+  "高级厨师": {
+    "Level": 15,
+    "NeedPrice": 48000
+  },
+  "出书立传": {
+    "Level": 16,
+    "NeedPrice": 60000
+  },
+  "厨界典范": {
+    "Level": 17,
+    "NeedPrice": 73000
+  },
+  "扬名立万": {
+    "Level": 18,
+    "NeedPrice": 86000
+  },
+  "特级厨师": {
+    "Level": 19,
+    "NeedPrice": 100000
   } 
 }

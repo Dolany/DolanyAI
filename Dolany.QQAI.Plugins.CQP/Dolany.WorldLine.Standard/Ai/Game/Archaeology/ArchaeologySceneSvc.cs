@@ -23,7 +23,7 @@ namespace Dolany.WorldLine.Standard.Ai.Game.Archaeology
 
         public int Exp { get; set; }
 
-        public int SuggestLevel { get; set; }
+        public int Level { get; set; }
     }
 
     public class ArchaeologySubSceneModel

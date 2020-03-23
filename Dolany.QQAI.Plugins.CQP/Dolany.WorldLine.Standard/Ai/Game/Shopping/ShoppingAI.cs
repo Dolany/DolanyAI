@@ -740,7 +740,7 @@ namespace Dolany.WorldLine.Standard.Ai.Game.Shopping
             itemColl.Update();
             osPerson.Update();
 
-            MsgSender.PushMsg(MsgDTO, "转生成功！");
+            MsgSender.PushMsg(MsgDTO, $"恭喜【{honorName}】，转生成功！");
             return true;
         }
     }

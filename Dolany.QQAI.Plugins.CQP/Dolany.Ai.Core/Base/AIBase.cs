@@ -64,6 +64,7 @@ namespace Dolany.Ai.Core.Base
                 return false;
             }
 
+            var lockID = string.Empty;
             try
             {
                 foreach (var (enterCommandAttribute, moduleDel) in query)
@@ -99,9 +100,8 @@ namespace Dolany.Ai.Core.Base
                         return false;
                     }
 
-                    var lockID = CommandLockerSvc.Lock(MsgDTO.FromQQ, new[] {enterCommandAttribute.ID});
+                    lockID = CommandLockerSvc.Lock(MsgDTO.FromQQ, new[] {enterCommandAttribute.ID});
                     var result = moduleDel(MsgDTO, param);
-                    CommandLockerSvc.FreeLock(lockID);
 
                     if (!result)
                     {
@@ -117,6 +117,13 @@ namespace Dolany.Ai.Core.Base
             catch (Exception ex)
             {
                 Logger.Log(ex);
+            }
+            finally
+            {
+                if (!string.IsNullOrEmpty(lockID))
+                {
+                    CommandLockerSvc.FreeLock(lockID);
+                }
             }
 
             return false;

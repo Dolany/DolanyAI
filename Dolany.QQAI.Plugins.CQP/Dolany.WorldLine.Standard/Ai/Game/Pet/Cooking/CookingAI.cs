@@ -13,8 +13,6 @@ namespace Dolany.WorldLine.Standard.Ai.Game.Pet.Cooking
         public override string Description { get; set; } = "Ai for cooking.";
         public override AIPriority PriorityLevel { get;} = AIPriority.Normal;
 
-        public override bool Enable { get; } = true;
-
         public CookingDietSvc CookingDietSvc { get; set; }
         public CookingLevelSvc CookingLevelSvc { get; set; }
         public HonorSvc HonorSvc { get; set; }
@@ -133,8 +131,10 @@ namespace Dolany.WorldLine.Standard.Ai.Game.Pet.Cooking
             var curLevel = CookingLevelSvc.LocationLevel(totalPrice);
             var nextLevel = CookingLevelSvc[curLevel.Level + 1];
 
-            var msg = $"你总共烹饪过 {sumDietCount} 道菜肴\r总共消耗了物品 {cookingRec.ItemConsumeDic.Sum(p => p.Value)} 个，调味料 {cookingRec.FlavoringTotal} 个\r" +
-                      $"总价值：{totalPrice.CurencyFormat()}\r当前烹饪评级为：{curLevel.Name}，距离下一等级({nextLevel.Name})还差 {(nextLevel.NeedPrice - totalPrice).CurencyFormat()}";
+            var msg = $"你总共烹饪过 {sumDietCount} 道菜肴\r" +
+                      $"总共消耗了物品 {cookingRec.ItemConsumeDic.Sum(p => p.Value)} 个，调味料 {cookingRec.FlavoringTotal} 个\r" +
+                      $"总价值：{totalPrice.CurencyFormat()}\r" +
+                      $"当前烹饪评级为：【{curLevel.Name}(lv.{curLevel.Level})】，距离下一等级【{nextLevel.Name}({nextLevel.Level})】还差 {(nextLevel.NeedPrice - totalPrice).CurencyFormat()}";
 
             MsgSender.PushMsg(MsgDTO, msg);
             return true;
