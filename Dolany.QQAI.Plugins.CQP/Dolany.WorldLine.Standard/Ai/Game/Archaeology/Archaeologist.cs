@@ -31,20 +31,29 @@ namespace Dolany.WorldLine.Standard.Ai.Game.Archaeology
             var rec = MongoService<Archaeologist>.GetOnly(p => p.QQNum == QQNum);
             if (rec != null)
             {
-                if (rec.SANRefreshTime.Date == DateTime.Today)
+                if (rec.RefreshSAN())
                 {
-                    return rec;
+                    rec.Update();
                 }
 
-                rec.CurSAN = rec.SAN;
-                rec.SANRefreshTime = DateTime.Now;
-                rec.Update();
                 return rec;
             }
 
             rec = new Archaeologist(){QQNum = QQNum};
             MongoService<Archaeologist>.Insert(rec);
             return rec;
+        }
+
+        public bool RefreshSAN()
+        {
+            if (SANRefreshTime.Date == DateTime.Today)
+            {
+                return false;
+            }
+
+            CurSAN = SAN;
+            SANRefreshTime = DateTime.Now;
+            return true;
         }
 
         public void Update()
