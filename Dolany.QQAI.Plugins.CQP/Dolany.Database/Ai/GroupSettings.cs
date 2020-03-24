@@ -21,6 +21,7 @@ namespace Dolany.Database.Ai
 
         public List<string> BindAis { get; set; } = new List<string>();
 
+        [BsonDateTimeOptions(Kind = DateTimeKind.Local)]
         public DateTime? ExpiryTime { get; set; }
 
         public GroupAuthInfoModel AuthInfo { get; set; }

@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using MongoDB.Bson.Serialization.Attributes;
 
 namespace Dolany.Database.Ai
 {
@@ -8,6 +9,7 @@ namespace Dolany.Database.Ai
         public long QQNum { get; set; }
         public string Name { get; set; }
         public string Description { get; set; }
+        [BsonDateTimeOptions(Kind = DateTimeKind.Local)]
         public DateTime ExpiryTime { get; set; }
         public bool IsPositive { get; set; }
         public int Data { get; set; } = 1;

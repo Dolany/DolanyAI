@@ -134,7 +134,7 @@ namespace Dolany.Ai.Core.Ai
             }
 
             var setting = GroupSettingSvc[MsgDTO.FromGroup];
-            var expiryDate = $"\r有效期至：{setting.ExpiryTime?.ToLocalTime()}";
+            var expiryDate = $"\r有效期至：{setting.ExpiryTime}";
             if (setting.ExpiryTime == null || setting.ExpiryTime < DateTime.Now)
             {
                 expiryDate += "(已过期)";

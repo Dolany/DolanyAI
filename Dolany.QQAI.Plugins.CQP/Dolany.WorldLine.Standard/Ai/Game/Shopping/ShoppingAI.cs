@@ -550,22 +550,34 @@ namespace Dolany.WorldLine.Standard.Ai.Game.Shopping
 
             var allNormalItems = HonorSvc.HonorList.Where(h => !h.IsLimit).SelectMany(h => h.Items).Select(p => p.Name).ToArray();
 
-            var msg = $"等级：{osPerson.EmojiLevel}\r" +
-                      $"经验值：{items.Count}/{allNormalItems.Length}{(items.Count == allNormalItems.Length ? "(可转生)" : string.Empty)}\r" +
-                      $"{(osPerson.HonorNames.IsNullOrEmpty() ? "" : string.Join("", osPerson.HonorNames.Select(h => $"【{h}】")) + "\r")}" +
-                      $"金币：{osPerson.Golds.CurencyFormat()}\r" +
-                      $"{(osPerson.Diamonds > 0 ? $"钻石：{osPerson.Diamonds.CurencyFormat("Diamond")}\r" : string.Empty)}" +
-                      $"物品数量：{itemRecord.TotalItemCount()}\r" +
-                      $"成就数量：{itemRecord.HonorList?.Count ?? 0}\r" +
-                      $"魅力值：{glamourRecord.Glamour}";
+            var msgList = new List<string>();
+            if (!osPerson.HonorNames.IsNullOrEmpty())
+            {
+                msgList.Add(string.Join("", osPerson.HonorNames.Select(h => $"【{h}】")));
+            }
+            msgList.Add($"等级：{osPerson.EmojiLevel}");
+            msgList.Add($"经验值：{items.Count}/{allNormalItems.Length}{(items.Count == allNormalItems.Length ? "(可转生)" : string.Empty)}");
+            
+            msgList.Add($"金币：{osPerson.Golds.CurencyFormat()}");
+            if (osPerson.Diamonds > 0)
+            {
+                msgList.Add($"钻石：{osPerson.Diamonds.CurencyFormat("Diamond")}");
+            }
+            msgList.Add($"物品数量：{itemRecord.TotalItemCount()}");
+            msgList.Add($"成就数量：{itemRecord.HonorList?.Count ?? 0}");
+            if (glamourRecord.Glamour > 0)
+            {
+                msgList.Add($"魅力值：{glamourRecord.Glamour}");
+            }
+
             var buffs = OSPersonBuff.Get(MsgDTO.FromQQ);
             if (!buffs.IsNullOrEmpty())
             {
-                msg += "\rBuff列表：\r" + string.Join("\r",
-                           buffs.Select(b => $"{b.Name}：{b.Description}（{b.ExpiryTime.ToLocalTime()}）"));
+                msgList.Add("Buff列表：");
+                msgList.AddRange(buffs.Select(b => $"{b.Name}：{b.Description}（{b.ExpiryTime}）"));
             }
 
-            MsgSender.PushMsg(MsgDTO, msg, true);
+            MsgSender.PushMsg(MsgDTO, string.Join("\r\n", msgList), true);
             return true;
         }
 

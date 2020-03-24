@@ -1,5 +1,6 @@
 ﻿using System;
 using Dolany.Database;
+using MongoDB.Bson.Serialization.Attributes;
 
 namespace Dolany.Ai.Doremi.Cache
 {
@@ -9,6 +10,7 @@ namespace Dolany.Ai.Doremi.Cache
 
         public string Value { get; set; }
 
+        [BsonDateTimeOptions(Kind = DateTimeKind.Local)]
         public DateTime? ExpiryTime { get; set; }
 
         public static GlobalVarRecord Get(string key)

@@ -185,7 +185,7 @@ namespace Dolany.Ai.Core.Base
                 return true;
             }
 
-            if (!AuthorityCheck(enterAttr.AuthorityLevel, enterAttr, MsgDTO))
+            if (!AuthorityCheck(enterAttr.AuthorityLevel, MsgDTO))
             {
                 MsgSender.PushMsg(MsgDTO, $"权限不足！需要 【{enterAttr.AuthorityLevel.ToString()}】 权限！");
                 return false;
@@ -201,7 +201,7 @@ namespace Dolany.Ai.Core.Base
             return timesLimit == 0 || limitRecord.Check(timesLimit);
         }
 
-        private static bool AuthorityCheck(AuthorityLevel authorityLevel, EnterCommandAttribute enterAttr, MsgInformationEx MsgDTO)
+        private static bool AuthorityCheck(AuthorityLevel authorityLevel, MsgInformationEx MsgDTO)
         {
             if (MsgDTO.Auth == AuthorityLevel.未知)
             {

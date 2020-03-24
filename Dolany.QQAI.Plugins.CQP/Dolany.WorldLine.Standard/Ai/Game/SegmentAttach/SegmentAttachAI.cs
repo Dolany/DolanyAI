@@ -40,7 +40,7 @@ namespace Dolany.WorldLine.Standard.Ai.Game.SegmentAttach
 
             var msg = $"你领取到了新的宝藏碎片！\r{segment}";
             var treasure = SegmentSvc.FindTreasureBySegment(record.Segment);
-            msg += $"\r可开启宝藏：{treasure.Name}";
+            msg += $"\r可开启宝藏：【{treasure.Name}】";
             if (record.IsRare)
             {
                 msg += $"\r{Emoji.礼物}恭喜你领取到了稀有碎片，拼接后将得到双倍奖励！";

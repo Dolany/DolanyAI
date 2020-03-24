@@ -161,7 +161,7 @@ namespace Dolany.Ai.Doremi.Ai.Sys
             }
 
             var setting = GroupSettingSvc[MsgDTO.FromGroup];
-            var expiryDate = $"\r有效期至：{setting.ExpiryTime?.ToLocalTime()}";
+            var expiryDate = $"\r有效期至：{setting.ExpiryTime}";
 
             var pState = string.Join("\r",
                 PowerStateSvc.Ais.Select((ai, idx) =>

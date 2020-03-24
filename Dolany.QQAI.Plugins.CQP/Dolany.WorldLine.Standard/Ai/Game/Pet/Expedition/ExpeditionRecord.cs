@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Linq;
 using Dolany.Database;
+using MongoDB.Bson.Serialization.Attributes;
 
 namespace Dolany.WorldLine.Standard.Ai.Game.Pet.Expedition
 {
@@ -8,6 +9,7 @@ namespace Dolany.WorldLine.Standard.Ai.Game.Pet.Expedition
     {
         public long QQNum { get; set; }
 
+        [BsonDateTimeOptions(Kind = DateTimeKind.Local)]
         public DateTime EndTime { get; set; }
 
         public string Scene { get; set; }
@@ -17,7 +19,7 @@ namespace Dolany.WorldLine.Standard.Ai.Game.Pet.Expedition
         /// </summary>
         public bool IsDrawn { get; set; }
 
-        public bool IsExpediting => DateTime.Now < EndTime.ToLocalTime();
+        public bool IsExpediting => DateTime.Now < EndTime;
 
         public static ExpeditionRecord GetLastest(long QQNum)
         {

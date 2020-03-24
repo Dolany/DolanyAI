@@ -274,7 +274,7 @@ namespace Dolany.Ai.Core.Ai
 
             GroupSettingSvc.RefreshData();
 
-            MsgSender.PushMsg(MsgDTO, $"充值成功，有效期至 {setting.ExpiryTime?.ToLocalTime():yyyy-MM-dd HH:mm:ss}");
+            MsgSender.PushMsg(MsgDTO, $"充值成功，有效期至 {setting.ExpiryTime:yyyy-MM-dd HH:mm:ss}");
             return true;
         }
 

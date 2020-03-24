@@ -311,7 +311,7 @@ namespace Dolany.WorldLine.Standard.Ai.Game.Pet
             var expRec = ExpeditionRecord.GetLastest(MsgDTO.FromQQ);
             if (expRec != null && expRec.IsExpediting)
             {
-                MsgSender.PushMsg(MsgDTO, $"{pet.Name}正在【{expRec.Scene}】进行一项伟大的远征，请于{expRec.EndTime.ToLocalTime():yyyy-MM-dd HH:mm:ss}后再试！");
+                MsgSender.PushMsg(MsgDTO, $"{pet.Name}正在【{expRec.Scene}】进行一项伟大的远征，请于{expRec.EndTime:yyyy-MM-dd HH:mm:ss}后再试！");
                 return false;
             }
 
@@ -321,9 +321,9 @@ namespace Dolany.WorldLine.Standard.Ai.Game.Pet
                 return false;
             }
 
-            if (pet.LastFeedTime != null && pet.LastFeedTime.Value.AddHours(FeedInterval).ToLocalTime() > DateTime.Now)
+            if (pet.LastFeedTime != null && pet.LastFeedTime.Value.AddHours(FeedInterval) > DateTime.Now)
             {
-                var msg = $"{pet.Name}还饱着呢，不想吃东西（请与{pet.LastFeedTime.Value.AddHours(FeedInterval).ToLocalTime()}后再试）";
+                var msg = $"{pet.Name}还饱着呢，不想吃东西（请与{pet.LastFeedTime.Value.AddHours(FeedInterval)}后再试）";
                 MsgSender.PushMsg(MsgDTO, msg);
                 return false;
             }
@@ -486,7 +486,7 @@ namespace Dolany.WorldLine.Standard.Ai.Game.Pet
             var expRec = ExpeditionRecord.GetLastest(MsgDTO.FromQQ);
             if (expRec != null && expRec.IsExpediting)
             {
-                MsgSender.PushMsg(MsgDTO, $"{pet.Name}正在【{expRec.Scene}】进行一项伟大的远征，请于{expRec.EndTime.ToLocalTime():yyyy-MM-dd HH:mm:ss}后再试！");
+                MsgSender.PushMsg(MsgDTO, $"{pet.Name}正在【{expRec.Scene}】进行一项伟大的远征，请于{expRec.EndTime:yyyy-MM-dd HH:mm:ss}后再试！");
                 return false;
             }
 
@@ -544,7 +544,7 @@ namespace Dolany.WorldLine.Standard.Ai.Game.Pet
             var expRec = ExpeditionRecord.GetLastest(MsgDTO.FromQQ);
             if (expRec != null && expRec.IsExpediting)
             {
-                MsgSender.PushMsg(MsgDTO, $"{pet.Name}正在【{expRec.Scene}】进行一项伟大的远征，请于{expRec.EndTime.ToLocalTime():yyyy-MM-dd HH:mm:ss}后再试！");
+                MsgSender.PushMsg(MsgDTO, $"{pet.Name}正在【{expRec.Scene}】进行一项伟大的远征，请于{expRec.EndTime:yyyy-MM-dd HH:mm:ss}后再试！");
                 return false;
             }
 
@@ -605,7 +605,7 @@ namespace Dolany.WorldLine.Standard.Ai.Game.Pet
             var expRec = ExpeditionRecord.GetLastest(MsgDTO.FromQQ);
             if (expRec != null && expRec.IsExpediting)
             {
-                MsgSender.PushMsg(MsgDTO, $"{sourcePet.Name}正在【{expRec.Scene}】进行一项伟大的远征，请于{expRec.EndTime.ToLocalTime():yyyy-MM-dd HH:mm:ss}后再试！");
+                MsgSender.PushMsg(MsgDTO, $"{sourcePet.Name}正在【{expRec.Scene}】进行一项伟大的远征，请于{expRec.EndTime:yyyy-MM-dd HH:mm:ss}后再试！");
                 return false;
             }
 
@@ -625,7 +625,7 @@ namespace Dolany.WorldLine.Standard.Ai.Game.Pet
             expRec = ExpeditionRecord.GetLastest(aimQQ);
             if (expRec != null && expRec.IsExpediting)
             {
-                MsgSender.PushMsg(MsgDTO, $"{aimPet.Name}正在【{expRec.Scene}】进行一项伟大的远征，请于{expRec.EndTime.ToLocalTime():yyyy-MM-dd HH:mm:ss}后再试！");
+                MsgSender.PushMsg(MsgDTO, $"{aimPet.Name}正在【{expRec.Scene}】进行一项伟大的远征，请于{expRec.EndTime:yyyy-MM-dd HH:mm:ss}后再试！");
                 return false;
             }
 

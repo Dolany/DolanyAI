@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using Dolany.Database;
+using MongoDB.Bson.Serialization.Attributes;
 
 namespace Dolany.WorldLine.Standard.Ai.Sys.BonusCenter
 {
@@ -9,6 +10,7 @@ namespace Dolany.WorldLine.Standard.Ai.Sys.BonusCenter
     {
         public string Code { get; set; }
         public string Ref { get; set; }
+        [BsonDateTimeOptions(Kind = DateTimeKind.Local)]
         public DateTime? ExpiryTime { get; set; }
         public bool IsDrawed { get; set; }
 

@@ -13,6 +13,7 @@ namespace Dolany.Database.Ai
 
         public int Times { get; set; }
 
+        [BsonDateTimeOptions(Kind = DateTimeKind.Local)]
         public DateTime ExpiryTime { get; set; }
 
         public static DailyLimitRecord Get(long QQNum, string Command)

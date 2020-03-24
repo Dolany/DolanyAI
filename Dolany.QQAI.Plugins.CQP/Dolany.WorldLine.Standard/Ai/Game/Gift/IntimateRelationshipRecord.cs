@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Linq;
 using Dolany.Database;
+using MongoDB.Bson.Serialization.Attributes;
 
 namespace Dolany.WorldLine.Standard.Ai.Game.Gift
 {
@@ -12,6 +13,7 @@ namespace Dolany.WorldLine.Standard.Ai.Game.Gift
 
         public int Value { get; set; }
 
+        [BsonDateTimeOptions(Kind = DateTimeKind.Local)]
         public DateTime? ExpiryTime { get; set; }
 
         public string Name { get; set; }

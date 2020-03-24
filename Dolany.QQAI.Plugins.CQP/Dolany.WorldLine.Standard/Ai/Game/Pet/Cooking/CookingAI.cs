@@ -213,7 +213,7 @@ namespace Dolany.WorldLine.Standard.Ai.Game.Pet.Cooking
                 $"已学会的菜谱：{string.Join("，", dietList)}\r";
             msg += $"当前持有菜肴：{string.Join("，", cookingRec.CookedDietDic.Select(p => $"{p.Key}*{p.Value}"))}\r";
             msg += $"当前持有调味料：{string.Join("，", cookingRec.FlavoringDic.Select(p => $"{p.Key}*{p.Value}"))}\r";
-            msg += $"推荐学习菜谱：{CookingDietSvc.SuggestDiet(cookingRec.LearndDietMenu)?.Name}";
+            msg += $"推荐学习菜谱：【{CookingDietSvc.SuggestDiet(cookingRec.LearndDietMenu)?.Name}】";
 
             MsgSender.PushMsg(MsgDTO, msg);
             return true;

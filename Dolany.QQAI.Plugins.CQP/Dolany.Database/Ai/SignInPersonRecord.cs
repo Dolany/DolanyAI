@@ -36,6 +36,7 @@ namespace Dolany.Database.Ai
     {
         public int SuccessiveDays { get; set; }
 
+        [BsonDateTimeOptions(Kind = DateTimeKind.Local)]
         public DateTime? LastSignInDate { get; set; }
     }
 }

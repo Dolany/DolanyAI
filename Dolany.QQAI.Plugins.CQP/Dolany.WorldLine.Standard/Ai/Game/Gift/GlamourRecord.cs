@@ -13,6 +13,7 @@ namespace Dolany.WorldLine.Standard.Ai.Game.Gift
 
         public int Glamour { get; set; }
 
+        [BsonDateTimeOptions(Kind = DateTimeKind.Local)]
         public DateTime? ExpiryTime { get; set; }
 
         public static GlamourRecord Get(long GroupNum, long QQNum)

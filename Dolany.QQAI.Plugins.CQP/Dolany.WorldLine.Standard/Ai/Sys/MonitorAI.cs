@@ -66,7 +66,7 @@ namespace Dolany.WorldLine.Standard.Ai.Sys
 
             GroupSettingSvc.RefreshData();
 
-            MsgSender.PushMsg(MsgDTO, $"充值成功，有效期至 {setting.ExpiryTime?.ToLocalTime():yyyy-MM-dd HH:mm:ss}");
+            MsgSender.PushMsg(MsgDTO, $"充值成功，有效期至 {setting.ExpiryTime:yyyy-MM-dd HH:mm:ss}");
         }
     }
 }

@@ -1,5 +1,6 @@
 ﻿using System;
 using Dolany.Database;
+using MongoDB.Bson.Serialization.Attributes;
 
 namespace Dolany.Ai.Core.Cache
 {
@@ -11,6 +12,7 @@ namespace Dolany.Ai.Core.Cache
 
         public string Value { get; set; }
 
+        [BsonDateTimeOptions(Kind = DateTimeKind.Local)]
         public DateTime? ExpiryTime { get; set; }
 
         public static PersonCacheRecord Get(long QQNum, string Key)

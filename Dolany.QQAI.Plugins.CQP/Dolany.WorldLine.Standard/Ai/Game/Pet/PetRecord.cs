@@ -4,6 +4,7 @@ using System.IO;
 using System.Linq;
 using Dolany.Ai.Common;
 using Dolany.Database;
+using MongoDB.Bson.Serialization.Attributes;
 using MongoDB.Driver;
 
 namespace Dolany.WorldLine.Standard.Ai.Game.Pet
@@ -28,6 +29,7 @@ namespace Dolany.WorldLine.Standard.Ai.Game.Pet
 
         public Dictionary<string, int> Skills { get; set; } = new Dictionary<string, int>();
 
+        [BsonDateTimeOptions(Kind = DateTimeKind.Local)]
         public DateTime? LastFeedTime { get; set; }
 
         public static PetRecord Get(long QQNum)

@@ -1,6 +1,7 @@
 ﻿using Dolany.Ai.Core.Cache;
 using Dolany.Database;
 using System;
+using MongoDB.Bson.Serialization.Attributes;
 
 namespace Dolany.WorldLine.Standard.Ai.SingleCommand.IceNews
 {
@@ -10,6 +11,7 @@ namespace Dolany.WorldLine.Standard.Ai.SingleCommand.IceNews
 
         public string Path { get; set; }
 
+        [BsonDateTimeOptions(Kind = DateTimeKind.Local)]
         public DateTime UpdateTime { get; set; }
 
         public static ArknightsMiniStoryRecord Get(int No)

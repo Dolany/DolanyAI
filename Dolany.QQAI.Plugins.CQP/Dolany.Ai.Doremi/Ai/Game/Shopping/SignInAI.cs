@@ -111,7 +111,7 @@ namespace Dolany.Ai.Doremi.Ai.Game.Shopping
                 personRecord.GroupInfos.Add(MsgDTO.FromGroup.ToString(), ginfo);
             }
 
-            if (ginfo.LastSignInDate.HasValue && ginfo.LastSignInDate.Value.ToLocalTime() > DateTime.Now.Date)
+            if (ginfo.LastSignInDate.HasValue && ginfo.LastSignInDate.Value > DateTime.Now.Date)
             {
                 MsgSender.PushMsg(MsgDTO, "你今天已经签过到啦！");
                 return true;
@@ -124,7 +124,7 @@ namespace Dolany.Ai.Doremi.Ai.Game.Shopping
 
         private static void Sign(SignInPersonGroupInfo ginfo, MsgInformationEx MsgDTO)
         {
-            if (ginfo.LastSignInDate == null || ginfo.LastSignInDate.Value.ToLocalTime().Date < DateTime.Today.AddDays(-1))
+            if (ginfo.LastSignInDate == null || ginfo.LastSignInDate.Value.Date < DateTime.Today.AddDays(-1))
             {
                 ginfo.SuccessiveDays = 0;
             }

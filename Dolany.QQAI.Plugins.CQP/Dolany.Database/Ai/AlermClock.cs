@@ -8,6 +8,7 @@ namespace Dolany.Database.Ai
     {
         public long GroupNumber { get; set; }
         public long Creator { get; set; }
+        [BsonDateTimeOptions(Kind = DateTimeKind.Local)]
         public DateTime CreateTime { get; set; }
         public int AimHourt { get; set; }
         public int AimMinute { get; set; }

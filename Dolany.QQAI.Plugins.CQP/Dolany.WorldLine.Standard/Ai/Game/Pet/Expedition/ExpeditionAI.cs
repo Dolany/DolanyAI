@@ -39,7 +39,7 @@ namespace Dolany.WorldLine.Standard.Ai.Game.Pet.Expedition
             var pet = PetRecord.Get(MsgDTO.FromQQ);
             if (expeditionRec.IsExpediting)
             {
-                MsgSender.PushMsg(MsgDTO, $"{pet.Name}还在远征中，请于 {expeditionRec.EndTime.ToLocalTime():yyyy-MM-dd HH:mm:ss}后再试！");
+                MsgSender.PushMsg(MsgDTO, $"{pet.Name}还在远征中，请于 {expeditionRec.EndTime:yyyy-MM-dd HH:mm:ss}后再试！");
                 return false;
             }
 
