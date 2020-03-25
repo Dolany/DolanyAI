@@ -32,9 +32,9 @@ namespace Dolany.WorldLine.Standard.Ai.Sys
                 return false;
             }
 
-            if (content.Contains("啪") && content.Contains("师") && content.Contains("姐"))
+            if ((content.Contains("啪") || content.Contains("口拍")) && content.Contains("师") && (content.Contains("姐") || content.Contains("女且")))
             {
-                MsgSender.PushMsg(MsgDTO, "哔哔，禁止事项！");
+                MsgSender.PushMsg(MsgDTO, "【哔哔，禁止事项！】");
                 return false;
             }
 
