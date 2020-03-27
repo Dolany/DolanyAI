@@ -170,7 +170,7 @@ namespace Dolany.Ai.Core.Base
                         var tempList = availableBindAis;
                         if (tempList.Any())
                         {
-                            MsgDTO.BindAi = tempList.RandElement().Name;
+                            MsgDTO.BindAi = tempList.OrderBy(p => RecentCommandCache.GetPressure(p.Name)).First().Name;
                         }
                         else if((int)ai.PriorityLevel < (int)AIPriority.System)
                         {

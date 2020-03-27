@@ -13,7 +13,7 @@ namespace Dolany.Ai.Core.Cache
         private static readonly ConcurrentDictionary<string, ConcurrentQueue<DateTime>> TimeCacheDic = new ConcurrentDictionary<string, ConcurrentQueue<DateTime>>();
 
         public static Dictionary<string, int> Pressures =>
-            TimeCacheDic.ToDictionary(p => p.Key, p => p.Value.Count(d => d.AddHours(1) > DateTime.Now)).OrderByDescending(p => p.Value).ToDictionary(p => p.Key, p => p.Value);
+            TimeCacheDic.OrderByDescending(p => p.Value.Count).ToDictionary(p => p.Key, p => p.Value.Count);
 
         public static void Cache(string BindAi)
         {
@@ -21,10 +21,6 @@ namespace Dolany.Ai.Core.Cache
             {
                 var tc = TimeCacheDic[BindAi];
                 tc.Enqueue(DateTime.Now);
-                if (tc.Count > MaxRecentCommandCacheCount)
-                {
-                    tc.TryDequeue(out _);
-                }
             }
             else
             {
@@ -34,14 +30,36 @@ namespace Dolany.Ai.Core.Cache
             }
         }
 
-        public static bool IsTooFreq(string BindAi)
+        public static int GetPressure(string BindAi)
         {
             if (!TimeCacheDic.ContainsKey(BindAi) || !TimeCacheDic[BindAi].Any())
             {
-                return false;
+                return 0;
             }
 
-            return TimeCacheDic[BindAi].Count >= MaxRecentCommandCacheCount && TimeCacheDic[BindAi].TryPeek(out var peekTime) && peekTime.AddHours(1) > DateTime.Now;
+            return TimeCacheDic[BindAi].Count;
+        }
+
+        public static bool IsTooFreq(string BindAi)
+        {
+            return GetPressure(BindAi) >= MaxRecentCommandCacheCount;
+        }
+
+        public static void Refresh()
+        {
+            foreach (var (_, queue) in TimeCacheDic)
+            {
+                while (!queue.IsEmpty)
+                {
+                    if (queue.TryPeek(out var earlistTime) && earlistTime.AddHours(1) < DateTime.Now)
+                    {
+                        queue.TryDequeue(out _);
+                        continue;
+                    }
+
+                    break;
+                }
+            }
         }
     }
 }
