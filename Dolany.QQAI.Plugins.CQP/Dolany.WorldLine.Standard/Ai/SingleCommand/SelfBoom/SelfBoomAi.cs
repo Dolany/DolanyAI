@@ -4,6 +4,7 @@ using Dolany.Ai.Common;
 using Dolany.Ai.Common.Models;
 using Dolany.Ai.Core.Base;
 using Dolany.Ai.Core.Cache;
+using Dolany.Ai.Core.Common;
 
 namespace Dolany.WorldLine.Standard.Ai.SingleCommand.SelfBoom
 {
@@ -23,7 +24,7 @@ namespace Dolany.WorldLine.Standard.Ai.SingleCommand.SelfBoom
             AuthorityLevel = AuthorityLevel.成员,
             Description = "自爆",
             Syntax = "",
-            Tag = "系统命令",
+            Tag = CmdTagEnum.系统命令,
             SyntaxChecker = "Empty",
             IsPrivateAvailable = false)]
         public bool Boom(MsgInformationEx MsgDTO, object[] param)
@@ -71,7 +72,7 @@ namespace Dolany.WorldLine.Standard.Ai.SingleCommand.SelfBoom
             AuthorityLevel = AuthorityLevel.开发者,
             Description = "获取自爆指令码，有效期5分钟",
             Syntax = "",
-            Tag = "系统功能",
+            Tag = CmdTagEnum.系统命令,
             SyntaxChecker = "Empty",
             IsPrivateAvailable = true)]
         public bool GetBoomCode(MsgInformationEx MsgDTO, object[] param)

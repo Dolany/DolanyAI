@@ -3,6 +3,7 @@ using Dolany.Ai.Common;
 using Dolany.Ai.Common.Models;
 using Dolany.Ai.Core.Base;
 using Dolany.Ai.Core.Cache;
+using Dolany.Ai.Core.Common;
 using Dolany.WorldLine.Standard.OnlineStore;
 
 namespace Dolany.WorldLine.Standard.Ai.Game.Pet.Cooking
@@ -22,7 +23,7 @@ namespace Dolany.WorldLine.Standard.Ai.Game.Pet.Cooking
             AuthorityLevel = AuthorityLevel.成员,
             Description = "开始烹饪一道指定的菜肴",
             Syntax = "[菜品名]",
-            Tag = "烹饪功能",
+            Tag = CmdTagEnum.烹饪功能,
             SyntaxChecker = "Word",
             IsPrivateAvailable = true)]
         public bool Cook(MsgInformationEx MsgDTO, object[] param)
@@ -91,7 +92,7 @@ namespace Dolany.WorldLine.Standard.Ai.Game.Pet.Cooking
             Description = "查看指定菜肴的详细情况",
             Syntax = "[菜品名]",
             SyntaxChecker = "Word",
-            Tag = "烹饪功能",
+            Tag = CmdTagEnum.烹饪功能,
             IsPrivateAvailable = true)]
         public bool ViewDiet(MsgInformationEx MsgDTO, object[] param)
         {
@@ -113,7 +114,7 @@ namespace Dolany.WorldLine.Standard.Ai.Game.Pet.Cooking
             Description = "查看自己的历史烹饪情况",
             Syntax = "",
             SyntaxChecker = "Empty",
-            Tag = "烹饪功能",
+            Tag = CmdTagEnum.烹饪功能,
             IsPrivateAvailable = true)]
         public bool MyCookingHistory(MsgInformationEx MsgDTO, object[] param)
         {
@@ -146,7 +147,7 @@ namespace Dolany.WorldLine.Standard.Ai.Game.Pet.Cooking
             Description = "兑换指定的菜谱",
             Syntax = "[菜谱名]",
             SyntaxChecker = "Word",
-            Tag = "烹饪功能",
+            Tag = CmdTagEnum.烹饪功能,
             IsPrivateAvailable = true)]
         public bool ExchangeMenu(MsgInformationEx MsgDTO, object[] param)
         {
@@ -190,7 +191,7 @@ namespace Dolany.WorldLine.Standard.Ai.Game.Pet.Cooking
             Description = "查看自己的厨房情况",
             Syntax = "",
             SyntaxChecker = "Empty",
-            Tag = "烹饪功能",
+            Tag = CmdTagEnum.烹饪功能,
             IsPrivateAvailable = true)]
         public bool MyKitchen(MsgInformationEx MsgDTO, object[] param)
         {
@@ -225,7 +226,7 @@ namespace Dolany.WorldLine.Standard.Ai.Game.Pet.Cooking
             Description = "查看所有的菜谱",
             Syntax = "",
             SyntaxChecker = "Empty",
-            Tag = "烹饪功能",
+            Tag = CmdTagEnum.烹饪功能,
             IsPrivateAvailable = true)]
         public bool DietMenu(MsgInformationEx MsgDTO, object[] param)
         {

@@ -17,8 +17,6 @@ namespace Dolany.WorldLine.Standard.Ai.Game.SignIn
 
         public override AIPriority PriorityLevel { get;} = AIPriority.Normal;
 
-        public override bool NeedManualOpeon { get; } = true;
-
         private Dictionary<long, SignInGroupRecord> GroupSignInDic = new Dictionary<long, SignInGroupRecord>();
 
         public override void Initialization()
@@ -32,7 +30,7 @@ namespace Dolany.WorldLine.Standard.Ai.Game.SignIn
             AuthorityLevel = AuthorityLevel.管理员,
             Description = "设置签到内容(不能与系统自带命令重复)",
             Syntax = "[签到内容]",
-            Tag = "商店功能",
+            Tag = CmdTagEnum.商店功能,
             SyntaxChecker = "Word",
             IsPrivateAvailable = false)]
         public bool SetSignContent(MsgInformationEx MsgDTO, object[] param)
@@ -68,7 +66,7 @@ namespace Dolany.WorldLine.Standard.Ai.Game.SignIn
                 return true;
             }
 
-            if (MsgDTO.Type == MsgType.Private || !GroupSettingSvc[MsgDTO.FromGroup].HasFunction(AIName))
+            if (MsgDTO.Type == MsgType.Private)
             {
                 return false;
             }
@@ -112,7 +110,7 @@ namespace Dolany.WorldLine.Standard.Ai.Game.SignIn
             AuthorityLevel = AuthorityLevel.成员,
             Description = "获取今日签到内容",
             Syntax = "",
-            Tag = "商店功能",
+            Tag = CmdTagEnum.商店功能,
             SyntaxChecker = "Empty",
             IsPrivateAvailable = false)]
         public bool TodaySignContent(MsgInformationEx MsgDTO, object[] param)

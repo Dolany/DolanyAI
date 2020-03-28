@@ -4,6 +4,7 @@ using System.Reflection;
 using Dolany.Ai.Common.Models;
 using Dolany.Ai.Core.Base;
 using Dolany.Ai.Core.Cache;
+using Dolany.Ai.Core.Common;
 
 namespace Dolany.WorldLine.Standard.Ai.Sys.BonusCenter
 {
@@ -34,7 +35,7 @@ namespace Dolany.WorldLine.Standard.Ai.Sys.BonusCenter
             Description = "根据兑换码兑换奖励",
             Syntax = "[兑换码]",
             SyntaxChecker = "Word",
-            Tag = "系统命令",
+            Tag = CmdTagEnum.系统命令,
             IsPrivateAvailable = true)]
         public bool AutoBonus(MsgInformationEx MsgDTO, object[] param)
         {

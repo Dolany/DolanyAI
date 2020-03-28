@@ -21,8 +21,6 @@ namespace Dolany.Ai.Core.Base
 
         public virtual bool Enable { get; } = true;
 
-        public virtual bool NeedManualOpeon { get; } = false;
-
         protected delegate bool AIModuleDel(MsgInformationEx MsgDTO, object[] param);
 
         protected readonly Dictionary<EnterCommandAttribute, AIModuleDel> ModuleDels = new Dictionary<EnterCommandAttribute, AIModuleDel>();
@@ -146,19 +144,13 @@ namespace Dolany.Ai.Core.Base
                 return true;
             }
 
-            if (!MsgDTO.IsAlive)
-            {
-                var stateCache = AliveStateSvc.GetState(MsgDTO.FromGroup, MsgDTO.FromQQ);
-                MsgSender.PushMsg(MsgDTO, $"你已经死了({stateCache.Name})！复活时间：{stateCache.RebornTime.ToString(CultureInfo.CurrentCulture)}", true);
-                return false;
-            }
-
-            if (!NeedManualOpeon || GroupSettingSvc[MsgDTO.FromGroup].HasFunction(AIName))
+            if (MsgDTO.IsAlive)
             {
                 return true;
             }
 
-            MsgSender.PushMsg(MsgDTO, $"本群尚未开启 【{AIName}】 功能，请联系群主使用 【开启功能】 命令来开启此功能！");
+            var stateCache = AliveStateSvc.GetState(MsgDTO.FromGroup, MsgDTO.FromQQ);
+            MsgSender.PushMsg(MsgDTO, $"你已经死了({stateCache.Name})！复活时间：{stateCache.RebornTime.ToString(CultureInfo.CurrentCulture)}", true);
             return false;
         }
 

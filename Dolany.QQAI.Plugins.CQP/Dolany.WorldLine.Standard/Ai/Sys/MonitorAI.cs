@@ -2,6 +2,7 @@
 using Dolany.Ai.Common.Models;
 using Dolany.Ai.Core.Base;
 using Dolany.Ai.Core.Cache;
+using Dolany.Ai.Core.Common;
 using Dolany.Database;
 using Dolany.Database.Ai;
 using Dolany.WorldLine.Standard.OnlineStore;
@@ -20,7 +21,7 @@ namespace Dolany.WorldLine.Standard.Ai.Sys
             Command = "自助充值",
             Description = "使用钻石自助为本群充值指定天数的机器人使用时间(1天=10钻石)",
             Syntax = "[天数]",
-            Tag = "系统命令",
+            Tag = CmdTagEnum.系统命令,
             SyntaxChecker = "Long",
             AuthorityLevel = AuthorityLevel.成员,
             IsPrivateAvailable = false)]

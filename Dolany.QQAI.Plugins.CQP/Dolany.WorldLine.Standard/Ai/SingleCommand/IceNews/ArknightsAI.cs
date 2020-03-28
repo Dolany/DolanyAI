@@ -22,7 +22,7 @@ namespace Dolany.WorldLine.Standard.Ai.SingleCommand.IceNews
             AuthorityLevel = AuthorityLevel.成员,
             Description = "获取最新方舟剧场内容",
             Syntax = "",
-            Tag = "娱乐功能",
+            Tag = CmdTagEnum.娱乐功能,
             SyntaxChecker = "Empty",
             IsPrivateAvailable = true,
             DailyLimit = 3)]
@@ -40,7 +40,7 @@ namespace Dolany.WorldLine.Standard.Ai.SingleCommand.IceNews
             AuthorityLevel = AuthorityLevel.成员,
             Description = "按期号获取最新方舟剧场内容",
             Syntax = "[期号]",
-            Tag = "娱乐功能",
+            Tag = CmdTagEnum.娱乐功能,
             SyntaxChecker = "Long",
             IsPrivateAvailable = true,
             DailyLimit = 3)]
@@ -64,7 +64,7 @@ namespace Dolany.WorldLine.Standard.Ai.SingleCommand.IceNews
             AuthorityLevel = AuthorityLevel.开发者,
             Description = "向方舟剧场投稿",
             Syntax = "",
-            Tag = "娱乐功能",
+            Tag = CmdTagEnum.娱乐功能,
             SyntaxChecker = "Empty",
             IsPrivateAvailable = true)]
         public bool StoryContribute(MsgInformationEx MsgDTO, object[] param)

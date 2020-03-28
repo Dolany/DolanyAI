@@ -33,7 +33,7 @@ namespace Dolany.WorldLine.Standard.Ai.Sys
             Command = "广播",
             Description = "在所有群组广播消息",
             Syntax = "广播内容",
-            Tag = "开发者后台",
+            Tag = CmdTagEnum.开发者后台,
             SyntaxChecker = "Any",
             AuthorityLevel = AuthorityLevel.开发者,
             IsPrivateAvailable = true)]
@@ -58,7 +58,7 @@ namespace Dolany.WorldLine.Standard.Ai.Sys
             Command = "物品奖励",
             Description = "奖励某个人若干个物品",
             Syntax = "[@QQ号] [物品名] [物品数量]",
-            Tag = "开发者后台",
+            Tag = CmdTagEnum.开发者后台,
             SyntaxChecker = "At Word Long",
             AuthorityLevel = AuthorityLevel.开发者,
             IsPrivateAvailable = false)]
@@ -90,7 +90,7 @@ namespace Dolany.WorldLine.Standard.Ai.Sys
             Command = "金币奖励",
             Description = "奖励某个人一些金币",
             Syntax = "[@QQ号] [金币数量]",
-            Tag = "开发者后台",
+            Tag = CmdTagEnum.开发者后台,
             SyntaxChecker = "At Long",
             AuthorityLevel = AuthorityLevel.开发者,
             IsPrivateAvailable = false)]
@@ -111,7 +111,7 @@ namespace Dolany.WorldLine.Standard.Ai.Sys
             Command = "钻石奖励",
             Description = "奖励某个人一些钻石",
             Syntax = "[@QQ号] [钻石数量]",
-            Tag = "开发者后台",
+            Tag = CmdTagEnum.开发者后台,
             SyntaxChecker = "At Long",
             AuthorityLevel = AuthorityLevel.开发者,
             IsPrivateAvailable = false)]
@@ -132,7 +132,7 @@ namespace Dolany.WorldLine.Standard.Ai.Sys
             Command = "礼物奖励",
             Description = "奖励某个人若干件礼物",
             Syntax = "[@QQ号] [礼物名称] [礼物数量]",
-            Tag = "开发者后台",
+            Tag = CmdTagEnum.开发者后台,
             SyntaxChecker = "At Word Long",
             AuthorityLevel = AuthorityLevel.开发者,
             IsPrivateAvailable = false)]
@@ -161,7 +161,7 @@ namespace Dolany.WorldLine.Standard.Ai.Sys
             Command = "宠物经验值奖励",
             Description = "奖励某个人若干宠物经验值",
             Syntax = "[@QQ号] [经验值]",
-            Tag = "开发者后台",
+            Tag = CmdTagEnum.开发者后台,
             SyntaxChecker = "At Long",
             AuthorityLevel = AuthorityLevel.开发者,
             IsPrivateAvailable = false)]
@@ -183,7 +183,7 @@ namespace Dolany.WorldLine.Standard.Ai.Sys
             Command = "抽奖奖励",
             Description = "奖励某个人一次抽奖机会",
             Syntax = "[QQ号]",
-            Tag = "开发者后台",
+            Tag = CmdTagEnum.开发者后台,
             SyntaxChecker = "At",
             AuthorityLevel = AuthorityLevel.开发者,
             IsPrivateAvailable = false)]
@@ -203,7 +203,7 @@ namespace Dolany.WorldLine.Standard.Ai.Sys
             Command = "签到加速",
             Description = "开启签到加速活动",
             Syntax = "[天数]",
-            Tag = "开发者后台",
+            Tag = CmdTagEnum.开发者后台,
             SyntaxChecker = "Long",
             AuthorityLevel = AuthorityLevel.开发者,
             IsPrivateAvailable = true)]
@@ -224,7 +224,7 @@ namespace Dolany.WorldLine.Standard.Ai.Sys
             Command = "查询缓存 查看缓存",
             Description = "根据key值查询缓存信息",
             Syntax = "[key]",
-            Tag = "开发者后台",
+            Tag = CmdTagEnum.开发者后台,
             SyntaxChecker = "Word",
             AuthorityLevel = AuthorityLevel.开发者,
             IsPrivateAvailable = true)]
@@ -251,7 +251,7 @@ namespace Dolany.WorldLine.Standard.Ai.Sys
             Command = "清理缓存 删除缓存",
             Description = "根据key值删除缓存信息",
             Syntax = "[key]",
-            Tag = "开发者后台",
+            Tag = CmdTagEnum.开发者后台,
             SyntaxChecker = "Word",
             AuthorityLevel = AuthorityLevel.开发者,
             IsPrivateAvailable = true)]
@@ -279,7 +279,7 @@ namespace Dolany.WorldLine.Standard.Ai.Sys
             Command = "test",
             Description = "test",
             Syntax = "",
-            Tag = "开发者后台",
+            Tag = CmdTagEnum.开发者后台,
             SyntaxChecker = "Empty",
             AuthorityLevel = AuthorityLevel.开发者,
             IsPrivateAvailable = true)]
@@ -295,7 +295,7 @@ namespace Dolany.WorldLine.Standard.Ai.Sys
             Command = "连接状态",
             Description = "获取当前所有机器人的连接状态",
             Syntax = "",
-            Tag = "开发者后台",
+            Tag = CmdTagEnum.开发者后台,
             SyntaxChecker = "Empty",
             AuthorityLevel = AuthorityLevel.开发者,
             IsPrivateAvailable = true)]
@@ -325,7 +325,7 @@ namespace Dolany.WorldLine.Standard.Ai.Sys
             Command = "获取QQ信息",
             Description = "获取指定QQ的信息(测试)",
             Syntax = "[QQ号]",
-            Tag = "开发者后台",
+            Tag = CmdTagEnum.开发者后台,
             SyntaxChecker = "Long",
             AuthorityLevel = AuthorityLevel.开发者,
             IsPrivateAvailable = true)]
@@ -342,7 +342,7 @@ namespace Dolany.WorldLine.Standard.Ai.Sys
             Command = "撤回消息测试",
             Description = "撤回消息测试",
             Syntax = "[消息ID]",
-            Tag = "开发者后台",
+            Tag = CmdTagEnum.开发者后台,
             SyntaxChecker = "Long",
             AuthorityLevel = AuthorityLevel.开发者,
             IsPrivateAvailable = true)]
@@ -365,7 +365,7 @@ namespace Dolany.WorldLine.Standard.Ai.Sys
             Command = "规则析构",
             Description = "规则析构",
             Syntax = "[key] [value]",
-            Tag = "开发者后台",
+            Tag = CmdTagEnum.开发者后台,
             SyntaxChecker = "Word Any",
             AuthorityLevel = AuthorityLevel.开发者,
             IsPrivateAvailable = true)]

@@ -13,13 +13,12 @@ namespace Dolany.Ai.Core.Base
     public abstract class IWorldLine : IDependency
     {
         public abstract string Name { get; set; }
+        public abstract CmdTag CmdTagTree { get; set; }
         public virtual bool IsDefault { get; } = false;
         public List<AIBase> AIGroup { get; set; }
         protected List<IAITool> ToolGroup { get; set; }
 
-        public string[] ManulOpenAiNames { get; set; }
         public List<EnterCommandAttribute> AllAvailableGroupCommands { get; } = new List<EnterCommandAttribute>();
-        public List<string> OptionalAINames => AIGroup.Where(ai => ai.NeedManualOpeon).Select(ai => ai.AIName).ToList();
 
         public BindAiSvc BindAiSvc { get; set; }
         public DirtyFilterSvc DirtyFilterSvc { get; set; }
@@ -47,27 +46,65 @@ namespace Dolany.Ai.Core.Base
                 AIGroup = AIGroup.Where(a => a != null && a.Enable).OrderByDescending(a => a.PriorityLevel).ToList();
                 var count = AIGroup.Count;
 
+                Logger.Log("AI 加载中...");
                 for (var i = 0; i < AIGroup.Count; i++)
                 {
                     AIGroup[i].WorldLine = this;
                     AIGroup[i].Initialization();
                     ExtractCommands(AIGroup[i]);
 
-                    Logger.Log($"AI加载进度：{AIGroup[i].AIName}({i + 1}/{count})");
+                    Logger.Log($"{AIGroup[i].AIName}({i + 1}/{count})");
                 }
+                CreateCmdTree(CmdTagTree);
 
                 ToolGroup = ToolGroup.Where(p => p.Enabled).ToList();
                 foreach (var tool in ToolGroup)
                 {
                     tool.Work();
                 }
-
-                ManulOpenAiNames = AIGroup.Where(ai => ai.NeedManualOpeon).Select(ai => ai.AIName).ToArray();
             }
             catch (Exception ex)
             {
                 Logger.Log(ex);
             }
+        }
+
+        public void CreateCmdTree(CmdTag tag)
+        {
+            tag.SubCmds = AllAvailableGroupCommands.Where(p => p.Tag == tag.Tag).ToArray();
+            if (tag.SubTags.IsNullOrEmpty())
+            {
+                return;
+            }
+
+            foreach (var subTag in tag.SubTags)
+            {
+                CreateCmdTree(subTag);
+            }
+        }
+
+        public IEnumerable<CmdTag> LocateCmdPath(EnterCommandAttribute cmd)
+        {
+            var stack = new Stack<CmdTag>();
+            return CmdTagTree.SubTags.Any(subTag => FindCmdPath(subTag, cmd, stack)) ? stack.ToList() : default;
+        }
+
+        private bool FindCmdPath(CmdTag tag, EnterCommandAttribute cmd, Stack<CmdTag> stack)
+        {
+            stack.Push(tag);
+
+            if (tag.SubCmds.Any(p => p.ID == cmd.ID))
+            {
+                return true;
+            }
+
+            if (!tag.SubTags.IsNullOrEmpty() && tag.SubTags.Any(t => FindCmdPath(t, cmd, stack)))
+            {
+                return true;
+            }
+
+            stack.Pop();
+            return false;
         }
 
         private void ExtractCommands(AIBase ai)

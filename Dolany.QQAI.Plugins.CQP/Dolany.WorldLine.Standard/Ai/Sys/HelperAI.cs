@@ -47,11 +47,21 @@ namespace Dolany.WorldLine.Standard.Ai.Sys
             Description = "获取帮助列表",
             Syntax = "",
             SyntaxChecker = "Empty",
-            Tag = "系统命令",
+            Tag = CmdTagEnum.系统命令,
             IsPrivateAvailable = true)]
         public bool HelpMe(MsgInformationEx MsgDTO, object[] param)
         {
-            HelpSummary(MsgDTO);
+            var versionAi = WorldLine.AIInstance<VersionAi>();
+            var version = versionAi.Versions.First();
+            var helpMsg = $"当前版本为：{version.VersionNum}，请使用 【版本信息】 命令获取当前版本的更新内容！\r\n当前版本的命令标签有：\r\n";
+            var tags = WorldLine.CmdTagTree.SubTags;
+
+            helpMsg += string.Join("", tags.Select((tag, idx) =>
+                idx % 2 == 0 ? $"{Emoji.AllEmojis().RandElement()}{tag.Tag}{Emoji.AllEmojis().RandElement()}" : $"{tag.Tag}{Emoji.AllEmojis().RandElement()}\r\n"));
+
+            helpMsg += "\r\n可以使用 帮助 [标签名] 来查询标签中的具体命令名 或者使用 帮助 [命令名] 来查询具体命令信息。";
+
+            MsgSender.PushMsg(MsgDTO, helpMsg);
             return true;
         }
 
@@ -61,7 +71,7 @@ namespace Dolany.WorldLine.Standard.Ai.Sys
             Description = "获取特定命令或标签的帮助信息",
             Syntax = "[命令名/标签名]",
             SyntaxChecker = "Word",
-            Tag = "系统命令",
+            Tag = CmdTagEnum.系统命令,
             IsPrivateAvailable = true)]
         public bool HelpMe_Command(MsgInformationEx MsgDTO, object[] param)
         {
@@ -97,26 +107,6 @@ namespace Dolany.WorldLine.Standard.Ai.Sys
             return true;
         }
 
-        private void HelpSummary(MsgInformationEx MsgDTO)
-        {
-            var versionAi = WorldLine.AIInstance<VersionAi>();
-            var version = versionAi.Versions.First();
-            var helpMsg = $"当前版本为：{version.VersionNum}，请使用 【版本信息】 命令获取当前版本的更新内容！\r\n当前版本的命令标签有：\r\n";
-            var commandAttrs = WorldLine.AllAvailableGroupCommands.GroupBy(c => c.Tag)
-                                                                       .Select(p => p.First());
-            if (MsgDTO.Auth != AuthorityLevel.开发者)
-            {
-                commandAttrs = commandAttrs.Where(p => p.AuthorityLevel != AuthorityLevel.开发者);
-            }
-
-            helpMsg += string.Join("", commandAttrs.Select((command, idx) =>
-                idx % 2 == 0 ? $"{Emoji.AllEmojis().RandElement()}{command.Tag}{Emoji.AllEmojis().RandElement()}" : $"{command.Tag}{Emoji.AllEmojis().RandElement()}\r\n"));
-
-            helpMsg += "\r\n可以使用 帮助 [标签名] 来查询标签中的具体命令名 或者使用 帮助 [命令名] 来查询具体命令信息。";
-
-            MsgSender.PushMsg(MsgDTO, helpMsg);
-        }
-
         private bool HelpCommand(MsgInformationEx MsgDTO)
         {
             var commands = WorldLine.AllAvailableGroupCommands.Where(c => c.Command == MsgDTO.Msg).ToList();
@@ -143,12 +133,18 @@ namespace Dolany.WorldLine.Standard.Ai.Sys
                     range.Add("私聊");
                 }
 
-                var helpMsg = $"命令：{command.Command}\r\n" +
-                              $"格式：{command.Command} {command.Syntax}\r\n" +
-                              $"描述：{command.Description}\r\n" +
-                              $"权限：{command.AuthorityLevel.ToString()}\r\n" +
-                              $"适用范围：{string.Join("，", range)}\r\n" +
-                              $"次数限制：{(Global.TestGroups.Contains(MsgDTO.FromGroup) ? command.TestingDailyLimit : command.DailyLimit)}";
+                var msgDic = new Dictionary<string, string>()
+                {
+                    {"命令", command.Command },
+                    {"格式", $"{command.Command} {command.Syntax}" },
+                    {"描述", command.Description },
+                    {"权限", command.AuthorityLevel.ToString() },
+                    {"标签", string.Join("-", WorldLine.LocateCmdPath(command).Select(p => p.Tag.ToString())) },
+                    {"适用范围", string.Join("，", range) },
+                    {"次数限制", Global.TestGroups.Contains(MsgDTO.FromGroup) ? command.TestingDailyLimit.ToString() : command.DailyLimit.ToString() }
+                };
+
+                var helpMsg = string.Join("\r\n", msgDic.Select(p => $"{p.Key}：{p.Value}"));
 
                 MsgSender.PushMsg(MsgDTO, helpMsg);
             }
@@ -158,30 +154,38 @@ namespace Dolany.WorldLine.Standard.Ai.Sys
 
         private bool HelpTag(MsgInformationEx MsgDTO)
         {
-            var commands = WorldLine.AllAvailableGroupCommands
-                .Where(c => c.Tag == MsgDTO.Msg).GroupBy(p => p.Command)
-                .Select(p => p.First()).ToList();
-            if (!Global.TestGroups.Contains(MsgDTO.FromGroup))
-            {
-                commands = commands.Where(c => !c.IsTesting).ToList();
-            }
-
-            if (MsgDTO.Auth != AuthorityLevel.开发者)
-            {
-                commands = commands.Where(c => c.AuthorityLevel != AuthorityLevel.开发者).ToList();
-            }
-
-            if (commands.IsNullOrEmpty())
+            var tagName = MsgDTO.Msg;
+            var tag = WorldLine.CmdTagTree.AllSubTags.FirstOrDefault(p => p.Tag.ToString() == tagName);
+            if (tag == null)
             {
                 return false;
             }
 
-            var helpMsg = "当前标签下有以下命令：\r\n";
-            var groups = commands.GroupBy(p => p.ID);
-            var subCommands = groups.Select(group => string.Join("/", group.Select(g => g.Command))).ToList();
-            helpMsg += string.Join("", subCommands.Select((command, idx) =>
-                idx % 2 == 0 ? $"{Emoji.AllEmojis().RandElement()}{command}{Emoji.AllEmojis().RandElement()}" : $"{command}{Emoji.AllEmojis().RandElement()}\r\n"));
-            helpMsg += "\r\n可以使用 帮助 [命令名] 来查询具体命令信息。";
+            var helpMsg = $"【{tagName}】\r\n";
+            if (!tag.SubTags.IsNullOrEmpty())
+            {
+                helpMsg += "当前标签下的子标签有：\r\n";
+                var msgList = tag.SubTags.Select(t => $"{t.Tag}{Emoji.AllEmojis().RandElement()}")
+                    .Select((msg, i) => i % 2 == 0 ? $"{Emoji.AllEmojis().RandElement()}{msg}" : $"{msg}\r\n").ToList();
+
+                helpMsg += string.Join("", msgList);
+                helpMsg += "\r\n";
+            }
+
+            if (!tag.SubCmds.IsNullOrEmpty())
+            {
+                helpMsg += "当前标签下的命令有：\r\n";
+
+                var groups = tag.SubCmds.GroupBy(p => p.ID);
+                var subCommands = groups.Select(group => string.Join("/", group.Select(g => g.Command))).ToList();
+                var msgList = subCommands.Select(cmd => $"{cmd}{Emoji.AllEmojis().RandElement()}")
+                    .Select((msg, i) => i % 2 == 0 ? $"{Emoji.AllEmojis().RandElement()}{msg}" : $"{msg}\r\n").ToList();
+
+                helpMsg += string.Join("", msgList);
+                helpMsg += "\r\n";
+            }
+
+            helpMsg += "可以使用 帮助 [标签名] 来查询标签中的具体命令名 或者使用 帮助 [命令名] 来查询具体命令信息。";
 
             MsgSender.PushMsg(MsgDTO, helpMsg);
             return true;
@@ -193,7 +197,7 @@ namespace Dolany.WorldLine.Standard.Ai.Sys
             Description = "查看某个东西（物品/成就/礼物等等）",
             Syntax = "[名称]",
             SyntaxChecker = "Word",
-            Tag = "系统命令",
+            Tag = CmdTagEnum.系统命令,
             IsPrivateAvailable = true)]
         public bool ViewSomething(MsgInformationEx MsgDTO, object[] param)
         {
@@ -262,7 +266,7 @@ namespace Dolany.WorldLine.Standard.Ai.Sys
             Description = "学习某个技能/菜谱/...",
             Syntax = "[名称]",
             SyntaxChecker = "Word",
-            Tag = "系统命令",
+            Tag = CmdTagEnum.系统命令,
             IsPrivateAvailable = true)]
         public bool LearnSomething(MsgInformationEx MsgDTO, object[] param)
         {
@@ -289,7 +293,7 @@ namespace Dolany.WorldLine.Standard.Ai.Sys
             Description = "兑换菜谱/礼物/...",
             Syntax = "[名称]",
             SyntaxChecker = "Word",
-            Tag = "系统命令",
+            Tag = CmdTagEnum.系统命令,
             IsPrivateAvailable = true)]
         public bool ExchangeSomething(MsgInformationEx MsgDTO, object[] param)
         {

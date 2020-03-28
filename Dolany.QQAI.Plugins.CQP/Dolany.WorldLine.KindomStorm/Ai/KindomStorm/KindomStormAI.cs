@@ -15,7 +15,7 @@ namespace Dolany.WorldLine.KindomStorm.Ai.KindomStorm
             Command = "我的城堡",
             Description = "查看自己的城堡的情况",
             Syntax = "",
-            Tag = "王国风云",
+            Tag = CmdTagEnum.王国风云,
             SyntaxChecker = "Empty",
             AuthorityLevel = AuthorityLevel.成员,
             IsPrivateAvailable = false)]
@@ -36,7 +36,7 @@ namespace Dolany.WorldLine.KindomStorm.Ai.KindomStorm
             Command = "重命名城堡",
             Description = "重命名自己的城堡",
             Syntax = "[城堡名]",
-            Tag = "王国风云",
+            Tag = CmdTagEnum.王国风云,
             SyntaxChecker = "Word",
             AuthorityLevel = AuthorityLevel.成员,
             IsPrivateAvailable = false)]

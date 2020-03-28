@@ -15,8 +15,6 @@ namespace Dolany.Database.Ai
 
         public bool ForcedShutDown { get; set; }
 
-        public IList<string> EnabledFunctions { get; set; } = new List<string>();
-
         public string BindAi { get; set; }
 
         public List<string> BindAis { get; set; } = new List<string>();
@@ -40,11 +38,6 @@ namespace Dolany.Database.Ai
         public void Update()
         {
             MongoService<GroupSettings>.Update(this);
-        }
-
-        public bool HasFunction(string name)
-        {
-            return EnabledFunctions.Contains(name);
         }
     }
 

@@ -2,6 +2,7 @@
 using Dolany.Ai.Common.Models;
 using Dolany.Ai.Core.Base;
 using Dolany.Ai.Core.Cache;
+using Dolany.Ai.Core.Common;
 
 namespace Dolany.WorldLine.Standard.Ai.SingleCommand.RandomPic
 {
@@ -18,7 +19,7 @@ namespace Dolany.WorldLine.Standard.Ai.SingleCommand.RandomPic
             AuthorityLevel = AuthorityLevel.成员,
             Description = "随机发送近期内所有群组内发过的图片",
             Syntax = "",
-            Tag = "娱乐功能",
+            Tag = CmdTagEnum.娱乐功能,
             SyntaxChecker = "Empty",
             IsPrivateAvailable = true,
             DailyLimit = 10)]
@@ -34,7 +35,7 @@ namespace Dolany.WorldLine.Standard.Ai.SingleCommand.RandomPic
             AuthorityLevel = AuthorityLevel.成员,
             Description = "随机发送近期内所有群组内发过的图片（以闪照的形式）",
             Syntax = "",
-            Tag = "娱乐功能",
+            Tag = CmdTagEnum.娱乐功能,
             SyntaxChecker = "Empty",
             IsPrivateAvailable = true,
             DailyLimit = 10)]

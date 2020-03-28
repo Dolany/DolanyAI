@@ -63,7 +63,7 @@ namespace Dolany.Ai.Core.Ai
             Command = "关机 PowerOff",
             Description = "让机器人休眠",
             Syntax = "",
-            Tag = "系统命令",
+            Tag = CmdTagEnum.系统命令,
             SyntaxChecker = "Empty",
             AuthorityLevel = AuthorityLevel.管理员,
             IsPrivateAvailable = false)]
@@ -86,7 +86,7 @@ namespace Dolany.Ai.Core.Ai
             Command = "开机 PowerOn",
             Description = "唤醒机器人",
             Syntax = "",
-            Tag = "系统命令",
+            Tag = CmdTagEnum.系统命令,
             SyntaxChecker = "Empty",
             AuthorityLevel = AuthorityLevel.管理员,
             IsPrivateAvailable = false)]
@@ -109,7 +109,7 @@ namespace Dolany.Ai.Core.Ai
             Command = "系统状态 .State",
             Description = "获取机器人当前状态",
             Syntax = "",
-            Tag = "系统命令",
+            Tag = CmdTagEnum.系统命令,
             SyntaxChecker = "Empty",
             AuthorityLevel = AuthorityLevel.成员,
             IsPrivateAvailable = true)]
@@ -170,7 +170,7 @@ namespace Dolany.Ai.Core.Ai
             Command = "Exception",
             Description = "Get Exception Detail",
             Syntax = "[Index]",
-            Tag = "系统命令",
+            Tag = CmdTagEnum.系统命令,
             SyntaxChecker = "Long",
             AuthorityLevel = AuthorityLevel.开发者,
             IsPrivateAvailable = true)]
@@ -192,7 +192,7 @@ namespace Dolany.Ai.Core.Ai
             Command = "Analyze",
             Description = "Analyze Ais",
             Syntax = "[Aspect]",
-            Tag = "系统命令",
+            Tag = CmdTagEnum.系统命令,
             SyntaxChecker = "Word",
             AuthorityLevel = AuthorityLevel.开发者,
             IsPrivateAvailable = true)]

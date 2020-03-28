@@ -5,6 +5,7 @@ using Dolany.Ai.Common;
 using Dolany.Ai.Common.Models;
 using Dolany.Ai.Core.Base;
 using Dolany.Ai.Core.Cache;
+using Dolany.Ai.Core.Common;
 using Dolany.Database.Ai;
 using Dolany.WorldLine.Standard.Ai.Game.Gift;
 using Dolany.WorldLine.Standard.Ai.Game.Pet;
@@ -35,7 +36,7 @@ namespace Dolany.WorldLine.Standard.Ai.Game.Shopping
             AuthorityLevel = AuthorityLevel.成员,
             Description = "贩卖物品或者成就",
             Syntax = "[物品名或成就名]",
-            Tag = "商店功能",
+            Tag = CmdTagEnum.商店功能,
             SyntaxChecker = "Word",
             IsPrivateAvailable = true,
             DailyLimit = 6,
@@ -70,7 +71,7 @@ namespace Dolany.WorldLine.Standard.Ai.Game.Shopping
             AuthorityLevel = AuthorityLevel.成员,
             Description = "贩卖指定成就",
             Syntax = "[成就名]",
-            Tag = "商店功能",
+            Tag = CmdTagEnum.商店功能,
             SyntaxChecker = "Word",
             IsPrivateAvailable = true,
             DailyLimit = 6,
@@ -99,7 +100,7 @@ namespace Dolany.WorldLine.Standard.Ai.Game.Shopping
             AuthorityLevel = AuthorityLevel.成员,
             Description = "批量贩卖物品",
             Syntax = "[物品名] [物品数量]",
-            Tag = "商店功能",
+            Tag = CmdTagEnum.商店功能,
             SyntaxChecker = "Word Long",
             IsPrivateAvailable = true,
             DailyLimit = 3,
@@ -136,7 +137,7 @@ namespace Dolany.WorldLine.Standard.Ai.Game.Shopping
             AuthorityLevel = AuthorityLevel.成员,
             Description = "一键贩卖自己多余的物品",
             Syntax = "",
-            Tag = "商店功能",
+            Tag = CmdTagEnum.商店功能,
             SyntaxChecker = "Empty",
             IsPrivateAvailable = true,
             DailyLimit = 2,
@@ -252,7 +253,7 @@ namespace Dolany.WorldLine.Standard.Ai.Game.Shopping
             AuthorityLevel = AuthorityLevel.成员,
             Description = "获取当前售卖的商品信息",
             Syntax = "",
-            Tag = "商店功能",
+            Tag = CmdTagEnum.商店功能,
             SyntaxChecker = "Empty",
             IsPrivateAvailable = true)]
         public bool ShopInfo(MsgInformationEx MsgDTO, object[] param)
@@ -276,7 +277,7 @@ namespace Dolany.WorldLine.Standard.Ai.Game.Shopping
             AuthorityLevel = AuthorityLevel.成员,
             Description = "逛稀有商店(每日随机开放三个小时)",
             Syntax = "",
-            Tag = "商店功能",
+            Tag = CmdTagEnum.商店功能,
             SyntaxChecker = "Empty",
             IsPrivateAvailable = true)]
         public bool ShopInfo_Rare(MsgInformationEx MsgDTO, object[] param)
@@ -316,7 +317,7 @@ namespace Dolany.WorldLine.Standard.Ai.Game.Shopping
             AuthorityLevel = AuthorityLevel.成员,
             Description = "购买指定（在商店中售卖的）商品",
             Syntax = "[商品名]",
-            Tag = "商店功能",
+            Tag = CmdTagEnum.商店功能,
             SyntaxChecker = "Word",
             IsPrivateAvailable = true,
             DailyLimit = 5,
@@ -379,7 +380,7 @@ namespace Dolany.WorldLine.Standard.Ai.Game.Shopping
             AuthorityLevel = AuthorityLevel.成员,
             Description = "向另一个成员求购一个物品/菜肴，并指定价格(系统将收取5%的手续费)",
             Syntax = "[@QQ号] [商品名/菜肴名] [价格]",
-            Tag = "商店功能",
+            Tag = CmdTagEnum.商店功能,
             SyntaxChecker = "At Word Long",
             IsPrivateAvailable = false,
             DailyLimit = 4,
@@ -537,7 +538,7 @@ namespace Dolany.WorldLine.Standard.Ai.Game.Shopping
             Description = "查看自己的当前的状态（包括金币，物品数量，buff等）",
             Syntax = "",
             SyntaxChecker = "Empty",
-            Tag = "商店功能",
+            Tag = CmdTagEnum.商店功能,
             IsPrivateAvailable = true)]
         public bool ViewItem(MsgInformationEx MsgDTO, object[] param)
         {
@@ -586,7 +587,7 @@ namespace Dolany.WorldLine.Standard.Ai.Game.Shopping
             AuthorityLevel = AuthorityLevel.成员,
             Description = "赠送一件物品给其他成员，需要支付5%的手续费",
             Syntax = "[@QQ号] [物品名]",
-            Tag = "商店功能",
+            Tag = CmdTagEnum.商店功能,
             SyntaxChecker = "At Word",
             IsPrivateAvailable = false,
             DailyLimit = 1,
@@ -637,7 +638,7 @@ namespace Dolany.WorldLine.Standard.Ai.Game.Shopping
             Description = "评估自己的资产情况",
             Syntax = "",
             SyntaxChecker = "Empty",
-            Tag = "商店功能",
+            Tag = CmdTagEnum.商店功能,
             IsPrivateAvailable = true)]
         public bool AssertCalculate(MsgInformationEx MsgDTO, object[] param)
         {
@@ -703,7 +704,7 @@ namespace Dolany.WorldLine.Standard.Ai.Game.Shopping
             AuthorityLevel = AuthorityLevel.成员,
             Description = "献祭所有物品，等级+1，获取一个自定义荣誉称号",
             Syntax = "",
-            Tag = "商店功能",
+            Tag = CmdTagEnum.商店功能,
             SyntaxChecker = "Empty",
             IsPrivateAvailable = true)]
         public bool Reborn(MsgInformationEx MsgDTO, object[] param)

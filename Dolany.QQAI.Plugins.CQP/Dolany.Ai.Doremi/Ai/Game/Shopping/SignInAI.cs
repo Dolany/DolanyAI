@@ -73,7 +73,7 @@ namespace Dolany.Ai.Doremi.Ai.Game.Shopping
                 return true;
             }
 
-            if (MsgDTO.Type == MsgType.Private || !GroupSettingSvc[MsgDTO.FromGroup].HasFunction(AIAttr.Name))
+            if (MsgDTO.Type == MsgType.Private)
             {
                 return false;
             }

@@ -23,7 +23,7 @@ namespace Dolany.WorldLine.Standard.Ai.SingleCommand.GroupManage
             AuthorityLevel = AuthorityLevel.群主,
             Description = "让某个成员死亡(无法使用机器人)若干分钟（最高500分钟）",
             Syntax = "[@qq号] [分钟数]",
-            Tag = "群管理",
+            Tag = CmdTagEnum.群管理,
             SyntaxChecker = "At Long",
             IsPrivateAvailable = false,
             DailyLimit = 4)]
@@ -38,14 +38,13 @@ namespace Dolany.WorldLine.Standard.Ai.SingleCommand.GroupManage
                 return false;
             }
 
-            var key = $"AliveState-{MsgDTO.FromGroup}-{aimQQ}";
-            if (!SkillCheck(MsgDTO, aimQQ, key))
+            if (!SkillCheck(MsgDTO, aimQQ))
             {
                 return false;
             }
 
             var rebornTime = DateTime.Now.AddMinutes(minutes);
-            DoSkill(MsgDTO, aimQQ, key, rebornTime, "死亡凝视");
+            DoSkill(MsgDTO, aimQQ, rebornTime, "死亡凝视");
             return true;
         }
 
@@ -54,7 +53,7 @@ namespace Dolany.WorldLine.Standard.Ai.SingleCommand.GroupManage
             AuthorityLevel = AuthorityLevel.群主,
             Description = "让某个成员死亡(无法使用机器人)若干小时（最高80小时）",
             Syntax = "[@qq号] [小时数]",
-            Tag = "群管理",
+            Tag = CmdTagEnum.群管理,
             SyntaxChecker = "At Long",
             IsPrivateAvailable = false,
             DailyLimit = 3)]
@@ -69,14 +68,13 @@ namespace Dolany.WorldLine.Standard.Ai.SingleCommand.GroupManage
                 return false;
             }
 
-            var key = $"AliveState-{MsgDTO.FromGroup}-{aimQQ}";
-            if (!SkillCheck(MsgDTO, aimQQ, key))
+            if (!SkillCheck(MsgDTO, aimQQ))
             {
                 return false;
             }
 
             var rebornTime = DateTime.Now.AddHours(hours);
-            DoSkill(MsgDTO, aimQQ, key, rebornTime, "星光爆裂");
+            DoSkill(MsgDTO, aimQQ, rebornTime, "星光爆裂");
             return true;
         }
 
@@ -85,7 +83,7 @@ namespace Dolany.WorldLine.Standard.Ai.SingleCommand.GroupManage
             AuthorityLevel = AuthorityLevel.群主,
             Description = "让某个成员死亡(无法使用机器人)若干天（最高30天）",
             Syntax = "[@qq号] [天数]",
-            Tag = "群管理",
+            Tag = CmdTagEnum.群管理,
             SyntaxChecker = "At Long",
             IsPrivateAvailable = false,
             DailyLimit = 2)]
@@ -100,14 +98,13 @@ namespace Dolany.WorldLine.Standard.Ai.SingleCommand.GroupManage
                 return false;
             }
 
-            var key = $"AliveState-{MsgDTO.FromGroup}-{aimQQ}";
-            if (!SkillCheck(MsgDTO, aimQQ, key))
+            if (!SkillCheck(MsgDTO, aimQQ))
             {
                 return false;
             }
 
             var rebornTime = DateTime.Now.AddDays(days);
-            DoSkill(MsgDTO, aimQQ, key, rebornTime, "梦想封印");
+            DoSkill(MsgDTO, aimQQ, rebornTime, "梦想封印");
             return true;
         }
 
@@ -116,7 +113,7 @@ namespace Dolany.WorldLine.Standard.Ai.SingleCommand.GroupManage
             AuthorityLevel = AuthorityLevel.管理员,
             Description = "复活某个成员",
             Syntax = "[@qq号]",
-            Tag = "群管理",
+            Tag = CmdTagEnum.群管理,
             SyntaxChecker = "At",
             IsPrivateAvailable = false,
             DailyLimit = 5)]
@@ -153,7 +150,7 @@ namespace Dolany.WorldLine.Standard.Ai.SingleCommand.GroupManage
             AuthorityLevel = AuthorityLevel.管理员,
             Description = "定时整点开机",
             Syntax = "[整点数(0-23)]",
-            Tag = "群管理",
+            Tag = CmdTagEnum.群管理,
             SyntaxChecker = "Long",
             IsPrivateAvailable = false)]
         public bool AutoPowerOn(MsgInformationEx MsgDTO, object[] param)
@@ -186,7 +183,7 @@ namespace Dolany.WorldLine.Standard.Ai.SingleCommand.GroupManage
             AuthorityLevel = AuthorityLevel.管理员,
             Description = "定时整点关机",
             Syntax = "[整点数(0-23)]",
-            Tag = "群管理",
+            Tag = CmdTagEnum.群管理,
             SyntaxChecker = "Long",
             IsPrivateAvailable = false)]
         public bool AutoPowerOff(MsgInformationEx MsgDTO, object[] param)
@@ -219,7 +216,7 @@ namespace Dolany.WorldLine.Standard.Ai.SingleCommand.GroupManage
             AuthorityLevel = AuthorityLevel.管理员,
             Description = "清除所有定时开关机设定",
             Syntax = "",
-            Tag = "群管理",
+            Tag = CmdTagEnum.群管理,
             SyntaxChecker = "Empty",
             IsPrivateAvailable = false)]
         public bool ClearAutoPower(MsgInformationEx MsgDTO, object[] param)
@@ -230,7 +227,7 @@ namespace Dolany.WorldLine.Standard.Ai.SingleCommand.GroupManage
             return true;
         }
 
-        private bool SkillCheck(MsgInformationEx MsgDTO, long aimQQ, string key)
+        private bool SkillCheck(MsgInformationEx MsgDTO, long aimQQ)
         {
             if (MsgDTO.FromQQ == aimQQ)
             {
@@ -248,7 +245,7 @@ namespace Dolany.WorldLine.Standard.Ai.SingleCommand.GroupManage
             return false;
         }
 
-        private void DoSkill(MsgInformationEx MsgDTO, long aimQQ, string key, DateTime rebornTime, string skillName)
+        private void DoSkill(MsgInformationEx MsgDTO, long aimQQ, DateTime rebornTime, string skillName)
         {
             var cache = new AliveStateCache
             {

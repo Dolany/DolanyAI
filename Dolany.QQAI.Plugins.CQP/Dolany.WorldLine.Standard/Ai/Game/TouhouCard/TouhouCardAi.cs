@@ -5,6 +5,7 @@ using Dolany.Ai.Common;
 using Dolany.Ai.Common.Models;
 using Dolany.Ai.Core.Base;
 using Dolany.Ai.Core.Cache;
+using Dolany.Ai.Core.Common;
 
 namespace Dolany.WorldLine.Standard.Ai.Game.TouhouCard
 {
@@ -31,7 +32,7 @@ namespace Dolany.WorldLine.Standard.Ai.Game.TouhouCard
             AuthorityLevel = AuthorityLevel.成员,
             Description = "随机获取一张DIY幻想乡卡牌(每日刷新)",
             Syntax = "",
-            Tag = "游戏功能",
+            Tag = CmdTagEnum.游戏功能,
             SyntaxChecker = "Empty",
             IsPrivateAvailable = true)]
         public bool RandomCard(MsgInformationEx MsgDTO, object[] param)

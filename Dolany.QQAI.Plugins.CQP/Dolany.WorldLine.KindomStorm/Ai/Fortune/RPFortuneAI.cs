@@ -3,6 +3,7 @@ using Dolany.Ai.Common;
 using Dolany.Ai.Common.Models;
 using Dolany.Ai.Core.Base;
 using Dolany.Ai.Core.Cache;
+using Dolany.Ai.Core.Common;
 using Dolany.Database.Sqlite.Model;
 using Newtonsoft.Json;
 
@@ -19,7 +20,7 @@ namespace Dolany.WorldLine.KindomStorm.Ai.Fortune
             AuthorityLevel = AuthorityLevel.成员,
             Description = "获取每天人品鉴定",
             Syntax = "",
-            Tag = "人品功能",
+            Tag = CmdTagEnum.人品功能,
             SyntaxChecker = "Empty",
             IsPrivateAvailable = true)]
         public bool RandomFortune(MsgInformationEx MsgDTO, object[] param)

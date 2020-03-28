@@ -4,6 +4,7 @@ using Dolany.Ai.Common;
 using Dolany.Ai.Common.Models;
 using Dolany.Ai.Core.Base;
 using Dolany.Ai.Core.Cache;
+using Dolany.Ai.Core.Common;
 using Dolany.WorldLine.Standard.Ai.Game.Pet.Cooking;
 using Dolany.WorldLine.Standard.Ai.Vip;
 using Dolany.WorldLine.Standard.OnlineStore;
@@ -25,7 +26,7 @@ namespace Dolany.WorldLine.Standard.Ai.Game.Pet.Expedition
             AuthorityLevel = AuthorityLevel.成员,
             Description = "开始宠物远征，或者领取远征奖励",
             Syntax = "",
-            Tag = "宠物功能",
+            Tag = CmdTagEnum.宠物功能,
             SyntaxChecker = "Empty",
             IsPrivateAvailable = true)]
         public bool Expedite(MsgInformationEx MsgDTO, object[] param)
@@ -117,7 +118,7 @@ namespace Dolany.WorldLine.Standard.Ai.Game.Pet.Expedition
             AuthorityLevel = AuthorityLevel.成员,
             Description = "查看某个远征地点的信息",
             Syntax = "[远征地点名称]",
-            Tag = "宠物功能",
+            Tag = CmdTagEnum.宠物功能,
             SyntaxChecker = "Word",
             IsPrivateAvailable = true)]
         public bool ViewExpedition(MsgInformationEx MsgDTO, object[] param)
@@ -139,7 +140,7 @@ namespace Dolany.WorldLine.Standard.Ai.Game.Pet.Expedition
             AuthorityLevel = AuthorityLevel.成员,
             Description = "查看我的远征记录",
             Syntax = "",
-            Tag = "宠物功能",
+            Tag = CmdTagEnum.宠物功能,
             SyntaxChecker = "Empty",
             IsPrivateAvailable = true)]
         public bool MyExpeditionHistory(MsgInformationEx MsgDTO, object[] param)
@@ -167,7 +168,7 @@ namespace Dolany.WorldLine.Standard.Ai.Game.Pet.Expedition
             AuthorityLevel = AuthorityLevel.成员,
             Description = "将某个物品分解为调味料",
             Syntax = "[物品名]",
-            Tag = "宠物功能",
+            Tag = CmdTagEnum.宠物功能,
             SyntaxChecker = "Word",
             IsPrivateAvailable = true,
             DailyLimit = 5,

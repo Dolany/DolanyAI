@@ -16,8 +16,6 @@ namespace Dolany.WorldLine.Standard.Ai.Game.ChessAgainst
 
         public override AIPriority PriorityLevel { get;} = AIPriority.Normal;
 
-        public override bool NeedManualOpeon { get; } = true;
-
         public BindAiSvc BindAiSvc { get; set; }
         public ChessSvc ChessSvc { get; set; }
 
@@ -26,7 +24,7 @@ namespace Dolany.WorldLine.Standard.Ai.Game.ChessAgainst
             AuthorityLevel = AuthorityLevel.成员,
             Description = "指定一名成员进行对决",
             Syntax = "[@QQ号]",
-            Tag = "游戏功能",
+            Tag = CmdTagEnum.游戏功能,
             SyntaxChecker = "At",
             IsPrivateAvailable = false,
             DailyLimit = 1,

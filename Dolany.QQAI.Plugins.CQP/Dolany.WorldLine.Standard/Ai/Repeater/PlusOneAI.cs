@@ -19,8 +19,6 @@ namespace Dolany.WorldLine.Standard.Ai.Repeater
 
         public override AIPriority PriorityLevel { get;} = AIPriority.SuperLow;
 
-        public override bool NeedManualOpeon { get; } = true;
-
         private List<PlusOneModel> Cache { get; } = new List<PlusOneModel>();
 
         public override bool OnMsgReceived(MsgInformationEx MsgDTO)
@@ -35,11 +33,6 @@ namespace Dolany.WorldLine.Standard.Ai.Repeater
                 return false;
             }
 
-            var setting = GroupSettingSvc[MsgDTO.FromGroup];
-            if (!setting.HasFunction("+1复读"))
-            {
-                return false;
-            }
             var checker = new AtChecker();
             if (checker.Check(MsgDTO.FullMsg, out _))
             {

@@ -16,8 +16,6 @@ namespace Dolany.WorldLine.Standard.Ai.Repeater
 
         public override AIPriority PriorityLevel { get;} = AIPriority.SuperLow;
 
-        public override bool NeedManualOpeon { get; } = true;
-
         private const long RepeatLimit = 30;
 
         private long CurCount;
@@ -32,12 +30,6 @@ namespace Dolany.WorldLine.Standard.Ai.Repeater
             }
 
             if (MsgDTO.Type == MsgType.Private)
-            {
-                return false;
-            }
-
-            var setting = GroupSettingSvc[MsgDTO.FromGroup];
-            if (!setting.HasFunction("随机复读"))
             {
                 return false;
             }

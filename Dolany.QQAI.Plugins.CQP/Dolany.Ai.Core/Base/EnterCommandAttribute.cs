@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using Dolany.Ai.Common.Models;
+using Dolany.Ai.Core.Common;
 
 namespace Dolany.Ai.Core.Base
 {
@@ -12,7 +13,7 @@ namespace Dolany.Ai.Core.Base
         public AuthorityLevel AuthorityLevel { get; set; } = AuthorityLevel.未知;
         public string Description { get; set; }
         public string Syntax { get; set; }
-        public string Tag { get; set; }
+        public CmdTagEnum Tag { get; set; }
         public string SyntaxChecker { get; set; }
         public bool IsPrivateAvailable { get; set; }
         public bool IsGroupAvailable { get; set; } = true;

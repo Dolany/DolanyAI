@@ -23,8 +23,6 @@ namespace Dolany.WorldLine.Standard.Ai.Game.Pet
 
         public override AIPriority PriorityLevel { get;} = AIPriority.Normal;
 
-        public override bool NeedManualOpeon { get; } = true;
-
         private const string CachePath = "./images/Cache/";
 
         private const string PetPicFolder = "./images/Custom/Pet/";
@@ -49,7 +47,7 @@ namespace Dolany.WorldLine.Standard.Ai.Game.Pet
             AuthorityLevel = AuthorityLevel.成员,
             Description = "查看自己的宠物的状态",
             Syntax = "",
-            Tag = "宠物功能",
+            Tag = CmdTagEnum.宠物功能,
             SyntaxChecker = "Empty",
             IsPrivateAvailable = false)]
         public bool MyPet(MsgInformationEx MsgDTO, object[] param)
@@ -88,7 +86,7 @@ namespace Dolany.WorldLine.Standard.Ai.Game.Pet
             AuthorityLevel = AuthorityLevel.成员,
             Description = "重命名自己的宠物（名字不能超过十个字）",
             Syntax = "[名称]",
-            Tag = "宠物功能",
+            Tag = CmdTagEnum.宠物功能,
             SyntaxChecker = "Any",
             IsPrivateAvailable = false,
             DailyLimit = 3,
@@ -121,7 +119,7 @@ namespace Dolany.WorldLine.Standard.Ai.Game.Pet
             AuthorityLevel = AuthorityLevel.成员,
             Description = "设定宠物的种族（不能超过十个字）",
             Syntax = "[种族名]",
-            Tag = "宠物功能",
+            Tag = CmdTagEnum.宠物功能,
             SyntaxChecker = "Any",
             IsPrivateAvailable = false,
             DailyLimit = 3,
@@ -154,7 +152,7 @@ namespace Dolany.WorldLine.Standard.Ai.Game.Pet
             AuthorityLevel = AuthorityLevel.成员,
             Description = "上传宠物头像的图片（不能超过300KB）",
             Syntax = "",
-            Tag = "宠物功能",
+            Tag = CmdTagEnum.宠物功能,
             SyntaxChecker = "Empty",
             IsPrivateAvailable = false,
             DailyLimit = 3,
@@ -244,7 +242,7 @@ namespace Dolany.WorldLine.Standard.Ai.Game.Pet
             AuthorityLevel = AuthorityLevel.成员,
             Description = "设定宠物的初始食性",
             Syntax = "",
-            Tag = "宠物功能",
+            Tag = CmdTagEnum.宠物功能,
             SyntaxChecker = "Empty",
             IsPrivateAvailable = false,
             DailyLimit = 1,
@@ -300,7 +298,7 @@ namespace Dolany.WorldLine.Standard.Ai.Game.Pet
             AuthorityLevel = AuthorityLevel.成员,
             Description = "喂给宠物指定的物品（请遵循宠物的食性）",
             Syntax = "[物品名]",
-            Tag = "宠物功能",
+            Tag = CmdTagEnum.宠物功能,
             SyntaxChecker = "Word",
             IsPrivateAvailable = false)]
         public bool FeedPet(MsgInformationEx MsgDTO, object[] param)
@@ -407,7 +405,7 @@ namespace Dolany.WorldLine.Standard.Ai.Game.Pet
             AuthorityLevel = AuthorityLevel.开发者,
             Description = "查看宠物的等级分布",
             Syntax = "",
-            Tag = "宠物功能",
+            Tag = CmdTagEnum.宠物功能,
             SyntaxChecker = "Empty",
             IsPrivateAvailable = false)]
         public bool PetLevelAnalyze(MsgInformationEx MsgDTO, object[] param)
@@ -424,7 +422,7 @@ namespace Dolany.WorldLine.Standard.Ai.Game.Pet
             AuthorityLevel = AuthorityLevel.成员,
             Description = "宠物等级排行",
             Syntax = "",
-            Tag = "宠物功能",
+            Tag = CmdTagEnum.宠物功能,
             SyntaxChecker = "Empty",
             IsPrivateAvailable = true)]
         public bool PetLevelRank(MsgInformationEx MsgDTO, object[] param)
@@ -441,7 +439,7 @@ namespace Dolany.WorldLine.Standard.Ai.Game.Pet
             AuthorityLevel = AuthorityLevel.成员,
             Description = "查看指定的宠物技能详细情况",
             Syntax = "[技能名]",
-            Tag = "宠物功能",
+            Tag = CmdTagEnum.宠物功能,
             SyntaxChecker = "Word",
             IsPrivateAvailable = false)]
         public bool ViewPetSkill(MsgInformationEx MsgDTO, object[] param)
@@ -469,7 +467,7 @@ namespace Dolany.WorldLine.Standard.Ai.Game.Pet
             AuthorityLevel = AuthorityLevel.成员,
             Description = "将指定的宠物技能等级提升一点（只能升级已经学会的技能）（最高5级）",
             Syntax = "[技能名]",
-            Tag = "宠物功能",
+            Tag = CmdTagEnum.宠物功能,
             SyntaxChecker = "Word",
             IsPrivateAvailable = false)]
         public bool UpgradePetSkill(MsgInformationEx MsgDTO, object[] param)
@@ -521,7 +519,7 @@ namespace Dolany.WorldLine.Standard.Ai.Game.Pet
             AuthorityLevel = AuthorityLevel.成员,
             Description = "重置宠物的所有技能加点",
             Syntax = "",
-            Tag = "宠物功能",
+            Tag = CmdTagEnum.宠物功能,
             SyntaxChecker = "Empty",
             IsPrivateAvailable = false)]
         public bool ResetPetSkill(MsgInformationEx MsgDTO, object[] param)
@@ -563,7 +561,7 @@ namespace Dolany.WorldLine.Standard.Ai.Game.Pet
             AuthorityLevel = AuthorityLevel.成员,
             Description = "邀请指定群员进行宠物对决",
             Syntax = "[@QQ号]",
-            Tag = "宠物功能",
+            Tag = CmdTagEnum.宠物功能,
             SyntaxChecker = "At",
             IsPrivateAvailable = false,
             DailyLimit = 1,

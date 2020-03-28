@@ -4,6 +4,7 @@ using Dolany.Ai.Common;
 using Dolany.Ai.Common.Models;
 using Dolany.Ai.Core.Base;
 using Dolany.Ai.Core.Cache;
+using Dolany.Ai.Core.Common;
 
 namespace Dolany.WorldLine.Standard.Ai.Sys.Version
 {
@@ -25,7 +26,7 @@ namespace Dolany.WorldLine.Standard.Ai.Sys.Version
             Command = "版本信息",
             Description = "获取当前的版本信息",
             Syntax = "",
-            Tag = "系统命令",
+            Tag = CmdTagEnum.系统命令,
             SyntaxChecker = "Empty",
             AuthorityLevel = AuthorityLevel.成员,
             IsPrivateAvailable = true)]
@@ -40,7 +41,7 @@ namespace Dolany.WorldLine.Standard.Ai.Sys.Version
             Command = "版本信息",
             Description = "获取指定版本的版本信息",
             Syntax = "[版本号]",
-            Tag = "系统命令",
+            Tag = CmdTagEnum.系统命令,
             SyntaxChecker = "Word",
             AuthorityLevel = AuthorityLevel.成员,
             IsPrivateAvailable = true)]

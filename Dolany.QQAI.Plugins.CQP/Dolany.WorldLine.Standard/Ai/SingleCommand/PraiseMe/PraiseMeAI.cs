@@ -25,7 +25,7 @@ namespace Dolany.WorldLine.Standard.Ai.SingleCommand.PraiseMe
             AuthorityLevel = AuthorityLevel.成员,
             Description = "发送十个赞",
             Syntax = "",
-            Tag = "娱乐功能",
+            Tag = CmdTagEnum.娱乐功能,
             SyntaxChecker = "Empty",
             IsPrivateAvailable = true,
             IsGroupAvailable = true,

@@ -17,7 +17,7 @@ namespace Dolany.WorldLine.Standard.Ai.Sys
             Command = "反馈",
             Description = "向开发者提供反馈建议",
             Syntax = "[反馈内容]",
-            Tag = "系统命令",
+            Tag = CmdTagEnum.系统命令,
             SyntaxChecker = "Any",
             AuthorityLevel = AuthorityLevel.成员,
             IsPrivateAvailable = true,

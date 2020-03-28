@@ -1,5 +1,4 @@
 ﻿using System.Threading;
-using Dolany.Ai.Common;
 using Dolany.Ai.Common.Models;
 using Dolany.Ai.Doremi.Base;
 using Dolany.Ai.Doremi.Cache;
@@ -22,8 +21,6 @@ namespace Dolany.Ai.Doremi.Ai.Repeater
 
         private const int SleepTime = 2000;
 
-        private static GroupSettingSvc GroupSettingSvc => AutofacSvc.Resolve<GroupSettingSvc>();
-
         public override bool OnMsgReceived(MsgInformationEx MsgDTO)
         {
             if (base.OnMsgReceived(MsgDTO))
@@ -32,12 +29,6 @@ namespace Dolany.Ai.Doremi.Ai.Repeater
             }
 
             if (MsgDTO.Type == MsgType.Private)
-            {
-                return false;
-            }
-
-            var setting = GroupSettingSvc[MsgDTO.FromGroup];
-            if (!setting.HasFunction("随机复读"))
             {
                 return false;
             }

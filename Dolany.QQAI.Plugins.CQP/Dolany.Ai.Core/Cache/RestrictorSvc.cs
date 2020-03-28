@@ -55,15 +55,9 @@ namespace Dolany.Ai.Core.Cache
         {
             foreach (var (_, queue) in TimeCacheDic)
             {
-                while (!queue.IsEmpty)
+                while (!queue.IsEmpty && queue.TryPeek(out var earlistTime) && earlistTime.AddHours(1) < DateTime.Now)
                 {
-                    if (queue.TryPeek(out var earlistTime) && earlistTime.AddHours(1) < DateTime.Now)
-                    {
-                        queue.TryDequeue(out _);
-                        continue;
-                    }
-
-                    break;
+                    queue.TryDequeue(out _);
                 }
             }
         }

@@ -15,8 +15,6 @@ namespace Dolany.WorldLine.Standard.Ai.Game.Advanture
 
         public override AIPriority PriorityLevel { get;} = AIPriority.Normal;
 
-        public override bool NeedManualOpeon { get; } = true;
-
         public BindAiSvc BindAiSvc { get; set; }
         public AdvGameSvc AdvGameSvc { get; set; }
 
@@ -26,7 +24,7 @@ namespace Dolany.WorldLine.Standard.Ai.Game.Advanture
             Description = "和一名成员进行冒险对决",
             Syntax = "[@QQ号]",
             SyntaxChecker = "At",
-            Tag = "游戏功能",
+            Tag = CmdTagEnum.游戏功能,
             IsPrivateAvailable = false,
             DailyLimit = 1,
             TestingDailyLimit = 2)]

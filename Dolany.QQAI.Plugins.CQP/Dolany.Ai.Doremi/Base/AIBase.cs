@@ -110,18 +110,12 @@ namespace Dolany.Ai.Doremi.Base
             }
 
             var stateCache = AliveStateSvc.GetState(MsgDTO.FromGroup, MsgDTO.FromQQ);
-            if (stateCache != null)
-            {
-                MsgSender.PushMsg(MsgDTO, $"你已经死了({stateCache.Name})！复活时间：{stateCache.RebornTime.ToString(CultureInfo.CurrentCulture)}", true);
-                return false;
-            }
-
-            if (!AIAttr.NeedManulOpen || GroupSettingSvc[MsgDTO.FromGroup].HasFunction(AIAttr.Name))
+            if (stateCache == null)
             {
                 return true;
             }
 
-            MsgSender.PushMsg(MsgDTO, $"本群尚未开启 {AIAttr.Name} 功能，请联系群主使用 开启功能 命令来开启此功能！");
+            MsgSender.PushMsg(MsgDTO, $"你已经死了({stateCache.Name})！复活时间：{stateCache.RebornTime.ToString(CultureInfo.CurrentCulture)}", true);
             return false;
         }
 

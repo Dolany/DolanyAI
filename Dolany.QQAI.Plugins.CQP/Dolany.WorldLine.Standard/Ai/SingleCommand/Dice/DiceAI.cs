@@ -18,8 +18,6 @@ namespace Dolany.WorldLine.Standard.Ai.SingleCommand.Dice
 
         public override AIPriority PriorityLevel { get;} = AIPriority.Low;
 
-        public override bool NeedManualOpeon { get; } = true;
-
         private const int DiceCountMaxLimit = 200;
         private const int DiceSizeMaxLimit = 2000;
 
@@ -31,12 +29,6 @@ namespace Dolany.WorldLine.Standard.Ai.SingleCommand.Dice
             }
 
             if (MsgDTO.Type == MsgType.Private)
-            {
-                return false;
-            }
-
-            var setting = GroupSettingSvc[MsgDTO.FromGroup];
-            if (!setting.HasFunction("骰娘"))
             {
                 return false;
             }
@@ -182,7 +174,7 @@ namespace Dolany.WorldLine.Standard.Ai.SingleCommand.Dice
             AuthorityLevel = AuthorityLevel.成员,
             Description = "获取1-100之间的一个随机数",
             Syntax = "",
-            Tag = "骰娘功能",
+            Tag = CmdTagEnum.骰娘功能,
             SyntaxChecker = "Empty",
             IsPrivateAvailable = true)]
         public bool RD(MsgInformationEx MsgDTO, object[] param)

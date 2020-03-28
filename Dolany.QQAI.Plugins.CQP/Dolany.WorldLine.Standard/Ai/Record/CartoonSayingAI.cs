@@ -4,6 +4,7 @@ using Dolany.Ai.Common;
 using Dolany.Ai.Common.Models;
 using Dolany.Ai.Core.Base;
 using Dolany.Ai.Core.Cache;
+using Dolany.Ai.Core.Common;
 using Dolany.Database;
 using Dolany.Database.Ai;
 
@@ -22,7 +23,7 @@ namespace Dolany.WorldLine.Standard.Ai.Record
             AuthorityLevel = AuthorityLevel.成员,
             Description = "录入一条语录",
             Syntax = "[出处] [人物] [内容]",
-            Tag = "语录功能",
+            Tag = CmdTagEnum.语录功能,
             SyntaxChecker = "Word Word Any",
             IsPrivateAvailable = false,
             DailyLimit = 5)]
@@ -48,7 +49,7 @@ namespace Dolany.WorldLine.Standard.Ai.Record
             AuthorityLevel = AuthorityLevel.成员,
             Description = "返回一条随机语录",
             Syntax = "",
-            Tag = "语录功能",
+            Tag = CmdTagEnum.语录功能,
             SyntaxChecker = "Empty",
             IsPrivateAvailable = false,
             DailyLimit = 10,
@@ -64,7 +65,7 @@ namespace Dolany.WorldLine.Standard.Ai.Record
             AuthorityLevel = AuthorityLevel.成员,
             Description = "按关键字检索语录",
             Syntax = "[关键字]",
-            Tag = "语录功能",
+            Tag = CmdTagEnum.语录功能,
             SyntaxChecker = "Word",
             IsPrivateAvailable = false,
             DailyLimit = 10,
@@ -121,7 +122,7 @@ namespace Dolany.WorldLine.Standard.Ai.Record
             AuthorityLevel = AuthorityLevel.群主,
             Description = "按关键字删除语录",
             Syntax = "[关键字]",
-            Tag = "语录功能",
+            Tag = CmdTagEnum.语录功能,
             SyntaxChecker = "Word",
             IsPrivateAvailable = false)]
         public bool ClearSayings(MsgInformationEx MsgDTO, object[] param)

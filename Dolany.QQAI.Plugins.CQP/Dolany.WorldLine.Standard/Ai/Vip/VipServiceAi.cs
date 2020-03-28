@@ -21,7 +21,7 @@ namespace Dolany.WorldLine.Standard.Ai.Vip
             Command = "vip商店 钻石商店",
             Description = "打开vip商店(每日刷新7个服务项目)",
             Syntax = "",
-            Tag = "vip服务",
+            Tag = CmdTagEnum.vip服务,
             SyntaxChecker = "Empty",
             AuthorityLevel = AuthorityLevel.成员,
             IsPrivateAvailable = true)]
@@ -47,7 +47,7 @@ namespace Dolany.WorldLine.Standard.Ai.Vip
             Command = "刷新vip商店 刷新钻石商店",
             Description = "刷新vip商店（花费10钻石）",
             Syntax = "",
-            Tag = "vip服务",
+            Tag = CmdTagEnum.vip服务,
             SyntaxChecker = "Empty",
             AuthorityLevel = AuthorityLevel.成员,
             IsPrivateAvailable = true)]
@@ -79,7 +79,7 @@ namespace Dolany.WorldLine.Standard.Ai.Vip
             Command = "查看装备",
             Description = "查看指定名称的装备",
             Syntax = "[装备名称]",
-            Tag = "vip服务",
+            Tag = CmdTagEnum.vip服务,
             SyntaxChecker = "Word",
             AuthorityLevel = AuthorityLevel.成员,
             IsPrivateAvailable = true)]
@@ -102,7 +102,7 @@ namespace Dolany.WorldLine.Standard.Ai.Vip
             Command = "我的装备",
             Description = "查看自己拥有的装备",
             Syntax = "[装备名称]",
-            Tag = "vip服务",
+            Tag = CmdTagEnum.vip服务,
             SyntaxChecker = "Empty",
             AuthorityLevel = AuthorityLevel.成员,
             IsPrivateAvailable = true)]

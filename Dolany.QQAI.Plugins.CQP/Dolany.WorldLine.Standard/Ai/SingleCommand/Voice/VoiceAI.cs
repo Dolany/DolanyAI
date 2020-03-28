@@ -4,6 +4,7 @@ using Dolany.Ai.Common;
 using Dolany.Ai.Common.Models;
 using Dolany.Ai.Core.Base;
 using Dolany.Ai.Core.Cache;
+using Dolany.Ai.Core.Common;
 using Dolany.Database;
 using Dolany.Database.Ai;
 
@@ -29,7 +30,7 @@ namespace Dolany.WorldLine.Standard.Ai.SingleCommand.Voice
             AuthorityLevel = AuthorityLevel.成员,
             Description = "获取随机舰娘语音",
             Syntax = "[舰娘名称]",
-            Tag = "语音功能",
+            Tag = CmdTagEnum.语音功能,
             SyntaxChecker = "Word",
             IsPrivateAvailable = true,
             DailyLimit = 5)]
@@ -59,7 +60,7 @@ namespace Dolany.WorldLine.Standard.Ai.SingleCommand.Voice
             AuthorityLevel = AuthorityLevel.成员,
             Description = "获取指定崩三女武神的随机语音",
             Syntax = "[女武神名称]",
-            Tag = "语音功能",
+            Tag = CmdTagEnum.语音功能,
             SyntaxChecker = "Word",
             IsPrivateAvailable = true,
             DailyLimit = 5)]
@@ -88,7 +89,7 @@ namespace Dolany.WorldLine.Standard.Ai.SingleCommand.Voice
             AuthorityLevel = AuthorityLevel.成员,
             Description = "获取LOL的随机语音",
             Syntax = "",
-            Tag = "语音功能",
+            Tag = CmdTagEnum.语音功能,
             SyntaxChecker = "Empty",
             IsPrivateAvailable = true,
             DailyLimit = 5)]
@@ -102,7 +103,7 @@ namespace Dolany.WorldLine.Standard.Ai.SingleCommand.Voice
             AuthorityLevel = AuthorityLevel.成员,
             Description = "获取超神学院的随机语音",
             Syntax = "",
-            Tag = "语音功能",
+            Tag = CmdTagEnum.语音功能,
             SyntaxChecker = "Empty",
             IsPrivateAvailable = true,
             DailyLimit = 5)]
@@ -116,7 +117,7 @@ namespace Dolany.WorldLine.Standard.Ai.SingleCommand.Voice
             AuthorityLevel = AuthorityLevel.成员,
             Description = "获取刺客伍六七的随机语音",
             Syntax = "",
-            Tag = "语音功能",
+            Tag = CmdTagEnum.语音功能,
             SyntaxChecker = "Empty",
             IsPrivateAvailable = true,
             DailyLimit = 5)]
@@ -130,7 +131,7 @@ namespace Dolany.WorldLine.Standard.Ai.SingleCommand.Voice
             AuthorityLevel = AuthorityLevel.成员,
             Description = "获取狐妖小红娘的随机语音",
             Syntax = "",
-            Tag = "语音功能",
+            Tag = CmdTagEnum.语音功能,
             SyntaxChecker = "Empty",
             IsPrivateAvailable = true,
             DailyLimit = 5)]
@@ -144,7 +145,7 @@ namespace Dolany.WorldLine.Standard.Ai.SingleCommand.Voice
             AuthorityLevel = AuthorityLevel.成员,
             Description = "获取十万个冷笑话的随机语音",
             Syntax = "",
-            Tag = "语音功能",
+            Tag = CmdTagEnum.语音功能,
             SyntaxChecker = "Empty",
             IsPrivateAvailable = true,
             DailyLimit = 5)]
@@ -158,7 +159,7 @@ namespace Dolany.WorldLine.Standard.Ai.SingleCommand.Voice
             AuthorityLevel = AuthorityLevel.成员,
             Description = "获取一人之下的随机语音",
             Syntax = "",
-            Tag = "语音功能",
+            Tag = CmdTagEnum.语音功能,
             SyntaxChecker = "Empty",
             IsPrivateAvailable = true,
             DailyLimit = 5)]
@@ -172,7 +173,7 @@ namespace Dolany.WorldLine.Standard.Ai.SingleCommand.Voice
             AuthorityLevel = AuthorityLevel.成员,
             Description = "获取镇魂街的随机语音",
             Syntax = "",
-            Tag = "语音功能",
+            Tag = CmdTagEnum.语音功能,
             SyntaxChecker = "Empty",
             IsPrivateAvailable = true,
             DailyLimit = 5)]
@@ -186,7 +187,7 @@ namespace Dolany.WorldLine.Standard.Ai.SingleCommand.Voice
             AuthorityLevel = AuthorityLevel.成员,
             Description = "获取秦时明月的随机语音",
             Syntax = "",
-            Tag = "语音功能",
+            Tag = CmdTagEnum.语音功能,
             SyntaxChecker = "Empty",
             IsPrivateAvailable = true,
             DailyLimit = 5)]

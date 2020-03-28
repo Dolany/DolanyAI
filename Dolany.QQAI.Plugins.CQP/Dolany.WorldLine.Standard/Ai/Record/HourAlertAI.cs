@@ -18,7 +18,7 @@ namespace Dolany.WorldLine.Standard.Ai.Record
 
         public override AIPriority PriorityLevel { get;} = AIPriority.Normal;
 
-        public override bool NeedManualOpeon { get; } = true;
+        public override bool Enable { get; } = false;
 
         public SchedulerSvc SchedulerSvc { get; set; }
 
@@ -51,8 +51,7 @@ namespace Dolany.WorldLine.Standard.Ai.Record
         private void HourAlert(int curHour)
         {
             var availableList = GroupSettingSvc.SettingDic.Where(p => p.Value.ExpiryTime.HasValue &&
-                                                                               p.Value.ExpiryTime.Value > DateTime.Now &&
-                                                                               p.Value.HasFunction("报时")).Select(p => p.Key).ToList();
+                                                                      p.Value.ExpiryTime.Value > DateTime.Now).Select(p => p.Key).ToList();
             if (availableList.IsNullOrEmpty())
             {
                 return;

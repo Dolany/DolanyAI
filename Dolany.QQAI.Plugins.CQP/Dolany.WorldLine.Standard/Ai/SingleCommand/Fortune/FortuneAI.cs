@@ -7,6 +7,7 @@ using Dolany.Ai.Common;
 using Dolany.Ai.Common.Models;
 using Dolany.Ai.Core.Base;
 using Dolany.Ai.Core.Cache;
+using Dolany.Ai.Core.Common;
 using Dolany.Database.Sqlite.Model;
 using Newtonsoft.Json;
 
@@ -41,7 +42,7 @@ namespace Dolany.WorldLine.Standard.Ai.SingleCommand.Fortune
             AuthorityLevel = AuthorityLevel.成员,
             Description = "获取每天运势",
             Syntax = "",
-            Tag = "运势功能",
+            Tag = CmdTagEnum.运势功能,
             SyntaxChecker = "Empty",
             IsPrivateAvailable = true)]
         public bool RandomFortune(MsgInformationEx MsgDTO, object[] param)
@@ -83,7 +84,7 @@ namespace Dolany.WorldLine.Standard.Ai.SingleCommand.Fortune
             AuthorityLevel = AuthorityLevel.成员,
             Description = "获取星座运势",
             Syntax = "[星座名]",
-            Tag = "运势功能",
+            Tag = CmdTagEnum.运势功能,
             SyntaxChecker = "Word",
             IsPrivateAvailable = true)]
         public bool StarFortune(MsgInformationEx MsgDTO, object[] param)
@@ -139,7 +140,7 @@ namespace Dolany.WorldLine.Standard.Ai.SingleCommand.Fortune
             AuthorityLevel = AuthorityLevel.成员,
             Description = "获取每日塔罗牌占卜",
             Syntax = "",
-            Tag = "运势功能",
+            Tag = CmdTagEnum.运势功能,
             SyntaxChecker = "Empty",
             IsPrivateAvailable = true)]
         public bool TarotFortune(MsgInformationEx MsgDTO, object[] param)
@@ -195,7 +196,7 @@ namespace Dolany.WorldLine.Standard.Ai.SingleCommand.Fortune
             AuthorityLevel = AuthorityLevel.群主,
             Description = "祝福一个成员，让其随机运势增加80%（最高100%），当日有效",
             Syntax = "[@qq号码]",
-            Tag = "运势功能",
+            Tag = CmdTagEnum.运势功能,
             SyntaxChecker = "At",
             IsPrivateAvailable = false,
             DailyLimit = 5)]
@@ -213,7 +214,7 @@ namespace Dolany.WorldLine.Standard.Ai.SingleCommand.Fortune
             AuthorityLevel = AuthorityLevel.群主,
             Description = "祝福一个成员，让其随机运势增加100%，当日有效",
             Syntax = "[@qq号码]",
-            Tag = "运势功能",
+            Tag = CmdTagEnum.运势功能,
             SyntaxChecker = "At",
             IsPrivateAvailable = false,
             DailyLimit = 3)]
@@ -261,7 +262,7 @@ namespace Dolany.WorldLine.Standard.Ai.SingleCommand.Fortune
             AuthorityLevel = AuthorityLevel.群主,
             Description = "诅咒一个成员，让其随机运势减少若干点（最低0%），当日有效",
             Syntax = "[@qq号码]",
-            Tag = "运势功能",
+            Tag = CmdTagEnum.运势功能,
             SyntaxChecker = "At",
             IsPrivateAvailable = false,
             DailyLimit = 3)]

@@ -123,43 +123,6 @@ namespace Dolany.Ai.Doremi.Ai.SingleCommand.GroupManage
             return true;
         }
 
-        [EnterCommand(ID = "GroupOwnerOnlyAI_EnableAllModules",
-            Command = "开启所有功能",
-            AuthorityLevel = AuthorityLevel.群主,
-            Description = "开启机器人的所有功能",
-            Syntax = "",
-            Tag = "群管理",
-            SyntaxChecker = "Empty",
-            IsPrivateAvailable = false)]
-        public bool EnableAllModules(MsgInformationEx MsgDTO, object[] param)
-        {
-            var setting = GroupSettingSvc[MsgDTO.FromGroup];
-            setting.EnabledFunctions = AiSvc.OptionalAINames;
-            setting.Update();
-
-            MsgSender.PushMsg(MsgDTO, "开启成功！");
-            return true;
-        }
-
-        [EnterCommand(ID = "GroupOwnerOnlyAI_ViewAllOptionalModules",
-            Command = "可选功能列表",
-            AuthorityLevel = AuthorityLevel.群主,
-            Description = "查看机器人的所有可选功能",
-            Syntax = "",
-            Tag = "群管理",
-            SyntaxChecker = "Empty",
-            IsPrivateAvailable = false)]
-        public bool ViewAllOptionalModules(MsgInformationEx MsgDTO, object[] param)
-        {
-            var setting = GroupSettingSvc[MsgDTO.FromGroup];
-            var allModules = AiSvc.OptionalAINames;
-
-            var msgs = allModules.Select(m => $"{m}  {(setting.EnabledFunctions.Contains(m) ? "√" : "×")}");
-            var msg = $"{string.Join("\r\n", msgs)}\r\n可以使用 开启功能 [功能名] 来开启对应的功能；或使用 关闭功能 [功能名] 来关闭对应的功能";
-            MsgSender.PushMsg(MsgDTO, msg);
-            return true;
-        }
-
         [EnterCommand(ID = "GroupOwnerOnlyAI_ExchangeOwner",
             Command = "移交群主",
             AuthorityLevel = AuthorityLevel.群主,

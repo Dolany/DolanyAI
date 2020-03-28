@@ -4,6 +4,7 @@ using Dolany.Ai.Common;
 using Dolany.Ai.Common.Models;
 using Dolany.Ai.Core.Base;
 using Dolany.Ai.Core.Cache;
+using Dolany.Ai.Core.Common;
 using Dolany.Database;
 using Dolany.Database.Ai;
 using Dolany.WorldLine.Standard.Ai.Game.Pet;
@@ -20,8 +21,6 @@ namespace Dolany.WorldLine.Standard.Ai.Game.DriftBottle
 
         public override AIPriority PriorityLevel { get;} = AIPriority.Normal;
 
-        public override bool NeedManualOpeon { get; } = true;
-
         private const int ItemRate = 60;
 
         public HonorSvc HonorSvc { get; set; }
@@ -32,7 +31,7 @@ namespace Dolany.WorldLine.Standard.Ai.Game.DriftBottle
             Description = "捞一个漂流瓶",
             Syntax = "",
             SyntaxChecker = "Empty",
-            Tag = "漂流瓶功能",
+            Tag = CmdTagEnum.漂流瓶功能,
             IsPrivateAvailable = false,
             DailyLimit = 1,
             TestingDailyLimit = 3)]
@@ -74,7 +73,7 @@ namespace Dolany.WorldLine.Standard.Ai.Game.DriftBottle
             Description = "扔一个漂流瓶",
             Syntax = "[漂流瓶内容]",
             SyntaxChecker = "Any",
-            Tag = "漂流瓶功能",
+            Tag = CmdTagEnum.漂流瓶功能,
             IsPrivateAvailable = true,
             DailyLimit = 3,
             TestingDailyLimit = 3)]
@@ -103,7 +102,7 @@ namespace Dolany.WorldLine.Standard.Ai.Game.DriftBottle
             Description = "查看自己的物品",
             Syntax = "",
             SyntaxChecker = "Empty",
-            Tag = "漂流瓶功能",
+            Tag = CmdTagEnum.漂流瓶功能,
             IsPrivateAvailable = true)]
         public bool MyItems(MsgInformationEx MsgDTO, object[] param)
         {
@@ -131,7 +130,7 @@ namespace Dolany.WorldLine.Standard.Ai.Game.DriftBottle
             Description = "查看自己指定特性的物品",
             Syntax = "[特性名]",
             SyntaxChecker = "Word",
-            Tag = "漂流瓶功能",
+            Tag = CmdTagEnum.漂流瓶功能,
             IsPrivateAvailable = true)]
         public bool MyItemsByAttr(MsgInformationEx MsgDTO, object[] param)
         {
@@ -173,7 +172,7 @@ namespace Dolany.WorldLine.Standard.Ai.Game.DriftBottle
             Description = "查看自己的期间限定物品",
             Syntax = "",
             SyntaxChecker = "Empty",
-            Tag = "漂流瓶功能",
+            Tag = CmdTagEnum.漂流瓶功能,
             IsPrivateAvailable = true)]
         public bool MyLimitItems(MsgInformationEx MsgDTO, object[] param)
         {
@@ -202,7 +201,7 @@ namespace Dolany.WorldLine.Standard.Ai.Game.DriftBottle
             Description = "按页码查看自己的物品",
             Syntax = "[页码]",
             SyntaxChecker = "Long",
-            Tag = "漂流瓶功能",
+            Tag = CmdTagEnum.漂流瓶功能,
             IsPrivateAvailable = true)]
         public bool MyItems_Paged(MsgInformationEx MsgDTO, object[] param)
         {
@@ -236,7 +235,7 @@ namespace Dolany.WorldLine.Standard.Ai.Game.DriftBottle
             Description = "按页码查看自己的期间限定物品",
             Syntax = "[页码]",
             SyntaxChecker = "Long",
-            Tag = "漂流瓶功能",
+            Tag = CmdTagEnum.漂流瓶功能,
             IsPrivateAvailable = true)]
         public bool MyLimitItems_Paged(MsgInformationEx MsgDTO, object[] param)
         {
@@ -274,7 +273,7 @@ namespace Dolany.WorldLine.Standard.Ai.Game.DriftBottle
             Description = "查看自己的成就",
             Syntax = "",
             SyntaxChecker = "Empty",
-            Tag = "漂流瓶功能",
+            Tag = CmdTagEnum.漂流瓶功能,
             IsPrivateAvailable = true)]
         public bool MyHonors(MsgInformationEx MsgDTO, object[] param)
         {
@@ -340,7 +339,7 @@ namespace Dolany.WorldLine.Standard.Ai.Game.DriftBottle
 
         private static void PrintBottle(MsgInformationEx MsgDTO, DriftBottleRecord record)
         {
-            var msg = $"你捞到了一个漂流瓶 \r\n    {record.Content}\r\n   by 陌生人";
+            var msg = $"你捞到了一个漂流瓶 \r\n    “{record.Content}”\r\n   by 陌生人";
             MsgSender.PushMsg(MsgDTO, msg);
         }
 
@@ -350,7 +349,7 @@ namespace Dolany.WorldLine.Standard.Ai.Game.DriftBottle
             Description = "查看某件物品的详情",
             Syntax = "[物品名称]",
             SyntaxChecker = "Word",
-            Tag = "漂流瓶功能",
+            Tag = CmdTagEnum.漂流瓶功能,
             IsPrivateAvailable = true)]
         public bool ViewItem(MsgInformationEx MsgDTO, object[] param)
         {
@@ -381,7 +380,7 @@ namespace Dolany.WorldLine.Standard.Ai.Game.DriftBottle
             Description = "查看某个成就的详情",
             Syntax = "[成就名称]",
             SyntaxChecker = "Word",
-            Tag = "漂流瓶功能",
+            Tag = CmdTagEnum.漂流瓶功能,
             IsPrivateAvailable = true)]
         public bool ViewHonor(MsgInformationEx MsgDTO, object[] param)
         {
@@ -407,7 +406,7 @@ namespace Dolany.WorldLine.Standard.Ai.Game.DriftBottle
             Description = "获取当月限定物品的收集报告",
             Syntax = "",
             SyntaxChecker = "Empty",
-            Tag = "漂流瓶功能",
+            Tag = CmdTagEnum.漂流瓶功能,
             IsPrivateAvailable = true)]
         public bool LimitItemReport(MsgInformationEx MsgDTO, object[] param)
         {
@@ -439,7 +438,7 @@ namespace Dolany.WorldLine.Standard.Ai.Game.DriftBottle
             Description = "查看今日捞瓶子情况统计",
             Syntax = "",
             SyntaxChecker = "Empty",
-            Tag = "漂流瓶功能",
+            Tag = CmdTagEnum.漂流瓶功能,
             IsPrivateAvailable = true)]
         public bool TodayDriftAnalyze(MsgInformationEx MsgDTO, object[] param)
         {
@@ -465,7 +464,7 @@ namespace Dolany.WorldLine.Standard.Ai.Game.DriftBottle
             Description = "查看指定物品的数量",
             Syntax = "[物品名]",
             SyntaxChecker = "Word",
-            Tag = "漂流瓶功能",
+            Tag = CmdTagEnum.漂流瓶功能,
             IsPrivateAvailable = true)]
         public bool ItemCount(MsgInformationEx MsgDTO, object[] param)
         {
@@ -493,7 +492,7 @@ namespace Dolany.WorldLine.Standard.Ai.Game.DriftBottle
             Description = "查看自己缺少的物品（仅当缺少的物品少于20件时显示详情信息）",
             Syntax = "",
             SyntaxChecker = "Empty",
-            Tag = "漂流瓶功能",
+            Tag = CmdTagEnum.漂流瓶功能,
             IsPrivateAvailable = true)]
         public bool MyLackItems(MsgInformationEx MsgDTO, object[] param)
         {

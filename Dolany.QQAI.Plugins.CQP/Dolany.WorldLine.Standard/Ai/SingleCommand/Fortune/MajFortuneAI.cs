@@ -55,7 +55,7 @@ namespace Dolany.WorldLine.Standard.Ai.SingleCommand.Fortune
             AuthorityLevel = AuthorityLevel.成员,
             Description = "获取每天麻将运势",
             Syntax = "",
-            Tag = "运势功能",
+            Tag = CmdTagEnum.运势功能,
             SyntaxChecker = "Empty",
             IsPrivateAvailable = false)]
         public bool RandomMajFortune(MsgInformationEx MsgDTO, object[] param)

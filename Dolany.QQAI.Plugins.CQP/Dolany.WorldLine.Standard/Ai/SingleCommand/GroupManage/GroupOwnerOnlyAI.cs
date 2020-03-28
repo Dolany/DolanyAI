@@ -4,6 +4,7 @@ using Dolany.Ai.Common;
 using Dolany.Ai.Common.Models;
 using Dolany.Ai.Core.Base;
 using Dolany.Ai.Core.Cache;
+using Dolany.Ai.Core.Common;
 using Dolany.Database.Ai;
 using Dolany.WorldLine.Standard.OnlineStore;
 
@@ -22,7 +23,7 @@ namespace Dolany.WorldLine.Standard.Ai.SingleCommand.GroupManage
             AuthorityLevel = AuthorityLevel.群主,
             Description = "刷新某人某个功能的CD",
             Syntax = "[@qq号] [命令名]",
-            Tag = "群管理",
+            Tag = CmdTagEnum.群管理,
             SyntaxChecker = "At Word",
             IsPrivateAvailable = false,
             DailyLimit = 1)]
@@ -50,7 +51,7 @@ namespace Dolany.WorldLine.Standard.Ai.SingleCommand.GroupManage
             Command = "驱散",
             Description = "清除某人身上的所有buff",
             Syntax = "[@QQ]",
-            Tag = "群管理",
+            Tag = CmdTagEnum.群管理,
             SyntaxChecker = "At",
             AuthorityLevel = AuthorityLevel.群主,
             IsPrivateAvailable = false)]
@@ -84,7 +85,7 @@ namespace Dolany.WorldLine.Standard.Ai.SingleCommand.GroupManage
             Command = "驱散",
             Description = "清除某人身上的指定buff",
             Syntax = "[@QQ] [Buff名称]",
-            Tag = "群管理",
+            Tag = CmdTagEnum.群管理,
             SyntaxChecker = "At Word",
             AuthorityLevel = AuthorityLevel.群主,
             IsPrivateAvailable = false)]
@@ -121,49 +122,12 @@ namespace Dolany.WorldLine.Standard.Ai.SingleCommand.GroupManage
             return true;
         }
 
-        [EnterCommand(ID = "GroupOwnerOnlyAI_EnableAllModules",
-            Command = "开启所有功能",
-            AuthorityLevel = AuthorityLevel.群主,
-            Description = "开启机器人的所有功能",
-            Syntax = "",
-            Tag = "群管理",
-            SyntaxChecker = "Empty",
-            IsPrivateAvailable = false)]
-        public bool EnableAllModules(MsgInformationEx MsgDTO, object[] param)
-        {
-            var setting = GroupSettingSvc[MsgDTO.FromGroup];
-            setting.EnabledFunctions = WorldLine.OptionalAINames;
-            setting.Update();
-
-            MsgSender.PushMsg(MsgDTO, "开启成功！");
-            return true;
-        }
-
-        [EnterCommand(ID = "GroupOwnerOnlyAI_ViewAllOptionalModules",
-            Command = "可选功能列表",
-            AuthorityLevel = AuthorityLevel.群主,
-            Description = "查看机器人的所有可选功能",
-            Syntax = "",
-            Tag = "群管理",
-            SyntaxChecker = "Empty",
-            IsPrivateAvailable = false)]
-        public bool ViewAllOptionalModules(MsgInformationEx MsgDTO, object[] param)
-        {
-            var setting = GroupSettingSvc[MsgDTO.FromGroup];
-            var allModules = WorldLine.OptionalAINames;
-
-            var msgs = allModules.Select(m => $"{m}  {(setting.EnabledFunctions.Contains(m) ? "√" : "×")}");
-            var msg = $"{string.Join("\r\n", msgs)}\r\n可以使用 开启功能 [功能名] 来开启对应的功能；或使用 关闭功能 [功能名] 来关闭对应的功能";
-            MsgSender.PushMsg(MsgDTO, msg);
-            return true;
-        }
-
         [EnterCommand(ID = "GroupOwnerOnlyAI_ExchangeOwner",
             Command = "移交群主",
             AuthorityLevel = AuthorityLevel.群主,
             Description = "将群主身份移交给指定群员",
             Syntax = "[@QQ号]",
-            Tag = "群管理",
+            Tag = CmdTagEnum.群管理,
             SyntaxChecker = "At",
             IsPrivateAvailable = false)]
         public bool ExchangeOwner(MsgInformationEx MsgDTO, object[] param)
@@ -191,7 +155,7 @@ namespace Dolany.WorldLine.Standard.Ai.SingleCommand.GroupManage
             AuthorityLevel = AuthorityLevel.群主,
             Description = "任命指定的成员为管理员",
             Syntax = "[@QQ号]",
-            Tag = "群管理",
+            Tag = CmdTagEnum.群管理,
             SyntaxChecker = "At",
             IsPrivateAvailable = false)]
         public bool AppointManager(MsgInformationEx MsgDTO, object[] param)

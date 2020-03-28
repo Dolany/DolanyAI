@@ -5,6 +5,7 @@ using Dolany.Ai.Common;
 using Dolany.Ai.Common.Models;
 using Dolany.Ai.Core.Base;
 using Dolany.Ai.Core.Cache;
+using Dolany.Ai.Core.Common;
 using Dolany.Database;
 using Dolany.Database.Ai;
 
@@ -26,7 +27,7 @@ namespace Dolany.WorldLine.Standard.Ai.Record
             AuthorityLevel = AuthorityLevel.成员,
             Description = "设定一个人物",
             Syntax = "[人物名] [设定项] [设定内容]",
-            Tag = "设定功能",
+            Tag = CmdTagEnum.设定功能,
             SyntaxChecker = "Word Word Word",
             IsPrivateAvailable = false)]
         public bool SetCharactor(MsgInformationEx MsgDTO, object[] param)
@@ -52,7 +53,7 @@ namespace Dolany.WorldLine.Standard.Ai.Record
             AuthorityLevel = AuthorityLevel.成员,
             Description = "删除一个人物",
             Syntax = "[人物名]",
-            Tag = "设定功能",
+            Tag = CmdTagEnum.设定功能,
             SyntaxChecker = "Word",
             IsPrivateAvailable = false)]
         public bool DeleteCharactor(MsgInformationEx MsgDTO, object[] param)
@@ -87,7 +88,7 @@ namespace Dolany.WorldLine.Standard.Ai.Record
             AuthorityLevel = AuthorityLevel.成员,
             Description = "浏览一个人物的全部设定",
             Syntax = "[人物名]",
-            Tag = "设定功能",
+            Tag = CmdTagEnum.设定功能,
             SyntaxChecker = "Word",
             IsPrivateAvailable = false)]
         public bool ViewCharactor(MsgInformationEx MsgDTO, object[] param)

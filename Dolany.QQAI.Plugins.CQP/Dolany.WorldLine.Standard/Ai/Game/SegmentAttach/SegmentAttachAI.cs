@@ -26,7 +26,7 @@ namespace Dolany.WorldLine.Standard.Ai.Game.SegmentAttach
             Description = "领取一张宝藏碎片（和另一块碎片拼接后，将获得宝藏！）",
             Syntax = "",
             SyntaxChecker = "Empty",
-            Tag = "宝藏功能",
+            Tag = CmdTagEnum.宝藏功能,
             IsPrivateAvailable = true,
             DailyLimit = 1,
             TestingDailyLimit = 1)]
@@ -55,7 +55,7 @@ namespace Dolany.WorldLine.Standard.Ai.Game.SegmentAttach
             Description = "查看指定的宝藏碎片的信息",
             Syntax = "[宝藏碎片名称]",
             SyntaxChecker = "Word",
-            Tag = "宝藏功能",
+            Tag = CmdTagEnum.宝藏功能,
             IsPrivateAvailable = true)]
         public bool ViewSegment(MsgInformationEx MsgDTO, object[] param)
         {
@@ -80,7 +80,7 @@ namespace Dolany.WorldLine.Standard.Ai.Game.SegmentAttach
             Description = "查看自己持有的宝藏碎片的信息",
             Syntax = "",
             SyntaxChecker = "Empty",
-            Tag = "宝藏功能",
+            Tag = CmdTagEnum.宝藏功能,
             IsPrivateAvailable = true)]
         public bool MySegment(MsgInformationEx MsgDTO, object[] param)
         {
@@ -114,7 +114,7 @@ namespace Dolany.WorldLine.Standard.Ai.Game.SegmentAttach
             Description = "查看指定的宝藏的信息",
             Syntax = "[宝藏名称]",
             SyntaxChecker = "Word",
-            Tag = "宝藏功能",
+            Tag = CmdTagEnum.宝藏功能,
             IsPrivateAvailable = true)]
         public bool ViewTreasure(MsgInformationEx MsgDTO, object[] param)
         {
@@ -137,7 +137,7 @@ namespace Dolany.WorldLine.Standard.Ai.Game.SegmentAttach
             Description = "查看自己开启过的宝藏记录",
             Syntax = "",
             SyntaxChecker = "Empty",
-            Tag = "宝藏功能",
+            Tag = CmdTagEnum.宝藏功能,
             IsPrivateAvailable = true)]
         public bool MyTreasureRecord(MsgInformationEx MsgDTO, object[] param)
         {
@@ -167,7 +167,7 @@ namespace Dolany.WorldLine.Standard.Ai.Game.SegmentAttach
             Description = "开启过所有宝藏之后，可以开启传说中的终极宝藏！",
             Syntax = "",
             SyntaxChecker = "Empty",
-            Tag = "宝藏功能",
+            Tag = CmdTagEnum.宝藏功能,
             IsPrivateAvailable = true)]
         public bool OpenFinalTreasure(MsgInformationEx MsgDTO, object[] param)
         {
@@ -242,7 +242,7 @@ namespace Dolany.WorldLine.Standard.Ai.Game.SegmentAttach
             Description = "和其他成员一起拼接宝藏碎片",
             Syntax = "[@QQ号]",
             SyntaxChecker = "At",
-            Tag = "宝藏功能",
+            Tag = CmdTagEnum.宝藏功能,
             IsPrivateAvailable = false)]
         public bool AttachSegment(MsgInformationEx MsgDTO, object[] param)
         {

@@ -2,6 +2,7 @@
 using Dolany.Ai.Common.Models;
 using Dolany.Ai.Core.Base;
 using Dolany.Ai.Core.Cache;
+using Dolany.Ai.Core.Common;
 
 namespace Dolany.WorldLine.Standard.Ai.Game.Jump300Report
 {
@@ -13,8 +14,6 @@ namespace Dolany.WorldLine.Standard.Ai.Game.Jump300Report
 
         public override AIPriority PriorityLevel { get;} = AIPriority.Normal;
 
-        public override bool NeedManualOpeon { get; } = true;
-
         public override bool Enable { get; } = false;
 
         [EnterCommand(ID = "Jump300ReportAI_JumpReport",
@@ -22,8 +21,9 @@ namespace Dolany.WorldLine.Standard.Ai.Game.Jump300Report
             AuthorityLevel = AuthorityLevel.成员,
             Description = "查询300英雄战绩信息",
             Syntax = " [角色名]",
-            Tag = "游戏功能",
+            Tag = CmdTagEnum.游戏功能,
             SyntaxChecker = "Word",
+            DailyLimit = 2,
             IsPrivateAvailable = true)]
         public bool JumpReport(MsgInformationEx MsgDTO, object[] param)
         {

@@ -2,6 +2,7 @@
 using Dolany.Ai.Common.Models;
 using Dolany.Ai.Core.Base;
 using Dolany.Ai.Core.Cache;
+using Dolany.Ai.Core.Common;
 using Dolany.WorldLine.Standard.OnlineStore;
 
 namespace Dolany.WorldLine.Standard.Ai.Game.Lottery
@@ -14,8 +15,6 @@ namespace Dolany.WorldLine.Standard.Ai.Game.Lottery
 
         public override AIPriority PriorityLevel { get;} = AIPriority.Normal;
 
-        public override bool NeedManualOpeon { get; } = false;
-
         public LotterySvc LotterySvc { get; set; }
         public HonorSvc HonorSvc { get; set; }
 
@@ -25,7 +24,7 @@ namespace Dolany.WorldLine.Standard.Ai.Game.Lottery
             Description = "花费100金币开一个箱子",
             Syntax = "",
             SyntaxChecker = "Empty",
-            Tag = "商店功能",
+            Tag = CmdTagEnum.商店功能,
             IsPrivateAvailable = true,
             DailyLimit = 1,
             TestingDailyLimit = 3)]
@@ -67,7 +66,7 @@ namespace Dolany.WorldLine.Standard.Ai.Game.Lottery
             Description = "抽取一件随机当月限定物品",
             Syntax = "",
             SyntaxChecker = "Empty",
-            Tag = "商店功能",
+            Tag = CmdTagEnum.商店功能,
             IsPrivateAvailable = true)]
         public bool LimitBonus(MsgInformationEx MsgDTO, object[] param)
         {
@@ -104,7 +103,7 @@ namespace Dolany.WorldLine.Standard.Ai.Game.Lottery
             Description = "用金币兑换抽奖机会",
             Syntax = "",
             SyntaxChecker = "Empty",
-            Tag = "商店功能",
+            Tag = CmdTagEnum.商店功能,
             IsPrivateAvailable = true,
             DailyLimit = 3,
             TestingDailyLimit = 3)]
@@ -148,7 +147,7 @@ namespace Dolany.WorldLine.Standard.Ai.Game.Lottery
             Description = "获取今日开箱统计情况",
             Syntax = "",
             SyntaxChecker = "Empty",
-            Tag = "商店功能",
+            Tag = CmdTagEnum.商店功能,
             IsPrivateAvailable = true)]
         public bool LotteryAnalyzeToday(MsgInformationEx MsgDTO, object[] param)
         {
@@ -164,7 +163,7 @@ namespace Dolany.WorldLine.Standard.Ai.Game.Lottery
             Description = "获取昨日开箱统计情况",
             Syntax = "",
             SyntaxChecker = "Empty",
-            Tag = "商店功能",
+            Tag = CmdTagEnum.商店功能,
             IsPrivateAvailable = true)]
         public bool LotteryAnalyzeYesterday(MsgInformationEx MsgDTO, object[] param)
         {
@@ -180,7 +179,7 @@ namespace Dolany.WorldLine.Standard.Ai.Game.Lottery
             Description = "获取自己的开箱统计",
             Syntax = "",
             SyntaxChecker = "Empty",
-            Tag = "商店功能",
+            Tag = CmdTagEnum.商店功能,
             IsPrivateAvailable = true)]
         public bool MyLotteryRecord(MsgInformationEx MsgDTO, object[] param)
         {

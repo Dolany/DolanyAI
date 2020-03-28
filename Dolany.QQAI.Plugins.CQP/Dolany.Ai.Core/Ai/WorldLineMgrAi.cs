@@ -2,6 +2,7 @@
 using Dolany.Ai.Common.Models;
 using Dolany.Ai.Core.Base;
 using Dolany.Ai.Core.Cache;
+using Dolany.Ai.Core.Common;
 
 namespace Dolany.Ai.Core.Ai
 {
@@ -19,7 +20,7 @@ namespace Dolany.Ai.Core.Ai
             Description = "切换世界线",
             Syntax = "",
             SyntaxChecker = "Empty",
-            Tag = "系统命令",
+            Tag = CmdTagEnum.系统命令,
             IsPrivateAvailable = false)]
         public bool SwitchWorldLine(MsgInformationEx MsgDTO, object[] param)
         {
