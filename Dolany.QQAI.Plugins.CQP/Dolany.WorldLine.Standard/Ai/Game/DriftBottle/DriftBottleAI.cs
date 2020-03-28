@@ -116,10 +116,10 @@ namespace Dolany.WorldLine.Standard.Ai.Game.DriftBottle
 
             var itemMsgs = HonorSvc.GetOrderedItemsStr(query.HonorCollections.Where(p => p.Value.Type == HonorType.Normal).SelectMany(p => p.Value.Items)
                 .ToDictionary(p => p.Key, p => p.Value));
-            var msg = $"你收集到的物品有：\r{string.Join("\r", itemMsgs.Take(7))}";
+            var msg = $"你收集到的物品有：\r\n{string.Join("\r\n", itemMsgs.Take(7))}";
             if (itemMsgs.Count > 7)
             {
-                msg += $"\r当前显示第 1/{(itemMsgs.Count - 1) / 7 + 1}页，请使用 我的物品 [页码] 命令查看更多物品！";
+                msg += $"\r\n当前显示第 1/{(itemMsgs.Count - 1) / 7 + 1}页，请使用 我的物品 [页码] 命令查看更多物品！";
             }
             MsgSender.PushMsg(MsgDTO, msg, true);
             return true;
@@ -161,7 +161,7 @@ namespace Dolany.WorldLine.Standard.Ai.Game.DriftBottle
                 return false;
             }
 
-            var msg = $"你收集的物品中，【{name}】 特性的物品有：\r" +
+            var msg = $"你收集的物品中，【{name}】 特性的物品有：\r\n" +
                       string.Join(",", items.Select(item => $"{item.Key}*{item.Value}"));
             MsgSender.PushMsg(MsgDTO, msg);
             return true;
@@ -187,10 +187,10 @@ namespace Dolany.WorldLine.Standard.Ai.Game.DriftBottle
             var itemMsgs = HonorSvc.GetOrderedItemsStr(query.HonorCollections.Where(p => p.Value.Type == HonorType.Limit)
                 .OrderByDescending(p => (HonorSvc.FindHonor(p.Key) as LimitHonorModel)?.SortKey).SelectMany(p => p.Value.Items)
                 .ToDictionary(p => p.Key, p => p.Value));
-            var msg = $"你收集到的限定物品有：\r{string.Join("\r", itemMsgs.Take(5))}";
+            var msg = $"你收集到的限定物品有：\r\n{string.Join("\r\n", itemMsgs.Take(5))}";
             if (itemMsgs.Count > 5)
             {
-                msg += $"\r当前显示第 1/{(itemMsgs.Count - 1) / 5 + 1}页，请使用 我的限定物品 [页码] 命令查看更多物品！";
+                msg += $"\r\n当前显示第 1/{(itemMsgs.Count - 1) / 5 + 1}页，请使用 我的限定物品 [页码] 命令查看更多物品！";
             }
             MsgSender.PushMsg(MsgDTO, msg, true);
             return true;
@@ -224,8 +224,8 @@ namespace Dolany.WorldLine.Standard.Ai.Game.DriftBottle
                 return false;
             }
 
-            var msg = $"该页的物品有：\r{string.Join("\r", itemMsgs.Skip((pageNo - 1) * 7).Take(7))}";
-            msg += $"\r当前显示第 {pageNo}/{(itemMsgs.Count - 1) / 7 + 1}页，请使用 我的物品 [页码] 命令查看更多物品！";
+            var msg = $"该页的物品有：\r\n{string.Join("\r\n", itemMsgs.Skip((pageNo - 1) * 7).Take(7))}";
+            msg += $"\r\n当前显示第 {pageNo}/{(itemMsgs.Count - 1) / 7 + 1}页，请使用 我的物品 [页码] 命令查看更多物品！";
             MsgSender.PushMsg(MsgDTO, msg, true);
             return true;
         }
@@ -259,10 +259,10 @@ namespace Dolany.WorldLine.Standard.Ai.Game.DriftBottle
                 return false;
             }
 
-            var msg = $"该页的物品有：\r{string.Join("\r", itemMsgs.Skip((pageNo - 1) * 5).Take(5))}";
+            var msg = $"该页的物品有：\r\n{string.Join("\r\n", itemMsgs.Skip((pageNo - 1) * 5).Take(5))}";
             if (itemMsgs.Count > 5)
             {
-                msg += $"\r当前显示第 {pageNo}/{(itemMsgs.Count - 1) / 5 + 1}页，请使用 我的限定物品 [页码] 命令查看更多物品！";
+                msg += $"\r\n当前显示第 {pageNo}/{(itemMsgs.Count - 1) / 5 + 1}页，请使用 我的限定物品 [页码] 命令查看更多物品！";
             }
             MsgSender.PushMsg(MsgDTO, msg, true);
             return true;
@@ -285,7 +285,7 @@ namespace Dolany.WorldLine.Standard.Ai.Game.DriftBottle
                 return false;
             }
 
-            var msg = $"你获得的普通成就有：{string.Join(",", query.HonorList.Where(p => !HonorSvc.IsLimitHonor(p)))}\r";
+            var msg = $"你获得的普通成就有：{string.Join(",", query.HonorList.Where(p => !HonorSvc.IsLimitHonor(p)))}\r\n";
             msg += $"你获得的限定成就有：{string.Join(",", query.HonorList.Where(p => HonorSvc.IsLimitHonor(p)))}";
             MsgSender.PushMsg(MsgDTO, msg, true);
             return true;
@@ -315,24 +315,24 @@ namespace Dolany.WorldLine.Standard.Ai.Game.DriftBottle
             DriftBottleAnalyzeRecord.Record(item.Name, count);
 
             var s = record.ItemIncome(item.Name, count);
-            var msg = "你捞到了 \r" +
-                      $"{(string.IsNullOrEmpty(item.PicPath) ? string.Empty : $"{CodeApi.Code_Image_Relational(item.PicPath)}\r")}" +
-                      $"{item.Name}{(count > 1 ? $"*{count}" : string.Empty)} \r" +
-                      $"    {item.Description} \r" +
-                      $"稀有率为 {HonorSvc.ItemRate(item)}%\r" +
-                      $"售价为：{item.Price} 金币\r" +
-                      $"特性：{(item.Attributes == null ? "无" : string.Join(",", item.Attributes))}\r" +
+            var msg = "你捞到了 \r\n" +
+                      $"{(string.IsNullOrEmpty(item.PicPath) ? string.Empty : $"{CodeApi.Code_Image_Relational(item.PicPath)}\r\n")}" +
+                      $"{item.Name}{(count > 1 ? $"*{count}" : string.Empty)} \r\n" +
+                      $"    {item.Description} \r\n" +
+                      $"稀有率为 {HonorSvc.ItemRate(item)}%\r\n" +
+                      $"售价为：{item.Price} 金币\r\n" +
+                      $"特性：{(item.Attributes == null ? "无" : string.Join(",", item.Attributes))}\r\n" +
                       $"你总共拥有该物品 {record.HonorCollections[honorName].Items[item.Name]}个";
 
             if (!string.IsNullOrEmpty(s))
             {
-                msg += $"\r{s}";
+                msg += $"\r\n{s}";
             }
 
             if (OSPersonBuff.CheckBuff(MsgDTO.FromQQ, "钻石尘") && Rander.RandInt(100) < 50)
             {
                 OSPerson.GoldConsume(MsgDTO.FromQQ, 40);
-                msg += "\r欸呀呀，你丢失了40金币(钻石尘)";
+                msg += "\r\n欸呀呀，你丢失了40金币(钻石尘)";
             }
 
             MsgSender.PushMsg(MsgDTO, msg, true);
@@ -340,7 +340,7 @@ namespace Dolany.WorldLine.Standard.Ai.Game.DriftBottle
 
         private static void PrintBottle(MsgInformationEx MsgDTO, DriftBottleRecord record)
         {
-            var msg = $"你捞到了一个漂流瓶 \r    {record.Content}\r   by 陌生人";
+            var msg = $"你捞到了一个漂流瓶 \r\n    {record.Content}\r\n   by 陌生人";
             MsgSender.PushMsg(MsgDTO, msg);
         }
 
@@ -363,13 +363,13 @@ namespace Dolany.WorldLine.Standard.Ai.Game.DriftBottle
             }
 
             var record = ItemCollectionRecord.Get(MsgDTO.FromQQ);
-            var msg = $"{(string.IsNullOrEmpty(item.PicPath) ? string.Empty : $"{CodeApi.Code_Image_Relational(item.PicPath)}\r")}" +
-                      $"{item.Name}\r" +
-                      $"    {item.Description}\r" +
-                      $"稀有率：{HonorSvc.ItemRate(item)}%\r" +
-                      $"价格：{HonorSvc.GetItemPrice(item, MsgDTO.FromQQ).CurencyFormat()}\r" +
-                      $"特性：{(item.Attributes == null ? "无" : string.Join(",", item.Attributes))}\r" +
-                      $"可解锁成就：{HonorSvc.FindHonorFullName(item.Name)}\r" +
+            var msg = $"{(string.IsNullOrEmpty(item.PicPath) ? string.Empty : $"{CodeApi.Code_Image_Relational(item.PicPath)}\r\n")}" +
+                      $"{item.Name}\r\n" +
+                      $"    {item.Description}\r\n" +
+                      $"稀有率：{HonorSvc.ItemRate(item)}%\r\n" +
+                      $"价格：{HonorSvc.GetItemPrice(item, MsgDTO.FromQQ).CurencyFormat()}\r\n" +
+                      $"特性：{(item.Attributes == null ? "无" : string.Join(",", item.Attributes))}\r\n" +
+                      $"可解锁成就：{HonorSvc.FindHonorFullName(item.Name)}\r\n" +
                       $"你拥有该物品：{record.GetCount(item.Name)}个";
             MsgSender.PushMsg(MsgDTO, msg);
             return true;
@@ -426,7 +426,7 @@ namespace Dolany.WorldLine.Standard.Ai.Game.DriftBottle
             }
 
             var honorCount = allRecord.Count(r => r.HonorList != null && r.HonorList.Contains(LimitHonor.Name));
-            var msg = $"限定物品收集情况：\r{string.Join("\r", itemDic.Select(p => $"{p.Key}:{p.Value}"))}\r";
+            var msg = $"限定物品收集情况：\r\n{string.Join("\r\n", itemDic.Select(p => $"{p.Key}:{p.Value}"))}\r\n";
             msg += $"共有 {honorCount} 人达成了本月限定成就";
 
             MsgSender.PushMsg(MsgDTO, msg);
@@ -451,8 +451,8 @@ namespace Dolany.WorldLine.Standard.Ai.Game.DriftBottle
             }
 
             var modelDic = todayRec.ItemDic.ToDictionary(p => HonorSvc.FindItem(p.Key), p => p.Value);
-            var msg = "今日捞瓶子统计\r";
-            msg += $"总次数：{todayRec.ItemDic.Sum(p => p.Value)}\r";
+            var msg = "今日捞瓶子统计\r\n";
+            msg += $"总次数：{todayRec.ItemDic.Sum(p => p.Value)}\r\n";
             msg += $"总价值：{modelDic.Sum(p => p.Key.Price * p.Value)}";
 
             MsgSender.PushMsg(MsgDTO, msg);
@@ -508,7 +508,7 @@ namespace Dolany.WorldLine.Standard.Ai.Game.DriftBottle
                 return false;
             }
 
-            var msg = $"你总共缺少{lackItems.Count}件物品\r";
+            var msg = $"你总共缺少{lackItems.Count}件物品\r\n";
             if (lackItems.Count <= 20)
             {
                 msg += string.Join(",", lackItems.Select(p => p.Name));

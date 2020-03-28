@@ -141,7 +141,7 @@ namespace Dolany.WorldLine.Standard.Ai.Game.Pet.Expedition
 
         public string ToString(int curEndurance)
         {
-            var str = $"【{Name}】：{Description}\r耐力：{Endurance}({curEndurance})     耗时：{TimeConsume}分钟\r奖励：";
+            var str = $"【{Name}】：{Description}\r\n耐力：{Endurance}({curEndurance})     耗时：{TimeConsume}分钟\r\n奖励：";
             if (GoldBonus != null)
             {
                 str += $"  金币：{Utility.LevelToStars(GoldBonus.Level)}";
@@ -162,20 +162,20 @@ namespace Dolany.WorldLine.Standard.Ai.Game.Pet.Expedition
 
         public override string ToString()
         {
-            var str = $"【{Name}】\r    {Description}\r耐力：{Endurance}\r耗时：{TimeConsume}分钟";
+            var str = $"【{Name}】\r\n    {Description}\r\n耐力：{Endurance}\r\n耗时：{TimeConsume}分钟";
             if (GoldBonus != null)
             {
-                str += $"\r金币奖励：{Utility.LevelToStars(GoldBonus.Level)}";
+                str += $"\r\n金币奖励：{Utility.LevelToStars(GoldBonus.Level)}";
             }
 
             if (ItemBonus != null)
             {
-                str += $"\r物品奖励：{Utility.LevelToStars(ItemBonus.Level)}";
+                str += $"\r\n物品奖励：{Utility.LevelToStars(ItemBonus.Level)}";
             }
 
             if (FlavoringBonus != null)
             {
-                str += $"\r调味料奖励：{Utility.LevelToStars(FlavoringBonus.Level)}";
+                str += $"\r\n调味料奖励：{Utility.LevelToStars(FlavoringBonus.Level)}";
             }
 
             return str;
@@ -211,7 +211,7 @@ namespace Dolany.WorldLine.Standard.Ai.Game.Pet.Expedition
                 msgList.Add($"调味料：{string.Join(",", Flavorings.GroupBy(p => p).Select(p => $"{p.Key}*{p.Count()}"))}");
             }
 
-            return $"{msg}\r{string.Join("\r", msgList)}";
+            return $"{msg}\r\n{string.Join("\r\n", msgList)}";
         }
     }
 

@@ -37,7 +37,7 @@ namespace Dolany.WorldLine.Standard.Ai.Game.Pet.PetAgainst
             var triggerMsg = BeAttackedTrigger(source, dest, realDemage, type);
             if (!string.IsNullOrWhiteSpace(triggerMsg))
             {
-                msg += $"\r{triggerMsg}";
+                msg += $"\r\n{triggerMsg}";
             }
 
             return msg;
@@ -176,7 +176,7 @@ namespace Dolany.WorldLine.Standard.Ai.Game.Pet.PetAgainst
             }
 
             AimPet.Buffs.RemoveAll(p => p.Trigger == CheckTrigger.PhyDefenceFix);
-            msg += $"\r已移除{AimPet.Name}的所有物理防御！";
+            msg += $"\r\n已移除{AimPet.Name}的所有物理防御！";
             return msg;
         }
 
@@ -235,7 +235,7 @@ namespace Dolany.WorldLine.Standard.Ai.Game.Pet.PetAgainst
                 Trigger = CheckTrigger.DoSkill
             });
 
-            return $"{msg}\r对手技能失败率增加{data["Rate"]}%，持续{data["Turn"]}回合";
+            return $"{msg}\r\n对手技能失败率增加{data["Rate"]}%，持续{data["Turn"]}回合";
         }
 
         [PetGamingEffect(Name = "盾墙")]
@@ -278,7 +278,7 @@ namespace Dolany.WorldLine.Standard.Ai.Game.Pet.PetAgainst
             var msg = DoDemage(SelfPet, AimPet, DemageType.魔法, (int) data["Magic"], "烈焰喷泉");
             if (AimPet.Buffs.Any(buff => buff.Trigger == CheckTrigger.MagicDefenceFix))
             {
-                msg += $"\r{DoDemage(SelfPet, AimPet, DemageType.物理, (int) data["Phy"], "烈焰喷泉")}";
+                msg += $"\r\n{DoDemage(SelfPet, AimPet, DemageType.物理, (int) data["Phy"], "烈焰喷泉")}";
             }
 
             return msg;

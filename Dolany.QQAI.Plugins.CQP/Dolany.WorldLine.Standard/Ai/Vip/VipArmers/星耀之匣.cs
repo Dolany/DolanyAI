@@ -24,7 +24,7 @@ namespace Dolany.WorldLine.Standard.Ai.Vip.VipArmers
 
             var itemColle = ItemCollectionRecord.Get(MsgDTO.FromQQ);
             var msgs = todayRec.Items.Select(item => itemColle.ItemIncome(item.Name));
-            MsgSender.PushMsg(MsgDTO, string.Join("\r", msgs));
+            MsgSender.PushMsg(MsgDTO, string.Join("\r\n", msgs));
             return true;
         }
 

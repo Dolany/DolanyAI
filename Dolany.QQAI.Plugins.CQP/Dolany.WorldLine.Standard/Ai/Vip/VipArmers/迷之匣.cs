@@ -19,7 +19,7 @@ namespace Dolany.WorldLine.Standard.Ai.Vip.VipArmers
             var randItem = shopItems.RandElement();
             var itemColle = ItemCollectionRecord.Get(MsgDTO.FromQQ);
             var msg = itemColle.ItemIncome(randItem.Name);
-            msg = $"恭喜你获得了 {randItem.Name}\r{msg}";
+            msg = $"恭喜你获得了 {randItem.Name}\r\n{msg}";
             MsgSender.PushMsg(MsgDTO, msg);
 
             return true;

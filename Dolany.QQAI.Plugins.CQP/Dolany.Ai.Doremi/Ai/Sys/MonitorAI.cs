@@ -161,12 +161,12 @@ namespace Dolany.Ai.Doremi.Ai.Sys
             }
 
             var setting = GroupSettingSvc[MsgDTO.FromGroup];
-            var expiryDate = $"\r有效期至：{setting.ExpiryTime}";
+            var expiryDate = $"\r\n有效期至：{setting.ExpiryTime}";
 
-            var pState = string.Join("\r",
+            var pState = string.Join("\r\n",
                 PowerStateSvc.Ais.Select((ai, idx) =>
                     $"{idx}号机:{(RecentCommandCache.IsTooFreq(ai) ? "过热保护" : PowerStateSvc.CheckPower(ai) ? "开机" : "关机")}"));
-            return $"\r电源状态：{pState}" + expiryDate;
+            return $"\r\n电源状态：{pState}" + expiryDate;
         }
 
         [EnterCommand(ID = "MonitorAI_ExceptionMonitor",
@@ -207,7 +207,7 @@ namespace Dolany.Ai.Doremi.Ai.Sys
             {
                 case "Group":
                     var groupList = AIAnalyzer.AnalyzeGroup(MsgDTO.BindAi);
-                    MsgSender.PushMsg(MsgDTO, string.Join("\r", groupList.Select(g =>
+                    MsgSender.PushMsg(MsgDTO, string.Join("\r\n", groupList.Select(g =>
                     {
                         var groupNum = g.GroupNum == 0 ? "私聊" : Global.AllGroupsDic[g.GroupNum];
                         return $"{groupNum}:{g.CommandCount}";
@@ -215,15 +215,15 @@ namespace Dolany.Ai.Doremi.Ai.Sys
                     return true;
                 case "Ai":
                     var aiList = AIAnalyzer.AnalyzeAI(MsgDTO.BindAi);
-                    MsgSender.PushMsg(MsgDTO, string.Join("\r", aiList.Select(a => $"{a.AIName}:{a.CommandCount}")));
+                    MsgSender.PushMsg(MsgDTO, string.Join("\r\n", aiList.Select(a => $"{a.AIName}:{a.CommandCount}")));
                     return true;
                 case "Time":
                     var timeList = AIAnalyzer.AnalyzeTime(MsgDTO.BindAi);
-                    MsgSender.PushMsg(MsgDTO, string.Join("\r", timeList.Select(t => $"{t.Hour}:{t.CommandCount}")));
+                    MsgSender.PushMsg(MsgDTO, string.Join("\r\n", timeList.Select(t => $"{t.Hour}:{t.CommandCount}")));
                     return true;
                 case "Command":
                     var commandList = AIAnalyzer.AnalyzeCommand(MsgDTO.BindAi);
-                    MsgSender.PushMsg(MsgDTO, string.Join("\r", commandList.Select(c => $"{c.Command}:{c.CommandCount}")));
+                    MsgSender.PushMsg(MsgDTO, string.Join("\r\n", commandList.Select(c => $"{c.Command}:{c.CommandCount}")));
                     return true;
             }
 

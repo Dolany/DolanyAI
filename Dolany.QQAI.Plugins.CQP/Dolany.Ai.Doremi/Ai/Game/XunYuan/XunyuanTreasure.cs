@@ -74,7 +74,7 @@ namespace Dolany.Ai.Doremi.Ai.Game.XunYuan
                 dic.Add("金币", Golds);
             }
 
-            return dic.IsNullOrEmpty() ? "" : string.Join("\r", dic.Select(p => $"{p.Key} * {p.Value}"));
+            return dic.IsNullOrEmpty() ? "" : string.Join("\r\n", dic.Select(p => $"{p.Key} * {p.Value}"));
         }
 
         public void SaveToPerson(long QQNum)

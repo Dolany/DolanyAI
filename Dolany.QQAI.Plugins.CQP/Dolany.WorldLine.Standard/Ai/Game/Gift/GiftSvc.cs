@@ -73,7 +73,7 @@ namespace Dolany.WorldLine.Standard.Ai.Game.Gift
         {
             msg = string.Empty;
             var result = true;
-            msg += $"金币：{Golds}/{GoldNeed}\r";
+            msg += $"金币：{Golds}/{GoldNeed}\r\n";
             if (Golds < GoldNeed)
             {
                 result = false;
@@ -83,12 +83,12 @@ namespace Dolany.WorldLine.Standard.Ai.Game.Gift
             {
                 if (!Mas.ContainsKey(key))
                 {
-                    msg += $"{key}：0/{value}\r";
+                    msg += $"{key}：0/{value}\r\n";
                     result = false;
                     continue;
                 }
 
-                msg += $"{key}：{Mas[key]}/{value}\r";
+                msg += $"{key}：{Mas[key]}/{value}\r\n";
                 if (Mas[key] < value)
                 {
                     result = false;

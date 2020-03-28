@@ -22,7 +22,7 @@ namespace Dolany.Ai.Core.Ai.SingleCommand.Tuling
 
         public override AIPriority PriorityLevel { get;} = AIPriority.SuperLow;
 
-        private readonly string RequestUrl = Global.DefaultConfig.TulingRequestUrl;
+        private const string RequestUrl = "http://openapi.tuling123.com/openapi/api/v2";
         private List<TulingConfigModel> ApiKeys = new List<TulingConfigModel>();
         private const int TulingDailyLimit = 20;
 

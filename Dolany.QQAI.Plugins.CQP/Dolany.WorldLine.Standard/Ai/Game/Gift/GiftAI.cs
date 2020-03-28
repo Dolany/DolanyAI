@@ -51,11 +51,11 @@ namespace Dolany.WorldLine.Standard.Ai.Game.Gift
             var osPerson = OSPerson.GetPerson(MsgDTO.FromQQ);
             if (!gift.Check(mdic, osPerson.Golds, out var msg))
             {
-                MsgSender.PushMsg(MsgDTO, $"兑换{name}需要：\r{msg}材料不足，无法兑换！");
+                MsgSender.PushMsg(MsgDTO, $"兑换{name}需要：\r\n{msg}材料不足，无法兑换！");
                 return false;
             }
 
-            if (!WaiterSvc.WaitForConfirm(MsgDTO, $"兑换{name}需要：\r{msg}是否兑换？", 7))
+            if (!WaiterSvc.WaitForConfirm(MsgDTO, $"兑换{name}需要：\r\n{msg}是否兑换？", 7))
             {
                 MsgSender.PushMsg(MsgDTO, "操作取消！");
                 return false;
@@ -90,7 +90,7 @@ namespace Dolany.WorldLine.Standard.Ai.Game.Gift
             }
 
             var msg = string.Join(",", osPerson.GiftDic.Select(p => $"{p.Key}*{p.Value}"));
-            MsgSender.PushMsg(MsgDTO, $"你当前持有的礼物：\r{msg}");
+            MsgSender.PushMsg(MsgDTO, $"你当前持有的礼物：\r\n{msg}");
 
             return true;
         }
@@ -106,7 +106,7 @@ namespace Dolany.WorldLine.Standard.Ai.Game.Gift
         public bool GiftShop(MsgInformationEx MsgDTO, object[] param)
         {
             var sellingGifts = GiftSvc.SellingGifts;
-            var msg = sellingGifts.Aggregate("当前可兑换的礼物有(礼物名/羁绊值/魅力值)：\r", (current, gift) => current + $"{gift.Name}/{gift.Intimate}/{gift.Glamour}\r");
+            var msg = sellingGifts.Aggregate("当前可兑换的礼物有(礼物名/羁绊值/魅力值)：\r\n", (current, gift) => current + $"{gift.Name}/{gift.Intimate}/{gift.Glamour}\r\n");
 
             msg += "可以使用 查看礼物 [礼物名] 命令来查看详细信息；或者使用 兑换礼物 [礼物名] 命令来兑换指定礼物";
             MsgSender.PushMsg(MsgDTO, msg);
@@ -132,11 +132,11 @@ namespace Dolany.WorldLine.Standard.Ai.Game.Gift
                 return false;
             }
 
-            var msg = $"礼物名：{gift.Name}\r";
-            msg += $"描述：{gift.Description}\r";
-            msg += $"羁绊值：{gift.Intimate}\r";
-            msg += $"魅力值：{gift.Glamour}\r";
-            msg += $"兑换需要材料：{string.Join(",", gift.MaterialDic.Select(p => $"{p.Key}*{p.Value}"))}\r";
+            var msg = $"礼物名：{gift.Name}\r\n";
+            msg += $"描述：{gift.Description}\r\n";
+            msg += $"羁绊值：{gift.Intimate}\r\n";
+            msg += $"魅力值：{gift.Glamour}\r\n";
+            msg += $"兑换需要材料：{string.Join(",", gift.MaterialDic.Select(p => $"{p.Key}*{p.Value}"))}\r\n";
             msg += $"兑换需要金币：{gift.GoldNeed.CurencyFormat()}";
 
             MsgSender.PushMsg(MsgDTO, msg);

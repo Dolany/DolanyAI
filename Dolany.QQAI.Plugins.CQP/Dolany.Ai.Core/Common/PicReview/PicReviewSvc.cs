@@ -32,9 +32,9 @@ namespace Dolany.Ai.Core.Common.PicReview
                 return;
             }
 
-            var msg = $"{CodeApi.Code_Image_Relational($"{CachePath}{record.PicName}")}\r";
-            msg += $"来自 {GroupSettingSvc[record.GroupNum].Name} 的 {record.QQNum}\r";
-            msg += $"用途：{record.Usage}\r";
+            var msg = $"{CodeApi.Code_Image_Relational($"{CachePath}{record.PicName}")}\r\n";
+            msg += $"来自 {GroupSettingSvc[record.GroupNum].Name} 的 {record.QQNum}\r\n";
+            msg += $"用途：{record.Usage}\r\n";
             msg += "是否通过？";
             var option = WaiterSvc.WaitForOptions(MsgDTO.FromGroup, MsgDTO.FromQQ, msg, new[] {"通过", "不通过", "取消"}, MsgDTO.BindAi);
             if (option < 0 || option == 2)
@@ -77,7 +77,7 @@ namespace Dolany.Ai.Core.Common.PicReview
             }
 
             var count = MongoService<PicReviewRecord>.Count(p => p.Status == PicReviewStatus.Waiting);
-            var msg = $"有新的待审核图片！\r来自 {GroupSettingSvc[record.GroupNum].Name} 的 {record.QQNum}\r当前剩余 {count} 张图片待审核！";
+            var msg = $"有新的待审核图片！\r\n来自 {GroupSettingSvc[record.GroupNum].Name} 的 {record.QQNum}\r\n当前剩余 {count} 张图片待审核！";
             MsgSender.PushMsg(0, Global.DeveloperNumber, msg, Global.DefaultConfig.MainAi);
         }
     }

@@ -36,8 +36,8 @@ namespace Dolany.WorldLine.Standard.Ai.Vip
 
             var goodsName = DailyVipGoodsRecord.GetToday(MsgDTO.FromQQ).GoodsName;
             var goods = goodsName.Select(g => DailyVipShopSvc[g]).ToList();
-            var goodsMsg = string.Join("\r", goods.Select(g => $"{g.Name}({g.DiamondsNeed.CurencyFormat("Diamond")}):{g.Description}"));
-            var msg = $"今天提供的vip服务有：\r{goodsMsg}\r你当前余额为：{osPerson.Diamonds.CurencyFormat("Diamond")}";
+            var goodsMsg = string.Join("\r\n", goods.Select(g => $"{g.Name}({g.DiamondsNeed.CurencyFormat("Diamond")}):{g.Description}"));
+            var msg = $"今天提供的vip服务有：\r\n{goodsMsg}\r\n你当前余额为：{osPerson.Diamonds.CurencyFormat("Diamond")}";
 
             MsgSender.PushMsg(MsgDTO, msg);
             return true;
@@ -93,7 +93,7 @@ namespace Dolany.WorldLine.Standard.Ai.Vip
                 return false;
             }
 
-            var msg = $"{armer.Name}\r    {armer.Description}\r售价：{armer.DiamondsNeed.CurencyFormat("Diamond")}";
+            var msg = $"{armer.Name}\r\n    {armer.Description}\r\n售价：{armer.DiamondsNeed.CurencyFormat("Diamond")}";
             MsgSender.PushMsg(MsgDTO, msg);
             return true;
         }
@@ -116,7 +116,7 @@ namespace Dolany.WorldLine.Standard.Ai.Vip
             }
 
             var armerMsgs = record.Armers.Select(r => $"{r.Name}：{r.Description}{(r.ExpiryTime.HasValue ? $"({r.ExpiryTime})" : string.Empty)}");
-            var msg = $"你当前持有的装备有：\r{string.Join("\r", armerMsgs)}";
+            var msg = $"你当前持有的装备有：\r\n{string.Join("\r\n", armerMsgs)}";
             MsgSender.PushMsg(MsgDTO, msg);
             return true;
         }

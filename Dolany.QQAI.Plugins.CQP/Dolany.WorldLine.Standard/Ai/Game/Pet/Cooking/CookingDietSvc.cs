@@ -46,19 +46,19 @@ namespace Dolany.WorldLine.Standard.Ai.Game.Pet.Cooking
 
         public override string ToString()
         {
-            var str = $"{Name}\r    {Description}\r需要等级：{Level}\r";
+            var str = $"{Name}\r\n    {Description}\r\n需要等级：{Level}\r\n";
             if (!Materials.IsNullOrEmpty())
             {
-                str += $"需要材料：{string.Join(",", Materials.Select(m => $"{m.Key}×{m.Value}"))}\r";
+                str += $"需要材料：{string.Join(",", Materials.Select(m => $"{m.Key}×{m.Value}"))}\r\n";
             }
 
             if (!Flavorings.IsNullOrEmpty())
             {
-                str += $"需要调味料：{string.Join(",", Flavorings.Select(m => $"{m.Key}×{m.Value}"))}\r";
+                str += $"需要调味料：{string.Join(",", Flavorings.Select(m => $"{m.Key}×{m.Value}"))}\r\n";
             }
 
-            str += $"可提供经验值：{Exp}\r特性：{string.Join(",", Attributes)}";
-            str += $"\r可使用【{ExchangeHonor}】兑换";
+            str += $"可提供经验值：{Exp}\r\n特性：{string.Join(",", Attributes)}";
+            str += $"\r\n可使用【{ExchangeHonor}】兑换";
             return str;
         }
     }

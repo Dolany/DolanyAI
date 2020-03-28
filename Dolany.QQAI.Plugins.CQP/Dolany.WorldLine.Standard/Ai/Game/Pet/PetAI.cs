@@ -62,21 +62,21 @@ namespace Dolany.WorldLine.Standard.Ai.Game.Pet
             var extEndur = HasExtEndur ? "(+10)" : string.Empty;
             var petEndur = levelModel.Endurance - PetEnduranceRecord.Get(MsgDTO.FromQQ).ConsumeTotal + (HasExtEndur ? 10 : 0);
 
-            var msg = $"{CodeApi.Code_Image_Relational(pet.PicPath)}\r" +
-                      $"名称：{pet.Name}\r" +
-                      $"种族：{pet.PetNo}\r" +
-                      $"食性：{pet.Attribute ?? "无"}\r" +
-                      $"等级：{Utility.LevelEmoji(pet.Level)}\r" +
-                      $"{Emoji.心}：{levelModel.HP}\r" +
-                      $"耐力：{petEndur}/{levelModel.Endurance}{extEndur}\r" +
+            var msg = $"{CodeApi.Code_Image_Relational(pet.PicPath)}\r\n" +
+                      $"名称：{pet.Name}\r\n" +
+                      $"种族：{pet.PetNo}\r\n" +
+                      $"食性：{pet.Attribute ?? "无"}\r\n" +
+                      $"等级：{Utility.LevelEmoji(pet.Level)}\r\n" +
+                      $"{Emoji.心}：{levelModel.HP}\r\n" +
+                      $"耐力：{petEndur}/{levelModel.Endurance}{extEndur}\r\n" +
                       $"经验值：{pet.Exp}/{levelModel.Exp}";
             if (!pet.Skills.IsNullOrEmpty())
             {
-                msg += $"\r技能：{string.Join(",", pet.Skills.Select(p => $"{p.Key}({p.Value})"))}";
+                msg += $"\r\n技能：{string.Join(",", pet.Skills.Select(p => $"{p.Key}({p.Value})"))}";
             }
             if (pet.RemainSkillPoints > 0)
             {
-                msg += $"\r可用技能点：{pet.RemainSkillPoints}";
+                msg += $"\r\n可用技能点：{pet.RemainSkillPoints}";
             }
 
             MsgSender.PushMsg(MsgDTO, msg);
@@ -274,7 +274,7 @@ namespace Dolany.WorldLine.Standard.Ai.Game.Pet
             }
 
             var randAttrs = Rander.RandSort(PetExtent.AllAttributes.ToArray());
-            var msg = $"请选择宠物食性：\r{string.Join("\r", randAttrs.Select((p, idx) => $"{idx + 1}:{p}"))}";
+            var msg = $"请选择宠物食性：\r\n{string.Join("\r\n", randAttrs.Select((p, idx) => $"{idx + 1}:{p}"))}";
             var selectedIdx = WaiterSvc.WaitForNum(MsgDTO.FromGroup, MsgDTO.FromQQ, msg, i => i > 0 && i <= randAttrs.Length, MsgDTO.BindAi);
             if (selectedIdx == -1)
             {
@@ -365,7 +365,7 @@ namespace Dolany.WorldLine.Standard.Ai.Game.Pet
                 return false;
             }
 
-            var resMsg = $"{pet.Name}兴奋的吃掉了 {item.Name}，并打了个饱嗝\r";
+            var resMsg = $"{pet.Name}兴奋的吃掉了 {item.Name}，并打了个饱嗝\r\n";
 
             pet.LastFeedTime = DateTime.Now;
             resMsg += pet.ExtGain(MsgDTO, item.Exp);
@@ -391,7 +391,7 @@ namespace Dolany.WorldLine.Standard.Ai.Game.Pet
                 return false;
             }
 
-            var resMsg = $"{pet.Name}兴奋的吃掉了 {diet.Name}，并打了个饱嗝\r";
+            var resMsg = $"{pet.Name}兴奋的吃掉了 {diet.Name}，并打了个饱嗝\r\n";
 
             pet.LastFeedTime = DateTime.Now;
             resMsg += pet.ExtGain(MsgDTO, diet.Exp);
@@ -413,7 +413,7 @@ namespace Dolany.WorldLine.Standard.Ai.Game.Pet
         public bool PetLevelAnalyze(MsgInformationEx MsgDTO, object[] param)
         {
             var data = PetRecord.LevelAnalyze();
-            var msg = string.Join("\r", data.Select(p => $"{p.Key}:{p.Value}"));
+            var msg = string.Join("\r\n", data.Select(p => $"{p.Key}:{p.Value}"));
 
             MsgSender.PushMsg(MsgDTO, msg);
             return true;
@@ -430,7 +430,7 @@ namespace Dolany.WorldLine.Standard.Ai.Game.Pet
         public bool PetLevelRank(MsgInformationEx MsgDTO, object[] param)
         {
             var data = PetRecord.LevelTop(10);
-            var msg = string.Join("\r", data.Select((p, idx) => $"{idx + 1}:{p.Name}(lv.{p.Level})({p.Exp}/{PetLevelSvc[p.Level].Exp})"));
+            var msg = string.Join("\r\n", data.Select((p, idx) => $"{idx + 1}:{p.Name}(lv.{p.Level})({p.Exp}/{PetLevelSvc[p.Level].Exp})"));
 
             MsgSender.PushMsg(MsgDTO, msg);
             return true;
@@ -455,9 +455,9 @@ namespace Dolany.WorldLine.Standard.Ai.Game.Pet
             }
 
             var pet = PetRecord.Get(MsgDTO.FromQQ);
-            var msg = $"名称：{skill.Name}\r" +
-                      $"描述：{skill.CommDesc}\r" +
-                      $"解锁：{skill.LearnLevel}\r" +
+            var msg = $"名称：{skill.Name}\r\n" +
+                      $"描述：{skill.CommDesc}\r\n" +
+                      $"解锁：{skill.LearnLevel}\r\n" +
                       $"当前：{(pet.Skills != null && pet.Skills.ContainsKey(name) ? pet.Skills[name] : 0)}";
 
             MsgSender.PushMsg(MsgDTO, msg);

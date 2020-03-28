@@ -113,19 +113,19 @@ namespace Dolany.Ai.Doremi.Ai.SingleCommand.Fortune
             {
                 rf.FortuneValue += rf.BlessValue;
                 rf.FortuneValue = rf.FortuneValue > 100 ? 100 : rf.FortuneValue;
-                msg += $"恭喜你受到了 {rf.BlessName} 的祝福\r";
-                msg += $"你今天的运势是：{rf.FortuneValue}%({rf.BlessValue}↑)\r";
+                msg += $"恭喜你受到了 {rf.BlessName} 的祝福\r\n";
+                msg += $"你今天的运势是：{rf.FortuneValue}%({rf.BlessValue}↑)\r\n";
             }
             else if (rf.BlessValue < 0)
             {
                 rf.FortuneValue += rf.BlessValue;
                 rf.FortuneValue = rf.FortuneValue < 0 ? 0 : rf.FortuneValue;
-                msg += $"哎呀呀，你受到了 {rf.BlessName} 的诅咒\r";
-                msg += $"你今天的运势是：{rf.FortuneValue}%({Math.Abs(rf.BlessValue)}↓)\r";
+                msg += $"哎呀呀，你受到了 {rf.BlessName} 的诅咒\r\n";
+                msg += $"你今天的运势是：{rf.FortuneValue}%({Math.Abs(rf.BlessValue)}↓)\r\n";
             }
             else
             {
-                msg += "你今天的运势是：" + rf.FortuneValue + "%\r";
+                msg += "你今天的运势是：" + rf.FortuneValue + "%\r\n";
             }
 
             var builder = new StringBuilder();
@@ -177,8 +177,8 @@ namespace Dolany.Ai.Doremi.Ai.SingleCommand.Fortune
                 return;
             }
 
-            var msg = CodeApi.Code_Image(TarotServerPath + data.PicSrc) + '\r';
-            msg += "牌名：" + data.Name + '\r';
+            var msg = $"{CodeApi.Code_Image(TarotServerPath + data.PicSrc)}\r\n";
+            msg += $"牌名：{data.Name}\r\n";
             msg += data.IsPos ? "正位解释：" : "逆位解释：";
             msg += data.Description;
 

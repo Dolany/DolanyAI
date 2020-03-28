@@ -93,7 +93,7 @@ namespace Dolany.WorldLine.Standard.Ai.Game.Jump300Report
             {
                 foreach (var r in jumpBaseInfos)
                 {
-                    builder.Append('\r' + r.Name + ":" + r.Value);
+                    builder.Append($"\r\n{r.Name}:{r.Value}");
                 }
             }
 

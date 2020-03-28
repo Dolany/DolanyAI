@@ -38,12 +38,12 @@ namespace Dolany.WorldLine.Standard.Ai.Game.SegmentAttach
             record.IsRare = Rander.RandInt(100) > 90;
             record.Update();
 
-            var msg = $"你领取到了新的宝藏碎片！\r{segment}";
+            var msg = $"你领取到了新的宝藏碎片！\r\n{segment}";
             var treasure = SegmentSvc.FindTreasureBySegment(record.Segment);
-            msg += $"\r可开启宝藏：【{treasure.Name}】";
+            msg += $"\r\n可开启宝藏：【{treasure.Name}】";
             if (record.IsRare)
             {
-                msg += $"\r{Emoji.礼物}恭喜你领取到了稀有碎片，拼接后将得到双倍奖励！";
+                msg += $"\r\n{Emoji.礼物}恭喜你领取到了稀有碎片，拼接后将得到双倍奖励！";
             }
             MsgSender.PushMsg(MsgDTO, msg, true);
             return true;
@@ -68,7 +68,7 @@ namespace Dolany.WorldLine.Standard.Ai.Game.SegmentAttach
             }
 
             var treasure = SegmentSvc.FindTreasureBySegment(name);
-            var msg = $"{segment}\r可开启宝藏：{treasure.Name}";
+            var msg = $"{segment}\r\n可开启宝藏：{treasure.Name}";
 
             MsgSender.PushMsg(MsgDTO, msg);
             return true;
@@ -98,10 +98,10 @@ namespace Dolany.WorldLine.Standard.Ai.Game.SegmentAttach
             }
 
             var treasure = SegmentSvc.FindTreasureBySegment(record.Segment);
-            var msg = $"{segment}\r可开启宝藏：{treasure.Name}";
+            var msg = $"{segment}\r\n可开启宝藏：{treasure.Name}";
             if (record.IsRare)
             {
-                msg += "\r【稀有】：拼接后将得到双倍奖励！";
+                msg += "\r\n【稀有】：拼接后将得到双倍奖励！";
             }
 
             MsgSender.PushMsg(MsgDTO, msg);
@@ -156,7 +156,7 @@ namespace Dolany.WorldLine.Standard.Ai.Game.SegmentAttach
                 finalMsg += $"(还可开启{record.TreasureRecord.Values.Min() - record.FinalTreasureCount}次)";
             }
             recMsgList.Add(finalMsg);
-            var msg = string.Join("\r", recMsgList);
+            var msg = string.Join("\r\n", recMsgList);
             MsgSender.PushMsg(MsgDTO, msg);
             return true;
         }
@@ -301,8 +301,8 @@ namespace Dolany.WorldLine.Standard.Ai.Game.SegmentAttach
 
             MsgSender.PushMsg(MsgDTO, treasure.ToString());
 
-            var msg = "拼接成功！\r" +
-                      $"{CodeApi.Code_At(MsgDTO.FromQQ)} 获得了{string.Join(",", selfBonusItems.Select(p => $"{p.Name}*{(selfRecord.IsRare ? 2 : 1)}"))} ！\r" +
+            var msg = "拼接成功！\r\n" +
+                      $"{CodeApi.Code_At(MsgDTO.FromQQ)} 获得了{string.Join(",", selfBonusItems.Select(p => $"{p.Name}*{(selfRecord.IsRare ? 2 : 1)}"))} ！\r\n" +
                       $"{CodeApi.Code_At(aimQQ)} 获得了{string.Join(",", aimBonusItems.Select(p => $"{p.Name}*{(aimRecord.IsRare ? 2 : 1)}"))} ！";
             MsgSender.PushMsg(MsgDTO, msg);
 

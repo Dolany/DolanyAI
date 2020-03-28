@@ -23,10 +23,10 @@ namespace Dolany.WorldLine.KindomStorm.Ai.KindomStorm
         {
             var castle = KindomCastle.Get(MsgDTO.FromGroup, MsgDTO.FromQQ);
             var msg = $"{castle.CastleName}";
-            msg += $"\r城堡等级：{Utility.LevelEmoji(castle.Level)}";
-            msg += $"\r金钱：{castle.Golds}";
-            msg += $"\r粮草：{castle.Commissariat}";
-            msg += $"\r建筑：{string.Join(",", castle.Buildings.Select(p => $"{p.Key}(lv.{p.Value})"))}";
+            msg += $"\r\n城堡等级：{Utility.LevelEmoji(castle.Level)}";
+            msg += $"\r\n金钱：{castle.Golds}";
+            msg += $"\r\n粮草：{castle.Commissariat}";
+            msg += $"\r\n建筑：{string.Join(",", castle.Buildings.Select(p => $"{p.Key}(lv.{p.Value})"))}";
 
             MsgSender.PushMsg(MsgDTO, msg, true);
             return true;

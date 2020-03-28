@@ -12,9 +12,9 @@ namespace Dolany.Ai.Core.Common
 
         public static long DeveloperNumber { get; } = DefaultConfig.DeveloperNumber;
 
-        public static long SysMsgNumber { get; } = DefaultConfig.SysMsgNumber;
+        public static long SysMsgNumber { get; } = 10000;
 
-        public static long AnonymousNumber { get; } = DefaultConfig.AnonymousNumber;
+        public static long AnonymousNumber { get; } = 80000000;
 
         public static IEnumerable<long> TestGroups { get; } = DefaultConfig.TestGroups;
 

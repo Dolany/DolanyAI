@@ -69,9 +69,9 @@ namespace Dolany.WorldLine.Standard.Ai.SingleCommand.Fortune
         [NotNull]
         private string FortunePrintString(MajFortuneCache fortune)
         {
-            var msg = "今日麻将运势：" + $"\r整体运势：{Utility.LevelToStars(fortune.FortuneStar)} " + $"\r吉位：{fortune.Position} "
-                      + $"\r牌运：{fortune.Kind} " + $"\r代表人物：{fortune.CharactorName} "
-                      + $"\r{CodeApi.Code_Image(fortune.CharactorPath)}";
+            var msg = "今日麻将运势：" + $"\r\n整体运势：{Utility.LevelToStars(fortune.FortuneStar)} " + $"\r\n吉位：{fortune.Position} "
+                      + $"\r\n牌运：{fortune.Kind} " + $"\r\n代表人物：{fortune.CharactorName} "
+                      + $"\r\n{CodeApi.Code_Image(fortune.CharactorPath)}";
 
             return msg;
         }

@@ -11,9 +11,9 @@ namespace Dolany.Ai.Doremi.Common
 
         public static long DeveloperNumber { get; } = Configger<AIConfigBase>.Instance.AIConfig.DeveloperNumber;
 
-        public static long SysMsgNumber { get; } = Configger<AIConfigBase>.Instance.AIConfig.SysMsgNumber;
+        public static long SysMsgNumber { get; } = 10000;
 
-        public static long AnonymousNumber { get; } = Configger<AIConfigBase>.Instance.AIConfig.AnonymousNumber;
+        public static long AnonymousNumber { get; } = 80000000;
 
         public static IEnumerable<long> TestGroups { get; } = Configger<AIConfigBase>.Instance.AIConfig.TestGroups;
 

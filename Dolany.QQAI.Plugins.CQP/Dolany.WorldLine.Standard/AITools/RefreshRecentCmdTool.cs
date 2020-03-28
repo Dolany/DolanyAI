@@ -7,6 +7,8 @@ namespace Dolany.WorldLine.Standard.AITools
 {
     public class RefreshRecentCmdTool : IScheduleTool
     {
+        public RestrictorSvc RestrictorSvc { get; set; }
+
         protected override List<ScheduleDoModel> ModelList { get; set; } = new List<ScheduleDoModel>()
         {
             new ScheduleDoModel()
@@ -16,7 +18,7 @@ namespace Dolany.WorldLine.Standard.AITools
         };
         protected override void ScheduleDo(SchedulerTimer timer)
         {
-            RecentCommandCache.Refresh();
+            RestrictorSvc.CleanOutOfDateData();
         }
     }
 }

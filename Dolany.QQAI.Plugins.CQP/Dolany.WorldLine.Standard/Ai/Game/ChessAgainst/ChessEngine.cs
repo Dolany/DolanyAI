@@ -100,7 +100,7 @@ namespace Dolany.WorldLine.Standard.Ai.Game.ChessAgainst
 
         private void ProceedTurn()
         {
-            var response = WaitCallBack(GroupNum, SelfQQNum, $"回合开始！请输入合适的数字来获取随机效果！\r{ChessBoardStr()}",
+            var response = WaitCallBack(GroupNum, SelfQQNum, $"回合开始！请输入合适的数字来获取随机效果！\r\n{ChessBoardStr()}",
                 msg => int.TryParse(msg, out var num) && AvailableNums.Contains(num));
 
             if (string.IsNullOrEmpty(response) || !int.TryParse(response, out var selectedNum) || !AvailableNums.Contains(selectedNum))
@@ -111,7 +111,7 @@ namespace Dolany.WorldLine.Standard.Ai.Game.ChessAgainst
 
             var model = Chessborad[selectedNum - 1];
 
-            MsgSender.PushMsg(GroupNum, 0, $"随机效果已生效：{model.Name}！\r{model.Description}", BindAi);
+            MsgSender.PushMsg(GroupNum, 0, $"随机效果已生效：{model.Name}！\r\n{model.Description}", BindAi);
             Thread.Sleep(1000);
 
             model.Method();
@@ -133,7 +133,7 @@ namespace Dolany.WorldLine.Standard.Ai.Game.ChessAgainst
             {
                 var model = Chessborad[i];
                 str += model.IsChecked ? model.Name : $"{(i + 1).ToString()}  ";
-                str += (i + 1) % 3 == 0 ? "\r" : "  ";
+                str += (i + 1) % 3 == 0 ? "\r\n" : "  ";
             }
 
             return str;

@@ -173,7 +173,7 @@ namespace Dolany.WorldLine.Standard.Ai.Sys
             var pet = PetRecord.Get(qqNum);
             MsgDTO.FromQQ = qqNum;
             var msg = pet.ExtGain(MsgDTO, exp);
-            msg += "\r奖励已生效！";
+            msg += "\r\n奖励已生效！";
 
             MsgSender.PushMsg(MsgDTO, msg);
             return true;
@@ -315,7 +315,7 @@ namespace Dolany.WorldLine.Standard.Ai.Sys
             }
 
             var dic = JsonConvert.DeserializeObject<Dictionary<string, bool>>(info.Msg);
-            var msg = string.Join("\r", dic.Select(p => $"{p.Key}:{(p.Value ? "连接中" : "已断开")}"));
+            var msg = string.Join("\r\n", dic.Select(p => $"{p.Key}:{(p.Value ? "连接中" : "已断开")}"));
 
             MsgSender.PushMsg(MsgDTO, msg);
             return true;

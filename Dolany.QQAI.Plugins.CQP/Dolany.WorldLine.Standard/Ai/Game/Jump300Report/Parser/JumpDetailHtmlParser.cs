@@ -51,7 +51,7 @@ namespace Dolany.WorldLine.Standard.Ai.Game.Jump300Report.Parser
             }
         }
 
-        private PlayerInfoInMatch ParsePlayer(string[] sp, int startIdx)
+        private PlayerInfoInMatch ParsePlayer(IReadOnlyList<string> sp, int startIdx)
         {
             var piim = new PlayerInfoInMatch();
 

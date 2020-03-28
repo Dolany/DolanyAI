@@ -46,7 +46,7 @@ namespace Dolany.Ai.Doremi.Xiuxian
 
         public override string ToString()
         {
-            return $"名称：{Name}\r类别：{KindString}\r{ValueString}\r价格：{Price}\r稀有度：{Rate}";
+            return $"名称：{Name}\r\n类别：{KindString}\r\n{ValueString}\r\n价格：{Price}\r\n稀有度：{Rate}";
         }
     }
 }

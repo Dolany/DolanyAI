@@ -22,25 +22,7 @@
 
     public class AIConfigBase
     {
-        public int PraiseLimit { get; set; }
-
-        public int PicCleanFreq { get; set; }
-
-        public int MaxPicCacheCount { get; set; }
-
-        public int MaxOriginPicCache { get; set; }
-
-        public string TulingRequestUrl { get; set; }
-
         public long DeveloperNumber { get; set; }
-
-        public long SysMsgNumber { get; set; }
-
-        public int DiceCountMaxLimit { get; set; }
-
-        public int DiceSizeMaxLimit { get; set; }
-
-        public int MaxRecentCommandCacheCount { get; set; }
 
         public string CommandQueueName { get; set; }
 
@@ -51,8 +33,6 @@
         public bool IsTesting { get; set; }
 
         public long[] TestGroups { get; set; }
-
-        public long AnonymousNumber { get; set; }
 
         public string Mutex { get; set; }
 

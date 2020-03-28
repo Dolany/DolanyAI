@@ -38,10 +38,10 @@ namespace Dolany.Ai.Doremi.Ai.Game.Shopping
             var exp = MsgCounterSvc.Get(MsgDTO.FromQQ);
             var armerRecord = PersonArmerRecord.Get(MsgDTO.FromQQ);
 
-            var msg = $"等级：{level.Name}\r" +
-                      $"经验值：{exp}/{level.Exp}{(exp >= level.Exp ? "(可渡劫)" : "")}\r" +
-                      $"{Emoji.心}:{level.HP}(+{ArmerSvc.CountHP(armerRecord.Armers)})\r" +
-                      $"{Emoji.剑}:{level.Atk}(+{ArmerSvc.CountAtk(armerRecord.Armers)})\r" +
+            var msg = $"等级：{level.Name}\r\n" +
+                      $"经验值：{exp}/{level.Exp}{(exp >= level.Exp ? "(可渡劫)" : "")}\r\n" +
+                      $"{Emoji.心}:{level.HP}(+{ArmerSvc.CountHP(armerRecord.Armers)})\r\n" +
+                      $"{Emoji.剑}:{level.Atk}(+{ArmerSvc.CountAtk(armerRecord.Armers)})\r\n" +
                       $"金币：{osPerson.Golds}";
 
             MsgSender.PushMsg(MsgDTO, msg, true);
@@ -115,10 +115,10 @@ namespace Dolany.Ai.Doremi.Ai.Game.Shopping
             var armerInfos = paRec.Armers.Select(a => new {Count = a.Value, Model = ArmerSvc[a.Key]}).OrderBy(p => p.Model.Kind).ThenByDescending(p => p.Model.Price).ToList();
             var showInfos = armerInfos.Take(20);
             var msg = string.Join(", ", showInfos.Select(a => $"{a.Model.Name}*{a.Count}"));
-            msg = $"你持有的装备有：\r{msg}";
+            msg = $"你持有的装备有：\r\n{msg}";
             if (armerInfos.Count > 20)
             {
-                msg += $"\r当前显示第 1/{(armerInfos.Count - 1) / 20 + 1}页，请使用 我的装备 [页码] 命令查看更多装备！";
+                msg += $"\r\n当前显示第 1/{(armerInfos.Count - 1) / 20 + 1}页，请使用 我的装备 [页码] 命令查看更多装备！";
             }
             MsgSender.PushMsg(MsgDTO, msg, true);
             return true;
@@ -153,10 +153,10 @@ namespace Dolany.Ai.Doremi.Ai.Game.Shopping
 
             var showInfos = armerInfos.Skip((pageNo - 1) * 20).Take(20);
             var msg = string.Join(", ", showInfos.Select(a => $"{a.Model.Name}*{a.Count}"));
-            msg = $"该页的装备有：\r{msg}";
+            msg = $"该页的装备有：\r\n{msg}";
             if (armerInfos.Count > 20)
             {
-                msg += $"\r当前显示第 {pageNo}/{totalPageCount}页，请使用 我的装备 [页码] 命令查看更多装备！";
+                msg += $"\r\n当前显示第 {pageNo}/{totalPageCount}页，请使用 我的装备 [页码] 命令查看更多装备！";
             }
             MsgSender.PushMsg(MsgDTO, msg, true);
             return true;

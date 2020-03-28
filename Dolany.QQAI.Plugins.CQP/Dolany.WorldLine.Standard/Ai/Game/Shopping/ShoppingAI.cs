@@ -262,10 +262,10 @@ namespace Dolany.WorldLine.Standard.Ai.Game.Shopping
 
             var sellItems = TransHelper.GetDailySellItems();
             var record = ItemCollectionRecord.Get(MsgDTO.FromQQ);
-            var itemsStr = string.Join("\r", sellItems.Select(si =>
+            var itemsStr = string.Join("\r\n", sellItems.Select(si =>
                 $"{si.Name}({HonorSvc.FindHonorFullName(si.Name)})({record.GetCount(si.Name)})({si.Attr})：{si.Price.CurencyFormat()}"));
 
-            var msg = $"今日售卖的商品：\r{itemsStr}\r你当前持有 {golds.CurencyFormat()}";
+            var msg = $"今日售卖的商品：\r\n{itemsStr}\r\n你当前持有 {golds.CurencyFormat()}";
             MsgSender.PushMsg(MsgDTO, msg);
 
             return true;
@@ -289,23 +289,23 @@ namespace Dolany.WorldLine.Standard.Ai.Game.Shopping
             if (todayRec.IsOver)
             {
                 MsgSender.PushMsg(MsgDTO,
-                    $"稀有商店休息中~\r下次开放时间：明天 {tomorrowRec.Hour}:00:00 ~ {tomorrowRec.Hour + 3}:00:00");
+                    $"稀有商店休息中~\r\n下次开放时间：明天 {tomorrowRec.Hour}:00:00 ~ {tomorrowRec.Hour + 3}:00:00");
                 return false;
             }
 
             if (todayRec.IsBefore)
             {
                 MsgSender.PushMsg(MsgDTO,
-                    $"稀有商店休息中~\r下次开放时间：今天 {todayRec.Hour}:00:00 ~ {todayRec.Hour + 3}:00:00");
+                    $"稀有商店休息中~\r\n下次开放时间：今天 {todayRec.Hour}:00:00 ~ {todayRec.Hour + 3}:00:00");
                 return false;
             }
 
             var sellItems = todayRec.Items;
             var record = ItemCollectionRecord.Get(MsgDTO.FromQQ);
-            var itemsStr = string.Join("\r", sellItems.Select(si =>
+            var itemsStr = string.Join("\r\n", sellItems.Select(si =>
                 $"{si.Name}({HonorSvc.FindHonorFullName(si.Name)})({record.GetCount(si.Name)})({si.Attr})：{si.Price.CurencyFormat()}"));
 
-            var msg = $"当前售卖的商品：\r{itemsStr}\r你当前持有 {golds.CurencyFormat()}";
+            var msg = $"当前售卖的商品：\r\n{itemsStr}\r\n你当前持有 {golds.CurencyFormat()}";
             MsgSender.PushMsg(MsgDTO, msg);
 
             return true;
@@ -370,7 +370,7 @@ namespace Dolany.WorldLine.Standard.Ai.Game.Shopping
 
             OSPerson.GoldConsume(osPerson.QQNum, price);
 
-            MsgSender.PushMsg(MsgDTO, $"{incomeMsg}\r购买成功！你当前剩余的金币为 {(osPerson.Golds - sellItem.Price).CurencyFormat()}");
+            MsgSender.PushMsg(MsgDTO, $"{incomeMsg}\r\n购买成功！你当前剩余的金币为 {(osPerson.Golds - sellItem.Price).CurencyFormat()}");
             return true;
         }
 
@@ -447,9 +447,9 @@ namespace Dolany.WorldLine.Standard.Ai.Game.Shopping
             }
 
             var count = aimRecord.GetCount(name);
-            var msg = $"收到来自 {CodeApi.Code_At(MsgDTO.FromQQ)} 的交易请求：\r" +
-                      $"希望得到的物品：{name}\r" +
-                      $"价格：{price.CurencyFormat()}({originPrice.CurencyFormat()})\r" +
+            var msg = $"收到来自 {CodeApi.Code_At(MsgDTO.FromQQ)} 的交易请求：\r\n" +
+                      $"希望得到的物品：{name}\r\n" +
+                      $"价格：{price.CurencyFormat()}({originPrice.CurencyFormat()})\r\n" +
                       $"你当前持有：{count}个，是否确认交易？";
             if (!WaiterSvc.WaitForConfirm(MsgDTO.FromGroup, aimQQ, msg, MsgDTO.BindAi, 10))
             {
@@ -503,9 +503,9 @@ namespace Dolany.WorldLine.Standard.Ai.Game.Shopping
             }
 
             var count = aimDietRec.CookedDietDic[name];
-            var msg = $"收到来自 {CodeApi.Code_At(MsgDTO.FromQQ)} 的交易请求：\r" +
-                      $"希望得到的菜肴：{name}\r" +
-                      $"价格：{price.CurencyFormat()}({dietModel.EstimatedPrice.CurencyFormat()})\r" +
+            var msg = $"收到来自 {CodeApi.Code_At(MsgDTO.FromQQ)} 的交易请求：\r\n" +
+                      $"希望得到的菜肴：{name}\r\n" +
+                      $"价格：{price.CurencyFormat()}({dietModel.EstimatedPrice.CurencyFormat()})\r\n" +
                       $"你当前持有：{count}个，是否确认交易？";
             if (!WaiterSvc.WaitForConfirm(MsgDTO.FromGroup, aimQQ, msg, MsgDTO.BindAi, 10))
             {
@@ -624,7 +624,7 @@ namespace Dolany.WorldLine.Standard.Ai.Game.Shopping
             var res = "赠送成功！";
             if (!string.IsNullOrEmpty(msg))
             {
-                res += $"\r{msg}";
+                res += $"\r\n{msg}";
             }
             MsgSender.PushMsg(MsgDTO, res);
 
@@ -691,9 +691,9 @@ namespace Dolany.WorldLine.Standard.Ai.Game.Shopping
                 resultDic.Add("烹饪资产", dietAssert);
             }
 
-            var msg = "请查阅你的资产评估报告：\r" +
-                      $"{string.Join("\r", resultDic.Select(rd => $"{rd.Key}:{rd.Value.CurencyFormat()}"))}" +
-                      $"\r总资产:{resultDic.Sum(p => p.Value).CurencyFormat()}";
+            var msg = "请查阅你的资产评估报告：\r\n" +
+                      $"{string.Join("\r\n", resultDic.Select(rd => $"{rd.Key}:{rd.Value.CurencyFormat()}"))}" +
+                      $"\r\n总资产:{resultDic.Sum(p => p.Value).CurencyFormat()}";
             MsgSender.PushMsg(MsgDTO, msg, true);
             return true;
         }

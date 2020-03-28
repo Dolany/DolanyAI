@@ -22,6 +22,7 @@ namespace Dolany.Ai.Core.Ai
         public DataRefreshSvc DataRefreshSvc { get; set; }
         public BindAiSvc BindAiSvc { get; set; }
         public DirtyFilterSvc DirtyFilterSvc { get; set; }
+        public RestrictorSvc RestrictorSvc { get; set; }
 
         [EnterCommand(ID = "SuperAdminAI_FishingBonus",
             Command = "功能奖励",
@@ -321,11 +322,11 @@ namespace Dolany.Ai.Core.Ai
             var msg = "卸载完毕！";
             if (!successGroups.IsNullOrEmpty())
             {
-                msg += $"\r以下群组卸载成功！\r{string.Join(",", successGroups.Select(p => p.Name))}";
+                msg += $"\r\n以下群组卸载成功！\r\n{string.Join(",", successGroups.Select(p => p.Name))}";
             }
             if (!failedGroups.IsNullOrEmpty())
             {
-                msg += $"\r以下群组卸载失败，请手动处理！\r{string.Join(",", failedGroups.Select(p => p.Name))}";
+                msg += $"\r\n以下群组卸载失败，请手动处理！\r\n{string.Join(",", failedGroups.Select(p => p.Name))}";
             }
 
             MsgSender.PushMsg(MsgDTO, msg);
@@ -397,9 +398,54 @@ namespace Dolany.Ai.Core.Ai
             IsGroupAvailable = true)]
         public bool SysPressure(MsgInformationEx MsgDTO, object[] param)
         {
-            var msg = string.Join("\r",
-                RecentCommandCache.Pressures.Select(p => $"{p.Key}:{p.Value}{(p.Value >= RecentCommandCache.MaxRecentCommandCacheCount ? "(危)" : string.Empty)}"));
+            var msg = string.Join("\r\n",
+                RestrictorSvc.Pressures.Select(p => $"{p.Key}:{p.Value}/{RestrictorSvc.BindAiLimit[p.Key]}{(RestrictorSvc.IsTooFreq(p.Key) ? "(危)" : string.Empty)}"));
             MsgSender.PushMsg(MsgDTO, msg);
+            return true;
+        }
+
+        [EnterCommand(ID = "SuperAdminAI_CurrentRestrictor",
+            Command = "现行限流方案",
+            Description = "查看当前的限流方案",
+            Syntax = "",
+            Tag = "超管",
+            SyntaxChecker = "Empty",
+            AuthorityLevel = AuthorityLevel.开发者,
+            IsPrivateAvailable = true,
+            IsGroupAvailable = true)]
+        public bool CurrentRestrictor(MsgInformationEx MsgDTO, object[] param)
+        {
+            var limitDic = RestrictorSvc.BindAiLimit;
+            MsgSender.PushMsg(MsgDTO, string.Join("\r\n", limitDic.Select(p => $"{p.Key}:{p.Value}")));
+            return true;
+        }
+
+        [EnterCommand(ID = "SuperAdminAI_SetRestrictor",
+            Command = "设置限流 设定限流",
+            Description = "设置某个机器人的限流方案",
+            Syntax = "[机器人名] [限流上限]",
+            Tag = "超管",
+            SyntaxChecker = "Word Long",
+            AuthorityLevel = AuthorityLevel.开发者,
+            IsPrivateAvailable = true,
+            IsGroupAvailable = true)]
+        public bool SetRestrictor(MsgInformationEx MsgDTO, object[] param)
+        {
+            var name = (string) param[0];
+            var limit = (int) (long) param[1];
+
+            if (BindAiSvc[name] == null)
+            {
+                MsgSender.PushMsg(MsgDTO, "未识别到该机器人！");
+                return false;
+            }
+
+            var rec = BindAiRestrict.Get(name);
+            rec.MaxLimit = limit;
+            rec.Update();
+
+            RestrictorSvc.RefreshData();
+            MsgSender.PushMsg(MsgDTO, "设定成功！");
             return true;
         }
     }

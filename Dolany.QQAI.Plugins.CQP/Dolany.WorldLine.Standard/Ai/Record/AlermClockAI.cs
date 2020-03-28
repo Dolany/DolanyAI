@@ -212,21 +212,21 @@ namespace Dolany.WorldLine.Standard.Ai.Record
             }
         }
 
-        private static string QueryClock(MsgInformationEx MsgDTO)
+        private static string QueryClock(MsgInformation MsgDTO)
         {
             var allClocks = MongoService<AlermClock>.Get(q => q.GroupNumber == MsgDTO.FromGroup &&
                                                               q.Creator == MsgDTO.FromQQ);
             if (allClocks.IsNullOrEmpty())
             {
-                return $@"{CodeApi.Code_At(MsgDTO.FromQQ)} 你还没有设定闹钟呢！";
+                return $"{CodeApi.Code_At(MsgDTO.FromQQ)} 你还没有设定闹钟呢！";
             }
 
-            var Msg = $@"{CodeApi.Code_At(MsgDTO.FromQQ)} 你当前共设定了{allClocks.Count()}个闹钟";
+            var Msg = $"{CodeApi.Code_At(MsgDTO.FromQQ)} 你当前共设定了{allClocks.Count}个闹钟";
             var builder = new StringBuilder();
             builder.Append(Msg);
             foreach (var clock in allClocks)
             {
-                builder.Append('\r' + $@"{clock.AimHourt:00}:{clock.AimMinute:00} {clock.Content}");
+                builder.Append("\r\n" + $@"{clock.AimHourt:00}:{clock.AimMinute:00} {clock.Content}");
             }
             Msg = builder.ToString();
 

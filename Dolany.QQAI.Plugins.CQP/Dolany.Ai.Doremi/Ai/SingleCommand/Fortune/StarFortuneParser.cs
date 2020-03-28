@@ -29,7 +29,7 @@ namespace Dolany.Ai.Doremi.Ai.SingleCommand.Fortune
             }
 
             var msg = node.InnerText;
-            var srcs = imgs.Select(i => CodeApi.Code_Image(i.Attributes.First(a => a.Name == "src").Value) + "\r").ToList();
+            var srcs = imgs.Select(i => CodeApi.Code_Image(i.Attributes.First(a => a.Name == "src").Value) + "\r\n").ToList();
             for (var i = 0; i < Dims.Length; i++)
             {
                 var index = msg.IndexOf(Dims[i], StringComparison.Ordinal);

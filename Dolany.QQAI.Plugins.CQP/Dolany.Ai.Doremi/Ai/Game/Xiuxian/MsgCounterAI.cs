@@ -118,9 +118,9 @@ namespace Dolany.Ai.Doremi.Ai.Game.Xiuxian
             for (i = 0; i < DujieQACount; i++)
             {
                 var randAs = qas[i].RandAs;
-                var msg = $"题目（{i + 1}/{DujieQACount}）：\r" +
-                          $"{qas[i].Q}\r" +
-                          $"{string.Join("\r", randAs.Select((p, idx) => $"{idx + 1}:{p}"))}";
+                var msg = $"题目（{i + 1}/{DujieQACount}）：\r\n" +
+                          $"{qas[i].Q}\r\n" +
+                          $"{string.Join("\r\n", randAs.Select((p, idx) => $"{idx + 1}:{p}"))}";
                 var i1 = i;
                 var info = WaiterSvc.WaitForInformation(MsgDTO, msg, information => information.FromGroup == MsgDTO.FromGroup &&
                                                                                           information.FromQQ == MsgDTO.FromQQ &&

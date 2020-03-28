@@ -16,6 +16,7 @@ namespace Dolany.Ai.Core.Ai
         public override AIPriority PriorityLevel { get;} = AIPriority.Monitor;
 
         public BindAiSvc BindAiSvc { get; set; }
+        public RestrictorSvc RestrictorSvc { get; set; }
 
         public override bool OnMsgReceived(MsgInformationEx MsgDTO)
         {
@@ -134,20 +135,20 @@ namespace Dolany.Ai.Core.Ai
             }
 
             var setting = GroupSettingSvc[MsgDTO.FromGroup];
-            var expiryDate = $"\r有效期至：{setting.ExpiryTime}";
+            var expiryDate = $"\r\n有效期至：{setting.ExpiryTime}";
             if (setting.ExpiryTime == null || setting.ExpiryTime < DateTime.Now)
             {
                 expiryDate += "(已过期)";
             }
 
-            var pState = string.Join("\r", setting.BindAis.Select(p =>
+            var pState = string.Join("\r\n", setting.BindAis.Select(p =>
             {
                 var msg = $"{p}:";
                 if (!BindAiSvc[p].IsConnected)
                 {
                     msg += "失联";
                 }
-                else if (RecentCommandCache.IsTooFreq(p))
+                else if (RestrictorSvc.IsTooFreq(p))
                 {
                     msg += "过热保护";
                 }
@@ -162,7 +163,7 @@ namespace Dolany.Ai.Core.Ai
 
                 return msg;
             }));
-            return $"\r电源状态：\r{pState}{expiryDate}\r";
+            return $"\r\n电源状态：\r\n{pState}{expiryDate}\r\n";
         }
 
         [EnterCommand(ID = "MonitorAI_ExceptionMonitor",
@@ -203,7 +204,7 @@ namespace Dolany.Ai.Core.Ai
             {
                 case "Group":
                     var groupList = AIAnalyzer.AnalyzeGroup();
-                    MsgSender.PushMsg(MsgDTO, string.Join("\r", groupList.Select(g =>
+                    MsgSender.PushMsg(MsgDTO, string.Join("\r\n", groupList.Select(g =>
                     {
                         var groupNum = g.GroupNum == 0 ? "私聊" : Global.AllGroupsDic[g.GroupNum];
                         return $"{groupNum}:{g.CommandCount}";
@@ -211,15 +212,15 @@ namespace Dolany.Ai.Core.Ai
                     return true;
                 case "Ai":
                     var aiList = AIAnalyzer.AnalyzeAI();
-                    MsgSender.PushMsg(MsgDTO, string.Join("\r", aiList.Select(a => $"{a.AIName}:{a.CommandCount}")));
+                    MsgSender.PushMsg(MsgDTO, string.Join("\r\n", aiList.Select(a => $"{a.AIName}:{a.CommandCount}")));
                     return true;
                 case "Time":
                     var timeList = AIAnalyzer.AnalyzeTime();
-                    MsgSender.PushMsg(MsgDTO, string.Join("\r", timeList.Select(t => $"{t.Hour}:{t.CommandCount}")));
+                    MsgSender.PushMsg(MsgDTO, string.Join("\r\n", timeList.Select(t => $"{t.Hour}:{t.CommandCount}")));
                     return true;
                 case "Command":
                     var commandList = AIAnalyzer.AnalyzeCommand();
-                    MsgSender.PushMsg(MsgDTO, string.Join("\r", commandList.Select(c => $"{c.Command}:{c.CommandCount}")));
+                    MsgSender.PushMsg(MsgDTO, string.Join("\r\n", commandList.Select(c => $"{c.Command}:{c.CommandCount}")));
                     return true;
             }
 

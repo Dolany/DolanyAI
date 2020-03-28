@@ -68,7 +68,7 @@ namespace Dolany.WorldLine.Standard.Ai.Game.Pet.Expedition
                 return false;
             }
 
-            var msg = $"请选择远征副本：\r{string.Join("\r", todayExpeditions.Select((exp, idx) => $"{idx + 1}:{exp.ToString(curEndurance)}"))}";
+            var msg = $"请选择远征副本：\r\n{string.Join("\r\n", todayExpeditions.Select((exp, idx) => $"{idx + 1}:{exp.ToString(curEndurance)}"))}";
             var selection = WaiterSvc.WaitForNum(MsgDTO.FromGroup, MsgDTO.FromQQ, msg, i => i > 0 && i <= todayExpeditions.Count, MsgDTO.BindAi, 12, false);
             if (selection < 0)
             {
@@ -152,10 +152,10 @@ namespace Dolany.WorldLine.Standard.Ai.Game.Pet.Expedition
             }
 
             var hotScenes = history.SceneDic.OrderByDescending(p => p.Value).Take(3).ToList();
-            var msg = $"你最热衷的远征地点：{string.Join(",", hotScenes.Select(s => $"{s.Key}*{s.Value}次"))}\r";
-            msg += $"共获得金币：{history.GoldsTotal.CurencyFormat()}\r";
-            msg += $"共获得调味料：{history.FlavoringTotal}个\r";
-            msg += $"共获得物品：{history.ItemBonusCount}个\r";
+            var msg = $"你最热衷的远征地点：{string.Join(",", hotScenes.Select(s => $"{s.Key}*{s.Value}次"))}\r\n";
+            msg += $"共获得金币：{history.GoldsTotal.CurencyFormat()}\r\n";
+            msg += $"共获得调味料：{history.FlavoringTotal}个\r\n";
+            msg += $"共获得物品：{history.ItemBonusCount}个\r\n";
             msg += $"物品总价值：{history.ItemBonusPriceTotal.CurencyFormat()}";
 
             MsgSender.PushMsg(MsgDTO, msg);
@@ -200,7 +200,7 @@ namespace Dolany.WorldLine.Standard.Ai.Game.Pet.Expedition
             cookingRec.Update();
 
             var msg = string.Join(",", flavorings.Select(p => $"{p.Key}×{p.Value}"));
-            MsgSender.PushMsg(MsgDTO, $"分解成功！你获得了：\r{msg}");
+            MsgSender.PushMsg(MsgDTO, $"分解成功！你获得了：\r\n{msg}");
             return true;
         }
     }

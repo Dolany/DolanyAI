@@ -167,7 +167,7 @@ namespace Dolany.Ai.Doremi.Ai.Game.XunYuan
                 if (monster.Name == "逃跑的小偷")
                 {
                     var armer = EscapeArmerSvc.RandArmer();
-                    PushMsg($"已经成功击败了 {monster.Name} !获得了 \r{armer.Name} * 1");
+                    PushMsg($"已经成功击败了 {monster.Name} !获得了 \r\n{armer.Name} * 1");
                     TreasureTotal.AddEscape(armer.Name);
                 }
                 else
@@ -186,7 +186,7 @@ namespace Dolany.Ai.Doremi.Ai.Game.XunYuan
                         TreasureTotal.Golds += monster.DropGolds;
                     }
 
-                    PushMsg($"已经成功击败了 {monster.Name} !获得了 \r{string.Join("\r", bonusDic.Select(p => $"{p.Key} * {p.Value}"))}");
+                    PushMsg($"已经成功击败了 {monster.Name} !获得了 \r\n{string.Join("\r\n", bonusDic.Select(p => $"{p.Key} * {p.Value}"))}");
                 }
             }
             else if(monster.Name == "逃跑的小偷")
@@ -225,14 +225,14 @@ namespace Dolany.Ai.Doremi.Ai.Game.XunYuan
                     return;
                 }
 
-                PushMsg($"获胜者为 {CodeApi.Code_At(winner.QQNum)} !获得以下物品：\r{treasureStr}");
+                PushMsg($"获胜者为 {CodeApi.Code_At(winner.QQNum)} !获得以下物品：\r\n{treasureStr}");
                 TreasureTotal.SaveToPerson(winner.QQNum);
                 return;
             }
 
-            var msg = "恭喜你们获得了胜利！\r";
+            var msg = "恭喜你们获得了胜利！\r\n";
             var treasures = TreasureTotal.Split();
-            msg += $"{CodeApi.Code_At(Gamers[0].QQNum)} 获取了\r{treasures[0]}\r{CodeApi.Code_At(Gamers[1].QQNum)} 获取了\r{treasures[1]}";
+            msg += $"{CodeApi.Code_At(Gamers[0].QQNum)} 获取了\r\n{treasures[0]}\r\n{CodeApi.Code_At(Gamers[1].QQNum)} 获取了\r\n{treasures[1]}";
             PushMsg(msg);
 
             treasures[0].SaveToPerson(Gamers[0].QQNum);

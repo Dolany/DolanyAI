@@ -62,7 +62,7 @@ namespace Dolany.WorldLine.Standard.Ai.Game.Jump300Report.Parser
 
         private void ParseRankInfos(string text)
         {
-            var strs = text.Split(new[] { '\r', '\n' }, StringSplitOptions.RemoveEmptyEntries);
+            var strs = text.Split(new[] { "\r\n", "\n" }, StringSplitOptions.RemoveEmptyEntries);
             foreach (var s in strs)
             {
                 var rankInfo = new JumpServerRankInfo();
@@ -103,7 +103,7 @@ namespace Dolany.WorldLine.Standard.Ai.Game.Jump300Report.Parser
 
         private void ParseMatches(string text)
         {
-            var strs = text.Split(new[] { '\r', '\n' }, StringSplitOptions.RemoveEmptyEntries);
+            var strs = text.Split(new[] { "\r\n", "\n" }, StringSplitOptions.RemoveEmptyEntries);
             var idxes = FindEmptyIdxes(strs);
             foreach (var i in idxes)
             {

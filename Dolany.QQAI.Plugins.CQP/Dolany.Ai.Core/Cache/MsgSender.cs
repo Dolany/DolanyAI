@@ -7,15 +7,18 @@ namespace Dolany.Ai.Core.Cache
 {
     public class MsgSender
     {
+        public static RestrictorSvc RestrictorSvc => AutofacSvc.Resolve<RestrictorSvc>();
+        public static GroupSettingSvc GroupSettingSvc => AutofacSvc.Resolve<GroupSettingSvc>();
+
         public static void PushMsg(MsgCommand msg)
         {
             msg.Time = DateTime.Now;
             var callback =
-                $"[{msg.BindAi}][Command] {(msg.ToGroup == 0 ? "私聊" : AutofacSvc.Resolve<GroupSettingSvc>()[msg.ToGroup].Name)} {msg.ToQQ} {msg.Command} {msg.Msg}";
+                $"[{msg.BindAi}][Command] {(msg.ToGroup == 0 ? "私聊" : GroupSettingSvc[msg.ToGroup].Name)} {msg.ToQQ} {msg.Command} {msg.Msg}";
             Global.MsgPublish(callback);
 
             Global.CommandInfoService.Send(msg, Global.DefaultConfig.CommandQueueName);
-            RecentCommandCache.Cache(msg.BindAi);
+            RestrictorSvc.Cache(msg.BindAi);
         }
 
         public static void PushMsg(MsgInformationEx MsgInfo, string Content, bool isNeedAt = false)

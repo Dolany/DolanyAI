@@ -155,7 +155,7 @@ namespace Dolany.Ai.Doremi.Ai.SingleCommand.GroupManage
             var allModules = AiSvc.OptionalAINames;
 
             var msgs = allModules.Select(m => $"{m}  {(setting.EnabledFunctions.Contains(m) ? "√" : "×")}");
-            var msg = $"{string.Join("\r", msgs)}\r可以使用 开启功能 [功能名] 来开启对应的功能；或使用 关闭功能 [功能名] 来关闭对应的功能";
+            var msg = $"{string.Join("\r\n", msgs)}\r\n可以使用 开启功能 [功能名] 来开启对应的功能；或使用 关闭功能 [功能名] 来关闭对应的功能";
             MsgSender.PushMsg(MsgDTO, msg);
             return true;
         }

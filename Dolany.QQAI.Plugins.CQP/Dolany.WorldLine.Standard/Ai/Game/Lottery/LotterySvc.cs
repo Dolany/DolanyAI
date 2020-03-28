@@ -35,8 +35,8 @@ namespace Dolany.WorldLine.Standard.Ai.Game.Lottery
 
         public override string ToString()
         {
-            return $"【{Name}】\r" +
-                   $"    {Description}\r" +
+            return $"【{Name}】\r\n" +
+                   $"    {Description}\r\n" +
                    $"你获得了 {Bonus.CurencyFormat()}";
         }
     }

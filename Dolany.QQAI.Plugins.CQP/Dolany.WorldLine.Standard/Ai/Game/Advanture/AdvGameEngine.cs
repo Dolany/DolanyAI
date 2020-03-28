@@ -72,7 +72,7 @@ namespace Dolany.WorldLine.Standard.Ai.Game.Advanture
 
         private void ProcessTurn()
         {
-            var msg = $"回合开始！请选择合适的数字！\r{PrintCaves()}";
+            var msg = $"回合开始！请选择合适的数字！\r\n{PrintCaves()}";
             var response = WaiterSvc.WaitForNum(GroupNum, CurPlayer.QQNum, msg, i => i > 0 && i <= CaveList.Count, BindAi);
             if (response < 0)
             {
@@ -87,7 +87,7 @@ namespace Dolany.WorldLine.Standard.Ai.Game.Advanture
 
         private void ProcessCave(ICave cave)
         {
-            var msg = $"你遇到了 {cave.Description} ！\r";
+            var msg = $"你遇到了 {cave.Description} ！\r\n";
             Thread.Sleep(2000);
 
             switch (cave.Type)
@@ -112,7 +112,7 @@ namespace Dolany.WorldLine.Standard.Ai.Game.Advanture
             var msg = "";
             var atk = CurPlayer.GetAtk();
             cave.HP = Math.Max(cave.HP - atk, 0);
-            msg += $"你打出了 {atk} 点伤害，{cave.Name}剩余{cave.HP}生命值\r";
+            msg += $"你打出了 {atk} 点伤害，{cave.Name}剩余{cave.HP}生命值\r\n";
             if (cave.HP > 0)
             {
                 CurPlayer.HP = Math.Max(CurPlayer.HP - cave.Atk, 0);
@@ -140,7 +140,7 @@ namespace Dolany.WorldLine.Standard.Ai.Game.Advanture
             }
 
             Bonus += cave.Golds;
-            msg += $"\r你击碎了宝箱！当前赏金为 {Bonus}金币！赢得对决的人将获得全部赏金！";
+            msg += $"\r\n你击碎了宝箱！当前赏金为 {Bonus}金币！赢得对决的人将获得全部赏金！";
             return msg;
         }
 
@@ -183,7 +183,7 @@ namespace Dolany.WorldLine.Standard.Ai.Game.Advanture
             
             if (Bonus > 0)
             {
-                msg += $"\r获得了全部赏金 {Bonus}金币！";
+                msg += $"\r\n获得了全部赏金 {Bonus}金币！";
                 var osPerson = OSPerson.GetPerson(Winner.QQNum);
                 osPerson.Golds += Bonus;
                 osPerson.Update();
@@ -226,7 +226,7 @@ namespace Dolany.WorldLine.Standard.Ai.Game.Advanture
         {
             var msgList = CaveList.Select((cave, idx) => $"{idx + 1}:{(cave.Visible ? cave.Description : "未知")}").ToList();
 
-            return string.Join("\r", msgList);
+            return string.Join("\r\n", msgList);
         }
     }
 }

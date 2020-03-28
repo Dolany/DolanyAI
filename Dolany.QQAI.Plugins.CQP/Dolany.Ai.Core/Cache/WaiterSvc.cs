@@ -224,7 +224,7 @@ namespace Dolany.Ai.Core.Cache
 
         public int WaitForOptions(long ToGroup, long ToQQ, string preMsg, string[] options, string BindAi)
         {
-            var msg = $"{preMsg}\r{string.Join("\r", options.Select((option, idx) => $"{idx + 1}:{option}"))}";
+            var msg = $"{preMsg}\r\n{string.Join("\r\n", options.Select((option, idx) => $"{idx + 1}:{option}"))}";
             var result = WaitForNum(ToGroup, ToQQ, msg, i => i > 0 && i <= options.Length, BindAi);
             return result < 0 ? result : result - 1;
         }

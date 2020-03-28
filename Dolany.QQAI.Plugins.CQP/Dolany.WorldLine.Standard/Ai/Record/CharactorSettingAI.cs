@@ -107,7 +107,7 @@ namespace Dolany.WorldLine.Standard.Ai.Record
             builder.Append(msg);
             foreach (var c in query)
             {
-                builder.Append('\r' + c.SettingName + ':' + c.Content);
+                builder.Append($"\r\n{c.SettingName}:{c.Content}");
             }
             msg = builder.ToString();
 

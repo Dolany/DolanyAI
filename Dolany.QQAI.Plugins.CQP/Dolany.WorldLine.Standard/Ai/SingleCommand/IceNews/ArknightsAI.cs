@@ -30,7 +30,7 @@ namespace Dolany.WorldLine.Standard.Ai.SingleCommand.IceNews
         {
             var rec = ArknightsMiniStoryRecord.GetLast();
 
-            var msg = $"【No.{rec.No}】\r{CodeApi.Code_Image_Relational(CachePath + rec.Path)}";
+            var msg = $"【No.{rec.No}】\r\n{CodeApi.Code_Image_Relational(CachePath + rec.Path)}";
             MsgSender.PushMsg(MsgDTO, msg);
             return true;
         }
@@ -54,7 +54,7 @@ namespace Dolany.WorldLine.Standard.Ai.SingleCommand.IceNews
                 return false;
             }
 
-            var msg = $"【No.{rec.No}】\r{CodeApi.Code_Image_Relational(CachePath + rec.Path)}";
+            var msg = $"【No.{rec.No}】\r\n{CodeApi.Code_Image_Relational(CachePath + rec.Path)}";
             MsgSender.PushMsg(MsgDTO, msg);
             return true;
         }

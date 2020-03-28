@@ -100,7 +100,7 @@ namespace Dolany.Ai.Core.Common
                     return string.Empty;
                 }
 
-                return $"{ErrorList[index].Time}\r{ErrorList[index].Msg}\r{ErrorList[index].Count}";
+                return $"{ErrorList[index].Time}\r\n{ErrorList[index].Msg}\r\n{ErrorList[index].Count}";
             }
         }
     }

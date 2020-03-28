@@ -18,9 +18,9 @@ namespace Dolany.WorldLine.Standard.AITools
 
     public class CacheCleanerTool : IScheduleTool
     {
-        private readonly int PicCleanFreq = Global.DefaultConfig.PicCleanFreq;
+        private const int PicCleanFreq = 10;
 
-        private readonly int MaxPicCache = Global.DefaultConfig.MaxOriginPicCache;
+        private const int MaxPicCache = 20;
 
         protected override List<ScheduleDoModel> ModelList { get; set; } = new List<ScheduleDoModel>();
         public override bool Enabled { get; set; } = true;

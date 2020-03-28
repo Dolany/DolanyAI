@@ -57,7 +57,7 @@ namespace Dolany.WorldLine.Standard.Ai.Game.SegmentAttach
 
         public override string ToString()
         {
-            return $"【{Name}】\r{CodeApi.Code_Image_Relational(PicPath)}\r{Description}\r需要碎片：{string.Join(Emoji.星星, Segments.Select(s => $"【{s.Name}】"))}";
+            return $"【{Name}】\r\n{CodeApi.Code_Image_Relational(PicPath)}\r\n{Description}\r\n需要碎片：{string.Join(Emoji.星星, Segments.Select(s => $"【{s.Name}】"))}";
         }
     }
 
@@ -71,7 +71,7 @@ namespace Dolany.WorldLine.Standard.Ai.Game.SegmentAttach
 
         public override string ToString()
         {
-            return $"【{Name}】\r{CodeApi.Code_Image_Relational(PicPath)}\r{Description}";
+            return $"【{Name}】\r\n{CodeApi.Code_Image_Relational(PicPath)}\r\n{Description}";
         }
     }
 }

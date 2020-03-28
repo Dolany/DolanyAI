@@ -74,7 +74,7 @@ namespace Dolany.WorldLine.Standard.Ai.Game.Pet.PetAgainst
         private void BeforeTurnStartTrigger()
         {
             var beforeStartBuffs = SelfPet.Buffs.Where(p => p.Trigger == CheckTrigger.TurnStart);
-            var msg = string.Join("\r", beforeStartBuffs.Select(ProcessEffect));
+            var msg = string.Join("\r\n", beforeStartBuffs.Select(ProcessEffect));
             SendMessage(msg);
 
             foreach (var buff in SelfPet.Buffs)
@@ -100,13 +100,13 @@ namespace Dolany.WorldLine.Standard.Ai.Game.Pet.PetAgainst
                 buff.Data.AddSafe("Value", value);
                 buff.Data.AddSafe("Type", type);
             }
-            return string.Join("\r", buffs.Select(ProcessEffect));
+            return string.Join("\r\n", buffs.Select(ProcessEffect));
         }
 
         private void AfterTurnEndTrigger()
         {
             var buffs = SelfPet.Buffs.Where(b => b.Trigger == CheckTrigger.TurnEnd);
-            var msg = string.Join("\r", buffs.Select(ProcessEffect));
+            var msg = string.Join("\r\n", buffs.Select(ProcessEffect));
             SendMessage(msg);
 
             if (SelfPet.HP - AimPet.HP > 25)
@@ -118,7 +118,7 @@ namespace Dolany.WorldLine.Standard.Ai.Game.Pet.PetAgainst
         private bool DoSkillTrigger()
         {
             var buffs = SelfPet.Buffs.Where(p => p.Trigger == CheckTrigger.DoSkill);
-            var msg = string.Join("\r", buffs.Select(ProcessEffect)).Trim();
+            var msg = string.Join("\r\n", buffs.Select(ProcessEffect)).Trim();
             if (string.IsNullOrEmpty(msg))
             {
                 return true;
@@ -172,12 +172,12 @@ namespace Dolany.WorldLine.Standard.Ai.Game.Pet.PetAgainst
         private void BeforeGameStart()
         {
             var msg = $"{SelfPet.Name}(lv.{SelfPet.Level})   VS   {AimPet.Name}(lv.{AimPet.Level})" +
-                      "\r对决即将开始，请双方做好准备！";
+                      "\r\n对决即将开始，请双方做好准备！";
             SendMessage(msg);
 
             JudgeFirst();
             var skillName = SkillLevelUpBonus();
-            msg = $"{SelfPet.Name}获得了先手\r{AimPet.Name}的【{skillName}】获得等级+1";
+            msg = $"{SelfPet.Name}获得了先手\r\n{AimPet.Name}的【{skillName}】获得等级+1";
             SendMessage(msg);
         }
 
@@ -217,7 +217,7 @@ namespace Dolany.WorldLine.Standard.Ai.Game.Pet.PetAgainst
                 return;
             }
 
-            var msg = string.Join('\r', MsgList);
+            var msg = string.Join("\r\n", MsgList);
             Thread.Sleep(2000);
             MsgSender.PushMsg(GroupNum, 0 ,msg, BindAi);
 
@@ -242,7 +242,7 @@ namespace Dolany.WorldLine.Standard.Ai.Game.Pet.PetAgainst
 
         private void ShowResult()
         {
-            var msg = "对决结束！\r";
+            var msg = "对决结束！\r\n";
             if (Winner == null)
             {
                 Winner = SelfPet.HP > AimPet.HP ? SelfPet : AimPet;
@@ -253,7 +253,7 @@ namespace Dolany.WorldLine.Standard.Ai.Game.Pet.PetAgainst
             dailyLimit.Decache();
             dailyLimit.Update();
 
-            msg += $"\r很遗憾，{Loser.Name}输掉了比赛，在12小时内无法捞瓶子！";
+            msg += $"\r\n很遗憾，{Loser.Name}输掉了比赛，在12小时内无法捞瓶子！";
             var buff = new OSPersonBuff
             {
                 QQNum = Loser.QQNum,

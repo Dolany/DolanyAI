@@ -27,7 +27,7 @@ namespace Dolany.WorldLine.Standard.Ai.Game.Pet
             if (lvl > pet.Level)
             {
                 var points = (lvl - pet.Level) * 2;
-                msg += $"\r恭喜{pet.Name}升到了 {lvl} 级！\r" +
+                msg += $"\r\n恭喜{pet.Name}升到了 {lvl} 级！\r\n" +
                        $"{pet.Name}获得了 {points} 点技能点！";
 
                 pet.RemainSkillPoints += points;
@@ -36,7 +36,7 @@ namespace Dolany.WorldLine.Standard.Ai.Game.Pet
 
                 if (!skills.IsNullOrEmpty())
                 {
-                    msg += $"\r恭喜{pet.Name}学会了新技能 {string.Join(",", skills.Select(p => p.Name))}!";
+                    msg += $"\r\n恭喜{pet.Name}学会了新技能 {string.Join(",", skills.Select(p => p.Name))}!";
                     if (pet.Skills == null)
                     {
                         pet.Skills = new Dictionary<string, int>();

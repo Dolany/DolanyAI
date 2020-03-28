@@ -18,7 +18,7 @@ namespace Dolany.WorldLine.Standard.Ai.SingleCommand.PraiseMe
 
         private readonly Dictionary<string, DateTime> LastTimeDic = new Dictionary<string, DateTime>();
 
-        private readonly int PraiseLimit = Global.DefaultConfig.PraiseLimit;
+        private const int PraiseLimit = 10;
 
         [EnterCommand(ID = "PraiseMeAI_PraiseMe",
             Command = "赞我",

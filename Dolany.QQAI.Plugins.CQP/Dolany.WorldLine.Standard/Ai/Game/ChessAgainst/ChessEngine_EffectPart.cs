@@ -47,7 +47,7 @@ namespace Dolany.WorldLine.Standard.Ai.Game.ChessAgainst
             var (key, _) = nomalHonors.SelectMany(p => p.Value.Items).RandElement();
             var record = ItemCollectionRecord.Get(SelfQQNum);
             var msg = record.ItemIncome(key);
-            MsgSender.PushMsg(GroupNum, 0, $"你获得了 {key}！\r{msg}", BindAi);
+            MsgSender.PushMsg(GroupNum, 0, $"你获得了 {key}！\r\n{msg}", BindAi);
         }
 
         [ChessEffect(Name = "烈日",
@@ -156,7 +156,7 @@ namespace Dolany.WorldLine.Standard.Ai.Game.ChessAgainst
             var record = ItemCollectionRecord.Get(SelfQQNum);
             var msg = record.ItemIncome(item.Name);
 
-            MsgSender.PushMsg(GroupNum, 0, $"你获得了：{item.Name}\r{msg}", BindAi);
+            MsgSender.PushMsg(GroupNum, 0, $"你获得了：{item.Name}\r\n{msg}", BindAi);
         }
 
         [ChessEffect(Name = "苍天",
@@ -200,7 +200,7 @@ namespace Dolany.WorldLine.Standard.Ai.Game.ChessAgainst
             TransHelper.SellItemToShop(key, osPerson);
             osPerson.Update();
 
-            MsgSender.PushMsg(GroupNum, 0, $"你贩卖了 {key}\r你当前拥有金币 {osPerson.Golds}", BindAi);
+            MsgSender.PushMsg(GroupNum, 0, $"你贩卖了 {key}\r\n你当前拥有金币 {osPerson.Golds}", BindAi);
         }
 
         [ChessEffect(Name = "花昙",

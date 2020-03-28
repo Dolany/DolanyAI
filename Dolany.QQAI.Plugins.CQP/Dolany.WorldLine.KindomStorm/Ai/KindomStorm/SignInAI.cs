@@ -19,7 +19,7 @@ namespace Dolany.WorldLine.KindomStorm.Ai.KindomStorm
 
             var indexNo = SignInGroupInfo.GetAndUpdate(MsgDTO.FromGroup);
 
-            var msg = $"签到成功！你已连续签到 {sign.SuccessiveDays}天，获得 {goldsGen.CurencyFormat()}！\r本群签到排名：【No.{indexNo}】";
+            var msg = $"签到成功！你已连续签到 {sign.SuccessiveDays}天，获得 {goldsGen.CurencyFormat()}！\r\n本群签到排名：【No.{indexNo}】";
             MsgSender.PushMsg(MsgDTO, msg, true);
         }
     }

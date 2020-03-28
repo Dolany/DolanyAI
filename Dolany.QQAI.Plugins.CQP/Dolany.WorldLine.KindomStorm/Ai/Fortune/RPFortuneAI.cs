@@ -50,7 +50,7 @@ namespace Dolany.WorldLine.KindomStorm.Ai.Fortune
 
         private static void ShowRandFortune(MsgInformationEx MsgDTO, RandomFortuneCache rf)
         {
-            var msg = "你今天的运势是：" + rf.FortuneValue + "%\r";
+            var msg = "你今天的运势是：" + rf.FortuneValue + "%\r\n";
 
             var builder = new StringBuilder();
             builder.Append(msg);

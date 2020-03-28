@@ -20,8 +20,8 @@ namespace Dolany.WorldLine.Standard.Ai.SingleCommand.Dice
 
         public override bool NeedManualOpeon { get; } = true;
 
-        private readonly int DiceCountMaxLimit = Global.DefaultConfig.DiceCountMaxLimit;
-        private readonly int DiceSizeMaxLimit = Global.DefaultConfig.DiceSizeMaxLimit;
+        private const int DiceCountMaxLimit = 200;
+        private const int DiceSizeMaxLimit = 2000;
 
         public override bool OnMsgReceived(MsgInformationEx MsgDTO)
         {

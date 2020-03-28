@@ -35,10 +35,10 @@ namespace Dolany.WorldLine.Standard.Ai.SingleCommand.Fortune
             var data = JsonConvert.DeserializeObject<StarFortuneResponseModel>(responseStr).result.data["今日"];
 
 
-            var msg = $"【{star}】\r";
-            msg += $"{data.comment.name}:{data.comment.value}\r";
-            msg += $"{string.Join("，", data.new_list.Select(p => $"{p.name}:{p.value}"))}\r";
-            msg += $"{data.transit.name}:{data.transit.value}\r";
+            var msg = $"【{star}】\r\n";
+            msg += $"{data.comment.name}:{data.comment.value}\r\n";
+            msg += $"{string.Join("，", data.new_list.Select(p => $"{p.name}:{p.value}"))}\r\n";
+            msg += $"{data.transit.name}:{data.transit.value}\r\n";
             msg += $"{data.new_content}";
 
             MsgSender.PushMsg(MsgDTO, msg, true);

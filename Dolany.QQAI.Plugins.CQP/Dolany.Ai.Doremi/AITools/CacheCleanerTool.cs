@@ -17,9 +17,9 @@ namespace Dolany.Ai.Doremi.AITools
 
     public class CacheCleanerTool : IScheduleTool
     {
-        private readonly int PicCleanFreq = Configger<AIConfigBase>.Instance.AIConfig.PicCleanFreq;
+        private const int PicCleanFreq = 10;
 
-        private readonly int MaxPicCache = Configger<AIConfigBase>.Instance.AIConfig.MaxOriginPicCache;
+        private const int MaxPicCache = 20;
 
         protected override List<ScheduleDoModel> ModelList { get; set; } = new List<ScheduleDoModel>();
 

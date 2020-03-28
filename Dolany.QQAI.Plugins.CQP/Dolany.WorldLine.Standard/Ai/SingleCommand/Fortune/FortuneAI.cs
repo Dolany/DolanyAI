@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Text;
-using System.Threading.Tasks;
 using Dolany.Ai.Common;
 using Dolany.Ai.Common.Models;
 using Dolany.Ai.Core.Base;
@@ -107,19 +106,19 @@ namespace Dolany.WorldLine.Standard.Ai.SingleCommand.Fortune
             {
                 rf.FortuneValue += rf.BlessValue;
                 rf.FortuneValue = rf.FortuneValue > 100 ? 100 : rf.FortuneValue;
-                msg += $"恭喜你受到了 {rf.BlessName} 的祝福\r";
-                msg += $"你今天的运势是：{rf.FortuneValue}%({rf.BlessValue}↑)\r";
+                msg += $"恭喜你受到了 {rf.BlessName} 的祝福\r\n";
+                msg += $"你今天的运势是：{rf.FortuneValue}%({rf.BlessValue}↑)\r\n";
             }
             else if (rf.BlessValue < 0)
             {
                 rf.FortuneValue += rf.BlessValue;
                 rf.FortuneValue = rf.FortuneValue < 0 ? 0 : rf.FortuneValue;
-                msg += $"哎呀呀，你受到了 {rf.BlessName} 的诅咒\r";
-                msg += $"你今天的运势是：{rf.FortuneValue}%({Math.Abs(rf.BlessValue)}↓)\r";
+                msg += $"哎呀呀，你受到了 {rf.BlessName} 的诅咒\r\n";
+                msg += $"你今天的运势是：{rf.FortuneValue}%({Math.Abs(rf.BlessValue)}↓)\r\n";
             }
             else
             {
-                msg += "你今天的运势是：" + rf.FortuneValue + "%\r";
+                msg += "你今天的运势是：" + rf.FortuneValue + "%\r\n";
             }
 
             var builder = new StringBuilder();
@@ -172,8 +171,8 @@ namespace Dolany.WorldLine.Standard.Ai.SingleCommand.Fortune
             }
 
             var ptr = data.IsPos ? "正位" : "逆位";
-            var msg = CodeApi.Code_Image_Relational($"{TarotServerPath}{data.SerialName}/{data.CardName}.jpg") + '\r';
-            msg += $"牌名：{ptr}{data.CardName}\r";
+            var msg = $"{CodeApi.Code_Image_Relational($"{TarotServerPath}{data.SerialName}/{data.CardName}.jpg")}\r\n";
+            msg += $"牌名：{ptr}{data.CardName}\r\n";
             msg += $"{ptr}解释：";
             var model = ModelList.First(p => p.Name == data.CardName);
             msg += data.IsPos ? model.正位 : model.逆位;

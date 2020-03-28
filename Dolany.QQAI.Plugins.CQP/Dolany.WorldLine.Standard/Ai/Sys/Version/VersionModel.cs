@@ -15,8 +15,8 @@ namespace Dolany.WorldLine.Standard.Ai.Sys.Version
 
         public override string ToString()
         {
-            var newListMsg = string.Join("\r", WhatsNewList.Select((n, idx) => $"{idx + 1}.{n}"));
-            var msg = $"版本号：{VersionNum}\r发布日期：{PublishDate}\r发布内容：\r{newListMsg}";
+            var newListMsg = string.Join("\r\n", WhatsNewList.Select((n, idx) => $"{idx + 1}.{n}"));
+            var msg = $"版本号：{VersionNum}\r\n发布日期：{PublishDate}\r\n发布内容：\r\n{newListMsg}";
             return msg;
         }
     }

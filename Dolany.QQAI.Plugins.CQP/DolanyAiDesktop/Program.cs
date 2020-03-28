@@ -42,7 +42,7 @@ namespace DolanyAiDesktop
                 CrossWorldAiSvc.AllWorlds = GetWorlds(assemblies);
 
                 Global.MsgPublish = PrintMsg;
-                SFixedSetService.SetMaxCount("PicCache", Global.DefaultConfig.MaxPicCacheCount);
+                SFixedSetService.SetMaxCount("PicCache", 200);
                 WaiterSvc.MsgReceivedCallBack = OnMsgReceived;
                 WaiterSvc.MoneyReceivedCallBack = OnMoneyReceived;
                 WaiterSvc.GroupMemberChangeCallBack = OnGroupMemberChanged;

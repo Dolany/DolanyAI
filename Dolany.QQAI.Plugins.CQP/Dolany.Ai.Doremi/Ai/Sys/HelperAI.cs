@@ -62,11 +62,11 @@ namespace Dolany.Ai.Doremi.Ai.Sys
             builder.Append(helpMsg);
             foreach (var c in commandAttrs)
             {
-                builder.Append('\r' + c.Tag);
+                builder.Append($"\r\n{c.Tag}");
             }
             helpMsg = builder.ToString();
 
-            helpMsg += '\r' + "可以使用 帮助 [标签名] 来查询标签中的具体命令名 或者使用 帮助 [命令名] 来查询具体命令信息。";
+            helpMsg += "\r\n可以使用 帮助 [标签名] 来查询标签中的具体命令名 或者使用 帮助 [命令名] 来查询具体命令信息。";
 
             MsgSender.PushMsg(MsgDTO, helpMsg);
         }
@@ -97,11 +97,11 @@ namespace Dolany.Ai.Doremi.Ai.Sys
                     range.Add("私聊");
                 }
 
-                var helpMsg = $"命令：{command.Command}\r" +
-                              $"格式：{command.Command} {command.Syntax}\r" +
-                              $"描述：{command.Description}\r" +
-                              $"权限：{command.AuthorityLevel.ToString()}\r" +
-                              $"适用范围：{string.Join("，", range)}\r" +
+                var helpMsg = $"命令：{command.Command}\r\n" +
+                              $"格式：{command.Command} {command.Syntax}\r\n" +
+                              $"描述：{command.Description}\r\n" +
+                              $"权限：{command.AuthorityLevel.ToString()}\r\n" +
+                              $"适用范围：{string.Join("，", range)}\r\n" +
                               $"次数限制：{(Global.TestGroups.Contains(MsgDTO.FromGroup) ? command.TestingDailyLimit : command.DailyLimit)}";
 
                 MsgSender.PushMsg(MsgDTO, helpMsg);
@@ -130,16 +130,16 @@ namespace Dolany.Ai.Doremi.Ai.Sys
                 return;
             }
 
-            var helpMsg = @"当前标签下有以下命令：";
+            var helpMsg = "当前标签下有以下命令：";
             var builder = new StringBuilder();
             builder.Append(helpMsg);
             var groups = commands.GroupBy(p => p.ID);
             foreach (var group in groups)
             {
-                builder.Append('\r' + string.Join("/", group.Select(g => g.Command)));
+                builder.Append($"\r\n{string.Join("/", group.Select(g => g.Command))}");
             }
             helpMsg = builder.ToString();
-            helpMsg += '\r' + "可以使用 帮助 [命令名] 来查询具体命令信息。";
+            helpMsg += "\r\n可以使用 帮助 [命令名] 来查询具体命令信息。";
 
             MsgSender.PushMsg(MsgDTO, helpMsg);
         }

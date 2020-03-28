@@ -24,6 +24,7 @@ namespace Dolany.Ai.Core.Base
         public BindAiSvc BindAiSvc { get; set; }
         public DirtyFilterSvc DirtyFilterSvc { get; set; }
         public GroupSettingSvc GroupSettingSvc { get; set; }
+        public RestrictorSvc RestrictorSvc { get; set; }
 
         public T AIInstance<T>() where T : AIBase
         {
@@ -103,6 +104,18 @@ namespace Dolany.Ai.Core.Base
                 }
             }
 
+            var msgEx = ConvertToEx(MsgDTO);
+
+            if (!DirtyFilterSvc.Filter(msgEx))
+            {
+                return;
+            }
+
+            MsgCallBack(msgEx);
+        }
+
+        private MsgInformationEx ConvertToEx(MsgInformation MsgDTO)
+        {
             var msgEx = new MsgInformationEx
             {
                 Id = MsgDTO.Id,
@@ -124,7 +137,7 @@ namespace Dolany.Ai.Core.Base
             msgEx.Msg = msg;
             msgEx.Type = msgEx.FromGroup == 0 ? MsgType.Private : MsgType.Group;
 
-            MsgCallBack(msgEx);
+            return msgEx;
         }
 
         public void OnMoneyReceived(ChargeModel model)
@@ -148,35 +161,20 @@ namespace Dolany.Ai.Core.Base
             {
                 try
                 {
-                    if (!DirtyFilterSvc.Filter(MsgDTO))
+                    var bindAi = AllocateBindAi(MsgDTO);
+                    IEnumerable<AIBase> groups;
+                    if (string.IsNullOrEmpty(bindAi))
                     {
-                        return;
+                        groups = AIGroup.Where(p => (int) p.PriorityLevel >= (int) AIPriority.System);
+                    }
+                    else
+                    {
+                        MsgDTO.BindAi = bindAi;
+                        groups = AIGroup;
                     }
 
-                    var availableBindAis = new List<BindAiModel>();
-                    if (MsgDTO.Type == MsgType.Group && GroupSettingSvc[MsgDTO.FromGroup] != null)
+                    foreach (var ai in groups)
                     {
-                        availableBindAis = GroupSettingSvc[MsgDTO.FromGroup].BindAis.Where(p => !RecentCommandCache.IsTooFreq(p))
-                            .Select(p => BindAiSvc[p]).ToList();
-                    }
-                    else if(!RecentCommandCache.IsTooFreq(MsgDTO.BindAi))
-                    {
-                        availableBindAis = new List<BindAiModel>(){BindAiSvc[MsgDTO.BindAi]};
-                    }
-
-                    availableBindAis = availableBindAis.Where(p => p.IsConnected).ToList();
-                    foreach (var ai in AIGroup)
-                    {
-                        var tempList = availableBindAis;
-                        if (tempList.Any())
-                        {
-                            MsgDTO.BindAi = tempList.OrderBy(p => RecentCommandCache.GetPressure(p.Name)).First().Name;
-                        }
-                        else if((int)ai.PriorityLevel < (int)AIPriority.System)
-                        {
-                            break;
-                        }
-
                         if (ai.OnMsgReceived(MsgDTO))
                         {
                             break;
@@ -188,6 +186,23 @@ namespace Dolany.Ai.Core.Base
                     Logger.Log(ex);
                 }
             });
+        }
+
+        private string AllocateBindAi(MsgInformationEx MsgDTO)
+        {
+            var availableBindAis = new List<BindAiModel>();
+            if (MsgDTO.Type == MsgType.Group && GroupSettingSvc[MsgDTO.FromGroup] != null)
+            {
+                availableBindAis = GroupSettingSvc[MsgDTO.FromGroup].BindAis.Where(p => !RestrictorSvc.IsTooFreq(p))
+                    .Select(p => BindAiSvc[p]).ToList();
+            }
+            else if(!RestrictorSvc.IsTooFreq(MsgDTO.BindAi))
+            {
+                availableBindAis = new List<BindAiModel>(){BindAiSvc[MsgDTO.BindAi]};
+            }
+
+            availableBindAis = availableBindAis.Where(p => p.IsConnected).ToList();
+            return availableBindAis.Any() ? availableBindAis.OrderBy(p => RestrictorSvc.GetPressure(p.Name)).First().Name : string.Empty;
         }
 
         private static string GenCommand(ref string msg)
@@ -204,7 +219,7 @@ namespace Dolany.Ai.Core.Base
             }
 
             var command = strs[0];
-            msg = msg.Substring(command.Length, msg.Length - command.Length).Trim();
+            msg = msg[command.Length..].Trim();
             return command;
         }
     }

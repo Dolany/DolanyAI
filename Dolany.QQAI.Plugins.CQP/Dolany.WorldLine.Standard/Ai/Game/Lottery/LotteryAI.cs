@@ -57,7 +57,7 @@ namespace Dolany.WorldLine.Standard.Ai.Game.Lottery
             var msg = lottery.ToString();
 
             var golds = OSPerson.GoldConsume(MsgDTO.FromQQ, LotterySvc.LotteryFee - lottery.Bonus);
-            msg += $"\r你当前持有金币：{golds.CurencyFormat()}";
+            msg += $"\r\n你当前持有金币：{golds.CurencyFormat()}";
             MsgSender.PushMsg(MsgDTO, msg, true);
         }
 
@@ -81,13 +81,13 @@ namespace Dolany.WorldLine.Standard.Ai.Game.Lottery
             var items = HonorSvc.CurMonthLimitItems();
             var item = items.RandElement();
 
-            var msg = $"恭喜你抽到了 【{item.Name}】*1\r" +
+            var msg = $"恭喜你抽到了 【{item.Name}】*1\r\n" +
                       $"    {item.Description} ";
             var record = ItemCollectionRecord.Get(MsgDTO.FromQQ);
             var m = record.ItemIncome(item.Name);
             if (!string.IsNullOrEmpty(m))
             {
-                msg += '\r' + m;
+                msg += $"\r\n{m}";
             }
 
             MsgSender.PushMsg(MsgDTO, msg, true);
