@@ -46,7 +46,7 @@ namespace Dolany.WorldLine.Standard.Ai.Game.Lottery
         {
             var LotteryMgr = AutofacSvc.Resolve<LotterySvc>();
             var ordered = LotteryDic.Select(p => new {Model = LotteryMgr[p.Key], Count = p.Value}).OrderByDescending(p => p.Model.Bonus).ToList();
-            var str = string.Join("\r\n", ordered.Select(p => $"{p.Model.Name}*{p.Count}次"));
+            var str = string.Join("\r\n", ordered.Select(p => $"{p.Model.Name}({p.Model.Bonus.CurencyFormat()})*{p.Count}次"));
             str += $"\r\n总计{ordered.Sum(p => p.Count)}次";
             str += $"\r\n总盈亏{ordered.Sum(p => (p.Model.Bonus - LotterySvc.LotteryFee) * p.Count).CurencyFormat()}";
 

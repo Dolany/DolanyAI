@@ -26,14 +26,14 @@ namespace Dolany.Ai.Core.Ai
         public RestrictorSvc RestrictorSvc { get; set; }
         public CrossWorldAiSvc CrossWorldAiSvc { get; set; }
 
-        [EnterCommand(ID = "SuperAdminAI_FishingBonus",
+        [EnterCommand(ID = "SuperAdminAI_FunctionBonus",
             Command = "功能奖励",
             Description = "奖励某个人某个功能若个使用次数（当日有效）",
             SyntaxHint = "[命令名] [@QQ号] [奖励个数]",
             Tag = CmdTagEnum.GM奖励,
             SyntaxChecker = "Word At Long",
             AuthorityLevel = AuthorityLevel.开发者)]
-        public bool FishingBonus(MsgInformationEx MsgDTO, object[] param)
+        public bool FunctionBonus(MsgInformationEx MsgDTO, object[] param)
         {
             var command = param[0] as string;
             var qqNum = (long)param[1];
