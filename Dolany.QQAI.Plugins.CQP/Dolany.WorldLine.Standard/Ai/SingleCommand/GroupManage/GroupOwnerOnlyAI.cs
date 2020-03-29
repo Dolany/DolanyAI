@@ -14,7 +14,9 @@ namespace Dolany.WorldLine.Standard.Ai.SingleCommand.GroupManage
     {
         public override string AIName { get; set; } = "群主特权";
 
-        public override AIPriority PriorityLevel { get;} = AIPriority.Normal;
+        public override AIPriority PriorityLevel { get;} = AIPriority.High;
+
+        public override CmdTagEnum DefaultTag { get; } = CmdTagEnum.群管理;
 
         public override string Description { get; set; } = "AI for some power only for group owners.";
 
@@ -22,10 +24,8 @@ namespace Dolany.WorldLine.Standard.Ai.SingleCommand.GroupManage
             Command = "刷新",
             AuthorityLevel = AuthorityLevel.群主,
             Description = "刷新某人某个功能的CD",
-            Syntax = "[@qq号] [命令名]",
-            Tag = CmdTagEnum.群管理,
+            SyntaxHint = "[@qq号] [命令名]",
             SyntaxChecker = "At Word",
-            IsPrivateAvailable = false,
             DailyLimit = 1)]
         public bool RefreshCommand(MsgInformationEx MsgDTO, object[] param)
         {
@@ -50,11 +50,9 @@ namespace Dolany.WorldLine.Standard.Ai.SingleCommand.GroupManage
         [EnterCommand(ID = "GroupOwnerOnlyAI_Dispel",
             Command = "驱散",
             Description = "清除某人身上的所有buff",
-            Syntax = "[@QQ]",
-            Tag = CmdTagEnum.群管理,
+            SyntaxHint = "[@QQ]",
             SyntaxChecker = "At",
-            AuthorityLevel = AuthorityLevel.群主,
-            IsPrivateAvailable = false)]
+            AuthorityLevel = AuthorityLevel.群主)]
         public bool Dispel(MsgInformationEx MsgDTO, object[] param)
         {
             var qqNum = (long) param[0];
@@ -84,11 +82,9 @@ namespace Dolany.WorldLine.Standard.Ai.SingleCommand.GroupManage
         [EnterCommand(ID = "GroupOwnerOnlyAI_DispelOneBuff",
             Command = "驱散",
             Description = "清除某人身上的指定buff",
-            Syntax = "[@QQ] [Buff名称]",
-            Tag = CmdTagEnum.群管理,
+            SyntaxHint = "[@QQ] [Buff名称]",
             SyntaxChecker = "At Word",
-            AuthorityLevel = AuthorityLevel.群主,
-            IsPrivateAvailable = false)]
+            AuthorityLevel = AuthorityLevel.群主)]
         public bool DispelOneBuff(MsgInformationEx MsgDTO, object[] param)
         {
             var qqNum = (long) param[0];
@@ -126,10 +122,8 @@ namespace Dolany.WorldLine.Standard.Ai.SingleCommand.GroupManage
             Command = "移交群主",
             AuthorityLevel = AuthorityLevel.群主,
             Description = "将群主身份移交给指定群员",
-            Syntax = "[@QQ号]",
-            Tag = CmdTagEnum.群管理,
-            SyntaxChecker = "At",
-            IsPrivateAvailable = false)]
+            SyntaxHint = "[@QQ号]",
+            SyntaxChecker = "At")]
         public bool ExchangeOwner(MsgInformationEx MsgDTO, object[] param)
         {
             var aimQQ = (long) param[0];
@@ -154,10 +148,8 @@ namespace Dolany.WorldLine.Standard.Ai.SingleCommand.GroupManage
             Command = "任命管理",
             AuthorityLevel = AuthorityLevel.群主,
             Description = "任命指定的成员为管理员",
-            Syntax = "[@QQ号]",
-            Tag = CmdTagEnum.群管理,
-            SyntaxChecker = "At",
-            IsPrivateAvailable = false)]
+            SyntaxHint = "[@QQ号]",
+            SyntaxChecker = "At")]
         public bool AppointManager(MsgInformationEx MsgDTO, object[] param)
         {
             var aimQQ = (long) param[0];

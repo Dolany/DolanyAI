@@ -13,7 +13,14 @@ namespace Dolany.WorldLine.KindomStorm
             {
                 new CmdTag()
                 {
-                    Tag = CmdTagEnum.超管
+                    Tag = CmdTagEnum.超管,
+                    SubTags = new []
+                    {
+                        new CmdTag()
+                        {
+                            Tag = CmdTagEnum.GM奖励
+                        }, 
+                    }
                 },
                 new CmdTag()
                 {
@@ -30,6 +37,14 @@ namespace Dolany.WorldLine.KindomStorm
                 new CmdTag()
                 {
                     Tag = CmdTagEnum.人品功能
+                },
+                new CmdTag()
+                {
+                    Tag = CmdTagEnum.帮助系统
+                },
+                new CmdTag()
+                {
+                    Tag = CmdTagEnum.签到功能
                 }
             }
         };

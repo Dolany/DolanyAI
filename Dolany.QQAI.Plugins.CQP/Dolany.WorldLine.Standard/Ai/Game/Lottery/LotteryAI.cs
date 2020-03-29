@@ -13,18 +13,14 @@ namespace Dolany.WorldLine.Standard.Ai.Game.Lottery
 
         public override string Description { get; set; } = "AI for draw a lottery.";
 
-        public override AIPriority PriorityLevel { get;} = AIPriority.Normal;
+        public override CmdTagEnum DefaultTag { get; } = CmdTagEnum.商店功能;
 
         public LotterySvc LotterySvc { get; set; }
         public HonorSvc HonorSvc { get; set; }
 
         [EnterCommand(ID = "LotteryAI_DrawLottery",
             Command = "开箱子",
-            AuthorityLevel = AuthorityLevel.成员,
             Description = "花费100金币开一个箱子",
-            Syntax = "",
-            SyntaxChecker = "Empty",
-            Tag = CmdTagEnum.商店功能,
             IsPrivateAvailable = true,
             DailyLimit = 1,
             TestingDailyLimit = 3)]
@@ -62,11 +58,7 @@ namespace Dolany.WorldLine.Standard.Ai.Game.Lottery
 
         [EnterCommand(ID = "LotteryAI_LimitBonus",
             Command = "抽奖",
-            AuthorityLevel = AuthorityLevel.成员,
             Description = "抽取一件随机当月限定物品",
-            Syntax = "",
-            SyntaxChecker = "Empty",
-            Tag = CmdTagEnum.商店功能,
             IsPrivateAvailable = true)]
         public bool LimitBonus(MsgInformationEx MsgDTO, object[] param)
         {
@@ -99,11 +91,7 @@ namespace Dolany.WorldLine.Standard.Ai.Game.Lottery
 
         [EnterCommand(ID = "LotteryAI_GoldLimitBonus",
             Command = "兑换抽奖机会",
-            AuthorityLevel = AuthorityLevel.成员,
             Description = "用金币兑换抽奖机会",
-            Syntax = "",
-            SyntaxChecker = "Empty",
-            Tag = CmdTagEnum.商店功能,
             IsPrivateAvailable = true,
             DailyLimit = 3,
             TestingDailyLimit = 3)]
@@ -143,11 +131,7 @@ namespace Dolany.WorldLine.Standard.Ai.Game.Lottery
 
         [EnterCommand(ID = "LotteryAI_LotteryAnalyzeToday",
             Command = "今日开箱统计",
-            AuthorityLevel = AuthorityLevel.成员,
             Description = "获取今日开箱统计情况",
-            Syntax = "",
-            SyntaxChecker = "Empty",
-            Tag = CmdTagEnum.商店功能,
             IsPrivateAvailable = true)]
         public bool LotteryAnalyzeToday(MsgInformationEx MsgDTO, object[] param)
         {
@@ -159,11 +143,7 @@ namespace Dolany.WorldLine.Standard.Ai.Game.Lottery
 
         [EnterCommand(ID = "LotteryAI_LotteryAnalyzeYesterday",
             Command = "昨日开箱统计",
-            AuthorityLevel = AuthorityLevel.成员,
             Description = "获取昨日开箱统计情况",
-            Syntax = "",
-            SyntaxChecker = "Empty",
-            Tag = CmdTagEnum.商店功能,
             IsPrivateAvailable = true)]
         public bool LotteryAnalyzeYesterday(MsgInformationEx MsgDTO, object[] param)
         {
@@ -175,11 +155,7 @@ namespace Dolany.WorldLine.Standard.Ai.Game.Lottery
 
         [EnterCommand(ID = "LotteryAI_MyLotteryRecord",
             Command = "我的开箱记录",
-            AuthorityLevel = AuthorityLevel.成员,
             Description = "获取自己的开箱统计",
-            Syntax = "",
-            SyntaxChecker = "Empty",
-            Tag = CmdTagEnum.商店功能,
             IsPrivateAvailable = true)]
         public bool MyLotteryRecord(MsgInformationEx MsgDTO, object[] param)
         {

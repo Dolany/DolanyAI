@@ -14,16 +14,14 @@ namespace Dolany.WorldLine.Standard.Ai.Game.Gift
 
         public override string Description { get; set; } = "AI for Gifts.";
 
-        public override AIPriority PriorityLevel { get;} = AIPriority.Normal;
+        public override CmdTagEnum DefaultTag { get; } = CmdTagEnum.礼物功能;
 
         public GiftSvc GiftSvc { get; set; }
 
         [EnterCommand(ID = "GiftAI_MakeGift",
             Command = "兑换礼物",
-            AuthorityLevel = AuthorityLevel.成员,
             Description = "兑换指定的礼物",
-            Syntax = "[礼物名]",
-            Tag = CmdTagEnum.礼物功能,
+            SyntaxHint = "[礼物名]",
             SyntaxChecker = "Word",
             IsPrivateAvailable = true,
             DailyLimit = 3,
@@ -73,11 +71,7 @@ namespace Dolany.WorldLine.Standard.Ai.Game.Gift
 
         [EnterCommand(ID = "GiftAI_MyGifts",
             Command = "我的礼物",
-            AuthorityLevel = AuthorityLevel.成员,
             Description = "查看自己拥有的礼物",
-            Syntax = "",
-            Tag = CmdTagEnum.礼物功能,
-            SyntaxChecker = "Empty",
             IsPrivateAvailable = true)]
         public bool MyGifts(MsgInformationEx MsgDTO, object[] param)
         {
@@ -96,11 +90,7 @@ namespace Dolany.WorldLine.Standard.Ai.Game.Gift
 
         [EnterCommand(ID = "GiftAI_GiftShop",
             Command = "礼物商店",
-            AuthorityLevel = AuthorityLevel.成员,
             Description = "浏览礼物商店，查看今日可兑换的礼物",
-            Syntax = "",
-            Tag = CmdTagEnum.礼物功能,
-            SyntaxChecker = "Empty",
             IsPrivateAvailable = true)]
         public bool GiftShop(MsgInformationEx MsgDTO, object[] param)
         {
@@ -115,10 +105,8 @@ namespace Dolany.WorldLine.Standard.Ai.Game.Gift
 
         [EnterCommand(ID = "GiftAI_ViewGift",
             Command = "查看礼物",
-            AuthorityLevel = AuthorityLevel.成员,
             Description = "查看礼物的详细信息",
-            Syntax = "[礼物名]",
-            Tag = CmdTagEnum.礼物功能,
+            SyntaxHint = "[礼物名]",
             SyntaxChecker = "Word",
             IsPrivateAvailable = true)]
         public bool ViewGift(MsgInformationEx MsgDTO, object[] param)
@@ -145,10 +133,8 @@ namespace Dolany.WorldLine.Standard.Ai.Game.Gift
 
         [EnterCommand(ID = "GiftAI_ViewRelationship",
             Command = "查看羁绊",
-            AuthorityLevel = AuthorityLevel.成员,
             Description = "查看和指定成员的羁绊值",
-            Syntax = "[@QQ号]",
-            Tag = CmdTagEnum.礼物功能,
+            SyntaxHint = "[@QQ号]",
             SyntaxChecker = "At",
             IsPrivateAvailable = false)]
         public bool ViewRelationship(MsgInformationEx MsgDTO, object[] param)
@@ -168,12 +154,9 @@ namespace Dolany.WorldLine.Standard.Ai.Game.Gift
 
         [EnterCommand(ID = "GiftAI_PresentGift",
             Command = "赠送礼物",
-            AuthorityLevel = AuthorityLevel.成员,
             Description = "赠送某个成员一个礼物",
-            Syntax = "[@QQ号] [礼物名]",
-            Tag = CmdTagEnum.礼物功能,
+            SyntaxHint = "[@QQ号] [礼物名]",
             SyntaxChecker = "At Word",
-            IsPrivateAvailable = false,
             DailyLimit = 3,
             TestingDailyLimit = 3)]
         public bool PresentGift(MsgInformationEx MsgDTO, object[] param)

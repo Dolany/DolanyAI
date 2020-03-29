@@ -10,15 +10,11 @@ namespace Dolany.WorldLine.KindomStorm.Ai.KindomStorm
     {
         public override string AIName { get; set; } = "王国风云";
         public override string Description { get; set; }
+        public override CmdTagEnum DefaultTag { get; } = CmdTagEnum.王国风云;
 
         [EnterCommand(ID = "KindomStormAI_MyCastle",
             Command = "我的城堡",
-            Description = "查看自己的城堡的情况",
-            Syntax = "",
-            Tag = CmdTagEnum.王国风云,
-            SyntaxChecker = "Empty",
-            AuthorityLevel = AuthorityLevel.成员,
-            IsPrivateAvailable = false)]
+            Description = "查看自己的城堡的情况")]
         public bool MyCastle(MsgInformationEx MsgDTO, object[] param)
         {
             var castle = KindomCastle.Get(MsgDTO.FromGroup, MsgDTO.FromQQ);
@@ -35,11 +31,8 @@ namespace Dolany.WorldLine.KindomStorm.Ai.KindomStorm
         [EnterCommand(ID = "KindomStormAI_RenameCastle",
             Command = "重命名城堡",
             Description = "重命名自己的城堡",
-            Syntax = "[城堡名]",
-            Tag = CmdTagEnum.王国风云,
-            SyntaxChecker = "Word",
-            AuthorityLevel = AuthorityLevel.成员,
-            IsPrivateAvailable = false)]
+            SyntaxHint = "[城堡名]",
+            SyntaxChecker = "Word")]
         public bool RenameCastle(MsgInformationEx MsgDTO, object[] param)
         {
             var name = param[0] as string;

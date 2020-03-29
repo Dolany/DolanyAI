@@ -19,7 +19,7 @@ namespace Dolany.WorldLine.Standard.Ai.SingleCommand.Fortune
 
         public override string Description { get; set; } = "AI for Fortune.";
 
-        public override AIPriority PriorityLevel { get;} = AIPriority.Normal;
+        public override CmdTagEnum DefaultTag { get; } = CmdTagEnum.运势功能;
 
         private const string TarotServerPath = "./images/Tarot/";
         private string[] TarotSerialNames;
@@ -39,11 +39,7 @@ namespace Dolany.WorldLine.Standard.Ai.SingleCommand.Fortune
 
         [EnterCommand(ID = "FortuneAI_RandomFortune",
             Command = ".luck 祈愿运势 。luck",
-            AuthorityLevel = AuthorityLevel.成员,
             Description = "获取每天运势",
-            Syntax = "",
-            Tag = CmdTagEnum.运势功能,
-            SyntaxChecker = "Empty",
             IsPrivateAvailable = true)]
         public bool RandomFortune(MsgInformationEx MsgDTO, object[] param)
         {
@@ -81,10 +77,8 @@ namespace Dolany.WorldLine.Standard.Ai.SingleCommand.Fortune
 
         [EnterCommand(ID = "FortuneAI_StarFortune",
             Command = "星座运势",
-            AuthorityLevel = AuthorityLevel.成员,
             Description = "获取星座运势",
-            Syntax = "[星座名]",
-            Tag = CmdTagEnum.运势功能,
+            SyntaxHint = "[星座名]",
             SyntaxChecker = "Word",
             IsPrivateAvailable = true)]
         public bool StarFortune(MsgInformationEx MsgDTO, object[] param)
@@ -137,11 +131,7 @@ namespace Dolany.WorldLine.Standard.Ai.SingleCommand.Fortune
 
         [EnterCommand(ID = "FortuneAI_TarotFortune",
             Command = ".zhan 塔罗牌占卜 。zhan",
-            AuthorityLevel = AuthorityLevel.成员,
             Description = "获取每日塔罗牌占卜",
-            Syntax = "",
-            Tag = CmdTagEnum.运势功能,
-            SyntaxChecker = "Empty",
             IsPrivateAvailable = true)]
         public bool TarotFortune(MsgInformationEx MsgDTO, object[] param)
         {
@@ -195,10 +185,8 @@ namespace Dolany.WorldLine.Standard.Ai.SingleCommand.Fortune
             Command = "圣光祝福",
             AuthorityLevel = AuthorityLevel.群主,
             Description = "祝福一个成员，让其随机运势增加80%（最高100%），当日有效",
-            Syntax = "[@qq号码]",
-            Tag = CmdTagEnum.运势功能,
+            SyntaxHint = "[@qq号码]",
             SyntaxChecker = "At",
-            IsPrivateAvailable = false,
             DailyLimit = 5)]
         public bool HolyLight(MsgInformationEx MsgDTO, object[] param)
         {
@@ -213,10 +201,8 @@ namespace Dolany.WorldLine.Standard.Ai.SingleCommand.Fortune
             Command = "创世神祝福",
             AuthorityLevel = AuthorityLevel.群主,
             Description = "祝福一个成员，让其随机运势增加100%，当日有效",
-            Syntax = "[@qq号码]",
-            Tag = CmdTagEnum.运势功能,
+            SyntaxHint = "[@qq号码]",
             SyntaxChecker = "At",
-            IsPrivateAvailable = false,
             DailyLimit = 3)]
         public bool CreatorBless(MsgInformationEx MsgDTO, object[] param)
         {
@@ -261,10 +247,8 @@ namespace Dolany.WorldLine.Standard.Ai.SingleCommand.Fortune
             Command = "暗夜诅咒",
             AuthorityLevel = AuthorityLevel.群主,
             Description = "诅咒一个成员，让其随机运势减少若干点（最低0%），当日有效",
-            Syntax = "[@qq号码]",
-            Tag = CmdTagEnum.运势功能,
+            SyntaxHint = "[@qq号码]",
             SyntaxChecker = "At",
-            IsPrivateAvailable = false,
             DailyLimit = 3)]
         public bool Darkness(MsgInformationEx MsgDTO, object[] param)
         {

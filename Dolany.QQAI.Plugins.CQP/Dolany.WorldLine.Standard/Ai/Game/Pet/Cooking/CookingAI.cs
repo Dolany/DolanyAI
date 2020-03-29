@@ -12,7 +12,7 @@ namespace Dolany.WorldLine.Standard.Ai.Game.Pet.Cooking
     {
         public override string AIName { get; set; } = "烹饪";
         public override string Description { get; set; } = "Ai for cooking.";
-        public override AIPriority PriorityLevel { get;} = AIPriority.Normal;
+        public override CmdTagEnum DefaultTag { get; } = CmdTagEnum.烹饪功能;
 
         public CookingDietSvc CookingDietSvc { get; set; }
         public CookingLevelSvc CookingLevelSvc { get; set; }
@@ -20,10 +20,8 @@ namespace Dolany.WorldLine.Standard.Ai.Game.Pet.Cooking
 
         [EnterCommand(ID = "CookingAI_Cook",
             Command = "烹饪 烹饪菜肴 制作菜肴",
-            AuthorityLevel = AuthorityLevel.成员,
             Description = "开始烹饪一道指定的菜肴",
-            Syntax = "[菜品名]",
-            Tag = CmdTagEnum.烹饪功能,
+            SyntaxHint = "[菜品名]",
             SyntaxChecker = "Word",
             IsPrivateAvailable = true)]
         public bool Cook(MsgInformationEx MsgDTO, object[] param)
@@ -88,11 +86,9 @@ namespace Dolany.WorldLine.Standard.Ai.Game.Pet.Cooking
 
         [EnterCommand(ID = "CookingAI_ViewDiet",
             Command = "查看菜肴",
-            AuthorityLevel = AuthorityLevel.成员,
             Description = "查看指定菜肴的详细情况",
-            Syntax = "[菜品名]",
+            SyntaxHint = "[菜品名]",
             SyntaxChecker = "Word",
-            Tag = CmdTagEnum.烹饪功能,
             IsPrivateAvailable = true)]
         public bool ViewDiet(MsgInformationEx MsgDTO, object[] param)
         {
@@ -110,11 +106,7 @@ namespace Dolany.WorldLine.Standard.Ai.Game.Pet.Cooking
 
         [EnterCommand(ID = "CookingAI_MyCookingHistory",
             Command = "我的烹饪记录",
-            AuthorityLevel = AuthorityLevel.成员,
             Description = "查看自己的历史烹饪情况",
-            Syntax = "",
-            SyntaxChecker = "Empty",
-            Tag = CmdTagEnum.烹饪功能,
             IsPrivateAvailable = true)]
         public bool MyCookingHistory(MsgInformationEx MsgDTO, object[] param)
         {
@@ -143,11 +135,9 @@ namespace Dolany.WorldLine.Standard.Ai.Game.Pet.Cooking
 
         [EnterCommand(ID = "CookingAI_ExchangeMenu",
             Command = "兑换菜谱 学习菜谱",
-            AuthorityLevel = AuthorityLevel.成员,
             Description = "兑换指定的菜谱",
-            Syntax = "[菜谱名]",
+            SyntaxHint = "[菜谱名]",
             SyntaxChecker = "Word",
-            Tag = CmdTagEnum.烹饪功能,
             IsPrivateAvailable = true)]
         public bool ExchangeMenu(MsgInformationEx MsgDTO, object[] param)
         {
@@ -187,11 +177,7 @@ namespace Dolany.WorldLine.Standard.Ai.Game.Pet.Cooking
 
         [EnterCommand(ID = "CookingAI_MyKitchen",
             Command = "我的厨房",
-            AuthorityLevel = AuthorityLevel.成员,
             Description = "查看自己的厨房情况",
-            Syntax = "",
-            SyntaxChecker = "Empty",
-            Tag = CmdTagEnum.烹饪功能,
             IsPrivateAvailable = true)]
         public bool MyKitchen(MsgInformationEx MsgDTO, object[] param)
         {
@@ -222,11 +208,7 @@ namespace Dolany.WorldLine.Standard.Ai.Game.Pet.Cooking
 
         [EnterCommand(ID = "CookingAI_DietMenu",
             Command = "菜谱总览",
-            AuthorityLevel = AuthorityLevel.成员,
             Description = "查看所有的菜谱",
-            Syntax = "",
-            SyntaxChecker = "Empty",
-            Tag = CmdTagEnum.烹饪功能,
             IsPrivateAvailable = true)]
         public bool DietMenu(MsgInformationEx MsgDTO, object[] param)
         {

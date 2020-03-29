@@ -15,6 +15,8 @@ namespace Dolany.Ai.Core.Ai
 
         public override AIPriority PriorityLevel { get;} = AIPriority.Monitor;
 
+        public override CmdTagEnum DefaultTag { get; } = CmdTagEnum.系统命令;
+
         public BindAiSvc BindAiSvc { get; set; }
         public RestrictorSvc RestrictorSvc { get; set; }
 
@@ -62,11 +64,7 @@ namespace Dolany.Ai.Core.Ai
         [EnterCommand(ID = "MonitorAI_PowerOff",
             Command = "关机 PowerOff",
             Description = "让机器人休眠",
-            Syntax = "",
-            Tag = CmdTagEnum.系统命令,
-            SyntaxChecker = "Empty",
-            AuthorityLevel = AuthorityLevel.管理员,
-            IsPrivateAvailable = false)]
+            AuthorityLevel = AuthorityLevel.管理员)]
         public bool PowerOff(MsgInformationEx MsgDTO, object[] param)
         {
             var groupInfo = GroupSettingSvc[MsgDTO.FromGroup];
@@ -85,11 +83,7 @@ namespace Dolany.Ai.Core.Ai
         [EnterCommand(ID = "MonitorAI_PowerOn",
             Command = "开机 PowerOn",
             Description = "唤醒机器人",
-            Syntax = "",
-            Tag = CmdTagEnum.系统命令,
-            SyntaxChecker = "Empty",
-            AuthorityLevel = AuthorityLevel.管理员,
-            IsPrivateAvailable = false)]
+            AuthorityLevel = AuthorityLevel.管理员)]
         public bool PowerOn(MsgInformationEx MsgDTO, object[] param)
         {
             var groupInfo = GroupSettingSvc[MsgDTO.FromGroup];
@@ -108,10 +102,6 @@ namespace Dolany.Ai.Core.Ai
         [EnterCommand(ID = "MonitorAI_Status",
             Command = "系统状态 .State",
             Description = "获取机器人当前状态",
-            Syntax = "",
-            Tag = CmdTagEnum.系统命令,
-            SyntaxChecker = "Empty",
-            AuthorityLevel = AuthorityLevel.成员,
             IsPrivateAvailable = true)]
         public bool Status(MsgInformationEx MsgDTO, object[] param)
         {
@@ -169,8 +159,8 @@ namespace Dolany.Ai.Core.Ai
         [EnterCommand(ID = "MonitorAI_ExceptionMonitor",
             Command = "Exception",
             Description = "Get Exception Detail",
-            Syntax = "[Index]",
-            Tag = CmdTagEnum.系统命令,
+            SyntaxHint = "[Index]",
+            Tag = CmdTagEnum.开发者后台,
             SyntaxChecker = "Long",
             AuthorityLevel = AuthorityLevel.开发者,
             IsPrivateAvailable = true)]
@@ -191,8 +181,8 @@ namespace Dolany.Ai.Core.Ai
         [EnterCommand(ID = "MonitorAI_Analyze",
             Command = "Analyze",
             Description = "Analyze Ais",
-            Syntax = "[Aspect]",
-            Tag = CmdTagEnum.系统命令,
+            SyntaxHint = "[Aspect]",
+            Tag = CmdTagEnum.开发者后台,
             SyntaxChecker = "Word",
             AuthorityLevel = AuthorityLevel.开发者,
             IsPrivateAvailable = true)]

@@ -11,17 +11,14 @@ namespace Dolany.Ai.Core.Ai
         public override string AIName { get; set; } = "世界线管理器";
         public override string Description { get; set; } = "Ai for world line management.";
         public override AIPriority PriorityLevel { get;} = AIPriority.Monitor;
+        public override CmdTagEnum DefaultTag { get; } = CmdTagEnum.系统命令;
 
         public CrossWorldAiSvc CrossWorldAiSvc { get; set; }
 
         [EnterCommand(ID = "WorldLineMgrAi_SwitchWorldLine",
             Command = "切换世界线",
             AuthorityLevel = AuthorityLevel.群主,
-            Description = "切换世界线",
-            Syntax = "",
-            SyntaxChecker = "Empty",
-            Tag = CmdTagEnum.系统命令,
-            IsPrivateAvailable = false)]
+            Description = "切换世界线")]
         public bool SwitchWorldLine(MsgInformationEx MsgDTO, object[] param)
         {
             var option = WaiterSvc.WaitForOptions(MsgDTO.FromGroup, MsgDTO.FromQQ, "请选择需要切换的世界线：",

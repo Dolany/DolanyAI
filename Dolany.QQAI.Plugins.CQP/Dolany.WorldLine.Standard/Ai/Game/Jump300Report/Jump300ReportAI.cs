@@ -12,16 +12,14 @@ namespace Dolany.WorldLine.Standard.Ai.Game.Jump300Report
 
         public override string Description { get; set; } = "AI for 300 heros report.";
 
-        public override AIPriority PriorityLevel { get;} = AIPriority.Normal;
+        public override CmdTagEnum DefaultTag { get; } = CmdTagEnum.游戏功能;
 
         public override bool Enable { get; } = false;
 
         [EnterCommand(ID = "Jump300ReportAI_JumpReport",
             Command = "战绩查询",
-            AuthorityLevel = AuthorityLevel.成员,
             Description = "查询300英雄战绩信息",
-            Syntax = " [角色名]",
-            Tag = CmdTagEnum.游戏功能,
+            SyntaxHint = " [角色名]",
             SyntaxChecker = "Word",
             DailyLimit = 2,
             IsPrivateAvailable = true)]

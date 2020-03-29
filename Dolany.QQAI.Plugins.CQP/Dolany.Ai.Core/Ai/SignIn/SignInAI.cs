@@ -17,6 +17,8 @@ namespace Dolany.WorldLine.Standard.Ai.Game.SignIn
 
         public override AIPriority PriorityLevel { get;} = AIPriority.Normal;
 
+        public override CmdTagEnum DefaultTag { get; } = CmdTagEnum.签到功能;
+
         private Dictionary<long, SignInGroupRecord> GroupSignInDic = new Dictionary<long, SignInGroupRecord>();
 
         public override void Initialization()
@@ -29,10 +31,8 @@ namespace Dolany.WorldLine.Standard.Ai.Game.SignIn
             Command = "签到",
             AuthorityLevel = AuthorityLevel.管理员,
             Description = "设置签到内容(不能与系统自带命令重复)",
-            Syntax = "[签到内容]",
-            Tag = CmdTagEnum.商店功能,
-            SyntaxChecker = "Word",
-            IsPrivateAvailable = false)]
+            SyntaxHint = "[签到内容]",
+            SyntaxChecker = "Word")]
         public bool SetSignContent(MsgInformationEx MsgDTO, object[] param)
         {
             var content = param[0] as string;
@@ -107,12 +107,7 @@ namespace Dolany.WorldLine.Standard.Ai.Game.SignIn
 
         [EnterCommand(ID = "SignInAI_TodaySignContent",
             Command = "今日签到内容",
-            AuthorityLevel = AuthorityLevel.成员,
-            Description = "获取今日签到内容",
-            Syntax = "",
-            Tag = CmdTagEnum.商店功能,
-            SyntaxChecker = "Empty",
-            IsPrivateAvailable = false)]
+            Description = "获取今日签到内容")]
         public bool TodaySignContent(MsgInformationEx MsgDTO, object[] param)
         {
             var content = GroupSignInDic.ContainsKey(MsgDTO.FromGroup) ? GroupSignInDic[MsgDTO.FromGroup].Content : "签到";

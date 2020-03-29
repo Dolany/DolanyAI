@@ -12,15 +12,11 @@ namespace Dolany.WorldLine.Standard.Ai.SingleCommand.RandomPic
 
         public override string Description { get; set; } = "AI for Sending Random Pic By Keyword.";
 
-        public override AIPriority PriorityLevel { get;} = AIPriority.Normal;
+        public override CmdTagEnum DefaultTag { get; } = CmdTagEnum.娱乐功能;
 
         [EnterCommand(ID = "RandomPicAI_RecentPic",
             Command = "随机图片 一键盗图",
-            AuthorityLevel = AuthorityLevel.成员,
             Description = "随机发送近期内所有群组内发过的图片",
-            Syntax = "",
-            Tag = CmdTagEnum.娱乐功能,
-            SyntaxChecker = "Empty",
             IsPrivateAvailable = true,
             DailyLimit = 10)]
         public bool RecentPic(MsgInformationEx MsgDTO, object[] param)
@@ -32,11 +28,7 @@ namespace Dolany.WorldLine.Standard.Ai.SingleCommand.RandomPic
 
         [EnterCommand(ID = "RandomPicAI_RecentFlash",
             Command = "随机闪照",
-            AuthorityLevel = AuthorityLevel.成员,
             Description = "随机发送近期内所有群组内发过的图片（以闪照的形式）",
-            Syntax = "",
-            Tag = CmdTagEnum.娱乐功能,
-            SyntaxChecker = "Empty",
             IsPrivateAvailable = true,
             DailyLimit = 10)]
         public bool RecentFlash(MsgInformationEx MsgDTO, object[] param)

@@ -21,6 +21,8 @@ namespace Dolany.Ai.Core.Base
 
         public virtual bool Enable { get; } = true;
 
+        public virtual CmdTagEnum DefaultTag { get; } = CmdTagEnum.Default;
+
         protected delegate bool AIModuleDel(MsgInformationEx MsgDTO, object[] param);
 
         protected readonly Dictionary<EnterCommandAttribute, AIModuleDel> ModuleDels = new Dictionary<EnterCommandAttribute, AIModuleDel>();

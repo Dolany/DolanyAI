@@ -26,14 +26,15 @@ namespace Dolany.WorldLine.Standard.Ai.Sys
 
         public override AIPriority PriorityLevel { get;} = AIPriority.Monitor;
 
+        public override CmdTagEnum DefaultTag { get; } = CmdTagEnum.开发者后台;
+
         public GiftSvc GiftSvc { get; set; }
         public HonorSvc HonorSvc { get; set; }
 
         [EnterCommand(ID = "DeveloperOnlyAI_Board",
             Command = "广播",
             Description = "在所有群组广播消息",
-            Syntax = "广播内容",
-            Tag = CmdTagEnum.开发者后台,
+            SyntaxHint = "广播内容",
             SyntaxChecker = "Any",
             AuthorityLevel = AuthorityLevel.开发者,
             IsPrivateAvailable = true)]
@@ -57,11 +58,10 @@ namespace Dolany.WorldLine.Standard.Ai.Sys
         [EnterCommand(ID = "DeveloperOnlyAI_ItemBonus",
             Command = "物品奖励",
             Description = "奖励某个人若干个物品",
-            Syntax = "[@QQ号] [物品名] [物品数量]",
-            Tag = CmdTagEnum.开发者后台,
+            SyntaxHint = "[@QQ号] [物品名] [物品数量]",
+            Tag = CmdTagEnum.GM奖励,
             SyntaxChecker = "At Word Long",
-            AuthorityLevel = AuthorityLevel.开发者,
-            IsPrivateAvailable = false)]
+            AuthorityLevel = AuthorityLevel.开发者)]
         public bool ItemBonus(MsgInformationEx MsgDTO, object[] param)
         {
             var qqNum = (long) param[0];
@@ -89,11 +89,10 @@ namespace Dolany.WorldLine.Standard.Ai.Sys
         [EnterCommand(ID = "DeveloperOnlyAI_GoldBonus",
             Command = "金币奖励",
             Description = "奖励某个人一些金币",
-            Syntax = "[@QQ号] [金币数量]",
-            Tag = CmdTagEnum.开发者后台,
+            SyntaxHint = "[@QQ号] [金币数量]",
+            Tag = CmdTagEnum.GM奖励,
             SyntaxChecker = "At Long",
-            AuthorityLevel = AuthorityLevel.开发者,
-            IsPrivateAvailable = false)]
+            AuthorityLevel = AuthorityLevel.开发者)]
         public bool GoldBonus(MsgInformationEx MsgDTO, object[] param)
         {
             var qqNum = (long) param[0];
@@ -110,11 +109,10 @@ namespace Dolany.WorldLine.Standard.Ai.Sys
         [EnterCommand(ID = "DeveloperOnlyAI_DiamondBonus",
             Command = "钻石奖励",
             Description = "奖励某个人一些钻石",
-            Syntax = "[@QQ号] [钻石数量]",
-            Tag = CmdTagEnum.开发者后台,
+            SyntaxHint = "[@QQ号] [钻石数量]",
+            Tag = CmdTagEnum.GM奖励,
             SyntaxChecker = "At Long",
-            AuthorityLevel = AuthorityLevel.开发者,
-            IsPrivateAvailable = false)]
+            AuthorityLevel = AuthorityLevel.开发者)]
         public bool DiamondBonus(MsgInformationEx MsgDTO, object[] param)
         {
             var qqNum = (long) param[0];
@@ -131,11 +129,10 @@ namespace Dolany.WorldLine.Standard.Ai.Sys
         [EnterCommand(ID = "DeveloperOnlyAI_GiftBonus",
             Command = "礼物奖励",
             Description = "奖励某个人若干件礼物",
-            Syntax = "[@QQ号] [礼物名称] [礼物数量]",
-            Tag = CmdTagEnum.开发者后台,
+            SyntaxHint = "[@QQ号] [礼物名称] [礼物数量]",
+            Tag = CmdTagEnum.GM奖励,
             SyntaxChecker = "At Word Long",
-            AuthorityLevel = AuthorityLevel.开发者,
-            IsPrivateAvailable = false)]
+            AuthorityLevel = AuthorityLevel.开发者)]
         public bool GiftBonus(MsgInformationEx MsgDTO, object[] param)
         {
             var qqNum = (long) param[0];
@@ -160,11 +157,10 @@ namespace Dolany.WorldLine.Standard.Ai.Sys
         [EnterCommand(ID = "DeveloperOnlyAI_PetExpBonus",
             Command = "宠物经验值奖励",
             Description = "奖励某个人若干宠物经验值",
-            Syntax = "[@QQ号] [经验值]",
-            Tag = CmdTagEnum.开发者后台,
+            SyntaxHint = "[@QQ号] [经验值]",
+            Tag = CmdTagEnum.GM奖励,
             SyntaxChecker = "At Long",
-            AuthorityLevel = AuthorityLevel.开发者,
-            IsPrivateAvailable = false)]
+            AuthorityLevel = AuthorityLevel.开发者)]
         public bool PetExpBonus(MsgInformationEx MsgDTO, object[] param)
         {
             var qqNum = (long) param[0];
@@ -182,11 +178,10 @@ namespace Dolany.WorldLine.Standard.Ai.Sys
         [EnterCommand(ID = "DeveloperOnlyAI_BonusChance",
             Command = "抽奖奖励",
             Description = "奖励某个人一次抽奖机会",
-            Syntax = "[QQ号]",
-            Tag = CmdTagEnum.开发者后台,
+            SyntaxHint = "[QQ号]",
+            Tag = CmdTagEnum.GM奖励,
             SyntaxChecker = "At",
-            AuthorityLevel = AuthorityLevel.开发者,
-            IsPrivateAvailable = false)]
+            AuthorityLevel = AuthorityLevel.开发者)]
         public bool BonusChance(MsgInformationEx MsgDTO, object[] param)
         {
             var aimNum = (long) param[0];
@@ -202,8 +197,7 @@ namespace Dolany.WorldLine.Standard.Ai.Sys
         [EnterCommand(ID = "DeveloperOnlyAI_SignInAcc",
             Command = "签到加速",
             Description = "开启签到加速活动",
-            Syntax = "[天数]",
-            Tag = CmdTagEnum.开发者后台,
+            SyntaxHint = "[天数]",
             SyntaxChecker = "Long",
             AuthorityLevel = AuthorityLevel.开发者,
             IsPrivateAvailable = true)]
@@ -223,8 +217,7 @@ namespace Dolany.WorldLine.Standard.Ai.Sys
         [EnterCommand(ID = "DeveloperOnlyAI_GetCache",
             Command = "查询缓存 查看缓存",
             Description = "根据key值查询缓存信息",
-            Syntax = "[key]",
-            Tag = CmdTagEnum.开发者后台,
+            SyntaxHint = "[key]",
             SyntaxChecker = "Word",
             AuthorityLevel = AuthorityLevel.开发者,
             IsPrivateAvailable = true)]
@@ -250,8 +243,7 @@ namespace Dolany.WorldLine.Standard.Ai.Sys
         [EnterCommand(ID = "DeveloperOnlyAI_CleanCache",
             Command = "清理缓存 删除缓存",
             Description = "根据key值删除缓存信息",
-            Syntax = "[key]",
-            Tag = CmdTagEnum.开发者后台,
+            SyntaxHint = "[key]",
             SyntaxChecker = "Word",
             AuthorityLevel = AuthorityLevel.开发者,
             IsPrivateAvailable = true)]
@@ -278,9 +270,6 @@ namespace Dolany.WorldLine.Standard.Ai.Sys
         [EnterCommand(ID = "DeveloperOnlyAI_Test",
             Command = "test",
             Description = "test",
-            Syntax = "",
-            Tag = CmdTagEnum.开发者后台,
-            SyntaxChecker = "Empty",
             AuthorityLevel = AuthorityLevel.开发者,
             IsPrivateAvailable = true)]
         public bool Test(MsgInformationEx MsgDTO, object[] param)
@@ -294,9 +283,6 @@ namespace Dolany.WorldLine.Standard.Ai.Sys
         [EnterCommand(ID = "DeveloperOnlyAI_ConnectiongState",
             Command = "连接状态",
             Description = "获取当前所有机器人的连接状态",
-            Syntax = "",
-            Tag = CmdTagEnum.开发者后台,
-            SyntaxChecker = "Empty",
             AuthorityLevel = AuthorityLevel.开发者,
             IsPrivateAvailable = true)]
         public bool ConnectiongState(MsgInformationEx MsgDTO, object[] param)
@@ -324,8 +310,7 @@ namespace Dolany.WorldLine.Standard.Ai.Sys
         [EnterCommand(ID = "DeveloperOnlyAI_GetQQInfo",
             Command = "获取QQ信息",
             Description = "获取指定QQ的信息(测试)",
-            Syntax = "[QQ号]",
-            Tag = CmdTagEnum.开发者后台,
+            SyntaxHint = "[QQ号]",
             SyntaxChecker = "Long",
             AuthorityLevel = AuthorityLevel.开发者,
             IsPrivateAvailable = true)]
@@ -341,8 +326,7 @@ namespace Dolany.WorldLine.Standard.Ai.Sys
         [EnterCommand(ID = "DeveloperOnlyAI_WithdrawMessage",
             Command = "撤回消息测试",
             Description = "撤回消息测试",
-            Syntax = "[消息ID]",
-            Tag = CmdTagEnum.开发者后台,
+            SyntaxHint = "[消息ID]",
             SyntaxChecker = "Long",
             AuthorityLevel = AuthorityLevel.开发者,
             IsPrivateAvailable = true)]
@@ -364,8 +348,7 @@ namespace Dolany.WorldLine.Standard.Ai.Sys
         [EnterCommand(ID = "DeveloperOnlyAI_RuleDestruction",
             Command = "规则析构",
             Description = "规则析构",
-            Syntax = "[key] [value]",
-            Tag = CmdTagEnum.开发者后台,
+            SyntaxHint = "[key] [value]",
             SyntaxChecker = "Word Any",
             AuthorityLevel = AuthorityLevel.开发者,
             IsPrivateAvailable = true)]

@@ -22,6 +22,8 @@ namespace Dolany.WorldLine.Standard.Ai.Record.Hello
 
         public override AIPriority PriorityLevel { get;} = AIPriority.High;
 
+        public override CmdTagEnum DefaultTag { get; } = CmdTagEnum.打招呼功能;
+
         private List<HelloRecord> HelloList = new List<HelloRecord>();
         private List<MultiMediaHelloRecord> MultiMediaHelloList = new List<MultiMediaHelloRecord>();
 
@@ -127,12 +129,9 @@ namespace Dolany.WorldLine.Standard.Ai.Record.Hello
 
         [EnterCommand(ID = "HelloAI_SaveHelloContent",
             Command = "打招呼设定",
-            AuthorityLevel = AuthorityLevel.成员,
             Description = "设定每天打招呼的内容",
-            Syntax = "[设定内容]",
-            Tag = CmdTagEnum.打招呼功能,
-            SyntaxChecker = "Any",
-            IsPrivateAvailable = false)]
+            SyntaxHint = "[设定内容]",
+            SyntaxChecker = "Any")]
         public bool SaveHelloContent(MsgInformationEx MsgDTO, object[] param)
         {
             var content = param[0] as string;
@@ -163,12 +162,7 @@ namespace Dolany.WorldLine.Standard.Ai.Record.Hello
 
         [EnterCommand(ID = "HelloAI_SayHello",
             Command = "打招呼",
-            AuthorityLevel = AuthorityLevel.成员,
-            Description = "发送打招呼的内容",
-            Syntax = "",
-            Tag = CmdTagEnum.打招呼功能,
-            SyntaxChecker = "Empty",
-            IsPrivateAvailable = false)]
+            Description = "发送打招呼的内容")]
         public bool SayHello(MsgInformationEx MsgDTO, object[] param)
         {
             var query = HelloList.FirstOrDefault(h => h.GroupNum == MsgDTO.FromGroup && h.QQNum == MsgDTO.FromQQ);
@@ -184,12 +178,7 @@ namespace Dolany.WorldLine.Standard.Ai.Record.Hello
 
         [EnterCommand(ID = "HelloAI_DeleteHello",
             Command = "打招呼删除",
-            AuthorityLevel = AuthorityLevel.成员,
-            Description = "删除打招呼的内容",
-            Syntax = "",
-            Tag = CmdTagEnum.打招呼功能,
-            SyntaxChecker = "Empty",
-            IsPrivateAvailable = false)]
+            Description = "删除打招呼的内容")]
         public bool DeleteHello(MsgInformationEx MsgDTO, object[] param)
         {
             var query = HelloList.FirstOrDefault(h => h.GroupNum == MsgDTO.FromGroup && h.QQNum == MsgDTO.FromQQ);
@@ -208,12 +197,7 @@ namespace Dolany.WorldLine.Standard.Ai.Record.Hello
 
         [EnterCommand(ID = "HelloAI_OnStage",
             Command = "登场",
-            AuthorityLevel = AuthorityLevel.成员,
-            Description = "显示登场特效",
-            Syntax = "",
-            Tag = CmdTagEnum.打招呼功能,
-            SyntaxChecker = "Empty",
-            IsPrivateAvailable = false)]
+            Description = "显示登场特效")]
         public bool OnStage(MsgInformationEx MsgDTO, object[] param)
         {
             var hello = MultiMediaHelloList.FirstOrDefault(p => p.QQNum == MsgDTO.FromQQ);

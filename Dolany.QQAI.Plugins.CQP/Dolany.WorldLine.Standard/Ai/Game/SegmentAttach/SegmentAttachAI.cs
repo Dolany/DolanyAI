@@ -14,7 +14,7 @@ namespace Dolany.WorldLine.Standard.Ai.Game.SegmentAttach
     {
         public override string AIName { get; set; } = "碎片拼接";
         public override string Description { get; set; } = "AI for segments attaching game.";
-        public override AIPriority PriorityLevel { get;} = AIPriority.Normal;
+        public override CmdTagEnum DefaultTag { get; } = CmdTagEnum.宝藏功能;
 
         public SegmentSvc SegmentSvc { get; set; }
         public HonorSvc HonorSvc { get; set; }
@@ -22,11 +22,7 @@ namespace Dolany.WorldLine.Standard.Ai.Game.SegmentAttach
 
         [EnterCommand(ID = "SegmentAttachAI_TakeSegment",
             Command = "领取宝藏碎片",
-            AuthorityLevel = AuthorityLevel.成员,
             Description = "领取一张宝藏碎片（和另一块碎片拼接后，将获得宝藏！）",
-            Syntax = "",
-            SyntaxChecker = "Empty",
-            Tag = CmdTagEnum.宝藏功能,
             IsPrivateAvailable = true,
             DailyLimit = 1,
             TestingDailyLimit = 1)]
@@ -51,11 +47,9 @@ namespace Dolany.WorldLine.Standard.Ai.Game.SegmentAttach
 
         [EnterCommand(ID = "SegmentAttachAI_ViewSegment",
             Command = "查看宝藏碎片",
-            AuthorityLevel = AuthorityLevel.成员,
             Description = "查看指定的宝藏碎片的信息",
-            Syntax = "[宝藏碎片名称]",
+            SyntaxHint = "[宝藏碎片名称]",
             SyntaxChecker = "Word",
-            Tag = CmdTagEnum.宝藏功能,
             IsPrivateAvailable = true)]
         public bool ViewSegment(MsgInformationEx MsgDTO, object[] param)
         {
@@ -76,11 +70,7 @@ namespace Dolany.WorldLine.Standard.Ai.Game.SegmentAttach
 
         [EnterCommand(ID = "SegmentAttachAI_MySegment",
             Command = "我的宝藏碎片",
-            AuthorityLevel = AuthorityLevel.成员,
             Description = "查看自己持有的宝藏碎片的信息",
-            Syntax = "",
-            SyntaxChecker = "Empty",
-            Tag = CmdTagEnum.宝藏功能,
             IsPrivateAvailable = true)]
         public bool MySegment(MsgInformationEx MsgDTO, object[] param)
         {
@@ -110,11 +100,9 @@ namespace Dolany.WorldLine.Standard.Ai.Game.SegmentAttach
 
         [EnterCommand(ID = "SegmentAttachAI_ViewTreasure",
             Command = "查看宝藏",
-            AuthorityLevel = AuthorityLevel.成员,
             Description = "查看指定的宝藏的信息",
-            Syntax = "[宝藏名称]",
+            SyntaxHint = "[宝藏名称]",
             SyntaxChecker = "Word",
-            Tag = CmdTagEnum.宝藏功能,
             IsPrivateAvailable = true)]
         public bool ViewTreasure(MsgInformationEx MsgDTO, object[] param)
         {
@@ -133,11 +121,7 @@ namespace Dolany.WorldLine.Standard.Ai.Game.SegmentAttach
 
         [EnterCommand(ID = "SegmentAttachAI_MyTreasureRecord",
             Command = "我的宝藏记录",
-            AuthorityLevel = AuthorityLevel.成员,
             Description = "查看自己开启过的宝藏记录",
-            Syntax = "",
-            SyntaxChecker = "Empty",
-            Tag = CmdTagEnum.宝藏功能,
             IsPrivateAvailable = true)]
         public bool MyTreasureRecord(MsgInformationEx MsgDTO, object[] param)
         {
@@ -163,11 +147,7 @@ namespace Dolany.WorldLine.Standard.Ai.Game.SegmentAttach
 
         [EnterCommand(ID = "SegmentAttachAI_OpenFinalTreasure",
             Command = "开启终极宝藏",
-            AuthorityLevel = AuthorityLevel.成员,
             Description = "开启过所有宝藏之后，可以开启传说中的终极宝藏！",
-            Syntax = "",
-            SyntaxChecker = "Empty",
-            Tag = CmdTagEnum.宝藏功能,
             IsPrivateAvailable = true)]
         public bool OpenFinalTreasure(MsgInformationEx MsgDTO, object[] param)
         {
@@ -238,12 +218,9 @@ namespace Dolany.WorldLine.Standard.Ai.Game.SegmentAttach
 
         [EnterCommand(ID = "SegmentAttachAI_AttachSegment",
             Command = "拼接宝藏碎片",
-            AuthorityLevel = AuthorityLevel.成员,
             Description = "和其他成员一起拼接宝藏碎片",
-            Syntax = "[@QQ号]",
-            SyntaxChecker = "At",
-            Tag = CmdTagEnum.宝藏功能,
-            IsPrivateAvailable = false)]
+            SyntaxHint = "[@QQ号]",
+            SyntaxChecker = "At")]
         public bool AttachSegment(MsgInformationEx MsgDTO, object[] param)
         {
             var aimQQ = (long) param[0];

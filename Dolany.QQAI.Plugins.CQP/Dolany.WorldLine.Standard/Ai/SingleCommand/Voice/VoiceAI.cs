@@ -16,7 +16,7 @@ namespace Dolany.WorldLine.Standard.Ai.SingleCommand.Voice
 
         public override string Description { get; set; } = "AI for response random acg voice.";
 
-        public override AIPriority PriorityLevel { get;} = AIPriority.Normal;
+        public override CmdTagEnum DefaultTag { get; } = CmdTagEnum.语音功能;
 
         private Beng3ConfigModel Beng3Config;
 
@@ -27,10 +27,8 @@ namespace Dolany.WorldLine.Standard.Ai.SingleCommand.Voice
 
         [EnterCommand(ID = "VoiceAI_KancoleVoice",
             Command = "舰娘语音",
-            AuthorityLevel = AuthorityLevel.成员,
             Description = "获取随机舰娘语音",
-            Syntax = "[舰娘名称]",
-            Tag = CmdTagEnum.语音功能,
+            SyntaxHint = "[舰娘名称]",
             SyntaxChecker = "Word",
             IsPrivateAvailable = true,
             DailyLimit = 5)]
@@ -57,10 +55,8 @@ namespace Dolany.WorldLine.Standard.Ai.SingleCommand.Voice
 
         [EnterCommand(ID = "VoiceAI_Beng3Voice",
             Command = "崩三语音",
-            AuthorityLevel = AuthorityLevel.成员,
             Description = "获取指定崩三女武神的随机语音",
-            Syntax = "[女武神名称]",
-            Tag = CmdTagEnum.语音功能,
+            SyntaxHint = "[女武神名称]",
             SyntaxChecker = "Word",
             IsPrivateAvailable = true,
             DailyLimit = 5)]
@@ -86,11 +82,7 @@ namespace Dolany.WorldLine.Standard.Ai.SingleCommand.Voice
 
         [EnterCommand(ID = "VoiceAI_LOLVoice",
             Command = "LOL语音",
-            AuthorityLevel = AuthorityLevel.成员,
             Description = "获取LOL的随机语音",
-            Syntax = "",
-            Tag = CmdTagEnum.语音功能,
-            SyntaxChecker = "Empty",
             IsPrivateAvailable = true,
             DailyLimit = 5)]
         public bool LOLVoice(MsgInformationEx MsgDTO, object[] param)
@@ -100,11 +92,7 @@ namespace Dolany.WorldLine.Standard.Ai.SingleCommand.Voice
 
         [EnterCommand(ID = "VoiceAI_超神学院Voice",
             Command = "超神学院语音",
-            AuthorityLevel = AuthorityLevel.成员,
             Description = "获取超神学院的随机语音",
-            Syntax = "",
-            Tag = CmdTagEnum.语音功能,
-            SyntaxChecker = "Empty",
             IsPrivateAvailable = true,
             DailyLimit = 5)]
         public bool 超神学院Voice(MsgInformationEx MsgDTO, object[] param)
@@ -114,11 +102,7 @@ namespace Dolany.WorldLine.Standard.Ai.SingleCommand.Voice
 
         [EnterCommand(ID = "VoiceAI_刺客伍六七Voice",
             Command = "刺客伍六七语音",
-            AuthorityLevel = AuthorityLevel.成员,
             Description = "获取刺客伍六七的随机语音",
-            Syntax = "",
-            Tag = CmdTagEnum.语音功能,
-            SyntaxChecker = "Empty",
             IsPrivateAvailable = true,
             DailyLimit = 5)]
         public bool 刺客伍六七Voice(MsgInformationEx MsgDTO, object[] param)
@@ -128,11 +112,7 @@ namespace Dolany.WorldLine.Standard.Ai.SingleCommand.Voice
 
         [EnterCommand(ID = "VoiceAI_狐妖小红娘Voice",
             Command = "狐妖小红娘语音",
-            AuthorityLevel = AuthorityLevel.成员,
             Description = "获取狐妖小红娘的随机语音",
-            Syntax = "",
-            Tag = CmdTagEnum.语音功能,
-            SyntaxChecker = "Empty",
             IsPrivateAvailable = true,
             DailyLimit = 5)]
         public bool 狐妖小红娘Voice(MsgInformationEx MsgDTO, object[] param)
@@ -142,11 +122,7 @@ namespace Dolany.WorldLine.Standard.Ai.SingleCommand.Voice
 
         [EnterCommand(ID = "VoiceAI_十万个冷笑话Voice",
             Command = "十万个冷笑话语音",
-            AuthorityLevel = AuthorityLevel.成员,
             Description = "获取十万个冷笑话的随机语音",
-            Syntax = "",
-            Tag = CmdTagEnum.语音功能,
-            SyntaxChecker = "Empty",
             IsPrivateAvailable = true,
             DailyLimit = 5)]
         public bool 十万个冷笑话Voice(MsgInformationEx MsgDTO, object[] param)
@@ -156,11 +132,7 @@ namespace Dolany.WorldLine.Standard.Ai.SingleCommand.Voice
 
         [EnterCommand(ID = "VoiceAI_一人之下Voice",
             Command = "一人之下语音",
-            AuthorityLevel = AuthorityLevel.成员,
             Description = "获取一人之下的随机语音",
-            Syntax = "",
-            Tag = CmdTagEnum.语音功能,
-            SyntaxChecker = "Empty",
             IsPrivateAvailable = true,
             DailyLimit = 5)]
         public bool 一人之下Voice(MsgInformationEx MsgDTO, object[] param)
@@ -170,11 +142,7 @@ namespace Dolany.WorldLine.Standard.Ai.SingleCommand.Voice
 
         [EnterCommand(ID = "VoiceAI_镇魂街Voice",
             Command = "镇魂街语音",
-            AuthorityLevel = AuthorityLevel.成员,
             Description = "获取镇魂街的随机语音",
-            Syntax = "",
-            Tag = CmdTagEnum.语音功能,
-            SyntaxChecker = "Empty",
             IsPrivateAvailable = true,
             DailyLimit = 5)]
         public bool 镇魂街Voice(MsgInformationEx MsgDTO, object[] param)
@@ -184,11 +152,7 @@ namespace Dolany.WorldLine.Standard.Ai.SingleCommand.Voice
 
         [EnterCommand(ID = "VoiceAI_秦时明月Voice",
             Command = "秦时明月语音",
-            AuthorityLevel = AuthorityLevel.成员,
             Description = "获取秦时明月的随机语音",
-            Syntax = "",
-            Tag = CmdTagEnum.语音功能,
-            SyntaxChecker = "Empty",
             IsPrivateAvailable = true,
             DailyLimit = 5)]
         public bool 秦时明月Voice(MsgInformationEx MsgDTO, object[] param)

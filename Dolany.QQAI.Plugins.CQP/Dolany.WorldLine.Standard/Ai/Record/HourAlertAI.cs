@@ -16,8 +16,6 @@ namespace Dolany.WorldLine.Standard.Ai.Record
 
         public override string Description { get; set; } = "AI for Hour Alert.";
 
-        public override AIPriority PriorityLevel { get;} = AIPriority.Normal;
-
         public override bool Enable { get; } = false;
 
         public SchedulerSvc SchedulerSvc { get; set; }

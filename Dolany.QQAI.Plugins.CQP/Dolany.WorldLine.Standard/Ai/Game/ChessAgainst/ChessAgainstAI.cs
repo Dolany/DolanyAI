@@ -14,19 +14,16 @@ namespace Dolany.WorldLine.Standard.Ai.Game.ChessAgainst
 
         public override string Description { get; set; } = "AI for Chess Fight.";
 
-        public override AIPriority PriorityLevel { get;} = AIPriority.Normal;
+        public override CmdTagEnum DefaultTag { get; } = CmdTagEnum.游戏功能;
 
         public BindAiSvc BindAiSvc { get; set; }
         public ChessSvc ChessSvc { get; set; }
 
         [EnterCommand(ID = "ChessAgainstAI_Fight",
             Command = "对决 决斗",
-            AuthorityLevel = AuthorityLevel.成员,
             Description = "指定一名成员进行对决",
-            Syntax = "[@QQ号]",
-            Tag = CmdTagEnum.游戏功能,
+            SyntaxHint = "[@QQ号]",
             SyntaxChecker = "At",
-            IsPrivateAvailable = false,
             DailyLimit = 1,
             TestingDailyLimit = 1)]
         public bool Fight(MsgInformationEx MsgDTO, object[] param)

@@ -17,14 +17,13 @@ namespace Dolany.WorldLine.Standard.Ai.Sys
 
         public override AIPriority PriorityLevel { get;} = AIPriority.Monitor;
 
+        public override CmdTagEnum DefaultTag { get; } = CmdTagEnum.系统命令;
+
         [EnterCommand(ID = "MonitorAI_SelfExcharge",
             Command = "自助充值",
             Description = "使用钻石自助为本群充值指定天数的机器人使用时间(1天=10钻石)",
-            Syntax = "[天数]",
-            Tag = CmdTagEnum.系统命令,
-            SyntaxChecker = "Long",
-            AuthorityLevel = AuthorityLevel.成员,
-            IsPrivateAvailable = false)]
+            SyntaxHint = "[天数]",
+            SyntaxChecker = "Long")]
         public bool SelfExcharge(MsgInformationEx MsgDTO, object[] param)
         {
             var days = (int) (long) param[0];

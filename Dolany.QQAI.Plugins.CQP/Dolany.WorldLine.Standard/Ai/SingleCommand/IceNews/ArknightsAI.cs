@@ -11,7 +11,7 @@ namespace Dolany.WorldLine.Standard.Ai.SingleCommand.IceNews
     {
         public override string AIName { get; set; } = "明日方舟";
         public override string Description { get; set; } = "AI for Arknights.";
-        public override AIPriority PriorityLevel { get;} = AIPriority.Normal;
+        public override CmdTagEnum DefaultTag { get; } = CmdTagEnum.娱乐功能;
 
         private const string CachePath = "./images/Arknights/";
 
@@ -19,11 +19,7 @@ namespace Dolany.WorldLine.Standard.Ai.SingleCommand.IceNews
 
         [EnterCommand(ID = "ArknightsAI_MiniStory",
             Command = "方舟剧场",
-            AuthorityLevel = AuthorityLevel.成员,
             Description = "获取最新方舟剧场内容",
-            Syntax = "",
-            Tag = CmdTagEnum.娱乐功能,
-            SyntaxChecker = "Empty",
             IsPrivateAvailable = true,
             DailyLimit = 3)]
         public bool MiniStory(MsgInformationEx MsgDTO, object[] param)
@@ -37,10 +33,8 @@ namespace Dolany.WorldLine.Standard.Ai.SingleCommand.IceNews
 
         [EnterCommand(ID = "ArknightsAI_MiniStoryIndex",
             Command = "方舟剧场",
-            AuthorityLevel = AuthorityLevel.成员,
             Description = "按期号获取最新方舟剧场内容",
-            Syntax = "[期号]",
-            Tag = CmdTagEnum.娱乐功能,
+            SyntaxHint = "[期号]",
             SyntaxChecker = "Long",
             IsPrivateAvailable = true,
             DailyLimit = 3)]
@@ -63,9 +57,6 @@ namespace Dolany.WorldLine.Standard.Ai.SingleCommand.IceNews
             Command = "方舟剧场投稿",
             AuthorityLevel = AuthorityLevel.开发者,
             Description = "向方舟剧场投稿",
-            Syntax = "",
-            Tag = CmdTagEnum.娱乐功能,
-            SyntaxChecker = "Empty",
             IsPrivateAvailable = true)]
         public bool StoryContribute(MsgInformationEx MsgDTO, object[] param)
         {

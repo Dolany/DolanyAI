@@ -19,7 +19,7 @@ namespace Dolany.WorldLine.Standard.Ai.Game.DriftBottle
 
         public override string Description { get; set; } = "AI for drift bottle.";
 
-        public override AIPriority PriorityLevel { get;} = AIPriority.Normal;
+        public override CmdTagEnum DefaultTag { get; } = CmdTagEnum.漂流瓶功能;
 
         private const int ItemRate = 60;
 
@@ -27,12 +27,7 @@ namespace Dolany.WorldLine.Standard.Ai.Game.DriftBottle
 
         [EnterCommand(ID = "DriftBottleAI_FishingBottle",
             Command = "捞瓶子",
-            AuthorityLevel = AuthorityLevel.成员,
             Description = "捞一个漂流瓶",
-            Syntax = "",
-            SyntaxChecker = "Empty",
-            Tag = CmdTagEnum.漂流瓶功能,
-            IsPrivateAvailable = false,
             DailyLimit = 1,
             TestingDailyLimit = 3)]
         public bool FishingBottle(MsgInformationEx MsgDTO, object[] param)
@@ -69,11 +64,9 @@ namespace Dolany.WorldLine.Standard.Ai.Game.DriftBottle
 
         [EnterCommand(ID = "DriftBottleAI_ThrowBottle",
             Command = "扔瓶子",
-            AuthorityLevel = AuthorityLevel.成员,
             Description = "扔一个漂流瓶",
-            Syntax = "[漂流瓶内容]",
+            SyntaxHint = "[漂流瓶内容]",
             SyntaxChecker = "Any",
-            Tag = CmdTagEnum.漂流瓶功能,
             IsPrivateAvailable = true,
             DailyLimit = 3,
             TestingDailyLimit = 3)]
@@ -98,11 +91,7 @@ namespace Dolany.WorldLine.Standard.Ai.Game.DriftBottle
 
         [EnterCommand(ID = "DriftBottleAI_MyItems",
             Command = "我的物品",
-            AuthorityLevel = AuthorityLevel.成员,
             Description = "查看自己的物品",
-            Syntax = "",
-            SyntaxChecker = "Empty",
-            Tag = CmdTagEnum.漂流瓶功能,
             IsPrivateAvailable = true)]
         public bool MyItems(MsgInformationEx MsgDTO, object[] param)
         {
@@ -126,11 +115,9 @@ namespace Dolany.WorldLine.Standard.Ai.Game.DriftBottle
 
         [EnterCommand(ID = "DriftBottleAI_MyItemsByAttr",
             Command = "我的物品",
-            AuthorityLevel = AuthorityLevel.成员,
             Description = "查看自己指定特性的物品",
-            Syntax = "[特性名]",
+            SyntaxHint = "[特性名]",
             SyntaxChecker = "Word",
-            Tag = CmdTagEnum.漂流瓶功能,
             IsPrivateAvailable = true)]
         public bool MyItemsByAttr(MsgInformationEx MsgDTO, object[] param)
         {
@@ -168,11 +155,7 @@ namespace Dolany.WorldLine.Standard.Ai.Game.DriftBottle
 
         [EnterCommand(ID = "DriftBottleAI_MyLimitItems",
             Command = "我的限定物品",
-            AuthorityLevel = AuthorityLevel.成员,
             Description = "查看自己的期间限定物品",
-            Syntax = "",
-            SyntaxChecker = "Empty",
-            Tag = CmdTagEnum.漂流瓶功能,
             IsPrivateAvailable = true)]
         public bool MyLimitItems(MsgInformationEx MsgDTO, object[] param)
         {
@@ -197,11 +180,9 @@ namespace Dolany.WorldLine.Standard.Ai.Game.DriftBottle
 
         [EnterCommand(ID = "DriftBottleAI_MyItems_Paged",
             Command = "我的物品",
-            AuthorityLevel = AuthorityLevel.成员,
             Description = "按页码查看自己的物品",
-            Syntax = "[页码]",
+            SyntaxHint = "[页码]",
             SyntaxChecker = "Long",
-            Tag = CmdTagEnum.漂流瓶功能,
             IsPrivateAvailable = true)]
         public bool MyItems_Paged(MsgInformationEx MsgDTO, object[] param)
         {
@@ -231,11 +212,9 @@ namespace Dolany.WorldLine.Standard.Ai.Game.DriftBottle
 
         [EnterCommand(ID = "DriftBottleAI_MyLimitItems",
             Command = "我的限定物品",
-            AuthorityLevel = AuthorityLevel.成员,
             Description = "按页码查看自己的期间限定物品",
-            Syntax = "[页码]",
+            SyntaxHint = "[页码]",
             SyntaxChecker = "Long",
-            Tag = CmdTagEnum.漂流瓶功能,
             IsPrivateAvailable = true)]
         public bool MyLimitItems_Paged(MsgInformationEx MsgDTO, object[] param)
         {
@@ -269,11 +248,7 @@ namespace Dolany.WorldLine.Standard.Ai.Game.DriftBottle
 
         [EnterCommand(ID = "DriftBottleAI_MyHonors",
             Command = "我的成就",
-            AuthorityLevel = AuthorityLevel.成员,
             Description = "查看自己的成就",
-            Syntax = "",
-            SyntaxChecker = "Empty",
-            Tag = CmdTagEnum.漂流瓶功能,
             IsPrivateAvailable = true)]
         public bool MyHonors(MsgInformationEx MsgDTO, object[] param)
         {
@@ -345,11 +320,9 @@ namespace Dolany.WorldLine.Standard.Ai.Game.DriftBottle
 
         [EnterCommand(ID = "DriftBottleAI_ViewItem",
             Command = "查看物品",
-            AuthorityLevel = AuthorityLevel.成员,
             Description = "查看某件物品的详情",
-            Syntax = "[物品名称]",
+            SyntaxHint = "[物品名称]",
             SyntaxChecker = "Word",
-            Tag = CmdTagEnum.漂流瓶功能,
             IsPrivateAvailable = true)]
         public bool ViewItem(MsgInformationEx MsgDTO, object[] param)
         {
@@ -376,11 +349,9 @@ namespace Dolany.WorldLine.Standard.Ai.Game.DriftBottle
 
         [EnterCommand(ID = "DriftBottleAI_ViewHonor",
             Command = "查看成就",
-            AuthorityLevel = AuthorityLevel.成员,
             Description = "查看某个成就的详情",
-            Syntax = "[成就名称]",
+            SyntaxHint = "[成就名称]",
             SyntaxChecker = "Word",
-            Tag = CmdTagEnum.漂流瓶功能,
             IsPrivateAvailable = true)]
         public bool ViewHonor(MsgInformationEx MsgDTO, object[] param)
         {
@@ -402,11 +373,7 @@ namespace Dolany.WorldLine.Standard.Ai.Game.DriftBottle
 
         [EnterCommand(ID = "DriftBottleAI_LimitItemReport",
             Command = "限定物品收集报告",
-            AuthorityLevel = AuthorityLevel.成员,
             Description = "获取当月限定物品的收集报告",
-            Syntax = "",
-            SyntaxChecker = "Empty",
-            Tag = CmdTagEnum.漂流瓶功能,
             IsPrivateAvailable = true)]
         public bool LimitItemReport(MsgInformationEx MsgDTO, object[] param)
         {
@@ -434,11 +401,7 @@ namespace Dolany.WorldLine.Standard.Ai.Game.DriftBottle
 
         [EnterCommand(ID = "DriftBottleAI_TodayDriftAnalyze",
             Command = "今日捞瓶子统计",
-            AuthorityLevel = AuthorityLevel.成员,
             Description = "查看今日捞瓶子情况统计",
-            Syntax = "",
-            SyntaxChecker = "Empty",
-            Tag = CmdTagEnum.漂流瓶功能,
             IsPrivateAvailable = true)]
         public bool TodayDriftAnalyze(MsgInformationEx MsgDTO, object[] param)
         {
@@ -460,11 +423,9 @@ namespace Dolany.WorldLine.Standard.Ai.Game.DriftBottle
 
         [EnterCommand(ID = "DriftBottleAI_ItemCount",
             Command = "物品统计",
-            AuthorityLevel = AuthorityLevel.成员,
             Description = "查看指定物品的数量",
-            Syntax = "[物品名]",
+            SyntaxHint = "[物品名]",
             SyntaxChecker = "Word",
-            Tag = CmdTagEnum.漂流瓶功能,
             IsPrivateAvailable = true)]
         public bool ItemCount(MsgInformationEx MsgDTO, object[] param)
         {
@@ -488,11 +449,7 @@ namespace Dolany.WorldLine.Standard.Ai.Game.DriftBottle
 
         [EnterCommand(ID = "DriftBottleAI_MyLackItems",
             Command = "我缺少的物品",
-            AuthorityLevel = AuthorityLevel.成员,
             Description = "查看自己缺少的物品（仅当缺少的物品少于20件时显示详情信息）",
-            Syntax = "",
-            SyntaxChecker = "Empty",
-            Tag = CmdTagEnum.漂流瓶功能,
             IsPrivateAvailable = true)]
         public bool MyLackItems(MsgInformationEx MsgDTO, object[] param)
         {

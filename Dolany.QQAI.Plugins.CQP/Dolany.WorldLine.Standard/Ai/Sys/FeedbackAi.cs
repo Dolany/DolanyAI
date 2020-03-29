@@ -11,15 +11,13 @@ namespace Dolany.WorldLine.Standard.Ai.Sys
 
         public override string Description { get; set; } = "AI for Feedback.";
 
-        public override AIPriority PriorityLevel { get;} = AIPriority.Normal;
+        public override CmdTagEnum DefaultTag { get; } = CmdTagEnum.系统命令;
 
         [EnterCommand(ID = "FeedbackAi_Feedback",
             Command = "反馈",
             Description = "向开发者提供反馈建议",
-            Syntax = "[反馈内容]",
-            Tag = CmdTagEnum.系统命令,
+            SyntaxHint = "[反馈内容]",
             SyntaxChecker = "Any",
-            AuthorityLevel = AuthorityLevel.成员,
             IsPrivateAvailable = true,
             DailyLimit = 1,
             TestingDailyLimit = 1)]

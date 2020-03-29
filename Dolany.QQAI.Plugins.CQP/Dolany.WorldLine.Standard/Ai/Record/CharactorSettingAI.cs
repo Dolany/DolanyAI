@@ -17,7 +17,7 @@ namespace Dolany.WorldLine.Standard.Ai.Record
 
         public override string Description { get; set; } = "AI for Setting a Charactor.";
 
-        public override AIPriority PriorityLevel { get;} = AIPriority.Normal;
+        public override CmdTagEnum DefaultTag { get; } = CmdTagEnum.设定功能;
 
         private const int MaxCharNumPerQQ = 10;
         private const int MaxSettingPerChar = 7;
@@ -26,8 +26,7 @@ namespace Dolany.WorldLine.Standard.Ai.Record
             Command = "人物设定",
             AuthorityLevel = AuthorityLevel.成员,
             Description = "设定一个人物",
-            Syntax = "[人物名] [设定项] [设定内容]",
-            Tag = CmdTagEnum.设定功能,
+            SyntaxHint = "[人物名] [设定项] [设定内容]",
             SyntaxChecker = "Word Word Word",
             IsPrivateAvailable = false)]
         public bool SetCharactor(MsgInformationEx MsgDTO, object[] param)
@@ -52,8 +51,7 @@ namespace Dolany.WorldLine.Standard.Ai.Record
             Command = "删除人物",
             AuthorityLevel = AuthorityLevel.成员,
             Description = "删除一个人物",
-            Syntax = "[人物名]",
-            Tag = CmdTagEnum.设定功能,
+            SyntaxHint = "[人物名]",
             SyntaxChecker = "Word",
             IsPrivateAvailable = false)]
         public bool DeleteCharactor(MsgInformationEx MsgDTO, object[] param)
@@ -87,8 +85,7 @@ namespace Dolany.WorldLine.Standard.Ai.Record
             Command = "人物设定浏览",
             AuthorityLevel = AuthorityLevel.成员,
             Description = "浏览一个人物的全部设定",
-            Syntax = "[人物名]",
-            Tag = CmdTagEnum.设定功能,
+            SyntaxHint = "[人物名]",
             SyntaxChecker = "Word",
             IsPrivateAvailable = false)]
         public bool ViewCharactor(MsgInformationEx MsgDTO, object[] param)

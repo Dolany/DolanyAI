@@ -14,14 +14,11 @@ namespace Dolany.WorldLine.KindomStorm.Ai.Fortune
         public override string AIName { get; set; } = "人品";
         public override string Description { get; set; } = "Ai for RP.";
         public override AIPriority PriorityLevel { get; } = AIPriority.Normal;
+        public override CmdTagEnum DefaultTag { get; } = CmdTagEnum.人品功能;
 
         [EnterCommand(ID = "RPFortuneAI_RandomFortune",
             Command = "人品鉴定",
-            AuthorityLevel = AuthorityLevel.成员,
             Description = "获取每天人品鉴定",
-            Syntax = "",
-            Tag = CmdTagEnum.人品功能,
-            SyntaxChecker = "Empty",
             IsPrivateAvailable = true)]
         public bool RandomFortune(MsgInformationEx MsgDTO, object[] param)
         {

@@ -118,6 +118,11 @@ namespace Dolany.Ai.Core.Base
                     {
                         var attrClone = attr.Clone();
                         attrClone.Command = command;
+
+                        if (ai.DefaultTag != CmdTagEnum.Default && attrClone.Tag == CmdTagEnum.Default)
+                        {
+                            attrClone.Tag = ai.DefaultTag;
+                        }
                         AllAvailableGroupCommands.Add(attrClone);
                     }
                 }

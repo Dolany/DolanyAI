@@ -26,6 +26,8 @@ namespace Dolany.WorldLine.Standard.Ai.Sys
 
         public override AIPriority PriorityLevel { get;} = AIPriority.Normal;
 
+        public override CmdTagEnum DefaultTag { get; } = CmdTagEnum.帮助系统;
+
         private List<ExtraHelpModel> ExtraHelps = new List<ExtraHelpModel>();
 
         public DailyVipShopSvc DailyVipShopSvc { get; set; }
@@ -43,11 +45,7 @@ namespace Dolany.WorldLine.Standard.Ai.Sys
 
         [EnterCommand(ID = "HelperAI_HelpMe",
             Command = "帮助",
-            AuthorityLevel = AuthorityLevel.成员,
             Description = "获取帮助列表",
-            Syntax = "",
-            SyntaxChecker = "Empty",
-            Tag = CmdTagEnum.系统命令,
             IsPrivateAvailable = true)]
         public bool HelpMe(MsgInformationEx MsgDTO, object[] param)
         {
@@ -67,11 +65,9 @@ namespace Dolany.WorldLine.Standard.Ai.Sys
 
         [EnterCommand(ID = "HelperAI_HelpMe_Command",
             Command = "帮助",
-            AuthorityLevel = AuthorityLevel.成员,
             Description = "获取特定命令或标签的帮助信息",
-            Syntax = "[命令名/标签名]",
+            SyntaxHint = "[命令名/标签名]",
             SyntaxChecker = "Word",
-            Tag = CmdTagEnum.系统命令,
             IsPrivateAvailable = true)]
         public bool HelpMe_Command(MsgInformationEx MsgDTO, object[] param)
         {
@@ -136,7 +132,7 @@ namespace Dolany.WorldLine.Standard.Ai.Sys
                 var msgDic = new Dictionary<string, string>()
                 {
                     {"命令", command.Command },
-                    {"格式", $"{command.Command} {command.Syntax}" },
+                    {"格式", $"{command.Command} {command.SyntaxHint}" },
                     {"描述", command.Description },
                     {"权限", command.AuthorityLevel.ToString() },
                     {"标签", string.Join("-", WorldLine.LocateCmdPath(command).Select(p => p.Tag.ToString())) },
@@ -193,11 +189,9 @@ namespace Dolany.WorldLine.Standard.Ai.Sys
 
         [EnterCommand(ID = "HelperAI_ViewSomething",
             Command = "查看",
-            AuthorityLevel = AuthorityLevel.成员,
             Description = "查看某个东西（物品/成就/礼物等等）",
-            Syntax = "[名称]",
+            SyntaxHint = "[名称]",
             SyntaxChecker = "Word",
-            Tag = CmdTagEnum.系统命令,
             IsPrivateAvailable = true)]
         public bool ViewSomething(MsgInformationEx MsgDTO, object[] param)
         {
@@ -262,11 +256,9 @@ namespace Dolany.WorldLine.Standard.Ai.Sys
 
         [EnterCommand(ID = "HelperAI_LearnSomething",
             Command = "学习",
-            AuthorityLevel = AuthorityLevel.成员,
             Description = "学习某个技能/菜谱/...",
-            Syntax = "[名称]",
+            SyntaxHint = "[名称]",
             SyntaxChecker = "Word",
-            Tag = CmdTagEnum.系统命令,
             IsPrivateAvailable = true)]
         public bool LearnSomething(MsgInformationEx MsgDTO, object[] param)
         {
@@ -289,11 +281,9 @@ namespace Dolany.WorldLine.Standard.Ai.Sys
 
         [EnterCommand(ID = "HelperAI_ExchangeSomething",
             Command = "兑换",
-            AuthorityLevel = AuthorityLevel.成员,
             Description = "兑换菜谱/礼物/...",
-            Syntax = "[名称]",
+            SyntaxHint = "[名称]",
             SyntaxChecker = "Word",
-            Tag = CmdTagEnum.系统命令,
             IsPrivateAvailable = true)]
         public bool ExchangeSomething(MsgInformationEx MsgDTO, object[] param)
         {

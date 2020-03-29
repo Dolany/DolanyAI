@@ -14,7 +14,7 @@ namespace Dolany.WorldLine.Standard.Ai.Sys.BonusCenter
 
         public override string Description { get; set; } = "AI for auto bonus.";
 
-        public override AIPriority PriorityLevel { get;} = AIPriority.Normal;
+        public override CmdTagEnum DefaultTag { get; } = CmdTagEnum.系统命令;
 
         private Dictionary<string, BonusBase> BonusDic = new Dictionary<string, BonusBase>();
 
@@ -31,11 +31,9 @@ namespace Dolany.WorldLine.Standard.Ai.Sys.BonusCenter
 
         [EnterCommand(ID = "BonusCenterAI_AutoBonus",
             Command = "兑奖",
-            AuthorityLevel = AuthorityLevel.成员,
             Description = "根据兑换码兑换奖励",
-            Syntax = "[兑换码]",
+            SyntaxHint = "[兑换码]",
             SyntaxChecker = "Word",
-            Tag = CmdTagEnum.系统命令,
             IsPrivateAvailable = true)]
         public bool AutoBonus(MsgInformationEx MsgDTO, object[] param)
         {

@@ -15,7 +15,7 @@ namespace Dolany.WorldLine.Standard.Ai.Game.TouhouCard
 
         public override string Description { get; set; } = "AI for Getting Random TouhouCard.";
 
-        public override AIPriority PriorityLevel { get;} = AIPriority.Normal;
+        public override CmdTagEnum DefaultTag { get; } = CmdTagEnum.游戏功能;
 
         private const string PicPath = "TouhouCard/";
 
@@ -29,11 +29,7 @@ namespace Dolany.WorldLine.Standard.Ai.Game.TouhouCard
 
         [EnterCommand(ID = "TouhouCardAi_RandomCard",
             Command = ".card 幻想乡抽卡",
-            AuthorityLevel = AuthorityLevel.成员,
             Description = "随机获取一张DIY幻想乡卡牌(每日刷新)",
-            Syntax = "",
-            Tag = CmdTagEnum.游戏功能,
-            SyntaxChecker = "Empty",
             IsPrivateAvailable = true)]
         public bool RandomCard(MsgInformationEx MsgDTO, object[] param)
         {

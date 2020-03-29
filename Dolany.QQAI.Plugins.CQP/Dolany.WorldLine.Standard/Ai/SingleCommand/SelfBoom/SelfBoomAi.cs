@@ -14,19 +14,14 @@ namespace Dolany.WorldLine.Standard.Ai.SingleCommand.SelfBoom
 
         public override string Description { get; set; } = "AI for boom herself.";
 
-        public override AIPriority PriorityLevel { get;} = AIPriority.Normal;
+        public override CmdTagEnum DefaultTag { get; } = CmdTagEnum.系统命令;
 
         private int BoomCode = Rander.RandInt(100000);
         private DateTime CodeDate = DateTime.Now;
 
         [EnterCommand(ID = "SelfBoomAi_Boom",
             Command = "Boom",
-            AuthorityLevel = AuthorityLevel.成员,
-            Description = "自爆",
-            Syntax = "",
-            Tag = CmdTagEnum.系统命令,
-            SyntaxChecker = "Empty",
-            IsPrivateAvailable = false)]
+            Description = "自爆")]
         public bool Boom(MsgInformationEx MsgDTO, object[] param)
         {
             var backInfo = WaiterSvc.WaitForInformation(
@@ -71,9 +66,6 @@ namespace Dolany.WorldLine.Standard.Ai.SingleCommand.SelfBoom
             Command = "BoomCode",
             AuthorityLevel = AuthorityLevel.开发者,
             Description = "获取自爆指令码，有效期5分钟",
-            Syntax = "",
-            Tag = CmdTagEnum.系统命令,
-            SyntaxChecker = "Empty",
             IsPrivateAvailable = true)]
         public bool GetBoomCode(MsgInformationEx MsgDTO, object[] param)
         {

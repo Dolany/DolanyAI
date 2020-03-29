@@ -17,6 +17,7 @@ namespace Dolany.Ai.Core.Ai
         public override string AIName { get; set; } = "超管";
         public override string Description { get; set; } = "Ai for Super Admin.";
         public override AIPriority PriorityLevel { get;} = AIPriority.SuperHigh;
+        public override CmdTagEnum DefaultTag { get; } = CmdTagEnum.超管;
 
         public PicReviewSvc PicReviewSvc { get; set; }
         public DataRefreshSvc DataRefreshSvc { get; set; }
@@ -27,11 +28,10 @@ namespace Dolany.Ai.Core.Ai
         [EnterCommand(ID = "SuperAdminAI_FishingBonus",
             Command = "功能奖励",
             Description = "奖励某个人某个功能若个使用次数（当日有效）",
-            Syntax = "[命令名] [@QQ号] [奖励个数]",
-            Tag = CmdTagEnum.超管,
+            SyntaxHint = "[命令名] [@QQ号] [奖励个数]",
+            Tag = CmdTagEnum.GM奖励,
             SyntaxChecker = "Word At Long",
-            AuthorityLevel = AuthorityLevel.开发者,
-            IsPrivateAvailable = false)]
+            AuthorityLevel = AuthorityLevel.开发者)]
         public bool FishingBonus(MsgInformationEx MsgDTO, object[] param)
         {
             var command = param[0] as string;
@@ -56,8 +56,7 @@ namespace Dolany.Ai.Core.Ai
         [EnterCommand(ID = "SuperAdminAI_BlackList",
             Command = "BlackList 黑名单",
             Description = "Put someone to blacklist",
-            Syntax = "[@QQ号]",
-            Tag = CmdTagEnum.超管,
+            SyntaxHint = "[@QQ号]",
             SyntaxChecker = "At",
             AuthorityLevel = AuthorityLevel.开发者,
             IsPrivateAvailable = true)]
@@ -84,8 +83,7 @@ namespace Dolany.Ai.Core.Ai
         [EnterCommand(ID = "SuperAdminAI_FreeBlackList",
             Command = "FreeBlackList 解除黑名单",
             Description = "Pull someone out from blacklist",
-            Syntax = "[@QQ号]",
-            Tag = CmdTagEnum.超管,
+            SyntaxHint = "[@QQ号]",
             SyntaxChecker = "At",
             AuthorityLevel = AuthorityLevel.开发者,
             IsPrivateAvailable = true)]
@@ -109,8 +107,7 @@ namespace Dolany.Ai.Core.Ai
         [EnterCommand(ID = "SuperAdminAI_InitAi",
             Command = "初始化",
             Description = "初始化群成员信息",
-            Syntax = "[群号]",
-            Tag = CmdTagEnum.超管,
+            SyntaxHint = "[群号]",
             SyntaxChecker = "Long",
             AuthorityLevel = AuthorityLevel.开发者,
             IsPrivateAvailable = true)]
@@ -130,8 +127,7 @@ namespace Dolany.Ai.Core.Ai
         [EnterCommand(ID = "SuperAdminAI_Register",
             Command = "注册",
             Description = "注册新的群组",
-            Syntax = "[群号] [群名]",
-            Tag = CmdTagEnum.超管,
+            SyntaxHint = "[群号] [群名]",
             SyntaxChecker = "Long Word",
             AuthorityLevel = AuthorityLevel.开发者,
             IsPrivateAvailable = true)]
@@ -158,8 +154,7 @@ namespace Dolany.Ai.Core.Ai
         [EnterCommand(ID = "SuperAdminAI_BindAi",
             Command = "绑定",
             Description = "绑定机器人",
-            Syntax = "[群号] [机器人名]",
-            Tag = CmdTagEnum.超管,
+            SyntaxHint = "[群号] [机器人名]",
             SyntaxChecker = "Long Word",
             AuthorityLevel = AuthorityLevel.开发者,
             IsPrivateAvailable = true)]
@@ -200,8 +195,7 @@ namespace Dolany.Ai.Core.Ai
         [EnterCommand(ID = "SuperAdminAI_Freeze",
             Command = "冻结",
             Description = "冻结某个群的机器人",
-            Syntax = "[群组号]",
-            Tag = CmdTagEnum.超管,
+            SyntaxHint = "[群组号]",
             SyntaxChecker = "Long",
             AuthorityLevel = AuthorityLevel.开发者,
             IsPrivateAvailable = true)]
@@ -226,8 +220,7 @@ namespace Dolany.Ai.Core.Ai
         [EnterCommand(ID = "SuperAdminAI_Defreeze",
             Command = "解冻",
             Description = "解冻某个群的机器人",
-            Syntax = "[群组号]",
-            Tag = CmdTagEnum.超管,
+            SyntaxHint = "[群组号]",
             SyntaxChecker = "Long",
             AuthorityLevel = AuthorityLevel.开发者,
             IsPrivateAvailable = true)]
@@ -252,8 +245,7 @@ namespace Dolany.Ai.Core.Ai
         [EnterCommand(ID = "SuperAdminAI_ChargeTime",
             Command = "充值时间",
             Description = "给某个群组充值时间(单位天)",
-            Syntax = "[群组号] [天数]",
-            Tag = CmdTagEnum.超管,
+            SyntaxHint = "[群组号] [天数]",
             SyntaxChecker = "Long Long",
             AuthorityLevel = AuthorityLevel.开发者,
             IsPrivateAvailable = true)]
@@ -282,8 +274,7 @@ namespace Dolany.Ai.Core.Ai
         [EnterCommand(ID = "SuperAdminAI_EmergencyUnload",
             Command = "紧急卸载",
             Description = "紧急停用某个机器人，取消其所有群组的绑定",
-            Syntax = "[机器人名]",
-            Tag = CmdTagEnum.超管,
+            SyntaxHint = "[机器人名]",
             SyntaxChecker = "Word",
             AuthorityLevel = AuthorityLevel.开发者,
             IsPrivateAvailable = true)]
@@ -336,8 +327,7 @@ namespace Dolany.Ai.Core.Ai
         [EnterCommand(ID = "SuperAdminAI_ForbiddenPicCache",
             Command = "禁用图片缓存",
             Description = "禁用一个群的图片缓存",
-            Syntax = "[群号]",
-            Tag = CmdTagEnum.超管,
+            SyntaxHint = "[群号]",
             SyntaxChecker = "Long",
             AuthorityLevel = AuthorityLevel.开发者,
             IsPrivateAvailable = true)]
@@ -359,9 +349,6 @@ namespace Dolany.Ai.Core.Ai
         [EnterCommand(ID = "SuperAdminAI_PicReview",
             Command = "图片审核",
             Description = "审核一张图片",
-            Syntax = "",
-            Tag = CmdTagEnum.超管,
-            SyntaxChecker = "Empty",
             AuthorityLevel = AuthorityLevel.开发者,
             IsPrivateAvailable = true,
             IsGroupAvailable = true)]
@@ -374,12 +361,8 @@ namespace Dolany.Ai.Core.Ai
         [EnterCommand(ID = "SuperAdminAI_DataRefresh",
             Command = "刷新数据 数据刷新",
             Description = "刷新所有数据信息",
-            Syntax = "",
-            Tag = CmdTagEnum.超管,
-            SyntaxChecker = "Empty",
             AuthorityLevel = AuthorityLevel.开发者,
-            IsPrivateAvailable = true,
-            IsGroupAvailable = true)]
+            IsPrivateAvailable = true)]
         public bool DataRefresh(MsgInformationEx MsgDTO, object[] param)
         {
             var count = DataRefreshSvc.RefreshAll();
@@ -390,12 +373,8 @@ namespace Dolany.Ai.Core.Ai
         [EnterCommand(ID = "SuperAdminAI_SysPressure",
             Command = "系统压力",
             Description = "查看系统压力信息",
-            Syntax = "",
-            Tag = CmdTagEnum.超管,
-            SyntaxChecker = "Empty",
             AuthorityLevel = AuthorityLevel.开发者,
-            IsPrivateAvailable = true,
-            IsGroupAvailable = true)]
+            IsPrivateAvailable = true)]
         public bool SysPressure(MsgInformationEx MsgDTO, object[] param)
         {
             var msg = string.Join("\r\n",
@@ -407,12 +386,8 @@ namespace Dolany.Ai.Core.Ai
         [EnterCommand(ID = "SuperAdminAI_CurrentRestrictor",
             Command = "现行限流方案",
             Description = "查看当前的限流方案",
-            Syntax = "",
-            Tag = CmdTagEnum.超管,
-            SyntaxChecker = "Empty",
             AuthorityLevel = AuthorityLevel.开发者,
-            IsPrivateAvailable = true,
-            IsGroupAvailable = true)]
+            IsPrivateAvailable = true)]
         public bool CurrentRestrictor(MsgInformationEx MsgDTO, object[] param)
         {
             var limitDic = RestrictorSvc.BindAiLimit;
@@ -423,12 +398,10 @@ namespace Dolany.Ai.Core.Ai
         [EnterCommand(ID = "SuperAdminAI_SetRestrictor",
             Command = "设置限流 设定限流",
             Description = "设置某个机器人的限流方案",
-            Syntax = "[机器人名] [限流上限]",
-            Tag = CmdTagEnum.超管,
+            SyntaxHint = "[机器人名] [限流上限]",
             SyntaxChecker = "Word Long",
             AuthorityLevel = AuthorityLevel.开发者,
-            IsPrivateAvailable = true,
-            IsGroupAvailable = true)]
+            IsPrivateAvailable = true)]
         public bool SetRestrictor(MsgInformationEx MsgDTO, object[] param)
         {
             var name = (string) param[0];

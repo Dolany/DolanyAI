@@ -16,16 +16,13 @@ namespace Dolany.WorldLine.Standard.Ai.Record
 
         public override string Description { get; set; } = "AI for Cartoon Sayings.";
 
-        public override AIPriority PriorityLevel { get;} = AIPriority.Normal;
+        public override CmdTagEnum DefaultTag { get; } = CmdTagEnum.语录功能;
 
         [EnterCommand(ID = "CartoonSayingAI_ProcceedMsg",
             Command = "语录",
-            AuthorityLevel = AuthorityLevel.成员,
             Description = "录入一条语录",
-            Syntax = "[出处] [人物] [内容]",
-            Tag = CmdTagEnum.语录功能,
+            SyntaxHint = "[出处] [人物] [内容]",
             SyntaxChecker = "Word Word Any",
-            IsPrivateAvailable = false,
             DailyLimit = 5)]
         public bool ProcceedMsg(MsgInformationEx MsgDTO, object[] param)
         {
@@ -46,12 +43,7 @@ namespace Dolany.WorldLine.Standard.Ai.Record
 
         [EnterCommand(ID = "CartoonSayingAI_Sayings",
             Command = "语录",
-            AuthorityLevel = AuthorityLevel.成员,
             Description = "返回一条随机语录",
-            Syntax = "",
-            Tag = CmdTagEnum.语录功能,
-            SyntaxChecker = "Empty",
-            IsPrivateAvailable = false,
             DailyLimit = 10,
             TestingDailyLimit = 20)]
         public bool Sayings(MsgInformationEx MsgDTO, object[] param)
@@ -62,12 +54,9 @@ namespace Dolany.WorldLine.Standard.Ai.Record
 
         [EnterCommand(ID = "CartoonSayingAI_Sayings_Query",
             Command = "语录",
-            AuthorityLevel = AuthorityLevel.成员,
             Description = "按关键字检索语录",
-            Syntax = "[关键字]",
-            Tag = CmdTagEnum.语录功能,
+            SyntaxHint = "[关键字]",
             SyntaxChecker = "Word",
-            IsPrivateAvailable = false,
             DailyLimit = 10,
             TestingDailyLimit = 20)]
         public bool Sayings_Query(MsgInformationEx MsgDTO, object[] param)
@@ -121,10 +110,8 @@ namespace Dolany.WorldLine.Standard.Ai.Record
             Command = "删除语录",
             AuthorityLevel = AuthorityLevel.群主,
             Description = "按关键字删除语录",
-            Syntax = "[关键字]",
-            Tag = CmdTagEnum.语录功能,
-            SyntaxChecker = "Word",
-            IsPrivateAvailable = false)]
+            SyntaxHint = "[关键字]",
+            SyntaxChecker = "Word")]
         public bool ClearSayings(MsgInformationEx MsgDTO, object[] param)
         {
             var query = MongoService<Saying>.Get(s => s.FromGroup == MsgDTO.FromGroup &&

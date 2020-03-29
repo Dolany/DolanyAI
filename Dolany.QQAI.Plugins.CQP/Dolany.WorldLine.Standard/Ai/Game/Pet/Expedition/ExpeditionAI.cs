@@ -15,7 +15,7 @@ namespace Dolany.WorldLine.Standard.Ai.Game.Pet.Expedition
     {
         public override string AIName { get; set; } = "宠物远征";
         public override string Description { get; set; } = "AI for Pet Expedition.";
-        public override AIPriority PriorityLevel { get;} = AIPriority.Normal;
+        public override CmdTagEnum DefaultTag { get; } = CmdTagEnum.宠物功能;
 
         public ExpeditionSceneSvc ExpeditionSceneSvc { get; set; }
         public PetLevelSvc PetLevelSvc { get; set; }
@@ -23,11 +23,7 @@ namespace Dolany.WorldLine.Standard.Ai.Game.Pet.Expedition
 
         [EnterCommand(ID = "ExpeditionAI_Expedite",
             Command = "宠物远征",
-            AuthorityLevel = AuthorityLevel.成员,
             Description = "开始宠物远征，或者领取远征奖励",
-            Syntax = "",
-            Tag = CmdTagEnum.宠物功能,
-            SyntaxChecker = "Empty",
             IsPrivateAvailable = true)]
         public bool Expedite(MsgInformationEx MsgDTO, object[] param)
         {
@@ -115,10 +111,8 @@ namespace Dolany.WorldLine.Standard.Ai.Game.Pet.Expedition
 
         [EnterCommand(ID = "ExpeditionAI_ViewExpedition",
             Command = "查看远征地点",
-            AuthorityLevel = AuthorityLevel.成员,
             Description = "查看某个远征地点的信息",
-            Syntax = "[远征地点名称]",
-            Tag = CmdTagEnum.宠物功能,
+            SyntaxHint = "[远征地点名称]",
             SyntaxChecker = "Word",
             IsPrivateAvailable = true)]
         public bool ViewExpedition(MsgInformationEx MsgDTO, object[] param)
@@ -137,11 +131,7 @@ namespace Dolany.WorldLine.Standard.Ai.Game.Pet.Expedition
 
         [EnterCommand(ID = "ExpeditionAI_MyExpeditionHistory",
             Command = "我的远征记录",
-            AuthorityLevel = AuthorityLevel.成员,
             Description = "查看我的远征记录",
-            Syntax = "",
-            Tag = CmdTagEnum.宠物功能,
-            SyntaxChecker = "Empty",
             IsPrivateAvailable = true)]
         public bool MyExpeditionHistory(MsgInformationEx MsgDTO, object[] param)
         {
@@ -165,10 +155,8 @@ namespace Dolany.WorldLine.Standard.Ai.Game.Pet.Expedition
 
         [EnterCommand(ID = "ExpeditionAI_ResolveItem",
             Command = "分解 分解物品",
-            AuthorityLevel = AuthorityLevel.成员,
             Description = "将某个物品分解为调味料",
-            Syntax = "[物品名]",
-            Tag = CmdTagEnum.宠物功能,
+            SyntaxHint = "[物品名]",
             SyntaxChecker = "Word",
             IsPrivateAvailable = true,
             DailyLimit = 5,

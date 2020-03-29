@@ -18,6 +18,8 @@ namespace Dolany.WorldLine.Standard.Ai.SingleCommand.Dice
 
         public override AIPriority PriorityLevel { get;} = AIPriority.Low;
 
+        public override CmdTagEnum DefaultTag { get; } = CmdTagEnum.骰娘功能;
+
         private const int DiceCountMaxLimit = 200;
         private const int DiceSizeMaxLimit = 2000;
 
@@ -171,11 +173,7 @@ namespace Dolany.WorldLine.Standard.Ai.SingleCommand.Dice
 
         [EnterCommand(ID = "DiceAI_RD",
             Command = ".rd",
-            AuthorityLevel = AuthorityLevel.成员,
             Description = "获取1-100之间的一个随机数",
-            Syntax = "",
-            Tag = CmdTagEnum.骰娘功能,
-            SyntaxChecker = "Empty",
             IsPrivateAvailable = true)]
         public bool RD(MsgInformationEx MsgDTO, object[] param)
         {

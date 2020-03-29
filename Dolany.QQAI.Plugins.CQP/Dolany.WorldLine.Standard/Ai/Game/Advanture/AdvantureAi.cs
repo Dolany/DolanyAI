@@ -15,17 +15,16 @@ namespace Dolany.WorldLine.Standard.Ai.Game.Advanture
 
         public override AIPriority PriorityLevel { get;} = AIPriority.Normal;
 
+        public override CmdTagEnum DefaultTag { get; } = CmdTagEnum.游戏功能;
+
         public BindAiSvc BindAiSvc { get; set; }
         public AdvGameSvc AdvGameSvc { get; set; }
 
         [EnterCommand(ID = "AdvantureAi_AdvantureAgainst",
             Command = "冒险对决",
-            AuthorityLevel = AuthorityLevel.成员,
             Description = "和一名成员进行冒险对决",
-            Syntax = "[@QQ号]",
+            SyntaxHint = "[@QQ号]",
             SyntaxChecker = "At",
-            Tag = CmdTagEnum.游戏功能,
-            IsPrivateAvailable = false,
             DailyLimit = 1,
             TestingDailyLimit = 2)]
         public bool AdvantureAgainst(MsgInformationEx MsgDTO, object[] param)

@@ -18,7 +18,7 @@ namespace Dolany.WorldLine.Standard.Ai.SingleCommand.Fortune
 
         public override string Description { get; set; } = "AI for Getting Daily Maj Fortune.";
 
-        public override AIPriority PriorityLevel { get;} = AIPriority.Normal;
+        public override CmdTagEnum DefaultTag { get; } = CmdTagEnum.运势功能;
 
         private readonly string[] PosArray = { "东", "南", "西", "北" };
 
@@ -52,12 +52,7 @@ namespace Dolany.WorldLine.Standard.Ai.SingleCommand.Fortune
 
         [EnterCommand(ID = "MajFortuneAI_RandomMajFortune",
             Command = ".maj 麻将运势",
-            AuthorityLevel = AuthorityLevel.成员,
-            Description = "获取每天麻将运势",
-            Syntax = "",
-            Tag = CmdTagEnum.运势功能,
-            SyntaxChecker = "Empty",
-            IsPrivateAvailable = false)]
+            Description = "获取每天麻将运势")]
         public bool RandomMajFortune(MsgInformationEx MsgDTO, object[] param)
         {
             var fortune = TodayFortune(MsgDTO.FromQQ);

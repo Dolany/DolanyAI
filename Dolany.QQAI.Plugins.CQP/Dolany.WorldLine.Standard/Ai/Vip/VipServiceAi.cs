@@ -13,17 +13,13 @@ namespace Dolany.WorldLine.Standard.Ai.Vip
     {
         public override string AIName { get; set; } = "Vip服务";
         public override string Description { get; set; } = "Ai for vip services.";
-        public override AIPriority PriorityLevel { get;} = AIPriority.Normal;
+        public override CmdTagEnum DefaultTag { get; } = CmdTagEnum.vip服务;
 
         public DailyVipShopSvc DailyVipShopSvc { get; set; }
 
         [EnterCommand(ID = "VipServiceAi_VipShop",
             Command = "vip商店 钻石商店",
             Description = "打开vip商店(每日刷新7个服务项目)",
-            Syntax = "",
-            Tag = CmdTagEnum.vip服务,
-            SyntaxChecker = "Empty",
-            AuthorityLevel = AuthorityLevel.成员,
             IsPrivateAvailable = true)]
         public bool VipShop(MsgInformationEx MsgDTO, object[] param)
         {
@@ -46,10 +42,6 @@ namespace Dolany.WorldLine.Standard.Ai.Vip
         [EnterCommand(ID = "VipServiceAi_RefreshVipShop",
             Command = "刷新vip商店 刷新钻石商店",
             Description = "刷新vip商店（花费10钻石）",
-            Syntax = "",
-            Tag = CmdTagEnum.vip服务,
-            SyntaxChecker = "Empty",
-            AuthorityLevel = AuthorityLevel.成员,
             IsPrivateAvailable = true)]
         public bool RefreshVipShop(MsgInformationEx MsgDTO, object[] param)
         {
@@ -78,10 +70,8 @@ namespace Dolany.WorldLine.Standard.Ai.Vip
         [EnterCommand(ID = "VipServiceAi_ViewArmer",
             Command = "查看装备",
             Description = "查看指定名称的装备",
-            Syntax = "[装备名称]",
-            Tag = CmdTagEnum.vip服务,
+            SyntaxHint = "[装备名称]",
             SyntaxChecker = "Word",
-            AuthorityLevel = AuthorityLevel.成员,
             IsPrivateAvailable = true)]
         public bool ViewArmer(MsgInformationEx MsgDTO, object[] param)
         {
@@ -101,10 +91,6 @@ namespace Dolany.WorldLine.Standard.Ai.Vip
         [EnterCommand(ID = "VipServiceAi_MyArmer",
             Command = "我的装备",
             Description = "查看自己拥有的装备",
-            Syntax = "[装备名称]",
-            Tag = CmdTagEnum.vip服务,
-            SyntaxChecker = "Empty",
-            AuthorityLevel = AuthorityLevel.成员,
             IsPrivateAvailable = true)]
         public bool MyArmer(MsgInformationEx MsgDTO, object[] param)
         {

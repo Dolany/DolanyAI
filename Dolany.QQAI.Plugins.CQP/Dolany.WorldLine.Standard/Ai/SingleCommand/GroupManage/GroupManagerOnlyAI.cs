@@ -18,14 +18,14 @@ namespace Dolany.WorldLine.Standard.Ai.SingleCommand.GroupManage
 
         public override AIPriority PriorityLevel { get;} = AIPriority.High;
 
+        public override CmdTagEnum DefaultTag { get; } = CmdTagEnum.群管理;
+
         [EnterCommand(ID = "GroupManagerOnlyAI_DeathStaring",
             Command = "死亡凝视",
             AuthorityLevel = AuthorityLevel.群主,
             Description = "让某个成员死亡(无法使用机器人)若干分钟（最高500分钟）",
-            Syntax = "[@qq号] [分钟数]",
-            Tag = CmdTagEnum.群管理,
+            SyntaxHint = "[@qq号] [分钟数]",
             SyntaxChecker = "At Long",
-            IsPrivateAvailable = false,
             DailyLimit = 4)]
         public bool DeathStaring(MsgInformationEx MsgDTO, object[] param)
         {
@@ -52,10 +52,8 @@ namespace Dolany.WorldLine.Standard.Ai.SingleCommand.GroupManage
             Command = "星光爆裂",
             AuthorityLevel = AuthorityLevel.群主,
             Description = "让某个成员死亡(无法使用机器人)若干小时（最高80小时）",
-            Syntax = "[@qq号] [小时数]",
-            Tag = CmdTagEnum.群管理,
+            SyntaxHint = "[@qq号] [小时数]",
             SyntaxChecker = "At Long",
-            IsPrivateAvailable = false,
             DailyLimit = 3)]
         public bool StarLightBreak(MsgInformationEx MsgDTO, object[] param)
         {
@@ -82,10 +80,8 @@ namespace Dolany.WorldLine.Standard.Ai.SingleCommand.GroupManage
             Command = "梦想封印",
             AuthorityLevel = AuthorityLevel.群主,
             Description = "让某个成员死亡(无法使用机器人)若干天（最高30天）",
-            Syntax = "[@qq号] [天数]",
-            Tag = CmdTagEnum.群管理,
+            SyntaxHint = "[@qq号] [天数]",
             SyntaxChecker = "At Long",
-            IsPrivateAvailable = false,
             DailyLimit = 2)]
         public bool DreamSeal(MsgInformationEx MsgDTO, object[] param)
         {
@@ -112,10 +108,8 @@ namespace Dolany.WorldLine.Standard.Ai.SingleCommand.GroupManage
             Command = "复活",
             AuthorityLevel = AuthorityLevel.管理员,
             Description = "复活某个成员",
-            Syntax = "[@qq号]",
-            Tag = CmdTagEnum.群管理,
+            SyntaxHint = "[@qq号]",
             SyntaxChecker = "At",
-            IsPrivateAvailable = false,
             DailyLimit = 5)]
         public bool Reborn(MsgInformationEx MsgDTO, object[] param)
         {
@@ -149,10 +143,8 @@ namespace Dolany.WorldLine.Standard.Ai.SingleCommand.GroupManage
             Command = "定时开机",
             AuthorityLevel = AuthorityLevel.管理员,
             Description = "定时整点开机",
-            Syntax = "[整点数(0-23)]",
-            Tag = CmdTagEnum.群管理,
-            SyntaxChecker = "Long",
-            IsPrivateAvailable = false)]
+            SyntaxHint = "[整点数(0-23)]",
+            SyntaxChecker = "Long")]
         public bool AutoPowerOn(MsgInformationEx MsgDTO, object[] param)
         {
             var hour = (int) (long) param[0];
@@ -182,10 +174,8 @@ namespace Dolany.WorldLine.Standard.Ai.SingleCommand.GroupManage
             Command = "定时关机",
             AuthorityLevel = AuthorityLevel.管理员,
             Description = "定时整点关机",
-            Syntax = "[整点数(0-23)]",
-            Tag = CmdTagEnum.群管理,
-            SyntaxChecker = "Long",
-            IsPrivateAvailable = false)]
+            SyntaxHint = "[整点数(0-23)]",
+            SyntaxChecker = "Long")]
         public bool AutoPowerOff(MsgInformationEx MsgDTO, object[] param)
         {
             var hour = (int) (long) param[0];
@@ -214,11 +204,7 @@ namespace Dolany.WorldLine.Standard.Ai.SingleCommand.GroupManage
         [EnterCommand(ID = "GroupManagerOnlyAI_ClearAutoPower",
             Command = "清除定时开关机 清除自动开关机",
             AuthorityLevel = AuthorityLevel.管理员,
-            Description = "清除所有定时开关机设定",
-            Syntax = "",
-            Tag = CmdTagEnum.群管理,
-            SyntaxChecker = "Empty",
-            IsPrivateAvailable = false)]
+            Description = "清除所有定时开关机设定")]
         public bool ClearAutoPower(MsgInformationEx MsgDTO, object[] param)
         {
             MongoService<AutoPowerSetting>.DeleteMany(p => p.GroupNum == MsgDTO.FromGroup);

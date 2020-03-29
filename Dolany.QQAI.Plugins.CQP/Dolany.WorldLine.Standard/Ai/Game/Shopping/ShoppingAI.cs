@@ -21,7 +21,7 @@ namespace Dolany.WorldLine.Standard.Ai.Game.Shopping
 
         public override string Description { get; set; } = "AI for Shopping.";
 
-        public override AIPriority PriorityLevel { get;} = AIPriority.Normal;
+        public override CmdTagEnum DefaultTag { get; } = CmdTagEnum.商店功能;
 
         private const int RebornHonorLimit = 7;
 
@@ -33,10 +33,8 @@ namespace Dolany.WorldLine.Standard.Ai.Game.Shopping
 
         [EnterCommand(ID = "ShoppingAI_Sell",
             Command = "贩卖 出售 贩卖物品 出售物品",
-            AuthorityLevel = AuthorityLevel.成员,
             Description = "贩卖物品或者成就",
-            Syntax = "[物品名或成就名]",
-            Tag = CmdTagEnum.商店功能,
+            SyntaxHint = "[物品名或成就名]",
             SyntaxChecker = "Word",
             IsPrivateAvailable = true,
             DailyLimit = 6,
@@ -68,10 +66,8 @@ namespace Dolany.WorldLine.Standard.Ai.Game.Shopping
 
         [EnterCommand(ID = "ShoppingAI_SellHonor",
             Command = "贩卖成就 出售成就",
-            AuthorityLevel = AuthorityLevel.成员,
             Description = "贩卖指定成就",
-            Syntax = "[成就名]",
-            Tag = CmdTagEnum.商店功能,
+            SyntaxHint = "[成就名]",
             SyntaxChecker = "Word",
             IsPrivateAvailable = true,
             DailyLimit = 6,
@@ -97,10 +93,8 @@ namespace Dolany.WorldLine.Standard.Ai.Game.Shopping
 
         [EnterCommand(ID = "ShoppingAI_SellMulti",
             Command = "贩卖 出售",
-            AuthorityLevel = AuthorityLevel.成员,
             Description = "批量贩卖物品",
-            Syntax = "[物品名] [物品数量]",
-            Tag = CmdTagEnum.商店功能,
+            SyntaxHint = "[物品名] [物品数量]",
             SyntaxChecker = "Word Long",
             IsPrivateAvailable = true,
             DailyLimit = 3,
@@ -134,11 +128,7 @@ namespace Dolany.WorldLine.Standard.Ai.Game.Shopping
 
         [EnterCommand(ID = "ShoppingAI_SellRedundant",
             Command = "贩卖多余物品 出售多余物品",
-            AuthorityLevel = AuthorityLevel.成员,
             Description = "一键贩卖自己多余的物品",
-            Syntax = "",
-            Tag = CmdTagEnum.商店功能,
-            SyntaxChecker = "Empty",
             IsPrivateAvailable = true,
             DailyLimit = 2,
             TestingDailyLimit = 2)]
@@ -250,11 +240,7 @@ namespace Dolany.WorldLine.Standard.Ai.Game.Shopping
 
         [EnterCommand(ID = "ShoppingAI_ShopInfo",
             Command = "逛商店 .shopping",
-            AuthorityLevel = AuthorityLevel.成员,
             Description = "获取当前售卖的商品信息",
-            Syntax = "",
-            Tag = CmdTagEnum.商店功能,
-            SyntaxChecker = "Empty",
             IsPrivateAvailable = true)]
         public bool ShopInfo(MsgInformationEx MsgDTO, object[] param)
         {
@@ -274,11 +260,7 @@ namespace Dolany.WorldLine.Standard.Ai.Game.Shopping
 
         [EnterCommand(ID = "ShoppingAI_ShopInfo_Rare",
             Command = "稀有商店",
-            AuthorityLevel = AuthorityLevel.成员,
             Description = "逛稀有商店(每日随机开放三个小时)",
-            Syntax = "",
-            Tag = CmdTagEnum.商店功能,
-            SyntaxChecker = "Empty",
             IsPrivateAvailable = true)]
         public bool ShopInfo_Rare(MsgInformationEx MsgDTO, object[] param)
         {
@@ -314,10 +296,8 @@ namespace Dolany.WorldLine.Standard.Ai.Game.Shopping
 
         [EnterCommand(ID = "ShoppingAI_Buy",
             Command = "购买 购买物品",
-            AuthorityLevel = AuthorityLevel.成员,
             Description = "购买指定（在商店中售卖的）商品",
-            Syntax = "[商品名]",
-            Tag = CmdTagEnum.商店功能,
+            SyntaxHint = "[商品名]",
             SyntaxChecker = "Word",
             IsPrivateAvailable = true,
             DailyLimit = 5,
@@ -377,12 +357,9 @@ namespace Dolany.WorldLine.Standard.Ai.Game.Shopping
 
         [EnterCommand(ID = "ShoppingAI_DealWith",
             Command = "交易",
-            AuthorityLevel = AuthorityLevel.成员,
             Description = "向另一个成员求购一个物品/菜肴，并指定价格(系统将收取5%的手续费)",
-            Syntax = "[@QQ号] [商品名/菜肴名] [价格]",
-            Tag = CmdTagEnum.商店功能,
+            SyntaxHint = "[@QQ号] [商品名/菜肴名] [价格]",
             SyntaxChecker = "At Word Long",
-            IsPrivateAvailable = false,
             DailyLimit = 4,
             TestingDailyLimit = 5)]
         public bool DealWith(MsgInformationEx MsgDTO, object[] param)
@@ -534,11 +511,7 @@ namespace Dolany.WorldLine.Standard.Ai.Game.Shopping
 
         [EnterCommand(ID = "ShoppingAI_ViewItem",
             Command = "我的状态",
-            AuthorityLevel = AuthorityLevel.成员,
             Description = "查看自己的当前的状态（包括金币，物品数量，buff等）",
-            Syntax = "",
-            SyntaxChecker = "Empty",
-            Tag = CmdTagEnum.商店功能,
             IsPrivateAvailable = true)]
         public bool ViewItem(MsgInformationEx MsgDTO, object[] param)
         {
@@ -584,12 +557,9 @@ namespace Dolany.WorldLine.Standard.Ai.Game.Shopping
 
         [EnterCommand(ID = "ShoppingAI_Present",
             Command = "赠送",
-            AuthorityLevel = AuthorityLevel.成员,
             Description = "赠送一件物品给其他成员，需要支付5%的手续费",
-            Syntax = "[@QQ号] [物品名]",
-            Tag = CmdTagEnum.商店功能,
+            SyntaxHint = "[@QQ号] [物品名]",
             SyntaxChecker = "At Word",
-            IsPrivateAvailable = false,
             DailyLimit = 1,
             TestingDailyLimit = 1)]
         public bool Present(MsgInformationEx MsgDTO, object[] param)
@@ -634,11 +604,7 @@ namespace Dolany.WorldLine.Standard.Ai.Game.Shopping
 
         [EnterCommand(ID = "ShoppingAI_AssertCalculate",
             Command = "资产评估",
-            AuthorityLevel = AuthorityLevel.成员,
             Description = "评估自己的资产情况",
-            Syntax = "",
-            SyntaxChecker = "Empty",
-            Tag = CmdTagEnum.商店功能,
             IsPrivateAvailable = true)]
         public bool AssertCalculate(MsgInformationEx MsgDTO, object[] param)
         {
@@ -701,11 +667,7 @@ namespace Dolany.WorldLine.Standard.Ai.Game.Shopping
 
         [EnterCommand(ID = "ShoppingAI_Reborn",
             Command = "灵魂转生",
-            AuthorityLevel = AuthorityLevel.成员,
             Description = "献祭所有物品，等级+1，获取一个自定义荣誉称号",
-            Syntax = "",
-            Tag = CmdTagEnum.商店功能,
-            SyntaxChecker = "Empty",
             IsPrivateAvailable = true)]
         public bool Reborn(MsgInformationEx MsgDTO, object[] param)
         {

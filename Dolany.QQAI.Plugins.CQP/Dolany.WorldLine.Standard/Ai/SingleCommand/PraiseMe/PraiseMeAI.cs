@@ -14,7 +14,7 @@ namespace Dolany.WorldLine.Standard.Ai.SingleCommand.PraiseMe
 
         public override string Description { get; set; } = "AI for Praise someone.";
 
-        public override AIPriority PriorityLevel { get;} = AIPriority.Normal;
+        public override CmdTagEnum DefaultTag { get; } = CmdTagEnum.娱乐功能;
 
         private readonly Dictionary<string, DateTime> LastTimeDic = new Dictionary<string, DateTime>();
 
@@ -22,13 +22,8 @@ namespace Dolany.WorldLine.Standard.Ai.SingleCommand.PraiseMe
 
         [EnterCommand(ID = "PraiseMeAI_PraiseMe",
             Command = "赞我",
-            AuthorityLevel = AuthorityLevel.成员,
             Description = "发送十个赞",
-            Syntax = "",
-            Tag = CmdTagEnum.娱乐功能,
-            SyntaxChecker = "Empty",
             IsPrivateAvailable = true,
-            IsGroupAvailable = true,
             DailyLimit = 1,
             TestingDailyLimit = 1)]
         public bool PraiseMe(MsgInformationEx MsgDTO, object[] param)

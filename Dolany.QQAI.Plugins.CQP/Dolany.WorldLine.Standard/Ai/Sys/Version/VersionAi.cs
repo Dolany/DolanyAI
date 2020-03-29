@@ -12,7 +12,7 @@ namespace Dolany.WorldLine.Standard.Ai.Sys.Version
     {
         public override string AIName { get; set; } = "版本信息";
         public override string Description { get; set; } = "Ai for showing verion info";
-        public override AIPriority PriorityLevel { get;} = AIPriority.Normal;
+        public override CmdTagEnum DefaultTag { get; } = CmdTagEnum.系统命令;
 
         public List<VersionModel> Versions = new List<VersionModel>();
 
@@ -25,10 +25,6 @@ namespace Dolany.WorldLine.Standard.Ai.Sys.Version
         [EnterCommand(ID = "VersionAi_VersionInfo",
             Command = "版本信息",
             Description = "获取当前的版本信息",
-            Syntax = "",
-            Tag = CmdTagEnum.系统命令,
-            SyntaxChecker = "Empty",
-            AuthorityLevel = AuthorityLevel.成员,
             IsPrivateAvailable = true)]
         public bool VersionInfo(MsgInformationEx MsgDTO, object[] param)
         {
@@ -40,10 +36,8 @@ namespace Dolany.WorldLine.Standard.Ai.Sys.Version
         [EnterCommand(ID = "VersionAi_VersionHistoryInfo",
             Command = "版本信息",
             Description = "获取指定版本的版本信息",
-            Syntax = "[版本号]",
-            Tag = CmdTagEnum.系统命令,
+            SyntaxHint = "[版本号]",
             SyntaxChecker = "Word",
-            AuthorityLevel = AuthorityLevel.成员,
             IsPrivateAvailable = true)]
         public bool VersionHistoryInfo(MsgInformationEx MsgDTO, object[] param)
         {
