@@ -2,6 +2,7 @@
 using System.Linq;
 using Dolany.Ai.Common;
 using Dolany.Ai.Common.Models;
+using Dolany.Ai.Core;
 using Dolany.Ai.Core.Base;
 using Dolany.Ai.Core.Cache;
 using Dolany.Ai.Core.Common;
@@ -20,6 +21,8 @@ namespace Dolany.WorldLine.Standard.Ai.SingleCommand.GroupManage
 
         public override string Description { get; set; } = "AI for some power only for group owners.";
 
+        public CrossWorldAiSvc CrossWorldAiSvc { get; set; }
+
         [EnterCommand(ID = "GroupOwnerOnlyAI_RefreshCommand",
             Command = "刷新",
             AuthorityLevel = AuthorityLevel.群主,
@@ -31,7 +34,7 @@ namespace Dolany.WorldLine.Standard.Ai.SingleCommand.GroupManage
         {
             var aimQQ = (long) param[0];
             var command = param[1] as string;
-            var enter = WorldLine.AllAvailableGroupCommands.FirstOrDefault(p => p.CommandsList.Contains(command));
+            var enter = CrossWorldAiSvc[MsgDTO.FromGroup].AllAvailableGroupCommands.FirstOrDefault(p => p.CommandsList.Contains(command));
             if (enter == null)
             {
                 MsgSender.PushMsg(MsgDTO, "未找到该功能！", true);

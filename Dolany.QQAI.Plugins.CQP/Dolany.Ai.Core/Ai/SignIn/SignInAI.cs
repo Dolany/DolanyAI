@@ -1,6 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
 using Dolany.Ai.Common.Models;
+using Dolany.Ai.Core;
 using Dolany.Ai.Core.Base;
 using Dolany.Ai.Core.Cache;
 using Dolany.Ai.Core.Common;
@@ -18,6 +19,8 @@ namespace Dolany.WorldLine.Standard.Ai.Game.SignIn
         public override AIPriority PriorityLevel { get;} = AIPriority.Normal;
 
         public override CmdTagEnum DefaultTag { get; } = CmdTagEnum.签到功能;
+
+        public CrossWorldAiSvc CrossWorldAiSvc { get; set; }
 
         private Dictionary<long, SignInGroupRecord> GroupSignInDic = new Dictionary<long, SignInGroupRecord>();
 
@@ -37,7 +40,7 @@ namespace Dolany.WorldLine.Standard.Ai.Game.SignIn
         {
             var content = param[0] as string;
 
-            if (content != "签到" && WorldLine.AllAvailableGroupCommands.Any(comm => comm.Command == content))
+            if (content != "签到" && CrossWorldAiSvc[MsgDTO.FromGroup].AllAvailableGroupCommands.Any(comm => comm.Command == content))
             {
                 MsgSender.PushMsg(MsgDTO, "不能与系统自带命令重复！");
                 return false;

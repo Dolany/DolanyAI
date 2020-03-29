@@ -2,6 +2,7 @@
 using System.Linq;
 using Dolany.Ai.Common;
 using Dolany.Ai.Common.Models;
+using Dolany.Ai.Core;
 using Dolany.Ai.Core.Base;
 using Dolany.Ai.Core.Cache;
 using Dolany.Ai.Core.Common;
@@ -37,6 +38,7 @@ namespace Dolany.WorldLine.Standard.Ai.Sys
         public CookingDietSvc CookingDietSvc { get; set; }
         public ExpeditionSceneSvc ExpeditionSceneSvc { get; set; }
         public HonorSvc HonorSvc { get; set; }
+        public CrossWorldAiSvc CrossWorldAiSvc { get; set; }
 
         public void RefreshData()
         {
@@ -49,10 +51,10 @@ namespace Dolany.WorldLine.Standard.Ai.Sys
             IsPrivateAvailable = true)]
         public bool HelpMe(MsgInformationEx MsgDTO, object[] param)
         {
-            var versionAi = WorldLine.AIInstance<VersionAi>();
+            var versionAi = CrossWorldAiSvc[MsgDTO.FromGroup].AIInstance<VersionAi>();
             var version = versionAi.Versions.First();
             var helpMsg = $"当前版本为：{version.VersionNum}，请使用 【版本信息】 命令获取当前版本的更新内容！\r\n当前版本的命令标签有：\r\n";
-            var tags = WorldLine.CmdTagTree.SubTags;
+            var tags = CrossWorldAiSvc[MsgDTO.FromGroup].CmdTagTree.SubTags;
 
             helpMsg += string.Join("", tags.Select((tag, idx) =>
                 idx % 2 == 0 ? $"{Emoji.AllEmojis().RandElement()}{tag.Tag}{Emoji.AllEmojis().RandElement()}" : $"{tag.Tag}{Emoji.AllEmojis().RandElement()}\r\n"));
@@ -105,7 +107,7 @@ namespace Dolany.WorldLine.Standard.Ai.Sys
 
         private bool HelpCommand(MsgInformationEx MsgDTO)
         {
-            var commands = WorldLine.AllAvailableGroupCommands.Where(c => c.Command == MsgDTO.Msg).ToList();
+            var commands = CrossWorldAiSvc[MsgDTO.FromGroup].AllAvailableGroupCommands.Where(c => c.Command == MsgDTO.Msg).ToList();
             if (!Global.TestGroups.Contains(MsgDTO.FromGroup))
             {
                 commands = commands.Where(c => !c.IsTesting).ToList();
@@ -135,7 +137,7 @@ namespace Dolany.WorldLine.Standard.Ai.Sys
                     {"格式", $"{command.Command} {command.SyntaxHint}" },
                     {"描述", command.Description },
                     {"权限", command.AuthorityLevel.ToString() },
-                    {"标签", string.Join("-", WorldLine.LocateCmdPath(command).Select(p => p.Tag.ToString())) },
+                    {"标签", string.Join("-", CrossWorldAiSvc[MsgDTO.FromGroup].LocateCmdPath(command).Select(p => p.Tag.ToString())) },
                     {"适用范围", string.Join("，", range) },
                     {"次数限制", Global.TestGroups.Contains(MsgDTO.FromGroup) ? command.TestingDailyLimit.ToString() : command.DailyLimit.ToString() }
                 };
@@ -151,7 +153,7 @@ namespace Dolany.WorldLine.Standard.Ai.Sys
         private bool HelpTag(MsgInformationEx MsgDTO)
         {
             var tagName = MsgDTO.Msg;
-            var tag = WorldLine.CmdTagTree.AllSubTags.FirstOrDefault(p => p.Tag.ToString() == tagName);
+            var tag = CrossWorldAiSvc[MsgDTO.FromGroup].CmdTagTree.AllSubTags.FirstOrDefault(p => p.Tag.ToString() == tagName);
             if (tag == null)
             {
                 return false;
@@ -173,8 +175,8 @@ namespace Dolany.WorldLine.Standard.Ai.Sys
                 helpMsg += "当前标签下的命令有：\r\n";
 
                 var groups = tag.SubCmds.GroupBy(p => p.ID);
-                var subCommands = groups.Select(group => string.Join("/", group.Select(g => g.Command))).ToList();
-                var msgList = subCommands.Select(cmd => $"{cmd}{Emoji.AllEmojis().RandElement()}")
+                var subCommands = groups.Select(group => string.Join("/", group.Select(g => g.Command))).Distinct().ToList();
+                var msgList = subCommands.Select(cmd => $"【{cmd}】{Emoji.AllEmojis().RandElement()}")
                     .Select((msg, i) => i % 2 == 0 ? $"{Emoji.AllEmojis().RandElement()}{msg}" : $"{msg}\r\n").ToList();
 
                 helpMsg += string.Join("", msgList);
@@ -199,55 +201,55 @@ namespace Dolany.WorldLine.Standard.Ai.Sys
             // 漂流瓶物品
             if (HonorSvc.FindItem(name) != null)
             {
-                return WorldLine.AIInstance<DriftBottleAI>().ViewItem(MsgDTO, param);
+                return CrossWorldAiSvc[MsgDTO.FromGroup].AIInstance<DriftBottleAI>().ViewItem(MsgDTO, param);
             }
 
             // 漂流瓶成就
             if (HonorSvc.FindHonor(name) != null)
             {
-                return WorldLine.AIInstance<DriftBottleAI>().ViewHonor(MsgDTO, param);
+                return CrossWorldAiSvc[MsgDTO.FromGroup].AIInstance<DriftBottleAI>().ViewHonor(MsgDTO, param);
             }
 
             // 礼物
             if (GiftSvc[name] != null)
             {
-                return WorldLine.AIInstance<GiftAI>().ViewGift(MsgDTO, param);
+                return CrossWorldAiSvc[MsgDTO.FromGroup].AIInstance<GiftAI>().ViewGift(MsgDTO, param);
             }
 
             // 宠物技能
             if (PetSkillSvc[name] != null)
             {
-                return WorldLine.AIInstance<PetAI>().ViewPetSkill(MsgDTO, param);
+                return CrossWorldAiSvc[MsgDTO.FromGroup].AIInstance<PetAI>().ViewPetSkill(MsgDTO, param);
             }
 
             // 宝藏碎片
             if (SegmentSvc.FindSegmentByName(name) != null)
             {
-                return WorldLine.AIInstance<SegmentAttachAI>().ViewSegment(MsgDTO, param);
+                return CrossWorldAiSvc[MsgDTO.FromGroup].AIInstance<SegmentAttachAI>().ViewSegment(MsgDTO, param);
             }
 
             // 宝藏
             if (SegmentSvc.FindTreasureByName(name) != null)
             {
-                return WorldLine.AIInstance<SegmentAttachAI>().ViewTreasure(MsgDTO, param);
+                return CrossWorldAiSvc[MsgDTO.FromGroup].AIInstance<SegmentAttachAI>().ViewTreasure(MsgDTO, param);
             }
 
             // 菜肴
             if (CookingDietSvc[name] != null)
             {
-                return WorldLine.AIInstance<CookingAI>().ViewDiet(MsgDTO, param);
+                return CrossWorldAiSvc[MsgDTO.FromGroup].AIInstance<CookingAI>().ViewDiet(MsgDTO, param);
             }
 
             // 装备
             if (DailyVipShopSvc[name] != null)
             {
-                return WorldLine.AIInstance<VipServiceAi>().ViewArmer(MsgDTO, param);
+                return CrossWorldAiSvc[MsgDTO.FromGroup].AIInstance<VipServiceAi>().ViewArmer(MsgDTO, param);
             }
 
             // 远程地点
             if (ExpeditionSceneSvc[name] != null)
             {
-                return WorldLine.AIInstance<ExpeditionAI>().ViewExpedition(MsgDTO, param);
+                return CrossWorldAiSvc[MsgDTO.FromGroup].AIInstance<ExpeditionAI>().ViewExpedition(MsgDTO, param);
             }
 
             MsgSender.PushMsg(MsgDTO, "未查找到相关信息！");
@@ -266,13 +268,13 @@ namespace Dolany.WorldLine.Standard.Ai.Sys
             // 菜谱
             if (CookingDietSvc[name] != null)
             {
-                return WorldLine.AIInstance<CookingAI>().ExchangeMenu(MsgDTO, param);
+                return CrossWorldAiSvc[MsgDTO.FromGroup].AIInstance<CookingAI>().ExchangeMenu(MsgDTO, param);
             }
 
             // 宠物技能
             if (PetSkillSvc[name] != null)
             {
-                return WorldLine.AIInstance<PetAI>().UpgradePetSkill(MsgDTO, param);
+                return CrossWorldAiSvc[MsgDTO.FromGroup].AIInstance<PetAI>().UpgradePetSkill(MsgDTO, param);
             }
 
             MsgSender.PushMsg(MsgDTO, "未查找到相关信息！");
@@ -291,13 +293,13 @@ namespace Dolany.WorldLine.Standard.Ai.Sys
             // 菜谱
             if (CookingDietSvc[name] != null)
             {
-                return WorldLine.AIInstance<CookingAI>().ExchangeMenu(MsgDTO, param);
+                return CrossWorldAiSvc[MsgDTO.FromGroup].AIInstance<CookingAI>().ExchangeMenu(MsgDTO, param);
             }
 
             // 礼物
             if (GiftSvc[name] != null)
             {
-                return WorldLine.AIInstance<GiftAI>().MakeGift(MsgDTO, param);
+                return CrossWorldAiSvc[MsgDTO.FromGroup].AIInstance<GiftAI>().MakeGift(MsgDTO, param);
             }
 
             MsgSender.PushMsg(MsgDTO, "未查找到相关信息！");

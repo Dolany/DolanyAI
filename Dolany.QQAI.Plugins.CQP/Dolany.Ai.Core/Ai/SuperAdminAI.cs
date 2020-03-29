@@ -24,6 +24,7 @@ namespace Dolany.Ai.Core.Ai
         public BindAiSvc BindAiSvc { get; set; }
         public DirtyFilterSvc DirtyFilterSvc { get; set; }
         public RestrictorSvc RestrictorSvc { get; set; }
+        public CrossWorldAiSvc CrossWorldAiSvc { get; set; }
 
         [EnterCommand(ID = "SuperAdminAI_FishingBonus",
             Command = "功能奖励",
@@ -38,11 +39,25 @@ namespace Dolany.Ai.Core.Ai
             var qqNum = (long)param[1];
             var count = (int) (long) param[2];
 
-            var enter = WorldLine.AllAvailableGroupCommands.FirstOrDefault(p => p.CommandsList.Contains(command));
-            if (enter == null)
+            var enters = CrossWorldAiSvc[MsgDTO.FromGroup].AllAvailableGroupCommands.Where(p => p.Command == command).ToList();
+            if (enters.IsNullOrEmpty())
             {
                 MsgSender.PushMsg(MsgDTO, "未找到该功能！", true);
                 return false;
+            }
+
+            var enter = enters.First();
+            if (enters.Count > 1)
+            {
+                var options = enters.Select(p => $"{p.Command} {p.SyntaxHint}").ToArray();
+                var response = WaiterSvc.WaitForOptions(MsgDTO.FromGroup, MsgDTO.FromQQ, "请选择需要奖励的功能：", options, MsgDTO.BindAi);
+                if (response < 0)
+                {
+                    MsgSender.PushMsg(MsgDTO, "操作取消！");
+                    return false;
+                }
+
+                enter = enters[response];
             }
 
             var dailyLimit = DailyLimitRecord.Get(qqNum, enter.ID);
@@ -142,7 +157,8 @@ namespace Dolany.Ai.Core.Ai
                 GroupNum = groupNum,
                 Name = name,
                 BindAi = MsgDTO.BindAi,
-                BindAis = new List<string>(){MsgDTO.BindAi}
+                BindAis = new List<string>(){MsgDTO.BindAi},
+                WorldLine = CrossWorldAiSvc.DefaultWorldLine.Name
             };
             MongoService<GroupSettings>.Insert(setting);
             GroupSettingSvc.RefreshData();

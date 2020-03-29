@@ -27,8 +27,6 @@ namespace Dolany.Ai.Core.Base
 
         protected readonly Dictionary<EnterCommandAttribute, AIModuleDel> ModuleDels = new Dictionary<EnterCommandAttribute, AIModuleDel>();
 
-        public IWorldLine WorldLine { get; set; }
-
         public WaiterSvc WaiterSvc { get; set; }
         public GroupSettingSvc GroupSettingSvc { get; set; }
         public AliveStateSvc AliveStateSvc { get; set; }
@@ -181,7 +179,7 @@ namespace Dolany.Ai.Core.Base
 
             if (!AuthorityCheck(enterAttr.AuthorityLevel, MsgDTO))
             {
-                MsgSender.PushMsg(MsgDTO, $"权限不足！需要 【{enterAttr.AuthorityLevel.ToString()}】 权限！");
+                MsgSender.PushMsg(MsgDTO, $"权限不足！需要 【{enterAttr.AuthorityLevel}】 权限！");
                 return false;
             }
 
@@ -202,11 +200,6 @@ namespace Dolany.Ai.Core.Base
                 MsgDTO.Auth = Utility.GetAuth(MsgDTO);
             }
 
-            return GroupAuthCheck(authorityLevel, MsgDTO);
-        }
-
-        private static bool GroupAuthCheck(AuthorityLevel authorityLevel, MsgInformationEx MsgDTO)
-        {
             var auth = MsgDTO.Auth;
 
             if (auth == AuthorityLevel.开发者)

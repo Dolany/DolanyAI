@@ -49,7 +49,6 @@ namespace Dolany.Ai.Core.Base
                 Logger.Log("AI 加载中...");
                 for (var i = 0; i < AIGroup.Count; i++)
                 {
-                    AIGroup[i].WorldLine = this;
                     AIGroup[i].Initialization();
                     ExtractCommands(AIGroup[i]);
 

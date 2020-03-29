@@ -2,6 +2,7 @@
 using System.Linq;
 using Dolany.Ai.Common;
 using Dolany.Ai.Common.Models;
+using Dolany.Ai.Core;
 using Dolany.Ai.Core.Base;
 using Dolany.Ai.Core.Cache;
 using Dolany.Ai.Core.Common;
@@ -18,6 +19,8 @@ namespace Dolany.WorldLine.KindomStorm.Ai.Sys
 
         public override CmdTagEnum DefaultTag { get; } = CmdTagEnum.帮助系统;
 
+        public CrossWorldAiSvc CrossWorldAiSvc { get; set; }
+
         [EnterCommand(ID = "HelperAI_HelpMe",
             Command = "帮助",
             Description = "获取帮助列表",
@@ -25,7 +28,7 @@ namespace Dolany.WorldLine.KindomStorm.Ai.Sys
         public bool HelpMe(MsgInformationEx MsgDTO, object[] param)
         {
             var helpMsg = "当前版本的命令标签有：\r\n";
-            var tags = WorldLine.CmdTagTree.SubTags;
+            var tags = CrossWorldAiSvc[MsgDTO.FromGroup].CmdTagTree.SubTags;
 
             helpMsg += string.Join("", tags.Select((tag, idx) =>
                 idx % 2 == 0 ? $"{Emoji.AllEmojis().RandElement()}{tag.Tag}{Emoji.AllEmojis().RandElement()}" : $"{tag.Tag}{Emoji.AllEmojis().RandElement()}\r\n"));
@@ -60,7 +63,7 @@ namespace Dolany.WorldLine.KindomStorm.Ai.Sys
 
         private bool HelpCommand(MsgInformationEx MsgDTO)
         {
-            var commands = WorldLine.AllAvailableGroupCommands.Where(c => c.Command == MsgDTO.Msg).ToList();
+            var commands = CrossWorldAiSvc[MsgDTO.FromGroup].AllAvailableGroupCommands.Where(c => c.Command == MsgDTO.Msg).ToList();
             if (!Global.TestGroups.Contains(MsgDTO.FromGroup))
             {
                 commands = commands.Where(c => !c.IsTesting).ToList();
@@ -90,7 +93,7 @@ namespace Dolany.WorldLine.KindomStorm.Ai.Sys
                     {"格式", $"{command.Command} {command.SyntaxHint}" },
                     {"描述", command.Description },
                     {"权限", command.AuthorityLevel.ToString() },
-                    {"标签", string.Join("-", WorldLine.LocateCmdPath(command).Select(p => p.Tag.ToString())) },
+                    {"标签", string.Join("-", CrossWorldAiSvc[MsgDTO.FromGroup].LocateCmdPath(command).Select(p => p.Tag.ToString())) },
                     {"适用范围", string.Join("，", range) },
                     {"次数限制", Global.TestGroups.Contains(MsgDTO.FromGroup) ? command.TestingDailyLimit.ToString() : command.DailyLimit.ToString() }
                 };
@@ -106,7 +109,7 @@ namespace Dolany.WorldLine.KindomStorm.Ai.Sys
         private bool HelpTag(MsgInformationEx MsgDTO)
         {
             var tagName = MsgDTO.Msg;
-            var tag = WorldLine.CmdTagTree.AllSubTags.FirstOrDefault(p => p.Tag.ToString() == tagName);
+            var tag = CrossWorldAiSvc[MsgDTO.FromGroup].CmdTagTree.AllSubTags.FirstOrDefault(p => p.Tag.ToString() == tagName);
             if (tag == null)
             {
                 return false;
@@ -116,9 +119,11 @@ namespace Dolany.WorldLine.KindomStorm.Ai.Sys
             if (!tag.SubTags.IsNullOrEmpty())
             {
                 helpMsg += "当前标签下的子标签有：\r\n";
-                helpMsg += string.Join("",
-                    tag.SubTags.Select((t, idx) =>
-                        $"{(idx % 2 == 0 ? Emoji.AllEmojis().RandElement() : string.Empty)}{t.Tag}{Emoji.AllEmojis().RandElement()}{(idx % 2 == 0 ? "\r\n" : string.Empty)}"));
+                var msgList = tag.SubTags.Select(t => $"{t.Tag}{Emoji.AllEmojis().RandElement()}")
+                    .Select((msg, i) => i % 2 == 0 ? $"{Emoji.AllEmojis().RandElement()}{msg}" : $"{msg}\r\n").ToList();
+
+                helpMsg += string.Join("", msgList);
+                helpMsg += "\r\n";
             }
 
             if (!tag.SubCmds.IsNullOrEmpty())
@@ -126,13 +131,15 @@ namespace Dolany.WorldLine.KindomStorm.Ai.Sys
                 helpMsg += "当前标签下的命令有：\r\n";
 
                 var groups = tag.SubCmds.GroupBy(p => p.ID);
-                var subCommands = groups.Select(group => string.Join("/", group.Select(g => g.Command))).ToList();
-                helpMsg += string.Join("",
-                    subCommands.Select((command, idx) =>
-                        $"{(idx % 2 == 0 ? Emoji.AllEmojis().RandElement() : string.Empty)}{command}{Emoji.AllEmojis().RandElement()}{(idx % 2 == 0 ? "\r\n" : string.Empty)}"));
+                var subCommands = groups.Select(group => string.Join("/", group.Select(g => g.Command))).Distinct().ToList();
+                var msgList = subCommands.Select(cmd => $"【{cmd}】{Emoji.AllEmojis().RandElement()}")
+                    .Select((msg, i) => i % 2 == 0 ? $"{Emoji.AllEmojis().RandElement()}{msg}" : $"{msg}\r\n").ToList();
+
+                helpMsg += string.Join("", msgList);
+                helpMsg += "\r\n";
             }
 
-            helpMsg += "\r\n可以使用 帮助 [标签名] 来查询标签中的具体命令名 或者使用 帮助 [命令名] 来查询具体命令信息。";
+            helpMsg += "可以使用 帮助 [标签名] 来查询标签中的具体命令名 或者使用 帮助 [命令名] 来查询具体命令信息。";
 
             MsgSender.PushMsg(MsgDTO, helpMsg);
             return true;
