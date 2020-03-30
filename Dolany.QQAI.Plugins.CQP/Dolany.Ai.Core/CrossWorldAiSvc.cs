@@ -1,7 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
-using Autofac;
 using Dolany.Ai.Common;
 using Dolany.Ai.Core.Base;
 using Dolany.Ai.Core.Common;
@@ -14,7 +13,7 @@ namespace Dolany.Ai.Core
 
         public IWorldLine[] AllWorlds { get; set; }
 
-        public IEnumerable<AIBase> CrossWorldAis => CommonUtil.LoadAllInstanceFromClass<AIBase>(GetType().Assembly);
+        public IEnumerable<AIBase> CrossWorldAis => AutofacSvc.LoadAllInstanceFromClass<AIBase>(GetType().Assembly);
 
         public IWorldLine DefaultWorldLine => AllWorlds.First(w => w.IsDefault);
 
@@ -24,10 +23,7 @@ namespace Dolany.Ai.Core
 
         public void InitWorlds(IEnumerable<Assembly> assemblies)
         {
-            var baseType = typeof(IWorldLine);
-            AllWorlds = assemblies.SelectMany(p => p.GetTypes().Where(type => type.IsSubclassOf(baseType) && !type.IsAbstract))
-                .Where(type => AutofacSvc.Container.IsRegistered(type)).Select(type => AutofacSvc.Resolve(type) as IWorldLine).Where(d => d != null)
-                .ToArray();
+            AllWorlds = AutofacSvc.LoadAllInstanceFromClass<IWorldLine>(assemblies).ToArray();
         }
 
         public string JudgeWorldLine(long groupNum)

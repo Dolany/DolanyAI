@@ -4,11 +4,9 @@ using System.IO;
 using System.Linq;
 using System.Linq.Expressions;
 using System.Net;
-using System.Reflection;
 using System.Text;
 using System.Threading;
 using System.Web;
-using Autofac;
 using Newtonsoft.Json;
 
 namespace Dolany.Ai.Common
@@ -163,26 +161,6 @@ namespace Dolany.Ai.Common
             }
 
             return dic.ContainsKey(key) ? dic[key] : default;
-        }
-
-        public static List<T> LoadAllInstanceFromClass<T>(Assembly assembly = null) where T : class
-        {
-            assembly = assembly == null ? Assembly.GetAssembly(typeof(T)) : assembly;
-            var list = assembly.GetTypes().Where(type => type.IsSubclassOf(typeof(T)) && !type.IsAbstract).Where(type => type.FullName != null).Select(type =>
-                AutofacSvc.Container.IsRegistered(type) ? AutofacSvc.Container.Resolve(type) as T : assembly.CreateInstance(type.FullName) as T);
-
-            return list.ToList();
-        }
-
-        public static List<T> LoadAllInstanceFromInterface<T>(Assembly assembly = null) where T : class
-        {
-            assembly = assembly == null ? Assembly.GetAssembly(typeof(T)) : assembly;
-            var list = assembly.GetTypes()
-                .Where(type => typeof(T).IsAssignableFrom(type) && type.IsClass && !type.IsAbstract)
-                .Where(type => type.FullName != null)
-                .Select(type => AutofacSvc.Container.IsRegistered(type) ? AutofacSvc.Container.Resolve(type) as T : assembly.CreateInstance(type.FullName) as T);
-
-            return list.ToList();
         }
 
         public static TResult Retry<TResult>(Func<TResult> RetryFunc, TimeSpan[] RetryIntervals, Predicate<TResult> ResulteChecker = null)

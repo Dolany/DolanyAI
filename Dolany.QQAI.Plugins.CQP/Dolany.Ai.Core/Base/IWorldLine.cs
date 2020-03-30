@@ -31,8 +31,8 @@ namespace Dolany.Ai.Core.Base
         public void Init()
         {
             var assembly = GetType().Assembly;
-            AIGroup = CommonUtil.LoadAllInstanceFromClass<AIBase>(assembly);
-            ToolGroup = CommonUtil.LoadAllInstanceFromInterface<IAITool>(assembly);
+            AIGroup = AutofacSvc.LoadAllInstanceFromClass<AIBase>(assembly);
+            ToolGroup = AutofacSvc.LoadAllInstanceFromInterface<IAITool>(assembly);
         }
 
         public void Load()

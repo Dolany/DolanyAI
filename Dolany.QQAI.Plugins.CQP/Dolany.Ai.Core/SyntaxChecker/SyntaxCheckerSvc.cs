@@ -10,7 +10,7 @@ namespace Dolany.Ai.Core.SyntaxChecker
 
         public SyntaxCheckerSvc()
         {
-            Checkers = CommonUtil.LoadAllInstanceFromInterface<ISyntaxChecker>();
+            Checkers = AutofacSvc.LoadAllInstanceFromInterface<ISyntaxChecker>();
         }
 
         public bool SyntaxCheck(string SyntaxChecker, string msg, out object[] param)

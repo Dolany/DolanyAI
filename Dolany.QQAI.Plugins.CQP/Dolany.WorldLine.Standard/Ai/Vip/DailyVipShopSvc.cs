@@ -19,7 +19,7 @@ namespace Dolany.WorldLine.Standard.Ai.Vip
 
         public DailyVipShopSvc()
         {
-            Armers = CommonUtil.LoadAllInstanceFromInterface<IVipArmer>();
+            Armers = AutofacSvc.LoadAllInstanceFromInterface<IVipArmer>();
         }
 
         public string[] RandGoods(int count)

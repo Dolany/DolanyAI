@@ -33,15 +33,48 @@ namespace Dolany.Ai.Common
 
         public static void RegisterDataRefresher(IEnumerable<Assembly> assemblies)
         {
-            var baseType = typeof(IDataMgr);
-            var datamgrs = assemblies.SelectMany(p => p.GetTypes().Where(type => baseType.IsAssignableFrom(type) && !type.IsAbstract))
-                .Where(type => Container.IsRegistered(type)).Select(type => Resolve(type) as IDataMgr).Where(d => d != null).ToList();
+            var datamgrs = LoadAllInstanceFromInterface<IDataMgr>(assemblies);
 
             foreach (var datamgr in datamgrs)
             {
                 datamgr.RefreshData();
                 Container.Resolve<DataRefreshSvc>().Register(datamgr);
             }
+        }
+
+        public static List<T> LoadAllInstanceFromClass<T>(Assembly assembly = null) where T : class
+        {
+            assembly = assembly == null ? Assembly.GetAssembly(typeof(T)) : assembly;
+            var list = assembly.GetTypes().Where(type => type.IsSubclassOf(typeof(T)) && !type.IsAbstract).Where(type => type.FullName != null).Select(type =>
+                Container.IsRegistered(type) ? Container.Resolve(type) as T : assembly.CreateInstance(type.FullName) as T);
+
+            return list.ToList();
+        }
+
+        public static List<T> LoadAllInstanceFromClass<T>(IEnumerable<Assembly> assemblies) where T : class
+        {
+            var baseType = typeof(T);
+            return assemblies.SelectMany(p => p.GetTypes().Where(type => baseType.IsAssignableFrom(type) && !type.IsAbstract))
+                .Where(type => Container.IsRegistered(type)).Select(type => Resolve(type) as T).Where(d => d != null).ToList();
+        }
+
+        public static List<T> LoadAllInstanceFromInterface<T>(Assembly assembly = null) where T : class
+        {
+            assembly = assembly == null ? Assembly.GetAssembly(typeof(T)) : assembly;
+            var list = assembly.GetTypes()
+                .Where(type => typeof(T).IsAssignableFrom(type) && type.IsClass && !type.IsAbstract)
+                .Where(type => type.FullName != null)
+                .Select(type => Container.IsRegistered(type) ? Container.Resolve(type) as T : assembly.CreateInstance(type.FullName) as T);
+
+            return list.ToList();
+        }
+
+        public static List<T> LoadAllInstanceFromInterface<T>(IEnumerable<Assembly> assemblies) where T : class
+        {
+            var baseType = typeof(T);
+            return assemblies.SelectMany(p => p.GetTypes().Where(type => type.IsSubclassOf(baseType) && !type.IsAbstract))
+                .Where(type => Container.IsRegistered(type)).Select(type => Resolve(type) as T).Where(d => d != null)
+                .ToList();
         }
     }
 }

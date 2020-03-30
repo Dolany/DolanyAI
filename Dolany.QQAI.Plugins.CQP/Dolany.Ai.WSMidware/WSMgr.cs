@@ -36,8 +36,8 @@ namespace Dolany.Ai.WSMidware
 
             SchedulerSvc.Add(SchedulerTimer.SecondlyInterval * Global.Config.ReconnectSecords, Reconnect);
 
-            CommandResolvers = CommonUtil.LoadAllInstanceFromInterface<ICmdResovler>();
-            MessageResolvers = CommonUtil.LoadAllInstanceFromInterface<IMsgResolver>();
+            CommandResolvers = AutofacSvc.LoadAllInstanceFromInterface<ICmdResovler>();
+            MessageResolvers = AutofacSvc.LoadAllInstanceFromInterface<IMsgResolver>();
 
             Global.MQSvc.StartReceive<MsgCommand>(CommandInvoke);
         }
