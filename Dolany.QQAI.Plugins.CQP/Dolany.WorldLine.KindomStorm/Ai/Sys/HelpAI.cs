@@ -17,7 +17,7 @@ namespace Dolany.WorldLine.KindomStorm.Ai.Sys
 
         public override AIPriority PriorityLevel { get;} = AIPriority.Normal;
 
-        public override CmdTagEnum DefaultTag { get; } = CmdTagEnum.帮助系统;
+        protected override CmdTagEnum DefaultTag { get; } = CmdTagEnum.帮助系统;
 
         public CrossWorldAiSvc CrossWorldAiSvc { get; set; }
 
@@ -93,7 +93,7 @@ namespace Dolany.WorldLine.KindomStorm.Ai.Sys
                     {"格式", $"{command.Command} {command.SyntaxHint}" },
                     {"描述", command.Description },
                     {"权限", command.AuthorityLevel.ToString() },
-                    {"标签", string.Join("-", CrossWorldAiSvc[MsgDTO.FromGroup].LocateCmdPath(command).Select(p => p.Tag.ToString())) },
+                    {"标签", string.Join("-", CrossWorldAiSvc[MsgDTO.FromGroup].CmdTagTree.LocateCmdPath(command).Select(p => p.Tag.ToString())) },
                     {"适用范围", string.Join("，", range) },
                     {"次数限制", Global.TestGroups.Contains(MsgDTO.FromGroup) ? command.TestingDailyLimit.ToString() : command.DailyLimit.ToString() }
                 };

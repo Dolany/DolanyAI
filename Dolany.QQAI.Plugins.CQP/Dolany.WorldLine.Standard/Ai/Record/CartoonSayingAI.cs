@@ -16,7 +16,7 @@ namespace Dolany.WorldLine.Standard.Ai.Record
 
         public override string Description { get; set; } = "AI for Cartoon Sayings.";
 
-        public override CmdTagEnum DefaultTag { get; } = CmdTagEnum.语录功能;
+        protected override CmdTagEnum DefaultTag { get; } = CmdTagEnum.语录功能;
 
         [EnterCommand(ID = "CartoonSayingAI_ProcceedMsg",
             Command = "语录",

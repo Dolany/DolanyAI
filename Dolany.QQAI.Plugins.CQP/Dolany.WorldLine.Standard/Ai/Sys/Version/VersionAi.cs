@@ -12,7 +12,7 @@ namespace Dolany.WorldLine.Standard.Ai.Sys.Version
     {
         public override string AIName { get; set; } = "版本信息";
         public override string Description { get; set; } = "Ai for showing verion info";
-        public override CmdTagEnum DefaultTag { get; } = CmdTagEnum.系统命令;
+        protected override CmdTagEnum DefaultTag { get; } = CmdTagEnum.系统命令;
 
         public List<VersionModel> Versions = new List<VersionModel>();
 

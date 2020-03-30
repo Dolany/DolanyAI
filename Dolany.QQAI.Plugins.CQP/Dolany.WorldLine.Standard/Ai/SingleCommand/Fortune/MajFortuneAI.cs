@@ -18,7 +18,7 @@ namespace Dolany.WorldLine.Standard.Ai.SingleCommand.Fortune
 
         public override string Description { get; set; } = "AI for Getting Daily Maj Fortune.";
 
-        public override CmdTagEnum DefaultTag { get; } = CmdTagEnum.运势功能;
+        protected override CmdTagEnum DefaultTag { get; } = CmdTagEnum.运势功能;
 
         private readonly string[] PosArray = { "东", "南", "西", "北" };
 
@@ -31,6 +31,8 @@ namespace Dolany.WorldLine.Standard.Ai.SingleCommand.Fortune
 
         public override void Initialization()
         {
+            base.Initialization();
+
             ReadCharactorsDic();
         }
 

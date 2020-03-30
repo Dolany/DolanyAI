@@ -18,7 +18,7 @@ namespace Dolany.WorldLine.Standard.Ai.SingleCommand.GroupManage
 
         public override AIPriority PriorityLevel { get;} = AIPriority.High;
 
-        public override CmdTagEnum DefaultTag { get; } = CmdTagEnum.群管理;
+        protected override CmdTagEnum DefaultTag { get; } = CmdTagEnum.群管理;
 
         [EnterCommand(ID = "GroupManagerOnlyAI_DeathStaring",
             Command = "死亡凝视",

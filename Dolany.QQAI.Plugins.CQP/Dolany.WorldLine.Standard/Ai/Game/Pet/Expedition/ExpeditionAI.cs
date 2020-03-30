@@ -15,7 +15,7 @@ namespace Dolany.WorldLine.Standard.Ai.Game.Pet.Expedition
     {
         public override string AIName { get; set; } = "宠物远征";
         public override string Description { get; set; } = "AI for Pet Expedition.";
-        public override CmdTagEnum DefaultTag { get; } = CmdTagEnum.宠物功能;
+        protected override CmdTagEnum DefaultTag { get; } = CmdTagEnum.宠物功能;
 
         public ExpeditionSceneSvc ExpeditionSceneSvc { get; set; }
         public PetLevelSvc PetLevelSvc { get; set; }

@@ -17,7 +17,7 @@ namespace Dolany.WorldLine.Standard.Ai.Sys
 
         public override AIPriority PriorityLevel { get;} = AIPriority.Monitor;
 
-        public override CmdTagEnum DefaultTag { get; } = CmdTagEnum.系统命令;
+        protected override CmdTagEnum DefaultTag { get; } = CmdTagEnum.系统命令;
 
         [EnterCommand(ID = "MonitorAI_SelfExcharge",
             Command = "自助充值",

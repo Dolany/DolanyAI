@@ -14,12 +14,14 @@ namespace Dolany.WorldLine.Standard.Ai.Sys.BonusCenter
 
         public override string Description { get; set; } = "AI for auto bonus.";
 
-        public override CmdTagEnum DefaultTag { get; } = CmdTagEnum.系统命令;
+        protected override CmdTagEnum DefaultTag { get; } = CmdTagEnum.系统命令;
 
         private Dictionary<string, BonusBase> BonusDic = new Dictionary<string, BonusBase>();
 
         public override void Initialization()
         {
+            base.Initialization();
+
             var assembly = Assembly.GetAssembly(typeof(BonusBase));
             var list = assembly.GetTypes()
                 .Where(type => type.IsSubclassOf(typeof(BonusBase)))

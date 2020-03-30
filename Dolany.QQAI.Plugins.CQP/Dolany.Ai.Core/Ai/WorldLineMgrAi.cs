@@ -11,7 +11,7 @@ namespace Dolany.Ai.Core.Ai
         public override string AIName { get; set; } = "世界线管理器";
         public override string Description { get; set; } = "Ai for world line management.";
         public override AIPriority PriorityLevel { get;} = AIPriority.Monitor;
-        public override CmdTagEnum DefaultTag { get; } = CmdTagEnum.系统命令;
+        protected override CmdTagEnum DefaultTag { get; } = CmdTagEnum.系统命令;
 
         public CrossWorldAiSvc CrossWorldAiSvc { get; set; }
 

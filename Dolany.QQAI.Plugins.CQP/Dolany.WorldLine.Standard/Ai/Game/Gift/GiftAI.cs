@@ -14,7 +14,7 @@ namespace Dolany.WorldLine.Standard.Ai.Game.Gift
 
         public override string Description { get; set; } = "AI for Gifts.";
 
-        public override CmdTagEnum DefaultTag { get; } = CmdTagEnum.礼物功能;
+        protected override CmdTagEnum DefaultTag { get; } = CmdTagEnum.礼物功能;
 
         public GiftSvc GiftSvc { get; set; }
 

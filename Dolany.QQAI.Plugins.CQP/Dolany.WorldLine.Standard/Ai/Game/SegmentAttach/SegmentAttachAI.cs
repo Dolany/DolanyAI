@@ -14,7 +14,7 @@ namespace Dolany.WorldLine.Standard.Ai.Game.SegmentAttach
     {
         public override string AIName { get; set; } = "碎片拼接";
         public override string Description { get; set; } = "AI for segments attaching game.";
-        public override CmdTagEnum DefaultTag { get; } = CmdTagEnum.宝藏功能;
+        protected override CmdTagEnum DefaultTag { get; } = CmdTagEnum.宝藏功能;
 
         public SegmentSvc SegmentSvc { get; set; }
         public HonorSvc HonorSvc { get; set; }

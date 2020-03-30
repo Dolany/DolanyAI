@@ -12,7 +12,7 @@ namespace Dolany.WorldLine.Standard.Ai.Game.Pet.Cooking
     {
         public override string AIName { get; set; } = "烹饪";
         public override string Description { get; set; } = "Ai for cooking.";
-        public override CmdTagEnum DefaultTag { get; } = CmdTagEnum.烹饪功能;
+        protected override CmdTagEnum DefaultTag { get; } = CmdTagEnum.烹饪功能;
 
         public CookingDietSvc CookingDietSvc { get; set; }
         public CookingLevelSvc CookingLevelSvc { get; set; }

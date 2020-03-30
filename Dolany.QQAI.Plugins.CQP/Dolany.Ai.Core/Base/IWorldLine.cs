@@ -18,11 +18,9 @@ namespace Dolany.Ai.Core.Base
         public List<AIBase> AIGroup { get; set; }
         protected List<IAITool> ToolGroup { get; set; }
 
-        public List<EnterCommandAttribute> AllAvailableGroupCommands { get; } = new List<EnterCommandAttribute>();
+        public List<EnterCommandAttribute> AllAvailableGroupCommands => AIGroup.SelectMany(ai => ai.AllCmds).ToList();
 
-        public BindAiSvc BindAiSvc { get; set; }
         public DirtyFilterSvc DirtyFilterSvc { get; set; }
-        public GroupSettingSvc GroupSettingSvc { get; set; }
         public RestrictorSvc RestrictorSvc { get; set; }
 
         public T AIInstance<T>() where T : AIBase
@@ -50,11 +48,10 @@ namespace Dolany.Ai.Core.Base
                 for (var i = 0; i < AIGroup.Count; i++)
                 {
                     AIGroup[i].Initialization();
-                    ExtractCommands(AIGroup[i]);
 
                     Logger.Log($"{AIGroup[i].AIName}({i + 1}/{count})");
                 }
-                CreateCmdTree(CmdTagTree);
+                CmdTag.CreateCmdTree(CmdTagTree, AllAvailableGroupCommands);
 
                 ToolGroup = ToolGroup.Where(p => p.Enabled).ToList();
                 foreach (var tool in ToolGroup)
@@ -65,66 +62,6 @@ namespace Dolany.Ai.Core.Base
             catch (Exception ex)
             {
                 Logger.Log(ex);
-            }
-        }
-
-        public void CreateCmdTree(CmdTag tag)
-        {
-            tag.SubCmds = AllAvailableGroupCommands.Where(p => p.Tag == tag.Tag).ToArray();
-            if (tag.SubTags.IsNullOrEmpty())
-            {
-                return;
-            }
-
-            foreach (var subTag in tag.SubTags)
-            {
-                CreateCmdTree(subTag);
-            }
-        }
-
-        public IEnumerable<CmdTag> LocateCmdPath(EnterCommandAttribute cmd)
-        {
-            var stack = new Stack<CmdTag>();
-            return CmdTagTree.SubTags.Any(subTag => FindCmdPath(subTag, cmd, stack)) ? stack.ToList() : default;
-        }
-
-        private bool FindCmdPath(CmdTag tag, EnterCommandAttribute cmd, Stack<CmdTag> stack)
-        {
-            stack.Push(tag);
-
-            if (tag.SubCmds.Any(p => p.ID == cmd.ID))
-            {
-                return true;
-            }
-
-            if (!tag.SubTags.IsNullOrEmpty() && tag.SubTags.Any(t => FindCmdPath(t, cmd, stack)))
-            {
-                return true;
-            }
-
-            stack.Pop();
-            return false;
-        }
-
-        private void ExtractCommands(AIBase ai)
-        {
-            var type = ai.GetType();
-            foreach (var method in type.GetMethods())
-            {
-                foreach (EnterCommandAttribute attr in method.GetCustomAttributes(typeof(EnterCommandAttribute), false))
-                {
-                    foreach (var command in attr.CommandsList)
-                    {
-                        var attrClone = attr.Clone();
-                        attrClone.Command = command;
-
-                        if (ai.DefaultTag != CmdTagEnum.Default && attrClone.Tag == CmdTagEnum.Default)
-                        {
-                            attrClone.Tag = ai.DefaultTag;
-                        }
-                        AllAvailableGroupCommands.Add(attrClone);
-                    }
-                }
             }
         }
 
@@ -145,7 +82,7 @@ namespace Dolany.Ai.Core.Base
                 }
             }
 
-            var msgEx = ConvertToEx(MsgDTO);
+            var msgEx = MsgDTO.ToEx();
 
             if (!DirtyFilterSvc.Filter(msgEx))
             {
@@ -153,32 +90,6 @@ namespace Dolany.Ai.Core.Base
             }
 
             MsgCallBack(msgEx);
-        }
-
-        private MsgInformationEx ConvertToEx(MsgInformation MsgDTO)
-        {
-            var msgEx = new MsgInformationEx
-            {
-                Id = MsgDTO.Id,
-                Msg = MsgDTO.Msg,
-                RelationId = MsgDTO.RelationId,
-                Time = MsgDTO.Time,
-                FromGroup = MsgDTO.FromGroup,
-                FromQQ = MsgDTO.FromQQ,
-                BindAi = MsgDTO.BindAi
-            };
-            if (msgEx.FromQQ < 0)
-            {
-                msgEx.FromQQ &= 0xFFFFFFFF;
-            }
-
-            var msg = msgEx.Msg;
-            msgEx.FullMsg = msg;
-            msgEx.Command = GenCommand(ref msg);
-            msgEx.Msg = msg;
-            msgEx.Type = msgEx.FromGroup == 0 ? MsgType.Private : MsgType.Group;
-
-            return msgEx;
         }
 
         public void OnMoneyReceived(ChargeModel model)
@@ -202,7 +113,7 @@ namespace Dolany.Ai.Core.Base
             {
                 try
                 {
-                    var bindAi = AllocateBindAi(MsgDTO);
+                    var bindAi = RestrictorSvc.AllocateBindAi(MsgDTO);
                     IEnumerable<AIBase> groups;
                     if (string.IsNullOrEmpty(bindAi))
                     {
@@ -227,41 +138,6 @@ namespace Dolany.Ai.Core.Base
                     Logger.Log(ex);
                 }
             });
-        }
-
-        private string AllocateBindAi(MsgInformationEx MsgDTO)
-        {
-            var availableBindAis = new List<BindAiModel>();
-            if (MsgDTO.Type == MsgType.Group && GroupSettingSvc[MsgDTO.FromGroup] != null)
-            {
-                availableBindAis = GroupSettingSvc[MsgDTO.FromGroup].BindAis.Where(p => !RestrictorSvc.IsTooFreq(p))
-                    .Select(p => BindAiSvc[p]).ToList();
-            }
-            else if(!RestrictorSvc.IsTooFreq(MsgDTO.BindAi))
-            {
-                availableBindAis = new List<BindAiModel>(){BindAiSvc[MsgDTO.BindAi]};
-            }
-
-            availableBindAis = availableBindAis.Where(p => p.IsConnected).ToList();
-            return availableBindAis.Any() ? availableBindAis.OrderBy(p => RestrictorSvc.GetPressure(p.Name)).First().Name : string.Empty;
-        }
-
-        private static string GenCommand(ref string msg)
-        {
-            if (string.IsNullOrEmpty(msg))
-            {
-                return string.Empty;
-            }
-
-            var strs = msg.Split(' ');
-            if (strs.IsNullOrEmpty())
-            {
-                return string.Empty;
-            }
-
-            var command = strs[0];
-            msg = msg[command.Length..].Trim();
-            return command;
         }
     }
 }

@@ -14,7 +14,7 @@ namespace Dolany.WorldLine.Standard.Ai.SingleCommand.PraiseMe
 
         public override string Description { get; set; } = "AI for Praise someone.";
 
-        public override CmdTagEnum DefaultTag { get; } = CmdTagEnum.娱乐功能;
+        protected override CmdTagEnum DefaultTag { get; } = CmdTagEnum.娱乐功能;
 
         private readonly Dictionary<string, DateTime> LastTimeDic = new Dictionary<string, DateTime>();
 

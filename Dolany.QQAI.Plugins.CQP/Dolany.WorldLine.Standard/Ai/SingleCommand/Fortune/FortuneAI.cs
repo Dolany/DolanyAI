@@ -19,7 +19,7 @@ namespace Dolany.WorldLine.Standard.Ai.SingleCommand.Fortune
 
         public override string Description { get; set; } = "AI for Fortune.";
 
-        public override CmdTagEnum DefaultTag { get; } = CmdTagEnum.运势功能;
+        protected override CmdTagEnum DefaultTag { get; } = CmdTagEnum.运势功能;
 
         private const string TarotServerPath = "./images/Tarot/";
         private string[] TarotSerialNames;

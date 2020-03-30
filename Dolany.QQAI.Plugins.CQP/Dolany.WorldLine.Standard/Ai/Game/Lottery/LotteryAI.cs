@@ -13,7 +13,7 @@ namespace Dolany.WorldLine.Standard.Ai.Game.Lottery
 
         public override string Description { get; set; } = "AI for draw a lottery.";
 
-        public override CmdTagEnum DefaultTag { get; } = CmdTagEnum.商店功能;
+        protected override CmdTagEnum DefaultTag { get; } = CmdTagEnum.商店功能;
 
         public LotterySvc LotterySvc { get; set; }
         public HonorSvc HonorSvc { get; set; }

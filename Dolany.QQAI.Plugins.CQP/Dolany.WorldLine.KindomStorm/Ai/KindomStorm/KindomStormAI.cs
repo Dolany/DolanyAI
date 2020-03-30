@@ -10,7 +10,7 @@ namespace Dolany.WorldLine.KindomStorm.Ai.KindomStorm
     {
         public override string AIName { get; set; } = "王国风云";
         public override string Description { get; set; }
-        public override CmdTagEnum DefaultTag { get; } = CmdTagEnum.王国风云;
+        protected override CmdTagEnum DefaultTag { get; } = CmdTagEnum.王国风云;
 
         [EnterCommand(ID = "KindomStormAI_MyCastle",
             Command = "我的城堡",

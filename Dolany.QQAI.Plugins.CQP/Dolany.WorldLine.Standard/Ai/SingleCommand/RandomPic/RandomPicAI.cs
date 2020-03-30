@@ -12,7 +12,7 @@ namespace Dolany.WorldLine.Standard.Ai.SingleCommand.RandomPic
 
         public override string Description { get; set; } = "AI for Sending Random Pic By Keyword.";
 
-        public override CmdTagEnum DefaultTag { get; } = CmdTagEnum.娱乐功能;
+        protected override CmdTagEnum DefaultTag { get; } = CmdTagEnum.娱乐功能;
 
         [EnterCommand(ID = "RandomPicAI_RecentPic",
             Command = "随机图片 一键盗图",

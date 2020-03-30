@@ -16,7 +16,7 @@ namespace Dolany.WorldLine.Standard.Ai.SingleCommand.Voice
 
         public override string Description { get; set; } = "AI for response random acg voice.";
 
-        public override CmdTagEnum DefaultTag { get; } = CmdTagEnum.语音功能;
+        protected override CmdTagEnum DefaultTag { get; } = CmdTagEnum.语音功能;
 
         private Beng3ConfigModel Beng3Config;
 

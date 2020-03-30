@@ -21,7 +21,7 @@ namespace Dolany.WorldLine.Standard.Ai.Game.Shopping
 
         public override string Description { get; set; } = "AI for Shopping.";
 
-        public override CmdTagEnum DefaultTag { get; } = CmdTagEnum.商店功能;
+        protected override CmdTagEnum DefaultTag { get; } = CmdTagEnum.商店功能;
 
         private const int RebornHonorLimit = 7;
 

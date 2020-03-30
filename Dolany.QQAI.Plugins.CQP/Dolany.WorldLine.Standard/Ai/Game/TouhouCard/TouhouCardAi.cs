@@ -15,7 +15,7 @@ namespace Dolany.WorldLine.Standard.Ai.Game.TouhouCard
 
         public override string Description { get; set; } = "AI for Getting Random TouhouCard.";
 
-        public override CmdTagEnum DefaultTag { get; } = CmdTagEnum.游戏功能;
+        protected override CmdTagEnum DefaultTag { get; } = CmdTagEnum.游戏功能;
 
         private const string PicPath = "TouhouCard/";
 
@@ -23,6 +23,8 @@ namespace Dolany.WorldLine.Standard.Ai.Game.TouhouCard
 
         public override void Initialization()
         {
+            base.Initialization();
+
             var dir = new DirectoryInfo(PicPath);
             AllFiles = dir.GetFiles().ToList();
         }

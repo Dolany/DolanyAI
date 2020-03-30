@@ -17,7 +17,7 @@ namespace Dolany.WorldLine.Standard.Ai.Record
 
         public override string Description { get; set; } = "AI for Setting a Charactor.";
 
-        public override CmdTagEnum DefaultTag { get; } = CmdTagEnum.设定功能;
+        protected override CmdTagEnum DefaultTag { get; } = CmdTagEnum.设定功能;
 
         private const int MaxCharNumPerQQ = 10;
         private const int MaxSettingPerChar = 7;

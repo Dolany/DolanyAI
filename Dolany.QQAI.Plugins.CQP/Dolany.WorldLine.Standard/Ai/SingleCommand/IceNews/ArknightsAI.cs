@@ -11,7 +11,7 @@ namespace Dolany.WorldLine.Standard.Ai.SingleCommand.IceNews
     {
         public override string AIName { get; set; } = "明日方舟";
         public override string Description { get; set; } = "AI for Arknights.";
-        public override CmdTagEnum DefaultTag { get; } = CmdTagEnum.娱乐功能;
+        protected override CmdTagEnum DefaultTag { get; } = CmdTagEnum.娱乐功能;
 
         private const string CachePath = "./images/Arknights/";
 

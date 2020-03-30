@@ -22,6 +22,8 @@ namespace Dolany.WorldLine.Standard.Ai.Record
 
         public override void Initialization()
         {
+            base.Initialization();
+
             HourAlertFunc();
         }
 

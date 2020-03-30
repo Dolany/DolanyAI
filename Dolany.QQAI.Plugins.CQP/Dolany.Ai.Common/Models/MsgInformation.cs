@@ -10,6 +10,50 @@
         public long FromQQ { get; set; }
         public InformationType Information { get; set; }
         public string BindAi { get; set; }
+
+        public MsgInformationEx ToEx()
+        {
+            var msgEx = new MsgInformationEx
+            {
+                Id = Id,
+                Msg = Msg,
+                RelationId = RelationId,
+                Time = Time,
+                FromGroup = FromGroup,
+                FromQQ = FromQQ,
+                BindAi = BindAi
+            };
+            if (msgEx.FromQQ < 0)
+            {
+                msgEx.FromQQ &= 0xFFFFFFFF;
+            }
+
+            var msg = msgEx.Msg;
+            msgEx.FullMsg = msg;
+            msgEx.Command = GenCommand(ref msg);
+            msgEx.Msg = msg;
+            msgEx.Type = msgEx.FromGroup == 0 ? MsgType.Private : MsgType.Group;
+
+            return msgEx;
+        }
+
+        private string GenCommand(ref string msg)
+        {
+            if (string.IsNullOrEmpty(msg))
+            {
+                return string.Empty;
+            }
+
+            var strs = msg.Split(' ');
+            if (strs.IsNullOrEmpty())
+            {
+                return string.Empty;
+            }
+
+            var command = strs[0];
+            msg = msg[command.Length..].Trim();
+            return command;
+        }
     }
 
     public class MsgInformationEx : MsgInformation

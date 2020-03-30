@@ -26,7 +26,7 @@ namespace Dolany.WorldLine.Standard.Ai.Sys
 
         public override AIPriority PriorityLevel { get;} = AIPriority.Monitor;
 
-        public override CmdTagEnum DefaultTag { get; } = CmdTagEnum.开发者后台;
+        protected override CmdTagEnum DefaultTag { get; } = CmdTagEnum.开发者后台;
 
         public GiftSvc GiftSvc { get; set; }
         public HonorSvc HonorSvc { get; set; }

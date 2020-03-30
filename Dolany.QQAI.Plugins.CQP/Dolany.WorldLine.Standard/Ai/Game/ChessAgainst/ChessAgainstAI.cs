@@ -14,7 +14,7 @@ namespace Dolany.WorldLine.Standard.Ai.Game.ChessAgainst
 
         public override string Description { get; set; } = "AI for Chess Fight.";
 
-        public override CmdTagEnum DefaultTag { get; } = CmdTagEnum.游戏功能;
+        protected override CmdTagEnum DefaultTag { get; } = CmdTagEnum.游戏功能;
 
         public BindAiSvc BindAiSvc { get; set; }
         public ChessSvc ChessSvc { get; set; }

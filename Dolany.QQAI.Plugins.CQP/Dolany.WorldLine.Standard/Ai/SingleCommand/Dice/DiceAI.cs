@@ -18,7 +18,7 @@ namespace Dolany.WorldLine.Standard.Ai.SingleCommand.Dice
 
         public override AIPriority PriorityLevel { get;} = AIPriority.Low;
 
-        public override CmdTagEnum DefaultTag { get; } = CmdTagEnum.骰娘功能;
+        protected override CmdTagEnum DefaultTag { get; } = CmdTagEnum.骰娘功能;
 
         private const int DiceCountMaxLimit = 200;
         private const int DiceSizeMaxLimit = 2000;

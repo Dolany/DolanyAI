@@ -18,7 +18,7 @@ namespace Dolany.WorldLine.Standard.Ai.Game.SignIn
 
         public override AIPriority PriorityLevel { get;} = AIPriority.Normal;
 
-        public override CmdTagEnum DefaultTag { get; } = CmdTagEnum.签到功能;
+        protected override CmdTagEnum DefaultTag { get; } = CmdTagEnum.签到功能;
 
         public CrossWorldAiSvc CrossWorldAiSvc { get; set; }
 
@@ -26,6 +26,8 @@ namespace Dolany.WorldLine.Standard.Ai.Game.SignIn
 
         public override void Initialization()
         {
+            base.Initialization();
+
             var records = MongoService<SignInGroupRecord>.Get();
             GroupSignInDic = records.ToDictionary(p => p.GroupNum, p => p);
         }

@@ -17,7 +17,7 @@ namespace Dolany.Ai.Core.Ai
         public override string AIName { get; set; } = "超管";
         public override string Description { get; set; } = "Ai for Super Admin.";
         public override AIPriority PriorityLevel { get;} = AIPriority.SuperHigh;
-        public override CmdTagEnum DefaultTag { get; } = CmdTagEnum.超管;
+        protected override CmdTagEnum DefaultTag { get; } = CmdTagEnum.超管;
 
         public PicReviewSvc PicReviewSvc { get; set; }
         public DataRefreshSvc DataRefreshSvc { get; set; }

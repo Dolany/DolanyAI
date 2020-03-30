@@ -13,7 +13,7 @@ namespace Dolany.WorldLine.Standard.Ai.Vip
     {
         public override string AIName { get; set; } = "Vip服务";
         public override string Description { get; set; } = "Ai for vip services.";
-        public override CmdTagEnum DefaultTag { get; } = CmdTagEnum.vip服务;
+        protected override CmdTagEnum DefaultTag { get; } = CmdTagEnum.vip服务;
 
         public DailyVipShopSvc DailyVipShopSvc { get; set; }
 

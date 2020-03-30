@@ -15,7 +15,7 @@ namespace Dolany.Ai.Core.Ai
 
         public override AIPriority PriorityLevel { get;} = AIPriority.Monitor;
 
-        public override CmdTagEnum DefaultTag { get; } = CmdTagEnum.系统命令;
+        protected override CmdTagEnum DefaultTag { get; } = CmdTagEnum.系统命令;
 
         public BindAiSvc BindAiSvc { get; set; }
         public RestrictorSvc RestrictorSvc { get; set; }

@@ -12,7 +12,7 @@ namespace Dolany.WorldLine.Standard.Ai.Game.Jump300Report
 
         public override string Description { get; set; } = "AI for 300 heros report.";
 
-        public override CmdTagEnum DefaultTag { get; } = CmdTagEnum.游戏功能;
+        protected override CmdTagEnum DefaultTag { get; } = CmdTagEnum.游戏功能;
 
         public override bool Enable { get; } = false;
 

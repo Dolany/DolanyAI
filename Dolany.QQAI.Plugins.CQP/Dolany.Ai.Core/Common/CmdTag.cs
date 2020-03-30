@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.Linq;
 using Dolany.Ai.Common;
 using Dolany.Ai.Core.Base;
 
@@ -29,6 +30,44 @@ namespace Dolany.Ai.Core.Common
                 }
 
                 return list;
+            }
+        }
+
+        public IEnumerable<CmdTag> LocateCmdPath(EnterCommandAttribute cmd)
+        {
+            var stack = new Stack<CmdTag>();
+            return SubTags.Any(subTag => FindCmdPath(subTag, cmd, stack)) ? stack.ToList() : default;
+        }
+
+        private static bool FindCmdPath(CmdTag tag, EnterCommandAttribute cmd, Stack<CmdTag> stack)
+        {
+            stack.Push(tag);
+
+            if (tag.SubCmds.Any(p => p.ID == cmd.ID))
+            {
+                return true;
+            }
+
+            if (!tag.SubTags.IsNullOrEmpty() && tag.SubTags.Any(t => FindCmdPath(t, cmd, stack)))
+            {
+                return true;
+            }
+
+            stack.Pop();
+            return false;
+        }
+
+        public static void CreateCmdTree(CmdTag tag, List<EnterCommandAttribute> AllAvailableGroupCommands)
+        {
+            tag.SubCmds = AllAvailableGroupCommands.Where(p => p.Tag == tag.Tag).ToArray();
+            if (tag.SubTags.IsNullOrEmpty())
+            {
+                return;
+            }
+
+            foreach (var subTag in tag.SubTags)
+            {
+                CreateCmdTree(subTag, AllAvailableGroupCommands);
             }
         }
     }

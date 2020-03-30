@@ -17,7 +17,7 @@ namespace Dolany.WorldLine.Standard.Ai.SingleCommand.GroupManage
 
         public override AIPriority PriorityLevel { get;} = AIPriority.High;
 
-        public override CmdTagEnum DefaultTag { get; } = CmdTagEnum.群管理;
+        protected override CmdTagEnum DefaultTag { get; } = CmdTagEnum.群管理;
 
         public override string Description { get; set; } = "AI for some power only for group owners.";
 

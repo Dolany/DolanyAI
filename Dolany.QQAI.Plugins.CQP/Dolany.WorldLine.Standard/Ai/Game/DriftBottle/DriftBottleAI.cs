@@ -19,7 +19,7 @@ namespace Dolany.WorldLine.Standard.Ai.Game.DriftBottle
 
         public override string Description { get; set; } = "AI for drift bottle.";
 
-        public override CmdTagEnum DefaultTag { get; } = CmdTagEnum.漂流瓶功能;
+        protected override CmdTagEnum DefaultTag { get; } = CmdTagEnum.漂流瓶功能;
 
         private const int ItemRate = 60;
 

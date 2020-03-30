@@ -14,7 +14,7 @@ namespace Dolany.WorldLine.Standard.Ai.SingleCommand.SelfBoom
 
         public override string Description { get; set; } = "AI for boom herself.";
 
-        public override CmdTagEnum DefaultTag { get; } = CmdTagEnum.系统命令;
+        protected override CmdTagEnum DefaultTag { get; } = CmdTagEnum.系统命令;
 
         private int BoomCode = Rander.RandInt(100000);
         private DateTime CodeDate = DateTime.Now;

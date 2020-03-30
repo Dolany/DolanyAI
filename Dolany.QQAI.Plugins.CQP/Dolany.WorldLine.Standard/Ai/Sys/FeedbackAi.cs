@@ -11,7 +11,7 @@ namespace Dolany.WorldLine.Standard.Ai.Sys
 
         public override string Description { get; set; } = "AI for Feedback.";
 
-        public override CmdTagEnum DefaultTag { get; } = CmdTagEnum.系统命令;
+        protected override CmdTagEnum DefaultTag { get; } = CmdTagEnum.系统命令;
 
         [EnterCommand(ID = "FeedbackAi_Feedback",
             Command = "反馈",

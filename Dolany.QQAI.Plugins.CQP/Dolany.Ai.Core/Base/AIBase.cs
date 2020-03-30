@@ -21,11 +21,13 @@ namespace Dolany.Ai.Core.Base
 
         public virtual bool Enable { get; } = true;
 
-        public virtual CmdTagEnum DefaultTag { get; } = CmdTagEnum.Default;
+        protected virtual CmdTagEnum DefaultTag { get; } = CmdTagEnum.Default;
 
         protected delegate bool AIModuleDel(MsgInformationEx MsgDTO, object[] param);
 
         protected readonly Dictionary<EnterCommandAttribute, AIModuleDel> ModuleDels = new Dictionary<EnterCommandAttribute, AIModuleDel>();
+
+        public IEnumerable<EnterCommandAttribute> AllCmds => ModuleDels.Keys;
 
         public WaiterSvc WaiterSvc { get; set; }
         public GroupSettingSvc GroupSettingSvc { get; set; }
@@ -33,7 +35,7 @@ namespace Dolany.Ai.Core.Base
         public CommandLockerSvc CommandLockerSvc { get; set; }
         public SyntaxCheckerSvc SyntaxCheckerSvc { get; set; }
 
-        protected AIBase()
+        public virtual void Initialization()
         {
             var t = GetType();
             foreach (var method in t.GetMethods())
@@ -44,14 +46,14 @@ namespace Dolany.Ai.Core.Base
                     {
                         var attrClone = attr.Clone();
                         attrClone.Command = command;
+                        if (DefaultTag != CmdTagEnum.Default && attrClone.Tag == CmdTagEnum.Default)
+                        {
+                            attrClone.Tag = DefaultTag;
+                        }
                         ModuleDels.Add(attrClone, method.CreateDelegate(typeof(AIModuleDel), this) as AIModuleDel);
                     }
                 }
             }
-        }
-
-        public virtual void Initialization()
-        {
         }
 
         public virtual bool OnMsgReceived(MsgInformationEx MsgDTO)

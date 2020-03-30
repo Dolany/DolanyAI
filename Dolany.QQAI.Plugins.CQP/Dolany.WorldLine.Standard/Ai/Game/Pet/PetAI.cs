@@ -21,7 +21,7 @@ namespace Dolany.WorldLine.Standard.Ai.Game.Pet
 
         public override string Description { get; set; } = "AI for Petting.";
 
-        public override CmdTagEnum DefaultTag { get; } = CmdTagEnum.宠物功能;
+        protected override CmdTagEnum DefaultTag { get; } = CmdTagEnum.宠物功能;
 
         private const string CachePath = "./images/Cache/";
 
@@ -39,6 +39,8 @@ namespace Dolany.WorldLine.Standard.Ai.Game.Pet
 
         public override void Initialization()
         {
+            base.Initialization();
+
             PicReviewSvc.Register("宠物头像", SetPetPicCallBack);
         }
 

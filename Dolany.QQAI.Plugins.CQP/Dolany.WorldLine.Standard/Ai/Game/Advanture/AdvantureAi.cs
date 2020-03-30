@@ -15,7 +15,7 @@ namespace Dolany.WorldLine.Standard.Ai.Game.Advanture
 
         public override AIPriority PriorityLevel { get;} = AIPriority.Normal;
 
-        public override CmdTagEnum DefaultTag { get; } = CmdTagEnum.游戏功能;
+        protected override CmdTagEnum DefaultTag { get; } = CmdTagEnum.游戏功能;
 
         public BindAiSvc BindAiSvc { get; set; }
         public AdvGameSvc AdvGameSvc { get; set; }

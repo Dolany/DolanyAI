@@ -22,7 +22,7 @@ namespace Dolany.WorldLine.Standard.Ai.Record.Hello
 
         public override AIPriority PriorityLevel { get;} = AIPriority.High;
 
-        public override CmdTagEnum DefaultTag { get; } = CmdTagEnum.打招呼功能;
+        protected override CmdTagEnum DefaultTag { get; } = CmdTagEnum.打招呼功能;
 
         private List<HelloRecord> HelloList = new List<HelloRecord>();
         private List<MultiMediaHelloRecord> MultiMediaHelloList = new List<MultiMediaHelloRecord>();

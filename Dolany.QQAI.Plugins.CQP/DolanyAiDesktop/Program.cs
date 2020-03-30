@@ -2,7 +2,6 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
-using Autofac;
 using Dolany.Ai.Common;
 using Dolany.Ai.Common.Models;
 using Dolany.Ai.Core;
@@ -20,7 +19,6 @@ namespace DolanyAiDesktop
     {
         private static WaiterSvc WaiterSvc => AutofacSvc.Resolve<WaiterSvc>();
         private static CrossWorldAiSvc CrossWorldAiSvc => AutofacSvc.Resolve<CrossWorldAiSvc>();
-        private static GroupSettingSvc GroupSettingSvc => AutofacSvc.Resolve<GroupSettingSvc>();
         private static DataRefreshSvc DataRefreshSvc => AutofacSvc.Resolve<DataRefreshSvc>();
 
         static void Main(string[] args)
@@ -37,9 +35,9 @@ namespace DolanyAiDesktop
 
             try
             {
-                RegisterAutofac(assemblies);
-                RegisterDataRefresher(assemblies);
-                CrossWorldAiSvc.AllWorlds = GetWorlds(assemblies);
+                AutofacSvc.RegisterAutofac(assemblies);
+                AutofacSvc.RegisterDataRefresher(assemblies);
+                CrossWorldAiSvc.InitWorlds(assemblies);
 
                 Global.MsgPublish = PrintMsg;
                 SFixedSetService.SetMaxCount("PicCache", 200);
@@ -77,76 +75,23 @@ namespace DolanyAiDesktop
 
         private static void OnMsgReceived(MsgInformation MsgDTO)
         {
-            var worldLine = JudgeWorldLine(MsgDTO.FromGroup, MsgDTO.FromQQ);
+            var worldLine = CrossWorldAiSvc.JudgeWorldLine(MsgDTO.FromGroup);
             var world = CrossWorldAiSvc.AllWorlds.FirstOrDefault(p => p.Name == worldLine);
             world?.OnMsgReceived(MsgDTO);
         }
 
         private static void OnMoneyReceived(ChargeModel model)
         {
-            var worldLine = JudgeWorldLine(0, model.QQNum);
+            var worldLine = CrossWorldAiSvc.JudgeWorldLine(0);
             var world = CrossWorldAiSvc.AllWorlds.FirstOrDefault(p => p.Name == worldLine);
             world?.OnMoneyReceived(model);
         }
 
         private static void OnGroupMemberChanged(GroupMemberChangeModel model)
         {
-            var worldLine = JudgeWorldLine(model.GroupNum, model.QQNum);
+            var worldLine = CrossWorldAiSvc.JudgeWorldLine(model.GroupNum);
             var world = CrossWorldAiSvc.AllWorlds.FirstOrDefault(p => p.Name == worldLine);
             world?.OnGroupMemberChanged(model);
-        }
-
-        private static string JudgeWorldLine(long groupNum, long QQNum)
-        {
-            if (groupNum == 0)
-            {
-                return JudgePersonalWorldLine(QQNum);
-            }
-
-            var group = GroupSettingSvc[groupNum];
-            if (group == null)
-            {
-                return CrossWorldAiSvc.DefaultWorldLine.Name;
-            }
-
-            return string.IsNullOrEmpty(group.WorldLine) ? CrossWorldAiSvc.DefaultWorldLine.Name : group.WorldLine;
-        }
-
-        private static string JudgePersonalWorldLine(long QQNum)
-        {
-            return CrossWorldAiSvc.DefaultWorldLine.Name;
-        }
-
-        private static void RegisterAutofac(List<Assembly> assemblies)
-        {
-            var builder = new ContainerBuilder();
-            var baseType = typeof(IDependency);
-
-            builder.RegisterAssemblyTypes(assemblies.ToArray()).Where(type => baseType.IsAssignableFrom(type) && !type.IsAbstract).AsSelf()
-                .PropertiesAutowired(PropertyWiringOptions.AllowCircularDependencies).SingleInstance();
-
-            AutofacSvc.Container = builder.Build();
-        }
-
-        private static void RegisterDataRefresher(IEnumerable<Assembly> assemblies)
-        {
-            var baseType = typeof(IDataMgr);
-            var datamgrs = assemblies.SelectMany(p => p.GetTypes().Where(type => baseType.IsAssignableFrom(type) && !type.IsAbstract))
-                .Where(type => AutofacSvc.Container.IsRegistered(type)).Select(type => AutofacSvc.Container.Resolve(type) as IDataMgr).Where(d => d != null).ToList();
-
-            foreach (var datamgr in datamgrs)
-            {
-                datamgr.RefreshData();
-                DataRefreshSvc.Register(datamgr);
-            }
-        }
-
-        private static IWorldLine[] GetWorlds(IEnumerable<Assembly> assemblies)
-        {
-            var baseType = typeof(IWorldLine);
-            return assemblies.SelectMany(p => p.GetTypes().Where(type => type.IsSubclassOf(baseType) && !type.IsAbstract))
-                .Where(type => AutofacSvc.Container.IsRegistered(type)).Select(type => AutofacSvc.Container.Resolve(type) as IWorldLine).Where(d => d != null)
-                .ToArray();
         }
     }
 }
