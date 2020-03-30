@@ -50,7 +50,11 @@ namespace Dolany.Ai.Core.Base
                         {
                             attrClone.Tag = DefaultTag;
                         }
-                        ModuleDels.Add(attrClone, method.CreateDelegate(typeof(AIModuleDel), this) as AIModuleDel);
+
+                        if (!ModuleDels.ContainsKey(attrClone))
+                        {
+                            ModuleDels.Add(attrClone, method.CreateDelegate(typeof(AIModuleDel), this) as AIModuleDel);
+                        }
                     }
                 }
             }
