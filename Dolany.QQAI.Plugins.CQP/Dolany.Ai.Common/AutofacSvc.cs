@@ -53,7 +53,6 @@ namespace Dolany.Ai.Common
 
         public static List<T> LoadAllInstanceFromClass<T>(IEnumerable<Assembly> assemblies) where T : class
         {
-            var baseType = typeof(T);
             return assemblies.SelectMany(p => p.GetTypes().Where(type => type.IsSubclassOf(typeof(T)) && !type.IsAbstract))
                 .Where(type => Container.IsRegistered(type)).Select(type => Resolve(type) as T).Where(d => d != null).ToList();
         }
@@ -71,7 +70,6 @@ namespace Dolany.Ai.Common
 
         public static List<T> LoadAllInstanceFromInterface<T>(IEnumerable<Assembly> assemblies) where T : class
         {
-            var baseType = typeof(T);
             return assemblies.SelectMany(p => p.GetTypes().Where(type => typeof(T).IsAssignableFrom(type) && !type.IsAbstract))
                 .Where(type => Container.IsRegistered(type)).Select(type => Resolve(type) as T).Where(d => d != null)
                 .ToList();

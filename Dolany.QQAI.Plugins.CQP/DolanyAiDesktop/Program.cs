@@ -19,18 +19,17 @@ namespace DolanyAiDesktop
     {
         private static WaiterSvc WaiterSvc => AutofacSvc.Resolve<WaiterSvc>();
         private static CrossWorldAiSvc CrossWorldAiSvc => AutofacSvc.Resolve<CrossWorldAiSvc>();
-        private static DataRefreshSvc DataRefreshSvc => AutofacSvc.Resolve<DataRefreshSvc>();
 
         static void Main(string[] args)
         {
             var assemblies = new List<Assembly>()
             {
-                Assembly.GetAssembly(typeof(IDependency)),
-                Assembly.GetAssembly(typeof(Program)),
-                Assembly.GetAssembly(typeof(DbBaseEntity)),
-                Assembly.GetAssembly(typeof(IWorldLine)),
-                Assembly.GetAssembly(typeof(StandardWorldLine)),
-                Assembly.GetAssembly(typeof(KindomStormWorldLine))
+                Assembly.GetAssembly(typeof(IDependency)), // Dolany.Ai.Common
+                Assembly.GetAssembly(typeof(Program)), // DolanyAiDesktop
+                Assembly.GetAssembly(typeof(DbBaseEntity)), // Dolany.Database
+                Assembly.GetAssembly(typeof(IWorldLine)), // Dolany.Ai.Core
+                Assembly.GetAssembly(typeof(StandardWorldLine)), // Dolany.WorldLine.Standard
+                Assembly.GetAssembly(typeof(KindomStormWorldLine)) // Dolany.WorldLine.KindomStorm
             };
 
             try
