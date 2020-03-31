@@ -305,10 +305,8 @@ namespace Dolany.Ai.Core.Ai
 
             var failedGroups = new List<GroupSettings>();
             var successGroups = new List<GroupSettings>();
-            foreach (var setting in from GroupSettings setting in GroupSettingSvc.SettingDic
-                where !setting.BindAis.IsNullOrEmpty()
-                where setting.BindAis.Contains(bingAiName)
-                select setting)
+            foreach (var setting in GroupSettingSvc.SettingDic.Values.Where(setting => !setting.BindAis.IsNullOrEmpty())
+                .Where(setting => setting.BindAis.Contains(bingAiName)))
             {
                 if (setting.BindAis.Count == 1)
                 {
