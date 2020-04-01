@@ -3,17 +3,9 @@ using Dolany.Ai.Common;
 
 namespace Dolany.Ai.Doremi.Common
 {
-    public class BindAiSvc : IDataMgr
+    public class BindAiSvc : IDataMgr, IDependency
     {
         public Dictionary<string, BindAiModel> AiDic;
-
-        private static DataRefreshSvc DataRefreshSvc => AutofacSvc.Resolve<DataRefreshSvc>();
-
-        public BindAiSvc()
-        {
-            RefreshData();
-            DataRefreshSvc.Register(this);
-        }
 
         public BindAiModel this[string AiName] => AiDic[AiName];
         public void RefreshData()

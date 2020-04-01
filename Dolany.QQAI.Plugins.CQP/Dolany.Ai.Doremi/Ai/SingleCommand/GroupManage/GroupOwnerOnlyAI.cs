@@ -16,8 +16,8 @@ namespace Dolany.Ai.Doremi.Ai.SingleCommand.GroupManage
         BindAi = "Doremi")]
     public class GroupOwnerOnlyAI : AIBase
     {
-        private static WaiterSvc WaiterSvc => AutofacSvc.Resolve<WaiterSvc>();
-        private static GroupSettingSvc GroupSettingSvc => AutofacSvc.Resolve<GroupSettingSvc>();
+        public WaiterSvc WaiterSvc { get; set; }
+        public GroupSettingSvc GroupSettingSvc { get; set; }
 
         [EnterCommand(ID = "GroupOwnerOnlyAI_RefreshCommand",
             Command = "刷新",

@@ -39,7 +39,7 @@ namespace Dolany.Ai.Doremi.Ai.Game.Xiuxian
 
         public bool IsCorrect(string answer)
         {
-            return this.A[0] == answer;
+            return A[0] == answer;
         }
     }
 }

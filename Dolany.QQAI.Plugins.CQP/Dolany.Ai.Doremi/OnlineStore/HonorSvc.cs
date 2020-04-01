@@ -6,18 +6,13 @@ using Dolany.Database.Ai;
 
 namespace Dolany.Ai.Doremi.OnlineStore
 {
-    public class HonorSvc : IDataMgr
+    public class HonorSvc : IDataMgr, IDependency
     {
         public readonly List<HonorModel> HonorList = new List<HonorModel>();
 
         private List<DriftBottleItemModel> Items = new List<DriftBottleItemModel>();
 
         private int SumRate;
-
-        public HonorSvc()
-        {
-            RefreshData();
-        }
 
         public void RefreshData()
         {

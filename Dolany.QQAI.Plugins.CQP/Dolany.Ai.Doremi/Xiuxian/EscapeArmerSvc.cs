@@ -4,7 +4,7 @@ using Dolany.Ai.Common;
 
 namespace Dolany.Ai.Doremi.Xiuxian
 {
-    public class EscapeArmerSvc : IDataMgr
+    public class EscapeArmerSvc : IDataMgr, IDependency
     {
         private List<EscapeArmerModel> Armers;
 

@@ -1,10 +1,11 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
+using Dolany.Ai.Common;
 using Dolany.Ai.Doremi.Model;
 
 namespace Dolany.Ai.Doremi.Common
 {
-    public class PowerStateSvc
+    public class PowerStateSvc : IDependency
     {
         public readonly string[] Ais = {"Doremi", "DoreFun"};
 

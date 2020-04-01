@@ -7,11 +7,11 @@ using Dolany.Database.Ai;
 
 namespace Dolany.Ai.Doremi.Cache
 {
-    public class GroupMemberInfoCacher
+    public class GroupMemberInfoCacher : IDependency
     {
-        private static GroupSettingSvc GroupSettingSvc => AutofacSvc.Resolve<GroupSettingSvc>();
+        public GroupSettingSvc GroupSettingSvc { get; set; }
 
-        public static bool RefreshGroupInfo(long GroupNum, string BindAi)
+        public bool RefreshGroupInfo(long GroupNum, string BindAi)
         {
             var infos = APIEx.GetMemberInfos(GroupNum, BindAi);
             if (infos?.members == null)

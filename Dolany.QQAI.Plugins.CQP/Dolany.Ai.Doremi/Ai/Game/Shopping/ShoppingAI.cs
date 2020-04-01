@@ -18,10 +18,10 @@ namespace Dolany.Ai.Doremi.Ai.Game.Shopping
         BindAi = "DoreFun")]
     public class ShoppingAI : AIBase
     {
-        private static RandShopperSvc RandShopperSvc => AutofacSvc.Resolve<RandShopperSvc>();
-        private static ArmerSvc ArmerSvc => AutofacSvc.Resolve<ArmerSvc>();
-        private static LevelSvc LevelSvc => AutofacSvc.Resolve<LevelSvc>();
-        private static WaiterSvc WaiterSvc => AutofacSvc.Resolve<WaiterSvc>();
+        public RandShopperSvc RandShopperSvc { get; set; }
+        public ArmerSvc ArmerSvc { get; set; }
+        public LevelSvc LevelSvc { get; set; }
+        public WaiterSvc WaiterSvc { get; set; }
 
         [EnterCommand(ID = "ShoppingAI_MyStatus",
             Command = "我的状态",

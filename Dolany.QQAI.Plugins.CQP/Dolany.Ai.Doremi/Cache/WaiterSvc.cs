@@ -9,7 +9,7 @@ using Dolany.Ai.Doremi.Common;
 
 namespace Dolany.Ai.Doremi.Cache
 {
-    public class WaiterSvc
+    public class WaiterSvc : IDependency
     {
         private readonly object _lockObj = new object();
 

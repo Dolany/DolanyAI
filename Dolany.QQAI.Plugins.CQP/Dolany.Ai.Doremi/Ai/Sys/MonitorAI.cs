@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Linq;
-using Dolany.Ai.Common;
 using Dolany.Ai.Common.Models;
 using Dolany.Ai.Doremi.Base;
 using Dolany.Ai.Doremi.Cache;
@@ -15,9 +14,9 @@ namespace Dolany.Ai.Doremi.Ai.Sys
         BindAi = "Doremi")]
     public class MonitorAI : AIBase
     {
-        private static GroupSettingSvc GroupSettingSvc => AutofacSvc.Resolve<GroupSettingSvc>();
-        private static BindAiSvc BindAiSvc => AutofacSvc.Resolve<BindAiSvc>();
-        private static PowerStateSvc PowerStateSvc => AutofacSvc.Resolve<PowerStateSvc>();
+        public GroupSettingSvc GroupSettingSvc { get; set; }
+        public BindAiSvc BindAiSvc { get; set; }
+        public PowerStateSvc PowerStateSvc { get; set; }
 
         public override bool OnMsgReceived(MsgInformationEx MsgDTO)
         {
@@ -30,7 +29,7 @@ namespace Dolany.Ai.Doremi.Ai.Sys
             return false;
         }
 
-        private static void FiltPicMsg(MsgInformationEx MsgDTO)
+        private void FiltPicMsg(MsgInformationEx MsgDTO)
         {
             var guid = Utility.ParsePicGuid(MsgDTO.FullMsg);
             var bindAi = BindAiSvc[MsgDTO.BindAi];
@@ -153,7 +152,7 @@ namespace Dolany.Ai.Doremi.Ai.Sys
             return true;
         }
 
-        private static string PowerState(MsgInformationEx MsgDTO)
+        private string PowerState(MsgInformationEx MsgDTO)
         {
             if (MsgDTO.Type == MsgType.Private)
             {

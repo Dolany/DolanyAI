@@ -1,9 +1,10 @@
 ﻿using System;
+using Dolany.Ai.Common;
 using Dolany.Database.Sqlite;
 
 namespace Dolany.Ai.Doremi.Common
 {
-    public class AliveStateSvc
+    public class AliveStateSvc : IDependency
     {
         public AliveStateCache GetState(long GroupNum, long QQNum)
         {

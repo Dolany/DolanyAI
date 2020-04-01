@@ -1,6 +1,5 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
-using Dolany.Ai.Common;
 using Dolany.Ai.Common.Models;
 using Dolany.Ai.Doremi.Base;
 using Dolany.Ai.Doremi.Cache;
@@ -20,9 +19,9 @@ namespace Dolany.Ai.Doremi.Ai.Game.Xiuxian
         private List<long> EnablePersons = new List<long>();
         private const int DujieQACount = 3;
 
-        private static DujieSvc DujieSvc => AutofacSvc.Resolve<DujieSvc>();
-        private static LevelSvc LevelSvc => AutofacSvc.Resolve<LevelSvc>();
-        private static WaiterSvc WaiterSvc => AutofacSvc.Resolve<WaiterSvc>();
+        public DujieSvc DujieSvc { get; set; }
+        public LevelSvc LevelSvc { get; set; }
+        public WaiterSvc WaiterSvc { get; set; }
 
         public override void Initialization()
         {

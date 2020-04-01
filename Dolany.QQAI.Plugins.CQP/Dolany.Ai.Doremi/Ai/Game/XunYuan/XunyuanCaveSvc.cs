@@ -3,19 +3,11 @@ using Dolany.Ai.Common;
 
 namespace Dolany.Ai.Doremi.Ai.Game.XunYuan
 {
-    public class XunyuanCaveSvc : IDataMgr
+    public class XunyuanCaveSvc : IDataMgr, IDependency
     {
         private List<XunyuanCaveModel> Caves;
 
         public XunyuanCaveModel RandCaves => Caves.RandElement();
-
-        private static DataRefreshSvc DataRefreshSvc => AutofacSvc.Resolve<DataRefreshSvc>();
-
-        public XunyuanCaveSvc()
-        {
-            RefreshData();
-            DataRefreshSvc.Register(this);
-        }
 
         public void RefreshData()
         {

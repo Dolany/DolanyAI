@@ -8,21 +8,13 @@ using Dolany.Database.Ai;
 
 namespace Dolany.Ai.Doremi.Common
 {
-    public class DirtyFilterSvc : IDataMgr
+    public class DirtyFilterSvc : IDataMgr, IDependency
     {
         private string[] WordList;
 
         private List<long> BlackList;
 
         private const int MaxTolerateCount = 10;
-
-        private static DataRefreshSvc DataRefreshSvc => AutofacSvc.Resolve<DataRefreshSvc>();
-
-        public DirtyFilterSvc()
-        {
-            RefreshData();
-            DataRefreshSvc.Register(this);
-        }
 
         public bool Filter(MsgInformationEx MsgDTO)
         {

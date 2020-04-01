@@ -1,18 +1,12 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
+using Dolany.Ai.Common;
 
 namespace Dolany.Ai.Doremi.Ai.Game.XunYuan
 {
-    public class XunYuanMgr
+    public class XunYuanMgr : IDependency
     {
-        public static XunYuanMgr Instacne { get; } = new XunYuanMgr();
-
         private readonly List<XunyuanEngine> EngineList = new List<XunyuanEngine>();
-
-        private XunYuanMgr()
-        {
-
-        }
 
         public bool CheckGroup(long GroupNum)
         {

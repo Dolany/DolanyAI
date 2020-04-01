@@ -17,7 +17,7 @@ namespace Dolany.Ai.Doremi.Ai.SingleCommand.SelfBoom
         private int BoomCode = Rander.RandInt(100000);
         private DateTime CodeDate = DateTime.Now;
 
-        private static WaiterSvc WaiterSvc => AutofacSvc.Resolve<WaiterSvc>();
+        public WaiterSvc WaiterSvc { get; set; }
 
         [EnterCommand(ID = "SelfBoomAi_Boom",
             Command = "Boom",

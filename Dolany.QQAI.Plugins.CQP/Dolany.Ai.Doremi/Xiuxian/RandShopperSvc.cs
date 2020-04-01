@@ -9,7 +9,7 @@ using Newtonsoft.Json;
 
 namespace Dolany.Ai.Doremi.Xiuxian
 {
-    public class RandShopperSvc
+    public class RandShopperSvc : IDependency
     {
         private List<ShoppingNoticeModel> Models = new List<ShoppingNoticeModel>();
 

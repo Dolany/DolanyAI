@@ -18,13 +18,7 @@ namespace Dolany.Ai.Doremi.Ai.SingleCommand.Voice
     {
         private Beng3ConfigModel Beng3Config;
 
-        private static DataRefreshSvc DataRefreshSvc => AutofacSvc.Resolve<DataRefreshSvc>();
-
-        public override void Initialization()
-        {
-            RefreshData();
-            DataRefreshSvc.Register(this);
-        }
+        public DataRefreshSvc DataRefreshSvc { get; set; }
 
         public void RefreshData()
         {

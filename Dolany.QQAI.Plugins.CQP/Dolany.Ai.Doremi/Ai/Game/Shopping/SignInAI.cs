@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using Dolany.Ai.Common;
 using Dolany.Ai.Common.Models;
 using Dolany.Ai.Doremi.Base;
 using Dolany.Ai.Doremi.Cache;
@@ -21,8 +20,6 @@ namespace Dolany.Ai.Doremi.Ai.Game.Shopping
     public class SignInAI : AIBase
     {
         private Dictionary<long, SignInGroupRecord> GroupSignInDic = new Dictionary<long, SignInGroupRecord>();
-
-        private static GroupSettingSvc GroupSettingSvc => AutofacSvc.Resolve<GroupSettingSvc>();
 
         public override void Initialization()
         {

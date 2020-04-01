@@ -11,7 +11,7 @@ using Dolany.Database.Ai;
 
 namespace Dolany.Ai.Doremi.Base
 {
-    public abstract class AIBase
+    public abstract class AIBase : IDependency
     {
         protected delegate bool AIModuleDel(MsgInformationEx MsgDTO, object[] param);
 
@@ -19,9 +19,8 @@ namespace Dolany.Ai.Doremi.Base
 
         public readonly AIAttribute AIAttr;
 
-        protected static AISvc AiSvc => AutofacSvc.Resolve<AISvc>();
-        private static GroupSettingSvc GroupSettingSvc => AutofacSvc.Resolve<GroupSettingSvc>();
-        private static AliveStateSvc AliveStateSvc => AutofacSvc.Resolve<AliveStateSvc>();
+        public AISvc AiSvc { get; set; }
+        public AliveStateSvc AliveStateSvc { get; set; }
 
         protected AIBase()
         {
@@ -119,7 +118,7 @@ namespace Dolany.Ai.Doremi.Base
             return false;
         }
 
-        private static bool Check(EnterCommandAttribute enterAttr, MsgInformationEx MsgDTO, out object[] param)
+        private bool Check(EnterCommandAttribute enterAttr, MsgInformationEx MsgDTO, out object[] param)
         {
             param = null;
             if (!enterAttr.CommandsList.Contains(MsgDTO.Command))
@@ -157,7 +156,7 @@ namespace Dolany.Ai.Doremi.Base
             return timesLimit == 0 || limitRecord.Check(timesLimit);
         }
 
-        private static bool SyntaxCheck(string SyntaxChecker, string msg, out object[] param)
+        private bool SyntaxCheck(string SyntaxChecker, string msg, out object[] param)
         {
             param = null;
             if (string.IsNullOrEmpty(SyntaxChecker))

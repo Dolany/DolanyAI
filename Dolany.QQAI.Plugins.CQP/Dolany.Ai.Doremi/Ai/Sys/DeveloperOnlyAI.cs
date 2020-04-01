@@ -23,8 +23,9 @@ namespace Dolany.Ai.Doremi.Ai.Sys
         BindAi = "Doremi")]
     public class DeveloperOnlyAI : AIBase
     {
-        private static GroupSettingSvc GroupSettingSvc => AutofacSvc.Resolve<GroupSettingSvc>();
-        private static DirtyFilterSvc DirtyFilterSvc => AutofacSvc.Resolve<DirtyFilterSvc>();
+        public GroupSettingSvc GroupSettingSvc { get; set; }
+        public DirtyFilterSvc DirtyFilterSvc { get; set; }
+        public GroupMemberInfoCacher GroupMemberInfoCacher { get; set; }
 
         [EnterCommand(ID = "DeveloperOnlyAI_Board",
             Command = "广播",

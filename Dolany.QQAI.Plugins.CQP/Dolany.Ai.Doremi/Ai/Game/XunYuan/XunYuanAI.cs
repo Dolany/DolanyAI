@@ -16,9 +16,10 @@ namespace Dolany.Ai.Doremi.Ai.Game.XunYuan
         BindAi = "DoreFun")]
     public class XunYuanAI : AIBase
     {
-        private static ArmerSvc ArmerSvc => AutofacSvc.Resolve<ArmerSvc>();
-        private static LevelSvc LevelSvc => AutofacSvc.Resolve<LevelSvc>();
-        private static WaiterSvc WaiterSvc => AutofacSvc.Resolve<WaiterSvc>();
+        public ArmerSvc ArmerSvc { get; set; }
+        public LevelSvc LevelSvc { get; set; }
+        public WaiterSvc WaiterSvc { get; set; }
+        public XunYuanMgr XunYuanMgr { get; set; }
 
         [EnterCommand(ID = "XunYuanAI_Xunyuan",
             Command = "寻缘",
@@ -39,19 +40,19 @@ namespace Dolany.Ai.Doremi.Ai.Game.XunYuan
                 return false;
             }
 
-            if (!XunYuanMgr.Instacne.CheckGroup(MsgDTO.FromGroup))
+            if (!XunYuanMgr.CheckGroup(MsgDTO.FromGroup))
             {
                 MsgSender.PushMsg(MsgDTO, "此群正在进行一场寻缘，请稍候再试！");
                 return false;
             }
 
-            if (!XunYuanMgr.Instacne.CheckQQNum(MsgDTO.FromQQ))
+            if (!XunYuanMgr.CheckQQNum(MsgDTO.FromQQ))
             {
                 MsgSender.PushMsg(MsgDTO, "你正在进行一场寻缘，请稍候再试！");
                 return false;
             }
 
-            if (!XunYuanMgr.Instacne.CheckQQNum(aimQQ))
+            if (!XunYuanMgr.CheckQQNum(aimQQ))
             {
                 MsgSender.PushMsg(MsgDTO, "对方正在进行一场寻缘，请稍候再试！");
                 return false;
@@ -83,7 +84,7 @@ namespace Dolany.Ai.Doremi.Ai.Game.XunYuan
                 };
             }).ToArray();
 
-            XunYuanMgr.Instacne.StartGame(Gamers, MsgDTO.FromGroup, MsgDTO.BindAi);
+            XunYuanMgr.StartGame(Gamers, MsgDTO.FromGroup, MsgDTO.BindAi);
             return true;
         }
     }

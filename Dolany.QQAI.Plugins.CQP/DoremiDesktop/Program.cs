@@ -1,13 +1,8 @@
 ﻿using System;
-using Autofac;
+using System.Collections.Generic;
+using System.Reflection;
 using Dolany.Ai.Common;
 using Dolany.Ai.Doremi;
-using Dolany.Ai.Doremi.Ai.Game.Xiuxian;
-using Dolany.Ai.Doremi.Ai.Game.XunYuan;
-using Dolany.Ai.Doremi.Cache;
-using Dolany.Ai.Doremi.Common;
-using Dolany.Ai.Doremi.OnlineStore;
-using Dolany.Ai.Doremi.Xiuxian;
 using Dolany.Database;
 
 namespace DoremiDesktop
@@ -18,7 +13,17 @@ namespace DoremiDesktop
 
         static void Main(string[] args)
         {
-            RegisterAutofac();
+            var assemblies = new List<Assembly>()
+            {
+                Assembly.GetAssembly(typeof(IDependency)), // Dolany.Ai.Common
+                Assembly.GetAssembly(typeof(Program)), // DoremiDesktop
+                Assembly.GetAssembly(typeof(DbBaseEntity)), // Dolany.Database
+                Assembly.GetAssembly(typeof(AISvc)) // Dolany.Ai.Doremi
+            };
+
+            AutofacSvc.RegisterAutofac(assemblies);
+            AutofacSvc.RegisterDataRefresher(assemblies);
+
             AiSvc.Load(PrintMsg);
 
             var command = Console.ReadLine();
@@ -31,30 +36,6 @@ namespace DoremiDesktop
         static void PrintMsg(string Msg)
         {
             Console.WriteLine(Msg);
-        }
-
-        private static void RegisterAutofac()
-        {
-            var builder = new ContainerBuilder();
-            builder.RegisterType<DataRefreshSvc>().AsSelf().PropertiesAutowired(PropertyWiringOptions.AllowCircularDependencies).SingleInstance();
-            builder.RegisterType<SchedulerSvc>().AsSelf().PropertiesAutowired(PropertyWiringOptions.AllowCircularDependencies).SingleInstance();
-            builder.RegisterType<RandShopperSvc>().AsSelf().PropertiesAutowired(PropertyWiringOptions.AllowCircularDependencies).SingleInstance();
-            builder.RegisterType<ArmerSvc>().AsSelf().PropertiesAutowired(PropertyWiringOptions.AllowCircularDependencies).SingleInstance();
-            builder.RegisterType<DujieSvc>().AsSelf().PropertiesAutowired(PropertyWiringOptions.AllowCircularDependencies).SingleInstance();
-            builder.RegisterType<LevelSvc>().AsSelf().PropertiesAutowired(PropertyWiringOptions.AllowCircularDependencies).SingleInstance();
-            builder.RegisterType<WaiterSvc>().AsSelf().PropertiesAutowired(PropertyWiringOptions.AllowCircularDependencies).SingleInstance();
-            builder.RegisterType<AISvc>().AsSelf().PropertiesAutowired(PropertyWiringOptions.AllowCircularDependencies).SingleInstance();
-            builder.RegisterType<GroupSettingSvc>().AsSelf().PropertiesAutowired(PropertyWiringOptions.AllowCircularDependencies).SingleInstance();
-            builder.RegisterType<XunyuanCaveSvc>().AsSelf().PropertiesAutowired(PropertyWiringOptions.AllowCircularDependencies).SingleInstance();
-            builder.RegisterType<EscapeArmerSvc>().AsSelf().PropertiesAutowired(PropertyWiringOptions.AllowCircularDependencies).SingleInstance();
-            builder.RegisterType<BindAiSvc>().AsSelf().PropertiesAutowired(PropertyWiringOptions.AllowCircularDependencies).SingleInstance();
-            builder.RegisterType<PowerStateSvc>().AsSelf().PropertiesAutowired(PropertyWiringOptions.AllowCircularDependencies).SingleInstance();
-            builder.RegisterType<AliveStateSvc>().AsSelf().PropertiesAutowired(PropertyWiringOptions.AllowCircularDependencies).SingleInstance();
-            builder.RegisterType<DirtyFilterSvc>().AsSelf().PropertiesAutowired(PropertyWiringOptions.AllowCircularDependencies).SingleInstance();
-            builder.RegisterType<HonorSvc>().AsSelf().PropertiesAutowired(PropertyWiringOptions.AllowCircularDependencies).SingleInstance();
-            builder.RegisterType<MongoContext>().AsSelf().PropertiesAutowired(PropertyWiringOptions.AllowCircularDependencies).SingleInstance();
-
-            AutofacSvc.Container = builder.Build();
         }
     }
 }

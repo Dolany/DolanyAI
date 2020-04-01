@@ -24,14 +24,6 @@ namespace Dolany.Ai.Doremi.Ai.SingleCommand.Fortune
 
         private List<FortuneItemModel> FortuneItemList;
 
-        private static DataRefreshSvc DataRefreshSvc => AutofacSvc.Resolve<DataRefreshSvc>();
-
-        public override void Initialization()
-        {
-            RefreshData();
-            DataRefreshSvc.Register(this);
-        }
-
         public void RefreshData()
         {
             DataList = CommonUtil.ReadJsonData_NamedList<TarotFortuneDataModel>("TarotFortuneData");

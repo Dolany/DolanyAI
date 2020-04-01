@@ -17,7 +17,7 @@ namespace Dolany.Ai.Doremi.Ai.SingleCommand.GroupManage
         BindAi = "Doremi")]
     public class GroupManagerOnlyAI : AIBase
     {
-        private static WaiterSvc WaiterSvc => AutofacSvc.Resolve<WaiterSvc>();
+        public WaiterSvc WaiterSvc { get; set; }
 
         [EnterCommand(ID = "GroupManagerOnlyAI_DeathStaring",
             Command = "死亡凝视",

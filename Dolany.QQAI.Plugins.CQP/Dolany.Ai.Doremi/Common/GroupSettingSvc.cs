@@ -1,11 +1,12 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
+using Dolany.Ai.Common;
 using Dolany.Database;
 using Dolany.Database.Ai;
 
 namespace Dolany.Ai.Doremi.Common
 {
-    public class GroupSettingSvc
+    public class GroupSettingSvc : IDependency
     {
         public Dictionary<long, GroupSettings> SettingDic;
 

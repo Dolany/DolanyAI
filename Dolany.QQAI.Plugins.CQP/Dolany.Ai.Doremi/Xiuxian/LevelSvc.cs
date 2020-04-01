@@ -4,17 +4,9 @@ using Dolany.Ai.Common;
 
 namespace Dolany.Ai.Doremi.Xiuxian
 {
-    public class LevelSvc : IDataMgr
+    public class LevelSvc : IDataMgr, IDependency
     {
         private List<LevelDataModel> LevelDataList;
-
-        private static DataRefreshSvc DataRefreshSvc => AutofacSvc.Resolve<DataRefreshSvc>();
-
-        private LevelSvc()
-        {
-            RefreshData();
-            DataRefreshSvc.Register(this);
-        }
 
         public LevelDataModel GetByLevel(int level)
         {

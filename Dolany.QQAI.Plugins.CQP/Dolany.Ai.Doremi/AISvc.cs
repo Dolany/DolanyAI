@@ -166,13 +166,8 @@ namespace Dolany.Ai.Doremi
 
         private void LoadAis()
         {
-            var assembly = Assembly.GetAssembly(typeof(AIBase));
-            var list = assembly.GetTypes()
-                .Where(type => type.IsSubclassOf(typeof(AIBase)))
-                .Where(type => type.FullName != null)
-                .Select(type => assembly.CreateInstance(type.FullName) as AIBase);
-
-            AIList = list.ToList();
+            var assembly = GetType().Assembly;
+            AIList = AutofacSvc.LoadAllInstanceFromClass<AIBase>(assembly);
         }
 
         [HandleProcessCorruptedStateExceptions]
