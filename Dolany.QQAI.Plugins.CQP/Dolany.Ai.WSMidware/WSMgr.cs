@@ -2,6 +2,7 @@
 using System.Collections.Concurrent;
 using System.Collections.Generic;
 using System.Linq;
+using System.Threading;
 using System.Timers;
 using Dolany.Ai.Common;
 using Dolany.Ai.Common.Models;
@@ -83,7 +84,10 @@ namespace Dolany.Ai.WSMidware
             foreach (var wsClient in ClientsDic.Values.Where(client => !client.IsConnected))
             {
                 Console.WriteLine($"Reconnecting:{wsClient.BindAi}");
+                wsClient.IsReconnecting = true;
                 wsClient.Connect();
+                Thread.Sleep(1500);
+                wsClient.IsReconnecting = false;
                 Console.WriteLine($"Reconnect {wsClient.BindAi} {(wsClient.IsConnected ? "success" : "failed")}!");
             }
         }

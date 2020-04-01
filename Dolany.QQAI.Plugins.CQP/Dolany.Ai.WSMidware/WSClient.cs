@@ -12,6 +12,7 @@ namespace Dolany.Ai.WSMidware
         private readonly Action<string, QQEventModel> MsgInvoke;
 
         public bool IsConnected;
+        public bool IsReconnecting;
         public readonly string BindAi;
 
         public WSClient(string url, string BindAi, Action<string, QQEventModel> MsgInvoke)
@@ -27,6 +28,13 @@ namespace Dolany.Ai.WSMidware
 
         public void Connect()
         {
+            if (client.State == WebSocketState.Open)
+            {
+                IsConnected = true;
+                WSMgr.OnConnectStateChanged(BindAi, true);
+                return;
+            }
+
             client.Open();
 
             Thread.Sleep(1000);
@@ -50,7 +58,10 @@ namespace Dolany.Ai.WSMidware
         private void OnClosed(object sender, EventArgs e)
         {
             IsConnected = false;
-            WSMgr.OnConnectStateChanged(BindAi, false);
+            if (!IsReconnecting)
+            {
+                WSMgr.OnConnectStateChanged(BindAi, false);
+            }
         }
 
         public void Send(string msg)
