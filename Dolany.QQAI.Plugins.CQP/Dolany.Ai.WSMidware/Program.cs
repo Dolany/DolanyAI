@@ -11,12 +11,19 @@ namespace Dolany.Ai.WSMidware
 
         static void Main(string[] args)
         {
-            RegisterAutofac();
+            try
+            {
+                RegisterAutofac();
 
-            Console.Title = Global.Config.ConsoleName;
-            Console.WriteLine("Midware Started!");
+                Console.Title = Global.Config.ConsoleName;
+                Console.WriteLine("Midware Started!");
 
-            WSMgr.Init();
+                WSMgr.Init();
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine(ex.GetFullDetailMsg());
+            }
 
             while (Console.ReadLine() != "Exit")
             {
