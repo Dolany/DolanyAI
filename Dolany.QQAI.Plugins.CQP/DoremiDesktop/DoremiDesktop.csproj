@@ -10,7 +10,10 @@
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\Dolany.Ai.Core\Dolany.Ai.Core.csproj" />
     <ProjectReference Include="..\Dolany.Ai.Doremi\Dolany.Ai.Doremi.csproj" />
+    <ProjectReference Include="..\Dolany.WorldLine.KindomStorm\Dolany.WorldLine.KindomStorm.csproj" />
+    <ProjectReference Include="..\Dolany.WorldLine.Standard\Dolany.WorldLine.Standard.csproj" />
   </ItemGroup>
 
 </Project>

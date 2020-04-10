@@ -1,12 +1,13 @@
 ﻿using System.Linq;
 using Dolany.Ai.Common;
 using Dolany.Ai.Common.Models;
+using Dolany.Ai.Core.Base;
+using Dolany.Ai.Core.Cache;
 using Dolany.Ai.Doremi.Ai.Game.Xiuxian;
-using Dolany.Ai.Doremi.Base;
-using Dolany.Ai.Doremi.Cache;
 using Dolany.Ai.Doremi.OnlineStore;
 using Dolany.Ai.Doremi.Xiuxian;
 using Emoji = Dolany.Ai.Common.Emoji;
+using MsgSender = Dolany.Ai.Doremi.Cache.MsgSender;
 
 namespace Dolany.Ai.Doremi.Ai.Game.Shopping
 {

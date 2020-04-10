@@ -19,7 +19,7 @@ namespace Dolany.Ai.Doremi.Xiuxian
 
         public string[] SellingGoods;
 
-        public string BindAi { private get; set; }
+        public string BindAi { get; set; }
 
         public SchedulerSvc SchedulerSvc { get; set; }
 
@@ -89,8 +89,8 @@ namespace Dolany.Ai.Doremi.Xiuxian
                     Broadcast("商店将于半个小时后开启！");
                     break;
                 case ShoppingNoticeType.OpenShop:
-                    SellingGoods = model.Data as string[];
-                    var goodsMsg = string.Join("\r\n", SellingGoods?.Select(goods => $"{goods}:{ArmerSvc[goods].Price.CurencyFormat()}"));
+                    SellingGoods = (string[]) model.Data;
+                    var goodsMsg = string.Join("\r\n", SellingGoods.Select(goods => $"{goods}:{ArmerSvc[goods].Price.CurencyFormat()}"));
                     Broadcast($"系统商店开启！当前售卖的商品有：\r\n{goodsMsg}\r\n请使用 购买 [商品名] 命令来购买指定商品！");
                     break;
                 case ShoppingNoticeType.CloseShop:

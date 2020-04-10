@@ -6,7 +6,6 @@ namespace Dolany.WorldLine.Standard
     public class StandardWorldLine : IWorldLine
     {
         public override string Name { get; set; } = "经典";
-        public override bool IsDefault { get; } = true;
         public override CmdTag CmdTagTree { get; set; } = new CmdTag()
         {
             Tag = CmdTagEnum.Root,
@@ -25,7 +24,7 @@ namespace Dolany.WorldLine.Standard
                                 new CmdTag()
                                 {
                                     Tag = CmdTagEnum.GM奖励
-                                }, 
+                                },
                             }
                         },
                         new CmdTag()

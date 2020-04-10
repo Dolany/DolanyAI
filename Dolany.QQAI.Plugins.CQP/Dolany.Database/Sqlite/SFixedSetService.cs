@@ -18,22 +18,20 @@ namespace Dolany.Database.Sqlite
 
             try
             {
-                using (var db = new SqliteContext(dataSource))
+                using var db = new SqliteContext(dataSource);
+                var record = db.SqliteFixedSet.FirstOrDefault(p => p.Key == key);
+                if (record == null)
                 {
-                    var record = db.SqliteFixedSet.FirstOrDefault(p => p.Key == key);
-                    if (record == null)
-                    {
-                        record = new SqliteFixedSet() {Key = key, MaxCount = count, Value = "[]"};
+                    record = new SqliteFixedSet() {Key = key, MaxCount = count, Value = "[]"};
 
-                        db.SqliteFixedSet.Add(record);
-                    }
-                    else
-                    {
-                        record.MaxCount = count;
-                    }
-
-                    db.SaveChanges();
+                    db.SqliteFixedSet.Add(record);
                 }
+                else
+                {
+                    record.MaxCount = count;
+                }
+
+                db.SaveChanges();
             }
             catch (Exception e)
             {

@@ -37,6 +37,7 @@ namespace DolanyAiDesktop
                 AutofacSvc.RegisterAutofac(assemblies);
                 AutofacSvc.RegisterDataRefresher(assemblies);
                 CrossWorldAiSvc.InitWorlds(assemblies);
+                CrossWorldAiSvc.DefaultWorldLine = CrossWorldAiSvc["经典"];
 
                 Global.MsgPublish = PrintMsg;
                 SFixedSetService.SetMaxCount("PicCache", 200);

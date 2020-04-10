@@ -14,7 +14,6 @@ namespace Dolany.Ai.Core.Base
     {
         public abstract string Name { get; set; }
         public abstract CmdTag CmdTagTree { get; set; }
-        public virtual bool IsDefault { get; } = false;
         public List<AIBase> AIGroup { get; set; }
         protected List<IAITool> ToolGroup { get; set; }
 

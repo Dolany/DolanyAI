@@ -15,7 +15,7 @@ namespace Dolany.Ai.Core
 
         public IEnumerable<AIBase> CrossWorldAis => AutofacSvc.LoadAllInstanceFromClass<AIBase>(GetType().Assembly);
 
-        public IWorldLine DefaultWorldLine => AllWorlds.First(w => w.IsDefault);
+        public IWorldLine DefaultWorldLine { get; set; }
 
         public IWorldLine this[string worldLineName] => AllWorlds.FirstOrDefault(w => w.Name == worldLineName) ?? DefaultWorldLine;
 
