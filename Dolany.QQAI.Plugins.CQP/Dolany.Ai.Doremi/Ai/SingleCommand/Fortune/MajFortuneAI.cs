@@ -3,21 +3,21 @@ using System.IO;
 using System.Linq;
 using Dolany.Ai.Common;
 using Dolany.Ai.Common.Models;
-using Dolany.Ai.Doremi.Base;
-using Dolany.Ai.Doremi.Cache;
+using Dolany.Ai.Core.Base;
+using Dolany.Ai.Core.Cache;
+using Dolany.Ai.Core.Common;
 using Dolany.Database.Sqlite.Model;
 using JetBrains.Annotations;
 using Newtonsoft.Json;
 
 namespace Dolany.Ai.Doremi.Ai.SingleCommand.Fortune
 {
-    [AI(Name = "麻将运势",
-        Description = "AI for Getting Daily Maj Fortune.",
-        Enable = true,
-        PriorityLevel = 10,
-        BindAi = "Doremi")]
     public class MajFortuneAI : AIBase, IDataMgr
     {
+        public override string AIName { get; set; } = "麻将运势";
+        public override string Description { get; set; } = "AI for Getting Daily Maj Fortune.";
+        protected override CmdTagEnum DefaultTag { get; } = CmdTagEnum.运势功能;
+
         private readonly string[] PosArray = { "东", "南", "西", "北" };
 
         private const string CharactorPath = "MajCharactor";
@@ -50,12 +50,7 @@ namespace Dolany.Ai.Doremi.Ai.SingleCommand.Fortune
 
         [EnterCommand(ID = "MajFortuneAI_RandomMajFortune",
             Command = ".maj 麻将运势",
-            AuthorityLevel = AuthorityLevel.成员,
-            Description = "获取每天麻将运势",
-            Syntax = "",
-            Tag = "运势功能",
-            SyntaxChecker = "Empty",
-            IsPrivateAvailable = false)]
+            Description = "获取每天麻将运势")]
         public bool RandomMajFortune(MsgInformationEx MsgDTO, object[] param)
         {
             var fortune = TodayFortune(MsgDTO.FromQQ);

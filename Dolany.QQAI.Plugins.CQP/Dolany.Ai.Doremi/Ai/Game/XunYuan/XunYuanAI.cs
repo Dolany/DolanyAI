@@ -1,34 +1,30 @@
 ﻿using System.Linq;
 using Dolany.Ai.Common;
 using Dolany.Ai.Common.Models;
-using Dolany.Ai.Doremi.Base;
-using Dolany.Ai.Doremi.Cache;
+using Dolany.Ai.Core.Base;
+using Dolany.Ai.Core.Cache;
+using Dolany.Ai.Core.Common;
 using Dolany.Ai.Doremi.OnlineStore;
 using Dolany.Ai.Doremi.Xiuxian;
 
 namespace Dolany.Ai.Doremi.Ai.Game.XunYuan
 {
-    [AI(Name = "寻缘",
-        Description = "AI for Xunyuan.",
-        Enable = true,
-        PriorityLevel = 10,
-        NeedManulOpen = false,
-        BindAi = "DoreFun")]
     public class XunYuanAI : AIBase
     {
+        public override string AIName { get; set; } = "寻缘";
+        public override string Description { get; set; } = "AI for Xunyuan.";
+        protected override CmdTagEnum DefaultTag { get; } = CmdTagEnum.寻缘功能;
+
         public ArmerSvc ArmerSvc { get; set; }
         public LevelSvc LevelSvc { get; set; }
-        public WaiterSvc WaiterSvc { get; set; }
+
         public XunYuanMgr XunYuanMgr { get; set; }
 
         [EnterCommand(ID = "XunYuanAI_Xunyuan",
             Command = "寻缘",
-            AuthorityLevel = AuthorityLevel.成员,
             Description = "邀请成员开始寻缘",
-            Syntax = "[@QQ号]",
-            Tag = "寻缘功能",
+            SyntaxHint = "[@QQ号]",
             SyntaxChecker = "At",
-            IsPrivateAvailable = false,
             DailyLimit = 3)]
         public bool Xunyuan(MsgInformationEx MsgDTO, object[] param)
         {

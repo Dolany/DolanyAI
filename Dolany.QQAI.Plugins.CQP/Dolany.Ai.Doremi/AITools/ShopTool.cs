@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using Dolany.Ai.Common;
-using Dolany.Ai.Doremi.Cache;
+using Dolany.Ai.Core.Cache;
 using Dolany.Ai.Doremi.Xiuxian;
 using Newtonsoft.Json;
 

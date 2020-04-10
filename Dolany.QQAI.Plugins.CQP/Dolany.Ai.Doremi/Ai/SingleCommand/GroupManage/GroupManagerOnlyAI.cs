@@ -2,31 +2,27 @@
 using System.Globalization;
 using Dolany.Ai.Common;
 using Dolany.Ai.Common.Models;
-using Dolany.Ai.Doremi.Base;
-using Dolany.Ai.Doremi.Cache;
-using Dolany.Ai.Doremi.Common;
+using Dolany.Ai.Core.Base;
+using Dolany.Ai.Core.Cache;
+using Dolany.Ai.Core.Common;
 using Dolany.Ai.Doremi.OnlineStore;
 using Dolany.Database.Sqlite;
 
 namespace Dolany.Ai.Doremi.Ai.SingleCommand.GroupManage
 {
-    [AI(Name = "管理特权",
-        Description = "AI for killing somebody for some time.",
-        Enable = true,
-        PriorityLevel = 16,
-        BindAi = "Doremi")]
     public class GroupManagerOnlyAI : AIBase
     {
-        public WaiterSvc WaiterSvc { get; set; }
+        public override string AIName { get; set; } = "管理特权";
+        public override string Description { get; set; } = "AI for killing somebody for some time.";
+        public override AIPriority PriorityLevel { get; } = AIPriority.High;
+        protected override CmdTagEnum DefaultTag { get; } = CmdTagEnum.群管理;
 
         [EnterCommand(ID = "GroupManagerOnlyAI_DeathStaring",
             Command = "死亡凝视",
             AuthorityLevel = AuthorityLevel.管理员,
             Description = "让某个成员死亡(无法使用机器人)若干分钟（最高500分钟）",
-            Syntax = "[@qq号] [分钟数]",
-            Tag = "群管理",
+            SyntaxHint = "[@qq号] [分钟数]",
             SyntaxChecker = "At Long",
-            IsPrivateAvailable = false,
             DailyLimit = 4)]
         public bool DeathStaring(MsgInformationEx MsgDTO, object[] param)
         {
@@ -54,10 +50,7 @@ namespace Dolany.Ai.Doremi.Ai.SingleCommand.GroupManage
             Command = "星光爆裂",
             AuthorityLevel = AuthorityLevel.管理员,
             Description = "让某个成员死亡(无法使用机器人)若干小时（最高80小时）",
-            Syntax = "[@qq号] [小时数]",
-            Tag = "群管理",
             SyntaxChecker = "At Long",
-            IsPrivateAvailable = false,
             DailyLimit = 3)]
         public bool StarLightBreak(MsgInformationEx MsgDTO, object[] param)
         {
@@ -85,10 +78,8 @@ namespace Dolany.Ai.Doremi.Ai.SingleCommand.GroupManage
             Command = "梦想封印",
             AuthorityLevel = AuthorityLevel.管理员,
             Description = "让某个成员死亡(无法使用机器人)若干天（最高30天）",
-            Syntax = "[@qq号] [天数]",
-            Tag = "群管理",
+            SyntaxHint = "[@qq号] [天数]",
             SyntaxChecker = "At Long",
-            IsPrivateAvailable = false,
             DailyLimit = 2)]
         public bool DreamSeal(MsgInformationEx MsgDTO, object[] param)
         {
@@ -116,10 +107,8 @@ namespace Dolany.Ai.Doremi.Ai.SingleCommand.GroupManage
             Command = "复活",
             AuthorityLevel = AuthorityLevel.管理员,
             Description = "复活某个成员",
-            Syntax = "[@qq号]",
-            Tag = "群管理",
+            SyntaxHint = "[@qq号]",
             SyntaxChecker = "At",
-            IsPrivateAvailable = false,
             DailyLimit = 5)]
         public bool Reborn(MsgInformationEx MsgDTO, object[] param)
         {

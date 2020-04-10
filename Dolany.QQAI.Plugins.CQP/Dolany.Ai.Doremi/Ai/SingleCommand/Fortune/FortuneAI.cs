@@ -5,20 +5,20 @@ using System.Text;
 using System.Threading.Tasks;
 using Dolany.Ai.Common;
 using Dolany.Ai.Common.Models;
-using Dolany.Ai.Doremi.Base;
-using Dolany.Ai.Doremi.Cache;
+using Dolany.Ai.Core.Base;
+using Dolany.Ai.Core.Cache;
+using Dolany.Ai.Core.Common;
 using Dolany.Database.Sqlite.Model;
 using Newtonsoft.Json;
 
 namespace Dolany.Ai.Doremi.Ai.SingleCommand.Fortune
 {
-    [AI(Name = "随机运势",
-        Description = "AI for Fortune.",
-        Enable = true,
-        PriorityLevel = 10,
-        BindAi = "Doremi")]
     public class FortuneAI : AIBase, IDataMgr
     {
+        public override string AIName { get; set; } = "随机运势";
+        public override string Description { get; set; } = "AI for Fortune.";
+        protected override CmdTagEnum DefaultTag { get; } = CmdTagEnum.运势功能;
+
         private const string TarotServerPath = "https://m.sheup.com/";
         private List<TarotFortuneDataModel> DataList;
 
@@ -32,11 +32,7 @@ namespace Dolany.Ai.Doremi.Ai.SingleCommand.Fortune
 
         [EnterCommand(ID = "FortuneAI_RandomFortune",
             Command = ".luck 祈愿运势",
-            AuthorityLevel = AuthorityLevel.成员,
             Description = "获取每天运势",
-            Syntax = "",
-            Tag = "运势功能",
-            SyntaxChecker = "Empty",
             IsPrivateAvailable = true)]
         public bool RandomFortune(MsgInformationEx MsgDTO, object[] param)
         {
@@ -74,10 +70,8 @@ namespace Dolany.Ai.Doremi.Ai.SingleCommand.Fortune
 
         [EnterCommand(ID = "FortuneAI_StarFortune",
             Command = "星座运势",
-            AuthorityLevel = AuthorityLevel.成员,
             Description = "获取星座运势",
-            Syntax = "[星座名]",
-            Tag = "运势功能",
+            SyntaxHint = "[星座名]",
             SyntaxChecker = "Word",
             IsPrivateAvailable = true)]
         public bool StarFortune(MsgInformationEx MsgDTO, object[] param)
@@ -135,11 +129,7 @@ namespace Dolany.Ai.Doremi.Ai.SingleCommand.Fortune
 
         [EnterCommand(ID = "FortuneAI_TarotFortune",
             Command = ".zhan 塔罗牌占卜",
-            AuthorityLevel = AuthorityLevel.成员,
             Description = "获取每日塔罗牌占卜",
-            Syntax = "",
-            Tag = "运势功能",
-            SyntaxChecker = "Empty",
             IsPrivateAvailable = true)]
         public bool TarotFortune(MsgInformationEx MsgDTO, object[] param)
         {
@@ -186,10 +176,8 @@ namespace Dolany.Ai.Doremi.Ai.SingleCommand.Fortune
             Command = "圣光祝福",
             AuthorityLevel = AuthorityLevel.群主,
             Description = "祝福一个成员，让其随机运势增加80%（最高100%），当日有效",
-            Syntax = "[@qq号码]",
-            Tag = "运势功能",
+            SyntaxHint = "[@qq号码]",
             SyntaxChecker = "At",
-            IsPrivateAvailable = false,
             DailyLimit = 5)]
         public bool HolyLight(MsgInformationEx MsgDTO, object[] param)
         {
@@ -204,10 +192,8 @@ namespace Dolany.Ai.Doremi.Ai.SingleCommand.Fortune
             Command = "创世神祝福",
             AuthorityLevel = AuthorityLevel.群主,
             Description = "祝福一个成员，让其随机运势增加100%，当日有效",
-            Syntax = "[@qq号码]",
-            Tag = "运势功能",
+            SyntaxHint = "[@qq号码]",
             SyntaxChecker = "At",
-            IsPrivateAvailable = false,
             DailyLimit = 3)]
         public bool CreatorBless(MsgInformationEx MsgDTO, object[] param)
         {
@@ -252,10 +238,8 @@ namespace Dolany.Ai.Doremi.Ai.SingleCommand.Fortune
             Command = "暗夜诅咒",
             AuthorityLevel = AuthorityLevel.群主,
             Description = "诅咒一个成员，让其随机运势减少若干点（最低0%），当日有效",
-            Syntax = "[@qq号码]",
-            Tag = "运势功能",
+            SyntaxHint = "[@qq号码]",
             SyntaxChecker = "At",
-            IsPrivateAvailable = false,
             DailyLimit = 3)]
         public bool Darkness(MsgInformationEx MsgDTO, object[] param)
         {

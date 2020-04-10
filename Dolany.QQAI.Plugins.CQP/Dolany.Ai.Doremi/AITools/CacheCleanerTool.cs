@@ -2,7 +2,7 @@
 using System.IO;
 using System.Linq;
 using Dolany.Ai.Common;
-using Dolany.Ai.Doremi.Common;
+using Dolany.Ai.Core.Common;
 
 namespace Dolany.Ai.Doremi.AITools
 {

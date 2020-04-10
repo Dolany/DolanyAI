@@ -3,8 +3,8 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Timers;
 using Dolany.Ai.Common;
-using Dolany.Ai.Doremi.Cache;
-using Dolany.Ai.Doremi.Common;
+using Dolany.Ai.Core.Cache;
+using Dolany.Ai.Core.Common;
 using Newtonsoft.Json;
 
 namespace Dolany.Ai.Doremi.Xiuxian
@@ -15,7 +15,6 @@ namespace Dolany.Ai.Doremi.Xiuxian
 
         public ArmerSvc ArmerSvc { get; set; }
         public GroupSettingSvc GroupSettingSvc { get; set; }
-        public PowerStateSvc PowerStateSvc { get; set; }
 
         public string[] SellingGoods;
 
@@ -104,14 +103,9 @@ namespace Dolany.Ai.Doremi.Xiuxian
 
         private void Broadcast(string msg)
         {
-            if (!PowerStateSvc.CheckPower(BindAi))
+            foreach (var group in GroupSettingSvc.SettingDic.Values.Where(p => p.IsPowerOn))
             {
-                return;
-            }
-
-            foreach (var (groupNum, _) in GroupSettingSvc.SettingDic)
-            {
-                MsgSender.PushMsg(groupNum, 0, msg, BindAi);
+                MsgSender.PushMsg(group.GroupNum, 0, msg, BindAi);
             }
         }
     }

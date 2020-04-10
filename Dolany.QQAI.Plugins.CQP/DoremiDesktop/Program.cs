@@ -21,7 +21,7 @@ namespace DoremiDesktop
         private static WaiterSvc WaiterSvc => AutofacSvc.Resolve<WaiterSvc>();
         private static CrossWorldAiSvc CrossWorldAiSvc => AutofacSvc.Resolve<CrossWorldAiSvc>();
 
-        static void Main(string[] args)
+        static void Main()
         {
             var assemblies = new List<Assembly>()
             {
@@ -29,7 +29,7 @@ namespace DoremiDesktop
                 Assembly.GetAssembly(typeof(Program)), // DoremiDesktop
                 Assembly.GetAssembly(typeof(IWorldLine)), // Dolany.Ai.Core
                 Assembly.GetAssembly(typeof(DbBaseEntity)), // Dolany.Database
-                Assembly.GetAssembly(typeof(AISvc)), // Dolany.Ai.Doremi
+                Assembly.GetAssembly(typeof(DoremiWorldLine)), // Dolany.Ai.Doremi
                 Assembly.GetAssembly(typeof(StandardWorldLine)), // Dolany.WorldLine.Standard
                 Assembly.GetAssembly(typeof(KindomStormWorldLine)) // Dolany.WorldLine.KindomStorm
             };

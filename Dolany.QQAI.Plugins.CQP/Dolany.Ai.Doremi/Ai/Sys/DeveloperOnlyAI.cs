@@ -4,10 +4,10 @@ using System.Linq;
 using System.Threading;
 using Dolany.Ai.Common;
 using Dolany.Ai.Common.Models;
-using Dolany.Ai.Doremi.API;
-using Dolany.Ai.Doremi.Base;
-using Dolany.Ai.Doremi.Cache;
-using Dolany.Ai.Doremi.Common;
+using Dolany.Ai.Core;
+using Dolany.Ai.Core.Base;
+using Dolany.Ai.Core.Cache;
+using Dolany.Ai.Core.Common;
 using Dolany.Ai.Doremi.OnlineStore;
 using Dolany.Database;
 using Dolany.Database.Ai;
@@ -16,22 +16,20 @@ using Newtonsoft.Json;
 
 namespace Dolany.Ai.Doremi.Ai.Sys
 {
-    [AI(Name = "开发者后台",
-        Enable = true,
-        Description = "Ai for developer only operations",
-        PriorityLevel = 10,
-        BindAi = "Doremi")]
     public class DeveloperOnlyAI : AIBase
     {
-        public GroupSettingSvc GroupSettingSvc { get; set; }
+        public override string AIName { get; set; } = "开发者后台";
+        public override string Description { get; set; } = "Ai for developer only operations";
+        public override AIPriority PriorityLevel { get; } = AIPriority.High;
+        protected override CmdTagEnum DefaultTag { get; } = CmdTagEnum.系统命令;
+
         public DirtyFilterSvc DirtyFilterSvc { get; set; }
-        public GroupMemberInfoCacher GroupMemberInfoCacher { get; set; }
+        public CrossWorldAiSvc CrossWorldAiSvc { get; set; }
 
         [EnterCommand(ID = "DeveloperOnlyAI_Board",
             Command = "广播",
             Description = "在所有群组广播消息",
-            Syntax = "广播内容",
-            Tag = "系统命令",
+            SyntaxHint = "广播内容",
             SyntaxChecker = "Any",
             AuthorityLevel = AuthorityLevel.开发者,
             IsPrivateAvailable = true)]
@@ -55,18 +53,16 @@ namespace Dolany.Ai.Doremi.Ai.Sys
         [EnterCommand(ID = "DeveloperOnlyAI_FishingBonus",
             Command = "功能奖励",
             Description = "奖励某个人某个功能若个使用次数（当日有效）",
-            Syntax = "[命令名] [@QQ号] [奖励个数]",
-            Tag = "系统命令",
+            SyntaxHint = "[命令名] [@QQ号] [奖励个数]",
             SyntaxChecker = "Word At Long",
-            AuthorityLevel = AuthorityLevel.开发者,
-            IsPrivateAvailable = false)]
+            AuthorityLevel = AuthorityLevel.开发者)]
         public bool FishingBonus(MsgInformationEx MsgDTO, object[] param)
         {
             var command = param[0] as string;
             var qqNum = (long)param[1];
             var count = (int) (long) param[2];
 
-            var enter = AiSvc.AllAvailableGroupCommands.FirstOrDefault(p => p.CommandsList.Contains(command));
+            var enter = CrossWorldAiSvc[MsgDTO.FromGroup].AllAvailableGroupCommands.FirstOrDefault(p => p.CommandsList.Contains(command));
             if (enter == null)
             {
                 MsgSender.PushMsg(MsgDTO, "未找到该功能！", true);
@@ -84,11 +80,9 @@ namespace Dolany.Ai.Doremi.Ai.Sys
         [EnterCommand(ID = "DeveloperOnlyAI_GoldBonus",
             Command = "金币奖励",
             Description = "奖励某个人一些金币",
-            Syntax = "[@QQ号] [金币数量]",
-            Tag = "系统命令",
+            SyntaxHint = "[@QQ号] [金币数量]",
             SyntaxChecker = "At Long",
-            AuthorityLevel = AuthorityLevel.开发者,
-            IsPrivateAvailable = false)]
+            AuthorityLevel = AuthorityLevel.开发者)]
         public bool GoldBonus(MsgInformationEx MsgDTO, object[] param)
         {
             var qqNum = (long) param[0];
@@ -105,8 +99,7 @@ namespace Dolany.Ai.Doremi.Ai.Sys
         [EnterCommand(ID = "DeveloperOnlyAI_BlackList",
             Command = "BlackList",
             Description = "Put someone to blacklist",
-            Syntax = "qqnum",
-            Tag = "系统命令",
+            SyntaxHint = "qqnum",
             SyntaxChecker = "Long",
             AuthorityLevel = AuthorityLevel.开发者,
             IsPrivateAvailable = true)]
@@ -133,8 +126,7 @@ namespace Dolany.Ai.Doremi.Ai.Sys
         [EnterCommand(ID = "DeveloperOnlyAI_FreeBlackList",
             Command = "FreeBlackList",
             Description = "Pull someone out from blacklist",
-            Syntax = "qqnum",
-            Tag = "系统命令",
+            SyntaxHint = "qqnum",
             SyntaxChecker = "Long",
             AuthorityLevel = AuthorityLevel.开发者,
             IsPrivateAvailable = true)]
@@ -158,8 +150,7 @@ namespace Dolany.Ai.Doremi.Ai.Sys
         [EnterCommand(ID = "DeveloperOnlyAI_InitAi",
             Command = "初始化",
             Description = "初始化群成员信息",
-            Syntax = "[群号]",
-            Tag = "系统命令",
+            SyntaxHint = "[群号]",
             SyntaxChecker = "Long",
             AuthorityLevel = AuthorityLevel.开发者,
             IsPrivateAvailable = true)]
@@ -179,8 +170,7 @@ namespace Dolany.Ai.Doremi.Ai.Sys
         [EnterCommand(ID = "DeveloperOnlyAI_Register",
             Command = "注册",
             Description = "注册新的群组",
-            Syntax = "[群号] [群名]",
-            Tag = "系统命令",
+            SyntaxHint = "[群号] [群名]",
             SyntaxChecker = "Long Word",
             AuthorityLevel = AuthorityLevel.开发者,
             IsPrivateAvailable = true)]
@@ -197,7 +187,7 @@ namespace Dolany.Ai.Doremi.Ai.Sys
                 BindAi = MsgDTO.BindAi
             };
             MongoService<GroupSettings>.Insert(setting);
-            GroupSettingSvc.Refresh();
+            GroupSettingSvc.RefreshData();
 
             MsgSender.PushMsg(MsgDTO, "注册成功！");
             return true;
@@ -206,8 +196,7 @@ namespace Dolany.Ai.Doremi.Ai.Sys
         [EnterCommand(ID = "DeveloperOnlyAI_Freeze",
             Command = "冻结",
             Description = "冻结某个群的机器人",
-            Syntax = "[群组号]",
-            Tag = "系统命令",
+            SyntaxHint = "[群组号]",
             SyntaxChecker = "Long",
             AuthorityLevel = AuthorityLevel.开发者,
             IsPrivateAvailable = true)]
@@ -232,8 +221,7 @@ namespace Dolany.Ai.Doremi.Ai.Sys
         [EnterCommand(ID = "DeveloperOnlyAI_Defreeze",
             Command = "解冻",
             Description = "解冻某个群的机器人",
-            Syntax = "[群组号]",
-            Tag = "系统命令",
+            SyntaxHint = "[群组号]",
             SyntaxChecker = "Long",
             AuthorityLevel = AuthorityLevel.开发者,
             IsPrivateAvailable = true)]
@@ -258,8 +246,7 @@ namespace Dolany.Ai.Doremi.Ai.Sys
         [EnterCommand(ID = "DeveloperOnlyAI_ChargeTime",
             Command = "充值时间",
             Description = "给某个群组充值时间(单位天)",
-            Syntax = "[群组号] [天数]",
-            Tag = "系统命令",
+            SyntaxHint = "[群组号] [天数]",
             SyntaxChecker = "Long Long",
             AuthorityLevel = AuthorityLevel.开发者,
             IsPrivateAvailable = true)]
@@ -279,7 +266,7 @@ namespace Dolany.Ai.Doremi.Ai.Sys
             }
             setting.Update();
 
-            GroupSettingSvc.Refresh();
+            GroupSettingSvc.RefreshData();
 
             MsgSender.PushMsg(MsgDTO, "充值成功");
             return true;
@@ -288,8 +275,7 @@ namespace Dolany.Ai.Doremi.Ai.Sys
         [EnterCommand(ID = "DeveloperOnlyAI_BindAi",
             Command = "绑定",
             Description = "将机器人绑定某个群组",
-            Syntax = "[群组号]",
-            Tag = "系统命令",
+            SyntaxHint = "[群组号]",
             SyntaxChecker = "Long",
             AuthorityLevel = AuthorityLevel.开发者,
             IsPrivateAvailable = true)]
@@ -301,7 +287,7 @@ namespace Dolany.Ai.Doremi.Ai.Sys
             setting.BindAi = MsgDTO.BindAi;
             setting.Update();
 
-            GroupSettingSvc.Refresh();
+            GroupSettingSvc.RefreshData();
 
             MsgSender.PushMsg(MsgDTO, "绑定成功");
             return true;
@@ -310,8 +296,7 @@ namespace Dolany.Ai.Doremi.Ai.Sys
         [EnterCommand(ID = "DeveloperOnlyAI_SignInAcc",
             Command = "签到加速",
             Description = "开启签到加速活动",
-            Syntax = "[天数]",
-            Tag = "系统命令",
+            SyntaxHint = "[天数]",
             SyntaxChecker = "Long",
             AuthorityLevel = AuthorityLevel.开发者,
             IsPrivateAvailable = true)]
@@ -331,8 +316,7 @@ namespace Dolany.Ai.Doremi.Ai.Sys
         [EnterCommand(ID = "DeveloperOnlyAI_GetCache",
             Command = "查询缓存 查看缓存",
             Description = "根据key值查询缓存信息",
-            Syntax = "[key]",
-            Tag = "系统命令",
+            SyntaxHint = "[key]",
             SyntaxChecker = "Word",
             AuthorityLevel = AuthorityLevel.开发者,
             IsPrivateAvailable = true)]
@@ -358,8 +342,7 @@ namespace Dolany.Ai.Doremi.Ai.Sys
         [EnterCommand(ID = "DeveloperOnlyAI_CleanCache",
             Command = "清理缓存 删除缓存",
             Description = "根据key值删除缓存信息",
-            Syntax = "[key]",
-            Tag = "系统命令",
+            SyntaxHint = "[key]",
             SyntaxChecker = "Word",
             AuthorityLevel = AuthorityLevel.开发者,
             IsPrivateAvailable = true)]
@@ -380,25 +363,6 @@ namespace Dolany.Ai.Doremi.Ai.Sys
                 MsgSender.PushMsg(MsgDTO, "completed");
             }
 
-            return true;
-        }
-
-        [EnterCommand(ID = "DeveloperOnlyAI_Silence",
-            Command = "虚空放逐",
-            Description = "禁言一个成员若干分钟",
-            Syntax = "[@QQ号] [分钟数]",
-            Tag = "系统命令",
-            SyntaxChecker = "At Long",
-            AuthorityLevel = AuthorityLevel.开发者,
-            IsPrivateAvailable = false)]
-        public bool Silence(MsgInformationEx MsgDTO, object[] param)
-        {
-            var aimNum = (long) param[0];
-            var minutes = (int) (long) param[1];
-
-            APIEx.Silence(MsgDTO.FromQQ, aimNum, minutes, MsgDTO.BindAi);
-
-            MsgSender.PushMsg(MsgDTO, "操作成功！");
             return true;
         }
     }

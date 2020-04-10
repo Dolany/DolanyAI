@@ -4,9 +4,9 @@ using System.IO;
 using System.Linq;
 using Dolany.Ai.Common;
 using Dolany.Ai.Common.Models;
-using Dolany.Ai.Doremi.Base;
-using Dolany.Ai.Doremi.Cache;
-using Dolany.Ai.Doremi.Common;
+using Dolany.Ai.Core.Base;
+using Dolany.Ai.Core.Cache;
+using Dolany.Ai.Core.Common;
 using Dolany.Database;
 using Dolany.Database.Ai;
 using Dolany.Database.Sqlite;
@@ -14,17 +14,15 @@ using Dolany.Database.Sqlite.Model;
 
 namespace Dolany.Ai.Doremi.Ai.Record.Hello
 {
-    [AI(Name = "打招呼",
-        Description = "AI for Saying Hello to you at everyday you say at the first time in one group.",
-        Enable = true,
-        PriorityLevel = 15,
-        BindAi = "Doremi")]
     public class HelloAI : AIBase, IDataMgr
     {
+        public override string AIName { get; set; } = "打招呼";
+        public override string Description { get; set; } = "AI for Saying Hello to you at everyday you say at the first time in one group.";
+        public override AIPriority PriorityLevel { get; } = AIPriority.High;
+        protected override CmdTagEnum DefaultTag { get; } = CmdTagEnum.打招呼功能;
+
         private List<HelloRecord> HelloList = new List<HelloRecord>();
         private List<MultiMediaHelloRecord> MultiMediaHelloList = new List<MultiMediaHelloRecord>();
-
-        public DataRefreshSvc DataRefreshSvc { get; set; }
 
         public void RefreshData()
         {
@@ -50,9 +48,9 @@ namespace Dolany.Ai.Doremi.Ai.Record.Hello
 
             if (result)
             {
-                AIAnalyzer.AddCommandCount(new CommandAnalyzeDTO()
+                AIAnalyzer.AddCommandCount(new CmdRec()
                 {
-                    Ai = AIAttr.Name,
+                    FunctionalAi = AIName,
                     Command = "HelloOverride",
                     GroupNum = MsgDTO.FromGroup,
                     BindAi = MsgDTO.BindAi
@@ -115,42 +113,29 @@ namespace Dolany.Ai.Doremi.Ai.Record.Hello
 
         private void SendMultiMediaHello(MsgInformationEx MsgDTO, MultiMediaHelloRecord hello)
         {
-            var path = "";
-            switch (hello.Location)
+            var path = hello.Location switch
             {
-                case ResourceLocationType.LocalAbsolute:
-                    path = hello.ContentPath;
-                    break;
-                case ResourceLocationType.LocalRelative:
-                    path = new FileInfo(hello.ContentPath).FullName;
-                    break;
-                case ResourceLocationType.Network:
-                    path = hello.ContentPath;
-                    break;
-            }
+                ResourceLocationType.LocalAbsolute => hello.ContentPath,
+                ResourceLocationType.LocalRelative => new FileInfo(hello.ContentPath).FullName,
+                ResourceLocationType.Network => hello.ContentPath,
+                _ => ""
+            };
 
-            var msg = "";
-            switch (hello.MediaType)
+            var msg = hello.MediaType switch
             {
-                case MultiMediaResourceType.Image:
-                    msg = CodeApi.Code_Image(path);
-                    break;
-                case MultiMediaResourceType.Voice:
-                    msg = CodeApi.Code_Voice(path);
-                    break;
-            }
+                MultiMediaResourceType.Image => CodeApi.Code_Image(path),
+                MultiMediaResourceType.Voice => CodeApi.Code_Voice(path),
+                _ => ""
+            };
 
             MsgSender.PushMsg(MsgDTO, msg);
         }
 
         [EnterCommand(ID = "HelloAI_SaveHelloContent",
             Command = "打招呼设定",
-            AuthorityLevel = AuthorityLevel.成员,
             Description = "设定每天打招呼的内容",
-            Syntax = "[设定内容]",
-            Tag = "打招呼功能",
-            SyntaxChecker = "Any",
-            IsPrivateAvailable = false)]
+            SyntaxHint = "[设定内容]",
+            SyntaxChecker = "Any")]
         public bool SaveHelloContent(MsgInformationEx MsgDTO, object[] param)
         {
             var content = param[0] as string;
@@ -181,12 +166,7 @@ namespace Dolany.Ai.Doremi.Ai.Record.Hello
 
         [EnterCommand(ID = "HelloAI_SayHello",
             Command = "打招呼",
-            AuthorityLevel = AuthorityLevel.成员,
-            Description = "发送打招呼的内容",
-            Syntax = "",
-            Tag = "打招呼功能",
-            SyntaxChecker = "Empty",
-            IsPrivateAvailable = false)]
+            Description = "发送打招呼的内容")]
         public bool SayHello(MsgInformationEx MsgDTO, object[] param)
         {
             var query = HelloList.FirstOrDefault(h => h.GroupNum == MsgDTO.FromGroup && h.QQNum == MsgDTO.FromQQ);
@@ -202,12 +182,7 @@ namespace Dolany.Ai.Doremi.Ai.Record.Hello
 
         [EnterCommand(ID = "HelloAI_DeleteHello",
             Command = "打招呼删除",
-            AuthorityLevel = AuthorityLevel.成员,
-            Description = "删除打招呼的内容",
-            Syntax = "",
-            Tag = "打招呼功能",
-            SyntaxChecker = "Empty",
-            IsPrivateAvailable = false)]
+            Description = "删除打招呼的内容")]
         public bool DeleteHello(MsgInformationEx MsgDTO, object[] param)
         {
             var query = HelloList.FirstOrDefault(h => h.GroupNum == MsgDTO.FromGroup && h.QQNum == MsgDTO.FromQQ);
@@ -226,12 +201,7 @@ namespace Dolany.Ai.Doremi.Ai.Record.Hello
 
         [EnterCommand(ID = "HelloAI_OnStage",
             Command = "登场",
-            AuthorityLevel = AuthorityLevel.成员,
-            Description = "显示登场特效",
-            Syntax = "",
-            Tag = "打招呼功能",
-            SyntaxChecker = "Empty",
-            IsPrivateAvailable = false)]
+            Description = "显示登场特效")]
         public bool OnStage(MsgInformationEx MsgDTO, object[] param)
         {
             var hello = MultiMediaHelloList.FirstOrDefault(p => p.QQNum == MsgDTO.FromQQ);

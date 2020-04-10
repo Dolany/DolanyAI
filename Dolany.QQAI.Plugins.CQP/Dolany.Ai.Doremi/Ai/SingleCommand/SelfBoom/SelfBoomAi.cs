@@ -2,31 +2,24 @@
 using System.Threading;
 using Dolany.Ai.Common;
 using Dolany.Ai.Common.Models;
-using Dolany.Ai.Doremi.Base;
-using Dolany.Ai.Doremi.Cache;
+using Dolany.Ai.Core.Base;
+using Dolany.Ai.Core.Cache;
+using Dolany.Ai.Core.Common;
 
 namespace Dolany.Ai.Doremi.Ai.SingleCommand.SelfBoom
 {
-    [AI(Name = "自爆",
-        Description = "AI for boom herself.",
-        Enable = true,
-        PriorityLevel = 10,
-        BindAi = "Doremi")]
     public class SelfBoomAi : AIBase
     {
+        public override string AIName { get; set; } = "自爆";
+        public override string Description { get; set; } = "AI for boom herself.";
+        protected override CmdTagEnum DefaultTag { get; } = CmdTagEnum.系统命令;
+
         private int BoomCode = Rander.RandInt(100000);
         private DateTime CodeDate = DateTime.Now;
 
-        public WaiterSvc WaiterSvc { get; set; }
-
         [EnterCommand(ID = "SelfBoomAi_Boom",
             Command = "Boom",
-            AuthorityLevel = AuthorityLevel.成员,
-            Description = "自爆",
-            Syntax = "",
-            Tag = "系统命令",
-            SyntaxChecker = "Empty",
-            IsPrivateAvailable = false)]
+            Description = "自爆")]
         public bool Boom(MsgInformationEx MsgDTO, object[] param)
         {
             var backInfo = WaiterSvc.WaitForInformation(
@@ -71,9 +64,6 @@ namespace Dolany.Ai.Doremi.Ai.SingleCommand.SelfBoom
             Command = "BoomCode",
             AuthorityLevel = AuthorityLevel.开发者,
             Description = "获取自爆指令码，有效期5分钟",
-            Syntax = "",
-            Tag = "系统命令",
-            SyntaxChecker = "Empty",
             IsPrivateAvailable = true)]
         public bool GetBoomCode(MsgInformationEx MsgDTO, object[] param)
         {

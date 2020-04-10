@@ -1,42 +1,49 @@
 ﻿using System.Collections.Generic;
-using System.Text;
 using System.Linq;
 using Dolany.Ai.Common;
 using Dolany.Ai.Common.Models;
-using Dolany.Ai.Doremi.Base;
-using Dolany.Ai.Doremi.Cache;
-using Dolany.Ai.Doremi.Common;
+using Dolany.Ai.Core;
+using Dolany.Ai.Core.Base;
+using Dolany.Ai.Core.Cache;
+using Dolany.Ai.Core.Common;
 
 namespace Dolany.Ai.Doremi.Ai.Sys
 {
-    [AI(Name = "帮助",
-        Description = "AI for Getting Help Infos.",
-        Enable = true,
-        PriorityLevel = 10,
-        BindAi = "Doremi")]
-    public class HelperAI : AIBase
+    public class HelpAI : AIBase
     {
+        public override string AIName { get; set; } = "帮助";
+
+        public override string Description { get; set; } = "AI for Getting Help Infos.";
+
+        public override AIPriority PriorityLevel { get;} = AIPriority.Normal;
+
+        protected override CmdTagEnum DefaultTag { get; } = CmdTagEnum.帮助系统;
+
+        public CrossWorldAiSvc CrossWorldAiSvc { get; set; }
+
         [EnterCommand(ID = "HelperAI_HelpMe",
             Command = "帮助",
-            AuthorityLevel = AuthorityLevel.成员,
             Description = "获取帮助列表",
-            Syntax = "",
-            SyntaxChecker = "Empty",
-            Tag = "系统命令",
             IsPrivateAvailable = true)]
         public bool HelpMe(MsgInformationEx MsgDTO, object[] param)
         {
-            HelpSummary(MsgDTO);
+            var helpMsg = "当前版本的命令标签有：\r\n";
+            var tags = CrossWorldAiSvc[MsgDTO.FromGroup].CmdTagTree.SubTags;
+
+            helpMsg += string.Join("", tags.Select((tag, idx) =>
+                idx % 2 == 0 ? $"{Emoji.AllEmojis().RandElement()}{tag.Tag}{Emoji.AllEmojis().RandElement()}" : $"{tag.Tag}{Emoji.AllEmojis().RandElement()}\r\n"));
+
+            helpMsg += "\r\n可以使用 帮助 [标签名] 来查询标签中的具体命令名 或者使用 帮助 [命令名] 来查询具体命令信息。";
+
+            MsgSender.PushMsg(MsgDTO, helpMsg);
             return true;
         }
 
         [EnterCommand(ID = "HelperAI_HelpMe_Command",
             Command = "帮助",
-            AuthorityLevel = AuthorityLevel.成员,
             Description = "获取特定命令或标签的帮助信息",
-            Syntax = "[命令名/标签名]",
+            SyntaxHint = "[命令名/标签名]",
             SyntaxChecker = "Word",
-            Tag = "系统命令",
             IsPrivateAvailable = true)]
         public bool HelpMe_Command(MsgInformationEx MsgDTO, object[] param)
         {
@@ -45,35 +52,18 @@ namespace Dolany.Ai.Doremi.Ai.Sys
                 return true;
             }
 
-            HelpTag(MsgDTO);
-            return true;
-        }
-
-        private void HelpSummary(MsgInformationEx MsgDTO)
-        {
-            var helpMsg = "当前的命令标签有：";
-            var commandAttrs = AiSvc.AllAvailableGroupCommands.GroupBy(c => c.Tag)
-                                                                       .Select(p => p.First());
-            if (MsgDTO.Auth != AuthorityLevel.开发者)
+            if (HelpTag(MsgDTO))
             {
-                commandAttrs = commandAttrs.Where(p => p.AuthorityLevel != AuthorityLevel.开发者);
+                return true;
             }
-            var builder = new StringBuilder();
-            builder.Append(helpMsg);
-            foreach (var c in commandAttrs)
-            {
-                builder.Append($"\r\n{c.Tag}");
-            }
-            helpMsg = builder.ToString();
 
-            helpMsg += "\r\n可以使用 帮助 [标签名] 来查询标签中的具体命令名 或者使用 帮助 [命令名] 来查询具体命令信息。";
-
-            MsgSender.PushMsg(MsgDTO, helpMsg);
+            MsgSender.PushMsg(MsgDTO, "很抱歉，未找到相关帮助信息！");
+            return false;
         }
 
         private bool HelpCommand(MsgInformationEx MsgDTO)
         {
-            var commands = AiSvc.AllAvailableGroupCommands.Where(c => c.Command == MsgDTO.Msg).ToList();
+            var commands = CrossWorldAiSvc[MsgDTO.FromGroup].AllAvailableGroupCommands.Where(c => c.Command == MsgDTO.Msg).ToList();
             if (!Global.TestGroups.Contains(MsgDTO.FromGroup))
             {
                 commands = commands.Where(c => !c.IsTesting).ToList();
@@ -97,12 +87,18 @@ namespace Dolany.Ai.Doremi.Ai.Sys
                     range.Add("私聊");
                 }
 
-                var helpMsg = $"命令：{command.Command}\r\n" +
-                              $"格式：{command.Command} {command.Syntax}\r\n" +
-                              $"描述：{command.Description}\r\n" +
-                              $"权限：{command.AuthorityLevel.ToString()}\r\n" +
-                              $"适用范围：{string.Join("，", range)}\r\n" +
-                              $"次数限制：{(Global.TestGroups.Contains(MsgDTO.FromGroup) ? command.TestingDailyLimit : command.DailyLimit)}";
+                var msgDic = new Dictionary<string, string>()
+                {
+                    {"命令", command.Command },
+                    {"格式", $"{command.Command} {command.SyntaxHint}" },
+                    {"描述", command.Description },
+                    {"权限", command.AuthorityLevel.ToString() },
+                    {"标签", string.Join("-", CrossWorldAiSvc[MsgDTO.FromGroup].CmdTagTree.LocateCmdPath(command).Select(p => p.Tag.ToString())) },
+                    {"适用范围", string.Join("，", range) },
+                    {"次数限制", Global.TestGroups.Contains(MsgDTO.FromGroup) ? command.TestingDailyLimit.ToString() : command.DailyLimit.ToString() }
+                };
+
+                var helpMsg = string.Join("\r\n", msgDic.Select(p => $"{p.Key}：{p.Value}"));
 
                 MsgSender.PushMsg(MsgDTO, helpMsg);
             }
@@ -110,38 +106,43 @@ namespace Dolany.Ai.Doremi.Ai.Sys
             return true;
         }
 
-        private void HelpTag(MsgInformationEx MsgDTO)
+        private bool HelpTag(MsgInformationEx MsgDTO)
         {
-            var commands = AiSvc.AllAvailableGroupCommands
-                .Where(c => c.Tag == MsgDTO.Msg).GroupBy(p => p.Command)
-                .Select(p => p.First()).ToList();
-            if (!Global.TestGroups.Contains(MsgDTO.FromGroup))
+            var tagName = MsgDTO.Msg;
+            var tag = CrossWorldAiSvc[MsgDTO.FromGroup].CmdTagTree.AllSubTags.FirstOrDefault(p => p.Tag.ToString() == tagName);
+            if (tag == null)
             {
-                commands = commands.Where(c => !c.IsTesting).ToList();
+                return false;
             }
 
-            if (MsgDTO.Auth != AuthorityLevel.开发者)
+            var helpMsg = $"【{tagName}】\r\n";
+            if (!tag.SubTags.IsNullOrEmpty())
             {
-                commands = commands.Where(c => c.AuthorityLevel != AuthorityLevel.开发者).ToList();
+                helpMsg += "当前标签下的子标签有：\r\n";
+                var msgList = tag.SubTags.Select(t => $"{t.Tag}{Emoji.AllEmojis().RandElement()}")
+                    .Select((msg, i) => i % 2 == 0 ? $"{Emoji.AllEmojis().RandElement()}{msg}" : $"{msg}\r\n").ToList();
+
+                helpMsg += string.Join("", msgList);
+                helpMsg += "\r\n";
             }
 
-            if (commands.IsNullOrEmpty())
+            if (!tag.SubCmds.IsNullOrEmpty())
             {
-                return;
+                helpMsg += "当前标签下的命令有：\r\n";
+
+                var groups = tag.SubCmds.GroupBy(p => p.ID);
+                var subCommands = groups.Select(group => string.Join("/", group.Select(g => g.Command))).Distinct().ToList();
+                var msgList = subCommands.Select(cmd => $"【{cmd}】{Emoji.AllEmojis().RandElement()}")
+                    .Select((msg, i) => i % 2 == 0 ? $"{Emoji.AllEmojis().RandElement()}{msg}" : $"{msg}\r\n").ToList();
+
+                helpMsg += string.Join("", msgList);
+                helpMsg += "\r\n";
             }
 
-            var helpMsg = "当前标签下有以下命令：";
-            var builder = new StringBuilder();
-            builder.Append(helpMsg);
-            var groups = commands.GroupBy(p => p.ID);
-            foreach (var group in groups)
-            {
-                builder.Append($"\r\n{string.Join("/", group.Select(g => g.Command))}");
-            }
-            helpMsg = builder.ToString();
-            helpMsg += "\r\n可以使用 帮助 [命令名] 来查询具体命令信息。";
+            helpMsg += "可以使用 帮助 [标签名] 来查询标签中的具体命令名 或者使用 帮助 [命令名] 来查询具体命令信息。";
 
             MsgSender.PushMsg(MsgDTO, helpMsg);
+            return true;
         }
     }
 }

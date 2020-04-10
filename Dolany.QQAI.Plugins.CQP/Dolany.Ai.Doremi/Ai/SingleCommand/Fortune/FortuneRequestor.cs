@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using Dolany.Ai.Common.Models;
-using Dolany.Ai.Doremi.Net;
+using Dolany.Ai.Core.Net;
 
 namespace Dolany.Ai.Doremi.Ai.SingleCommand.Fortune
 {

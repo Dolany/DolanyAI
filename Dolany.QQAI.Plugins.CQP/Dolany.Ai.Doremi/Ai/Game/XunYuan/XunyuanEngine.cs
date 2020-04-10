@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading;
 using Dolany.Ai.Common;
-using Dolany.Ai.Doremi.Cache;
+using Dolany.Ai.Core.Cache;
 using Dolany.Ai.Doremi.Xiuxian;
 
 namespace Dolany.Ai.Doremi.Ai.Game.XunYuan

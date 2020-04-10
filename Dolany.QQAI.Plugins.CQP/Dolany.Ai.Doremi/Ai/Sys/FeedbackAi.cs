@@ -1,25 +1,22 @@
 ﻿using Dolany.Ai.Common;
 using Dolany.Ai.Common.Models;
-using Dolany.Ai.Doremi.Base;
-using Dolany.Ai.Doremi.Cache;
-using Dolany.Ai.Doremi.Common;
+using Dolany.Ai.Core.Base;
+using Dolany.Ai.Core.Cache;
+using Dolany.Ai.Core.Common;
 
 namespace Dolany.Ai.Doremi.Ai.Sys
 {
-    [AI(Name = "反馈",
-        Description = "AI for Feedback.",
-        Enable = true,
-        PriorityLevel = 10,
-        BindAi = "Doremi")]
     public class FeedbackAi : AIBase
     {
+        public override string AIName { get; set; } = "反馈";
+        public override string Description { get; set; } = "AI for Feedback.";
+        protected override CmdTagEnum DefaultTag { get; } = CmdTagEnum.系统命令;
+
         [EnterCommand(ID = "FeedbackAi_Feedback",
             Command = "反馈",
             Description = "向开发者提供反馈建议",
-            Syntax = "[反馈内容]",
-            Tag = "系统命令",
+            SyntaxHint = "[反馈内容]",
             SyntaxChecker = "Any",
-            AuthorityLevel = AuthorityLevel.成员,
             IsPrivateAvailable = true,
             DailyLimit = 1,
             TestingDailyLimit = 1)]

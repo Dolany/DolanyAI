@@ -2,28 +2,25 @@
 using System.Linq;
 using Dolany.Ai.Common;
 using Dolany.Ai.Common.Models;
-using Dolany.Ai.Doremi.Base;
-using Dolany.Ai.Doremi.Cache;
+using Dolany.Ai.Core.Base;
+using Dolany.Ai.Core.Cache;
+using Dolany.Ai.Core.Common;
 using Dolany.Database;
 using Dolany.Database.Ai;
 
 namespace Dolany.Ai.Doremi.Ai.Record
 {
-    [AI(Name = "语录",
-        Description = "AI for Cartoon Sayings.",
-        Enable = true,
-        PriorityLevel = 10,
-        BindAi = "Doremi")]
     public class CartoonSayingAI : AIBase
     {
+        public override string AIName { get; set; } = "语录";
+        public override string Description { get; set; } = "AI for Cartoon Sayings.";
+        protected override CmdTagEnum DefaultTag { get; } = CmdTagEnum.语录功能;
+
         [EnterCommand(ID = "CartoonSayingAI_ProcceedMsg",
             Command = "语录",
-            AuthorityLevel = AuthorityLevel.成员,
             Description = "录入一条语录",
-            Syntax = "[出处] [人物] [内容]",
-            Tag = "语录功能",
+            SyntaxHint = "[出处] [人物] [内容]",
             SyntaxChecker = "Word Word Any",
-            IsPrivateAvailable = false,
             DailyLimit = 1)]
         public bool ProcceedMsg(MsgInformationEx MsgDTO, object[] param)
         {
@@ -45,12 +42,7 @@ namespace Dolany.Ai.Doremi.Ai.Record
 
         [EnterCommand(ID = "CartoonSayingAI_Sayings",
             Command = "语录",
-            AuthorityLevel = AuthorityLevel.成员,
             Description = "返回一条随机语录",
-            Syntax = "",
-            Tag = "语录功能",
-            SyntaxChecker = "Empty",
-            IsPrivateAvailable = false,
             DailyLimit = 10,
             TestingDailyLimit = 20)]
         public bool Sayings(MsgInformationEx MsgDTO, object[] param)
@@ -61,12 +53,9 @@ namespace Dolany.Ai.Doremi.Ai.Record
 
         [EnterCommand(ID = "CartoonSayingAI_Sayings_Query",
             Command = "语录",
-            AuthorityLevel = AuthorityLevel.成员,
             Description = "按关键字检索语录",
-            Syntax = "[关键字]",
-            Tag = "语录功能",
+            SyntaxHint = "[关键字]",
             SyntaxChecker = "Word",
-            IsPrivateAvailable = false,
             DailyLimit = 10,
             TestingDailyLimit = 20)]
         public bool Sayings_Query(MsgInformationEx MsgDTO, object[] param)
@@ -120,10 +109,8 @@ namespace Dolany.Ai.Doremi.Ai.Record
             Command = "删除语录",
             AuthorityLevel = AuthorityLevel.群主,
             Description = "按关键字删除语录",
-            Syntax = "[关键字]",
-            Tag = "语录功能",
-            SyntaxChecker = "Word",
-            IsPrivateAvailable = false)]
+            SyntaxHint = "[关键字]",
+            SyntaxChecker = "Word")]
         public bool ClearSayings(MsgInformationEx MsgDTO, object[] param)
         {
             var query = MongoService<Saying>.Get(s => s.FromGroup == MsgDTO.FromGroup &&

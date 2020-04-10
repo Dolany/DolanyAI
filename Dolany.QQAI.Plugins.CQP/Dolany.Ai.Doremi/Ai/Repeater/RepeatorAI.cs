@@ -1,20 +1,19 @@
 ﻿using System.Threading;
 using Dolany.Ai.Common.Models;
-using Dolany.Ai.Doremi.Base;
-using Dolany.Ai.Doremi.Cache;
-using Dolany.Ai.Doremi.Common;
-using Dolany.Ai.Doremi.SyntaxChecker;
+using Dolany.Ai.Core.Base;
+using Dolany.Ai.Core.Cache;
+using Dolany.Ai.Core.Common;
+using Dolany.Ai.Core.SyntaxChecker;
+using Dolany.Database.Ai;
 
 namespace Dolany.Ai.Doremi.Ai.Repeater
 {
-    [AI(Name = "随机复读",
-        Description = "AI for Repeating Random words.",
-        Enable = true,
-        PriorityLevel = 1,
-        NeedManulOpen = true,
-        BindAi = "Doremi")]
     public class RepeatorAI : AIBase
     {
+        public override string AIName { get; set; } = "随机复读";
+        public override string Description { get; set; } = "AI for Repeating Random words.";
+        public override AIPriority PriorityLevel { get; } = AIPriority.SuperLow;
+
         private const long RepeatLimit = 30;
 
         private long CurCount;
@@ -47,9 +46,9 @@ namespace Dolany.Ai.Doremi.Ai.Repeater
 
             CurCount %= RepeatLimit;
             Repeat(MsgDTO);
-            AIAnalyzer.AddCommandCount(new CommandAnalyzeDTO()
+            AIAnalyzer.AddCommandCount(new CmdRec()
             {
-                Ai = AIAttr.Name,
+                FunctionalAi = AIName,
                 Command = "RepeatorOverride",
                 GroupNum = MsgDTO.FromGroup,
                 BindAi = MsgDTO.BindAi

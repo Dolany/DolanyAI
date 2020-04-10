@@ -2,22 +2,21 @@
 using System.Linq;
 using System.Threading;
 using Dolany.Ai.Common.Models;
-using Dolany.Ai.Doremi.Base;
-using Dolany.Ai.Doremi.Cache;
-using Dolany.Ai.Doremi.Common;
+using Dolany.Ai.Core.Base;
+using Dolany.Ai.Core.Cache;
+using Dolany.Ai.Core.Common;
+using Dolany.Ai.Core.SyntaxChecker;
 using Dolany.Ai.Doremi.Model;
-using Dolany.Ai.Doremi.SyntaxChecker;
+using Dolany.Database.Ai;
 
 namespace Dolany.Ai.Doremi.Ai.Repeater
 {
-    [AI(Name = "+1复读",
-        Description = "AI for Auto Plus One.",
-        Enable = true,
-        PriorityLevel = 1,
-        NeedManulOpen = true,
-        BindAi = "Doremi")]
     public class PlusOneAI : AIBase
     {
+        public override string AIName { get; set; } = "+1复读";
+        public override string Description { get; set; } = "AI for Auto Plus One.";
+        public override AIPriority PriorityLevel { get; } = AIPriority.SuperLow;
+
         private List<PlusOneModel> Cache { get; } = new List<PlusOneModel>();
 
         public override bool OnMsgReceived(MsgInformationEx MsgDTO)
@@ -70,9 +69,9 @@ namespace Dolany.Ai.Doremi.Ai.Repeater
                 return;
             }
 
-            AIAnalyzer.AddCommandCount(new CommandAnalyzeDTO()
+            AIAnalyzer.AddCommandCount(new CmdRec()
             {
-                Ai = AIAttr.Name,
+                FunctionalAi = AIName,
                 Command = "PlusOneOverride",
                 GroupNum = MsgDTO.FromGroup,
                 BindAi = MsgDTO.BindAi

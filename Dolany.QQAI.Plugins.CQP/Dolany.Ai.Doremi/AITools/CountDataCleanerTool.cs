@@ -1,8 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
 using Dolany.Ai.Common;
+using Dolany.Ai.Core.Cache;
 using Dolany.Ai.Doremi.Ai.Game.Xiuxian;
-using Dolany.Ai.Doremi.Cache;
 
 namespace Dolany.Ai.Doremi.AITools
 {

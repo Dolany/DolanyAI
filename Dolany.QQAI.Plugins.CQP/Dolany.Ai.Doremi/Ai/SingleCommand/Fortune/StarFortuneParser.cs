@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Linq;
 using Dolany.Ai.Common;
-using Dolany.Ai.Doremi.Net;
+using Dolany.Ai.Core.Net;
 
 namespace Dolany.Ai.Doremi.Ai.SingleCommand.Fortune
 {

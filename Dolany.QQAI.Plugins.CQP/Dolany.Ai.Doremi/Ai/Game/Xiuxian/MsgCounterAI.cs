@@ -1,27 +1,26 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
 using Dolany.Ai.Common.Models;
-using Dolany.Ai.Doremi.Base;
-using Dolany.Ai.Doremi.Cache;
+using Dolany.Ai.Core.Base;
+using Dolany.Ai.Core.Cache;
+using Dolany.Ai.Core.Common;
 using Dolany.Ai.Doremi.OnlineStore;
 using Dolany.Ai.Doremi.Xiuxian;
 
 namespace Dolany.Ai.Doremi.Ai.Game.Xiuxian
 {
-    [AI(Name = "修仙计数器",
-        Description = "AI for Msg Count for Xiuxian.",
-        Enable = true,
-        PriorityLevel = 15,
-        NeedManulOpen = true,
-        BindAi = "DoreFun")]
     public class MsgCounterAI : AIBase
     {
+        public override string AIName { get; set; } = "修仙计数器";
+        public override string Description { get; set; } = "AI for Msg Count for Xiuxian.";
+        public override AIPriority PriorityLevel { get; } = AIPriority.High;
+        protected override CmdTagEnum DefaultTag { get; } = CmdTagEnum.修仙功能;
+
         private List<long> EnablePersons = new List<long>();
         private const int DujieQACount = 3;
 
         public DujieSvc DujieSvc { get; set; }
         public LevelSvc LevelSvc { get; set; }
-        public WaiterSvc WaiterSvc { get; set; }
 
         public override void Initialization()
         {
@@ -44,15 +43,10 @@ namespace Dolany.Ai.Doremi.Ai.Game.Xiuxian
             return false;
         }
 
-        [EnterCommand(ID = "MsgCounterAI_Enable",
+        [EnterCommand(ID = "MsgCounterAI_EnableXiuxian",
             Command = "开启修仙模式",
-            AuthorityLevel = AuthorityLevel.成员,
-            Description = "开启修仙模式，每日发言将会获取经验值，经验值可用于升级",
-            Syntax = "",
-            Tag = "修仙功能",
-            SyntaxChecker = "Empty",
-            IsPrivateAvailable = false)]
-        public bool Enable(MsgInformationEx MsgDTO, object[] param)
+            Description = "开启修仙模式，每日发言将会获取经验值，经验值可用于升级")]
+        public bool EnableXiuxian(MsgInformationEx MsgDTO, object[] param)
         {
             if (EnablePersons.Contains(MsgDTO.FromQQ))
             {
@@ -69,12 +63,7 @@ namespace Dolany.Ai.Doremi.Ai.Game.Xiuxian
 
         [EnterCommand(ID = "MsgCounterAI_Disable",
             Command = "关闭修仙模式",
-            AuthorityLevel = AuthorityLevel.成员,
-            Description = "关闭修仙模式，将不会获得新的经验值，原有的数据还将保留",
-            Syntax = "",
-            Tag = "修仙功能",
-            SyntaxChecker = "Empty",
-            IsPrivateAvailable = false)]
+            Description = "关闭修仙模式，将不会获得新的经验值，原有的数据还将保留")]
         public bool Disable(MsgInformationEx MsgDTO, object[] param)
         {
             if (!EnablePersons.Contains(MsgDTO.FromQQ))
@@ -92,12 +81,7 @@ namespace Dolany.Ai.Doremi.Ai.Game.Xiuxian
 
         [EnterCommand(ID = "MsgCounterAI_Upgrade",
             Command = "渡劫",
-            AuthorityLevel = AuthorityLevel.成员,
-            Description = "消耗经验值升级",
-            Syntax = "",
-            Tag = "修仙功能",
-            SyntaxChecker = "Empty",
-            IsPrivateAvailable = false)]
+            Description = "消耗经验值升级")]
         public bool Upgrade(MsgInformationEx MsgDTO, object[] param)
         {
             var osPerson = OSPerson.GetPerson(MsgDTO.FromQQ);
@@ -157,12 +141,7 @@ namespace Dolany.Ai.Doremi.Ai.Game.Xiuxian
 
         [EnterCommand(ID = "MsgCounterAI_Exchange",
             Command = "兑换金币",
-            AuthorityLevel = AuthorityLevel.成员,
             Description = "使用经验值兑换金币",
-            Syntax = "",
-            Tag = "修仙功能",
-            SyntaxChecker = "Empty",
-            IsPrivateAvailable = false,
             DailyLimit = 3)]
         public bool Exchange(MsgInformationEx MsgDTO, object[] param)
         {

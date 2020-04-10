@@ -1,24 +1,20 @@
 ﻿using Dolany.Ai.Common;
 using Dolany.Ai.Common.Models;
-using Dolany.Ai.Doremi.Base;
-using Dolany.Ai.Doremi.Cache;
+using Dolany.Ai.Core.Base;
+using Dolany.Ai.Core.Cache;
+using Dolany.Ai.Core.Common;
 
 namespace Dolany.Ai.Doremi.Ai.SingleCommand.RandomPic
 {
-    [AI(Name = "随机图片",
-        Description = "AI for Sending Random Pic By Keyword.",
-        Enable = true,
-        PriorityLevel = 10,
-        BindAi = "Doremi")]
     public class RandomPicAI : AIBase
     {
+        public override string AIName { get; set; } = "随机图片";
+        public override string Description { get; set; } = "AI for Sending Random Pic By Keyword.";
+        protected override CmdTagEnum DefaultTag { get; } = CmdTagEnum.娱乐功能;
+
         [EnterCommand(ID = "RandomPicAI_RecentPic",
             Command = "随机图片 一键盗图",
-            AuthorityLevel = AuthorityLevel.成员,
             Description = "随机发送近期内所有群组内发过的图片",
-            Syntax = "",
-            Tag = "娱乐功能",
-            SyntaxChecker = "Empty",
             IsPrivateAvailable = true,
             DailyLimit = 10)]
         public bool RecentPic(MsgInformationEx MsgDTO, object[] param)
@@ -30,11 +26,7 @@ namespace Dolany.Ai.Doremi.Ai.SingleCommand.RandomPic
 
         [EnterCommand(ID = "RandomPicAI_RecentFlash",
             Command = "随机闪照",
-            AuthorityLevel = AuthorityLevel.成员,
             Description = "随机发送近期内所有群组内发过的图片（以闪照的形式）",
-            Syntax = "",
-            Tag = "娱乐功能",
-            SyntaxChecker = "Empty",
             IsPrivateAvailable = true,
             DailyLimit = 10)]
         public bool RecentFlash(MsgInformationEx MsgDTO, object[] param)

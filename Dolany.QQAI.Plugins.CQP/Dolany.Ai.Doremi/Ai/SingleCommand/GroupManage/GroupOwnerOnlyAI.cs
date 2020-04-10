@@ -1,38 +1,35 @@
 ﻿using System.Linq;
 using Dolany.Ai.Common;
 using Dolany.Ai.Common.Models;
-using Dolany.Ai.Doremi.Base;
-using Dolany.Ai.Doremi.Cache;
-using Dolany.Ai.Doremi.Common;
+using Dolany.Ai.Core;
+using Dolany.Ai.Core.Base;
+using Dolany.Ai.Core.Cache;
+using Dolany.Ai.Core.Common;
 using Dolany.Ai.Doremi.OnlineStore;
 using Dolany.Database.Ai;
 
 namespace Dolany.Ai.Doremi.Ai.SingleCommand.GroupManage
 {
-    [AI(Name = "群主特权",
-        Description = "AI for some power only for group owners.",
-        Enable = true,
-        PriorityLevel = 10,
-        BindAi = "Doremi")]
     public class GroupOwnerOnlyAI : AIBase
     {
-        public WaiterSvc WaiterSvc { get; set; }
-        public GroupSettingSvc GroupSettingSvc { get; set; }
+        public override string AIName { get; set; } = "群主特权";
+        public override string Description { get; set; } = "AI for some power only for group owners.";
+        protected override CmdTagEnum DefaultTag { get; } = CmdTagEnum.群管理;
+
+        public CrossWorldAiSvc CrossWorldAiSvc { get; set; }
 
         [EnterCommand(ID = "GroupOwnerOnlyAI_RefreshCommand",
             Command = "刷新",
             AuthorityLevel = AuthorityLevel.群主,
             Description = "刷新某人某个功能的CD",
-            Syntax = "[@qq号] [命令名]",
-            Tag = "群管理",
+            SyntaxHint = "[@qq号] [命令名]",
             SyntaxChecker = "At Word",
-            IsPrivateAvailable = false,
             DailyLimit = 1)]
         public bool RefreshCommand(MsgInformationEx MsgDTO, object[] param)
         {
             var aimQQ = (long) param[0];
             var command = param[1] as string;
-            var enter = AiSvc.AllAvailableGroupCommands.FirstOrDefault(p => p.CommandsList.Contains(command));
+            var enter = CrossWorldAiSvc[MsgDTO.FromGroup].AllAvailableGroupCommands.FirstOrDefault(p => p.CommandsList.Contains(command));
             if (enter == null)
             {
                 MsgSender.PushMsg(MsgDTO, "未找到该功能！", true);
@@ -51,11 +48,9 @@ namespace Dolany.Ai.Doremi.Ai.SingleCommand.GroupManage
         [EnterCommand(ID = "GroupOwnerOnlyAI_Dispel",
             Command = "驱散",
             Description = "清除某人身上的所有buff",
-            Syntax = "[@QQ]",
-            Tag = "群管理",
+            SyntaxHint = "[@QQ]",
             SyntaxChecker = "At",
-            AuthorityLevel = AuthorityLevel.群主,
-            IsPrivateAvailable = false)]
+            AuthorityLevel = AuthorityLevel.群主)]
         public bool Dispel(MsgInformationEx MsgDTO, object[] param)
         {
             var qqNum = (long) param[0];
@@ -85,11 +80,9 @@ namespace Dolany.Ai.Doremi.Ai.SingleCommand.GroupManage
         [EnterCommand(ID = "GroupOwnerOnlyAI_DispelOneBuff",
             Command = "驱散",
             Description = "清除某人身上的指定buff",
-            Syntax = "[@QQ] [Buff名称]",
-            Tag = "群管理",
+            SyntaxHint = "[@QQ] [Buff名称]",
             SyntaxChecker = "At Word",
-            AuthorityLevel = AuthorityLevel.群主,
-            IsPrivateAvailable = false)]
+            AuthorityLevel = AuthorityLevel.群主)]
         public bool DispelOneBuff(MsgInformationEx MsgDTO, object[] param)
         {
             var qqNum = (long) param[0];
@@ -127,10 +120,8 @@ namespace Dolany.Ai.Doremi.Ai.SingleCommand.GroupManage
             Command = "移交群主",
             AuthorityLevel = AuthorityLevel.群主,
             Description = "将群主身份移交给指定群员",
-            Syntax = "[@QQ号]",
-            Tag = "群管理",
-            SyntaxChecker = "At",
-            IsPrivateAvailable = false)]
+            SyntaxHint = "[@QQ号]",
+            SyntaxChecker = "At")]
         public bool ExchangeOwner(MsgInformationEx MsgDTO, object[] param)
         {
             var aimQQ = (long) param[0];
@@ -144,7 +135,7 @@ namespace Dolany.Ai.Doremi.Ai.SingleCommand.GroupManage
             setting.AuthInfo.Owner = aimQQ;
 
             setting.Update();
-            GroupSettingSvc.Refresh();
+            GroupSettingSvc.RefreshData();
 
             MsgSender.PushMsg(MsgDTO, "已成功移交群主！");
 

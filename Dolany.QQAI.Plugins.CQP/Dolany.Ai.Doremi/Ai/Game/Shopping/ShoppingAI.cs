@@ -3,35 +3,26 @@ using Dolany.Ai.Common;
 using Dolany.Ai.Common.Models;
 using Dolany.Ai.Core.Base;
 using Dolany.Ai.Core.Cache;
+using Dolany.Ai.Core.Common;
 using Dolany.Ai.Doremi.Ai.Game.Xiuxian;
 using Dolany.Ai.Doremi.OnlineStore;
 using Dolany.Ai.Doremi.Xiuxian;
-using Emoji = Dolany.Ai.Common.Emoji;
-using MsgSender = Dolany.Ai.Doremi.Cache.MsgSender;
 
 namespace Dolany.Ai.Doremi.Ai.Game.Shopping
 {
-    [AI(Name = "商店",
-        Description = "AI for shopping.",
-        Enable = true,
-        PriorityLevel = 10,
-        NeedManulOpen = true,
-        BindAi = "DoreFun")]
     public class ShoppingAI : AIBase
     {
+        public override string AIName { get; set; } = "商店";
+        public override string Description { get; set; } = "AI for shopping.";
+        protected override CmdTagEnum DefaultTag { get; } = CmdTagEnum.修仙功能;
+
         public RandShopperSvc RandShopperSvc { get; set; }
         public ArmerSvc ArmerSvc { get; set; }
         public LevelSvc LevelSvc { get; set; }
-        public WaiterSvc WaiterSvc { get; set; }
 
         [EnterCommand(ID = "ShoppingAI_MyStatus",
             Command = "我的状态",
-            AuthorityLevel = AuthorityLevel.成员,
-            Description = "获取自身当前状态",
-            Syntax = "",
-            Tag = "修仙功能",
-            SyntaxChecker = "Empty",
-            IsPrivateAvailable = false)]
+            Description = "获取自身当前状态")]
         public bool MyStatus(MsgInformationEx MsgDTO, object[] param)
         {
             var osPerson = OSPerson.GetPerson(MsgDTO.FromQQ);
@@ -51,12 +42,9 @@ namespace Dolany.Ai.Doremi.Ai.Game.Shopping
 
         [EnterCommand(ID = "ShoppingAI_Buy",
             Command = "购买",
-            AuthorityLevel = AuthorityLevel.成员,
             Description = "购买某件物品",
-            Syntax = "[物品名]",
-            Tag = "修仙功能",
-            SyntaxChecker = "Word",
-            IsPrivateAvailable = false)]
+            SyntaxHint = "[物品名]",
+            SyntaxChecker = "Word")]
         public bool Buy(MsgInformationEx MsgDTO, object[] param)
         {
             var name = param[0] as string;
@@ -98,12 +86,7 @@ namespace Dolany.Ai.Doremi.Ai.Game.Shopping
 
         [EnterCommand(ID = "ShoppingAI_MyArmers",
             Command = "我的装备",
-            AuthorityLevel = AuthorityLevel.成员,
-            Description = "获取当前持有的装备",
-            Syntax = "",
-            Tag = "修仙功能",
-            SyntaxChecker = "Empty",
-            IsPrivateAvailable = false)]
+            Description = "获取当前持有的装备")]
         public bool MyArmers(MsgInformationEx MsgDTO, object[] param)
         {
             var paRec = PersonArmerRecord.Get(MsgDTO.FromQQ);
@@ -127,12 +110,9 @@ namespace Dolany.Ai.Doremi.Ai.Game.Shopping
 
         [EnterCommand(ID = "ShoppingAI_MyArmers_Paged",
             Command = "我的装备",
-            AuthorityLevel = AuthorityLevel.成员,
             Description = "按页码获取当前持有的装备",
-            Syntax = "[页码]",
-            Tag = "修仙功能",
-            SyntaxChecker = "Long",
-            IsPrivateAvailable = false)]
+            SyntaxHint = "[页码]",
+            SyntaxChecker = "Long")]
         public bool MyArmers_Paged(MsgInformationEx MsgDTO, object[] param)
         {
             var pageNo = (int) (long) param[0];
