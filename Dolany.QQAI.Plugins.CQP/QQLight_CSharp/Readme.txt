@@ -1,2 +1,0 @@
-C#的DLL导出函数依赖于DllExport，若编译后提示为找到Information函数请在Nuget中下载DllExport
-编译完成后复制Release中的x86目录下的dll作为插件。其余目录的不保证能成功运行。
