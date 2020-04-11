@@ -25,7 +25,7 @@ namespace Dolany.Database
 
             var connection = this.factory.CreateConnection();
             channel = connection.CreateModel();
-            channel.QueueDeclare(ReceiveQueue, true);
+            channel.QueueDeclare(ReceiveQueue, true, false, false);
         }
 
         public void Send<T>(T command, string SendQueue)
@@ -45,7 +45,7 @@ namespace Dolany.Database
                         var body = ea.Body;
                         var message = Encoding.UTF8.GetString(body);
                         var information = JsonConvert.DeserializeObject<T>(message);
-                    
+
                         CallBack(information);
                     }
                     catch (Exception e)

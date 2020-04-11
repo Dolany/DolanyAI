@@ -22,11 +22,6 @@ namespace Dolany.WorldLine.Doremi.Xiuxian
 
         public SchedulerSvc SchedulerSvc { get; set; }
 
-        public RandShopperSvc()
-        {
-            Refresh();
-        }
-
         public void Refresh()
         {
             foreach (var model in Models.Where(model => !string.IsNullOrEmpty(model.TimerID)))
@@ -103,7 +98,7 @@ namespace Dolany.WorldLine.Doremi.Xiuxian
 
         private void Broadcast(string msg)
         {
-            foreach (var group in GroupSettingSvc.SettingDic.Values.Where(p => p.IsPowerOn))
+            foreach (var group in GroupSettingSvc.SettingDic.Values.Where(p => p.IsPowerOn && p.WorldLine == "Doremi"))
             {
                 MsgSender.PushMsg(group.GroupNum, 0, msg, BindAi);
             }

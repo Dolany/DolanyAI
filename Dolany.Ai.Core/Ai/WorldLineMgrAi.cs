@@ -17,7 +17,7 @@ namespace Dolany.Ai.Core.Ai
 
         [EnterCommand(ID = "WorldLineMgrAi_SwitchWorldLine",
             Command = "切换世界线",
-            AuthorityLevel = AuthorityLevel.群主,
+            AuthorityLevel = AuthorityLevel.管理员,
             Description = "切换世界线")]
         public bool SwitchWorldLine(MsgInformationEx MsgDTO, object[] param)
         {
