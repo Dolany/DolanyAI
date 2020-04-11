@@ -25,7 +25,7 @@ namespace Dolany.Ai.Doremi.Xiuxian
 
         public void RefreshData()
         {
-            Armers = CommonUtil.ReadJsonData_NamedList<EscapeArmerModel>("EscapeArmerData");
+            Armers = CommonUtil.ReadJsonData_NamedList<EscapeArmerModel>("Doremi/EscapeArmerData");
         }
     }
 

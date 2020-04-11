@@ -25,12 +25,12 @@ namespace Dolany.Ai.Doremi.Ai.Game.Shopping
             Description = "获取自身当前状态")]
         public bool MyStatus(MsgInformationEx MsgDTO, object[] param)
         {
-            var osPerson = OSPerson.GetPerson(MsgDTO.FromQQ);
+            var osPerson = OSPerson_Doremi.GetPerson(MsgDTO.FromQQ);
             var level = LevelSvc.GetByLevel(osPerson.Level);
             var exp = MsgCounterSvc.Get(MsgDTO.FromQQ);
             var armerRecord = PersonArmerRecord.Get(MsgDTO.FromQQ);
 
-            var msg = $"等级：{level.Name}\r\n" +
+            var msg = $"等级：{level.Name}{(level.Level == LevelSvc.TopLevel ? "(满级)" : "")}\r\n" +
                       $"经验值：{exp}/{level.Exp}{(exp >= level.Exp ? "(可渡劫)" : "")}\r\n" +
                       $"{Emoji.心}:{level.HP}(+{ArmerSvc.CountHP(armerRecord.Armers)})\r\n" +
                       $"{Emoji.剑}:{level.Atk}(+{ArmerSvc.CountAtk(armerRecord.Armers)})\r\n" +
@@ -60,7 +60,7 @@ namespace Dolany.Ai.Doremi.Ai.Game.Shopping
                 return false;
             }
 
-            var osPerson = OSPerson.GetPerson(MsgDTO.FromQQ);
+            var osPerson = OSPerson_Doremi.GetPerson(MsgDTO.FromQQ);
             var armerModel = ArmerSvc[name];
             if (osPerson.Golds < armerModel.Price)
             {

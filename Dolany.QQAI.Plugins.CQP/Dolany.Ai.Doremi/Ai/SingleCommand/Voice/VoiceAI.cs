@@ -20,7 +20,7 @@ namespace Dolany.Ai.Doremi.Ai.SingleCommand.Voice
 
         public void RefreshData()
         {
-            Beng3Config = CommonUtil.ReadJsonData<Beng3ConfigModel>("Beng3VoiceConfigData");
+            Beng3Config = CommonUtil.ReadJsonData<Beng3ConfigModel>("Doremi/Beng3VoiceConfigData");
         }
 
         [EnterCommand(ID = "VoiceAI_KancoleVoice",

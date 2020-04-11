@@ -4,7 +4,7 @@ using Dolany.Ai.Common;
 
 namespace Dolany.Ai.Doremi.Xiuxian
 {
-    public class ArmerSvc : IDataMgr
+    public class ArmerSvc : IDataMgr, IDependency
     {
         private List<ArmerModel> NormalArmerList;
 
@@ -47,7 +47,7 @@ namespace Dolany.Ai.Doremi.Xiuxian
 
         public void RefreshData()
         {
-            NormalArmerList = CommonUtil.ReadJsonData_NamedList<ArmerModel>("ArmerData");
+            NormalArmerList = CommonUtil.ReadJsonData_NamedList<ArmerModel>("Doremi/ArmerData");
         }
     }
 }

@@ -12,7 +12,7 @@ namespace Dolany.WorldLine.Standard.OnlineStore
 
         public int Diamonds { get; set; }
 
-        public Dictionary<string, int> GiftDic { get; set; }
+        public Dictionary<string, int> GiftDic { get; set; } = new Dictionary<string, int>();
 
         public List<string> HonorNames { get; set; } = new List<string>();
 

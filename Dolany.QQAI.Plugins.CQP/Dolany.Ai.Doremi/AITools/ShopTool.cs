@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using Dolany.Ai.Common;
+using Dolany.Ai.Core.Base;
 using Dolany.Ai.Core.Cache;
 using Dolany.Ai.Doremi.Xiuxian;
 using Newtonsoft.Json;
@@ -10,8 +11,6 @@ namespace Dolany.Ai.Doremi.AITools
 {
     public class ShopTool : IScheduleTool
     {
-        public override bool Enable { get; set; } = true;
-
         private static RandShopperSvc RandShopperSvc => AutofacSvc.Resolve<RandShopperSvc>();
         private static ArmerSvc ArmerSvc => AutofacSvc.Resolve<ArmerSvc>();
 

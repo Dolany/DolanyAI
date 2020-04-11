@@ -20,7 +20,7 @@ namespace Dolany.WorldLine.Standard.Ai.Game.Pet.Cooking
 
         public void RefreshData()
         {
-            DietList = CommonUtil.ReadJsonData_NamedList<CookingDietModel>("Pet/CookingDietData");
+            DietList = CommonUtil.ReadJsonData_NamedList<CookingDietModel>("Standard/Pet/CookingDietData");
         }
     }
 

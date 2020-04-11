@@ -17,7 +17,7 @@ namespace Dolany.WorldLine.Standard.Ai.Game.Pet.Cooking
 
         public void RefreshData()
         {
-            CookingLevels = CommonUtil.ReadJsonData_NamedList<CookingLevelModel>("Pet/CookingLevelData").OrderBy(p => p.Level).ToList();
+            CookingLevels = CommonUtil.ReadJsonData_NamedList<CookingLevelModel>("Standard/Pet/CookingLevelData").OrderBy(p => p.Level).ToList();
         }
     }
 

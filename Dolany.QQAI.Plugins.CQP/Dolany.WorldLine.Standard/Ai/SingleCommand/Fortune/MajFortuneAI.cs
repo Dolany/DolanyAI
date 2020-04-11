@@ -48,7 +48,7 @@ namespace Dolany.WorldLine.Standard.Ai.SingleCommand.Fortune
 
         public void RefreshData()
         {
-            KindDic = CommonUtil.ReadJsonData<Dictionary<string, int>>("majConfigData");
+            KindDic = CommonUtil.ReadJsonData<Dictionary<string, int>>("Standard/majConfigData");
             SumRate = KindDic.Sum(p => p.Value);
         }
 

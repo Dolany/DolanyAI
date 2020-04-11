@@ -28,7 +28,7 @@ namespace Dolany.Ai.Doremi.Ai.Record.Hello
         {
             var Groups = Global.AllGroupsDic.Keys.ToArray();
             HelloList = MongoService<HelloRecord>.Get(p => Groups.Contains(p.GroupNum));
-            MultiMediaHelloList = CommonUtil.ReadJsonData_NamedList<MultiMediaHelloRecord>("MultiMediaHelloData");
+            MultiMediaHelloList = CommonUtil.ReadJsonData_NamedList<MultiMediaHelloRecord>("Doremi/MultiMediaHelloData");
         }
 
         public override bool OnMsgReceived(MsgInformationEx MsgDTO)

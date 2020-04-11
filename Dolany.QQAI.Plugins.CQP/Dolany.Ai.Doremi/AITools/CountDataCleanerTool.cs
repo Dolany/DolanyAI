@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using Dolany.Ai.Common;
+using Dolany.Ai.Core.Base;
 using Dolany.Ai.Core.Cache;
 using Dolany.Ai.Doremi.Ai.Game.Xiuxian;
 
@@ -15,8 +16,6 @@ namespace Dolany.Ai.Doremi.AITools
                 Interval = SchedulerTimer.HourlyInterval
             }
         };
-
-        public override bool Enable { get; set; } = true;
 
         protected override void ScheduleDo(SchedulerTimer timer)
         {

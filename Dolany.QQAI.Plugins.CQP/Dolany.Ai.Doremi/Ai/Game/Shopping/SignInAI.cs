@@ -14,7 +14,7 @@ namespace Dolany.Ai.Doremi.Ai.Game.Shopping
             var sign = SignInSuccessiveRecord.Sign(MsgDTO.FromGroup, MsgDTO.FromQQ);
             var goldsGen = Math.Min(sign.SuccessiveDays * 5, 50);
 
-            OSPerson.GoldIncome(MsgDTO.FromQQ, goldsGen);
+            OSPerson_Doremi.GoldIncome(MsgDTO.FromQQ, goldsGen);
             var indexNo = SignInGroupInfo.GetAndUpdate(MsgDTO.FromGroup);
 
             var msg = $"签到成功！你已连续签到 {sign.SuccessiveDays}天，获得 {goldsGen.CurencyFormat()}！\r\n本群签到排名：【No.{indexNo}】";

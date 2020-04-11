@@ -18,7 +18,7 @@ namespace Dolany.WorldLine.Standard.Ai.Sys.Version
 
         public void RefreshData()
         {
-            Versions = CommonUtil.ReadJsonData_NamedList<VersionModel>("VersionData");
+            Versions = CommonUtil.ReadJsonData_NamedList<VersionModel>("Standard/VersionData");
             Versions = Versions.OrderByDescending(v => v.PublishDate).ToList();
         }
 

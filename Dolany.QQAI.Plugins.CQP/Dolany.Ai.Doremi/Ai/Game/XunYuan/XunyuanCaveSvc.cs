@@ -11,7 +11,7 @@ namespace Dolany.Ai.Doremi.Ai.Game.XunYuan
 
         public void RefreshData()
         {
-            Caves = CommonUtil.ReadJsonData_NamedList<XunyuanCaveModel>("XunyuanCaveData");
+            Caves = CommonUtil.ReadJsonData_NamedList<XunyuanCaveModel>("Doremi/XunyuanCaveData");
         }
     }
 }

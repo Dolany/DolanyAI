@@ -12,7 +12,7 @@ namespace Dolany.WorldLine.KindomStorm.Ai.KindomStorm
 
         public void RefreshData()
         {
-            Levels = CommonUtil.ReadJsonData<List<TownLevelModel>>("TownLevelData");
+            Levels = CommonUtil.ReadJsonData<List<TownLevelModel>>("KindomStorm/TownLevelData");
         }
     }
 

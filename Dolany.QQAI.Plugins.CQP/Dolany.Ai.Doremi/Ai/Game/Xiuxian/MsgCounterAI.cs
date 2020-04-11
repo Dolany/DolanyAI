@@ -84,13 +84,19 @@ namespace Dolany.Ai.Doremi.Ai.Game.Xiuxian
             Description = "消耗经验值升级")]
         public bool Upgrade(MsgInformationEx MsgDTO, object[] param)
         {
-            var osPerson = OSPerson.GetPerson(MsgDTO.FromQQ);
+            var osPerson = OSPerson_Doremi.GetPerson(MsgDTO.FromQQ);
             var level = LevelSvc.GetByLevel(osPerson.Level);
             var exp = MsgCounterSvc.Get(MsgDTO.FromQQ);
 
             if (exp < level.Exp)
             {
                 MsgSender.PushMsg(MsgDTO, "你没有足够的经验值升级！", true);
+                return false;
+            }
+
+            if (level.Level == LevelSvc.TopLevel)
+            {
+                MsgSender.PushMsg(MsgDTO, "你已满级，无需渡劫！", true);
                 return false;
             }
 
@@ -154,7 +160,7 @@ namespace Dolany.Ai.Doremi.Ai.Game.Xiuxian
                 return false;
             }
 
-            var osPerson = OSPerson.GetPerson(MsgDTO.FromQQ);
+            var osPerson = OSPerson_Doremi.GetPerson(MsgDTO.FromQQ);
             osPerson.Golds += (int)golds;
             osPerson.Update();
             MsgCounterSvc.Consume(MsgDTO.FromQQ, exp);

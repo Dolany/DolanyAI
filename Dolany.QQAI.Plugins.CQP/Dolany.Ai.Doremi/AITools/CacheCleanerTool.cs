@@ -2,6 +2,7 @@
 using System.IO;
 using System.Linq;
 using Dolany.Ai.Common;
+using Dolany.Ai.Core.Base;
 using Dolany.Ai.Core.Common;
 
 namespace Dolany.Ai.Doremi.AITools
@@ -77,8 +78,6 @@ namespace Dolany.Ai.Doremi.AITools
             InitModelList();
             base.Work();
         }
-
-        public override bool Enable { get; set; } = true;
 
         protected override void ScheduleDo(SchedulerTimer timer)
         {

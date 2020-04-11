@@ -48,5 +48,15 @@
     "SelfNum": 2549453348,
     "CommandQueue": "MsgCommand_Chen",
     "ClientPath": "C:/AI/Chen/client/"
+  },
+  "Doremi": {
+    "SelfNum": 3380509721,
+    "CommandQueue": "MsgCommand_Doremi",
+    "ClientPath": "C:/AI/Doremi/client/"
+  },
+  "DoreFun": {
+    "SelfNum": 1219596344,
+    "CommandQueue": "MsgCommand_DoreFun",
+    "ClientPath": "C:/AI/DoreFun/client/"
   }
 }

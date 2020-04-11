@@ -92,7 +92,7 @@ namespace Dolany.Ai.Doremi.Ai.Game.XunYuan
                 armerRecord.EscapeArmerGet(name, count);
             }
 
-            var osPerson = OSPerson.GetPerson(QQNum);
+            var osPerson = OSPerson_Doremi.GetPerson(QQNum);
             osPerson.Golds += Golds;
 
             armerRecord.Update();

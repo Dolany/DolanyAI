@@ -42,7 +42,7 @@ namespace Dolany.WorldLine.Standard.Ai.Sys
 
         public void RefreshData()
         {
-            ExtraHelps = CommonUtil.ReadJsonData_NamedList<ExtraHelpModel>("ExtraHelpData");
+            ExtraHelps = CommonUtil.ReadJsonData_NamedList<ExtraHelpModel>("Standard/ExtraHelpData");
         }
 
         [EnterCommand(ID = "HelperAI_HelpMe",

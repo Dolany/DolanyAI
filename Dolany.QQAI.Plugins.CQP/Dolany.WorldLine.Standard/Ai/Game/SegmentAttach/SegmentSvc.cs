@@ -31,7 +31,7 @@ namespace Dolany.WorldLine.Standard.Ai.Game.SegmentAttach
 
         public void RefreshData()
         {
-            Treasures = CommonUtil.ReadJsonData_NamedList<TreasureModel>("TreasureData");
+            Treasures = CommonUtil.ReadJsonData_NamedList<TreasureModel>("Standard/TreasureData");
         }
     }
 

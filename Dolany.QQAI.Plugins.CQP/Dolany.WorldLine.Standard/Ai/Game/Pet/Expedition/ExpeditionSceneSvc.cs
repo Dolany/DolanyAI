@@ -20,7 +20,7 @@ namespace Dolany.WorldLine.Standard.Ai.Game.Pet.Expedition
 
         public void RefreshData()
         {
-            Scenes = CommonUtil.ReadJsonData_NamedList<ExpeditionSceneModel>("Pet/ExpeditionSceneData");
+            Scenes = CommonUtil.ReadJsonData_NamedList<ExpeditionSceneModel>("Standard/Pet/ExpeditionSceneData");
         }
 
         public IEnumerable<ExpeditionSceneModel> TodayExpedition()

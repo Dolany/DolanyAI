@@ -55,7 +55,7 @@ namespace Dolany.Ai.Doremi.Ai.SingleCommand.GroupManage
         {
             var qqNum = (long) param[0];
 
-            var sourcePerson = OSPerson.GetPerson(MsgDTO.FromQQ);
+            var sourcePerson = OSPerson_Doremi.GetPerson(MsgDTO.FromQQ);
             if (sourcePerson.Golds < 500)
             {
                 MsgSender.PushMsg(MsgDTO, "驱散全部buff需要500金币，你没有足够的金币！");
@@ -94,7 +94,7 @@ namespace Dolany.Ai.Doremi.Ai.SingleCommand.GroupManage
                 return false;
             }
 
-            var sourcePerson = OSPerson.GetPerson(MsgDTO.FromQQ);
+            var sourcePerson = OSPerson_Doremi.GetPerson(MsgDTO.FromQQ);
             if (sourcePerson.Golds < 100)
             {
                 MsgSender.PushMsg(MsgDTO, "驱散该buff需要100金币，你没有足够的金币！");

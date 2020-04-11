@@ -17,8 +17,8 @@ namespace Dolany.WorldLine.Standard.OnlineStore
 
         public void RefreshData()
         {
-            var HonorDic = CommonUtil.ReadJsonData<Dictionary<string, DriftBottleItemModel[]>>("driftBottleItemData");
-            var LimitHonors = CommonUtil.ReadJsonData<Dictionary<string, LimitHonorModel>>("driftBottleItemData_Limit");
+            var HonorDic = CommonUtil.ReadJsonData<Dictionary<string, DriftBottleItemModel[]>>("Standard/driftBottleItemData");
+            var LimitHonors = CommonUtil.ReadJsonData<Dictionary<string, LimitHonorModel>>("Standard/driftBottleItemData_Limit");
 
             HonorList.Clear();
             HonorList.AddRange(HonorDic.Select(hd => new HonorModel()

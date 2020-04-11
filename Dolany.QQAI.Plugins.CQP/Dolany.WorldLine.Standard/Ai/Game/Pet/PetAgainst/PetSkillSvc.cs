@@ -15,7 +15,7 @@ namespace Dolany.WorldLine.Standard.Ai.Game.Pet.PetAgainst
 
         public void RefreshData()
         {
-            AllSkills = CommonUtil.ReadJsonData_NamedList<PetSkillModel>("Pet/PetSkillData");
+            AllSkills = CommonUtil.ReadJsonData_NamedList<PetSkillModel>("Standard/Pet/PetSkillData");
         }
     }
 

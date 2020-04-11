@@ -44,7 +44,7 @@ namespace Dolany.Ai.Doremi.Ai.SingleCommand.Fortune
 
         public void RefreshData()
         {
-            KindDic = CommonUtil.ReadJsonData<Dictionary<string, int>>("majConfigData");
+            KindDic = CommonUtil.ReadJsonData<Dictionary<string, int>>("Doremi/majConfigData");
             SumRate = KindDic.Sum(p => p.Value);
         }
 

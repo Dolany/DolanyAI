@@ -9,7 +9,7 @@ namespace Dolany.WorldLine.Standard.Ai.Game.Archaeology
 
         public void RefreshData()
         {
-            Scenes = CommonUtil.ReadJsonData_NamedList<ArchaeologySceneModel>("Arch/ArchSceneData");
+            Scenes = CommonUtil.ReadJsonData_NamedList<ArchaeologySceneModel>("Standard/Arch/ArchSceneData");
         }
     }
 

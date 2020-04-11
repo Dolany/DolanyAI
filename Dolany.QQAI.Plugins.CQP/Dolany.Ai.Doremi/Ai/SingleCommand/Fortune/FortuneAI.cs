@@ -26,8 +26,8 @@ namespace Dolany.Ai.Doremi.Ai.SingleCommand.Fortune
 
         public void RefreshData()
         {
-            DataList = CommonUtil.ReadJsonData_NamedList<TarotFortuneDataModel>("TarotFortuneData");
-            FortuneItemList = CommonUtil.ReadJsonData_NamedList<FortuneItemModel>("FortuneItemData");
+            DataList = CommonUtil.ReadJsonData_NamedList<TarotFortuneDataModel>("Doremi/TarotFortuneData");
+            FortuneItemList = CommonUtil.ReadJsonData_NamedList<FortuneItemModel>("Doremi/FortuneItemData");
         }
 
         [EnterCommand(ID = "FortuneAI_RandomFortune",

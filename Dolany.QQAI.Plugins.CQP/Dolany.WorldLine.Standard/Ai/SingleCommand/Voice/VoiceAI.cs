@@ -22,7 +22,7 @@ namespace Dolany.WorldLine.Standard.Ai.SingleCommand.Voice
 
         public void RefreshData()
         {
-            Beng3Config = CommonUtil.ReadJsonData<Beng3ConfigModel>("Beng3VoiceConfigData");
+            Beng3Config = CommonUtil.ReadJsonData<Beng3ConfigModel>("Standard/Beng3VoiceConfigData");
         }
 
         [EnterCommand(ID = "VoiceAI_KancoleVoice",

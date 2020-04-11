@@ -88,7 +88,7 @@ namespace Dolany.Ai.Doremi.Ai.Sys
             var qqNum = (long) param[0];
             var golds = (int)(long)param[1];
 
-            var osPerson = OSPerson.GetPerson(qqNum);
+            var osPerson = OSPerson_Doremi.GetPerson(qqNum);
             osPerson.Golds += golds;
             osPerson.Update();
 

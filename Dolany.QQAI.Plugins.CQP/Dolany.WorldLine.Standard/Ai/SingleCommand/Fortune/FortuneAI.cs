@@ -30,8 +30,8 @@ namespace Dolany.WorldLine.Standard.Ai.SingleCommand.Fortune
 
         public void RefreshData()
         {
-            ModelList = CommonUtil.ReadJsonData_NamedList<TarotFortuneDataModel>("TarotFortuneData");
-            FortuneItemList = CommonUtil.ReadJsonData_NamedList<FortuneItemModel>("FortuneItemData");
+            ModelList = CommonUtil.ReadJsonData_NamedList<TarotFortuneDataModel>("Standard/TarotFortuneData");
+            FortuneItemList = CommonUtil.ReadJsonData_NamedList<FortuneItemModel>("Standard/FortuneItemData");
 
             var tarotFolder = new DirectoryInfo(TarotServerPath);
             TarotSerialNames = tarotFolder.GetDirectories().Select(p => p.Name).ToArray();

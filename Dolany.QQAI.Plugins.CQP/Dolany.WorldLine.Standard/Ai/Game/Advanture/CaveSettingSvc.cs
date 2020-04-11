@@ -15,7 +15,7 @@ namespace Dolany.WorldLine.Standard.Ai.Game.Advanture
 
         public void RefreshData()
         {
-            CaveDatas = CommonUtil.ReadJsonData_NamedList<CaveDataModel>("CaveSettingData");
+            CaveDatas = CommonUtil.ReadJsonData_NamedList<CaveDataModel>("Standard/CaveSettingData");
         }
     }
 }

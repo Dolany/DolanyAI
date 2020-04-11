@@ -128,7 +128,7 @@ namespace Dolany.Ai.Doremi.Ai.SingleCommand.GroupManage
                 return false;
             }
 
-            var osPerson = OSPerson.GetPerson(MsgDTO.FromQQ);
+            var osPerson = OSPerson_Doremi.GetPerson(MsgDTO.FromQQ);
             osPerson.Golds -= 100;
             osPerson.Update();
 

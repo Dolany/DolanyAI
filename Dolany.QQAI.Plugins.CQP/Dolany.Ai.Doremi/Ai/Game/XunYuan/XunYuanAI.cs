@@ -64,7 +64,7 @@ namespace Dolany.Ai.Doremi.Ai.Game.XunYuan
             var Gamers = new[] {MsgDTO.FromQQ, aimQQ}.Select(p =>
             {
                 var armerRecord = PersonArmerRecord.Get(p);
-                var osPerson = OSPerson.GetPerson(p);
+                var osPerson = OSPerson_Doremi.GetPerson(p);
                 var levelModel = LevelSvc.GetByLevel(osPerson.Level);
 
                 var battleArmers = Rander.RandSort(armerRecord.Armers.ToArray()).Take(10).ToDictionary(a => a.Key, a => a.Value);

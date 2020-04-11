@@ -8,6 +8,8 @@ namespace Dolany.Ai.Doremi.Xiuxian
     {
         private List<LevelDataModel> LevelDataList;
 
+        public int TopLevel => LevelDataList.Max(p => p.Level);
+
         public LevelDataModel GetByLevel(int level)
         {
             return LevelDataList.FirstOrDefault(p => p.Level == level);
@@ -15,7 +17,7 @@ namespace Dolany.Ai.Doremi.Xiuxian
 
         public void RefreshData()
         {
-            LevelDataList = CommonUtil.ReadJsonData_NamedList<LevelDataModel>("LevelData");
+            LevelDataList = CommonUtil.ReadJsonData_NamedList<LevelDataModel>("Doremi/LevelData");
         }
     }
 

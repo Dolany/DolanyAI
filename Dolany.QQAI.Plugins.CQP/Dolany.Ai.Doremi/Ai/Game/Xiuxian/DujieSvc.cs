@@ -23,7 +23,7 @@ namespace Dolany.Ai.Doremi.Ai.Game.Xiuxian
 
         public void RefreshData()
         {
-            QAs = CommonUtil.ReadJsonData_NamedList<DujieQAModel>("DujieQAData");
+            QAs = CommonUtil.ReadJsonData_NamedList<DujieQAModel>("Doremi/DujieQAData");
         }
     }
 

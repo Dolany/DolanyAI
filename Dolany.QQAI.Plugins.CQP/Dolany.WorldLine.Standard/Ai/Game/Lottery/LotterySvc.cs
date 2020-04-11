@@ -19,7 +19,7 @@ namespace Dolany.WorldLine.Standard.Ai.Game.Lottery
 
         public void RefreshData()
         {
-            Models = CommonUtil.ReadJsonData_NamedList<LotteryModel>("LotteryData");
+            Models = CommonUtil.ReadJsonData_NamedList<LotteryModel>("Standard/LotteryData");
         }
     }
 

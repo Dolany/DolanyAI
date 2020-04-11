@@ -45,7 +45,7 @@ namespace Dolany.WorldLine.Standard.Ai.Game.Gift
 
         public void RefreshData()
         {
-            GiftList = CommonUtil.ReadJsonData_NamedList<GiftModel>("GiftData");
+            GiftList = CommonUtil.ReadJsonData_NamedList<GiftModel>("Standard/GiftData");
         }
     }
 

@@ -4,7 +4,7 @@ using Dolany.Database;
 
 namespace Dolany.Ai.Doremi.OnlineStore
 {
-    public class OSPerson : DbBaseEntity
+    public class OSPerson_Doremi : DbBaseEntity
     {
         public long QQNum { get; set; }
 
@@ -14,16 +14,16 @@ namespace Dolany.Ai.Doremi.OnlineStore
 
         public int Level { get; set; }
 
-        public static OSPerson GetPerson(long QQNum)
+        public static OSPerson_Doremi GetPerson(long QQNum)
         {
-            var osPerson = MongoService<OSPerson>.GetOnly(p => p.QQNum == QQNum);
+            var osPerson = MongoService<OSPerson_Doremi>.GetOnly(p => p.QQNum == QQNum);
             if (osPerson != null)
             {
                 return osPerson;
             }
 
-            osPerson = new OSPerson {QQNum = QQNum};
-            MongoService<OSPerson>.Insert(osPerson);
+            osPerson = new OSPerson_Doremi {QQNum = QQNum};
+            MongoService<OSPerson_Doremi>.Insert(osPerson);
 
             return osPerson;
         }
@@ -65,7 +65,7 @@ namespace Dolany.Ai.Doremi.OnlineStore
         {
             GiftDic.Remove(g => g == 0);
 
-            MongoService<OSPerson>.Update(this);
+            MongoService<OSPerson_Doremi>.Update(this);
         }
     }
 }

@@ -24,7 +24,7 @@ namespace Dolany.WorldLine.Standard.Ai.Game.Pet
 
         public void RefreshData()
         {
-            LevelDic = CommonUtil.ReadJsonData_NamedList<PetLevelModel>("Pet/PetLevelData")
+            LevelDic = CommonUtil.ReadJsonData_NamedList<PetLevelModel>("Standard/Pet/PetLevelData")
                 .ToDictionary(p => p.Level, p => p);
         }
     }
