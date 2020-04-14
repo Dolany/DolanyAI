@@ -2,6 +2,7 @@
 using System.Linq;
 using System.Reflection;
 using Dolany.Ai.Common;
+using Dolany.Ai.Common.Models;
 using Dolany.Ai.Core.Base;
 using Dolany.Ai.Core.Common;
 
@@ -24,6 +25,13 @@ namespace Dolany.Ai.Core
         public void InitWorlds(IEnumerable<Assembly> assemblies)
         {
             AllWorlds = AutofacSvc.LoadAllInstanceFromClass<IWorldLine>(assemblies).ToArray();
+
+            foreach (var worldLine in AllWorlds)
+            {
+                worldLine.Init();
+                worldLine.AIGroup.AddRange(CrossWorldAis);
+                worldLine.Load();
+            }
         }
 
         public string JudgeWorldLine(long groupNum)
@@ -40,6 +48,27 @@ namespace Dolany.Ai.Core
             }
 
             return string.IsNullOrEmpty(group.WorldLine) ? DefaultWorldLine.Name : group.WorldLine;
+        }
+
+        public void OnMsgReceived(MsgInformation MsgDTO)
+        {
+            var worldLine = JudgeWorldLine(MsgDTO.FromGroup);
+            var world = AllWorlds.FirstOrDefault(p => p.Name == worldLine);
+            world?.OnMsgReceived(MsgDTO);
+        }
+
+        public void OnMoneyReceived(ChargeModel model)
+        {
+            var worldLine = JudgeWorldLine(0);
+            var world = AllWorlds.FirstOrDefault(p => p.Name == worldLine);
+            world?.OnMoneyReceived(model);
+        }
+
+        public void OnGroupMemberChanged(GroupMemberChangeModel model)
+        {
+            var worldLine = JudgeWorldLine(model.GroupNum);
+            var world = AllWorlds.FirstOrDefault(p => p.Name == worldLine);
+            world?.OnGroupMemberChanged(model);
         }
     }
 }
