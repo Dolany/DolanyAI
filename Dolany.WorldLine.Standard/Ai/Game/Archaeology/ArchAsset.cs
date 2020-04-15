@@ -37,6 +37,10 @@ namespace Dolany.WorldLine.Standard.Ai.Game.Archaeology
         /// </summary>
         public Dictionary<string, int> ElementEssence { get; set; } = new Dictionary<string, int>();
 
+        /// <summary>
+        /// 刷新翠绿琥珀
+        /// </summary>
+        /// <returns></returns>
         public bool RefreshGreenAmbur()
         {
             if (GreenAmburRefreshTime.Date == DateTime.Today)
@@ -65,6 +69,23 @@ namespace Dolany.WorldLine.Standard.Ai.Game.Archaeology
             rec = new ArchAsset(){QQNum = QQNum};
             MongoService<ArchAsset>.Insert(rec);
             return rec;
+        }
+
+        public bool ConsumeAmbur()
+        {
+            if (GreenAmbur > 0)
+            {
+                GreenAmbur--;
+                return true;
+            }
+
+            if (BlueAmbur <= 0)
+            {
+                return false;
+            }
+
+            BlueAmbur--;
+            return true;
         }
 
         public void Update()

@@ -34,11 +34,26 @@ namespace Dolany.WorldLine.Standard.Ai.SingleCommand.GroupManage
         {
             var aimQQ = (long) param[0];
             var command = param[1] as string;
-            var enter = CrossWorldAiSvc[MsgDTO.FromGroup].AllAvailableGroupCommands.FirstOrDefault(p => p.CommandsList.Contains(command));
-            if (enter == null)
+
+            var enters = CrossWorldAiSvc[MsgDTO.FromGroup].AllAvailableGroupCommands.Where(p => p.Command == command).ToList();
+            if (enters.IsNullOrEmpty())
             {
                 MsgSender.PushMsg(MsgDTO, "未找到该功能！", true);
                 return false;
+            }
+
+            var enter = enters.First();
+            if (enters.Count > 1)
+            {
+                var options = enters.Select(p => $"{p.Command} {p.SyntaxHint}").ToArray();
+                var response = WaiterSvc.WaitForOptions(MsgDTO.FromGroup, MsgDTO.FromQQ, "请选择需要奖励的功能：", options, MsgDTO.BindAi);
+                if (response < 0)
+                {
+                    MsgSender.PushMsg(MsgDTO, "操作取消！");
+                    return false;
+                }
+
+                enter = enters[response];
             }
 
             var dailyLimit = DailyLimitRecord.Get(aimQQ, enter.ID);
