@@ -17,13 +17,10 @@ namespace Dolany.Ai.Core.Cache
 
         private readonly Dictionary<long, List<WaiterUnit>> UnitsDic = new Dictionary<long, List<WaiterUnit>>();
 
-        public Action<MsgInformation> MsgReceivedCallBack;
-        public Action<ChargeModel> MoneyReceivedCallBack;
-        public Action<GroupMemberChangeModel> GroupMemberChangeCallBack;
-
         public GroupSettingSvc GroupSettingSvc { get; set; }
         public BindAiSvc BindAiSvc { get; set; }
         public QQNumReflectSvc QqNumReflectSvc { get; set; }
+        public CrossWorldAiSvc CrossWorldAiSvc { get; set; }
 
         private readonly ConcurrentDictionary<long, ConcurrentDictionary<string, Action<MsgInformation>>> ListenQQNumDic =
             new ConcurrentDictionary<long, ConcurrentDictionary<string, Action<MsgInformation>>>();
@@ -77,7 +74,7 @@ namespace Dolany.Ai.Core.Cache
 
                     if (waitUnit == null)
                     {
-                        MsgReceivedCallBack(info);
+                        CrossWorldAiSvc.OnMsgReceived(info);
                         break;
                     }
 
@@ -101,11 +98,11 @@ namespace Dolany.Ai.Core.Cache
                     AIAnalyzer.AddError(info.Msg);
                     break;
                 case InformationType.ReceiveMoney:
-                    MoneyReceivedCallBack(JsonConvert.DeserializeObject<ChargeModel>(info.Msg));
+                    CrossWorldAiSvc.OnMoneyReceived(JsonConvert.DeserializeObject<ChargeModel>(info.Msg));
                     break;
                 case InformationType.GroupMemberIncrease:
                 case InformationType.GroupMemberDecrease:
-                    GroupMemberChangeCallBack(JsonConvert.DeserializeObject<GroupMemberChangeModel>(info.Msg));
+                    CrossWorldAiSvc.OnGroupMemberChanged(JsonConvert.DeserializeObject<GroupMemberChangeModel>(info.Msg));
                     break;
                 case InformationType.ConnectStateChange:
                     var bindai = BindAiSvc[info.BindAi];
