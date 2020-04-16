@@ -42,7 +42,7 @@ namespace Dolany.WorldLine.Standard.Ai.Game.Archaeology
     }
 
     /// <summary>
-    /// 考古收藏品碎片
+    /// 考古收藏品碎片(每种考古收藏品有十种不同的碎片)
     /// </summary>
     public class ArchItemColleModel
     {

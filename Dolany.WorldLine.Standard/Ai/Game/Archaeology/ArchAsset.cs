@@ -33,7 +33,7 @@ namespace Dolany.WorldLine.Standard.Ai.Game.Archaeology
         public int RedStarStone { get; set; }
 
         /// <summary>
-        /// 元素精魄
+        /// 元素精魄(Ice/Flame/Lightning)
         /// </summary>
         public Dictionary<string, int> ElementEssence { get; set; } = new Dictionary<string, int>();
 

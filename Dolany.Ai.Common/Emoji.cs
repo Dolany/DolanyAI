@@ -66,5 +66,7 @@ namespace Dolany.Ai.Common
         public static string 蘑菇 => CodeApi.Code_Emoji(4036988292);
 
         public static string 面包 => CodeApi.Code_Emoji(4036988318);
+
+        public static string 火焰 => CodeApi.Code_Emoji(4036990117);
     }
 }

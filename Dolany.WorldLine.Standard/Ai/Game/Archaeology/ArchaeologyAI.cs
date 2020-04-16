@@ -1,9 +1,11 @@
-﻿using System.Linq;
+﻿using System.Collections.Generic;
+using System.Linq;
 using Dolany.Ai.Common;
 using Dolany.Ai.Common.Models;
 using Dolany.Ai.Core;
 using Dolany.Ai.Core.Base;
 using Dolany.Ai.Core.Cache;
+using Dolany.Ai.Core.Common;
 using Dolany.Database.Ai;
 
 namespace Dolany.WorldLine.Standard.Ai.Game.Archaeology
@@ -13,10 +15,12 @@ namespace Dolany.WorldLine.Standard.Ai.Game.Archaeology
         public override string AIName { get; set; } = "考古学";
         public override string Description { get; set; } = "Ai for Archaeology!";
 
+        protected override CmdTagEnum DefaultTag { get; } = CmdTagEnum.考古学;
+
         public CrossWorldAiSvc CrossWorldAiSvc { get; set; }
 
-        [EnterCommand(ID = "DriftBottleAI_ConsumeRedStarStone",
-            Command = "赤星归元露",
+        [EnterCommand(ID = "ArchaeologyAI_ConsumeRedStarStone",
+            Command = "赤星归元",
             Description = "击碎一颗赤星石，刷新指定功能的CD",
             SyntaxHint = "[功能名]",
             SyntaxChecker = "Word")]
@@ -59,7 +63,21 @@ namespace Dolany.WorldLine.Standard.Ai.Game.Archaeology
             asset.RedStarStone--;
             asset.Update();
 
-            MsgSender.PushMsg(MsgDTO, "赤星归元！");
+            MsgSender.PushMsg(MsgDTO, "赤星归元(刷新成功)！");
+            return true;
+        }
+
+        [EnterCommand(ID = "ArchaeologyAI_UpdateElement",
+            Command = "元素晋升",
+            Description = "升级元素力量(寒冰/火焰/雷电)")]
+        public bool UpdateElement(MsgInformationEx MsgDTO, object[] param)
+        {
+            var asset = ArchAsset.Get(MsgDTO.FromQQ);
+            var archaeologist = Archaeologist.Get(MsgDTO.FromQQ);
+
+            var options = new[] {$"{Emoji.火焰}：({asset.ElementEssence["Flame"]}/{archaeologist.Flame * 10})"};
+            var option = WaiterSvc.WaitForOptions(MsgDTO.FromGroup, MsgDTO.FromQQ, "请选择你要晋升的元素之力！", options, MsgDTO.BindAi);
+
             return true;
         }
     }

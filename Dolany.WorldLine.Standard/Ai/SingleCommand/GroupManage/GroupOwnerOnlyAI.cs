@@ -46,7 +46,7 @@ namespace Dolany.WorldLine.Standard.Ai.SingleCommand.GroupManage
             if (enters.Count > 1)
             {
                 var options = enters.Select(p => $"{p.Command} {p.SyntaxHint}").ToArray();
-                var response = WaiterSvc.WaitForOptions(MsgDTO.FromGroup, MsgDTO.FromQQ, "请选择需要奖励的功能：", options, MsgDTO.BindAi);
+                var response = WaiterSvc.WaitForOptions(MsgDTO.FromGroup, MsgDTO.FromQQ, "请选择需要刷新的功能：", options, MsgDTO.BindAi);
                 if (response < 0)
                 {
                     MsgSender.PushMsg(MsgDTO, "操作取消！");
