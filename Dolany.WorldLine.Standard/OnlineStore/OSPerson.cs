@@ -52,8 +52,10 @@ namespace Dolany.WorldLine.Standard.OnlineStore
             {
                 GiftDic[GiftName] += count;
             }
-
-            GiftDic.Add(GiftName, count);
+            else
+            {
+                GiftDic.Add(GiftName, count);
+            }
         }
 
         public static void GoldIncome(long QQNum, int gold)

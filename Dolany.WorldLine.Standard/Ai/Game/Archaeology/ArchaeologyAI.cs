@@ -1,5 +1,4 @@
-﻿using System.Collections.Generic;
-using System.Linq;
+﻿using System.Linq;
 using Dolany.Ai.Common;
 using Dolany.Ai.Common.Models;
 using Dolany.Ai.Core;
@@ -75,9 +74,57 @@ namespace Dolany.WorldLine.Standard.Ai.Game.Archaeology
             var asset = ArchAsset.Get(MsgDTO.FromQQ);
             var archaeologist = Archaeologist.Get(MsgDTO.FromQQ);
 
-            var options = new[] {$"{Emoji.火焰}：({asset.ElementEssence["Flame"]}/{archaeologist.Flame * 10})"};
-            var option = WaiterSvc.WaitForOptions(MsgDTO.FromGroup, MsgDTO.FromQQ, "请选择你要晋升的元素之力！", options, MsgDTO.BindAi);
+            var flameEles = asset.ElementEssence.GetDicValueSafe("Flame");
+            var iceEles = asset.ElementEssence.GetDicValueSafe("Ice");
+            var lightningEles = asset.ElementEssence.GetDicValueSafe("Lightning");
 
+            var flameNeed = archaeologist.Flame * 10;
+            var iceNeed = archaeologist.Ice * 10;
+            var lighningNeed = archaeologist.Lightning * 10;
+
+            var options = new[]
+            {
+                $"{Emoji.火焰}：({flameEles}/{flameNeed})",
+                $"{Emoji.雪花}：({iceEles}/{iceNeed})",
+                $"{Emoji.闪电}：({lightningEles}/{lighningNeed})",
+                "取消"
+            };
+            var option = WaiterSvc.WaitForOptions(MsgDTO.FromGroup, MsgDTO.FromQQ, "请选择你要晋升的元素之力！", options, MsgDTO.BindAi);
+            if (option < 0 || option == 3)
+            {
+                MsgSender.PushMsg(MsgDTO, "操作取消！");
+                return false;
+            }
+
+            switch (option)
+            {
+                case 0 when flameEles < flameNeed:
+                    MsgSender.PushMsg(MsgDTO, "火焰精魄不足，无法晋升！");
+                    return false;
+                case 0:
+                    asset.ElementEssence["Flame"] -= flameNeed;
+                    archaeologist.Flame++;
+                    break;
+                case 1 when iceEles < iceNeed:
+                    MsgSender.PushMsg(MsgDTO, "寒冰精魄不足，无法晋升！");
+                    return false;
+                case 1:
+                    asset.ElementEssence["Ice"] -= iceNeed;
+                    archaeologist.Ice++;
+                    break;
+                case 2 when lightningEles < lighningNeed:
+                    MsgSender.PushMsg(MsgDTO, "雷电精魄不足，无法晋升！");
+                    return false;
+                case 2:
+                    asset.ElementEssence["Lightning"] -= lighningNeed;
+                    archaeologist.Lightning++;
+                    break;
+            }
+
+            asset.Update();
+            archaeologist.Update();
+
+            MsgSender.PushMsg(MsgDTO, "晋升成功！");
             return true;
         }
     }
