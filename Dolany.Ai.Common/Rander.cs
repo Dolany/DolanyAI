@@ -23,6 +23,16 @@ namespace Dolany.Ai.Common
             return Math.Abs(value) % MaxValue;
         }
 
+        public static int RandRange(int minValue, int maxValue)
+        {
+            if (minValue >= maxValue)
+            {
+                return minValue;
+            }
+
+            return minValue + RandInt(maxValue - minValue + 1);
+        }
+
         public static bool RandBool()
         {
             return RandInt(2) == 0;

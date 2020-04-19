@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
 using Dolany.Database;
 using MongoDB.Bson.Serialization.Attributes;
 
@@ -33,9 +32,19 @@ namespace Dolany.WorldLine.Standard.Ai.Game.Archaeology
         public int RedStarStone { get; set; }
 
         /// <summary>
-        /// 元素精魄(Ice/Flame/Lightning)
+        /// 寒冰元素精魄
         /// </summary>
-        public Dictionary<string, int> ElementEssence { get; set; } = new Dictionary<string, int>();
+        public int IceEssence { get; set; }
+
+        /// <summary>
+        /// 火焰元素精魄
+        /// </summary>
+        public int FlameEssence { get; set; }
+
+        /// <summary>
+        /// 雷电元素精魄
+        /// </summary>
+        public int LightningEssence { get; set; }
 
         /// <summary>
         /// 刷新翠绿琥珀

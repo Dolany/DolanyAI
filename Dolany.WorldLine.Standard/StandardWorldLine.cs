@@ -112,6 +112,10 @@ namespace Dolany.WorldLine.Standard
                 },
                 new CmdTag()
                 {
+                    Tag = CmdTagEnum.考古学
+                }, 
+                new CmdTag()
+                {
                     Tag = CmdTagEnum.骰娘功能
                 },
                 new CmdTag()

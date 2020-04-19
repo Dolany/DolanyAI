@@ -24,7 +24,7 @@ namespace Dolany.WorldLine.Standard.Ai.Game.Archaeology
         [BsonDateTimeOptions(Kind = DateTimeKind.Local)]
         public DateTime SANRefreshTime { get; set; } = DateTime.Now;
 
-        public bool IsDead => RebornTime > DateTime.Now;
+        public bool IsDead => RebornTime.HasValue && RebornTime > DateTime.Now;
 
         public static Archaeologist Get(long QQNum)
         {

@@ -183,7 +183,7 @@ namespace Dolany.WorldLine.Standard.Ai.Game.Pet.PetAgainst
 
         private void JudgeFirst()
         {
-            if (Rander.RandInt(2) == 0)
+            if (Rander.RandBool())
             {
                 return;
             }

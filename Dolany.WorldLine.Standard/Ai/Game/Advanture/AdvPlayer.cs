@@ -47,7 +47,7 @@ namespace Dolany.WorldLine.Standard.Ai.Game.Advanture
 
         public int GetAtk()
         {
-            return Rander.RandInt(MaxAtk - MinAtk + 1) + MinAtk;
+            return Rander.RandRange(MinAtk, MaxAtk);
         }
 
         public void Update()

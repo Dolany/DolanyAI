@@ -107,7 +107,7 @@ namespace Dolany.WorldLine.Standard.Ai.Game.Pet.Expedition
             var award = new ExpeditionAward(){Name = Name};
             if (GoldBonus != null)
             {
-                award.Gold = GoldBonus.Min + Rander.RandInt(GoldBonus.Max - GoldBonus.Min + 1);
+                award.Gold = GoldBonus.Min + Rander.RandRange(GoldBonus.Min, GoldBonus.Max);
                 var osPerson = OSPerson.GetPerson(QQNum);
                 osPerson.Golds += award.Gold;
                 osPerson.Update();
@@ -115,7 +115,7 @@ namespace Dolany.WorldLine.Standard.Ai.Game.Pet.Expedition
 
             if (ItemBonus != null)
             {
-                var count = ItemBonus.Min + Rander.RandInt(ItemBonus.Max - ItemBonus.Min + 1);
+                var count = ItemBonus.Min + Rander.RandRange(ItemBonus.Min, ItemBonus.Max);
                 award.Items = Enumerable.Range(0, count).Select(p => ItemBonus.Options.RandElement()).ToList();
                 var itemColle = ItemCollectionRecord.Get(QQNum);
                 foreach (var item in award.Items)
@@ -126,7 +126,7 @@ namespace Dolany.WorldLine.Standard.Ai.Game.Pet.Expedition
 
             if (FlavoringBonus != null)
             {
-                var count = FlavoringBonus.Min + Rander.RandInt(FlavoringBonus.Max - FlavoringBonus.Min + 1);
+                var count = FlavoringBonus.Min + Rander.RandRange(FlavoringBonus.Min, FlavoringBonus.Max);
                 award.Flavorings = Enumerable.Range(0, count).Select(p => FlavoringBonus.Options.RandElement()).ToList();
                 var flavoringRec = CookingRecord.Get(QQNum);
                 foreach (var flavoring in award.Flavorings)
