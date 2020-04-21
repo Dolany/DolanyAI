@@ -8,14 +8,26 @@ using Dolany.Ai.Core.Common;
 
 namespace Dolany.Ai.Core
 {
+    /// <summary>
+    /// 跨世界线管理器
+    /// </summary>
     public class CrossWorldAiSvc : IDependency
     {
         public GroupSettingSvc GroupSettingSvc { get; set; }
 
+        /// <summary>
+        /// 所有世界线
+        /// </summary>
         public IWorldLine[] AllWorlds { get; set; }
 
+        /// <summary>
+        /// 跨世界线的AI列表
+        /// </summary>
         public IEnumerable<AIBase> CrossWorldAis => AutofacSvc.LoadAllInstanceFromClass<AIBase>(GetType().Assembly);
 
+        /// <summary>
+        /// 默认世界线
+        /// </summary>
         public IWorldLine DefaultWorldLine { get; set; }
 
         public IWorldLine this[string worldLineName] => AllWorlds.FirstOrDefault(w => w.Name == worldLineName) ?? DefaultWorldLine;
@@ -34,6 +46,11 @@ namespace Dolany.Ai.Core
             }
         }
 
+        /// <summary>
+        /// 根据群组号断定世界线
+        /// </summary>
+        /// <param name="groupNum"></param>
+        /// <returns></returns>
         public string JudgeWorldLine(long groupNum)
         {
             if (groupNum == 0)
@@ -50,6 +67,10 @@ namespace Dolany.Ai.Core
             return string.IsNullOrEmpty(group.WorldLine) ? DefaultWorldLine.Name : group.WorldLine;
         }
 
+        /// <summary>
+        /// 普通消息接收事件
+        /// </summary>
+        /// <param name="MsgDTO"></param>
         public void OnMsgReceived(MsgInformation MsgDTO)
         {
             var worldLine = JudgeWorldLine(MsgDTO.FromGroup);
@@ -57,6 +78,10 @@ namespace Dolany.Ai.Core
             world?.OnMsgReceived(MsgDTO);
         }
 
+        /// <summary>
+        /// 转账事件
+        /// </summary>
+        /// <param name="model"></param>
         public void OnMoneyReceived(ChargeModel model)
         {
             var worldLine = JudgeWorldLine(0);
@@ -64,6 +89,10 @@ namespace Dolany.Ai.Core
             world?.OnMoneyReceived(model);
         }
 
+        /// <summary>
+        /// 群成员变更事件
+        /// </summary>
+        /// <param name="model"></param>
         public void OnGroupMemberChanged(GroupMemberChangeModel model)
         {
             var worldLine = JudgeWorldLine(model.GroupNum);

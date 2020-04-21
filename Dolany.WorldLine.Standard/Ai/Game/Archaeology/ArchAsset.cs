@@ -4,6 +4,9 @@ using MongoDB.Bson.Serialization.Attributes;
 
 namespace Dolany.WorldLine.Standard.Ai.Game.Archaeology
 {
+    /// <summary>
+    /// 考古资产记录
+    /// </summary>
     public class ArchAsset : DbBaseEntity
     {
         public long QQNum { get; set; }

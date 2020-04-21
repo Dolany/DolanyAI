@@ -4,6 +4,9 @@ using Dolany.Database;
 
 namespace Dolany.WorldLine.Standard.Ai.Game.Archaeology
 {
+    /// <summary>
+    /// 墨玉汇率记录
+    /// </summary>
     public class BlackJadeExchangeRec : DbBaseEntity
     {
         public long GroupNum { get; set; }
@@ -12,6 +15,11 @@ namespace Dolany.WorldLine.Standard.Ai.Game.Archaeology
 
         public int Ratio { get; set; }
 
+        /// <summary>
+        /// 获取指定群组的实时汇率
+        /// </summary>
+        /// <param name="GroupNum"></param>
+        /// <returns></returns>
         public static int RealTimeRatio(long GroupNum)
         {
             var rec = MongoService<BlackJadeExchangeRec>.GetOnly(p => p.GroupNum == GroupNum);

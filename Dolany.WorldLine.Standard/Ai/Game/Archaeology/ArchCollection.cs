@@ -3,6 +3,9 @@ using Dolany.Database;
 
 namespace Dolany.WorldLine.Standard.Ai.Game.Archaeology
 {
+    /// <summary>
+    /// 考古收藏记录
+    /// </summary>
     public class ArchCollection : DbBaseEntity
     {
         public long QQNum { get; set; }
