@@ -230,5 +230,31 @@ namespace Dolany.WorldLine.Standard.Ai.Game.Archaeology
             MsgSender.PushMsg(MsgDTO, msg, true);
             return true;
         }
+
+        [EnterCommand(ID = "ArchaeologyAI_MyStatus", Command = "我的考古状态", Description = "查看自己的考古状态")]
+        public bool MyStatus(MsgInformationEx MsgDTO, object[] param)
+        {
+            var archaeologist = Archaeologist.Get(MsgDTO.FromQQ);
+            var collection = ArchCollection.Get(MsgDTO.FromQQ);
+            var msgList = new List<string>()
+            {
+                $"SAN:{archaeologist.CurSAN}/{archaeologist.SAN}",
+                $"{Emoji.雪花}:{archaeologist.Ice}",
+                $"{Emoji.火焰}:{archaeologist.Flame}",
+                $"{Emoji.闪电}:{archaeologist.Lightning}",
+                $"收藏品碎片:{collection.ItemColles.Sum(p => p.Segments.Sum(s => s.Value))}",
+                $"收藏品:{collection.Collectables.Sum(p => p.Value)}",
+                $"特殊收藏品:{collection.SpecialColles.Count}",
+                $"地图碎片:{collection.MapSegments}"
+            };
+            if (archaeologist.IsDead)
+            {
+                msgList.Add($"复活时间:{archaeologist.RebornTime:yyyy-MM-dd HH:mm:ss}");
+            }
+
+            var msg = string.Join("\r\n", msgList);
+            MsgSender.PushMsg(MsgDTO, msg);
+            return true;
+        }
     }
 }
