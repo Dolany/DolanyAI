@@ -25,5 +25,20 @@ namespace Dolany.WorldLine.Standard.Ai.Game.Archaeology
             MsgSender.PushMsg(MsgDTO, string.Join("\r\n", msgs));
             return true;
         }
+
+        [EnterCommand(ID = "ArchColleAI_SpecialColles", Command = "我的特殊收藏品", Description = "查看自己的特殊收藏品")]
+        public bool SpecialColles(MsgInformationEx MsgDTO, object[] param)
+        {
+            var collection = ArchCollection.Get(MsgDTO.FromQQ);
+            if (collection.SpecialColles.IsNullOrEmpty())
+            {
+                MsgSender.PushMsg(MsgDTO, "你没有任何特殊收藏品！");
+                return false;
+            }
+
+            var msg = $"你当前拥有的特殊收藏品有：\r\n{string.Join(",", collection.SpecialColles)}";
+            MsgSender.PushMsg(MsgDTO, msg);
+            return true;
+        }
     }
 }
