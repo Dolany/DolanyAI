@@ -141,28 +141,6 @@ namespace Dolany.Ai.Common
             return copyT;
         }
 
-        public static void AddSafe<TKey, TValue>(this Dictionary<TKey, TValue> dic, TKey key, TValue value)
-        {
-            if (dic.ContainsKey(key))
-            {
-                dic[key] = value;
-            }
-            else
-            {
-                dic.Add(key, value);
-            }
-        }
-
-        public static TValue GetDicValueSafe<TKey, TValue>(this Dictionary<TKey, TValue> dic, TKey key)
-        {
-            if (dic.IsNullOrEmpty())
-            {
-                return default;
-            }
-
-            return dic.ContainsKey(key) ? dic[key] : default;
-        }
-
         public static TResult Retry<TResult>(Func<TResult> RetryFunc, TimeSpan[] RetryIntervals, Predicate<TResult> ResulteChecker = null)
         {
             TResult result;
