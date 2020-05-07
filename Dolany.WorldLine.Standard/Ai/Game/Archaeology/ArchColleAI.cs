@@ -1,5 +1,4 @@
-﻿using System.Collections.Generic;
-using System.Linq;
+﻿using System.Linq;
 using Dolany.Ai.Common;
 using Dolany.Ai.Common.Models;
 using Dolany.Ai.Core.Base;
@@ -22,8 +21,8 @@ namespace Dolany.WorldLine.Standard.Ai.Game.Archaeology
                 return false;
             }
 
-            var msgs = collection.ItemColles.Select(p => $"{p.Name}:{string.Join(", ", p.Segments.OrderBy(s => s.Key).Select(s => $"{s.Key}*{s.Value}"))}");
-            MsgSender.PushMsg(MsgDTO, string.Join("\r\n", msgs));
+            var msgs = collection.ItemColles.Select(p => $"{p.Name}:{p.Segments.OrderBy(s => s.Key).Select(s => $"{s.Key}*{s.Value}").JoinToString("，")}");
+            MsgSender.PushMsg(MsgDTO, msgs.JoinToString("\r\n"));
             return true;
         }
 
@@ -37,7 +36,7 @@ namespace Dolany.WorldLine.Standard.Ai.Game.Archaeology
                 return false;
             }
 
-            var msg = $"你当前拥有的特殊收藏品有：\r\n{string.Join(",", collection.SpecialColles)}";
+            var msg = $"你当前拥有的特殊收藏品有：\r\n{collection.SpecialColles.JoinToString(",")}";
             MsgSender.PushMsg(MsgDTO, msg);
             return true;
         }
@@ -52,7 +51,7 @@ namespace Dolany.WorldLine.Standard.Ai.Game.Archaeology
                 return false;
             }
 
-            var msg = $"你当前拥有的考古收藏品有：\r\n{string.Join(",", collection.Collectables.Select(p => $"{p.Key}*{p.Value}"))}";
+            var msg = $"你当前拥有的考古收藏品有：\r\n{collection.Collectables.Select(p => $"{p.Key}*{p.Value}").JoinToString(",")}";
             MsgSender.PushMsg(MsgDTO, msg);
             return true;
         }
@@ -73,11 +72,27 @@ namespace Dolany.WorldLine.Standard.Ai.Game.Archaeology
                 return false;
             }
 
-            var combineDic = new SafeDictionary<string, int>(new Dictionary<string, int>());
-            while ()
+            var combineDic = SafeDictionary<string, int>.Empty;
+            var aimColle = collection.ItemColles.FirstOrDefault(p => !p.Segments.IsNullOrEmpty() && p.Segments.Count >= 10);
+            while (aimColle != null)
             {
-                
+                combineDic[aimColle.Name] += 1;
+                foreach (var segmentsKey in aimColle.Segments.Keys)
+                {
+                    aimColle.Segments[segmentsKey] -= 1;
+                }
+
+                aimColle.Segments.Remove(p => p == 0);
+                collection.ItemColles.Remove(p => p.Segments.IsNullOrEmpty());
+
+                aimColle = collection.ItemColles.FirstOrDefault(p => !p.Segments.IsNullOrEmpty() && p.Segments.Count >= 10);
             }
+            collection.AddCollections(combineDic.Data);
+            collection.Update();
+
+            var msg = collection.Collectables.Select(p => $"{p.Key}*{p.Value}").JoinToString(",");
+            MsgSender.PushMsg(MsgDTO, $"合成成功！你获得以下收藏品：\r\n{msg}");
+            return true;
         }
     }
 }

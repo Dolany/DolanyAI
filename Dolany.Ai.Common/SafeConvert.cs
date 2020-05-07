@@ -6,7 +6,7 @@ namespace Dolany.Ai.Common
     {
         public static TValue GetDicValueSafe<TKey, TValue>(this Dictionary<TKey, TValue> Dic, TKey key)
         {
-            return Dic != null && Dic.ContainsKey(key) ? Dic[key] : default;
+            return Dic != null && key != null && Dic.ContainsKey(key) && Dic.TryGetValue(key, out var result) ? result : default;
         }
 
         public static SafeDictionary<TKey, TValue> ToSafe<TKey, TValue>(this Dictionary<TKey, TValue> Dic)
@@ -21,20 +21,39 @@ namespace Dolany.Ai.Common
 
         public static int ToIntSafe(this object obj)
         {
-            int result;
-            return int.TryParse(obj.ToStringSafe(), out result) ? result : 0;
+            return int.TryParse(obj.ToStringSafe(), out var result) ? result : 0;
         }
 
         public static double ToDoubleSafe(this object obj)
         {
-            double result;
-            return double.TryParse(obj.ToStringSafe(), out result) ? result : 0;
+            return double.TryParse(obj.ToStringSafe(), out var result) ? result : 0;
         }
 
         public static long ToLongSafe(this object obj)
         {
-            long result;
-            return long.TryParse(obj.ToStringSafe(), out result) ? result : 0;
+            return long.TryParse(obj.ToStringSafe(), out var result) ? result : 0;
+        }
+
+        public static void AddSafe<TKey, TValue>(this Dictionary<TKey, TValue> dic, TKey key, TValue value)
+        {
+            if (dic == null)
+            {
+                dic = new Dictionary<TKey, TValue>();
+            }
+
+            if (key == null)
+            {
+                return;
+            }
+
+            if (dic.ContainsKey(key))
+            {
+                dic[key] = value;
+            }
+            else
+            {
+                dic.TryAdd(key, value);
+            }
         }
     }
 }

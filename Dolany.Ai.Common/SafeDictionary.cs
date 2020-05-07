@@ -24,6 +24,8 @@ namespace Dolany.Ai.Common
         /// </summary>
         public bool IsEmpty => Data.IsNullOrEmpty();
 
+        public static SafeDictionary<TKey, TValue> Empty => new SafeDictionary<TKey, TValue>(new Dictionary<TKey, TValue>());
+
         public TValue this[TKey key]
         {
             get => Data.GetDicValueSafe(key);
@@ -42,14 +44,12 @@ namespace Dolany.Ai.Common
                 Data = new Dictionary<TKey, TValue>();
             }
 
-            if (!Data.ContainsKey(key))
+            if (key == null)
             {
-                Data.Add(key, value);
+                return;
             }
-            else
-            {
-                Data[key] = value;
-            }
+
+            Data.AddSafe(key, value);
         }
 
         /// <summary>

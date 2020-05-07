@@ -238,5 +238,10 @@ namespace Dolany.Ai.Common
 
             return result;
         }
+
+        public static string JoinToString(this IEnumerable<string> strs, string spliter)
+        {
+            return string.Join(spliter, strs);
+        }
     }
 }
