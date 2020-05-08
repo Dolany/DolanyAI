@@ -83,23 +83,6 @@ namespace Dolany.WorldLine.Standard.Ai.Game.Archaeology
             return rec;
         }
 
-        public bool ConsumeAmbur()
-        {
-            if (GreenAmbur > 0)
-            {
-                GreenAmbur--;
-                return true;
-            }
-
-            if (BlueAmbur <= 0)
-            {
-                return false;
-            }
-
-            BlueAmbur--;
-            return true;
-        }
-
         public void Update()
         {
             MongoService<ArchAsset>.Update(this);
