@@ -8,6 +8,7 @@ using Dolany.Ai.Core.Base;
 using Dolany.Ai.Core.Cache;
 using Dolany.Ai.Core.Common;
 using Dolany.Database.Ai;
+using Dolany.UtilityTool;
 using Dolany.WorldLine.Standard.OnlineStore;
 
 namespace Dolany.WorldLine.Standard.Ai.Game.Archaeology
@@ -66,6 +67,37 @@ namespace Dolany.WorldLine.Standard.Ai.Game.Archaeology
             asset.Update();
 
             MsgSender.PushMsg(MsgDTO, "赤星归元(刷新成功)！");
+            return true;
+        }
+
+        [EnterCommand(ID = "ArchaeologyAI_ConsumeRedStarStone_Re",
+            Command = "赤星净化",
+            Description = "击碎一颗赤星石，驱散自身所有的负面状态")]
+        public bool ConsumeRedStarStone_Re(MsgInformationEx MsgDTO, object[] param)
+        {
+            var asset = ArchAsset.Get(MsgDTO.FromQQ);
+            if (asset.RedStarStone == 0)
+            {
+                MsgSender.PushMsg(MsgDTO, "赤星石不足！", true);
+                return false;
+            }
+
+            var buffs = OSPersonBuff.Get(MsgDTO.FromQQ);
+            if (buffs.IsNullOrEmpty() || buffs.All(p => p.IsPositive))
+            {
+                MsgSender.PushMsg(MsgDTO, "你没有任何负面状态！");
+                return false;
+            }
+
+            foreach (var buff in buffs.Where(p => !p.IsPositive))
+            {
+                buff.Remove();
+            }
+
+            asset.RedStarStone--;
+            asset.Update();
+
+            MsgSender.PushMsg(MsgDTO, "赤星净化(驱散成功)！");
             return true;
         }
 
@@ -228,6 +260,72 @@ namespace Dolany.WorldLine.Standard.Ai.Game.Archaeology
 
             var msg = string.Join("\r\n", msgList);
             MsgSender.PushMsg(MsgDTO, msg, true);
+            return true;
+        }
+
+        [EnterCommand(ID = "ArchaeologyAI_MyStatus", Command = "我的考古状态", Description = "查看自己的考古状态")]
+        public bool MyStatus(MsgInformationEx MsgDTO, object[] param)
+        {
+            var archaeologist = Archaeologist.Get(MsgDTO.FromQQ);
+            var collection = ArchCollection.Get(MsgDTO.FromQQ);
+            var msgList = new List<string>()
+            {
+                $"SAN:{archaeologist.CurSAN}/{archaeologist.SAN}",
+                $"{Emoji.雪花}:{archaeologist.Ice}",
+                $"{Emoji.火焰}:{archaeologist.Flame}",
+                $"{Emoji.闪电}:{archaeologist.Lightning}",
+                $"收藏品碎片:{collection.ItemColles.Sum(p => p.Segments.Sum(s => s.Value))}",
+                $"收藏品:{collection.Collectables.Sum(p => p.Value)}",
+                $"特殊收藏品:{collection.SpecialColles.Count}",
+                $"地图碎片:{collection.MapSegments}"
+            };
+            if (archaeologist.IsDead)
+            {
+                msgList.Add($"复活时间:{archaeologist.RebornTime:yyyy-MM-dd HH:mm:ss}");
+            }
+
+            var msg = string.Join("\r\n", msgList);
+            MsgSender.PushMsg(MsgDTO, msg);
+            return true;
+        }
+
+        [EnterCommand(ID = "ArchaeologyAI_StartAdv", Command = "考古冒险", Description = "开始一场考古冒险！（需要消耗琥珀）")]
+        public bool StartAdv(MsgInformationEx MsgDTO, object[] param)
+        {
+            var archaeologist = Archaeologist.Get(MsgDTO.FromQQ);
+            if (archaeologist.IsDead)
+            {
+                MsgSender.PushMsg(MsgDTO, $"你当前处在死亡惩罚时间中，无法进行该操作！复活时间：{archaeologist.RebornTime:yyyy-MM-dd HH:mm:ss}");
+                return false;
+            }
+
+            var asset = ArchAsset.Get(MsgDTO.FromQQ);
+            if (asset.GreenAmbur == 0 && asset.BlueAmbur == 0)
+            {
+                MsgSender.PushMsg(MsgDTO, "很抱歉，你没有任何琥珀，无法开启副本！");
+                return false;
+            }
+
+            if (asset.GreenAmbur > 0)
+            {
+                asset.GreenAmbur -= 1;
+            }
+            else
+            {
+                if (!WaiterSvc.WaitForConfirm(MsgDTO, $"此操作将消耗 碧蓝琥珀*1 （你当前剩余 {asset.BlueAmbur}），是否继续？"))
+                {
+                    MsgSender.PushMsg(MsgDTO, "操作取消！");
+                    return false;
+                }
+
+                asset.BlueAmbur -= 1;
+            }
+
+            asset.Update();
+
+            var engine = new ArchAdvEngine(MsgDTO);
+            engine.StartAdv();
+
             return true;
         }
     }

@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using Dolany.Ai.Common;
 using Dolany.Ai.Core.Net;
+using Dolany.UtilityTool;
 using Dolany.WorldLine.Standard.Ai.Game.Jump300Report.Model;
 using HtmlAgilityPack;
 

@@ -1,4 +1,6 @@
-﻿namespace Dolany.Ai.Common.Models
+﻿using Dolany.UtilityTool;
+
+namespace Dolany.Ai.Common.Models
 {
     public class MsgInformation
     {

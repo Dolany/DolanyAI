@@ -1,5 +1,6 @@
 ﻿using System;
 using Dolany.Ai.Common;
+using Dolany.UtilityTool;
 
 namespace Dolany.Ai.Core.SyntaxChecker
 {

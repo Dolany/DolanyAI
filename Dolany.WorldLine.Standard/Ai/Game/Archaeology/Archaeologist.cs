@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using Dolany.Database;
 using MongoDB.Bson.Serialization.Attributes;
 
@@ -47,6 +48,8 @@ namespace Dolany.WorldLine.Standard.Ai.Game.Archaeology
         /// </summary>
         [BsonDateTimeOptions(Kind = DateTimeKind.Local)]
         public DateTime SANRefreshTime { get; set; } = DateTime.Now;
+
+        public Dictionary<string, int> AdvSceneLvlDic { get; set; } = new Dictionary<string, int>();
 
         /// <summary>
         /// 是否处于死亡状态

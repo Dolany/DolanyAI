@@ -5,6 +5,7 @@ using Dolany.Ai.Common;
 using Dolany.Ai.Common.Models;
 using Dolany.Database;
 using Dolany.Database.Ai;
+using Dolany.UtilityTool;
 
 namespace Dolany.Ai.Core.Common
 {

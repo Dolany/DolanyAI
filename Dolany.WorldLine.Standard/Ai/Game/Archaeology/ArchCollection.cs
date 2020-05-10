@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using Dolany.Database;
+using Dolany.UtilityTool;
 
 namespace Dolany.WorldLine.Standard.Ai.Game.Archaeology
 {
@@ -41,6 +42,22 @@ namespace Dolany.WorldLine.Standard.Ai.Game.Archaeology
             rec = new ArchCollection(){QQNum = QQNum};
             MongoService<ArchCollection>.Insert(rec);
             return rec;
+        }
+
+        public void AddCollections(Dictionary<string, int> dic)
+        {
+            var colle = Collectables.ToSafe();
+            foreach (var (name, count) in dic)
+            {
+                colle[name] += count;
+            }
+
+            Collectables = colle.Data;
+        }
+
+        public void Update()
+        {
+            MongoService<ArchCollection>.Update(this);
         }
     }
 

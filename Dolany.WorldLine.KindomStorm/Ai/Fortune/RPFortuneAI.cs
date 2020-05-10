@@ -5,6 +5,7 @@ using Dolany.Ai.Core.Base;
 using Dolany.Ai.Core.Cache;
 using Dolany.Ai.Core.Common;
 using Dolany.Database.Sqlite.Model;
+using Dolany.UtilityTool;
 using Newtonsoft.Json;
 
 namespace Dolany.WorldLine.KindomStorm.Ai.Fortune

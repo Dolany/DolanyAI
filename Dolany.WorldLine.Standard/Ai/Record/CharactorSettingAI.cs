@@ -8,6 +8,7 @@ using Dolany.Ai.Core.Cache;
 using Dolany.Ai.Core.Common;
 using Dolany.Database;
 using Dolany.Database.Ai;
+using Dolany.UtilityTool;
 
 namespace Dolany.WorldLine.Standard.Ai.Record
 {

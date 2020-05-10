@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Text.RegularExpressions;
 using Dolany.Ai.Common;
+using Dolany.UtilityTool;
 
 namespace Dolany.Ai.Core.SyntaxChecker
 {

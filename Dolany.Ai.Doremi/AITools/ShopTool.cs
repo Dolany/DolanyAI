@@ -4,6 +4,7 @@ using System.Linq;
 using Dolany.Ai.Common;
 using Dolany.Ai.Core.Base;
 using Dolany.Ai.Core.Cache;
+using Dolany.UtilityTool;
 using Dolany.WorldLine.Doremi.Xiuxian;
 using Newtonsoft.Json;
 

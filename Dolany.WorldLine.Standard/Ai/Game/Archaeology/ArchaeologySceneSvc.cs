@@ -1,5 +1,7 @@
 ﻿using System.Collections.Generic;
+using System.Linq;
 using Dolany.Ai.Common;
+using Dolany.UtilityTool;
 
 namespace Dolany.WorldLine.Standard.Ai.Game.Archaeology
 {
@@ -11,6 +13,24 @@ namespace Dolany.WorldLine.Standard.Ai.Game.Archaeology
         {
             Scenes = CommonUtil.ReadJsonData_NamedList<ArchaeologySceneModel>("Standard/Arch/ArchSceneData");
         }
+
+        public IEnumerable<ArchaeologySceneModel> RandScenes(int count)
+        {
+            return Rander.RandSort(Scenes.ToArray()).Take(count).ToList();
+        }
+
+        public List<ArchaeologySceneModel> GetLevelScene(List<string> sceneNames, Dictionary<string, int> levelDic)
+        {
+            var safeDic = levelDic.ToSafe();
+            var scenes = Scenes.Where(p => sceneNames.Contains(p.Name)).ToList();
+            scenes = scenes.Select(p =>
+            {
+                var level = safeDic[p.Name];
+                p.Level = level == 0 ? 1 : level;
+                return p;
+            }).ToList();
+            return scenes;
+        }
     }
 
     public class ArchaeologySceneModel : INamedJsonModel
@@ -21,9 +41,7 @@ namespace Dolany.WorldLine.Standard.Ai.Game.Archaeology
 
         public List<ArchaeologySubSceneModel> SubScenes { get; set; }
 
-        public int Exp { get; set; }
-
-        public int Level { get; set; }
+        public int Level { get; set; } = 1;
     }
 
     public class ArchaeologySubSceneModel

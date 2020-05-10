@@ -2,6 +2,7 @@
 using System.Linq;
 using Dolany.Ai.Common;
 using Dolany.Ai.Core.Net;
+using Dolany.UtilityTool;
 
 namespace Dolany.WorldLine.Doremi.Ai.SingleCommand.Fortune
 {

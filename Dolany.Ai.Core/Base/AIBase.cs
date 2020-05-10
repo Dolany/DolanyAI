@@ -8,6 +8,7 @@ using System.Collections.Generic;
 using System.Globalization;
 using System.Linq;
 using Dolany.Ai.Core.SyntaxChecker;
+using Dolany.UtilityTool;
 
 namespace Dolany.Ai.Core.Base
 {

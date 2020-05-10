@@ -7,6 +7,7 @@ using Dolany.Ai.Common;
 using Dolany.Ai.Common.Models;
 using Dolany.Ai.Core.Common;
 using Dolany.Database.Ai;
+using Dolany.UtilityTool;
 using Newtonsoft.Json;
 
 namespace Dolany.Ai.Core.Cache

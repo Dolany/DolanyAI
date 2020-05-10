@@ -3,6 +3,7 @@ using System.Linq;
 using Dolany.Ai.Common;
 using Dolany.Ai.Core.Cache;
 using Dolany.Database;
+using Dolany.UtilityTool;
 using Newtonsoft.Json;
 
 namespace Dolany.WorldLine.Standard.Ai.Game.Gift

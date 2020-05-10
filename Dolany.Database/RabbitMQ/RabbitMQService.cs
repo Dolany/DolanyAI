@@ -43,7 +43,7 @@ namespace Dolany.Database
                     try
                     {
                         var body = ea.Body;
-                        var message = Encoding.UTF8.GetString(body);
+                        var message = Encoding.UTF8.GetString(body.ToArray());
                         var information = JsonConvert.DeserializeObject<T>(message);
 
                         CallBack(information);

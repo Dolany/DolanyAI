@@ -6,6 +6,7 @@ using System.Linq;
 using System.Net;
 using Dolany.Ai.Common;
 using Dolany.Ai.Common.Models;
+using Dolany.UtilityTool;
 using JetBrains.Annotations;
 
 namespace Dolany.Ai.Core.Common
@@ -57,26 +58,29 @@ namespace Dolany.Ai.Core.Common
 
         private static ImageCacheModel ReadImageCacheInfo(FileSystemInfo file)
         {
-            var model = CommonUtil.Retry(() =>
-            {
-                var cache = new ImageCacheModel();
-                using var reader = new StreamReader(file.FullName);
-                string line;
-                while (!string.IsNullOrEmpty(line = reader.ReadLine()))
-                {
-                    var strs = line.Split(new[] {'='}, StringSplitOptions.RemoveEmptyEntries);
-                    if (strs.IsNullOrEmpty() || strs.Length < 2)
-                    {
-                        continue;
-                    }
-
-                    SetPropertyValue(cache, strs[0], strs[1]);
-                }
-
-                return cache;
-            }, new[] {TimeSpan.FromSeconds(1), TimeSpan.FromSeconds(3), TimeSpan.FromSeconds(5)});
+            var model = LambdaExtention.DoWithRetry(() => ReadImageCacheInfo_Func(file),
+                new[] {TimeSpan.FromSeconds(1), TimeSpan.FromSeconds(3), TimeSpan.FromSeconds(5)});
 
             return model;
+        }
+
+        private static ImageCacheModel ReadImageCacheInfo_Func(FileSystemInfo file)
+        {
+            var cache = new ImageCacheModel();
+            using var reader = new StreamReader(file.FullName);
+            string line;
+            while (!string.IsNullOrEmpty(line = reader.ReadLine()))
+            {
+                var strs = line.Split(new[] {'='}, StringSplitOptions.RemoveEmptyEntries);
+                if (strs.IsNullOrEmpty() || strs.Length < 2)
+                {
+                    continue;
+                }
+
+                SetPropertyValue(cache, strs[0], strs[1]);
+            }
+
+            return cache;
         }
 
         [CanBeNull]
