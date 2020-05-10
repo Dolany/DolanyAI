@@ -5,6 +5,7 @@ using System.Linq;
 using System.Reflection;
 using System.Text;
 using Dolany.Ai.Common;
+using Dolany.UtilityTool;
 using Dolany.WorldLine.Standard.Ai.Game.Jump300Report.Parser;
 
 namespace Dolany.WorldLine.Standard.Ai.Game.Jump300Report

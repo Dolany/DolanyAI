@@ -7,6 +7,7 @@ using Dolany.Ai.Core.Base;
 using Dolany.Ai.Core.Cache;
 using Dolany.Ai.Core.Common;
 using Dolany.Database.Sqlite.Model;
+using Dolany.UtilityTool;
 using JetBrains.Annotations;
 using Newtonsoft.Json;
 

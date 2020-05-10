@@ -1,6 +1,6 @@
 ﻿using System;
-using Dolany.Ai.Common;
 using Dolany.Database;
+using Dolany.UtilityTool;
 
 namespace Dolany.WorldLine.Standard.Ai.Game.Archaeology
 {

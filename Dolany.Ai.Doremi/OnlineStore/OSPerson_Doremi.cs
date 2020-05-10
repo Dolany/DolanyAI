@@ -1,6 +1,6 @@
 ﻿using System.Collections.Generic;
-using Dolany.Ai.Common;
 using Dolany.Database;
+using Dolany.UtilityTool;
 
 namespace Dolany.WorldLine.Doremi.OnlineStore
 {

@@ -2,6 +2,7 @@
 using Dolany.Ai.Common;
 using Dolany.Ai.Core.Common;
 using Dolany.Database.Sqlite;
+using Dolany.UtilityTool;
 
 namespace Dolany.Ai.Core.Cache
 {

@@ -5,6 +5,7 @@ using System.Reflection;
 using System.Threading;
 using Dolany.Ai.Common;
 using Dolany.Ai.Core.Cache;
+using Dolany.UtilityTool;
 
 namespace Dolany.WorldLine.Standard.Ai.Game.ChessAgainst
 {

@@ -1,6 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
-using Dolany.Ai.Common;
+using Dolany.UtilityTool;
 using Dolany.WorldLine.Doremi.OnlineStore;
 using Dolany.WorldLine.Doremi.Xiuxian;
 
