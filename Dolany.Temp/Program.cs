@@ -1,7 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 using System.Reflection;
+using System.Threading;
 using Dolany.Ai.Common;
 using Dolany.Ai.Common.Models;
 using Dolany.Ai.Core.Base;
@@ -30,17 +32,12 @@ namespace Dolany.Temp
             };
             AutofacSvc.RegisterAutofac(assemblies);
 
-            var osPersons = MongoService<OSPerson>.Get();
-            foreach (var osPerson in osPersons)
+            var pcCpuLoad = new PerformanceCounter("Processor", "% Processor Time", "_Total") {MachineName = "."};
+            while (true)
             {
-                osPerson.Level = 1;
-                osPerson.GiftDic = new Dictionary<string, int>();
-                osPerson.Golds = 0;
-                osPerson.Diamonds = 0;
-                osPerson.MaxHP = 50;
-                osPerson.HonorNames = new List<string>();
-
-                MongoService<OSPerson>.Update(osPerson);
+                var load = pcCpuLoad.NextValue();
+                Console.WriteLine(load);
+                Thread.Sleep(1000);
             }
 
             Console.WriteLine("Completed");

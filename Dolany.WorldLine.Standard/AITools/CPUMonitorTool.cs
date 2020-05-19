@@ -31,7 +31,7 @@ namespace Dolany.WorldLine.Standard.AITools
         };
         protected override void ScheduleDo(SchedulerTimer timer)
         {
-            var curLoad = pcCpuLoad.NextValue() * 100;
+            var curLoad = pcCpuLoad.NextValue();
             if (curLoad < 80)
             {
                 return;

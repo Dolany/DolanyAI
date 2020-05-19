@@ -9,6 +9,7 @@ using Dolany.Ai.Core.Cache;
 using Dolany.Ai.Core.Common;
 using Dolany.Database.Ai;
 using Dolany.UtilityTool;
+using Dolany.WorldLine.Standard.Ai.Game.Archaeology.ArchAdv;
 using Dolany.WorldLine.Standard.OnlineStore;
 
 namespace Dolany.WorldLine.Standard.Ai.Game.Archaeology
