@@ -6,8 +6,8 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="Autofac" Version="5.1.4" />
-    <PackageReference Include="Dolany.UtilityTool" Version="1.0.1" />
+    <PackageReference Include="Autofac" Version="5.2.0" />
+    <PackageReference Include="Dolany.UtilityTool" Version="1.0.3" />
   </ItemGroup>
 
   <ItemGroup>

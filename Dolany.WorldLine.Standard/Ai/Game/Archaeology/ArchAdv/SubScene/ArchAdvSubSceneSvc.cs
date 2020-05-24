@@ -14,7 +14,7 @@ namespace Dolany.WorldLine.Standard.Ai.Game.Archaeology.ArchAdv
             SubScenes = AutofacSvc.LoadAllInstanceFromInterface<IArchAdvSubScene>();
         }
 
-        public IArchAdvSubScene CreateSubScene(string ArchType, Dictionary<string, object> Data, MsgInformationEx MsgDTO)
+        public IArchAdvSubScene CreateSubScene(string ArchType, ArchaeologySubSceneModel Scene, int level, MsgInformationEx MsgDTO)
         {
             var scene = SubScenes.First(p => p.ArchType == ArchType);
             var type = scene.GetType();
@@ -31,7 +31,8 @@ namespace Dolany.WorldLine.Standard.Ai.Game.Archaeology.ArchAdv
             }
 
             newInstance.MsgDTO = MsgDTO;
-            newInstance.Data = Data;
+            newInstance.Scene = Scene;
+            newInstance.Level = level;
             return newInstance;
         }
     }

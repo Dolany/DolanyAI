@@ -28,10 +28,14 @@ namespace Dolany.WorldLine.Standard.Ai.Game.Archaeology.ArchAdv
                 return;
             }
 
-            foreach (var _ in AdvScene.SubScenes.Select(subScene => ArchAdvSubSceneSvc.CreateSubScene(subScene.ArchType, subScene.Data, MsgDTO))
-                .Where(scene => !scene.StartAdv()))
+            foreach (var subScene in AdvScene.SubScenes)
             {
-                break;
+                var scene = ArchAdvSubSceneSvc.CreateSubScene(subScene.ArchType, subScene, AdvScene.Level, MsgDTO);
+                MsgSender.PushMsg(MsgDTO, $"你遇到了 {subScene.Name}！");
+                if (!scene.StartAdv())
+                {
+                    break;
+                }
             }
 
             MsgSender.PushMsg(MsgDTO, "冒险结束！");

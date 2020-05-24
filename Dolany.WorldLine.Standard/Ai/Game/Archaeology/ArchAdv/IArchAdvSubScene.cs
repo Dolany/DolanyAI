@@ -1,5 +1,4 @@
-﻿using System.Collections.Generic;
-using Dolany.Ai.Common.Models;
+﻿using Dolany.Ai.Common.Models;
 
 namespace Dolany.WorldLine.Standard.Ai.Game.Archaeology.ArchAdv
 {
@@ -7,7 +6,9 @@ namespace Dolany.WorldLine.Standard.Ai.Game.Archaeology.ArchAdv
     {
         public string ArchType { get; set; }
 
-        public Dictionary<string, object> Data { get; set; }
+        public ArchaeologySubSceneModel Scene { get; set; }
+
+        public int Level { get; set; }
 
         public MsgInformationEx MsgDTO { get; set; }
 

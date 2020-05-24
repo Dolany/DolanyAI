@@ -44,11 +44,11 @@ namespace Dolany.Ai.Common
 
         public static List<T> LoadAllInstanceFromClass<T>(Assembly assembly = null) where T : class
         {
-            assembly = assembly == null ? Assembly.GetAssembly(typeof(T)) : assembly;
-            var list = assembly.GetTypes().Where(type => type.IsSubclassOf(typeof(T)) && !type.IsAbstract).Where(type => type.FullName != null).Select(type =>
+            assembly ??= Assembly.GetAssembly(typeof(T));
+            var list = assembly?.GetTypes().Where(type => type.IsSubclassOf(typeof(T)) && !type.IsAbstract).Where(type => type.FullName != null).Select(type =>
                 Container.IsRegistered(type) ? Container.Resolve(type) as T : assembly.CreateInstance(type.FullName) as T);
 
-            return list.ToList();
+            return list?.ToList();
         }
 
         public static List<T> LoadAllInstanceFromClass<T>(IEnumerable<Assembly> assemblies) where T : class
@@ -59,13 +59,13 @@ namespace Dolany.Ai.Common
 
         public static List<T> LoadAllInstanceFromInterface<T>(Assembly assembly = null) where T : class
         {
-            assembly = assembly == null ? Assembly.GetAssembly(typeof(T)) : assembly;
-            var list = assembly.GetTypes()
+            assembly ??= Assembly.GetAssembly(typeof(T));
+            var list = assembly?.GetTypes()
                 .Where(type => typeof(T).IsAssignableFrom(type) && type.IsClass && !type.IsAbstract)
                 .Where(type => type.FullName != null)
                 .Select(type => Container.IsRegistered(type) ? Container.Resolve(type) as T : assembly.CreateInstance(type.FullName) as T);
 
-            return list.ToList();
+            return list?.ToList();
         }
 
         public static List<T> LoadAllInstanceFromInterface<T>(IEnumerable<Assembly> assemblies) where T : class
