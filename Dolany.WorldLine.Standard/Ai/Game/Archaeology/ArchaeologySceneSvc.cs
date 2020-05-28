@@ -42,6 +42,8 @@ namespace Dolany.WorldLine.Standard.Ai.Game.Archaeology
         public List<ArchaeologySubSceneModel> SubScenes { get; set; }
 
         public int Level { get; set; } = 1;
+
+        public BossEncounterNeed BossEncounterNeed { get; set; }
     }
 
     public class ArchaeologySubSceneModel
@@ -51,5 +53,18 @@ namespace Dolany.WorldLine.Standard.Ai.Game.Archaeology
         public string ArchType { get; set; }
 
         public Dictionary<string, object> Data { get; set; }
+    }
+
+    public class BossEncounterNeed
+    {
+        public Dictionary<string, int> ArchSpecialColleNeed { get; set; }
+
+        public Dictionary<string, int> CollectableNeed { get; set; }
+
+        public int BlackJadeNeed { get; set; }
+
+        public int GoldNeed { get; set; }
+
+        public Dictionary<string, int> DriftItemNeed { get; set; }
     }
 }

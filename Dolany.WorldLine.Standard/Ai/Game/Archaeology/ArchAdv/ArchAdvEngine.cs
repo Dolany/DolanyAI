@@ -31,7 +31,7 @@ namespace Dolany.WorldLine.Standard.Ai.Game.Archaeology.ArchAdv
             foreach (var subScene in AdvScene.SubScenes)
             {
                 var scene = ArchAdvSubSceneSvc.CreateSubScene(subScene.ArchType, subScene, AdvScene.Level, MsgDTO);
-                MsgSender.PushMsg(MsgDTO, $"你遇到了 {subScene.Name}！");
+                MsgSender.PushMsg(MsgDTO, $"你遇到了 【{subScene.Name}】！");
                 if (!scene.StartAdv())
                 {
                     break;
@@ -47,7 +47,7 @@ namespace Dolany.WorldLine.Standard.Ai.Game.Archaeology.ArchAdv
             var archaeologist = Archaeologist.Get(MsgDTO.FromQQ);
 
             var Scenes = SceneSvc.GetLevelScene(dailyScene.Scenes, archaeologist.AdvSceneLvlDic);
-            var msgList = Scenes.Select(p => $"{p.Name}(lv.{p.Level}):{p.Description}").ToArray();
+            var msgList = Scenes.Select(p => $"【{p.Name}】(lv.{p.Level}):{p.Description}").ToArray();
             var optionIdx = WaiterSvc.WaitForOptions(MsgDTO.FromGroup, MsgDTO.FromQQ, "请选择你要进入的副本！", msgList, MsgDTO.BindAi);
             if (optionIdx >= 0)
             {
@@ -59,7 +59,7 @@ namespace Dolany.WorldLine.Standard.Ai.Game.Archaeology.ArchAdv
             asset.GreenAmbur++;
             asset.Update();
 
-            MsgSender.PushMsg(MsgDTO, "操作取消！退还 翠绿琥珀*1");
+            MsgSender.PushMsg(MsgDTO, "操作取消！退还 【翠绿琥珀】*1");
         }
     }
 }
