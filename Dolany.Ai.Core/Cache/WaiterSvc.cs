@@ -38,9 +38,13 @@ namespace Dolany.Ai.Core.Cache
             {
                 source = "私聊";
             }
-            else if(Global.AllGroupsDic.ContainsKey(info.FromGroup))
+            else
             {
-                source = Global.AllGroupsDic[info.FromGroup];
+                var groupSetting = GroupSettingSvc[info.FromGroup];
+                if (groupSetting != null)
+                {
+                    source = groupSetting.Name;
+                }
             }
 
             if (info.FromGroup != 0)

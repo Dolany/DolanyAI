@@ -24,7 +24,6 @@ namespace Dolany.Ai.Core.Cache
             setting.MembersCount = infos.members.Count;
 
             setting.Update();
-            GroupSettingMgr.RefreshData();
             Logger.Log($"Refresh Group Info: {GroupNum} completed");
 
             return true;

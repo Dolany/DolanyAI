@@ -135,7 +135,6 @@ namespace Dolany.WorldLine.Doremi.Ai.SingleCommand.GroupManage
             setting.AuthInfo.Owner = aimQQ;
 
             setting.Update();
-            GroupSettingSvc.RefreshData();
 
             MsgSender.PushMsg(MsgDTO, "已成功移交群主！");
 

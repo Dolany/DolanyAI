@@ -152,7 +152,7 @@ namespace Dolany.Ai.Core.Ai
             var groupNum = (long) param[0];
             var name = param[1] as string;
 
-            MongoService<GroupSettings>.DeleteMany(r => r.GroupNum == groupNum);
+            GroupSettingSvc.Delete(groupNum);
             var setting = new GroupSettings()
             {
                 GroupNum = groupNum,
@@ -161,8 +161,7 @@ namespace Dolany.Ai.Core.Ai
                 BindAis = new List<string>(){MsgDTO.BindAi},
                 WorldLine = CrossWorldAiSvc.DefaultWorldLine.Name
             };
-            MongoService<GroupSettings>.Insert(setting);
-            GroupSettingSvc.RefreshData();
+            setting.Insert();
 
             MsgSender.PushMsg(MsgDTO, "注册成功！");
             return true;
@@ -180,7 +179,8 @@ namespace Dolany.Ai.Core.Ai
             var groupNum = (long) param[0];
             var name = (string) param[1];
 
-            if (!GroupSettingSvc.SettingDic.ContainsKey(groupNum))
+            var setting = GroupSettingSvc[groupNum];
+            if (setting == null)
             {
                 MsgSender.PushMsg(MsgDTO, "错误的群号");
                 return false;
@@ -192,7 +192,6 @@ namespace Dolany.Ai.Core.Ai
                 return false;
             }
 
-            var setting = GroupSettingSvc[groupNum];
             if (setting.BindAis == null)
             {
                 setting.BindAis = new List<string>();
@@ -219,13 +218,14 @@ namespace Dolany.Ai.Core.Ai
         public bool Freeze(MsgInformationEx MsgDTO, object[] param)
         {
             var groupNum = (long) param[0];
-            if (!GroupSettingSvc.SettingDic.ContainsKey(groupNum))
+
+            var setting = GroupSettingSvc[groupNum];
+            if (setting == null)
             {
                 MsgSender.PushMsg(MsgDTO, "未找到相关群组");
                 return false;
             }
 
-            var setting = GroupSettingSvc[groupNum];
             setting.ForcedShutDown = true;
             setting.Update();
 
@@ -244,13 +244,14 @@ namespace Dolany.Ai.Core.Ai
         public bool Defreeze(MsgInformationEx MsgDTO, object[] param)
         {
             var groupNum = (long) param[0];
-            if (!GroupSettingSvc.SettingDic.ContainsKey(groupNum))
+
+            var setting = GroupSettingSvc[groupNum];
+            if (setting == null)
             {
                 MsgSender.PushMsg(MsgDTO, "未找到相关群组");
                 return false;
             }
 
-            var setting = GroupSettingSvc[groupNum];
             setting.ForcedShutDown = false;
             setting.Update();
 
@@ -271,7 +272,7 @@ namespace Dolany.Ai.Core.Ai
             var groupNum = (long) param[0];
             var days = (int) (long) param[1];
 
-            var setting = MongoService<GroupSettings>.GetOnly(p => p.GroupNum == groupNum);
+            var setting = GroupSettingSvc[groupNum];
             if (setting.ExpiryTime == null || setting.ExpiryTime.Value < DateTime.Now)
             {
                 setting.ExpiryTime = DateTime.Now.AddDays(days);
@@ -281,8 +282,6 @@ namespace Dolany.Ai.Core.Ai
                 setting.ExpiryTime = setting.ExpiryTime.Value.AddDays(days);
             }
             setting.Update();
-
-            GroupSettingSvc.RefreshData();
 
             MsgSender.PushMsg(MsgDTO, $"充值成功，有效期至 {setting.ExpiryTime:yyyy-MM-dd HH:mm:ss}");
             return true;
@@ -306,7 +305,7 @@ namespace Dolany.Ai.Core.Ai
 
             var failedGroups = new List<GroupSettings>();
             var successGroups = new List<GroupSettings>();
-            foreach (var setting in GroupSettingSvc.SettingDic.Values.Where(setting => !setting.BindAis.IsNullOrEmpty())
+            foreach (var setting in GroupSettingSvc.AllGroups.Where(setting => !setting.BindAis.IsNullOrEmpty())
                 .Where(setting => setting.BindAis.Contains(bingAiName)))
             {
                 if (setting.BindAis.Count == 1)
@@ -350,10 +349,7 @@ namespace Dolany.Ai.Core.Ai
         {
             var groupNum = (long) param[0];
             var groupSetting = GroupSettingSvc[groupNum];
-            if (groupSetting.AdditionSettings == null)
-            {
-                groupSetting.AdditionSettings = new Dictionary<string, string>();
-            }
+            groupSetting.AdditionSettings ??= new Dictionary<string, string>();
             groupSetting.AdditionSettings.AddSafe("禁止图片缓存", true.ToString());
             groupSetting.Update();
 

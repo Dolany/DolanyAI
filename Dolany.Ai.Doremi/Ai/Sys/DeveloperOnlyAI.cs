@@ -36,7 +36,7 @@ namespace Dolany.WorldLine.Doremi.Ai.Sys
         public bool Board(MsgInformationEx MsgDTO, object[] param)
         {
             var content = param[0] as string;
-            var groups = GroupSettingSvc.SettingDic.Values.Where(g => g.ExpiryTime.HasValue && g.ExpiryTime.Value > DateTime.Now);
+            var groups = GroupSettingSvc.AllGroups.Where(g => g.ExpiryTime.HasValue && g.ExpiryTime.Value > DateTime.Now);
 
             foreach (var group in groups)
             {
@@ -179,15 +179,14 @@ namespace Dolany.WorldLine.Doremi.Ai.Sys
             var groupNum = (long) param[0];
             var name = param[1] as string;
 
-            MongoService<GroupSettings>.DeleteMany(r => r.GroupNum == groupNum);
+            GroupSettingSvc.Delete(groupNum);
             var setting = new GroupSettings()
             {
                 GroupNum = groupNum,
                 Name = name,
                 BindAi = MsgDTO.BindAi
             };
-            MongoService<GroupSettings>.Insert(setting);
-            GroupSettingSvc.RefreshData();
+            setting.Insert();
 
             MsgSender.PushMsg(MsgDTO, "注册成功！");
             return true;
@@ -203,13 +202,14 @@ namespace Dolany.WorldLine.Doremi.Ai.Sys
         public bool Freeze(MsgInformationEx MsgDTO, object[] param)
         {
             var groupNum = (long) param[0];
-            if (!GroupSettingSvc.SettingDic.ContainsKey(groupNum))
+
+            var setting = GroupSettingSvc[groupNum];
+            if (setting == null)
             {
                 MsgSender.PushMsg(MsgDTO, "未找到相关群组");
                 return false;
             }
 
-            var setting = GroupSettingSvc[groupNum];
             setting.ForcedShutDown = true;
             setting.Update();
 
@@ -228,13 +228,14 @@ namespace Dolany.WorldLine.Doremi.Ai.Sys
         public bool Defreeze(MsgInformationEx MsgDTO, object[] param)
         {
             var groupNum = (long) param[0];
-            if (!GroupSettingSvc.SettingDic.ContainsKey(groupNum))
+
+            var setting = GroupSettingSvc[groupNum];
+            if (setting == null)
             {
                 MsgSender.PushMsg(MsgDTO, "未找到相关群组");
                 return false;
             }
 
-            var setting = GroupSettingSvc[groupNum];
             setting.ForcedShutDown = false;
             setting.Update();
 
@@ -255,7 +256,7 @@ namespace Dolany.WorldLine.Doremi.Ai.Sys
             var groupNum = (long) param[0];
             var days = (int) (long) param[1];
 
-            var setting = MongoService<GroupSettings>.GetOnly(p => p.GroupNum == groupNum);
+            var setting = GroupSettingSvc[groupNum];
             if (setting.ExpiryTime == null || setting.ExpiryTime.Value < DateTime.Now)
             {
                 setting.ExpiryTime = DateTime.Now.AddDays(days);
@@ -265,8 +266,6 @@ namespace Dolany.WorldLine.Doremi.Ai.Sys
                 setting.ExpiryTime = setting.ExpiryTime.Value.AddDays(days);
             }
             setting.Update();
-
-            GroupSettingSvc.RefreshData();
 
             MsgSender.PushMsg(MsgDTO, "充值成功");
             return true;
@@ -283,11 +282,9 @@ namespace Dolany.WorldLine.Doremi.Ai.Sys
         {
             var groupNum = (long) param[0];
 
-            var setting = MongoService<GroupSettings>.GetOnly(p => p.GroupNum == groupNum);
+            var setting = GroupSettingSvc[groupNum];
             setting.BindAi = MsgDTO.BindAi;
             setting.Update();
-
-            GroupSettingSvc.RefreshData();
 
             MsgSender.PushMsg(MsgDTO, "绑定成功");
             return true;
@@ -323,18 +320,16 @@ namespace Dolany.WorldLine.Doremi.Ai.Sys
         public bool GetCache(MsgInformationEx MsgDTO, object[] param)
         {
             var key = param[0] as string;
-            using (var cache = new SqliteContext(Configger<AIConfigBase>.Instance.AIConfig.CacheDb))
+            using var cache = new SqliteContext(Configger<AIConfigBase>.Instance.AIConfig.CacheDb);
+            var content = cache.SqliteCacheModel.FirstOrDefault(p => p.Key == key);
+            if (content == null)
             {
-                var content = cache.SqliteCacheModel.FirstOrDefault(p => p.Key == key);
-                if (content == null)
-                {
-                    MsgSender.PushMsg(MsgDTO, "nothing");
-                    return false;
-                }
-
-                var json = JsonConvert.SerializeObject(content);
-                MsgSender.PushMsg(MsgDTO, json);
+                MsgSender.PushMsg(MsgDTO, "nothing");
+                return false;
             }
+
+            var json = JsonConvert.SerializeObject(content);
+            MsgSender.PushMsg(MsgDTO, json);
 
             return true;
         }
@@ -349,19 +344,17 @@ namespace Dolany.WorldLine.Doremi.Ai.Sys
         public bool CleanCache(MsgInformationEx MsgDTO, object[] param)
         {
             var key = param[0] as string;
-            using (var cache = new SqliteContext(Configger<AIConfigBase>.Instance.AIConfig.CacheDb))
+            using var cache = new SqliteContext(Configger<AIConfigBase>.Instance.AIConfig.CacheDb);
+            var content = cache.SqliteCacheModel.FirstOrDefault(p => p.Key == key);
+            if (content == null)
             {
-                var content = cache.SqliteCacheModel.FirstOrDefault(p => p.Key == key);
-                if (content == null)
-                {
-                    MsgSender.PushMsg(MsgDTO, "nothing");
-                    return false;
-                }
-
-                content.ExpTime = DateTime.Now.ToString(CultureInfo.CurrentCulture);
-                cache.SaveChanges();
-                MsgSender.PushMsg(MsgDTO, "completed");
+                MsgSender.PushMsg(MsgDTO, "nothing");
+                return false;
             }
+
+            content.ExpTime = DateTime.Now.ToString(CultureInfo.CurrentCulture);
+            cache.SaveChanges();
+            MsgSender.PushMsg(MsgDTO, "completed");
 
             return true;
         }

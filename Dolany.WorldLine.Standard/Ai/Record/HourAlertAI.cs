@@ -5,6 +5,7 @@ using Dolany.Ai.Common;
 using Dolany.Ai.Common.Models;
 using Dolany.Ai.Core.Base;
 using Dolany.Ai.Core.Cache;
+using Dolany.Ai.Core.Common;
 using Dolany.Database;
 using Dolany.Database.Ai;
 using Dolany.UtilityTool;
@@ -51,8 +52,8 @@ namespace Dolany.WorldLine.Standard.Ai.Record
 
         private void HourAlert(int curHour)
         {
-            var availableList = GroupSettingSvc.SettingDic.Where(p => p.Value.ExpiryTime.HasValue &&
-                                                                      p.Value.ExpiryTime.Value > DateTime.Now).Select(p => p.Key).ToList();
+            var availableList = GroupSettingSvc.AllGroups.Where(p => p.ExpiryTime.HasValue &&
+                                                                     p.ExpiryTime.Value > DateTime.Now).Select(p => p.GroupNum).ToList();
             if (availableList.IsNullOrEmpty())
             {
                 return;

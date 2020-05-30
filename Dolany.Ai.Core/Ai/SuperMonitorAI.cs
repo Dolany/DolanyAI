@@ -196,7 +196,7 @@ namespace Dolany.Ai.Core.Ai
                     var groupList = AIAnalyzer.AnalyzeGroup();
                     MsgSender.PushMsg(MsgDTO, string.Join("\r\n", groupList.Select(g =>
                     {
-                        var groupNum = g.GroupNum == 0 ? "私聊" : Global.AllGroupsDic[g.GroupNum];
+                        var groupNum = g.GroupNum == 0 ? "私聊" : GroupSettingSvc[g.GroupNum].Name;
                         return $"{groupNum}:{g.CommandCount}";
                     })));
                     return true;

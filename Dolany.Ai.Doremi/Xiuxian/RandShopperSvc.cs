@@ -98,7 +98,7 @@ namespace Dolany.WorldLine.Doremi.Xiuxian
 
         private void Broadcast(string msg)
         {
-            foreach (var group in GroupSettingSvc.SettingDic.Values.Where(p => p.IsPowerOn && p.WorldLine == "Doremi"))
+            foreach (var group in GroupSettingSvc.AllGroups.Where(p => p.IsPowerOn && p.WorldLine == "Doremi"))
             {
                 MsgSender.PushMsg(group.GroupNum, 0, msg, BindAi);
             }

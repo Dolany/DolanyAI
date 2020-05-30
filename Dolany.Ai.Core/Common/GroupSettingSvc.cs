@@ -1,20 +1,19 @@
 ﻿using System.Collections.Generic;
-using System.Linq;
 using Dolany.Ai.Common;
 using Dolany.Database;
 using Dolany.Database.Ai;
 
 namespace Dolany.Ai.Core.Common
 {
-    public class GroupSettingSvc : IDataMgr, IDependency
+    public class GroupSettingSvc : IDependency
     {
-        public Dictionary<long, GroupSettings> SettingDic;
+        public static IEnumerable<GroupSettings> AllGroups => MongoService<GroupSettings>.Get(p => !p.ForcedShutDown);
 
-        public GroupSettings this[long GroupNum] => SettingDic.ContainsKey(GroupNum) ? SettingDic[GroupNum] : null;
+        public GroupSettings this[long GroupNum] => MongoService<GroupSettings>.GetOnly(p => !p.ForcedShutDown && p.GroupNum == GroupNum);
 
-        public void RefreshData()
+        public static void Delete(long GroupNum)
         {
-            SettingDic = MongoService<GroupSettings>.Get(p => !p.ForcedShutDown).ToDictionary(p => p.GroupNum, p => p);
+            MongoService<GroupSettings>.DeleteMany(p => p.GroupNum == GroupNum);
         }
     }
 }

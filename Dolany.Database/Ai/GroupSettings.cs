@@ -39,6 +39,11 @@ namespace Dolany.Database.Ai
         {
             MongoService<GroupSettings>.Update(this);
         }
+
+        public void Insert()
+        {
+            MongoService<GroupSettings>.Insert(this);
+        }
     }
 
     [BsonIgnoreExtraElements]

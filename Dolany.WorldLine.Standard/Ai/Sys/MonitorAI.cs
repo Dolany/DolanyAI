@@ -3,8 +3,6 @@ using Dolany.Ai.Common.Models;
 using Dolany.Ai.Core.Base;
 using Dolany.Ai.Core.Cache;
 using Dolany.Ai.Core.Common;
-using Dolany.Database;
-using Dolany.Database.Ai;
 using Dolany.WorldLine.Standard.OnlineStore;
 
 namespace Dolany.WorldLine.Standard.Ai.Sys
@@ -53,7 +51,7 @@ namespace Dolany.WorldLine.Standard.Ai.Sys
             var groupNum = (long) param[0];
             var days = (int) (long) param[1];
 
-            var setting = MongoService<GroupSettings>.GetOnly(p => p.GroupNum == groupNum);
+            var setting = GroupSettingSvc[groupNum];
             if (setting.ExpiryTime == null || setting.ExpiryTime.Value < DateTime.Now)
             {
                 setting.ExpiryTime = DateTime.Now.AddDays(days);
@@ -63,8 +61,6 @@ namespace Dolany.WorldLine.Standard.Ai.Sys
                 setting.ExpiryTime = setting.ExpiryTime.Value.AddDays(days);
             }
             setting.Update();
-
-            GroupSettingSvc.RefreshData();
 
             MsgSender.PushMsg(MsgDTO, $"充值成功，有效期至 {setting.ExpiryTime:yyyy-MM-dd HH:mm:ss}");
         }

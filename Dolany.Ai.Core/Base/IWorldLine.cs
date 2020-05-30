@@ -21,6 +21,7 @@ namespace Dolany.Ai.Core.Base
 
         public DirtyFilterSvc DirtyFilterSvc { get; set; }
         public RestrictorSvc RestrictorSvc { get; set; }
+        public GroupSettingSvc GroupSettingSvc { get; set; }
 
         public T AIInstance<T>() where T : AIBase
         {
@@ -70,7 +71,7 @@ namespace Dolany.Ai.Core.Base
             // 群聊消息
             if (MsgDTO.FromGroup != 0)
             {
-                if (!Global.AllGroupsDic.ContainsKey(MsgDTO.FromGroup))
+                if (GroupSettingSvc[MsgDTO.FromGroup] == null)
                 {
                     return;
                 }

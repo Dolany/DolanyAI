@@ -26,7 +26,7 @@ namespace Dolany.WorldLine.Doremi.Ai.Record.Hello
 
         public void RefreshData()
         {
-            var Groups = Global.AllGroupsDic.Keys.ToArray();
+            var Groups = GroupSettingSvc.AllGroups.Select(p => p.GroupNum).ToArray();
             HelloList = MongoService<HelloRecord>.Get(p => Groups.Contains(p.GroupNum));
             MultiMediaHelloList = CommonUtil.ReadJsonData_NamedList<MultiMediaHelloRecord>("Doremi/MultiMediaHelloData");
         }
