@@ -6,14 +6,16 @@ using Dolany.Ai.Common;
 using Dolany.Ai.Common.Models;
 using Dolany.Ai.Core.Common;
 using Dolany.Database;
+using MongoDB.Bson.Serialization.Attributes;
 
 namespace Dolany.Ai.Core.Cache
 {
-    public class RestrictorSvc : IDependency, IDataMgr
+    public class RestrictorSvc : IDependency
     {
         public const int MaxRecentCommandCacheCount = 130;
 
-        public Dictionary<string, int> BindAiLimit = new Dictionary<string, int>();
+        public Dictionary<string, int> BindAiLimit =>
+            RapidCacher.GetCache("BindAiLimitDic", TimeSpan.FromMinutes(5), () => BindAiSvc.AiDic.Keys.ToDictionary(p => p, p => BindAiRestrict.Get(p).MaxLimit));
 
         private readonly ConcurrentDictionary<string, ConcurrentQueue<DateTime>> TimeCacheDic = new ConcurrentDictionary<string, ConcurrentQueue<DateTime>>();
 
@@ -22,6 +24,7 @@ namespace Dolany.Ai.Core.Cache
 
         public BindAiSvc BindAiSvc { get; set; }
         public GroupSettingSvc GroupSettingSvc { get; set; }
+        public RapidCacher RapidCacher { get; set; }
 
         public void Cache(string BindAi)
         {
@@ -51,22 +54,6 @@ namespace Dolany.Ai.Core.Cache
         public bool IsTooFreq(string BindAi)
         {
             return GetPressure(BindAi) >= BindAiLimit[BindAi];
-        }
-
-        public void CleanOutOfDateData()
-        {
-            foreach (var (_, queue) in TimeCacheDic)
-            {
-                while (!queue.IsEmpty && queue.TryPeek(out var earlistTime) && earlistTime.AddHours(1) < DateTime.Now)
-                {
-                    queue.TryDequeue(out _);
-                }
-            }
-        }
-
-        public void RefreshData()
-        {
-            BindAiLimit = BindAiSvc.AiDic.Keys.ToDictionary(p => p, p => BindAiRestrict.Get(p).MaxLimit);
         }
 
         public string AllocateBindAi(MsgInformationEx MsgDTO)
@@ -109,6 +96,24 @@ namespace Dolany.Ai.Core.Cache
         public void Update()
         {
             MongoService<BindAiRestrict>.Update(this);
+        }
+    }
+
+    public class RestrictRec : DbBaseEntity
+    {
+        public string BindAi { get; set; }
+
+        [BsonDateTimeOptions(Kind = DateTimeKind.Local)]
+        public DateTime CmdTime { get; set; }
+
+        public static void Cache(string BindAi)
+        {
+            MongoService<RestrictRec>.Insert(new RestrictRec(){BindAi = BindAi, CmdTime = DateTime.Now});
+        }
+
+        public static int Pressure(string BindAi)
+        {
+            return (int) MongoService<RestrictRec>.Count(p => p.BindAi == BindAi);
         }
     }
 }

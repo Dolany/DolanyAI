@@ -428,7 +428,6 @@ namespace Dolany.Ai.Core.Ai
             rec.MaxLimit = limit;
             rec.Update();
 
-            RestrictorSvc.RefreshData();
             MsgSender.PushMsg(MsgDTO, "设定成功！");
             return true;
         }
