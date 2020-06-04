@@ -45,5 +45,11 @@
         public string MongoDbName { get; set; }
 
         public string MainAi { get; set; }
+
+        public string RedisHost { get; set; }
+
+        public string RedisPort { get; set; }
+
+        public string RedisPwd { get; set; }
     }
 }

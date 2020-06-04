@@ -1,14 +1,10 @@
 ﻿using System;
-using Dolany.Ai.Common;
 using Dolany.Ai.Core.Common;
-using Dolany.Database;
-using MongoDB.Bson.Serialization.Attributes;
-using MongoDB.Driver;
-using Newtonsoft.Json;
+using Dolany.Database.Redis;
 
 namespace Dolany.Ai.Core.Cache
 {
-    public class RapidCacher : IDependency
+    public class RapidCacher
     {
         /// <summary>
         /// 读取/设置缓存
@@ -18,21 +14,22 @@ namespace Dolany.Ai.Core.Cache
         /// <param name="expirySpan"></param>
         /// <param name="refreshFunc"></param>
         /// <returns></returns>
-        public static TResult GetCache<TResult>(string cacheKey, TimeSpan expirySpan, Func<TResult> refreshFunc)
+        public static TResult GetCache<TResult>(string cacheKey, TimeSpan expirySpan, Func<TResult> refreshFunc) where TResult:class
         {
             try
             {
-                var cache = RapidCacheRec.Get(cacheKey);
-                if (!string.IsNullOrEmpty(cache))
+                var cache = RedisSvc.Instance.GetCache<TResult>(cacheKey);
+                if (cache != null)
                 {
-                    return JsonConvert.DeserializeObject<TResult>(cache);
+                    return cache;
                 }
 
                 var result = refreshFunc();
                 if (result != null)
                 {
-                    RapidCacheRec.Set(cacheKey, JsonConvert.SerializeObject(result), expirySpan);
+                    RedisSvc.Instance.Cache(cacheKey, result, expirySpan);
                 }
+
                 return result;
             }
             catch (Exception ex)
@@ -41,28 +38,20 @@ namespace Dolany.Ai.Core.Cache
                 return default;
             }
         }
-    }
 
-    public class RapidCacheRec : DbBaseEntity
-    {
-        public string CacheKey { get; set; }
-
-        public string CacheValue { get;set; }
-
-        [BsonDateTimeOptions(Kind = DateTimeKind.Local)]
-        public DateTime ExpiryTime { get; set; }
-
-        public static string Get(string key)
+        public static TResult GetCache<TResult>(string cacheKey, DateTime expiryTime, Func<TResult> refreshFunc) where TResult : class
         {
-            return MongoService<RapidCacheRec>.GetOnly(p => p.CacheKey == key)?.CacheValue;
+            return GetCache(cacheKey, expiryTime - DateTime.Now, refreshFunc);
         }
 
-        public static void Set(string key, string value, TimeSpan span)
+        public static void SetCache(string cacheKey, object cacheValue, TimeSpan expirySpan)
         {
-            var expiryTime = DateTime.Now + span;
-            var filter = Builders<RapidCacheRec>.Filter.Where(p => p.CacheKey == key);
-            var update = Builders<RapidCacheRec>.Update.Set(p => p.CacheValue, value).Set(p => p.ExpiryTime, expiryTime);
-            MongoService<RapidCacheRec>.GetCollection().FindOneAndUpdate(filter, update, new FindOneAndUpdateOptions<RapidCacheRec>() {IsUpsert = true});
+            RedisSvc.Instance.Cache(cacheKey, cacheValue, expirySpan);
+        }
+
+        public static void SetCache(string cacheKey, object cacheValue, DateTime expiryTime)
+        {
+            RedisSvc.Instance.Cache(cacheKey, cacheValue, expiryTime - DateTime.Now);
         }
     }
 }

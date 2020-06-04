@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Collections.Concurrent;
 using System.Collections.Generic;
 using System.Linq;
 using Dolany.Ai.Common;
@@ -17,38 +16,21 @@ namespace Dolany.Ai.Core.Cache
         public Dictionary<string, int> BindAiLimit =>
             RapidCacher.GetCache("BindAiLimitDic", TimeSpan.FromMinutes(5), () => BindAiSvc.AiDic.Keys.ToDictionary(p => p, p => BindAiRestrict.Get(p).MaxLimit));
 
-        private readonly ConcurrentDictionary<string, ConcurrentQueue<DateTime>> TimeCacheDic = new ConcurrentDictionary<string, ConcurrentQueue<DateTime>>();
-
         public Dictionary<string, int> Pressures =>
-            TimeCacheDic.OrderByDescending(p => p.Value.Count).ToDictionary(p => p.Key, p => p.Value.Count);
+            BindAiSvc.AiDic.Keys.Select(p => new {Name = p, Pressure = GetPressure(p)}).OrderByDescending(p => p.Pressure)
+                .ToDictionary(p => p.Name, p => p.Pressure);
 
         public BindAiSvc BindAiSvc { get; set; }
         public GroupSettingSvc GroupSettingSvc { get; set; }
-        public RapidCacher RapidCacher { get; set; }
 
-        public void Cache(string BindAi)
+        public static void Cache(string BindAi)
         {
-            if (TimeCacheDic.ContainsKey(BindAi))
-            {
-                var tc = TimeCacheDic[BindAi];
-                tc.Enqueue(DateTime.Now);
-            }
-            else
-            {
-                var queue = new ConcurrentQueue<DateTime>();
-                queue.Enqueue(DateTime.Now);
-                TimeCacheDic.TryAdd(BindAi, queue);
-            }
+            RestrictRec.Cache(BindAi);
         }
 
-        public int GetPressure(string BindAi)
+        public static int GetPressure(string BindAi)
         {
-            if (!TimeCacheDic.ContainsKey(BindAi) || !TimeCacheDic[BindAi].Any())
-            {
-                return 0;
-            }
-
-            return TimeCacheDic[BindAi].Count;
+            return RestrictRec.Pressure(BindAi);
         }
 
         public bool IsTooFreq(string BindAi)

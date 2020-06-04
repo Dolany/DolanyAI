@@ -8,8 +8,6 @@ using Dolany.Ai.Core.Cache;
 using Dolany.Ai.Core.Common;
 using Dolany.Database.Sqlite.Model;
 using Dolany.UtilityTool;
-using JetBrains.Annotations;
-using Newtonsoft.Json;
 
 namespace Dolany.WorldLine.Standard.Ai.SingleCommand.Fortune
 {
@@ -58,41 +56,14 @@ namespace Dolany.WorldLine.Standard.Ai.SingleCommand.Fortune
             Description = "获取每天麻将运势")]
         public bool RandomMajFortune(MsgInformationEx MsgDTO, object[] param)
         {
-            var fortune = TodayFortune(MsgDTO.FromQQ);
-            var msg = FortunePrintString(fortune);
+            var fortune = RapidCacher.GetCache($"MajFortune:{MsgDTO.FromQQ}", CommonUtil.UntilTommorow(), () => NewFortune(MsgDTO.FromQQ));
+            var msg = "今日麻将运势：" + $"\r\n整体运势：{Utility.LevelToStars(fortune.FortuneStar)} " + $"\r\n吉位：{fortune.Position} "
+                      + $"\r\n牌运：{fortune.Kind} " + $"\r\n代表人物：{fortune.CharactorName} "
+                      + $"\r\n{CodeApi.Code_Image(fortune.CharactorPath)}";
             MsgSender.PushMsg(MsgDTO, msg);
             return true;
         }
 
-        [NotNull]
-        private string FortunePrintString(MajFortuneCache fortune)
-        {
-            var msg = "今日麻将运势：" + $"\r\n整体运势：{Utility.LevelToStars(fortune.FortuneStar)} " + $"\r\n吉位：{fortune.Position} "
-                      + $"\r\n牌运：{fortune.Kind} " + $"\r\n代表人物：{fortune.CharactorName} "
-                      + $"\r\n{CodeApi.Code_Image(fortune.CharactorPath)}";
-
-            return msg;
-        }
-
-        [NotNull]
-        private MajFortuneCache TodayFortune(long QQNum)
-        {
-            var cache = PersonCacheRecord.Get(QQNum, "MajFortune");
-
-            if (!string.IsNullOrEmpty(cache.Value))
-            {
-                return JsonConvert.DeserializeObject<MajFortuneCache>(cache.Value);
-            }
-
-            var newFortune = this.NewFortune(QQNum);
-            cache.Value = JsonConvert.SerializeObject(newFortune);
-            cache.ExpiryTime = CommonUtil.UntilTommorow();
-            cache.Update();
-
-            return newFortune;
-        }
-
-        [NotNull]
         private MajFortuneCache NewFortune(long QQNum)
         {
             var fortuneStar = Rander.RandInt(11);

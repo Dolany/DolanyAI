@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using Dolany.Ai.Common;
@@ -10,7 +9,6 @@ using Dolany.Ai.Core.Cache;
 using Dolany.Ai.Core.Common;
 using Dolany.Database.Sqlite.Model;
 using Dolany.UtilityTool;
-using Newtonsoft.Json;
 
 namespace Dolany.WorldLine.Doremi.Ai.SingleCommand.Fortune
 {
@@ -37,23 +35,10 @@ namespace Dolany.WorldLine.Doremi.Ai.SingleCommand.Fortune
             IsPrivateAvailable = true)]
         public bool RandomFortune(MsgInformationEx MsgDTO, object[] param)
         {
-            var response = PersonCacheRecord.Get(MsgDTO.FromQQ, "RandomFortune");
-
-            if (string.IsNullOrEmpty(response.Value))
-            {
-                var randFor = GetRandomFortune();
-                var rf = new RandomFortuneCache {QQNum = MsgDTO.FromQQ, FortuneValue = randFor, BlessName = string.Empty, BlessValue = 0};
-                RandBless(rf);
-                ShowRandFortune(MsgDTO, rf);
-
-                response.Value = JsonConvert.SerializeObject(rf);
-                response.ExpiryTime = CommonUtil.UntilTommorow();
-                response.Update();
-            }
-            else
-            {
-                ShowRandFortune(MsgDTO, JsonConvert.DeserializeObject<RandomFortuneCache>(response.Value));
-            }
+            var rf = GetFortune(MsgDTO.FromQQ);
+            RandBless(rf);
+            SetFortune(rf);
+            ShowRandFortune(MsgDTO, rf);
             return true;
         }
 
@@ -77,14 +62,9 @@ namespace Dolany.WorldLine.Doremi.Ai.SingleCommand.Fortune
             IsPrivateAvailable = true)]
         public bool StarFortune(MsgInformationEx MsgDTO, object[] param)
         {
-            var jr = new FortuneRequestor(MsgDTO, ReportCallBack);
+            var jr = new FortuneRequestor(MsgDTO, (Msg, Report) => MsgSender.PushMsg(Msg, Report));
             Task.Run(() => jr.Work());
             return true;
-        }
-
-        private static void ReportCallBack(MsgInformationEx MsgDTO, string Report)
-        {
-            MsgSender.PushMsg(MsgDTO, Report);
         }
 
         private static int GetRandomFortune()
@@ -134,21 +114,7 @@ namespace Dolany.WorldLine.Doremi.Ai.SingleCommand.Fortune
             IsPrivateAvailable = true)]
         public bool TarotFortune(MsgInformationEx MsgDTO, object[] param)
         {
-            var cache = PersonCacheRecord.Get(MsgDTO.FromQQ, "TarotFortune");
-
-            TarotFortuneDataModel fortune;
-            if (string.IsNullOrEmpty(cache.Value))
-            {
-                fortune = GetRandTarotFortune();
-                cache.Value = fortune.Name;
-                cache.ExpiryTime = CommonUtil.UntilTommorow();
-                cache.Update();
-            }
-            else
-            {
-                fortune = DataList.FirstOrDefault(d => d.Name == cache.Value);
-            }
-
+            var fortune = RapidCacher.GetCache($"TarotFortune:{MsgDTO.FromQQ}", CommonUtil.UntilTommorow(), GetRandTarotFortune);
             SendTarotFortune(MsgDTO, fortune);
             return true;
         }
@@ -205,34 +171,23 @@ namespace Dolany.WorldLine.Doremi.Ai.SingleCommand.Fortune
             return true;
         }
 
+        private static RandomFortuneCache GetFortune(long QQNum)
+        {
+            return RapidCacher.GetCache($"RandomFortune:{QQNum}", CommonUtil.UntilTommorow(),
+                () => new RandomFortuneCache {QQNum = QQNum, FortuneValue = GetRandomFortune(), BlessName = string.Empty, BlessValue = 0});
+        }
+
+        private static void SetFortune(RandomFortuneCache fortune)
+        {
+            RapidCacher.SetCache($"RandomFortune:{fortune.QQNum}", fortune, CommonUtil.UntilTommorow());
+        }
+
         private static void Bless(long QQNum, string BlessName, int BlessValue)
         {
-            var response = PersonCacheRecord.Get(QQNum, "RandomFortune");
-
-            if (string.IsNullOrEmpty(response.Value))
-            {
-                var randFor = GetRandomFortune();
-                var rf = new RandomFortuneCache()
-                {
-                    QQNum = QQNum,
-                    FortuneValue = randFor,
-                    BlessName = BlessName,
-                    BlessValue = BlessValue
-                };
-                response.Value = JsonConvert.SerializeObject(rf);
-                response.ExpiryTime = CommonUtil.UntilTommorow();
-                response.Update();
-            }
-            else
-            {
-                var model = JsonConvert.DeserializeObject<RandomFortuneCache>(response.Value);
-                model.BlessName = BlessName;
-                model.BlessValue = BlessValue;
-
-                response.Value = JsonConvert.SerializeObject(model);
-                response.ExpiryTime = CommonUtil.UntilTommorow();
-                response.Update();
-            }
+            var fortune = GetFortune(QQNum);
+            fortune.BlessName = BlessName;
+            fortune.BlessValue = BlessValue;
+            SetFortune(fortune);
         }
 
         [EnterCommand(ID = "FortuneAI_Darkness",

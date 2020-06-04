@@ -1,4 +1,5 @@
-﻿using System.Text;
+﻿using System;
+using System.Text;
 using Dolany.Ai.Common;
 using Dolany.Ai.Common.Models;
 using Dolany.Ai.Core.Base;
@@ -6,7 +7,6 @@ using Dolany.Ai.Core.Cache;
 using Dolany.Ai.Core.Common;
 using Dolany.Database.Sqlite.Model;
 using Dolany.UtilityTool;
-using Newtonsoft.Json;
 
 namespace Dolany.WorldLine.KindomStorm.Ai.Fortune
 {
@@ -23,22 +23,9 @@ namespace Dolany.WorldLine.KindomStorm.Ai.Fortune
             IsPrivateAvailable = true)]
         public bool RandomFortune(MsgInformationEx MsgDTO, object[] param)
         {
-            var response = PersonCacheRecord.Get(MsgDTO.FromQQ, "RandomFortune");
-
-            if (string.IsNullOrEmpty(response.Value))
-            {
-                var randFor = GetRandomFortune();
-                var rf = new RandomFortuneCache {QQNum = MsgDTO.FromQQ, FortuneValue = randFor, BlessName = string.Empty, BlessValue = 0};
-                ShowRandFortune(MsgDTO, rf);
-
-                response.Value = JsonConvert.SerializeObject(rf);
-                response.ExpiryTime = CommonUtil.UntilTommorow();
-                response.Update();
-            }
-            else
-            {
-                ShowRandFortune(MsgDTO, JsonConvert.DeserializeObject<RandomFortuneCache>(response.Value));
-            }
+            var funtune = RapidCacher.GetCache($"RandomFortune:{MsgDTO.FromQQ}", CommonUtil.UntilTommorow(),
+                () => new RandomFortuneCache {QQNum = MsgDTO.FromQQ, FortuneValue = GetRandomFortune(), BlessName = string.Empty, BlessValue = 0});
+            ShowRandFortune(MsgDTO, funtune);
             return true;
         }
 

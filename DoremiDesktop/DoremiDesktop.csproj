@@ -17,10 +17,4 @@
     <ProjectReference Include="..\Dolany.WorldLine.Standard\Dolany.WorldLine.Standard.csproj" />
   </ItemGroup>
 
-  <ItemGroup>
-    <None Update="Data\AIConfigData.json">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </None>
-  </ItemGroup>
-
 </Project>
