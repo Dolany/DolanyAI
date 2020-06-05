@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Collections.Concurrent;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading;
@@ -22,9 +21,6 @@ namespace Dolany.Ai.Core.Cache
         public BindAiSvc BindAiSvc { get; set; }
         public QQNumReflectSvc QqNumReflectSvc { get; set; }
         public CrossWorldAiSvc CrossWorldAiSvc { get; set; }
-
-        private readonly ConcurrentDictionary<long, ConcurrentDictionary<string, Action<MsgInformation>>> ListenQQNumDic =
-            new ConcurrentDictionary<long, ConcurrentDictionary<string, Action<MsgInformation>>>();
 
         public void Listen()
         {
@@ -84,10 +80,7 @@ namespace Dolany.Ai.Core.Cache
                     }
 
                     waitUnit.ResultInfos.Add(info);
-                    if(waitUnit.Type == WaiterUnitType.Single)
-                    {
-                        waitUnit.Signal.Set();
-                    }
+                    waitUnit.Signal.Set();
                     AIAnalyzer.AddCommandCount(new CmdRec()
                     {
                         FunctionalAi = "Waiter",
@@ -115,17 +108,6 @@ namespace Dolany.Ai.Core.Cache
                     break;
                 default:
                     throw new ArgumentOutOfRangeException();
-            }
-
-            if (!ListenQQNumDic.ContainsKey(info.FromQQ))
-            {
-                return;
-            }
-
-            var actionDic = ListenQQNumDic[info.FromQQ];
-            foreach (var action in actionDic.Values)
-            {
-                action(info);
             }
         }
 
@@ -230,34 +212,6 @@ namespace Dolany.Ai.Core.Cache
             var result = WaitForNum(ToGroup, ToQQ, msg, i => i > 0 && i <= options.Length, BindAi);
             return result < 0 ? result : result - 1;
         }
-
-        public string ListenQQNum(long QQNum, Action<MsgInformation> CallBackAction)
-        {
-            var listenID = Guid.NewGuid().ToString();
-            ConcurrentDictionary<string, Action<MsgInformation>> actionDic;
-            if (!ListenQQNumDic.ContainsKey(QQNum))
-            {
-                actionDic = new ConcurrentDictionary<string, Action<MsgInformation>>();
-                actionDic.TryAdd(listenID, CallBackAction);
-                ListenQQNumDic.TryAdd(QQNum, actionDic);
-                return listenID;
-            }
-
-            actionDic = ListenQQNumDic[QQNum];
-            actionDic.TryAdd(listenID, CallBackAction);
-            return listenID;
-        }
-
-        public void DislistenQQNum(long QQNum, string listenID)
-        {
-            if (!ListenQQNumDic.ContainsKey(QQNum))
-            {
-                return;
-            }
-
-            var actionDic = ListenQQNumDic[QQNum];
-            actionDic.TryRemove(listenID, out _);
-        }
     }
 
     public class WaiterUnit
@@ -269,13 +223,5 @@ namespace Dolany.Ai.Core.Cache
         public AutoResetEvent Signal { get; set; }
 
         public List<MsgInformation> ResultInfos { get; } = new List<MsgInformation>();
-
-        public WaiterUnitType Type { get; } = WaiterUnitType.Single;
-    }
-
-    public enum WaiterUnitType
-    {
-        Single,
-        Multi
     }
 }

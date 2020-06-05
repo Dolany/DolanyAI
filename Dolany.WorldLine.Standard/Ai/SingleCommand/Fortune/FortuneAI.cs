@@ -264,7 +264,7 @@ namespace Dolany.WorldLine.Standard.Ai.SingleCommand.Fortune
     public class TarotFortuneDataModel : INamedJsonModel
     {
         public string Name { get; set; }
-        
+
         public string 正位 { get; set; }
 
         public string 逆位 { get; set; }

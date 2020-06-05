@@ -1,5 +1,4 @@
 ﻿using System.Collections.Generic;
-using Dolany.Ai.Common;
 using Dolany.Database;
 using Dolany.UtilityTool;
 
@@ -26,10 +25,7 @@ namespace Dolany.WorldLine.Standard.OnlineStore
                 MongoService<OSPerson>.Insert(osPerson);
             }
 
-            if (osPerson.HonorNames == null)
-            {
-                osPerson.HonorNames = new List<string>();
-            }
+            osPerson.HonorNames ??= new List<string>();
 
             if (osPerson.Level != 0)
             {
@@ -44,10 +40,7 @@ namespace Dolany.WorldLine.Standard.OnlineStore
 
         public void GiftIncome(string GiftName, int count = 1)
         {
-            if (GiftDic == null)
-            {
-                GiftDic = new Dictionary<string, int>();
-            }
+            GiftDic ??= new Dictionary<string, int>();
 
             if (GiftDic.ContainsKey(GiftName))
             {
