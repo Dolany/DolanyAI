@@ -13,10 +13,10 @@ namespace Dolany.Ai.Core.Cache
     {
         public const int MaxRecentCommandCacheCount = 130;
 
-        public Dictionary<string, int> BindAiLimit =>
+        public static Dictionary<string, int> BindAiLimit =>
             RapidCacher.GetCache("BindAiLimitDic", TimeSpan.FromMinutes(5), () => BindAiSvc.AiDic.Keys.ToDictionary(p => p, p => BindAiRestrict.Get(p).MaxLimit));
 
-        public Dictionary<string, int> Pressures =>
+        public static Dictionary<string, int> Pressures =>
             BindAiSvc.AiDic.Keys.Select(p => new {Name = p, Pressure = GetPressure(p)}).OrderByDescending(p => p.Pressure)
                 .ToDictionary(p => p.Name, p => p.Pressure);
 
@@ -33,7 +33,7 @@ namespace Dolany.Ai.Core.Cache
             return RestrictRec.Pressure(BindAi);
         }
 
-        public bool IsTooFreq(string BindAi)
+        public static bool IsTooFreq(string BindAi)
         {
             return GetPressure(BindAi) >= BindAiLimit[BindAi];
         }
