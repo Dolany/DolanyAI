@@ -4,8 +4,11 @@ using System.Drawing;
 using System.IO;
 using System.Linq;
 using System.Net;
+using System.Threading;
+using System.Threading.Tasks;
 using Dolany.Ai.Common;
 using Dolany.Ai.Common.Models;
+using Dolany.Database.Redis;
 using Dolany.UtilityTool;
 using JetBrains.Annotations;
 

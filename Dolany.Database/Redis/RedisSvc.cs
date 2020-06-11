@@ -44,5 +44,15 @@ namespace Dolany.Database.Redis
             string value = RedisDB.StringGet(key);
             return string.IsNullOrEmpty(value) ? default : JsonConvert.DeserializeObject<T>(value);
         }
+
+        public bool TryLock(string key, TimeSpan lockSpan)
+        {
+            return RedisDB.LockTake(key, key, lockSpan);
+        }
+
+        public void ReleaseLock(string key)
+        {
+            RedisDB.LockRelease(key, key);
+        }
     }
 }

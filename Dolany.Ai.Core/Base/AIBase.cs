@@ -8,6 +8,7 @@ using System.Collections.Generic;
 using System.Globalization;
 using System.Linq;
 using Dolany.Ai.Core.SyntaxChecker;
+using Dolany.Database.Redis;
 using Dolany.UtilityTool;
 
 namespace Dolany.Ai.Core.Base
@@ -33,7 +34,6 @@ namespace Dolany.Ai.Core.Base
         public WaiterSvc WaiterSvc { get; set; }
         public GroupSettingSvc GroupSettingSvc { get; set; }
         public AliveStateSvc AliveStateSvc { get; set; }
-        public CommandLockerSvc CommandLockerSvc { get; set; }
         public SyntaxCheckerSvc SyntaxCheckerSvc { get; set; }
 
         public virtual void Initialization()
@@ -69,7 +69,7 @@ namespace Dolany.Ai.Core.Base
                 return false;
             }
 
-            var lockID = string.Empty;
+            var lockKey = string.Empty;
             try
             {
                 foreach (var (enterCommandAttribute, moduleDel) in query)
@@ -100,12 +100,13 @@ namespace Dolany.Ai.Core.Base
                         return true;
                     }
 
-                    if (!CommandLockerSvc.Check(MsgDTO.FromQQ, enterCommandAttribute.ID))
+                    lockKey = $"{enterCommandAttribute.ID}_{MsgDTO.FromQQ}";
+                    if (!RedisSvc.Instance.TryLock(lockKey, TimeSpan.FromMinutes(10)))
                     {
                         return false;
                     }
 
-                    lockID = CommandLockerSvc.Lock(MsgDTO.FromQQ, new[] {enterCommandAttribute.ID});
+                    RedisSvc.Instance.ReleaseLock(lockKey);
                     var result = moduleDel(MsgDTO, param);
 
                     if (!result)
@@ -125,9 +126,9 @@ namespace Dolany.Ai.Core.Base
             }
             finally
             {
-                if (!string.IsNullOrEmpty(lockID))
+                if (!string.IsNullOrEmpty(lockKey))
                 {
-                    CommandLockerSvc.FreeLock(lockID);
+                    RedisSvc.Instance.ReleaseLock(lockKey);
                 }
             }
 
