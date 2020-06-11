@@ -12,22 +12,21 @@ using Dolany.UtilityTool;
 
 namespace Dolany.WorldLine.Doremi.Ai.SingleCommand.Fortune
 {
-    public class FortuneAI : AIBase, IDataMgr
+    public class FortuneAI : AIBase
     {
         public override string AIName { get; set; } = "随机运势";
         public override string Description { get; set; } = "AI for Fortune.";
         protected override CmdTagEnum DefaultTag { get; } = CmdTagEnum.运势功能;
 
         private const string TarotServerPath = "https://m.sheup.com/";
-        private List<TarotFortuneDataModel> DataList;
 
-        private List<FortuneItemModel> FortuneItemList;
+        private static IEnumerable<TarotFortuneDataModel> DataList =>
+            RapidCacher.GetCache("FortuneDataList_Doremi", TimeSpan.FromMinutes(10),
+                () => CommonUtil.ReadJsonData_NamedList<TarotFortuneDataModel>("Doremi/TarotFortuneData"));
 
-        public void RefreshData()
-        {
-            DataList = CommonUtil.ReadJsonData_NamedList<TarotFortuneDataModel>("Doremi/TarotFortuneData");
-            FortuneItemList = CommonUtil.ReadJsonData_NamedList<FortuneItemModel>("Doremi/FortuneItemData");
-        }
+        private static IEnumerable<FortuneItemModel> FortuneItemList =>
+            RapidCacher.GetCache("FortuneItemList_Doremi", TimeSpan.FromMinutes(10),
+                () => CommonUtil.ReadJsonData_NamedList<FortuneItemModel>("Doremi/FortuneItemData"));
 
         [EnterCommand(ID = "FortuneAI_RandomFortune",
             Command = ".luck 祈愿运势",
@@ -42,7 +41,7 @@ namespace Dolany.WorldLine.Doremi.Ai.SingleCommand.Fortune
             return true;
         }
 
-        private void RandBless(RandomFortuneCache rf)
+        private static void RandBless(RandomFortuneCache rf)
         {
             if (rf.FortuneValue >= 50 || Rander.RandInt(100) > 20)
             {

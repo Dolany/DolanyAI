@@ -106,8 +106,6 @@ namespace Dolany.Ai.Core.Cache
                     var bindai = BindAiSvc[info.BindAi];
                     bindai.IsConnected = bool.Parse(info.Msg);
                     break;
-                default:
-                    throw new ArgumentOutOfRangeException();
             }
         }
 

@@ -104,7 +104,6 @@ namespace Dolany.Ai.Common
 
         public static string GetData(string url, Dictionary<string, string> dic)
         {
-            string result;
             var builder = new StringBuilder();
             builder.Append(url);
             if (dic != null && dic.Count > 0)
@@ -124,17 +123,11 @@ namespace Dolany.Ai.Common
             var req = (HttpWebRequest)WebRequest.Create(builder.ToString());
             //添加参数
             var resp = (HttpWebResponse)req.GetResponse();
-            using (var stream = resp.GetResponseStream())
-            {
-                if (stream == null)
-                {
-                    return string.Empty;
-                }
+            using var stream = resp.GetResponseStream();
 
-                //获取内容
-                using var reader = new StreamReader(stream);
-                result = reader.ReadToEnd();
-            }
+            //获取内容
+            using var reader = new StreamReader(stream);
+            var result = reader.ReadToEnd();
 
             return result;
         }

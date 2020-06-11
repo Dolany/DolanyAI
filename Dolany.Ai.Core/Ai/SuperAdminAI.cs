@@ -192,10 +192,7 @@ namespace Dolany.Ai.Core.Ai
                 return false;
             }
 
-            if (setting.BindAis == null)
-            {
-                setting.BindAis = new List<string>();
-            }
+            setting.BindAis ??= new List<string>();
 
             if (!setting.BindAis.Contains(name))
             {
