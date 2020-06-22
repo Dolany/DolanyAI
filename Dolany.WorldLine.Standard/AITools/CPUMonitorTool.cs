@@ -25,7 +25,7 @@ namespace Dolany.WorldLine.Standard.AITools
         {
             new ScheduleDoModel()
             {
-                Interval = SchedulerTimer.MinutelyInterval * 30,
+                Interval = SchedulerTimer.MinutelyInterval * 5,
                 IsImmediately = true
             }
         };
