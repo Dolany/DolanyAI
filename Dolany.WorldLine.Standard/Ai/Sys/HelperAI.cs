@@ -14,6 +14,7 @@ using Dolany.WorldLine.Standard.Ai.Game.Pet.Cooking;
 using Dolany.WorldLine.Standard.Ai.Game.Pet.Expedition;
 using Dolany.WorldLine.Standard.Ai.Game.Pet.PetAgainst;
 using Dolany.WorldLine.Standard.Ai.Game.SegmentAttach;
+using Dolany.WorldLine.Standard.Ai.Game.TouhouCard;
 using Dolany.WorldLine.Standard.Ai.Sys.Version;
 using Dolany.WorldLine.Standard.Ai.Vip;
 using Dolany.WorldLine.Standard.OnlineStore;
@@ -40,6 +41,7 @@ namespace Dolany.WorldLine.Standard.Ai.Sys
         public ExpeditionSceneSvc ExpeditionSceneSvc { get; set; }
         public HonorSvc HonorSvc { get; set; }
         public CrossWorldAiSvc CrossWorldAiSvc { get; set; }
+        public TouhouCardSvc TouhouCardSvc { get; set; }
 
         public void RefreshData()
         {
@@ -251,6 +253,12 @@ namespace Dolany.WorldLine.Standard.Ai.Sys
             if (ExpeditionSceneSvc[name] != null)
             {
                 return CrossWorldAiSvc[MsgDTO.FromGroup].AIInstance<ExpeditionAI>().ViewExpedition(MsgDTO, param);
+            }
+
+            // 东方自定义卡牌
+            if (!string.IsNullOrEmpty(TouhouCardSvc[name]))
+            {
+                return CrossWorldAiSvc[MsgDTO.FromGroup].AIInstance<TouhouCardAi>().ViewCardCard(MsgDTO, param);
             }
 
             MsgSender.PushMsg(MsgDTO, "未查找到相关信息！");

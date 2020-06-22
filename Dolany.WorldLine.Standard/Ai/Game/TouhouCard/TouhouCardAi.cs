@@ -18,17 +18,7 @@ namespace Dolany.WorldLine.Standard.Ai.Game.TouhouCard
 
         protected override CmdTagEnum DefaultTag { get; } = CmdTagEnum.游戏功能;
 
-        private const string PicPath = "TouhouCard/";
-
-        private List<FileInfo> AllFiles;
-
-        public override void Initialization()
-        {
-            base.Initialization();
-
-            var dir = new DirectoryInfo(PicPath);
-            AllFiles = dir.GetFiles().ToList();
-        }
+        public TouhouCardSvc TouhouCardSvc { get; set; }
 
         [EnterCommand(ID = "TouhouCardAi_RandomCard",
             Command = ".card 幻想乡抽卡",
@@ -36,31 +26,27 @@ namespace Dolany.WorldLine.Standard.Ai.Game.TouhouCard
             IsPrivateAvailable = true)]
         public bool RandomCard(MsgInformationEx MsgDTO, object[] param)
         {
-            var cardName = RandomCard(MsgDTO.FromQQ);
-            MsgSender.PushMsg(MsgDTO, CodeApi.Code_Image_Relational(cardName));
+            var cardName = TouhouCardSvc.RandomCard(MsgDTO.FromQQ);
+            TouhouCardSvc.ShowCard(cardName, MsgDTO);
             return true;
         }
 
-        private string RandomCard(long FromQQ)
+        [EnterCommand(ID = "TouhouCardAi_ViewCard",
+            Command = "查看卡牌",
+            Description = "查看一张DIY幻想乡卡牌",
+            IsPrivateAvailable = true)]
+        public bool ViewCardCard(MsgInformationEx MsgDTO, object[] param)
         {
-            var cache = PersonCacheRecord.Get(FromQQ, "TouhouCard");
-            if (!string.IsNullOrEmpty(cache.Value))
+            var name = (string) param[0];
+            var card = TouhouCardSvc[name];
+            if (string.IsNullOrEmpty(card))
             {
-                return PicPath + cache.Value;
+                MsgSender.PushMsg(MsgDTO, "未找到相关卡牌！");
+                return false;
             }
 
-            var card = GetRandCard();
-            cache.Value = card;
-            cache.ExpiryTime = CommonUtil.UntilTommorow();
-            cache.Update();
-
-            return PicPath + card;
-        }
-
-        private string GetRandCard()
-        {
-            var file = AllFiles.RandElement();
-            return file.Name;
+            TouhouCardSvc.ShowCard(card, MsgDTO);
+            return true;
         }
     }
 }
