@@ -9,12 +9,11 @@ using MongoDB.Bson.Serialization.Attributes;
 
 namespace Dolany.Ai.Core.Cache
 {
-    public class RestrictorSvc : IDependency
+    public class RestrictorSvc : IDependency, IDataMgr
     {
         public const int MaxRecentCommandCacheCount = 130;
 
-        public static Dictionary<string, int> BindAiLimit =>
-            RapidCacher.GetCache("BindAiLimitDic", TimeSpan.FromMinutes(5), () => BindAiSvc.AiDic.Keys.ToDictionary(p => p, p => BindAiRestrict.Get(p).MaxLimit));
+        public static Dictionary<string, int> BindAiLimit;
 
         public static Dictionary<string, int> Pressures =>
             BindAiSvc.AiDic.Keys.Select(p => new {Name = p, Pressure = GetPressure(p)}).OrderByDescending(p => p.Pressure)
@@ -22,6 +21,11 @@ namespace Dolany.Ai.Core.Cache
 
         public BindAiSvc BindAiSvc { get; set; }
         public GroupSettingSvc GroupSettingSvc { get; set; }
+
+        public void RefreshData()
+        {
+            BindAiLimit = BindAiSvc.AiDic.Keys.ToDictionary(p => p, p => BindAiRestrict.Get(p).MaxLimit);
+        }
 
         public static void Cache(string BindAi)
         {
