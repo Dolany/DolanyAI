@@ -15,7 +15,7 @@ namespace Dolany.Ai.Core.Cache
 
         public static Dictionary<string, int> BindAiLimit;
 
-        public static Dictionary<string, int> Pressures =>
+        public Dictionary<string, int> Pressures =>
             BindAiSvc.AiDic.Keys.Select(p => new {Name = p, Pressure = GetPressure(p)}).OrderByDescending(p => p.Pressure)
                 .ToDictionary(p => p.Name, p => p.Pressure);
 
@@ -37,7 +37,7 @@ namespace Dolany.Ai.Core.Cache
             return RestrictRec.Pressure(BindAi);
         }
 
-        public static bool IsTooFreq(string BindAi)
+        public bool IsTooFreq(string BindAi)
         {
             return GetPressure(BindAi) >= BindAiLimit[BindAi];
         }
