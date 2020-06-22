@@ -8,15 +8,15 @@ using Dolany.UtilityTool;
 
 namespace Dolany.WorldLine.Standard.Ai.Game.TouhouCard
 {
-    public class TouhouCardSvc : IDependency
+    public class TouhouCardSvc : IDependency, IDataMgr
     {
-        private List<FileInfo> AllFiles { get; }
+        private List<FileInfo> AllFiles { get; set; }
 
         private const string PicPath = "TouhouCard/";
 
         public string this[string cardName] => AllFiles.FirstOrDefault(file => file.Name.Contains(cardName))?.Name;
 
-        public TouhouCardSvc()
+        public void RefreshData()
         {
             var dir = new DirectoryInfo(PicPath);
             AllFiles = dir.GetFiles().ToList();
