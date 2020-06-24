@@ -37,7 +37,7 @@ namespace Dolany.Ai.Core.Cache
             return RestrictRec.Pressure(BindAi);
         }
 
-        public bool IsTooFreq(string BindAi)
+        public static bool IsTooFreq(string BindAi)
         {
             return GetPressure(BindAi) >= BindAiLimit[BindAi];
         }
