@@ -8,7 +8,6 @@ using System.Collections.Generic;
 using System.Globalization;
 using System.Linq;
 using Dolany.Ai.Core.SyntaxChecker;
-using Dolany.Database.Redis;
 using Dolany.UtilityTool;
 
 namespace Dolany.Ai.Core.Base
@@ -35,7 +34,6 @@ namespace Dolany.Ai.Core.Base
         public GroupSettingSvc GroupSettingSvc { get; set; }
         public AliveStateSvc AliveStateSvc { get; set; }
         public SyntaxCheckerSvc SyntaxCheckerSvc { get; set; }
-        public CmdLockerSvc CmdLockerSvc { get; set; }
 
         public virtual void Initialization()
         {

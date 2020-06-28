@@ -179,10 +179,7 @@ namespace Dolany.WorldLine.Standard.Ai.SingleCommand.GroupManage
                 return false;
             }
 
-            if (setting.AuthInfo.Mgrs == null)
-            {
-                setting.AuthInfo.Mgrs = new List<long>();
-            }
+            setting.AuthInfo.Mgrs ??= new List<long>();
             if (setting.AuthInfo.Mgrs.Contains(aimQQ))
             {
                 MsgSender.PushMsg(MsgDTO, "该成员已经是管理员了！");
@@ -193,6 +190,33 @@ namespace Dolany.WorldLine.Standard.Ai.SingleCommand.GroupManage
             setting.Update();
 
             MsgSender.PushMsg(MsgDTO, "任命成功！");
+            return true;
+        }
+
+        [EnterCommand(ID = "GroupOwnerOnlyAI_DisppointManager",
+            Command = "取消管理",
+            AuthorityLevel = AuthorityLevel.群主,
+            Description = "取消指定的成员的管理员权限",
+            SyntaxHint = "[@QQ号]",
+            SyntaxChecker = "At")]
+        public bool DisppointManager(MsgInformationEx MsgDTO, object[] param)
+        {
+            var aimQQ = (long) param[0];
+
+            var setting = GroupSettingSvc[MsgDTO.FromGroup];
+
+            setting.AuthInfo.Mgrs ??= new List<long>();
+            if (!setting.AuthInfo.Mgrs.Contains(aimQQ))
+            {
+                MsgSender.PushMsg(MsgDTO, "该成员还不是管理员！");
+                return false;
+            }
+
+            setting.AuthInfo.Mgrs.Remove(aimQQ);
+
+            setting.Update();
+
+            MsgSender.PushMsg(MsgDTO, "取消成功！");
             return true;
         }
     }
