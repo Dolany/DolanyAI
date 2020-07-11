@@ -12,6 +12,8 @@ namespace Dolany.WorldLine.KindomStorm.Ai.KindomStorm
         public override string Description { get; set; }
         protected override CmdTagEnum DefaultTag { get; } = CmdTagEnum.王国风云;
 
+        public CastleBuildingSvc CastleBuildingSvc { get; set; }
+
         [EnterCommand(ID = "KindomStormAI_MyCastle",
             Command = "我的城堡",
             Description = "查看自己的城堡的情况")]
@@ -41,6 +43,65 @@ namespace Dolany.WorldLine.KindomStorm.Ai.KindomStorm
             castle.Update();
 
             MsgSender.PushMsg(MsgDTO, "重命名成功！", true);
+            return true;
+        }
+
+        [EnterCommand(ID = "KindomStormAI_UpgradeCastle",
+            Command = "升级城堡",
+            Description = "升级自己的城堡")]
+        public bool UpgradeCastle(MsgInformationEx MsgDTO, object[] param)
+        {
+            var castle = KindomCastle.Get(MsgDTO.FromGroup, MsgDTO.FromQQ);
+
+            if (castle.Golds < castle.LvlUpNeedGold)
+            {
+                MsgSender.PushMsg(MsgDTO, $"你没有足够多的金钱升级！（{castle.Golds}/{castle.LvlUpNeedGold}）");
+                return false;
+            }
+
+            castle.UpgradeCastle();
+            castle.Update();
+
+            MsgSender.PushMsg(MsgDTO, $"恭喜你升级成功！当前城堡等级：{castle.Level}");
+            return true;
+        }
+
+        [EnterCommand(ID = "KindomStormAI_UpgradeBuilding",
+            Command = "升级建筑",
+            Description = "升级指定的建筑",
+            SyntaxHint = "[建筑名]",
+            SyntaxChecker = "Word")]
+        public bool UpgradeBuilding(MsgInformationEx MsgDTO, object[] param)
+        {
+            var buildingName = (string) param[0];
+            var building = CastleBuildingSvc[buildingName];
+            if (building == null)
+            {
+                MsgSender.PushMsg(MsgDTO, "不认识的建筑呢！");
+                return false;
+            }
+
+            var castle = KindomCastle.Get(MsgDTO.FromGroup, MsgDTO.FromQQ);
+            if (!castle.Buildings.ContainsKey(buildingName))
+            {
+                MsgSender.PushMsg(MsgDTO, "你尚未拥有该建筑！");
+                return false;
+            }
+
+            var buildingLvl = castle.SafeBuildings[buildingName];
+            var goldNeed = building.UpgradeGoldNeed(buildingLvl);
+
+            if (castle.Golds < goldNeed)
+            {
+                MsgSender.PushMsg(MsgDTO, $"你没有足够多的金钱升级 {buildingName}！({castle.Golds}/{goldNeed})");
+                return false;
+            }
+
+            castle.Golds -= goldNeed;
+            castle.UpgradeBuilding(buildingName);
+            castle.Update();
+
+            MsgSender.PushMsg(MsgDTO, $"升级成功！当前{buildingName}的等级为：{castle.SafeBuildings[buildingName]}");
             return true;
         }
     }
