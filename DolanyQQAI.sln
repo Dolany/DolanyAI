@@ -33,6 +33,8 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Dolany.WorldLine.KindomStor
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Desktops", "Desktops", "{310124E4-6E5A-4961-9C6B-C9E387D09F08}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DolanyTimingSvc", "DolanyTimingSvc\DolanyTimingSvc.csproj", "{11D1E7BF-F035-4784-A653-36BEFD4849D2}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -83,6 +85,10 @@ Global
 		{0AB20EF9-FD40-4612-872A-2C39085AB292}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{0AB20EF9-FD40-4612-872A-2C39085AB292}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{0AB20EF9-FD40-4612-872A-2C39085AB292}.Release|Any CPU.Build.0 = Release|Any CPU
+		{11D1E7BF-F035-4784-A653-36BEFD4849D2}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{11D1E7BF-F035-4784-A653-36BEFD4849D2}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{11D1E7BF-F035-4784-A653-36BEFD4849D2}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{11D1E7BF-F035-4784-A653-36BEFD4849D2}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -97,6 +103,7 @@ Global
 		{45EA9ED1-E88A-4B31-BEA1-AAA593EE2CCE} = {310124E4-6E5A-4961-9C6B-C9E387D09F08}
 		{E6C9BAE2-F069-420E-802A-B5586DB8C338} = {1C0CE28F-F623-48B9-9237-46E7415D9BD2}
 		{0AB20EF9-FD40-4612-872A-2C39085AB292} = {1C0CE28F-F623-48B9-9237-46E7415D9BD2}
+		{11D1E7BF-F035-4784-A653-36BEFD4849D2} = {310124E4-6E5A-4961-9C6B-C9E387D09F08}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {16A16387-5510-46DA-B392-7152AF4264E7}

@@ -120,5 +120,10 @@ namespace Dolany.Database
                 Delete(entity);
             }
         }
+
+        public static void UpdateMany(Expression<Func<T, bool>> filter, UpdateDefinition<T> update)
+        {
+            GetCollection().UpdateMany(filter, update);
+        }
     }
 }
