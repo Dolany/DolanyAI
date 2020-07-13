@@ -15,7 +15,6 @@ namespace Dolany.Ai.Core.Base
         public abstract string Name { get; set; }
         public abstract CmdTag CmdTagTree { get; set; }
         public List<AIBase> AIGroup { get; set; }
-        protected List<IAITool> ToolGroup { get; set; }
 
         public List<EnterCommandAttribute> AllAvailableGroupCommands => AIGroup.SelectMany(ai => ai.AllCmds).ToList();
 
@@ -32,7 +31,6 @@ namespace Dolany.Ai.Core.Base
         {
             var assembly = GetType().Assembly;
             AIGroup = AutofacSvc.LoadAllInstanceFromClass<AIBase>(assembly);
-            ToolGroup = AutofacSvc.LoadAllInstanceFromInterface<IAITool>(assembly);
         }
 
         public void Load()
@@ -52,12 +50,6 @@ namespace Dolany.Ai.Core.Base
                     Logger.Log($"{AIGroup[i].AIName}({i + 1}/{count})");
                 }
                 CmdTag.CreateCmdTree(CmdTagTree, AllAvailableGroupCommands);
-
-                ToolGroup = ToolGroup.Where(p => p.Enabled).ToList();
-                foreach (var tool in ToolGroup)
-                {
-                    tool.Work();
-                }
             }
             catch (Exception ex)
             {

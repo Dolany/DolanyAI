@@ -125,5 +125,10 @@ namespace Dolany.Database
         {
             GetCollection().UpdateMany(filter, update);
         }
+
+        public static T FindOneAndUpdate(Expression<Func<T, bool>> filter, UpdateDefinition<T> update, bool isUpsert = false)
+        {
+            return GetCollection().FindOneAndUpdate(filter, update, new FindOneAndUpdateOptions<T>() {IsUpsert = isUpsert});
+        }
     }
 }
