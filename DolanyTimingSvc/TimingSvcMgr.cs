@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
 using Dolany.Ai.Common;
@@ -17,6 +18,8 @@ namespace DolanyTimingSvc
 
         public void Load()
         {
+            Console.Title = "Timing Service";
+
             ToolGroup = ToolGroup.Where(p => p.Enabled).ToList();
             foreach (var tool in ToolGroup)
             {

@@ -12,18 +12,20 @@ namespace Dolany.Ai.Core.API
 {
     public class APIEx
     {
+        private static WaiterSvc WaiterSvc => AutofacSvc.Resolve<WaiterSvc>();
+
         [CanBeNull]
         private static string GetGroupMemberList(string 群号, string BindAi)
         {
-            var info = AutofacSvc.Resolve<WaiterSvc>().WaitForRelationId(
+            var info = WaiterSvc.WaitForRelationId(
                 new MsgCommand
-                    {
-                        Command = CommandType.GetGroupMemberInfo,
-                        Msg = 群号,
-                        ToGroup = 0,
-                        ToQQ = 0,
-                        BindAi = BindAi
-                    });
+                {
+                    Command = CommandType.GetGroupMemberInfo,
+                    Msg = 群号,
+                    ToGroup = 0,
+                    ToQQ = 0,
+                    BindAi = BindAi
+                });
 
             return info?.Msg;
         }
@@ -51,7 +53,7 @@ namespace Dolany.Ai.Core.API
 
         public static void SendPraise(long QQ号, string BindAi, int count = 10)
         {
-            AutofacSvc.Resolve<WaiterSvc>().WaitForRelationId(
+            WaiterSvc.WaitForRelationId(
                 new MsgCommand
                 {
                     Command = CommandType.Praise,
@@ -63,7 +65,7 @@ namespace Dolany.Ai.Core.API
 
         public static QQInfoModel GetQQInfo(long QQNum, string BindAi)
         {
-            var info = AutofacSvc.Resolve<WaiterSvc>().WaitForRelationId(new MsgCommand {Command = CommandType.GetQQInfo, ToQQ = QQNum, BindAi = BindAi});
+            var info = WaiterSvc.WaitForRelationId(new MsgCommand {Command = CommandType.GetQQInfo, ToQQ = QQNum, BindAi = BindAi});
             //RuntimeLogger.Log(JsonConvert.SerializeObject(info));
             return info == null ? null : JsonConvert.DeserializeObject<QQInfoModel>(info.Msg);
         }

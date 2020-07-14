@@ -1,4 +1,5 @@
-﻿using System.Linq;
+﻿using System;
+using System.Linq;
 using Dolany.Ai.Common.Models;
 using Dolany.Ai.Core.Base;
 using Dolany.Ai.Core.Cache;
@@ -20,13 +21,18 @@ namespace Dolany.WorldLine.KindomStorm.Ai.KindomStorm
         public bool MyCastle(MsgInformationEx MsgDTO, object[] param)
         {
             var castle = KindomCastle.Get(MsgDTO.FromGroup, MsgDTO.FromQQ);
-            var msg = $"{castle.CastleName}";
-            msg += $"\r\n城堡等级：{Utility.LevelEmoji(castle.Level)}";
-            msg += $"\r\n金钱：{castle.Golds}";
-            msg += $"\r\n粮草：{castle.Commissariat}";
-            msg += $"\r\n建筑：{string.Join(",", castle.Buildings.Select(p => $"{p.Key}(lv.{p.Value})"))}";
+            var groups = SoldierGroup.Get(MsgDTO.FromQQ);
 
-            MsgSender.PushMsg(MsgDTO, msg, true);
+            var sessionID = MsgSender.StartSession(MsgDTO);
+            MsgSender.PushMsg(sessionID, castle.CastleName);
+            MsgSender.PushMsg(sessionID, $"城堡等级：{Utility.LevelEmoji(castle.Level)}");
+            MsgSender.PushMsg(sessionID, $"金钱：{castle.Golds}");
+            MsgSender.PushMsg(sessionID, $"粮草：{castle.Commissariat}");
+            MsgSender.PushMsg(sessionID, $"建筑：{string.Join(",", castle.Buildings.Select(p => $"{p.Key}(lv.{p.Value})"))}");
+            MsgSender.PushMsg(sessionID, $"军队：{groups.Count}支");
+            MsgSender.PushMsg(sessionID, $"士兵：{groups.Sum(g => g.Count)}人");
+
+            MsgSender.ConfirmSend(sessionID);
             return true;
         }
 
@@ -102,6 +108,58 @@ namespace Dolany.WorldLine.KindomStorm.Ai.KindomStorm
             castle.Update();
 
             MsgSender.PushMsg(MsgDTO, $"升级成功！当前{buildingName}的等级为：{castle.SafeBuildings[buildingName]}");
+            return true;
+        }
+
+        [EnterCommand(ID = "KindomStormAI_Recruit",
+            Command = "招募",
+            Description = "招募军队")]
+        public bool Recruit(MsgInformationEx MsgDTO, object[] param)
+        {
+            var castle = KindomCastle.Get(MsgDTO.FromGroup, MsgDTO.FromQQ);
+
+            var soldierGroups = SoldierGroup.Get(MsgDTO.FromQQ);
+            var curTotal = soldierGroups.Sum(g => g.Count);
+
+            var remain = Math.Max(castle.SoldierMaxVolume - curTotal, 0);
+            var msg = $"你当前共拥有士兵 {curTotal}人，还可招募 {remain}人";
+            if (remain == 0)
+            {
+                msg += "\r\n无法招募新的士兵！";
+                MsgSender.PushMsg(MsgDTO, msg, true);
+                return false;
+            }
+
+            var golds = castle.Golds;
+            msg += $"\r\n你当前拥有金钱 {golds}，最多招募等量的士兵";
+            if (golds == 0)
+            {
+                msg += "\r\n无法招募新的士兵！";
+                MsgSender.PushMsg(MsgDTO, msg, true);
+                return false;
+            }
+
+            var maxRecruit = Math.Min(remain, golds);
+            var num = WaiterSvc.WaitForNum(MsgDTO.FromGroup, MsgDTO.FromQQ, $"请输入招募士兵的数量！(1~{maxRecruit})", p => p >= 1 && p <= maxRecruit, MsgDTO.BindAi);
+            if (num <= 0)
+            {
+                MsgSender.PushMsg(MsgDTO, "操作取消！");
+                return false;
+            }
+
+            var group = new SoldierGroup()
+            {
+                Owner = MsgDTO.FromQQ,
+                Count = num,
+                State = SoldierState.Working,
+                Name = $"第{GroupNamingRec.GetNextNo(MsgDTO.FromQQ)}军"
+            };
+            group.Insert();
+
+            castle.Golds -= num;
+            castle.Update();
+
+            MsgSender.PushMsg(MsgDTO, "招募成功！");
             return true;
         }
     }

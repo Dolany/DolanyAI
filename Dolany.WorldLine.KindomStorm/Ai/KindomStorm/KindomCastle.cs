@@ -51,6 +51,11 @@ namespace Dolany.WorldLine.KindomStorm.Ai.KindomStorm
             return castle;
         }
 
+        public static IEnumerable<KindomCastle> GetAll()
+        {
+            return MongoService<KindomCastle>.Get();
+        }
+
         public void Update()
         {
             MongoService<KindomCastle>.Update(this);

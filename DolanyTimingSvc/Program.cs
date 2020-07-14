@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Reflection;
 using Dolany.Ai.Common;
 using Dolany.Ai.Core.Base;
+using Dolany.Ai.Core.Common;
 using Dolany.Database;
 using Dolany.WorldLine.Doremi;
 using Dolany.WorldLine.KindomStorm;
@@ -32,7 +33,10 @@ namespace DolanyTimingSvc
                 AutofacSvc.RegisterAutofac(assemblies);
                 AutofacSvc.RegisterDataRefresher(assemblies);
 
+                Global.MsgPublish = PrintMsg;
+
                 TimingSvcMgr.Init(assemblies);
+                TimingSvcMgr.Load();
             }
             catch (Exception e)
             {
@@ -44,6 +48,11 @@ namespace DolanyTimingSvc
             {
                 command = Console.ReadLine();
             }
+        }
+
+        private static void PrintMsg(string Msg)
+        {
+            Console.WriteLine($"{DateTime.Now:yyyy/MM/dd HH:mm:ss} {Msg}");
         }
     }
 }
