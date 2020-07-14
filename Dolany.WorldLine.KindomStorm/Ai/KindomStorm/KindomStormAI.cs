@@ -113,7 +113,8 @@ namespace Dolany.WorldLine.KindomStorm.Ai.KindomStorm
 
         [EnterCommand(ID = "KindomStormAI_Recruit",
             Command = "招募",
-            Description = "招募军队")]
+            Description = "招募军队",
+            DailyLimit = 2)]
         public bool Recruit(MsgInformationEx MsgDTO, object[] param)
         {
             var castle = KindomCastle.Get(MsgDTO.FromGroup, MsgDTO.FromQQ);
