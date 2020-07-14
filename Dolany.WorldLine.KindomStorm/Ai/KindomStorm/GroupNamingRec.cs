@@ -1,5 +1,4 @@
 ﻿using Dolany.Database;
-using MongoDB.Driver;
 
 namespace Dolany.WorldLine.KindomStorm.Ai.KindomStorm
 {
@@ -11,8 +10,18 @@ namespace Dolany.WorldLine.KindomStorm.Ai.KindomStorm
 
         public static int GetNextNo(long QQNum)
         {
-            var update = Builders<GroupNamingRec>.Update.Inc(p => p.SequeceNo, 1);
-            var rec = MongoService<GroupNamingRec>.FindOneAndUpdate(p => p.QQNum == QQNum, update, true);
+            var rec = MongoService<GroupNamingRec>.GetOnly(p => p.QQNum == QQNum);
+            if (rec == null)
+            {
+                rec = new GroupNamingRec()
+                {
+                    QQNum = QQNum
+                };
+                MongoService<GroupNamingRec>.Insert(rec);
+            }
+
+            rec.SequeceNo++;
+            MongoService<GroupNamingRec>.Update(rec);
             return rec.SequeceNo;
         }
     }

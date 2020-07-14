@@ -19,7 +19,10 @@ namespace Dolany.WorldLine.Standard.Ai.Game.TouhouCard
         public void RefreshData()
         {
             var dir = new DirectoryInfo(PicPath);
-            AllFiles = dir.GetFiles().ToList();
+            if (dir.Exists)
+            {
+                AllFiles = dir.GetFiles().ToList();
+            }
         }
 
         public static void ShowCard(string cardName, MsgInformationEx MsgDTO)

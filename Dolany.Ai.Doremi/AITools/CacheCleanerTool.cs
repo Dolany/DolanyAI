@@ -61,16 +61,6 @@ namespace Dolany.WorldLine.Doremi.AITools
                     }
                 });
             }
-            ModelList.Add(new ScheduleDoModel()
-            {
-                Interval = SchedulerTimer.DairlyInterval,
-                Data = new CacheCleanerDTO
-                {
-                    Path = "RuntimeLog/",
-                    IsCascading = false,
-                    MaxCacheCount = 7
-                }
-            });
         }
 
         public override void Work()

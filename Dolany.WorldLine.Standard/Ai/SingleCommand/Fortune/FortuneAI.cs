@@ -35,7 +35,10 @@ namespace Dolany.WorldLine.Standard.Ai.SingleCommand.Fortune
             FortuneItemList = CommonUtil.ReadJsonData_NamedList<FortuneItemModel>("Standard/FortuneItemData");
 
             var tarotFolder = new DirectoryInfo(TarotServerPath);
-            TarotSerialNames = tarotFolder.GetDirectories().Select(p => p.Name).ToArray();
+            if (tarotFolder.Exists)
+            {
+                TarotSerialNames = tarotFolder.GetDirectories().Select(p => p.Name).ToArray();
+            }
         }
 
         [EnterCommand(ID = "FortuneAI_RandomFortune",
