@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using Dolany.Database;
 using MongoDB.Bson.Serialization.Attributes;
 
@@ -45,6 +46,13 @@ namespace Dolany.WorldLine.KindomStorm.Ai.KindomStorm
             MongoService<SoldierGroup>.Update(this);
         }
 
+        public void Feed()
+        {
+            State = SoldierState.Working;
+            LastFeedTime = DateTime.Now;
+            MongoService<SoldierGroup>.Update(this);
+        }
+
         public void Rebel()
         {
             CreateTime = DateTime.Now;
@@ -63,6 +71,11 @@ namespace Dolany.WorldLine.KindomStorm.Ai.KindomStorm
         {
             var overTime = DateTime.Now.AddDays(-overDays);
             return MongoService<SoldierGroup>.Get(p => p.State == SoldierState.Rebel && p.CreateTime <= overTime);
+        }
+
+        public static List<SoldierGroup> StarvingGroups(long QQNum)
+        {
+            return MongoService<SoldierGroup>.Get(p => p.Owner == QQNum && p.State == SoldierState.Starving).OrderBy(p => p.LastFeedTime).ToList();
         }
 
         public void Insert()
