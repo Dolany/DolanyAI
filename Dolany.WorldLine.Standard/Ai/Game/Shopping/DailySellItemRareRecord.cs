@@ -1,6 +1,11 @@
 ﻿using System;
+using System.Linq;
+using Dolany.Ai.Common;
+using Dolany.Database;
+using Dolany.UtilityTool;
+using Dolany.WorldLine.Standard.OnlineStore;
 
-namespace Dolany.Database.Ai
+namespace Dolany.WorldLine.Standard.Ai.Game.Shopping
 {
     public class DailySellItemRareRecord : DbBaseEntity
     {
@@ -28,7 +33,9 @@ namespace Dolany.Database.Ai
 
             record = new DailySellItemRareRecord()
             {
-                DateStr = dataStr
+                DateStr = dataStr,
+                Hour = 6 + Rander.RandInt(16),
+                Items = CreateDailySellItems_Rare()
             };
             MongoService<DailySellItemRareRecord>.Insert(record);
             return record;
@@ -46,7 +53,9 @@ namespace Dolany.Database.Ai
 
             record = new DailySellItemRareRecord()
             {
-                DateStr = dataStr
+                DateStr = dataStr,
+                Hour = 6 + Rander.RandInt(16),
+                Items = CreateDailySellItems_Rare()
             };
             MongoService<DailySellItemRareRecord>.Insert(record);
             return record;
@@ -55,6 +64,19 @@ namespace Dolany.Database.Ai
         public void Update()
         {
             MongoService<DailySellItemRareRecord>.Update(this);
+        }
+
+        private static DailySellItemModel[] CreateDailySellItems_Rare()
+        {
+            var honors = AutofacSvc.Resolve<HonorSvc>().HonorList.Where(h => !h.IsLimit);
+            var items = honors.SelectMany(h => h.Items).Where(p => p.Price >= 500).ToArray();
+            var randSort = Rander.RandSort(items).Take(5);
+            return randSort.Select(rs => new DailySellItemModel
+            {
+                Name = rs.Name,
+                Price = rs.Price * 2,
+                Attr = string.Join(",", rs.Attributes)
+            }).ToArray();
         }
     }
 
