@@ -399,7 +399,7 @@ namespace Dolany.WorldLine.Standard.Ai.Game.Pet
         public bool PetLevelRank(MsgInformationEx MsgDTO, object[] param)
         {
             var data = PetRecord.LevelTop(10);
-            var msg = string.Join("\r\n", data.Select((p, idx) => $"{idx + 1}:{p.Name}(lv.{p.Level})({p.Exp}/{PetLevelSvc[p.Level].Exp})"));
+            var msg = string.Join("\r\n", data.Select((p, idx) => $"{idx + 1}:{p.Name}({Utility.LevelEmoji(p.Level)})({p.Exp}/{PetLevelSvc[p.Level].Exp})"));
 
             MsgSender.PushMsg(MsgDTO, msg);
             return true;
@@ -412,7 +412,7 @@ namespace Dolany.WorldLine.Standard.Ai.Game.Pet
             SyntaxChecker = "Word")]
         public bool ViewPetSkill(MsgInformationEx MsgDTO, object[] param)
         {
-            var name = param[0] as string;
+            var name = (string) param[0];
             var skill = PetSkillSvc[name];
             if (skill == null)
             {
@@ -437,7 +437,7 @@ namespace Dolany.WorldLine.Standard.Ai.Game.Pet
             SyntaxChecker = "Word")]
         public bool UpgradePetSkill(MsgInformationEx MsgDTO, object[] param)
         {
-            var name = param[0] as string;
+            var name = (string) param[0];
             var skill = PetSkillSvc[name];
             if (skill == null)
             {

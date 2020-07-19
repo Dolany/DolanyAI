@@ -4,6 +4,7 @@ using Dolany.Ai.Common.Models;
 using Dolany.Ai.Core.Base;
 using Dolany.Ai.Core.Cache;
 using Dolany.Ai.Core.Common;
+using Dolany.UtilityTool;
 
 namespace Dolany.WorldLine.KindomStorm.Ai.KindomStorm
 {
@@ -161,6 +162,44 @@ namespace Dolany.WorldLine.KindomStorm.Ai.KindomStorm
             castle.Update();
 
             MsgSender.PushMsg(MsgDTO, "招募成功！");
+            return true;
+        }
+
+        [EnterCommand(ID = "KindomStormAI_Supply",
+            Command = "补给",
+            Description = "补给军队")]
+        public bool Supply(MsgInformationEx MsgDTO, object[] param)
+        {
+            var castle = KindomCastle.Get(MsgDTO.FromGroup, MsgDTO.FromQQ);
+
+            var starvingGroups = SoldierGroup.StarvingGroups(MsgDTO.FromQQ);
+            if (starvingGroups.IsNullOrEmpty())
+            {
+                MsgSender.PushMsg(MsgDTO, "你没有需要补给的军队！", true);
+                return false;
+            }
+
+            var totalConsume = 0;
+            var feededGroupCount = 0;
+            foreach (var starvingGroup in starvingGroups)
+            {
+                if (castle.Commissariat < starvingGroup.Count)
+                {
+                    break;
+                }
+
+                castle.Commissariat -= starvingGroup.Count;
+                starvingGroup.Feed();
+                totalConsume += starvingGroup.Count;
+                feededGroupCount++;
+            }
+            castle.Update();
+
+            var sessionID = MsgSender.StartSession(MsgDTO);
+            MsgSender.PushMsg(sessionID, "补给完成！");
+            MsgSender.PushMsg(sessionID, $"共补给 {feededGroupCount}支军队，共消耗粮草 {totalConsume}");
+            MsgSender.PushMsg(sessionID, $"当前剩余 {starvingGroups.Count - feededGroupCount}支军队尚未补给，当前剩余粮草 {castle.Commissariat}");
+            MsgSender.ConfirmSend(sessionID);
             return true;
         }
     }
