@@ -1,4 +1,5 @@
-﻿using Dolany.Ai.Common;
+﻿using System.Linq;
+using Dolany.Ai.Common;
 using Dolany.Ai.Common.Models;
 using Dolany.Ai.Core.Base;
 using Dolany.Ai.Core.Cache;
@@ -71,7 +72,7 @@ namespace Dolany.WorldLine.Standard.Ai.Game.Lottery
             }
 
             var items = HonorSvc.CurMonthLimitItems();
-            var item = items.RandElement();
+            var item  = Rander.RandRated(items.ToDictionary(p => p, p => p.Rate));
 
             var msg = $"恭喜你抽到了 【{item.Name}】*1\r\n" +
                       $"    {item.Description} ";
