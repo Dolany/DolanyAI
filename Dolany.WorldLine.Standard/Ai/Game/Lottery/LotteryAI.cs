@@ -72,7 +72,7 @@ namespace Dolany.WorldLine.Standard.Ai.Game.Lottery
             }
 
             var items = HonorSvc.CurMonthLimitItems();
-            var item  = Rander.RandRated(items.ToDictionary(p => p, p => p.Rate));
+            var item  = items.ToDictionary(p => p, p => p.Rate).RandRated();
 
             var msg = $"恭喜你抽到了 【{item.Name}】*1\r\n" +
                       $"    {item.Description} ";
@@ -86,6 +86,42 @@ namespace Dolany.WorldLine.Standard.Ai.Game.Lottery
             MsgSender.PushMsg(MsgDTO, msg, true);
 
             cache.Value = (times - 1).ToString();
+            cache.Update();
+
+            return true;
+        }
+        
+        [EnterCommand(ID                 = "LotteryAI_TenLimitBonus",
+                      Command            = "十连抽",
+                      Description        = "抽取十件随机当月限定物品",
+                      IsPrivateAvailable = true)]
+        public bool TenLimitBonus(MsgInformationEx MsgDTO, object[] param)
+        {
+            var cache = PersonCacheRecord.Get(MsgDTO.FromQQ, "抽奖");
+            if (string.IsNullOrEmpty(cache.Value) || !int.TryParse(cache.Value, out var times) || times < 10)
+            {
+                MsgSender.PushMsg(MsgDTO, "你没有足够的抽奖机会！", true);
+                return false;
+            }
+
+            var itemsRateDic     = HonorSvc.CurMonthLimitItems().ToDictionary(p => p, p => p.Rate);
+            var randItems = SafeDictionary<string, int>.Empty;
+            for (var i = 0; i < 10; i++)
+            {
+                var randItem = itemsRateDic.RandRated();
+                randItems[randItem.Name] += 1;
+            }
+            
+            var itemColle = ItemCollectionRecord.Get(MsgDTO.FromQQ);
+            foreach (var (name, count) in randItems.Data)
+            {
+                itemColle.ItemIncome(name, count);
+            }
+
+            var msg = $"恭喜你抽到了 {randItems.Data.Select(p => $"【{p.Key}】*{p.Value}").JoinToString(",")} ！";
+            MsgSender.PushMsg(MsgDTO, msg, true);
+
+            cache.Value = (times - 10).ToString();
             cache.Update();
 
             return true;
