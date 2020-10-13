@@ -14,27 +14,54 @@ namespace Dolany.Ai.Core.Base
 {
     public abstract class AIBase : IDependency
     {
+        /// <summary>
+        /// 模块名
+        /// </summary>
         public abstract string AIName { get; set; }
 
+        /// <summary>
+        /// 模块描述
+        /// </summary>
         public abstract string Description { get; set; }
 
+        /// <summary>
+        /// 模块优先级
+        /// </summary>
         public virtual AIPriority PriorityLevel { get; } = AIPriority.Normal;
 
+        /// <summary>
+        /// 是否启用
+        /// </summary>
         public virtual bool Enable { get; } = true;
 
+        /// <summary>
+        /// 当前模块默认标签分类
+        /// </summary>
         protected virtual CmdTagEnum DefaultTag { get; } = CmdTagEnum.Default;
 
         protected delegate bool AIModuleDel(MsgInformationEx MsgDTO, object[] param);
 
         protected readonly Dictionary<EnterCommandAttribute, AIModuleDel> ModuleDels = new Dictionary<EnterCommandAttribute, AIModuleDel>();
 
+        /// <summary>
+        /// 所有功能点描述
+        /// </summary>
         public IEnumerable<EnterCommandAttribute> AllCmds => ModuleDels.Keys;
 
+        /// <summary>
+        /// 等待服务
+        /// </summary>
         public WaiterSvc WaiterSvc { get; set; }
+        /// <summary>
+        /// 群组设定服务
+        /// </summary>
         public GroupSettingSvc GroupSettingSvc { get; set; }
         public AliveStateSvc AliveStateSvc { get; set; }
         public SyntaxCheckerSvc SyntaxCheckerSvc { get; set; }
 
+        /// <summary>
+        /// 初始化
+        /// </summary>
         public virtual void Initialization()
         {
             var t = GetType();
@@ -162,6 +189,13 @@ namespace Dolany.Ai.Core.Base
             return false;
         }
 
+        /// <summary>
+        /// 消息处理前置检查
+        /// </summary>
+        /// <param name="enterAttr"></param>
+        /// <param name="MsgDTO"></param>
+        /// <param name="param"></param>
+        /// <returns></returns>
         private bool Check(EnterCommandAttribute enterAttr, MsgInformationEx MsgDTO, out object[] param)
         {
             param = null;
@@ -194,6 +228,13 @@ namespace Dolany.Ai.Core.Base
             return !enterAttr.IsTesting || Global.TestGroups.Contains(MsgDTO.FromGroup);
         }
 
+        /// <summary>
+        /// 每日限制检查
+        /// </summary>
+        /// <param name="enterAttr"></param>
+        /// <param name="MsgDTO"></param>
+        /// <param name="limitRecord"></param>
+        /// <returns></returns>
         private static bool DailyLimitCheck(EnterCommandAttribute enterAttr, MsgInformation MsgDTO, DailyLimitRecord limitRecord)
         {
             var isTestingGroup = Global.TestGroups.Contains(MsgDTO.FromGroup);
@@ -201,6 +242,12 @@ namespace Dolany.Ai.Core.Base
             return timesLimit == 0 || limitRecord.Check(timesLimit);
         }
 
+        /// <summary>
+        /// 权限检查
+        /// </summary>
+        /// <param name="authorityLevel"></param>
+        /// <param name="MsgDTO"></param>
+        /// <returns></returns>
         private static bool AuthorityCheck(AuthorityLevel authorityLevel, MsgInformationEx MsgDTO)
         {
             if (MsgDTO.Auth == AuthorityLevel.未知)

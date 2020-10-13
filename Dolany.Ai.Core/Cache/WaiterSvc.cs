@@ -11,6 +11,9 @@ using Newtonsoft.Json;
 
 namespace Dolany.Ai.Core.Cache
 {
+    /// <summary>
+    /// 等待服务
+    /// </summary>
     public class WaiterSvc : IDependency
     {
         private readonly object _lockObj = new object();
@@ -212,14 +215,29 @@ namespace Dolany.Ai.Core.Cache
         }
     }
 
+    /// <summary>
+    /// 等待单元
+    /// </summary>
     public class WaiterUnit
     {
+        /// <summary>
+        /// 等待单元ID
+        /// </summary>
         public string Id { get; } = Guid.NewGuid().ToString();
 
+        /// <summary>
+        /// 判断表达式
+        /// </summary>
         public Predicate<MsgInformation> JudgePredicate { get; set; }
 
+        /// <summary>
+        /// 阻塞信号量
+        /// </summary>
         public AutoResetEvent Signal { get; set; }
 
+        /// <summary>
+        /// 等待结果集
+        /// </summary>
         public List<MsgInformation> ResultInfos { get; } = new List<MsgInformation>();
     }
 }

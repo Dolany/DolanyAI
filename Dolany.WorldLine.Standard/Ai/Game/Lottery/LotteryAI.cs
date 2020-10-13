@@ -9,6 +9,9 @@ using Dolany.WorldLine.Standard.OnlineStore;
 
 namespace Dolany.WorldLine.Standard.Ai.Game.Lottery
 {
+    /// <summary>
+    /// 抽奖模块
+    /// </summary>
     public class LotteryAI : AIBase
     {
         public override string AIName { get; set; } = "开箱子";
@@ -127,6 +130,12 @@ namespace Dolany.WorldLine.Standard.Ai.Game.Lottery
             return true;
         }
 
+        /// <summary>
+        /// 兑换抽奖机会
+        /// </summary>
+        /// <param name="MsgDTO"></param>
+        /// <param name="param"></param>
+        /// <returns></returns>
         [EnterCommand(ID = "LotteryAI_GoldLimitBonus",
             Command = "兑换抽奖机会",
             Description = "用金币兑换抽奖机会",
@@ -167,6 +176,12 @@ namespace Dolany.WorldLine.Standard.Ai.Game.Lottery
             return true;
         }
 
+        /// <summary>
+        /// 今日开箱统计
+        /// </summary>
+        /// <param name="MsgDTO"></param>
+        /// <param name="param"></param>
+        /// <returns></returns>
         [EnterCommand(ID = "LotteryAI_LotteryAnalyzeToday",
             Command = "今日开箱统计",
             Description = "获取今日开箱统计情况",
@@ -179,6 +194,12 @@ namespace Dolany.WorldLine.Standard.Ai.Game.Lottery
             return true;
         }
 
+        /// <summary>
+        /// 昨日开箱统计
+        /// </summary>
+        /// <param name="MsgDTO"></param>
+        /// <param name="param"></param>
+        /// <returns></returns>
         [EnterCommand(ID = "LotteryAI_LotteryAnalyzeYesterday",
             Command = "昨日开箱统计",
             Description = "获取昨日开箱统计情况",
@@ -191,6 +212,12 @@ namespace Dolany.WorldLine.Standard.Ai.Game.Lottery
             return true;
         }
 
+        /// <summary>
+        /// 我的开箱记录
+        /// </summary>
+        /// <param name="MsgDTO"></param>
+        /// <param name="param"></param>
+        /// <returns></returns>
         [EnterCommand(ID = "LotteryAI_MyLotteryRecord",
             Command = "我的开箱记录",
             Description = "获取自己的开箱统计",

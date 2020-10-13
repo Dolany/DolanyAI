@@ -2,8 +2,14 @@
 
 namespace Dolany.Ai.Common
 {
+    /// <summary>
+    /// 数据托管接口
+    /// </summary>
     public interface IDataMgr
     {
+        /// <summary>
+        /// 刷新数据
+        /// </summary>
         void RefreshData();
     }
 

@@ -33,6 +33,9 @@ namespace Dolany.Ai.Core.Base
             AIGroup = AutofacSvc.LoadAllInstanceFromClass<AIBase>(assembly);
         }
 
+        /// <summary>
+        /// 加载世界线
+        /// </summary>
         public void Load()
         {
             Logger.Log($"{Name} WorldLine is starting up...");
@@ -84,6 +87,10 @@ namespace Dolany.Ai.Core.Base
             MsgCallBack(msgEx);
         }
 
+        /// <summary>
+        /// 收款到账事件
+        /// </summary>
+        /// <param name="model"></param>
         public void OnMoneyReceived(ChargeModel model)
         {
             if (AIGroup.Any(ai => ai.OnMoneyReceived(model)))
@@ -91,6 +98,10 @@ namespace Dolany.Ai.Core.Base
             }
         }
 
+        /// <summary>
+        /// 群成员变动事件
+        /// </summary>
+        /// <param name="model"></param>
         public void OnGroupMemberChanged(GroupMemberChangeModel model)
         {
             if (AIGroup.Any(ai => ai.OnGroupMemberChanged(model)))

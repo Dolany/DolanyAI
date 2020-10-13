@@ -11,8 +11,16 @@ using JetBrains.Annotations;
 
 namespace Dolany.Ai.Core.Common
 {
+    /// <summary>
+    /// 通用工具
+    /// </summary>
     public static class Utility
     {
+        /// <summary>
+        /// 时间字符串解析
+        /// </summary>
+        /// <param name="timeStr"></param>
+        /// <returns></returns>
         [CanBeNull]
         public static HourMinuteModel GenTimeFromStr(string timeStr)
         {
@@ -30,6 +38,11 @@ namespace Dolany.Ai.Core.Common
             return !int.TryParse(strs[1], out var minute) ? null : new HourMinuteModel { Hour = hour, Minute = minute };
         }
 
+        /// <summary>
+        /// 获取权限等级
+        /// </summary>
+        /// <param name="MsgDTO"></param>
+        /// <returns></returns>
         public static AuthorityLevel GetAuth(MsgInformationEx MsgDTO)
         {
             if (MsgDTO.FromQQ == Global.DeveloperNumber)
@@ -56,6 +69,11 @@ namespace Dolany.Ai.Core.Common
             return setting.AuthInfo.Mgrs.Contains(MsgDTO.FromQQ) ? AuthorityLevel.管理员 : AuthorityLevel.成员;
         }
 
+        /// <summary>
+        /// 获取文件中的图片信息（带重试）
+        /// </summary>
+        /// <param name="file"></param>
+        /// <returns></returns>
         private static ImageCacheModel ReadImageCacheInfo(FileSystemInfo file)
         {
             var model = LambdaExtention.DoWithRetry(() => ReadImageCacheInfo_Func(file),
@@ -64,6 +82,11 @@ namespace Dolany.Ai.Core.Common
             return model;
         }
 
+        /// <summary>
+        /// 获取文件中的图片信息
+        /// </summary>
+        /// <param name="file"></param>
+        /// <returns></returns>
         private static ImageCacheModel ReadImageCacheInfo_Func(FileSystemInfo file)
         {
             var cache = new ImageCacheModel();
@@ -83,6 +106,12 @@ namespace Dolany.Ai.Core.Common
             return cache;
         }
 
+        /// <summary>
+        /// 读取图片缓存信息
+        /// </summary>
+        /// <param name="guid"></param>
+        /// <param name="imagePath"></param>
+        /// <returns></returns>
         [CanBeNull]
         public static ImageCacheModel ReadImageCacheInfo(string guid, string imagePath)
         {
@@ -90,6 +119,12 @@ namespace Dolany.Ai.Core.Common
             return !file.Exists ? null : ReadImageCacheInfo(file);
         }
 
+        /// <summary>
+        /// 给任意对象的某个属性赋值
+        /// </summary>
+        /// <param name="obj"></param>
+        /// <param name="propName"></param>
+        /// <param name="propValue"></param>
         private static void SetPropertyValue(object obj, string propName, string propValue)
         {
             var type = obj.GetType();
@@ -101,6 +136,11 @@ namespace Dolany.Ai.Core.Common
             }
         }
 
+        /// <summary>
+        /// 解析消息中的图片ID
+        /// </summary>
+        /// <param name="msg"></param>
+        /// <returns></returns>
         public static string ParsePicGuid(string msg)
         {
             if (!msg.Contains("QQ:pic="))
@@ -116,6 +156,11 @@ namespace Dolany.Ai.Core.Common
             return imageGuid;
         }
 
+        /// <summary>
+        /// 获取指定等级的星月等级字符串
+        /// </summary>
+        /// <param name="level"></param>
+        /// <returns></returns>
         public static string LevelEmoji(int level)
         {
             var stack = EmojiConvent(level);
@@ -128,6 +173,11 @@ namespace Dolany.Ai.Core.Common
             return msg;
         }
 
+        /// <summary>
+        /// 获取指定等级的星月等级表示
+        /// </summary>
+        /// <param name="level"></param>
+        /// <returns></returns>
         private static Stack<string> EmojiConvent(int level)
         {
             var stack = new Stack<string>();
@@ -185,6 +235,11 @@ namespace Dolany.Ai.Core.Common
             return stack;
         }
 
+        /// <summary>
+        /// 获取指定等级的星星表示字符串
+        /// </summary>
+        /// <param name="level"></param>
+        /// <returns></returns>
         public static string LevelToStars(int level)
         {
             var str = string.Empty;
@@ -202,6 +257,12 @@ namespace Dolany.Ai.Core.Common
             return str;
         }
 
+        /// <summary>
+        /// 下载并保存文件
+        /// </summary>
+        /// <param name="url"></param>
+        /// <param name="savePath"></param>
+        /// <returns></returns>
         public static bool DownloadImage(string url, string savePath)
         {
             try
