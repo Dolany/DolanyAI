@@ -6,20 +6,40 @@ using Autofac;
 
 namespace Dolany.Ai.Common
 {
+    /// <summary>
+    /// DI服务
+    /// </summary>
     public class AutofacSvc
     {
+        /// <summary>
+        /// 容器
+        /// </summary>
         public static IContainer Container;
 
+        /// <summary>
+        /// 类型解析
+        /// </summary>
+        /// <typeparam name="T"></typeparam>
+        /// <returns></returns>
         public static T Resolve<T>()
         {
             return Container.Resolve<T>();
         }
 
+        /// <summary>
+        /// 类型解析
+        /// </summary>
+        /// <param name="type"></param>
+        /// <returns></returns>
         public static object Resolve(Type type)
         {
             return Container.Resolve(type);
         }
 
+        /// <summary>
+        /// 按程序集批量注册服务
+        /// </summary>
+        /// <param name="assemblies"></param>
         public static void RegisterAutofac(List<Assembly> assemblies)
         {
             var builder = new ContainerBuilder();
@@ -31,6 +51,10 @@ namespace Dolany.Ai.Common
             Container = builder.Build();
         }
 
+        /// <summary>
+        /// 初始哈数据托管实例
+        /// </summary>
+        /// <param name="assemblies"></param>
         public static void RegisterDataRefresher(IEnumerable<Assembly> assemblies)
         {
             var datamgrs = LoadAllInstanceFromInterface<IDataMgr>(assemblies);

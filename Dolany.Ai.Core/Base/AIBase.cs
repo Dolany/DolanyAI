@@ -12,6 +12,9 @@ using Dolany.UtilityTool;
 
 namespace Dolany.Ai.Core.Base
 {
+    /// <summary>
+    /// AI模块基类
+    /// </summary>
     public abstract class AIBase : IDependency
     {
         /// <summary>

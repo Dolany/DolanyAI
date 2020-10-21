@@ -31,6 +31,9 @@ namespace Dolany.Ai.WSMidware
             }
         }
 
+        /// <summary>
+        /// 注册DI
+        /// </summary>
         private static void RegisterAutofac()
         {
             var builder = new ContainerBuilder();

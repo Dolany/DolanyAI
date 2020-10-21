@@ -10,6 +10,9 @@ using Dolany.Ai.Core.Common;
 
 namespace Dolany.Ai.Core.Base
 {
+    /// <summary>
+    /// 时间线基类
+    /// </summary>
     public abstract class IWorldLine : IDependency
     {
         public abstract string Name { get; set; }

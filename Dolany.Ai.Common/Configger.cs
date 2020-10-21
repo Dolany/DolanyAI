@@ -1,9 +1,19 @@
 ﻿namespace Dolany.Ai.Common
 {
+    /// <summary>
+    /// 配置管理器
+    /// </summary>
+    /// <typeparam name="ConfigType"></typeparam>
     public class Configger<ConfigType> : IDataMgr
     {
+        /// <summary>
+        /// 配置实体
+        /// </summary>
         public ConfigType AIConfig { get; set; }
 
+        /// <summary>
+        /// 配合实例
+        /// </summary>
         public static Configger<ConfigType> Instance { get; } = new Configger<ConfigType>();
 
         private static DataRefreshSvc DataRefreshSvc => AutofacSvc.Resolve<DataRefreshSvc>();
@@ -20,6 +30,9 @@
         }
     }
 
+    /// <summary>
+    /// 默认配置实体
+    /// </summary>
     public class AIConfigBase
     {
         public long DeveloperNumber { get; set; }
