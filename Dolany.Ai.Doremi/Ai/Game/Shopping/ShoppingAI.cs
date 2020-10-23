@@ -31,13 +31,14 @@ namespace Dolany.WorldLine.Doremi.Ai.Game.Shopping
             var exp = MsgCounterSvc.Get(MsgDTO.FromQQ);
             var armerRecord = PersonArmerRecord.Get(MsgDTO.FromQQ);
 
-            var msg = $"等级：{level.Name}{(level.Level == LevelSvc.TopLevel ? "(满级)" : "")}\r\n" +
-                      $"经验值：{exp}/{level.Exp}{(exp >= level.Exp ? "(可渡劫)" : "")}\r\n" +
-                      $"{Emoji.心}:{level.HP}(+{ArmerSvc.CountHP(armerRecord.Armers)})\r\n" +
-                      $"{Emoji.剑}:{level.Atk}(+{ArmerSvc.CountAtk(armerRecord.Armers)})\r\n" +
-                      $"金币：{osPerson.Golds}";
-
-            MsgSender.PushMsg(MsgDTO, msg, true);
+            var session = new MsgSession(MsgDTO);
+            session.Add($"等级：{level.Name}{(level.Level == LevelSvc.TopLevel ? "(满级)" : "")}");
+            session.Add($"经验值：{exp}/{level.Exp}{(exp   >= level.Exp ? "(可渡劫)" : "")}");
+            session.Add($"{Emoji.心}:{level.HP}(+{ArmerSvc.CountHP(armerRecord.Armers)})");
+            session.Add($"{Emoji.剑}:{level.Atk}(+{ArmerSvc.CountAtk(armerRecord.Armers)})");
+            session.Add($"金币：{osPerson.Golds}");
+            
+            session.Send();
             return true;
         }
 

@@ -30,6 +30,8 @@ namespace Dolany.WorldLine.Doremi.Ai.SingleCommand.Fortune
 
         public override void Initialization()
         {
+            base.Initialization();
+            
             ReadCharactorsDic();
         }
 

@@ -6,6 +6,7 @@ using Dolany.Ai.Core.Cache;
 using Dolany.Ai.Core.Common;
 using Dolany.WorldLine.Doremi.OnlineStore;
 using Dolany.WorldLine.Doremi.Xiuxian;
+using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace Dolany.WorldLine.Doremi.Ai.Game.Xiuxian
 {
@@ -25,6 +26,8 @@ namespace Dolany.WorldLine.Doremi.Ai.Game.Xiuxian
         public override void Initialization()
         {
             EnablePersons = MsgCounterSvc.GetAllEnabledPersons();
+            
+            base.Initialization();
         }
 
         public override bool OnMsgReceived(MsgInformationEx MsgDTO)

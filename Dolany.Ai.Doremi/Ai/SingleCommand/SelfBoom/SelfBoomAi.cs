@@ -73,9 +73,5 @@ namespace Dolany.WorldLine.Doremi.Ai.SingleCommand.SelfBoom
             MsgSender.PushMsg(MsgDTO, BoomCode.ToString());
             return true;
         }
-
-        public override void Initialization()
-        {
-        }
     }
 }

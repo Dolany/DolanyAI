@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Threading;
 using Dolany.Ai.Common;
 using Dolany.WorldLine.Doremi.Cache;
 using Dolany.WorldLine.Doremi.Model;
@@ -10,14 +9,12 @@ namespace Dolany.WorldLine.Doremi.Ai.Game.Xiuxian
 {
     public class MsgCounterSvc
     {
-        private static readonly Mutex mutex = new Mutex(false, Configger<AIConfigEx>.Instance.AIConfig.CounterMutex);
         private static readonly string dataSource = Configger<AIConfigEx>.Instance.AIConfig.MsgCounterCacheDb;
 
         private const long DialyLimit = 1000;
 
         public static List<long> GetAllEnabledPersons()
         {
-            mutex.WaitOne();
             try
             {
                 using var db = new ExCacherContent(dataSource);
@@ -28,15 +25,10 @@ namespace Dolany.WorldLine.Doremi.Ai.Game.Xiuxian
                 RuntimeLogger.Log(e);
                 return new List<long>();
             }
-            finally
-            {
-                mutex.ReleaseMutex();
-            }
         }
 
         public static void PersonEnable(long QQNum)
         {
-            mutex.WaitOne();
             try
             {
                 using var db = new ExCacherContent(dataSource);
@@ -52,15 +44,10 @@ namespace Dolany.WorldLine.Doremi.Ai.Game.Xiuxian
             {
                 RuntimeLogger.Log(e);
             }
-            finally
-            {
-                mutex.ReleaseMutex();
-            }
         }
 
         public static void PersonDisable(long QQNum)
         {
-            mutex.WaitOne();
             try
             {
                 using var db = new ExCacherContent(dataSource);
@@ -77,10 +64,6 @@ namespace Dolany.WorldLine.Doremi.Ai.Game.Xiuxian
             {
                 RuntimeLogger.Log(e);
             }
-            finally
-            {
-                mutex.ReleaseMutex();
-            }
         }
 
         public static void Cache(Dictionary<long, long> RecordDic)
@@ -93,7 +76,6 @@ namespace Dolany.WorldLine.Doremi.Ai.Game.Xiuxian
 
         public static void Cache(long QQNum, long count = 1)
         {
-            mutex.WaitOne();
             try
             {
                 using var db = new ExCacherContent(dataSource);
@@ -112,10 +94,7 @@ namespace Dolany.WorldLine.Doremi.Ai.Game.Xiuxian
                         record.TodayCount = 0;
                     }
 
-                    if (record.TodayCount == null)
-                    {
-                        record.TodayCount = 0;
-                    }
+                    record.TodayCount ??= 0;
 
                     if (record.TodayCount >= DialyLimit)
                     {
@@ -133,15 +112,10 @@ namespace Dolany.WorldLine.Doremi.Ai.Game.Xiuxian
             {
                 RuntimeLogger.Log(e);
             }
-            finally
-            {
-                mutex.ReleaseMutex();
-            }
         }
 
         public static void Consume(long QQNum, long count = 1)
         {
-            mutex.WaitOne();
             try
             {
                 using var db = new ExCacherContent(dataSource);
@@ -161,15 +135,10 @@ namespace Dolany.WorldLine.Doremi.Ai.Game.Xiuxian
             {
                 RuntimeLogger.Log(e);
             }
-            finally
-            {
-                mutex.ReleaseMutex();
-            }
         }
 
         public static long Get(long QQNum)
         {
-            mutex.WaitOne();
             try
             {
                 using var db = new ExCacherContent(dataSource);
@@ -181,15 +150,10 @@ namespace Dolany.WorldLine.Doremi.Ai.Game.Xiuxian
                 RuntimeLogger.Log(e);
                 return 0;
             }
-            finally
-            {
-                mutex.ReleaseMutex();
-            }
         }
 
         public static void CleanAll()
         {
-            mutex.WaitOne();
             try
             {
                 using var db = new ExCacherContent(dataSource);
@@ -201,10 +165,6 @@ namespace Dolany.WorldLine.Doremi.Ai.Game.Xiuxian
             catch (Exception e)
             {
                 RuntimeLogger.Log(e);
-            }
-            finally
-            {
-                mutex.ReleaseMutex();
             }
         }
     }

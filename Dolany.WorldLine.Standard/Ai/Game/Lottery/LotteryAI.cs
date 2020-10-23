@@ -77,16 +77,18 @@ namespace Dolany.WorldLine.Standard.Ai.Game.Lottery
             var items = HonorSvc.CurMonthLimitItems();
             var item  = items.ToDictionary(p => p, p => p.Rate).RandRated();
 
-            var msg = $"恭喜你抽到了 【{item.Name}】*1\r\n" +
-                      $"    {item.Description} ";
+            var session = new MsgSession(MsgDTO);
+            session.Add($"恭喜你抽到了 【{item.Name}】*1");
+            session.Add($"    {item.Description} ");
+
             var record = ItemCollectionRecord.Get(MsgDTO.FromQQ);
             var m = record.ItemIncome(item.Name);
             if (!string.IsNullOrEmpty(m))
             {
-                msg += $"\r\n{m}";
+                session.Add(m);
             }
 
-            MsgSender.PushMsg(MsgDTO, msg, true);
+            session.Send();
 
             cache.Value = (times - 1).ToString();
             cache.Update();

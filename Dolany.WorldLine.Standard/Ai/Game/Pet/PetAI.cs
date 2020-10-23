@@ -58,24 +58,26 @@ namespace Dolany.WorldLine.Standard.Ai.Game.Pet
             var extEndur = HasExtEndur ? "(+10)" : string.Empty;
             var petEndur = levelModel.Endurance - PetEnduranceRecord.Get(MsgDTO.FromQQ).ConsumeTotal + (HasExtEndur ? 10 : 0);
 
-            var msg = $"{CodeApi.Code_Image_Relational(pet.PicPath)}\r\n" +
-                      $"名称：{pet.Name}\r\n" +
-                      $"种族：{pet.PetNo}\r\n" +
-                      $"食性：{pet.Attribute ?? "无"}\r\n" +
-                      $"等级：{Utility.LevelEmoji(pet.Level)}\r\n" +
-                      $"{Emoji.心}：{levelModel.HP}\r\n" +
-                      $"耐力：{petEndur}/{levelModel.Endurance}{extEndur}\r\n" +
-                      $"经验值：{pet.Exp}/{levelModel.Exp}";
+            var session = new MsgSession(MsgDTO);
+            session.Add($"{CodeApi.Code_Image_Relational(pet.PicPath)}");
+            session.Add($"名称：{pet.Name}");
+            session.Add($"种族：{pet.PetNo}");
+            session.Add($"食性：{pet.Attribute ?? "无"}");
+            session.Add($"等级：{Utility.LevelEmoji(pet.Level)}");
+            session.Add($"{Emoji.心}：{levelModel.HP}");
+            session.Add($"耐力：{petEndur}/{levelModel.Endurance}{extEndur}");
+            session.Add($"经验值：{pet.Exp}/{levelModel.Exp}");
+
             if (!pet.Skills.IsNullOrEmpty())
             {
-                msg += $"\r\n技能：{string.Join(",", pet.Skills.Select(p => $"{p.Key}({p.Value})"))}";
+                session.Add($"技能：{pet.Skills.Select(p => $"{p.Key}({p.Value})").JoinToString(",")}");
             }
             if (pet.RemainSkillPoints > 0)
             {
-                msg += $"\r\n可用技能点：{pet.RemainSkillPoints}";
+                session.Add($"可用技能点：{pet.RemainSkillPoints}");
             }
 
-            MsgSender.PushMsg(MsgDTO, msg);
+            session.Send();
             return true;
         }
 
@@ -421,12 +423,13 @@ namespace Dolany.WorldLine.Standard.Ai.Game.Pet
             }
 
             var pet = PetRecord.Get(MsgDTO.FromQQ);
-            var msg = $"名称：{skill.Name}\r\n" +
-                      $"描述：{skill.CommDesc}\r\n" +
-                      $"解锁：{skill.LearnLevel}\r\n" +
-                      $"当前：{(pet.Skills != null && pet.Skills.ContainsKey(name) ? pet.Skills[name] : 0)}";
-
-            MsgSender.PushMsg(MsgDTO, msg);
+            var session = new MsgSession(MsgDTO);
+            session.Add($"名称：{skill.Name}");
+            session.Add($"描述：{skill.CommDesc}");
+            session.Add($"解锁：{skill.LearnLevel}");
+            session.Add($"当前：{(pet.Skills != null && pet.Skills.ContainsKey(name) ? pet.Skills[name] : 0)}");
+            
+            session.Send();
             return true;
         }
 

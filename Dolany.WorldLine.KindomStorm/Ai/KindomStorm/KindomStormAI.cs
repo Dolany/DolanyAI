@@ -24,16 +24,16 @@ namespace Dolany.WorldLine.KindomStorm.Ai.KindomStorm
             var castle = KindomCastle.Get(MsgDTO.FromGroup, MsgDTO.FromQQ);
             var groups = SoldierGroup.Get(MsgDTO.FromQQ);
 
-            var sessionID = MsgSender.StartSession(MsgDTO);
-            MsgSender.PushMsg(sessionID, castle.CastleName);
-            MsgSender.PushMsg(sessionID, $"城堡等级：{Utility.LevelEmoji(castle.Level)}");
-            MsgSender.PushMsg(sessionID, $"金钱：{castle.Golds}");
-            MsgSender.PushMsg(sessionID, $"粮草：{castle.Commissariat}");
-            MsgSender.PushMsg(sessionID, $"建筑：{string.Join(",", castle.Buildings.Select(p => $"{p.Key}(lv.{p.Value})"))}");
-            MsgSender.PushMsg(sessionID, $"军队：{groups.Count}支");
-            MsgSender.PushMsg(sessionID, $"士兵：{groups.Sum(g => g.Count)}人");
+            var session = new MsgSession(MsgDTO);
+            session.Add(castle.CastleName);
+            session.Add($"城堡等级：{Utility.LevelEmoji(castle.Level)}");
+            session.Add($"金钱：{castle.Golds}");
+            session.Add($"粮草：{castle.Commissariat}");
+            session.Add($"建筑：{string.Join(",", castle.Buildings.Select(p => $"{p.Key}(lv.{p.Value})"))}");
+            session.Add($"军队：{groups.Count}支");
+            session.Add($"士兵：{groups.Sum(g => g.Count)}人");
 
-            MsgSender.ConfirmSend(sessionID);
+            session.Send();
             return true;
         }
 
@@ -195,11 +195,12 @@ namespace Dolany.WorldLine.KindomStorm.Ai.KindomStorm
             }
             castle.Update();
 
-            var sessionID = MsgSender.StartSession(MsgDTO);
-            MsgSender.PushMsg(sessionID, "补给完成！");
-            MsgSender.PushMsg(sessionID, $"共补给 {feededGroupCount}支军队，共消耗粮草 {totalConsume}");
-            MsgSender.PushMsg(sessionID, $"当前剩余 {starvingGroups.Count - feededGroupCount}支军队尚未补给，当前剩余粮草 {castle.Commissariat}");
-            MsgSender.ConfirmSend(sessionID);
+            var session = new MsgSession(MsgDTO);
+            session.Add("补给完成！");
+            session.Add($"共补给 {feededGroupCount}支军队，共消耗粮草 {totalConsume}");
+            session.Add($"当前剩余 {starvingGroups.Count - feededGroupCount}支军队尚未补给，当前剩余粮草 {castle.Commissariat}");
+            
+            session.Send();
             return true;
         }
     }

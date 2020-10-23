@@ -5,7 +5,6 @@ using Dolany.Ai.Core.Common;
 using Dolany.Database.Ai;
 using System;
 using System.Collections.Generic;
-using System.Globalization;
 using System.Linq;
 using Dolany.Ai.Core.SyntaxChecker;
 using Dolany.UtilityTool;
@@ -85,6 +84,8 @@ namespace Dolany.Ai.Core.Base
                         {
                             ModuleDels.Add(attrClone, method.CreateDelegate(typeof(AIModuleDel), this) as AIModuleDel);
                         }
+                        
+                        Logger.Log($"{attr.ID} Loaded.");
                     }
                 }
             }
@@ -188,7 +189,7 @@ namespace Dolany.Ai.Core.Base
             }
 
             var stateCache = AliveStateSvc.GetState(MsgDTO.FromGroup, MsgDTO.FromQQ);
-            MsgSender.PushMsg(MsgDTO, $"你已经死了({stateCache.Name})！复活时间：{stateCache.RebornTime.ToString(CultureInfo.CurrentCulture)}", true);
+            MsgSender.PushMsg(MsgDTO, $"你已经死了({stateCache.Name})！复活时间：{stateCache.RebornTime:yyyy-M-d H:m:s}", true);
             return false;
         }
 

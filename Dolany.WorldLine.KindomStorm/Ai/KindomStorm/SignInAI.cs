@@ -21,43 +21,42 @@ namespace Dolany.WorldLine.KindomStorm.Ai.KindomStorm
 
             var indexNo = SignInGroupInfo.GetAndUpdate(MsgDTO.FromGroup);
 
-            var sessionID = MsgSender.StartSession(MsgDTO);
+            var session = new MsgSession(MsgDTO);
+            session.Add($"签到成功！你已连续签到 {sign.SuccessiveDays}天，获得 {goldsGen.CurencyFormat()}！");
+            session.Add($"本群签到排名：【No.{indexNo}】");
 
-            var msg = $"签到成功！你已连续签到 {sign.SuccessiveDays}天，获得 {goldsGen.CurencyFormat()}！\r\n本群签到排名：【No.{indexNo}】";
-            MsgSender.PushMsg(sessionID, msg);
-
-            Recruit(MsgDTO, sessionID);
-            MsgSender.ConfirmSend(sessionID);
+            Recruit(MsgDTO, session);
+            session.Send();
         }
 
-        private void Recruit(MsgInformation MsgDTO, string sessionID)
+        private void Recruit(MsgInformation MsgDTO, MsgSession session)
         {
             var castle = KindomCastle.Get(MsgDTO.FromGroup, MsgDTO.FromQQ);
             
-            CollectTaxes(castle, sessionID);
-            RecruitCommissariat(castle, sessionID);
+            CollectTaxes(castle, session);
+            RecruitCommissariat(castle, session);
 
             castle.Update();
         }
 
-        private void CollectTaxes(KindomCastle castle, string sessionID)
+        private void CollectTaxes(KindomCastle castle, MsgSession session)
         {
             var townLevel = castle.SafeBuildings["城镇"];
             var townModel = CastleBuildingSvc["城镇"];
             var GoldGen = townModel.CollecRate * townLevel;
 
             castle.Golds += GoldGen;
-            MsgSender.PushMsg(sessionID, $"成功征税{GoldGen}！当前金钱剩余{castle.Golds}");
+            session.Add($"成功征税{GoldGen}！当前金钱剩余{castle.Golds}");
         }
 
-        private void RecruitCommissariat(KindomCastle castle, string sessionID)
+        private void RecruitCommissariat(KindomCastle castle, MsgSession session)
         {
             var GranaryLevel = castle.SafeBuildings["粮仓"];
             var GranaryModel = CastleBuildingSvc["粮仓"];
             var CommissariatGen = GranaryModel.CollecRate * GranaryLevel;
 
             castle.Commissariat += CommissariatGen;
-            MsgSender.PushMsg(sessionID, $"成功征粮{CommissariatGen}！当前粮食剩余{castle.Commissariat}");
+            session.Add($"成功征粮{CommissariatGen}！当前粮食剩余{castle.Commissariat}");
         }
     }
 }

@@ -25,7 +25,7 @@ namespace Dolany.Ai.Core.Cache
         {
             try
             {
-                var cache = CachedDic[cacheKey];
+                CachedDic.TryGetValue(cacheKey, out var cache);
                 if (cache != null && cache.IsInTime)
                 {
                     return JsonConvert.DeserializeObject<TResult>(cache.ValueJson);

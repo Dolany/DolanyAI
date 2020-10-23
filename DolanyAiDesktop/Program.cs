@@ -60,7 +60,7 @@ namespace DolanyAiDesktop
 
         private static void PrintMsg(string Msg)
         {
-            Console.WriteLine($"{DateTime.Now:yyyy/MM/dd HH:mm:ss} {Msg}");
+            Console.WriteLine($"{DateTime.Now:yyyy/M/d H:m:s} {Msg}");
         }
     }
 }
