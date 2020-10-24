@@ -5,7 +5,7 @@ using Dolany.UtilityTool;
 
 namespace Dolany.WorldLine.Doremi.Ai.Game.Xiuxian
 {
-    public class DujieSvc : IDataMgr
+    public class DujieSvc : IDataMgr, IDependency
     {
         private List<DujieQAModel> QAs;
 
