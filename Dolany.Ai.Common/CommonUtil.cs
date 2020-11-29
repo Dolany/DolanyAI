@@ -116,5 +116,41 @@ namespace Dolany.Ai.Common
 
             return result;
         }
+
+        /// <summary>
+        /// 向指定接口post数据
+        /// </summary>
+        /// <typeparam name="ResultType">返回值反序列化类型</typeparam>
+        /// <param name="interfaceName">接口地址</param>
+        /// <param name="data">数据</param>
+        /// <param name="timeout">超时时间(秒)</param>
+        /// <returns></returns>
+        public static ResultType PostData<ResultType>(string interfaceName, object data, int timeout = 100) where ResultType : class
+        {
+            ResultType _reqRet;
+            try
+            {
+                var postData = JsonConvert.SerializeObject(data);
+                var bytes = Encoding.UTF8.GetBytes(postData);
+
+                var request = (HttpWebRequest) WebRequest.Create(interfaceName);
+                request.Method = "POST";
+                request.ContentType = "application/json; charset=utf-8";
+                request.Timeout = timeout * 1000;
+                request.ContentLength = bytes.Length;
+
+                request.GetRequestStream().Write(bytes, 0, bytes.Length);
+                using var response = (HttpWebResponse)request.GetResponse();
+                using var streamReader = new StreamReader(response.GetResponseStream());
+                var responseString = streamReader.ReadToEnd();
+                _reqRet = JsonConvert.DeserializeObject<ResultType>(responseString);
+            }
+            catch (Exception)
+            {
+                return default;
+            }
+
+            return _reqRet;
+        }
     }
 }
