@@ -55,6 +55,7 @@ namespace Dolany.Temp
             await Task.Run(async () =>
                            {
                                var client = new WSClient(url.ToString());
+                               await client.Connect();
                                var cntBody = new
                                              {
                                                  type = "connect",
@@ -64,7 +65,7 @@ namespace Dolany.Temp
                                                             id      = "globalTimeline"
                                                         }
                                              };
-                               client.Send(JsonConvert.SerializeObject(cntBody));
+                               await client.Send(JsonConvert.SerializeObject(cntBody));
                                var times = 1;
                                while (true)
                                {

@@ -1,11 +1,14 @@
 ﻿using System;
-using WebSocket4Net;
+using System.Threading.Tasks;
+using WebSocketExtensions;
 
 namespace Dolany.Temp
 {
     public class WSClient
     {
-        private readonly WebSocket                    client;
+        private readonly WebSocketClient client;
+
+        private readonly string url;
         // private readonly Action<string, QQEventModel> MsgInvoke;
 
         // public WSClient(string url, string BindAi, Action<string, QQEventModel> MsgInvoke)
@@ -20,14 +23,11 @@ namespace Dolany.Temp
         // }
         public WSClient(string url)
         {
-            client                 =  new WebSocket(url);
-            client.MessageReceived += OnMessageReceived;
-            client.Closed          += OnClosed;
-            
-            Connect();
+            client   = new WebSocketClient {MessageHandler = OnMessageReceived, CloseHandler = OnClosed};
+            this.url = url;
         }
 
-        public void Connect()
+        public async Task Connect()
         {
             // if (client.State == WebSocketState.Open)
             // {
@@ -36,7 +36,7 @@ namespace Dolany.Temp
             //     return;
             // }
             //
-            client.Open();
+            await client.ConnectAsync(url);
             //
             // Thread.Sleep(1000);
             // if (client.State != WebSocketState.Open)
@@ -49,16 +49,16 @@ namespace Dolany.Temp
             Console.WriteLine("Connet.");
         }
 
-        private void OnMessageReceived(object sender, MessageReceivedEventArgs e)
+        private void OnMessageReceived(StringMessageReceivedEventArgs e)
         {
             // var message = e.Message;
             // var model   = JsonConvert.DeserializeObject<QQEventModel>(message);
             //
             // MsgInvoke(BindAi, model);
-            Console.WriteLine(e.Message);
+            Console.WriteLine(e.Data);
         }
 
-        private void OnClosed(object sender, EventArgs e)
+        private void OnClosed(WebSocketReceivedResultEventArgs e)
         {
             // IsConnected = false;
             // if (!IsReconnecting)
@@ -68,9 +68,9 @@ namespace Dolany.Temp
             Console.WriteLine("Closed.");
         }
 
-        public void Send(string msg)
+        public async Task Send(string msg)
         {
-            client.Send(msg);
+            await client.SendStringAsync(msg);
         }
     }
 }
